@@ -1509,16 +1509,24 @@ void draw_minefield (gpointer data, gpointer user_data)
 
 void draw_planet (gpointer key, gpointer value, gpointer user_data)
 {
-  GtkWidget *starchart, *gwp;
+  GtkWidget *gwp;
   GnomeCanvasItem *item;
-  GnomeCanvasGroup *group;
   gdouble xi, yi;
   GwpPlanet *planet;
+  static GtkWidget *starchart;
+  static gboolean loaded = FALSE;
+  static GnomeCanvasGroup *pnames_group = NULL;
+  static GnomeCanvasGroup *group;
 
+  if (!loaded) {
+    loaded = TRUE;
+    pnames_group = starchart_get_grp_planet_names ();
+    starchart = lookup_widget ("starchart");
+    group = gnome_canvas_root (GNOME_CANVAS (starchart));
+  }
+	
   planet = value;
   gwp = user_data;
-  starchart = lookup_widget ("starchart");
-  group = gnome_canvas_root (GNOME_CANVAS (starchart));
 
   /* Check if planet coords aren't 0...and work */
   if (gwp_object_valid_coords(GWP_OBJECT(planet))) {
@@ -1527,7 +1535,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     
     /* Add planet names */
     /* FIXME: TOOOOOOO SLOOOOOOOOOOOOOOOWWWWWWWW!!!
-    gnome_canvas_item_new (starchart_get_grp_planet_names (), 
+    gnome_canvas_item_new (pnames_group, 
 			   GNOME_TYPE_CANVAS_TEXT,
 			   "text", gwp_object_get_name(GWP_OBJECT(planet)),
 			   "x", xi,
