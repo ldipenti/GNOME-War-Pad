@@ -811,33 +811,41 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 					       g_strconcat(path, "race", NULL),
 					       NULL));
   
-  gwp_game_state_set_minefields (game, 
-				 gconf_client_get_bool(gwp_gconf, 
-						       g_strconcat (path, 
-								    "minefields", 
-								    NULL),
-						       NULL));
+  g_object_set (game,
+		"minefields",
+		gconf_client_get_bool(gwp_gconf, 
+				      g_strconcat (path, 
+						   "minefields", 
+						   NULL),
+				      NULL),
+		NULL);
 
-  gwp_game_state_set_ion_storms (game, 
-				 gconf_client_get_bool(gwp_gconf, 
-						       g_strconcat (path, 
-								    "ion-storms", 
-								    NULL),
-						       NULL));
-
-  gwp_game_state_set_planet_names (game, 
-				   gconf_client_get_bool(gwp_gconf, 
-							 g_strconcat (path, 
-								      "planet-names", 
-								      NULL),
-							 NULL));
-
-  gwp_game_state_set_scanner_area (game, 
-				   gconf_client_get_bool(gwp_gconf, 
-							 g_strconcat (path, 
-								      "scanner-area", 
-								      NULL),
-							 NULL));
+  g_object_set (game, 
+		"ion-storms",
+		gconf_client_get_bool(gwp_gconf, 
+				      g_strconcat (path, 
+						   "ion-storms", 
+						   NULL),
+				      NULL),
+		NULL);
+  
+  g_object_set (game, 
+		"planet-names", 
+		gconf_client_get_bool(gwp_gconf, 
+				      g_strconcat (path, 
+						   "planet-names", 
+						   NULL),
+				      NULL),
+		NULL);
+  
+  g_object_set (game, 
+		"scanner-area", 
+		gconf_client_get_bool(gwp_gconf, 
+				      g_strconcat (path, 
+						   "scanner-area", 
+						   NULL),
+				      NULL),
+		NULL);
 
   g_object_set (game, 
 		"grid", gconf_client_get_bool(gwp_gconf, 
