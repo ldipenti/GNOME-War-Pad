@@ -82,7 +82,7 @@ class Quark(gwp.Plugin):
         actual_change = p.get_happiness_col_change()
         actual_happ = p.get_happiness_colonists()
         return (actual_happ + actual_change)
-       
+      
     #--------------------------------------------------------------------------
     def calculate_missing_colonists_tax_natives(self, p):
         """devuelve la cantidad de colonos que faltan para cobrar al maximo a
@@ -93,12 +93,17 @@ class Quark(gwp.Plugin):
 
                 factor_impuestos = (p.get_tax_rate_colonists() / 100) * (p.get_tax_rate_natives()/100)
                 
-                col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
+                col_nec = max_i /factor_impuestos
+
                 # Calculo el limite por temp
                 limit = p.get_col_growth_limit()
-                if limit < col_faltan:
+                if limit < col_nec:
                     col_faltan = limit - p.get_colonists()
-                return col_faltan
+                else:
+                    col_faltan = col_nec - p.get_colonists()
+
+                if col_faltan > 0:
+                    return col_faltan
         return 0
     #--------------------------------------------------------------------------    
     def calculate_max_income_from_natives(self, p):
@@ -140,9 +145,16 @@ class Quark(gwp.Plugin):
         # Supplies Bovinoids
         if (p.get_natives_race() == self.quark_utils.ID_BOVINOIDS):
             sup = p.get_natives() / 100
-            if p.get_colonists() < sup:
-                return sup
-        return 0
+
+            limit = p.get_col_growth_limit()
+            if limit < sup:
+                sup = limit
+
+            col_faltan = sup - p.get_colonists()
+
+            if col_faltan > 0:
+                return col_faltan, sup 
+        return 0, 0
 
     #--------------------------------------------------------------------------
     def determine_mineral_composition(self, p, planeta):
@@ -213,7 +225,7 @@ class Quark(gwp.Plugin):
         if p.get_natives(): # SI no hay nativos no tiene sentido esto  
             #Hago todos los calculos
             col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
-            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
+            col_faltan_sup, sup = self.calculate_missing_colonists_supplies(p)
             tax, max_i = self.calculate_max_income_from_natives(p)
             dif = max_i - p.get_tax_collected_natives()
             if dif < 0:
@@ -225,7 +237,10 @@ class Quark(gwp.Plugin):
                     col_faltan = col_faltan_tax
                 else:
                     col_faltan = col_faltan_sup
-                self.natt = "Need "+ str(col_faltan) +" clans of colonists!"
+
+                if self.natt:
+                    self.natt = self.natt + "\n"
+                self.natt = self.natt + "Need "+ str(col_faltan) +" clans of colonists!"
 
             # REPORTA "Puedo cobrar mas"
             if dif:
@@ -240,9 +255,8 @@ class Quark(gwp.Plugin):
             if col_faltan_sup:
                 if self.natt:
                     self.natt = self.natt + "\n"
-                self.natt = self.natt + "You can obtain " + str(col_faltan_sup) + " supplies "
-                dif = col_faltan_sup - p.get_colonists()
-                self.natt = self.natt + "(" + str(dif) +" more)"
+                self.natt = self.natt + "You can obtain " + str(sup) + " supplies "
+                self.natt = self.natt + "(" + str(col_faltan_sup) +" more)"
 
         
         chequear_construcciones = 1
@@ -287,6 +301,8 @@ class Quark(gwp.Plugin):
                         #print "A " + str(terraformado.get_temperature_f()) + " grados"
 
                     factor_impuestos = (p.get_tax_rate_colonists() / 100) * (p.get_tax_rate_natives()/100)
+                    if self.natt:
+                        self.natt = self.natt + "\n"
                     self.natt = self.natt +  _("TERRAFORMING to ") + str(terraformado.get_temperature_f()) + _(" degrees\n")
                     self.natt = self.natt + _("You can collect ") + str(max_i) + _("MC with ") + str(max_i / factor_impuestos) + _(" colonists")
 
@@ -426,6 +442,7 @@ class Quark(gwp.Plugin):
         if (event == 'plugin-unregistered') and (objeto.name == 'Notification Area'):
             self.destruir_interfaces()
         if self.na and (event == 'planet-selected'):
+            self.na.add_notification(self.quark_icon)
             self.na_report_generate(objeto)
             #for planeta in self.pl:
             #    if planeta.get_id() == pid:
@@ -441,7 +458,6 @@ class Quark(gwp.Plugin):
         """Realiza todos los chequeos para mostrar el reporte en la ventana de
         existir algo que informar."""
         self.textbuffer = self.tv_notification.get_buffer()
-        print self.natt
         self.textbuffer.set_text(self.natt)
         
     #--------------------------------------------------------------------------                    
