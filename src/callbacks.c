@@ -940,54 +940,6 @@ void on_vcr_comboboxentry_sel_type_b_changed( GtkWidget *widget,
 
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
 {
-/*
-  vcr_set( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR, 50 );
-  vcr_set( widget, user_data, SHIP_B, PRC_SHIELD, VAL_CUR, 50 );
-  vcr_set( widget, user_data, PLANET, PRC_SHIELD, VAL_CUR, 50 );
-  vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_CUR, 66 );
-  vcr_set( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR, 66 );
-  vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_MAX, 666 );
-  vcr_set( widget, user_data, SHIP_B, NMB_CREW, VAL_MAX, 666 );
-  vcr_set( widget, user_data, SHIP_A, PRC_DAMAGE, VAL_CUR, 50 );
-  vcr_set( widget, user_data, SHIP_B, PRC_DAMAGE, VAL_CUR, 50 );
-  vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, 6 );
-  vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR, 6 );
-  vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR, 5 );
-  vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_CUR, 5 );
-  vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_CUR, 6 );
-  vcr_set( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_CUR, 6 );
-  vcr_set( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR, 6 );
-  vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_MAX, 66 );
-  vcr_set( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_MAX, 66 );
-  vcr_set( widget, user_data, SHIP_A, LVL_BEAM, VAL_CUR, 3 );
-  vcr_set( widget, user_data, SHIP_B, LVL_BEAM, VAL_CUR, 3 );
-  vcr_set( widget, user_data, BASE, LVL_BEAM, VAL_CUR, 3 );
-  vcr_set( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR, 4 );
-  vcr_set( widget, user_data, SHIP_B, LVL_TORP, VAL_CUR, 4 );
-  vcr_set( widget, user_data, SHIP_A, TYP_RACE, VAL_CUR, 2 );
-  vcr_set( widget, user_data, SHIP_B, TYP_RACE, VAL_CUR, 2 );
-  vcr_set( widget, user_data, PLANET, TYP_RACE, VAL_CUR, 2 );
-  vcr_set( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR, 66 );
-  vcr_set( widget, user_data, SHIP_B, PRC_SHIBON, VAL_CUR, 66 );
-  vcr_set( widget, user_data, SHIP_A, LVL_ENGINE, VAL_CUR, 6 );
-  vcr_set( widget, user_data, SHIP_B, LVL_ENGINE, VAL_CUR, 6 );
-  vcr_set( widget, user_data, PLANET, NMB_DEF, VAL_CUR, 6 );
-  vcr_set( widget, user_data, BASE, NMB_DEF, VAL_CUR, 6 );
-*/
-/*  g_message( "shield a: %d", vcr_get( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR ) );
-  g_message( "shield b: %d", vcr_get( widget, user_data, SHIP_B, PRC_SHIELD, VAL_CUR ) );
-  g_message( "damage a: %d", vcr_get( widget, user_data, SHIP_A, PRC_DAMAGE, VAL_CUR ) );
-  g_message( "damage b: %d", vcr_get( widget, user_data, SHIP_B, PRC_DAMAGE, VAL_CUR ) );
-  g_message( "sbonus a: %d", vcr_get( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR ) );
-  g_message( "sbonus b: %d", vcr_get( widget, user_data, SHIP_B, PRC_SHIBON, VAL_CUR ) );
-  g_message( "nmbtub a: %d", vcr_get( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR ) );
-  g_message( "nmbtub b: %d", vcr_get( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR ) );
-  g_message( "nmbfig a: %d", vcr_get( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_CUR ) );
-  g_message( "nmbfig b: %d", vcr_get( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_CUR ) );
-  g_message( "nmbfig p: %d", vcr_get( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR ) );
-  g_message( "crew   a: %d", vcr_get( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR ) );
-  g_message( "crew   b: %d", vcr_get( widget, user_data, BASE, NMB_CREW, VAL_CUR ) );
-*/
   vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, 1 );
   vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_MAX, 3 );
   vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR, 2 );
