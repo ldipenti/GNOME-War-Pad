@@ -17,7 +17,11 @@
     </author>
     <legalnotice>
       <simpara>Este documento esta protegido por la <ulink
-      url="http://www.gnu.org/licenses/fdl.html">FDL</ulink></simpara>
+      url="http://www.gnu.org/licenses/fdl.html">FDL</ulink>.</simpara>
+      <simpara>Parte del contenido que aqui se expresa está extraido y
+      traducido del tutorial <ulink
+      url="http://primates.ximian.com/~sandino/python-glade/">Writing
+      PyGTK applications in a visual way</ulink> de Sandino "tigrux" Flores</simpara>
     </legalnotice>
   </bookinfo>
 
@@ -58,6 +62,11 @@ aparezcan en el programa en si.</para>
       incluso para los programadores de otros paradigmas ya que Python
       es un lenguaje muy facil de aprender, aunque sea para los fines
       que motivan este tutorial.</para>
+      <para>Claro que debido a que este tutorial esta pensado para
+      terminar desarrollando plugins para &gwp;, trata algunos temas muy
+      superficialmente, pero incluso puede servir para algún recién iniciado
+      en python que quiera darle una mirada aunque ni siquiera conozca
+      o no quiera conocer el &vgap;.</para>
     </section>
 
     <section>
@@ -178,13 +187,13 @@ aparezcan en el programa en si.</para>
       el boton <command>[...]</command> para definir una nueva
       señal. En la lista que aparecerá a continuación las señales
       están divididas en secciones. Las secciones corresponden con la
-      jerarquia de clases de la libreria GTK. Así
+      jerarquía de clases de la librería GTK. Así
       <command>GtkWindow</command> deriva de la clase
       <command>GtkContainer</command>, esta a su vez deriva de
       <command>GtkWidget</command> y de esta forma para
       <command>GtkObject</command> y <command>GObject</command>
       heredando comportamiento y funcionalidad. El padre de toda
-      jerarquia es siempre
+      jerarquía es siempre
       <command>GObject</command>. <command>GObject</command> posee la
       funcionalidad básica, como la introspección, propiedades y señales. </para>
 
@@ -200,7 +209,7 @@ aparezcan en el programa en si.</para>
       resumen la señal <command>delete_event</command> se emite cuando
       queremos cerrar la ventana de la aplicación, y la señal
       <command>destroy</command> cuando se solicita la destruccion del
-      widget, es decir que ya nadie apuntará al mismo.</para>
+      widget.</para>
 
         <figure id="img_sig_1">
 	  <title>Señales de la ventana</title>
