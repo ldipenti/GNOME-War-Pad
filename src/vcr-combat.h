@@ -2,6 +2,7 @@
 #define VCR_COMBAT_H
 
 #include <gnome.h>
+#include <glib.h>
 
 
 /* global fight parameters */
@@ -37,15 +38,6 @@
 #define SPEED_FIGHTER           400
 #define RANGE_FIGHTER_SHIP        0 // TODO
 #define RANGE_FIGHTER_FIGHTER     0 // TODO
-
-typedef struct {
-  gint position;
-  gint direction;
-  gint speed;
-  gint shield;
-  gint hull;
-  gint crew;
-} platform;
 
 typedef struct {
   gint fill;
@@ -90,6 +82,26 @@ typedef struct {
 } fighterarray;
 
 typedef struct {
+  gint position;
+  gint direction;
+  gint speed;
+  gint shield;
+  gint hull;
+  gint crew;
+  gint mass;
+  fighterarray fighters;
+  bayarray bays;
+  tubearray tubes;
+  beamarray beams;
+} platform;
+
+typedef struct {
+  platform a;
+  platform b;
+  gint time;
+} battlefield;
+
+typedef struct {
   gint g_shibon;        // percentage of shield-engine-bonus
   gint g_a_is_ship;     // side a of the combat sends a ship
   gint g_b_is_ship;     // side b of the combat sends a ship
@@ -123,21 +135,24 @@ typedef struct {
 } combatdata;
 
 /* public function to start combat */
-void vcrc_start( combatdata *cdata );
+void vcrc_combat_start( combatdata *cdata );
 /* private functions */
-void vcrc_print_combatants( combatdata *cdata );
-void vcrc_prepare_fighters( combatdata *cdata );
-void vcrc_prepare_torpedos( combatdata *cdata );
-void vcrc_prepare_beams( combatdata *cdata );
-void vcrc_fight( combatdata *cdata );
+void vcrc_prepare_for_battle( combatdata *cdata, battlefield *battle );
+void vcrc_prepare_platforms( combatdata *cdata, battlefield *battle );
+void vcrc_prepare_fighters( combatdata *cdata, battlefield *battle );
+void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle );
+void vcrc_prepare_beams( combatdata *cdata, battlefield *battle );
+void vcrc_fight( battlefield *battle );
 
 
 
 GtkTextBuffer *vcr_logging_textview_buffer;
-void vcr_log_str( gchar *str );
-void vcr_log_strn( gchar *str, gint len );
-void vcr_log_int( gint val );
-void vcr_log_intn( gint val, gint len );
+void init_log( void );
+void vcrc_print_combatants( combatdata *cdata );
+void vcrc_log_str( gchar *str );
+void vcrc_log_strn( gchar *str, gint len );
+void vcrc_log_int( gint val );
+void vcrc_log_intn( gint val, gint len );
 #endif
 
 

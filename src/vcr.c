@@ -1,5 +1,6 @@
 
 #include <gnome.h>
+#include <glib.h>
 #include <math.h>
 #include <string.h>
 
@@ -157,7 +158,7 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
   }
 
   /* try to start combat */
-  vcr_combat_start( &cdata );
+  vcrc_combat_start( &cdata );
 }
 
 
@@ -185,7 +186,6 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               gint target, gint value, gint what, gint setthis )
 {
   GtkWidget *scale;
-  GtkEntry *entry;
   GtkComboBox *box;
   GtkSpinButton *spin;
   gdouble min, cur, max;
@@ -1421,7 +1421,6 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
 {
   gint retval = 0;
   GtkRange *range;
-  GtkEntry *entry;
   GtkComboBox *box;
   GtkSpinButton *spin;
   gint *idlist, selected;
@@ -2942,7 +2941,7 @@ void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data )
 
   gint *nmb2 = (gint *)g_malloc(MAX_SHIPS_PER_RACE*sizeof( gint ));
   nmb2[0] = 1;
-  box = GTK_COMBO_BOX_ENTRY( lookup_widget( "vcr_comboboxentry_sel_type_b" ) );
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_b" ) );
   gtk_combo_box_append_text( GTK_COMBO_BOX( box ), "none" );
   g_object_set_data( G_OBJECT( box ), "id-list", nmb2 );
   gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
@@ -3136,6 +3135,7 @@ void vcr_ship_a_hull_selected( GtkWidget *widget, gpointer user_data )
   gint selected;
   GwpHullSpec *hull;
 
+  hullid = -1;
   idlist = (gint *)g_object_get_data(
     G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_a")), "id-list" );
 
@@ -3186,6 +3186,7 @@ void vcr_ship_b_hull_selected( GtkWidget *widget, gpointer user_data )
   gint selected;
   GwpHullSpec *hull;
 
+  hullid = -1;
   idlist = (gint *)g_object_get_data(
     G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_b")), "id-list" );
 

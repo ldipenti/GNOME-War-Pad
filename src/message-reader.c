@@ -390,7 +390,6 @@ void message_reader_change_messagefile( GtkWidget *widget,
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   gint *msgindex = messages->pub->msgindex;
-  gboolean *msgexists = messages->pub->msgindex;
   char *tmpname = (char *)malloc(1024*sizeof(char));
 
   /* read new file */
