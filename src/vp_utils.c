@@ -1544,9 +1544,11 @@ scan_messages (void)
 	pcre *re;
 	const gchar *error;
 	gint erroffset;
-	const gchar *regexp = "(.*) race";
+	//	const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
+	const gchar *regexp = "\(-z0(.*)\)<<<.*Temp:.*(\b[0-9]+\b).*(\b\w+\b) race.*(\b\w+\b) enemy clan"; 
+	g_message("REGEXP: %s", regexp);
 	re = pcre_compile (regexp, /* the pattern */
-			   0,              /* options */
+			   PCRE_DOTALL,    /* options */
 			   &error,         /* for error message */
 			   &erroffset,     /* for error offset */
 			   NULL);          /* use default character tables */
@@ -1565,20 +1567,29 @@ scan_messages (void)
 			  30);              /* ovector size */
 	  
 	  if (rc > 0) {
-	    const gchar *match1;
-	    const gchar *match2;
+	    const gchar *p_id, *p_temp, *p_race, *p_clans;
+	    /* Get the data */
 	    pcre_get_substring (msg_body, /* subject string */
 				ovector,  /* offsets vector */
 				rc,       /* total matches */
 				1,        /* match number */
-				&match1);  /* output string */
-/* 	    pcre_get_substring (msg_body, /\* subject string *\/ */
-/* 				ovector,  /\* offsets vector *\/ */
-/* 				rc,       /\* total matches *\/ */
-/* 				2,        /\* match number *\/ */
-/* 				&match2);  /\* output string *\/ */
-/* 	    g_message ("MATCH: %s - %s clans", match1, match2); */
- 	    g_message ("MATCH: %s", match1); 
+				&p_id);  /* output string */
+	    pcre_get_substring (msg_body, /* subject string */
+				ovector,  /* offsets vector */
+				rc,       /* total matches */
+				2,        /* match number */
+				&p_temp);  /* output string */
+	    pcre_get_substring (msg_body, /* subject string */
+				ovector,  /* offsets vector */
+				rc,       /* total matches */
+				3,        /* match number */
+				&p_race);  /* output string */
+	    pcre_get_substring (msg_body, /* subject string */
+				ovector,  /* offsets vector */
+				rc,       /* total matches */
+				4,        /* match number */
+				&p_clans);  /* output string */
+ 	    g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans); 
 	  }
 	}
       }
