@@ -49,6 +49,8 @@ starchart_boolean_notifications (GObject *obj, gpointer data)
 
   if (strcmp(property, "minefields") == 0) {
     starchart_show_minefields (flag);
+  } else if (strcmp(property, "ion-storms") == 0) {
+    starchart_show_ion_storms (flag);
   }
 }
 
@@ -1609,6 +1611,7 @@ void init_starchart (GtkWidget * gwp)
   starchart_get_canvas()->aa = 1;
   gnome_canvas_update_now(starchart_get_canvas());
 
+  /* Set groups */
   starchart_set_grp_grid(GNOME_CANVAS_GROUP 
 			 (gnome_canvas_item_new 
 			  (starchart_get_grp_root(), 
@@ -1644,9 +1647,7 @@ void init_starchart (GtkWidget * gwp)
 				(gnome_canvas_item_new 
 				 (starchart_get_grp_root(),
 				  GNOME_TYPE_CANVAS_GROUP, NULL)));
-  /* End struct initialization... */
 
-  /* Initialize mouse cursor */
   starchart_set_default_cursor();
   
   /* Sets black background to starchart */
@@ -1736,11 +1737,34 @@ void init_starchart (GtkWidget * gwp)
 			 gwp_game_state_get_last_x_coord (game_state),
 			 gwp_game_state_get_last_y_coord (game_state));
 
+  /*** Set initial statuses ***/
+  GtkCheckMenuItem *menu_bool = NULL;
+  gboolean flag_bool = FALSE;
+  /* Minefields view */
+  menu_bool = (GtkCheckMenuItem *) lookup_widget ("view_mine_fields");
+  g_object_get (game_state,
+		"minefields", &flag_bool,
+		NULL);
+  gtk_check_menu_item_set_active (menu_bool, flag_bool);
+  starchart_show_minefields (flag_bool);
+
+  /* Ion Storms view */
+  menu_bool = (GtkCheckMenuItem *) lookup_widget ("view_ion_storms");
+  g_object_get (game_state,
+		"ion-storms", &flag_bool,
+		NULL);
+  gtk_check_menu_item_set_active (menu_bool, flag_bool);
+  starchart_show_ion_storms (flag_bool);
+
   /* Model events that starchart has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
 		    G_CALLBACK(starchart_boolean_notifications),
 		    (gpointer)"minefields");
+  g_signal_connect (game_state,
+		    "property-changed::ion-storms",
+		    G_CALLBACK(starchart_boolean_notifications),
+		    (gpointer)"ion-storms");
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2586,8 +2610,6 @@ void starchart_show_minefields (gboolean show)
 
 void starchart_show_ion_storms (gboolean show)
 {
-  gwp_game_state_set_ion_storms (game_state, show);
-
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *)
 			    starchart_get_grp_ion_storms ());

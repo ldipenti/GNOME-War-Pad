@@ -757,7 +757,9 @@ void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data)
 {
-  starchart_show_ion_storms (gtk_check_menu_item_get_active(menuitem));
+  g_object_set (game_state, 
+		"ion-storms", gtk_check_menu_item_get_active(menuitem),
+		NULL);
 }
 
 void on_view_message_reader_activate (GtkWidget *widget,
