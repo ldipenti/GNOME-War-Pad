@@ -2,6 +2,7 @@
 headers
 #include <Python.h>
 #include <pygobject.h>
+#include "global.h"
 #include "gwp-engspec.h"
 #include "gwp-hullspec.h"
 #include "gwp-beamspec.h"
@@ -32,4 +33,24 @@ _wrap_gwp_ship_get_waypoint (PyGObject *self)
   gwp_ship_get_waypoint (GWP_SHIP (self->obj), &wp_x, &wp_y);
   
   return Py_BuildValue("(ii)", wp_x, wp_y); 
+}
+%%
+override ship_get_list noargs
+static PyObject *
+_wrap_ship_get_list (PyObject *self)
+{
+  PyObject *ret = PyDict_New();
+
+  static void add_ship (gpointer key, gpointer value, gpointer user_data) {
+    PyObject *dict = (PyObject *)user_data;
+    GwpShip *ship = GWP_SHIP(value);
+
+    PyDict_SetItem (dict, 
+		    PyInt_FromLong(gwp_object_get_id(GWP_OBJECT(ship))),
+		    pygobject_new((GObject *)ship));
+  }
+  
+  g_hash_table_foreach (ship_list, (GHFunc)add_ship, (gpointer)ret);
+
+  return ret;
 }

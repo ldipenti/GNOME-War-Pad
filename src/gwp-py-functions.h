@@ -28,5 +28,7 @@ GwpShip * ship_get_by_id (gint id);
 
 GwpPlanet * planet_get_by_id (gint id);
 
+GSList * ship_get_list (void);
+
 
 #endif

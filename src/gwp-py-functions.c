@@ -23,7 +23,7 @@
  */
 
 #include "gwp-py-functions.h"
-
+#include "global.h"
 
 
 /************************/
@@ -41,3 +41,4 @@ GwpPlanet * planet_get_by_id (gint id)
 {
   return gwp_planet_get (planet_list, id);
 }
+
