@@ -90,14 +90,14 @@ void starchart_set_grp_grid(GnomeCanvasGroup * group)
   starchart.grp_grid = group;
 }
 
-GnomeCanvasGroup * starchart_get_grp_planets(void)
+GnomeCanvasGroup * starchart_get_grp_planet_names(void)
 {
-  return starchart.grp_planets;
+  return starchart.grp_planet_names;
 }
 
-void starchart_set_grp_planets(GnomeCanvasGroup * group)
+void starchart_set_grp_planet_names(GnomeCanvasGroup * group)
 {
-  starchart.grp_planets = group;
+  starchart.grp_planet_names = group;
 }
 
 GnomeCanvasGroup * starchart_get_grp_planets_mine(void)

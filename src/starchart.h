@@ -95,5 +95,6 @@ void toggle_global_defense_panel(gboolean show);
 void toggle_starbase_panel(gboolean show);
 
 void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item);
+void starchart_show_planet_names (gboolean show);
 
 #endif

@@ -98,6 +98,16 @@
 			  <signal name="activate" handler="on_view_toolbar_activate" last_modification_time="Mon, 23 Jun 2003 02:55:33 GMT"/>
 			</widget>
 		      </child>
+		      <child>
+			<widget class="GtkCheckMenuItem" id="view_pnames_menu">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Toggle planet names</property>
+			  <property name="label" translatable="yes">_Planet names</property>
+			  <property name="use_underline">True</property>
+			  <property name="active">True</property>
+			  <signal name="activate" handler="on_view_pnames_activate" last_modification_time="Mon, 14 May 2004 02:55:33 GMT"/>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 		</widget>

@@ -96,6 +96,7 @@ GameState *game_state_new(void)
   ret->pnames = NULL;
   ret->toolbar = TRUE;
   ret->extra_panel_open = FALSE;
+  ret->planet_names = TRUE;
   ret->settings = game_settings_new();
   
   return ret;
@@ -315,6 +316,18 @@ gint game_get_host_type(const GameState *game_state)
   g_assert(game_state != NULL);
   
   return game_state->settings->host_type;
+}
+
+gboolean game_get_planet_names (const GameState *game_state)
+{
+  g_assert (game_state != NULL);
+  return game_state->planet_names;
+}
+
+void game_set_planet_names (GameState *game_state, gboolean show)
+{
+  g_assert (game_state != NULL);
+  game_state->planet_names = show;
 }
 
 gboolean game_is_extra_panel_open (const GameState *game_state)

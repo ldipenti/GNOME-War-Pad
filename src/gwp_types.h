@@ -44,8 +44,8 @@ void starchart_set_grp_root(GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_grid(void);
 void starchart_set_grp_grid(GnomeCanvasGroup * group);
 
-GnomeCanvasGroup * starchart_get_grp_planets(void);
-void starchart_set_grp_planets(GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_planet_names(void);
+void starchart_set_grp_planet_names(GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_planets_mine(void);
 void starchart_set_grp_planets_mine(GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_planets_enemy(void);
@@ -80,7 +80,7 @@ struct _Starchart {
   GnomeCanvasGroup *grp_root;
   GnomeCanvasGroup *grp_grid;
   
-  GnomeCanvasGroup *grp_planets;
+  GnomeCanvasGroup *grp_planet_names;
   GnomeCanvasGroup *grp_planets_mine;
   GnomeCanvasGroup *grp_planets_enemy;
   GnomeCanvasGroup *grp_planets_allied;

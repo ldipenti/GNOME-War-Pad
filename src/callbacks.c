@@ -653,6 +653,17 @@ void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
   }
 }
 
+/* Hides/Shows the planet names on starchart */
+void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
+			      gpointer user_data)
+{
+  if (gtk_check_menu_item_get_active(menuitem)) {
+    starchart_show_planet_names (TRUE);
+  } else {
+    starchart_show_planet_names (FALSE);
+  }
+}
+
 void on_togglebutton_panel_defense_toggled(GtkToggleButton *button,
 					   gpointer user_data)
 {

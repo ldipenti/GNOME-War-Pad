@@ -1398,8 +1398,9 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet)), 
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
-    /* Add planet name */
-    gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_TEXT,
+    /* Add planet names */
+    gnome_canvas_item_new (starchart_get_grp_planet_names (), 
+			   GNOME_TYPE_CANVAS_TEXT,
 			   "text", gwp_object_get_name(GWP_OBJECT(planet))->str,
 			   "x", xi,
 			   "y", yi + 10,
@@ -1452,7 +1453,6 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 
 void init_starchart (GtkWidget * gwp) 
 {
-  GnomeCanvasItem *background;
   GnomeCanvasItem *grid_line;
   GnomeCanvasPoints *grid_points_v, *grid_points_h;
   gint i;
@@ -1491,10 +1491,10 @@ void init_starchart (GtkWidget * gwp)
 			  (starchart_get_grp_root(), 
 			   GNOME_TYPE_CANVAS_GROUP, NULL)));
   
-  starchart_set_grp_planets(GNOME_CANVAS_GROUP 
-			    (gnome_canvas_item_new 
-			     (starchart_get_grp_root(), 
-			      GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_planet_names (GNOME_CANVAS_GROUP 
+				   (gnome_canvas_item_new 
+				    (starchart_get_grp_root(), 
+				     GNOME_TYPE_CANVAS_GROUP, NULL)));
   starchart_set_grp_planets_mine(GNOME_CANVAS_GROUP 
 				 (gnome_canvas_item_new 
 				  (starchart_get_grp_root(),
@@ -1526,12 +1526,12 @@ void init_starchart (GtkWidget * gwp)
   starchart_set_default_cursor();
   
   /* Sets black background to starchart */
-  background = gnome_canvas_item_new (starchart_get_grp_root(), 
-				      GNOME_TYPE_CANVAS_RECT,
-				      "outline_color", "grey",
-				      "x1", 0.0, "y1", 0.0, "x2", CANVAS_WIDTH,
-				      "y2", CANVAS_WIDTH, "width_units", 1.0,
-				      "fill_color", UNIVERSE_COLOR, NULL);
+  gnome_canvas_item_new (starchart_get_grp_root(), 
+			 GNOME_TYPE_CANVAS_RECT,
+			 "outline_color", "grey",
+			 "x1", 0.0, "y1", 0.0, "x2", CANVAS_WIDTH,
+			 "y2", CANVAS_WIDTH, "width_units", 1.0,
+			 "fill_color", UNIVERSE_COLOR, NULL);
   
   /* Sets starchart grid */
   grid_points_v = gnome_canvas_points_new (2);
@@ -1585,6 +1585,8 @@ void init_starchart (GtkWidget * gwp)
 
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
+  /* Set Planet names on the top */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planet_names()));
   /* Put ships above all other objects */
   gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (starchart_get_grp_ships_allied()));
   
@@ -2073,15 +2075,6 @@ void starchart_mark_planet(GwpPlanet *a_planet)
 
   /* If item doesn't exist yet, lets create it. */
   if(! planet_mark_l) {
-/*     planet_mark = gnome_canvas_item_new (starchart_get_grp_root(),  */
-/* 					 GNOME_TYPE_CANVAS_ELLIPSE, */
-/* 					 "outline_color_rgba", 0x00000000, */
-/* 					 "x1", -2.5,  */
-/* 					 "y1", -2.5, */
-/* 					 "x2", 2.5, */
-/* 					 "y2", 2.5, "width_pixels", 1, */
-/* 					 "fill_color_rgba", 0x00000000,  */
-/* 					 NULL); */
     p = gnome_canvas_points_new(2);
     p->coords[0] = -7.5;
     p->coords[1] = 0.0;
@@ -2441,4 +2434,17 @@ void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)
   art_affine_multiply (r, r, t);
 
   gnome_canvas_item_affine_absolute (item, r);
+}
+
+void starchart_show_planet_names (gboolean show)
+{
+  if (show) {
+    game_set_planet_names (game_state, show);
+    gnome_canvas_item_show ((GnomeCanvasItem *) 
+			    starchart_get_grp_planet_names());
+  } else {
+    game_set_planet_names (game_state, show);
+    gnome_canvas_item_hide ((GnomeCanvasItem *) 
+			    starchart_get_grp_planet_names());    
+  }
 }
