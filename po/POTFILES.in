@@ -28,3 +28,4 @@ src/vcr-combat-gl.c
 src/gwp-python.c
 scripts/plugins/magallanes.py
 scripts/plugins/magallanes.glade
+scripts/plugins/vp_utils.py

@@ -371,7 +371,6 @@
 						<widget class="GtkButton" id="btn_raza_2">
 						  <property name="visible">True</property>
 						  <property name="sensitive">False</property>
-						  <property name="tooltip" translatable="yes">Esta raza posee la nave actual</property>
 						  <property name="label" translatable="yes">Lizards</property>
 						  <property name="use_underline">True</property>
 						  <property name="relief">GTK_RELIEF_NONE</property>
@@ -452,7 +451,7 @@
 				      <child>
 					<widget class="GtkLabel" id="label50">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">&lt;b&gt;Razas que pueden construirla&lt;/b&gt;</property>
+					  <property name="label" translatable="yes">&lt;b&gt;Races available&lt;/b&gt;</property>
 					  <property name="use_underline">False</property>
 					  <property name="use_markup">True</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -498,7 +497,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label47">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Funciones Especiales: &lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Special Functions: &lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -519,7 +518,7 @@
 			      <child>
 				<widget class="GtkLabel" id="lbl_func_esp">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">ninguna</property>
+				  <property name="label" translatable="yes">None</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -647,7 +646,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label6">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Masa&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Mass&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -702,7 +701,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label49">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Trip&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Crew&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -757,7 +756,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label8">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Rayos&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Beams&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -977,7 +976,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label12">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Motores&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Engines&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1041,7 +1040,7 @@
 			    <widget class="GtkLabel" id="label71">
 			      <property name="width_request">80</property>
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;b&gt;Motores: &lt;/b&gt;</property>
+			      <property name="label" translatable="yes">&lt;b&gt;Engines: &lt;/b&gt;</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
 			      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -1135,7 +1134,7 @@
 			    <widget class="GtkLabel" id="label72">
 			      <property name="width_request">80</property>
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;b&gt;Rayos: &lt;/b&gt;</property>
+			      <property name="label" translatable="yes">&lt;b&gt;Beams: &lt;/b&gt;</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
 			      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -1229,7 +1228,7 @@
 			    <widget class="GtkLabel" id="label73">
 			      <property name="width_request">80</property>
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;b&gt;Torpedos: &lt;/b&gt;</property>
+			      <property name="label" translatable="yes">&lt;b&gt;Torps: &lt;/b&gt;</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
 			      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -1316,7 +1315,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label74">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;Costo Total: &lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Total Cost: &lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -1940,7 +1939,7 @@
 		      <property name="focus_on_click">True</property>
 
 		      <child>
-			<widget class="GtkAlignment" id="alignment2">
+			<widget class="GtkAlignment" id="alignment5">
 			  <property name="visible">True</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -1952,13 +1951,13 @@
 			  <property name="right_padding">0</property>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox8">
+			    <widget class="GtkHBox" id="hbox13">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
 			      <property name="spacing">2</property>
 
 			      <child>
-				<widget class="GtkImage" id="image1">
+				<widget class="GtkImage" id="image3">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">4</property>
@@ -1975,9 +1974,9 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkLabel" id="label66">
+				<widget class="GtkLabel" id="label77">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Nave</property>
+				  <property name="label" translatable="yes">Ship</property>
 				  <property name="use_underline">True</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2010,7 +2009,7 @@
 		      <property name="focus_on_click">True</property>
 
 		      <child>
-			<widget class="GtkAlignment" id="alignment3">
+			<widget class="GtkAlignment" id="alignment6">
 			  <property name="visible">True</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -2022,13 +2021,13 @@
 			  <property name="right_padding">0</property>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox9">
+			    <widget class="GtkHBox" id="hbox14">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
 			      <property name="spacing">2</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2">
+				<widget class="GtkImage" id="image4">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">4</property>
@@ -2045,9 +2044,9 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkLabel" id="label67">
+				<widget class="GtkLabel" id="label78">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Nave y Partes</property>
+				  <property name="label" translatable="yes">Ship &amp; Parts</property>
 				  <property name="use_underline">True</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2139,7 +2138,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label76">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Cuadro Compartativo&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Comparative table&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

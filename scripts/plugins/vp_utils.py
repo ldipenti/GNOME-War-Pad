@@ -1,3 +1,10 @@
+import sys
+import gwp
+# I don't understand why gwp_config.py has to exist even if I don't import it
+sys.path.append(gwp.get_system_plugins_dir())
+import gettext
+_ = gettext.gettext
+
 #Tipos de funciones especiales
 CLOAK = 1
 CALENTADORA = 2
@@ -21,61 +28,61 @@ NINGUNA = 19
 
 # Funciones especiales por id de hull (Nros fijos gracias a Tim)    
 special_func = {3:CALENTADORA,\
-7:ANTICLOAK,\
-8:ENFRIADORA,\
-9:BIOSCAN,\
-21:CLOAK,\
-22:CLOAK,\
-25:CLOAK,\
-26:CLOAK,\
-27:CLOAK,\
-28:CLOAK,\
-29:ADVANCED_CLOAK,\
-31:ADVANCED_CLOAK,\
-32:CLOAK,\
-33:CLOAK,\
-38:CLOAK,\
-39:GLORY_LD,\
-41:GLORY_HD,\
-42:CASINO,\
-43:CLOAK,\
-44:GRAVITRONIC,\
-45:GRAVITRONIC,\
-46:GRAVITRONIC,\
-47:CLOAK,\
-51:HYP,\
-56:CHUNNEL,\
-64:RECALENTADORA,\
-69:I_ASSAULT,\
-77:HYP,\
-84:BIOSCAN,\
-87:HYP,\
-96:RAMSCOOP,\
-97:REFINERIA_A,\
-104:REFINERIA,\
-105:ALQUIMIA}
+                7:ANTICLOAK,\
+                8:ENFRIADORA,\
+                9:BIOSCAN,\
+                21:CLOAK,\
+                22:CLOAK,\
+                25:CLOAK,\
+                26:CLOAK,\
+                27:CLOAK,\
+                28:CLOAK,\
+                29:ADVANCED_CLOAK,\
+                31:ADVANCED_CLOAK,\
+                32:CLOAK,\
+                33:CLOAK,\
+                38:CLOAK,\
+                39:GLORY_LD,\
+                41:GLORY_HD,\
+                42:CASINO,\
+                43:CLOAK,\
+                44:GRAVITRONIC,\
+                45:GRAVITRONIC,\
+                46:GRAVITRONIC,\
+                47:CLOAK,\
+                51:HYP,\
+                56:CHUNNEL,\
+                64:RECALENTADORA,\
+                69:I_ASSAULT,\
+                77:HYP,\
+                84:BIOSCAN,\
+                87:HYP,\
+                96:RAMSCOOP,\
+                97:REFINERIA_A,\
+                104:REFINERIA,\
+                105:ALQUIMIA}
 
 #Special Function description 
-sfd = {CLOAK:"Cloak",\
-ADVANCED_CLOAK:"Advanced Cloak",\
-ANTICLOAK:"Anti-Cloak",\
-BIOSCAN:"BioScan",\
-ENFRIADORA:"Enfria hasta 50 grados",\
-CALENTADORA:"Calienta Hasta 50 grados",\
-RECALENTADORA:"Calienta Hasta 100 grados",\
-GLORY_HD:"Glory Device High Damage",\
-GLORY_LD:"Glory Device Low Damage",\
-CASINO:"Casino",\
-GRAVITRONIC:"Cloak y Gravitronic Acelerators",\
-CHUNNEL:"Chunnel",\
-HYP:"Hyperdrive",\
-I_ASSAULT:"Imperial Assault",\
-RAMSCOOP:"Ramscoop, Bioscanner",\
-REFINERIA:"Genera combustible",\
-REFINERIA_A:"Genera combustible",\
-ALQUIMIA:"Genera minerales",\
-NINGUNA:"Ninguna"
-}
+sfd = {CLOAK:_("Cloak"),\
+       ADVANCED_CLOAK:_("Advanced Cloak"),\
+       ANTICLOAK:_("Anti-Cloak"),\
+       BIOSCAN:_("BioScan"),\
+       ENFRIADORA:_("Cools down to 50 degrees"),\
+       CALENTADORA:_("Warms up to 50 degrees"),\
+       RECALENTADORA:_("Warms up to 100 degrees"),\
+       GLORY_HD:_("Glory Device High Damage"),\
+       GLORY_LD:_("Glory Device Low Damage"),\
+       CASINO:_("Generate MCs"),\
+       GRAVITRONIC:_("Cloak and Gravitronic Acelerators"),\
+       CHUNNEL:_("Chunnel"),\
+       HYP:_("Hyperdrive"),\
+       I_ASSAULT:_("Imperial Assault"),\
+       RAMSCOOP:_("Ramscoop, Bioscanner"),\
+       REFINERIA:_("Fuel Alchemy"),\
+       REFINERIA_A:_("Fuel Alchemy"),\
+       ALQUIMIA:_("Minerals Alchemy"),\
+       NINGUNA:_("None")
+       }
 
 def get_hull_function(id):
     if (special_func.has_key(id)):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-09 18:56-0300\n"
+"POT-Creation-Date: 2004-11-26 10:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,7 +221,7 @@ msgstr ""
 msgid "<b>MC:</b>"
 msgstr ""
 
-#: src/gwp.glade.h:47 scripts/plugins/magallanes.glade.h:8
+#: src/gwp.glade.h:47 scripts/plugins/magallanes.glade.h:11
 msgid "<b>MC</b>"
 msgstr ""
 
@@ -385,7 +385,7 @@ msgstr ""
 msgid "Build ship"
 msgstr ""
 
-#: src/gwp.glade.h:88 scripts/plugins/magallanes.py:460
+#: src/gwp.glade.h:88 scripts/plugins/magallanes.py:459
 msgid "Cargo"
 msgstr ""
 
@@ -393,7 +393,7 @@ msgstr ""
 msgid "Construction"
 msgstr ""
 
-#: src/gwp.glade.h:90 scripts/plugins/magallanes.py:457
+#: src/gwp.glade.h:90 scripts/plugins/magallanes.py:456
 msgid "Crew"
 msgstr ""
 
@@ -497,7 +497,7 @@ msgstr ""
 msgid "Host Type:"
 msgstr ""
 
-#: src/gwp.glade.h:116 scripts/plugins/magallanes.py:455
+#: src/gwp.glade.h:116 scripts/plugins/magallanes.py:454
 msgid "Hull"
 msgstr ""
 
@@ -670,7 +670,7 @@ msgstr ""
 msgid "Shield Bonus"
 msgstr ""
 
-#: src/gwp.glade.h:159
+#: src/gwp.glade.h:159 scripts/plugins/magallanes.glade.h:35
 msgid "Ship"
 msgstr ""
 
@@ -683,7 +683,7 @@ msgid "Ship List"
 msgstr ""
 
 #. Columns Lista Naves
-#: src/gwp.glade.h:162 scripts/plugins/magallanes.py:452
+#: src/gwp.glade.h:162 scripts/plugins/magallanes.py:451
 msgid "Ships"
 msgstr ""
 
@@ -1109,12 +1109,12 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/vp_utils.c:890
+#: src/vp_utils.c:897
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr ""
 
-#: src/vp_utils.c:892
+#: src/vp_utils.c:899
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
 "about ion storms and minefields, but couldn't be found in this case. This is "
@@ -1207,7 +1207,8 @@ msgstr ""
 msgid "%d games"
 msgstr ""
 
-#: src/race.c:28
+#: src/race.c:28 scripts/plugins/magallanes.glade.h:31
+#: scripts/plugins/vp_utils.py:84
 msgid "None"
 msgstr ""
 
@@ -1347,7 +1348,7 @@ msgstr ""
 msgid "arctic"
 msgstr ""
 
-#: src/gwp-planet.c:598 scripts/plugins/magallanes.glade.h:36
+#: src/gwp-planet.c:598 scripts/plugins/magallanes.glade.h:37
 msgid "n/a"
 msgstr ""
 
@@ -1531,7 +1532,8 @@ msgstr ""
 msgid "Special"
 msgstr ""
 
-#: src/mission.c:102
+#. Special Function description
+#: src/mission.c:102 scripts/plugins/vp_utils.py:66
 msgid "Cloak"
 msgstr ""
 
@@ -1611,48 +1613,48 @@ msgstr ""
 msgid "_Plugins"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:15
+#: scripts/plugins/magallanes.py:14
 msgid "Utility for viewing the ships characteristics"
 msgstr ""
 
 #. Columns Comparacion
-#: scripts/plugins/magallanes.py:454
+#: scripts/plugins/magallanes.py:453
 msgid "Race"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:456
+#: scripts/plugins/magallanes.py:455
 msgid "Mass"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:458
+#: scripts/plugins/magallanes.py:457
 msgid "Beam (tech)"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:459
+#: scripts/plugins/magallanes.py:458
 msgid "T/F (tech)"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:461
+#: scripts/plugins/magallanes.py:460
 msgid "Fuel"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:462
+#: scripts/plugins/magallanes.py:461
 msgid "Eng (wp)"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:463
+#: scripts/plugins/magallanes.py:462
 msgid "MC"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:464
+#: scripts/plugins/magallanes.py:463
 msgid "Tri"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:465
+#: scripts/plugins/magallanes.py:464
 msgid "Dur"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:466
+#: scripts/plugins/magallanes.py:465
 msgid "Mol"
 msgstr ""
 
@@ -1661,55 +1663,55 @@ msgid "1"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:2
-msgid "<b>Cargo</b>"
+msgid "<b>Beams: </b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:3
-msgid "<b>Costo Total: </b>"
+msgid "<b>Beams</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:4
-msgid "<b>Cuadro Compartativo</b>"
+msgid "<b>Cargo</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:5
-msgid "<b>Dur</b>"
+msgid "<b>Comparative table</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:6
-msgid "<b>Fuel</b>"
+msgid "<b>Crew</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:7
-msgid "<b>Funciones Especiales: </b>"
+msgid "<b>Dur</b>"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:8
+msgid "<b>Engines: </b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:9
-msgid "<b>Masa</b>"
+msgid "<b>Engines</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:10
-msgid "<b>Mol</b>"
-msgstr ""
-
-#: scripts/plugins/magallanes.glade.h:11
-msgid "<b>Motores: </b>"
+msgid "<b>Fuel</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:12
-msgid "<b>Motores</b>"
+msgid "<b>Mass</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:13
-msgid "<b>Rayos: </b>"
+msgid "<b>Mol</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:14
-msgid "<b>Rayos</b>"
+msgid "<b>Races available</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:15
-msgid "<b>Razas que pueden construirla</b>"
+msgid "<b>Special Functions: </b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:16
@@ -1721,15 +1723,15 @@ msgid "<b>Tech Level:  </b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:18
-msgid "<b>Torpedos: </b>"
+msgid "<b>Torps: </b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:19
-msgid "<b>Tri</b>"
+msgid "<b>Total Cost: </b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:20
-msgid "<b>Trip</b>"
+msgid "<b>Tri</b>"
 msgstr ""
 
 #: scripts/plugins/magallanes.glade.h:21
@@ -1772,26 +1774,82 @@ msgstr ""
 msgid "Magallanes 0.2"
 msgstr ""
 
-#: scripts/plugins/magallanes.glade.h:31
-msgid "Nave"
-msgstr ""
-
 #: scripts/plugins/magallanes.glade.h:32
-msgid "Nave y Partes"
-msgstr ""
-
-#: scripts/plugins/magallanes.glade.h:33
 msgid "Privateers"
 msgstr ""
 
-#: scripts/plugins/magallanes.glade.h:34
+#: scripts/plugins/magallanes.glade.h:33
 msgid "Rebels"
 msgstr ""
 
-#: scripts/plugins/magallanes.glade.h:35
+#: scripts/plugins/magallanes.glade.h:34
 msgid "Robots"
 msgstr ""
 
-#: scripts/plugins/magallanes.glade.h:37
-msgid "ninguna"
+#: scripts/plugins/magallanes.glade.h:36
+msgid "Ship & Parts"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:67
+msgid "Advanced Cloak"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:68
+msgid "Anti-Cloak"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:69
+msgid "BioScan"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:70
+msgid "Cools down to 50 degrees"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:71
+msgid "Warms up to 50 degrees"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:72
+msgid "Warms up to 100 degrees"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:73
+msgid "Glory Device High Damage"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:74
+msgid "Glory Device Low Damage"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:75
+msgid "Generate MCs"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:76
+msgid "Cloak and Gravitronic Acelerators"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:77
+msgid "Chunnel"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:78
+msgid "Hyperdrive"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:79
+msgid "Imperial Assault"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:80
+msgid "Ramscoop, Bioscanner"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:81 scripts/plugins/vp_utils.py:82
+msgid "Fuel Alchemy"
+msgstr ""
+
+#: scripts/plugins/vp_utils.py:83
+msgid "Minerals Alchemy"
 msgstr ""

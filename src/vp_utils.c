@@ -753,7 +753,6 @@ GHashTable * load_pdata (void)
     gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
     gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (GWP_OBJECT(p)) - 1))->str);
 
-
     /* Add planet to list */
     g_hash_table_insert (planet_list, (gpointer)(gint)gwp_object_get_id(GWP_OBJECT(p)), p);
   }
@@ -775,7 +774,9 @@ GHashTable * load_pdata (void)
 
       /* Add planet to list */
       g_hash_table_insert (planet_list, (gpointer)(i+1), p);
-      /*    g_message ("Planet ID: %d", gwp_object_get_id(GWP_OBJECT(p)));*/
+
+    g_message("Planeta ID: %d - Nombre: %s", gwp_object_get_id(p),
+	      gwp_object_get_name(p));
     }
   }
   fclose (pdata);
