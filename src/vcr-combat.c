@@ -1,3 +1,4 @@
+#include "vcr-combat-gl.h"
 #include "vcr-combat.h"
 #include "vcr.h"
 #include "support.h"
@@ -17,14 +18,17 @@ void vcrc_combat_start( combatdata *cdata )
 {
   /* switch to combat view */
   gtk_notebook_set_current_page( GTK_NOTEBOOK( lookup_widget( "vcr_notebook_main" ) ), 1 );
+
   /* initialize the logging */
   init_log();
 
   /* the combat will take place in this central structure */
   battlefield battle;
 
+  /* nomen est omen */
   vcrc_prepare_for_battle( cdata, &battle );
 
+  /* give the user some status info about the coming battle */
   vcrc_print_combatants( cdata );
 
   /* try to initialize the open-gl simulation area */
@@ -33,7 +37,8 @@ void vcrc_combat_start( combatdata *cdata )
   /* Hey Ho ... Let's GO */
   vcrc_fight( &battle );
 
-vcrc_print_summary( &battle, cdata );
+  /* print the most important values of each combatant after battle */
+  vcrc_print_summary( &battle, cdata );
 }
 
 
@@ -342,6 +347,7 @@ void vcrc_fight_reload_weapons( battlefield *battle )
       if( battle->a.beams.beam[i].fill > 100 )
         battle->a.beams.beam[i].fill = 100;
     }
+vcrcgl_show_beamlevel( VCRC_SIDE_A, i, battle->a.beams.beam[i].fill );
   }
   for( i=0; i<battle->a.tubes.number; i++ )
   {
@@ -359,6 +365,7 @@ void vcrc_fight_reload_weapons( battlefield *battle )
       if( battle->b.beams.beam[i].fill > 100 )
         battle->b.beams.beam[i].fill = 100;
     }
+vcrcgl_show_beamlevel( VCRC_SIDE_B, i, battle->b.beams.beam[i].fill );
   }
   for( i=0; i<battle->b.tubes.number; i++ )
   {
@@ -862,6 +869,10 @@ g_print( "VCR-DEBUG (%d): Damage inflicted on %d, [%d, %d, %d] .. ", battle->tim
       if( battle->a.hull   < 0 ) battle->a.hull   = 0;
       if( battle->a.crew   < 0 ) battle->a.crew   = 0;
 g_print( "[%d, %d, %d]\n", battle->a.shield, battle->a.hull, battle->a.crew );
+      /* update the gui */
+      vcrcgl_show_shieldlevel( VCRC_SIDE_A, battle->a.shield );
+      vcrcgl_show_hulllevel( VCRC_SIDE_A, battle->a.hull   );
+      vcrcgl_show_crewlevel( VCRC_SIDE_A, battle->a.crew   );
       break;
     case VCRC_SIDE_B:
       if( battle->b.shield > 0 )
@@ -874,6 +885,10 @@ g_print( "[%d, %d, %d]\n", battle->a.shield, battle->a.hull, battle->a.crew );
       if( battle->b.hull   < 0 ) battle->b.hull   = 0;
       if( battle->b.crew   < 0 ) battle->b.crew   = 0;
 g_print( "[%d, %d, %d]\n", battle->b.shield, battle->b.hull, battle->b.crew );
+      /* update the gui */
+      vcrcgl_show_shieldlevel( VCRC_SIDE_B, battle->b.shield );
+      vcrcgl_show_hulllevel( VCRC_SIDE_B, battle->b.hull   );
+      vcrcgl_show_crewlevel( VCRC_SIDE_B, battle->b.crew   );
       break;
     default:
       break;

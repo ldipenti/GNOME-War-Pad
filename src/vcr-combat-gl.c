@@ -2,12 +2,11 @@
 #define USE_TEXTURES
 
 
+#include "vcr.h"
+#include "vcr-combat.h"
 #include "vcr-combat-gl.h"
 #include <gnome.h>
 #include "global.h"
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
 
 
 #ifdef USE_GTKGLEXT
@@ -1251,3 +1250,149 @@ void vcrcgl_init( void )
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void vcrcgl_show_beamlevel( gint side, gint number, gint level )
+{
+  GtkProgressBar *pbar;
+  gchar widget_name[64];
+  widget_name[0] = '\0';
+  strcat( widget_name, "vcr_progressbar_" );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      strcat( widget_name, "a" );
+      break;
+    case VCRC_SIDE_B:
+      strcat( widget_name, "b" );
+      break;
+    default:
+      break;
+  }
+  strcat( widget_name, "_b" );
+  widget_name[ strlen( widget_name )+1 ] = '\0';
+  widget_name[ strlen( widget_name )   ] = number + ASCII_0;
+
+  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
+  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+}
+
+
+void vcrcgl_show_shieldlevel( gint side, gint level )
+{
+  GtkProgressBar *pbar;
+  gchar widget_name[64];
+  widget_name[0] = '\0';
+  strcat( widget_name, "vcr_progressbar_" );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      strcat( widget_name, "a" );
+      break;
+    case VCRC_SIDE_B:
+      strcat( widget_name, "b" );
+      break;
+    default:
+      break;
+  }
+  strcat( widget_name, "_shi" );
+
+  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
+  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+}
+
+void vcrcgl_show_hulllevel( gint side, gint level )
+{
+  GtkProgressBar *pbar;
+  gchar widget_name[64];
+  widget_name[0] = '\0';
+  strcat( widget_name, "vcr_progressbar_" );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      strcat( widget_name, "a" );
+      break;
+    case VCRC_SIDE_B:
+      strcat( widget_name, "b" );
+      break;
+    default:
+      break;
+  }
+  strcat( widget_name, "_hul" );
+
+  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
+  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+}
+
+void vcrcgl_show_crewlevel( gint side, gint level )
+{
+  GtkProgressBar *pbar;
+  gchar widget_name[64];
+  widget_name[0] = '\0';
+  strcat( widget_name, "vcr_progressbar_" );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      strcat( widget_name, "a" );
+      break;
+    case VCRC_SIDE_B:
+      strcat( widget_name, "b" );
+      break;
+    default:
+      break;
+  }
+  strcat( widget_name, "_cre" );
+
+  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
+  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+}
+
+void vcrcgl_show_ammulevel( gint side, gint level )
+{
+  GtkProgressBar *pbar;
+  gchar widget_name[64];
+  widget_name[0] = '\0';
+  strcat( widget_name, "vcr_progressbar_" );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      strcat( widget_name, "a" );
+      break;
+    case VCRC_SIDE_B:
+      strcat( widget_name, "b" );
+      break;
+    default:
+      break;
+  }
+  strcat( widget_name, "_amu" );
+
+  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
+  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+}
+
+
+
+
+
+
+
+
+

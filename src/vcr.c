@@ -1,14 +1,6 @@
 
 #include "vcr.h"
 
-#define ASCII_0   48
-#define ASCII_A   65
-#define ASCII_Z   90
-#define ASCII_a   97
-#define ASCII_SP  32
-#define ASCII_TAB  9
-#define ASCII_LF  10
-#define ASCII_CR  13
 
 #define MAXNMBSHIPS 512
 

@@ -10,12 +10,15 @@
 
 void vcrcgl_init( void );
 
+#include <gnome.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
 
 
 #ifdef USE_GTKGLEXT
 
-#include <gnome.h>
 #include <gtk/gtkgl.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -36,6 +39,11 @@ void vcrcgl_create_gl_callists( void );
 
 #endif // USE_GTKGLEXT
 
+void vcrcgl_show_beamlevel( gint side, gint number, gint level );
+void vcrcgl_show_shieldlevel( gint side, gint level );
+void vcrcgl_show_hulllevel( gint side, gint level );
+void vcrcgl_show_crewlevel( gint side, gint level );
+void vcrcgl_show_ammulevel( gint side, gint level );
 
 
 
