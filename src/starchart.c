@@ -854,13 +854,13 @@ void update_planet_extra_panel(gint16 planet_id)
       
       /* Tax earned */
       if(gwp_planet_get_tax_collected_natives(a_planet) <=
-	 gwp_planet_get_colonists(a_planet)) {
+	 gwp_planet_get_tax_collected_colonists(a_planet)) {
 	tmp = g_strdup_printf(_("%d MC"), 
 			      gwp_planet_get_tax_collected_natives(a_planet));
       } else {
 	tmp = g_strdup_printf(_("%d <span foreground=\"red\">(%d)</span> MC"),
 			      gwp_planet_get_tax_collected_natives(a_planet),
-			      gwp_planet_get_colonists(a_planet));
+			      gwp_planet_get_tax_collected_colonists(a_planet));
       }
       gtk_label_set_markup(tax_nat_earned, tmp);
       g_free(tmp);
