@@ -61,8 +61,8 @@ def widgets_make_link(self):
 
 #--------------------------------------------------------------------------
 def get_regla_adquisicion(): # FIXME AGREGAR LAS REGLAS
-    return 'El Latinio lo es todo'
-    
+    return ('Rule of adquisition 95:\nExpand or die.')
+
 
 ##    self.btn_raza_11 = self.main_window.get_widget('btn_raza_11')
 

@@ -36,151 +36,121 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     
-# *****************************************************************************
 # *******************************  REPORTE ************************************
-# *****************************************************************************
 
     #--------------------------------------------------------------------------    
-    def report_generate(self, p):
+    def quark_report_generate(self, p):
         """Realiza todos los chequeos para mostrar el reporte en la ventana de
         existir algo que informar."""
         self.textbuffer = self.tv_notification.get_buffer()
-        self.report_verify_happyness(p, 'c') # Colonists
-        self.report_verify_happyness(p, 'n') # Natives
-        self.report_verify_colonists(p)
-        self.report_verify_temperature(p) # Ve si conviene Terraformar
+        self.textbuffer.set_text(self.natt)
         
     #--------------------------------------------------------------------------
-    def report_verify_happyness(self, p, people):
-        """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
-        taxes con modificador negativo. La salida es a la ventana"""
-        txt = ""
-        if people == 'c':
-            people = "Colonists "
-            future_happ = self.calculate_future_happyness_colonists(p)
-        else:
-            people = "Natives "
-            future_happ = self.calculate_future_happyness_natives(p)
-        if future_happ < 1: # CIVIL WAR!
-            txt = people + "will be in CIVIL WAR the next turn\n\n"
-        elif future_happ < 30: # NO PAGAN
-            txt = people + "will not pay taxes the next turn\n\n"
-        elif future_happ < 40: # en 39 empieza el quilombo
-            txt = people + "will be RIOTING the next turn\n\n"
-        elif future_happ < 70: # en 69 dejan de crecer
-                txt = people + "will be UNHAPPY the next turn\n\n"
-        self.textbuffer.set_text(txt)
     
-    #--------------------------------------------------------------------------
-    def report_verify_colonists(self, p):
-        """ Verifica si existen suficiente cantidad de colonos para:
-        * cobrarles el maximo posible a los nativos 
-        * sacar el max posible de supplies si hay Bovinoids
-        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
-        """
-        txt = ""
-        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
-            # Hago todos los calculos
-            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
-            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
-            tax, max_i = self.calculate_max_income_from_natives(p)
-            dif = max_i - p.get_tax_collected_natives()
-            if dif < 0:
-                dif = 0
-            
-            # REPORTA "Faltan colonos"
-            if col_faltan_tax or col_faltan_sup:
-                if col_faltan_tax > col_faltan_sup:
-                    col_faltan = col_faltan_tax
-                else:
-                    col_faltan = col_faltan_sup
-                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
-
-            # REPORTA "Puedo cobrar mas"
-            if dif:
-                txt = txt + "You can collect " + str(max_i) + " MC "
-                txt = txt  + "(" + str(dif) +" more)\n"
-                
-                # Falta ver si pagan poco y conviene construir fab y minas
-
-            # REPORTA "Puedo sacar mas supplies"
-            if col_faltan_sup:
-                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
-                dif = col_faltan_sup - p.get_colonists()
-                txt = txt + "(" + str(dif) +" more)\n"
-
-        
-        chequear_construcciones = 1
-        if chequear_construcciones:
-            # FALTA controlar si las fab y minas estan en valores optimos.
-            pass
-        # Se imprime!
-        if txt:
-            self.textbuffer.set_text(txt + "\n")
-
-    #--------------------------------------------------------------------------
-    def report_verify_temperature(self, orig_p):
-        if orig_p.get_natives(): # SI no hay nativos no tiene sentido esto  
-            if (orig_p.get_temperature_f() < 15) or (orig_p.get_temperature_f() > 84):
-
-                p = orig_p.copy()
-                if not orig_p.is_mine(): # Si no es mio
-                    # Lo simulo para hacer los calculos
-                    print "SIMULO"
-                    gs = gwp.get_game_state()
-                    nro_raza = gs.get_race_nr()
-                    p.set_owner(nro_raza)
-                    p.set_colonists(1000)
-
-                limit = p.get_col_growth_limit()
-                tax, max_i = self.calculate_max_income_from_natives(p)
-                print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
-                if (max_i < limit) or (max_i == 0):
-                    # No interesa la temp, cobro poco
-                    print "Cobro poco"
-                    return 0
-                else:
-                    # La $$ cobrada es limitada por la temperatura
-                    terraformado = p.copy()
-                    print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
-                    while max_i > limit:
-                        if (terraformado.get_temperature_f() < 50):
-                            terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
-                        else:
-                            terraformado.set_temperature(100 - (terraformado.get_temperature_f() - 1))
-                        limit = terraformado.get_col_growth_limit()
-                        tax, max_i = self.calculate_max_income_from_natives(terraformado)
-                        print "Max: " + str(max_i) + " Limite: " + str(limit)
-                        print "A " + str(terraformado.get_temperature_f()) + " grados"
-
-    #--------------------------------------------------------------------------
-    
-# *****************************************************************************
 # ***************************  Notification Area  *****************************
-# *****************************************************************************
 
     #--------------------------------------------------------------------------
-    def na_generar(self, p):
+    def na_report_generate(self, p):
         """Genera los avisos que van al area de notificacion."""
         self.natt = ''
         self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
                             self.natt)        
         if p.is_mine():
-            self.na_verify_happyness(p, 'c') # Colonists
-            self.na_verify_happyness(p, 'n') # Natives
-        self.na_verify_colonists(p)
+            self.report_verify_happyness(p, 'c') # Colonists
+            self.report_verify_happyness(p, 'n') # Natives
+        self.report_verify_colonists(p)
+        #self.report_verify_temperature(p) # Ve si conviene Terraformar
+        
+    #--------------------------------------------------------------------------
+    
+# *****************************************************************************
+# ***************************  Funciones comunes  *****************************
+# ************************  a reporte y notif area ****************************
+# *****************************************************************************
+
+    #--------------------------------------------------------------------------
+    def calculate_future_happyness_natives(self, p):
+        """Devuelve el valor de happyness del siguiente turno"""
+        actual_change = p.get_happiness_nat_change()
+        actual_happ = p.get_happiness_natives()
+        return (actual_happ + actual_change)
+       
+    #--------------------------------------------------------------------------
+    def calculate_future_happyness_colonists(self, p):
+        """Devuelve el valor de happyness del siguiente turno"""
+        actual_change = p.get_happiness_col_change()
+        actual_happ = p.get_happiness_colonists()
+        return (actual_happ + actual_change)
+       
+    #--------------------------------------------------------------------------
+    def calculate_missing_colonists_tax_natives(self, p):
+        """devuelve la cantidad de colonos que faltan para cobrar al maximo a
+        los nativos."""
+        if (p.get_natives_race() <> 5): # Si no son Amorphous
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            if max_i > p.get_tax_collected_natives():
+                factor_impuestos = p.get_tax_rate_natives()/100
+                col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
+                
+                if col_faltan > p.get_colonists():
+                    return col_faltan
+        return 0
+    #--------------------------------------------------------------------------    
+    def calculate_max_income_from_natives(self, p):
+        """ Determino el maximo que se puede cobrar (con una copia del planeta)
+        devuelve (% de impuesto, cantidad de MC) """
+        if p.get_natives(): # SI no hay nativos no tiene sentido esto 
+            future_p = p.copy()
+
+            #gs = gwp.get_game_state()
+            #nro_raza = gs.get_race_nr()
+            #future_p.set_owner(nro_raza)
+            
+            future_p.set_colonists(1000) # suficientemente grande para evitar problemas
+            tax = 1
+            while tax:
+                future_p.set_tax_natives(tax)
+                hap_dif = future_p.get_happiness_nat_change()
+                limit = future_p.get_col_growth_limit()
+                income = future_p.get_tax_collected_natives()
+                if  (hap_dif >= 0) and  (limit >= income):
+                    tax += 1
+                else:
+                    if hap_dif < 0:
+                        tax -= 1
+                    future_p.set_tax_natives(tax)
+                    income = future_p.get_tax_collected_natives()
+                    return tax, income
+        return 0,0
+
+    #--------------------------------------------------------------------------
+    def calculate_missing_colonists_supplies(self, p):
+        """Devuelve la cantidad de colonos que faltan para que los bovinoides
+        produzcan el maximo de supplies."""
+        # Supplies Bovinoids
+        if (p.get_natives_race() == 2): # Bovinoids
+            sup = p.get_natives() / 100
+            if p.get_colonists() < sup:
+                return sup
+        return 0
+
+    #--------------------------------------------------------------------------
+    def is_miner_planet(self, p):
+        """Determina si la cantidad de mineral que se puede obtener esta dentro
+        de los parametros de *Planeta Minero*."""
+        return 0
 
         
     #--------------------------------------------------------------------------
-    def na_verify_happyness(self, p, people): # FIXME NOTIFICATION AREA
+    def report_verify_happyness(self, p, people):
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. Salida al area de notificacion"""
         self.natt = ""
         if people == 'c':
-            people = "Colonists "
+            people = _("Colonists ")
             future_happ = self.calculate_future_happyness_colonists(p)
         else:
-            people = "Natives "        
+            people = ("Natives ")
             future_happ = self.calculate_future_happyness_natives(p)
         if future_happ < 1: # CIVIL WAR!
             self.natt = people + "will be in CIVIL WAR the next turn"
@@ -192,9 +162,10 @@ class Quark(gwp.Plugin):
                 self.natt = people + "will be UNHAPPY the next turn"
         if self.natt:
             self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_ALTO, self.natt)
+
         
     #--------------------------------------------------------------------------
-    def na_verify_colonists(self, p_orig): # FIXME NOTIFICATION AREA
+    def report_verify_colonists(self, p_orig):
         """ Verifica si existen suficiente cantidad de colonos para:
         * cobrarles el maximo posible a los nativos 
         * sacar el max posible de supplies si hay Bovinoids
@@ -250,85 +221,43 @@ class Quark(gwp.Plugin):
         # Se imprime!
         if self.natt:
             self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_MEDIO, self.natt)
-
-    #--------------------------------------------------------------------------
-    
-# *****************************************************************************
-# ***************************  Funciones comunes  *****************************
-# ************************  a reporte y notif area ****************************
-# *****************************************************************************
-
-    #--------------------------------------------------------------------------
-    def calculate_future_happyness_natives(self, p):
-        """Devuelve el valor de happyness del siguiente turno"""
-        actual_change = p.get_happiness_nat_change()
-        actual_happ = p.get_happiness_natives()
-        return (actual_happ + actual_change)
-       
-    #--------------------------------------------------------------------------
-    def calculate_future_happyness_colonists(self, p):
-        """Devuelve el valor de happyness del siguiente turno"""
-        actual_change = p.get_happiness_col_change()
-        actual_happ = p.get_happiness_colonists()
-        return (actual_happ + actual_change)
-       
-    #--------------------------------------------------------------------------
-    def calculate_missing_colonists_tax_natives(self, p):
-        """devuelve la cantidad de colonos que faltan para cobrar al maximo a
-        los nativos."""
-        if (p.get_natives_race() <> 5): #Amorphous
-            tax, max_i = self.calculate_max_income_from_natives(p)
-            if max_i > p.get_tax_collected_natives():
-                factor_impuestos = p.get_tax_rate_natives()/100
-                col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
-                
-                if col_faltan > p.get_colonists():
-                    return col_faltan
-        return 0
-    #--------------------------------------------------------------------------    
-    def calculate_max_income_from_natives(self, p):
-        """ Determino el maximo que se puede cobrar (con una copia del planeta)
-        devuelve (% de impuesto, cantidad de MC) """
-        if p.get_natives(): # SI no hay nativos no tiene sentido esto 
-            future_p = p.copy()
-
-            #gs = gwp.get_game_state()
-            #nro_raza = gs.get_race_nr()
-            #future_p.set_owner(nro_raza)
             
-            future_p.set_colonists(1000) # suficientemente grande para evitar problemas
-            tax = 1
-            while tax:
-                future_p.set_tax_natives(tax)
-                hap_dif = future_p.get_happiness_nat_change()
-                limit = future_p.get_col_growth_limit()
-                income = future_p.get_tax_collected_natives()
-                if  (hap_dif >= 0) and  (limit >= income):
-                    tax += 1
+
+    #--------------------------------------------------------------------------
+    def report_verify_temperature(self, orig_p):
+        if orig_p.get_natives(): # SI no hay nativos no tiene sentido esto  
+            if (orig_p.get_temperature_f() < 15) or (orig_p.get_temperature_f() > 84):
+
+                p = orig_p.copy()
+                if not orig_p.is_mine(): # Si no es mio
+                    # Lo simulo para hacer los calculos
+                    print "SIMULO"
+                    gs = gwp.get_game_state()
+                    nro_raza = gs.get_race_nr()
+                    p.set_owner(nro_raza)
+                    p.set_colonists(1000)
+
+                limit = p.get_col_growth_limit()
+                tax, max_i = self.calculate_max_income_from_natives(p)
+                print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
+                if (max_i < limit) or (max_i == 0):
+                    # No interesa la temp, cobro poco
+                    print "Cobro poco"
+                    return 0
                 else:
-                    if hap_dif < 0:
-                        tax -= 1
-                    future_p.set_tax_natives(tax)
-                    income = future_p.get_tax_collected_natives()
-                    return tax, income
-        return 0,0
+                    # La $$ cobrada es limitada por la temperatura
+                    terraformado = p.copy()
+                    print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
+                    while max_i > limit:
+                        if (terraformado.get_temperature_f() < 50):
+                            terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
+                        else:
+                            terraformado.set_temperature(100 - (terraformado.get_temperature_f() - 1))
+                        limit = terraformado.get_col_growth_limit()
+                        tax, max_i = self.calculate_max_income_from_natives(terraformado)
+                        print "Max: " + str(max_i) + " Limite: " + str(limit)
+                        print "A " + str(terraformado.get_temperature_f()) + " grados"
 
-    #--------------------------------------------------------------------------
-    def calculate_missing_colonists_supplies(self, p):
-        """Devuelve la cantidad de colonos que faltan para que los bovinoides
-        produzcan el maximo de supplies."""
-        # Supplies Bovinoids
-        if (p.get_natives_race() == 2): # Bovinoids
-            sup = p.get_natives() / 100
-            if p.get_colonists() < sup:
-                return sup
-        return 0
-
-    #--------------------------------------------------------------------------
-    def is_miner_planet(self, p):
-        """Determina si la cantidad de mineral que se puede obtener esta dentro
-        de los parametros de *Planeta Minero*."""
-        return 0
 
     #--------------------------------------------------------------------------
     def conectar_planetas(self):
@@ -376,8 +305,8 @@ class Quark(gwp.Plugin):
         renderer = gtk.CellRendererText()
         
         # Columns Lista Planetas
-        col_planets = gtk.TreeViewColumn('Planets', renderer, text=1)
-        col_minerals = gtk.TreeViewColumn('Mineral', renderer, text=0)
+        col_planets = gtk.TreeViewColumn(_('Planets'), renderer, text=1)
+        col_minerals = gtk.TreeViewColumn(_('Mineral'), renderer, text=0)
         col_surf = gtk.TreeViewColumn(_('Surf'), renderer, text=1)
         col_core = gtk.TreeViewColumn(_('Core'), renderer, text=2)
         col_extr = gtk.TreeViewColumn(_('Extr'), renderer, text=3)
@@ -472,10 +401,10 @@ class Quark(gwp.Plugin):
             pid = objeto.get_id()
             for planeta in self.pl:
                 if planeta.get_id() == pid:
-                    self.na_generar(objeto)
+                    self.na_report_generate(objeto)
             for planeta in self.pl_otros: # Planetas orbitados sin duenio
                 if planeta.get_id() == pid:
-                    self.na_generar(objeto)
+                    self.na_report_generate(objeto)
         if self.na and (event == 'ship-selected'):
             self.na.remove_notification(self.quark_icon)
 
@@ -614,7 +543,7 @@ class Quark(gwp.Plugin):
         self.store_minerals.append(fila)
         
         ## renderer.set_property('background','green')
-        self.report_generate(p)
+        self.quark_report_generate(p)
 
     #--------------------------------------------------------------------------
     def main_cb(self, widget, data=None):
