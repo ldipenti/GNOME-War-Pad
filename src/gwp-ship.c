@@ -273,6 +273,20 @@ static void gwp_ship_class_init (GwpShipClass *klass)
    */
   gobject_class->dispose = (void *) gwp_ship_dispose;
   gobject_class->finalize = (void *) gwp_ship_finalize;
+
+  /*
+   * Signals
+   */
+  g_signal_newv ("selected",
+		 G_TYPE_FROM_CLASS (klass),
+		 G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+		 NULL /* class closure */,
+		 NULL /* accumulator */,
+		 NULL /* accu_data */,
+		 g_cclosure_marshal_VOID__VOID,
+		 G_TYPE_NONE /* return_type */,
+		 0     /* n_params */,
+		 NULL  /* param_types */);
 }
 
 /*
