@@ -61,6 +61,7 @@ void UnpackGenPart2(char *player);
 void UnpackVcr(char *player);
 void DoUnpack(FILE *rst, char *player, int nr);
 gint main_unpack(gchar *game_dir, gint race);
+void UnpackWinplan(char *player);
 
 /* 
  * The following 4 macros are made to read/write ... endian
@@ -349,6 +350,53 @@ void UnpackMess(char *player)
   fclose(mess);
 } /* UnpackMess */
 
+void UnpackWinplan(char *player)
+{
+  FILE *kore;
+  unsigned long place = 40;
+  unsigned char *buf;
+  unsigned short nocontacts = 0;
+  gpointer junk = g_malloc0(90);
+
+  buf=rstremember+place;
+  ReadLong(place,buf);
+  place--; /* this sucks */
+  buf=rstremember+place;
+  
+  kore = OpenPlayerFile("kore", player, "dat");
+
+  fwrite(&turnnr, 2, 1, kore); /* Turn number */
+  fwrite(junk, 7, 1, kore); /* Junk */
+  fwrite(datsig, 10, 1, kore);  /* Signature 2 */
+  fwrite(junk, 83, 1, kore); /* More junk */
+
+  fwrite(buf, 8, 500, kore); /* Minefields */
+
+  buf += 4000;
+  fwrite(buf, 12, 50, kore); /* Ion Storms */
+
+  buf += 600;
+  fwrite(buf, 4, 50, kore); /* Explosions */
+
+  buf += 200;
+  buf += 682; /* skip race.nm contents */
+  fwrite(buf, 78, 100, kore); /* UFO.HST contents */
+
+  buf += 7800;
+  fwrite(buf, 4, 1, kore); /* Signature "1121" or "1120" */
+
+  buf += 4;
+  ReadLong(nocontacts, buf);
+  buf -= 4;
+  fwrite(buf, 4, 1, kore); /* Nr of contacts */
+  if (nocontacts > 0) {
+    buf += 4;
+    fwrite(buf, 34, nocontacts, kore); /* contacts */
+  }
+
+  fclose(kore);
+} /* UnpackWinplan */
+
 void UnpackShipXY(char *player)
 /* 
  * Takes all visual ships from the result and stores them in
@@ -500,6 +548,7 @@ void DoUnpack(FILE *rst, char *player, int nr)
   UnpackTarget(player);
   UnpackShipXY(player);
   UnpackMess(player);
+  UnpackWinplan(player);
   UnpackGenPart2(player); /* OVERWRITES INTERNAL buf DATA!!!   Run last?
 			     (to be ran after Unpack-Ship,PData,BData) */
   fprintf(stdout, "Done!\n\n");
