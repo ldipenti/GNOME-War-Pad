@@ -170,7 +170,7 @@ gint gwp_engspec_get_fuel_usage_full (GwpEngSpec *self, gdouble dist,
     gdouble eta = dist / (speed * speed);
 
     gint usage = 0;
-    for (eta; eta >= 1.0; eta--) {
+    for (; eta >= 1.0; eta--) {
       usage = (mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000;
       mass -= usage;
       ret += usage;
