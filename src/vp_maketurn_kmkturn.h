@@ -24,6 +24,6 @@
 #  include <config.h>
 #endif
 
-int kmkturn_main (int argc, char *argv[]);
+int kmkturn_main (char *game_dir, int race, char *trn_dir);
 
 #endif

@@ -42,7 +42,7 @@
 #include "message-reader.h"
 #include "gwp-py-functions.h"
 #include "vcr.h"
-
+#include "vp_maketurn.h"
 
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
@@ -640,6 +640,30 @@ gboolean delete_event (GtkWidget *widget,
   /* Return true, so that the window is not destroyed. */
   gtk_widget_hide(widget);
   return TRUE;
+}
+
+/**
+ * Callback called when user wants to generate the TRN file.
+ *
+ */
+void on_maketurn_activate (GtkWidget *widget,
+			   gpointer user_data)
+{
+  gint commands;
+  GtkWidget *info;
+
+  dump_to_dat_files();
+  commands = vp_maketurn(gwp_game_state_get_dir(game_state),
+			 gwp_game_state_get_race_nr(game_state),
+			 gwp_game_state_get_trn_dir(game_state));
+      
+  info = gtk_message_dialog_new((GtkWindow*) gwp,
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_INFO,
+				GTK_BUTTONS_CLOSE,
+				g_strdup_printf(_("Turn ready!\n%d commands done."), commands));
+  gtk_dialog_run(GTK_DIALOG(info));
+  gtk_widget_destroy(info);
 }
 
 /*

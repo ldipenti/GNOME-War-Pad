@@ -113,6 +113,9 @@ gboolean delete_event (GtkWidget *widget,
 		       GdkEvent *event,
 		       gpointer data);
 
+void on_maketurn_activate (GtkWidget *widget,
+			   gpointer user_data);
+
 void on_game_close_activate (GtkWidget *widget,
 			     gpointer user_data);
 

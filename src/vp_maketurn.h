@@ -26,6 +26,6 @@
 
 #include <gnome.h>
 
-gint vp_maketurn (gchar *game_dir);
+gint vp_maketurn (gchar *game_dir, gint race, gchar *trn_dir);
 
 #endif

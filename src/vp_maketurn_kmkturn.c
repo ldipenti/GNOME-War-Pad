@@ -23,8 +23,8 @@ unsigned short inornot[11];	/* Player X in or not? (init.tmp) */
 unsigned char *trnbuf, *trnremember[11], *fizzremember;
 unsigned long size[11], cs[11];
 
-void MakeTurn (short p);
-void WriteTurns ();
+int MakeTurn (short p);
+void WriteTurns (int race, char *trn_dir);
 FILE *ResetPlayerFile (char *prefix, char *nr, char *suffix);
 long PerformCommands (short p);
 
@@ -120,18 +120,18 @@ ResetPlayerFile (prefix, nr, suffix)
   f = fopen (filename, "rb");
   if (f == NULL)
     {
-#ifdef test
-      fprintf (stderr, "No file %s, trying capital version...\n", filename);
-#endif
-      StrToUpper (prefix);
-      StrToUpper (suffix);
-      sprintf (filename, "%s%s%s.%s", gamedir, prefix, nr, suffix);
-      f = fopen (filename, "rb");
-      if (f == NULL)
-	{
+/* #ifdef test */
+/*       fprintf (stderr, "No file %s, trying capital version...\n", filename); */
+/* #endif */
+/*       StrToUpper (prefix); */
+/*       StrToUpper (suffix); */
+/*       sprintf (filename, "%s%s%s.%s", gamedir, prefix, nr, suffix); */
+/*       f = fopen (filename, "rb"); */
+/*       if (f == NULL) */
+/* 	{ */
 	  fprintf (stderr, "No file %s available!\n\n", filename);
 	  exit (-1);
-	}
+/* 	} */
     }
 #ifdef test
   fprintf (stderr, "Opened file %s\n", filename);
@@ -587,9 +587,9 @@ PerformCommands (p)
   return nocommands;
 }
 
-#undef newCommand(xxx)
+#undef newCommand
 
-void
+int
 MakeTurn (p)
      short p;
 {
@@ -630,9 +630,9 @@ MakeTurn (p)
   memcpy (trnbuf, buffer, 100);
   trnbuf += 100;
   /* User data */
-  memcpy (trnbuf, "This should be the username                       ", 50);
+  memcpy (trnbuf, "Client: Gnome War Pad -- The coolest VGAP client! ", 50);
   trnbuf += 50;
-  memcpy (trnbuf, "This should be the user address                   ", 50);
+  memcpy (trnbuf, "http://gwp.lunix.com.ar                           ", 50);
   trnbuf += 50;
   /* Rubbish padding */
   memset (buffer, 0, sizeof(buffer));
@@ -647,92 +647,67 @@ MakeTurn (p)
   for (i = 6; i < 24; i++)
     cs[p - 1] += (3 * trnremember[p - 1][i]);	/* timestamp 4x in checksum; Why, Tim? */
   WriteLong (cs[p - 1], trnbuf); /* Checksum 'X' from Stefan's filefmt.txt */
-  memcpy (trnbuf, "Kero", 4);	/* Personal touch */
+  memcpy (trnbuf, "GWPs", 4);	/* GWP's signature */
   trnbuf += 4;
   memcpy (trnbuf, fizzremember, sof);
   trnbuf += sof;
   size[p - 1] += 4 + 4 + sof;	/* checksum, "Kero" and fizz */
   free (player);
   fprintf (stdout, "Done!\n\n");
+
+  return nocommands;
 }
 
 void
-WriteTurns ()
+WriteTurns (int race, char *trn_dir)
 {
   FILE *trn = NULL;
   char *trnname = NULL;
   int i, j;
 
+  i = race - 1;
   /* 11 checksums (ALL races) for checking same-directory (host!) */
-  for (i = 0; i < 11; i++)
-    if (inornot[i])
-      {
-	trnbuf = trnremember[i];
-	trnbuf += size[i];
-	for (j = 0; j < 11; j++)
-	  {
-	    WriteLong (cs[j], trnbuf);
-	  }
-	size[i] += 4 * 11;
-	trnname = malloc (strlen (gamedir) + 6 + 2 + 4 + 1);
-	sprintf (trnname, "%splayer%d.trn", gamedir, i + 1);
-	trn = fopen (trnname, "wb");
-	fwrite (trnremember[i], size[i], 1, trn);
-	fclose (trn);
-	free (trnname);
-#ifdef test
-	fprintf (stderr, "player%d.trn written\n", i + 1);
-#endif
-      }
-    else
-      {
-#ifdef test
-	fprintf (stderr, "player %d does not play in game %s\n", i + 1,
-		 gamedir);
-#endif
-      }
+  trnbuf = trnremember[i];
+  trnbuf += size[i];
+  for (j = 0; j < 11; j++) {
+    WriteLong (cs[j], trnbuf);
+  }
+  size[i] += 4 * 11;
+  trnname = malloc (strlen (gamedir) + 6 + 2 + 4 + 1);
+  sprintf (trnname, "%s/player%d.trn", trn_dir, i + 1);
+  trn = fopen (trnname, "wb");
+  fwrite (trnremember[i], size[i], 1, trn);
+  fclose (trn);
+  free (trnname);
 }
 
 int
-kmkturn_main (argc, argv)
-     int argc;
-     char *argv[];
+kmkturn_main (char *game_dir, int race, char *trn_dir)
 {
-  FILE *init, *fizz;
-  short i;
+  FILE *fizz;
+  int commands_nr;
 
-  fprintf (stdout, "\nkmkturn %s made by Kero van Gelder, "
-	   "%s\n", version, email);
-  fprintf (stdout, "THE maketurn-utility for Tim wissemans VGA-planets.\n\n");
-  if (argc != 2)
-    {
-      fprintf (stderr, "Usage: kmkturn <gamedir>\n\n");
-      return (1);
-    }
-  SetPlanetsDir (argv[1]);
-  SetGameDir (argv[1]);
+  if (!game_dir) {
+    fprintf (stderr, "Usage: kmkturn <gamedir>\n\n");
+    return (-1);
+  }
+  SetPlanetsDir (game_dir);
+  SetGameDir (game_dir);
   GlobalInit ();
   fizz = ResetPlayerFile ("fizz", "", "bin");
   fizzremember = malloc (sof);
   fseek (fizz, 136, SEEK_SET);	/* The place where the registration part starts */
   fread (fizzremember, sof, 1, fizz);
   fclose (fizz);
-  init = ResetPlayerFile ("init", "", "tmp");
-  fread (inornot, 2, 11, init);
-  fclose (init);
-  for (i = 0; i < 11; i++)
-    {
-      if (inornot[i])
-	{
-	  SetPlayer (i + 1);
-	  PlayerioInit ();
-	  MakeTurn (i + 1);
-	}
-    }
-  WriteTurns ();
+
+  SetPlayer (race);
+  PlayerioInit();
+  commands_nr = MakeTurn (race);
+
+  WriteTurns (race, trn_dir);
   free (fizzremember);
 #ifdef test
   fprintf (stderr, "Really done now.\n");
 #endif
-  return (0);
+  return commands_nr;
 }

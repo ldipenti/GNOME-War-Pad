@@ -17,11 +17,12 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+
 #include "vp_maketurn.h"
 #include "vp_maketurn_kmkturn.h"
 
 gint
-vp_maketurn (gchar *game_dir)
+vp_maketurn (gchar *game_dir, gint race, gchar *trn_dir)
 {
-  return kmkturn_main (2, game_dir);
+  return kmkturn_main (game_dir, race, trn_dir);
 }

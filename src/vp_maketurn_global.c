@@ -13,6 +13,9 @@
 #include "vp_maketurn_misc.h"
 #include "vp_maketurn_global.h"
 
+void GlobalInit (void);
+void GlobalDone (void);
+
 static void
 ReadFile (fname, buf, count)
      char *fname;
