@@ -32,6 +32,8 @@ void vcrc_combat_start( combatdata *cdata )
 
   /* Hey Ho ... Let's GO */
   vcrc_fight( &battle );
+
+vcrc_print_summary( &battle, cdata );
 }
 
 
@@ -42,10 +44,13 @@ void vcrc_combat_start( combatdata *cdata )
  */
 void vcrc_prepare_for_battle( combatdata *cdata, battlefield *battle )
 {
+  struct timeval timenow;
+
   vcrc_log_str( "Preparing for Battle ...\n" );
 
-  /* start the random generation TODO (i know, i know)*/
-  srandom( 47110815 );
+  /* start the random generation */
+  gettimeofday( &timenow, NULL );
+  srandom( (unsigned int)( timenow.tv_sec + timenow.tv_usec ) );
 
   /* initialize the battlefield */
   battle->time = 0;
@@ -169,9 +174,9 @@ void vcrc_prepare_fighters( combatdata *cdata, battlefield *battle )
       battle->b.fighters.fighter[i].position = 0;
       battle->b.fighters.fighter[i].direction = 0;
       battle->b.fighters.fighter[i].speed = 0;
-      battle->a.fighters.fighter[i].shield = vcrc_get_shield_damage_for_fighter( battle->a.mass );
-      battle->a.fighters.fighter[i].hull = vcrc_get_hull_damage_for_fighter( battle->a.mass );
-      battle->a.fighters.fighter[i].crew = vcrc_get_crew_damage_for_fighter( battle->a.mass );
+      battle->b.fighters.fighter[i].shield = vcrc_get_shield_damage_for_fighter( battle->a.mass );
+      battle->b.fighters.fighter[i].hull = vcrc_get_hull_damage_for_fighter( battle->a.mass );
+      battle->b.fighters.fighter[i].crew = vcrc_get_crew_damage_for_fighter( battle->a.mass );
     }
     /* bays */
     for( i=0; i<battle->b.bays.number; i++ )
@@ -198,8 +203,8 @@ void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle )
   battle->a.tubes.number = cdata->a_nmb_tubes;
   for( i=0; i<cdata->a_nmb_tubes; i++ )
   {
-    battle->a.tubes.tube[i].reload = vcrc_get_reload_time_for_torp(   cdata->a_typ_torps );
-    battle->a.tubes.tube[i].fill   = vcrc_get_reload_time_for_torp(   cdata->a_typ_torps );
+    battle->a.tubes.tube[i].load   = vcrc_get_reload_time_for_torp(   cdata->a_typ_torps );
+    battle->a.tubes.tube[i].full   = vcrc_get_reload_time_for_torp(   cdata->a_typ_torps );
     battle->a.tubes.tube[i].shield = vcrc_get_shield_damage_for_torp( cdata->a_typ_torps, battle->b.mass );
     battle->a.tubes.tube[i].hull   = vcrc_get_hull_damage_for_torp(   cdata->a_typ_torps, battle->b.mass );
     battle->a.tubes.tube[i].crew   = vcrc_get_crew_damage_for_torp(   cdata->a_typ_torps, battle->b.mass );
@@ -209,8 +214,8 @@ void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle )
   battle->b.tubes.number = cdata->b_nmb_tubes;
   for( i=0; i<cdata->b_nmb_tubes; i++ )
   {
-    battle->b.tubes.tube[i].reload = vcrc_get_reload_time_for_torp(   cdata->b_typ_torps );
-    battle->b.tubes.tube[i].fill   = vcrc_get_reload_time_for_torp(   cdata->b_typ_torps );
+    battle->b.tubes.tube[i].load   = vcrc_get_reload_time_for_torp(   cdata->b_typ_torps );
+    battle->b.tubes.tube[i].full   = vcrc_get_reload_time_for_torp(   cdata->b_typ_torps );
     battle->b.tubes.tube[i].shield = vcrc_get_shield_damage_for_torp( cdata->b_typ_torps, battle->a.mass );
     battle->b.tubes.tube[i].hull   = vcrc_get_hull_damage_for_torp(   cdata->b_typ_torps, battle->a.mass );
     battle->b.tubes.tube[i].crew   = vcrc_get_crew_damage_for_torp(   cdata->b_typ_torps, battle->a.mass );
@@ -235,6 +240,7 @@ void vcrc_prepare_beams( combatdata *cdata, battlefield *battle )
   beamtype = cdata->a_typ_beams;
   for( i=0; i<cdata->a_nmb_beams; i++ )
   {
+    battle->a.beams.beam[i].type = cdata->a_typ_beams;
     if( cdata->a_shield == 100 )
       battle->a.beams.beam[i].fill = 100;
     else
@@ -268,6 +274,7 @@ void vcrc_prepare_beams( combatdata *cdata, battlefield *battle )
 
   for( i=0; i<battle->b.beams.number; i++ )
   {
+    battle->b.beams.beam[i].type = cdata->b_typ_beams;
     if( cdata->b_shield == 100 )
       battle->b.beams.beam[i].fill = 100;
     else
@@ -292,13 +299,57 @@ void vcrc_fight( battlefield *battle )
       && battle->a.hull > 0
       && battle->b.hull > 0 )
   {
+    vcrc_fight_reload_weapons( battle );
     vcrc_fight_move_platforms( battle );
     vcrc_fight_launch_fighters( battle );
-    vcrc_fight_move_fighters( battle );
-    vcrc_fight_attack_fighters( battle );
+    vcrc_fight_move_fighters( battle, VCRC_SIDE_A );
+    vcrc_fight_attack_fighters( battle, VCRC_SIDE_A );
+    vcrc_fight_move_fighters( battle, VCRC_SIDE_B );
+    vcrc_fight_attack_fighters( battle, VCRC_SIDE_B );
     vcrc_fight_attack_torpedos( battle );
     vcrc_fight_attack_beams( battle );
     battle->time++;
+  }
+}
+
+
+
+void vcrc_fight_reload_weapons( battlefield *battle )
+{
+  gint i;
+
+  /* side A */
+  for( i=0; i<battle->a.beams.number; i++ )
+  {
+    if( vcrc_rand( VCRC_CHANCE_BEAM_FILL_PER_M ) )
+    {
+      battle->a.beams.beam[i].fill += VCRC_AMOUNT_BEAM_FILL_PER_M;
+      if( battle->a.beams.beam[i].fill > 100 )
+        battle->a.beams.beam[i].fill = 100;
+    }
+  }
+  for( i=0; i<battle->a.tubes.number; i++ )
+  {
+    battle->a.tubes.tube[i].load++;
+    if( battle->a.tubes.tube[i].load > 100 )
+      battle->a.tubes.tube[i].load = 100;
+  }
+
+  /* side B */
+  for( i=0; i<battle->b.beams.number; i++ )
+  {
+    if( vcrc_rand( VCRC_CHANCE_BEAM_FILL_PER_M ) )
+    {
+      battle->b.beams.beam[i].fill += VCRC_AMOUNT_BEAM_FILL_PER_M;
+      if( battle->b.beams.beam[i].fill > 100 )
+        battle->b.beams.beam[i].fill = 100;
+    }
+  }
+  for( i=0; i<battle->b.tubes.number; i++ )
+  {
+    battle->b.tubes.tube[i].load++;
+    if( battle->b.tubes.tube[i].load > 100 )
+      battle->b.tubes.tube[i].load = 100;
   }
 }
 
@@ -323,64 +374,77 @@ void vcrc_fight_move_platforms( battlefield *battle )
 
 
 
-void vcrc_fight_move_fighters( battlefield *battle )
+void vcrc_fight_move_fighters( battlefield *battle, gint side )
 {
   gint i;
 
-  /* SIDE A */
-  for( i=0; i<battle->a.fighters.number; i++ )
+  switch( side )
   {
-    if( battle->a.fighters.fighter[i].launched )
-    {
-//g_print( "VCR-DEBUG: fighter %d moving from %d", i, battle->a.fighters.fighter[i].position );
-      /* move this fighter */
-      battle->a.fighters.fighter[i].position += battle->a.fighters.fighter[i].direction
-                                              * battle->a.fighters.fighter[i].speed;
+    case VCRC_SIDE_A:
+      /* SIDE A */
+      for( i=0; i<battle->a.fighters.number; i++ )
+      {
+        if( battle->a.fighters.fighter[i].launched )
+        {
+//g_print( "VCR-DEBUG: fighter a %d moving from %d", i, battle->a.fighters.fighter[i].position );
+          /* move this fighter */
+          battle->a.fighters.fighter[i].position += battle->a.fighters.fighter[i].direction
+                                                  * battle->a.fighters.fighter[i].speed;
 //g_print( " to %d\n", battle->a.fighters.fighter[i].position );
 
-      /* check if fighter has reached enemy platform and turns around */
-      if( battle->a.fighters.fighter[i].position > battle->b.position )
-      {
-//g_print( "VCR-DEBUG: fighter %d - turning\n", i );
-        battle->a.fighters.fighter[i].position = battle->b.position;
-        battle->a.fighters.fighter[i].direction *= ( -1 );
-      }
+          /* check if fighter has reached enemy platform and turns around */
+          if( battle->a.fighters.fighter[i].position > battle->b.position )
+          {
+//g_print( "VCR-DEBUG: fighter a %d - turning\n", i );
+            battle->a.fighters.fighter[i].position = battle->b.position;
+            battle->a.fighters.fighter[i].direction *= ( -1 );
+          }
 
-      /* check if fighter has returned to carrier */
-      if( battle->a.fighters.fighter[i].position <= battle->a.position &&
-          battle->a.fighters.fighter[i].direction * battle->a.direction < 0 )
-      {
-g_print( "VCR-DEBUG: fighter %d - landing\n", i );
-        battle->a.fighters.fighter[i].launched = FALSE;
-        battle->a.fighters.flying--;
+          /* check if fighter has returned to carrier */
+          if( battle->a.fighters.fighter[i].position <= battle->a.position &&
+              battle->a.fighters.fighter[i].direction * battle->a.direction < 0 )
+          {
+//g_print( "VCR-DEBUG: fighter a %d - landing\n", i );
+            battle->a.fighters.fighter[i].launched = FALSE;
+            battle->a.fighters.flying--;
+          }
+        }
       }
-    }
-  }
+      break;
 
-  /* SIDE B */
-  for( i=0; i<battle->b.fighters.number; i++ )
-  {
-    if( battle->b.fighters.fighter[i].launched )
-    {
-      /* move this fighter */
-      battle->b.fighters.fighter[i].position += battle->b.fighters.fighter[i].direction
-                                              * battle->b.fighters.fighter[i].speed;
-
-      /* check if fighter has reached enemy platform and turns around */
-      if( battle->b.fighters.fighter[i].position < battle->a.position )
+    case VCRC_SIDE_B:
+      /* SIDE B */
+      for( i=0; i<battle->b.fighters.number; i++ )
       {
-        battle->b.fighters.fighter[i].position = battle->b.position;
-        battle->b.fighters.fighter[i].direction *= ( -1 );
-      }
+        if( battle->b.fighters.fighter[i].launched )
+        {
+//g_print( "VCR-DEBUG: fighter b %d moving from %d", i, battle->b.fighters.fighter[i].position );
+          /* move this fighter */
+          battle->b.fighters.fighter[i].position += battle->b.fighters.fighter[i].direction
+                                                  * battle->b.fighters.fighter[i].speed;
+//g_print( " to %d\n", battle->b.fighters.fighter[i].position );
 
-      /* check if fighter has returned to carrier */
-      if( battle->b.fighters.fighter[i].position >= battle->b.position &&
-          battle->b.fighters.fighter[i].direction * battle->b.direction < 0 )
-      {
-        battle->b.fighters.fighter[i].launched = FALSE;
-        battle->b.fighters.flying--;
+          /* check if fighter has reached enemy platform and turns around */
+          if( battle->b.fighters.fighter[i].position < battle->a.position )
+          {
+//g_print( "VCR-DEBUG: fighter b %d - turning\n", i );
+            battle->b.fighters.fighter[i].position = battle->b.position;
+            battle->b.fighters.fighter[i].direction *= ( -1 );
+          }
+
+          /* check if fighter has returned to carrier */
+          if( battle->b.fighters.fighter[i].position >= battle->b.position &&
+              battle->b.fighters.fighter[i].direction * battle->b.direction < 0 )
+          {
+//g_print( "VCR-DEBUG: fighter b %d - landing\n", i );
+            battle->b.fighters.fighter[i].launched = FALSE;
+            battle->b.fighters.flying--;
+          }
+        }
       }
-    }
+      break;
+    default:
+      break;
   }
 }
 
@@ -403,7 +467,7 @@ void vcrc_fight_launch_fighters( battlefield *battle )
         i++;
       }
       /* launch this fighter */
-g_print( "VCR-DEBUG: fighter %d - launching at %d (time: %d)\n", i, battle->a.position, battle->time );
+//g_print( "VCR-DEBUG: fighter %d - launching at %d (time: %d)\n", i, battle->a.position, battle->time );
       battle->a.fighters.fighter[i].launched  = TRUE;
       battle->a.fighters.fighter[i].position  = battle->a.position;
       battle->a.fighters.fighter[i].direction = 1;
@@ -434,104 +498,115 @@ g_print( "VCR-DEBUG: fighter %d - launching at %d (time: %d)\n", i, battle->a.po
 
 
 
-void vcrc_fight_attack_fighters( battlefield *battle )
+void vcrc_fight_attack_fighters( battlefield *battle, gint side )
 {
   gint i, j, k, l;
 
-  /* side A */
-  i = 0;
-  j = battle->a.fighters.flying;
-  while( j>0 )
+  switch( side )
   {
-    if( battle->a.fighters.fighter[i].launched )
-    {
-      /* check for dogfight situation */
-      j--;
-      k = 0;
-      l = battle->b.fighters.flying;
-      while( l>0 )
+    case VCRC_SIDE_A:
+      /* side A */
+      i = 0;
+      j = battle->a.fighters.flying;
+      while( j>0 )
       {
-        if( battle->b.fighters.fighter[k].launched )
+        if( battle->a.fighters.fighter[i].launched )
         {
+          /* check for dogfight situation */
+          j--;
+          k = 0;
+          l = battle->b.fighters.flying;
+          while( l>0 )
+          {
+            if( battle->b.fighters.fighter[k].launched )
+            {
+              if( abs( battle->a.fighters.fighter[i].position -
+                       battle->b.fighters.fighter[k].position ) <= VCRC_RANGE_FIGHTER_FIGHTER )
+              {
+                /* two fighters, both launched, at same position */
+                if( vcrc_rand( VCRC_CHANCE_FIGHTER_HIT_FIGHTER ) )
+                {
+//g_message( "VCR-DEBUG: fighter A destroys fighter B at %d", battle->a.fighters.fighter[i].position );
+                  vcrc_fight_destroy_fighter( battle, VCRC_SIDE_B, k );
+                  l--;
+                } 
+              }
+            }
+            l--;
+          }
+          /* check for platform-attack */
           if( abs( battle->a.fighters.fighter[i].position -
-                   battle->b.fighters.fighter[k].position ) <= VCRC_RANGE_FIGHTER_FIGHTER )
+                   battle->b.position ) <= VCRC_RANGE_FIGHTER_SHIP
+              && ( battle->a.fighters.fighter[i].direction *
+                   battle->a.direction ) > 0 )
           {
-            /* two fighters, both launched, at same position */
-            if( vcrc_rand( VCRC_CHANCE_FIGHTER_HIT_FIGHTER ) )
+            /* approaching enemy platform and in range */
+            if( vcrc_rand( VCRC_CHANGE_FIGHTER_HIT_PLATFORM ) )
             {
-              vcrc_fight_destroy_fighter( battle, VCRC_SIDE_B, k );
-              l--;
-            } 
+//g_message( "VCR-DEBUG: fighter %d at %d (time %d) firing at %d", i, battle->a.fighters.fighter[i].position, battle->time, battle->b.position );
+              /* hit it */
+              vcrc_fight_hit( battle, VCRC_SIDE_B, 
+                              battle->a.fighters.fighter[i].shield,
+                              battle->a.fighters.fighter[i].hull,
+                              battle->a.fighters.fighter[i].crew );
+            }
           }
         }
-        l--;
+        i++;
       }
-      /* check for platform-attack */
-      if( abs( battle->a.fighters.fighter[i].position -
-               battle->b.position ) <= VCRC_RANGE_FIGHTER_SHIP
-          && ( battle->a.fighters.fighter[i].direction *
-               battle->a.direction ) > 0 )
-      {
-        /* approaching enemy platform and in range */
-        if( vcrc_rand( VCRC_CHANGE_FIGHTER_HIT_PLATFORM ) )
-        {
-g_message( "fighter %d at %d (time %d) firing at %d", i, battle->a.fighters.fighter[i].position, battle->time, battle->b.position );
-          /* hit it */
-          vcrc_fight_hit( battle, VCRC_SIDE_B, 
-                          battle->a.fighters.fighter[i].shield,
-                          battle->a.fighters.fighter[i].hull,
-                          battle->a.fighters.fighter[i].crew );
-        }
-      }
-    }
-    i++;
-  }
+      break;
 
-  /* side B */
-  i = 0;
-  j = battle->b.fighters.flying;
-  while( j>0 )
-  {
-    if( battle->b.fighters.fighter[i].launched )
-    {
-      /* check for dogfight situation */
-      j--;
-      k = 0;
-      l = battle->a.fighters.flying;
-      while( l>0 )
+    case VCRC_SIDE_B:
+      /* side B */
+      i = 0;
+      j = battle->b.fighters.flying;
+      while( j>0 )
       {
-        if( battle->a.fighters.fighter[k].launched )
+        if( battle->b.fighters.fighter[i].launched )
         {
-          if( abs( battle->b.fighters.fighter[i].position -
-                   battle->a.fighters.fighter[k].position ) <= VCRC_RANGE_FIGHTER_FIGHTER )
+          /* check for dogfight situation */
+          j--;
+          k = 0;
+          l = battle->a.fighters.flying;
+          while( l>0 )
           {
-            /* two fighters, both launched, at same position */
-            if( vcrc_rand( VCRC_CHANCE_FIGHTER_HIT_FIGHTER ) )
+            if( battle->a.fighters.fighter[k].launched )
             {
-              vcrc_fight_destroy_fighter( battle, VCRC_SIDE_A, k );
-              l--;
-            } 
+              if( abs( battle->b.fighters.fighter[i].position -
+                       battle->a.fighters.fighter[k].position ) <= VCRC_RANGE_FIGHTER_FIGHTER )
+              {
+                /* two fighters, both launched, at same position */
+                if( vcrc_rand( VCRC_CHANCE_FIGHTER_HIT_FIGHTER ) )
+                {
+//g_message( "VCR-DEBUG: fighter B destroys fighter A at %d", battle->b.fighters.fighter[i].position );
+                  vcrc_fight_destroy_fighter( battle, VCRC_SIDE_A, k );
+                  l--;
+                } 
+              }
+            }
+            l--;
+          }
+          if( abs( battle->b.fighters.fighter[i].position -
+                   battle->a.position ) <= VCRC_RANGE_FIGHTER_SHIP
+              && ( battle->b.fighters.fighter[i].direction *
+                   battle->b.direction ) > 0 )
+          {
+            /* approaching enemy platform and in range */
+            if( vcrc_rand( VCRC_CHANGE_FIGHTER_HIT_PLATFORM ) )
+            {
+              /* hit it */
+              vcrc_fight_hit( battle, VCRC_SIDE_A,
+                              battle->b.fighters.fighter[i].shield,
+                              battle->b.fighters.fighter[i].hull,
+                              battle->b.fighters.fighter[i].crew );
+            }
           }
         }
-        l--;
+        i++;
       }
-      if( abs( battle->b.fighters.fighter[i].position -
-               battle->a.position ) <= VCRC_RANGE_FIGHTER_SHIP
-          && ( battle->b.fighters.fighter[i].direction *
-               battle->b.direction ) > 0 )
-      {
-        /* approaching enemy platform and in range */
-        if( vcrc_rand( VCRC_CHANGE_FIGHTER_HIT_PLATFORM ) )
-        {
-          /* hit it */
-          vcrc_fight_hit( battle, VCRC_SIDE_A,
-                          battle->b.fighters.fighter[i].shield,
-                          battle->b.fighters.fighter[i].hull,
-                          battle->b.fighters.fighter[i].crew );
-        }
-      }
-    }
-    i++;
+      break;
+    default:
+      break;
   }
 }
 
@@ -539,13 +614,178 @@ g_message( "fighter %d at %d (time %d) firing at %d", i, battle->a.fighters.figh
 
 void vcrc_fight_attack_torpedos( battlefield *battle )
 {
+  gint i;
   /* side A */
+  if( battle->a.torps > 0 )
+  {
+    for( i=0; i<battle->a.tubes.number; i++ )
+    {
+      if( battle->a.tubes.tube[i].load >= battle->a.tubes.tube[i].full &&
+          abs( battle->a.position - battle->b.position ) <= VCRC_RANGE_TORP_SHIP )
+      {
+          battle->a.tubes.tube[i].load = 0;
+          battle->a.torps--;
+          if( vcrc_rand( VCRC_CHANCE_TORP_HIT_SHIP ) )
+            vcrc_fight_hit( battle, VCRC_SIDE_B,
+                            battle->a.tubes.tube[i].shield,
+                            battle->a.tubes.tube[i].hull,
+                            battle->a.tubes.tube[i].crew );
+      }
+    }
+  }
+
   /* side B */
+  if( battle->b.torps > 0 )
+  {
+    for( i=0; i<battle->b.tubes.number; i++ )
+    {
+      if( battle->b.tubes.tube[i].load >= battle->b.tubes.tube[i].full &&
+          abs( battle->b.position - battle->a.position ) <= VCRC_RANGE_TORP_SHIP )
+      {
+          battle->b.tubes.tube[i].load = 0;
+          battle->b.torps--;
+          if( vcrc_rand( VCRC_CHANCE_TORP_HIT_SHIP ) )
+            vcrc_fight_hit( battle, VCRC_SIDE_A,
+                            battle->b.tubes.tube[i].shield,
+                            battle->b.tubes.tube[i].hull,
+                            battle->b.tubes.tube[i].crew );
+      }
+    }
+  }
+
 }
+
+
+
 void vcrc_fight_attack_beams( battlefield *battle )
 {
+  gint i, j;
+  gboolean atfighter;
+
   /* side A */
+  for( i=0; i<battle->a.beams.number; i++ )
+  {
+    atfighter = FALSE;
+    /* ready to shoot at fighter? */
+    if( battle->a.beams.beam[i].fill >= VCRC_MIN_FILL_BEAM_FIGHTER )
+    {
+      /* search for launched enemy fighters */
+      for( j=0; j<battle->b.fighters.number; j++ )
+      {
+        if( battle->b.fighters.fighter[j].launched == 1 )
+        {
+          if( abs( battle->b.fighters.fighter[j].position - battle->a.position )
+              <= VCRC_RANGE_BEAM_FIGHTER )
+          {
+            if( vcrc_rand( VCRC_CHANCE_BEAM_FIRE_FIGHTER ) )
+            {
+              if( vcrc_rand( VCRC_CHANCE_BEAM_HIT_FIGHTER ) )
+                vcrc_fight_destroy_fighter( battle, VCRC_SIDE_B, j );
+              battle->a.beams.beam[i].fill = 0;
+            }
+            /* beam aims at enemy fighter, but this is the only chance to shoot */
+            atfighter = TRUE;
+            j = battle->b.fighters.number;
+          }
+        }
+      }
+    }
+    if( !atfighter )
+    {
+      /* try to shoot at enemy main platform */
+      if( battle->a.beams.beam[i].fill >= VCRC_MIN_FILL_BEAM_SHIP )
+      {
+        if( abs( battle->b.position - battle->a.position )
+            <= VCRC_RANGE_BEAM_FIGHTER )
+        {
+          if( vcrc_rand( VCRC_CHANCE_BEAM_FIRE_SHIP ) )
+          {
+            if( vcrc_rand( VCRC_CHANCE_BEAM_HIT_SHIP ) )
+            {
+              /* aimed at platform, shot, hit */
+//g_message( "VCR-DEBUG: (%d, %d) beam %d firing", battle->a.position, battle->time, i );
+              vcrc_fight_hit( battle, VCRC_SIDE_B,
+                              vcrc_get_shield_damage_for_beam(
+                                battle->a.beams.beam[i].type,
+                                battle->a.beams.beam[i].fill,
+                                battle->b.mass ),
+                              vcrc_get_hull_damage_for_beam(
+                                battle->a.beams.beam[i].type,
+                                battle->a.beams.beam[i].fill,
+                                battle->b.mass ),
+                              vcrc_get_crew_damage_for_beam(
+                                battle->a.beams.beam[i].type,
+                                battle->a.beams.beam[i].fill,
+                                battle->b.mass ) );
+            }
+            battle->a.beams.beam[i].fill = 0;
+          }
+        }
+      }
+    }
+  }
+
   /* side B */
+  for( i=0; i<battle->b.beams.number; i++ )
+  {
+    atfighter = FALSE;
+    /* ready to shoot at fighter? */
+    if( battle->b.beams.beam[i].fill >= VCRC_MIN_FILL_BEAM_FIGHTER )
+    {
+      /* search for launched enemy fighters */
+      for( j=0; j<battle->a.fighters.number; j++ )
+      {
+        if( battle->a.fighters.fighter[j].launched == 1 )
+        {
+          if( abs( battle->a.fighters.fighter[j].position - battle->b.position )
+              <= VCRC_RANGE_BEAM_FIGHTER )
+          {
+            if( vcrc_rand( VCRC_CHANCE_BEAM_FIRE_FIGHTER ) )
+            {
+              if( vcrc_rand( VCRC_CHANCE_BEAM_HIT_FIGHTER ) )
+                vcrc_fight_destroy_fighter( battle, VCRC_SIDE_A, j );
+              battle->b.beams.beam[i].fill = 0;
+            }
+            /* beam aims at enemy fighter, but this is the only chance to shoot */
+            atfighter = TRUE;
+            j = battle->a.fighters.number;
+          }
+        }
+      }
+    }
+    if( !atfighter )
+    {
+      /* try to shoot at enemy main platform */
+      if( battle->b.beams.beam[i].fill >= VCRC_MIN_FILL_BEAM_SHIP )
+      {
+        if( abs( battle->a.position - battle->b.position )
+            <= VCRC_RANGE_BEAM_FIGHTER )
+        {
+          if( vcrc_rand( VCRC_CHANCE_BEAM_FIRE_SHIP ) )
+          {
+            if( vcrc_rand( VCRC_CHANCE_BEAM_HIT_SHIP ) )
+            {
+              /* aimed at platform, shot, hit */
+              vcrc_fight_hit( battle, VCRC_SIDE_A,
+                              vcrc_get_shield_damage_for_beam(
+                                battle->b.beams.beam[i].type,
+                                battle->b.beams.beam[i].fill,
+                                battle->a.mass ),
+                              vcrc_get_hull_damage_for_beam(
+                                battle->b.beams.beam[i].type,
+                                battle->b.beams.beam[i].fill,
+                                battle->a.mass ),
+                              vcrc_get_crew_damage_for_beam(
+                                battle->b.beams.beam[i].type,
+                                battle->b.beams.beam[i].fill,
+                                battle->a.mass ) );
+            }
+            battle->b.beams.beam[i].fill = 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 
@@ -584,7 +824,43 @@ void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id )
  */
 void vcrc_fight_hit( battlefield *battle, gint side, gint sdam, gint hdam, gint cdam )
 {
-  g_message( "Damage inflicted on %d, [%d, %d, %d]", side, sdam, hdam, cdam );
+g_print( "VCR-DEBUG (%d): Damage inflicted on %d, [%d, %d, %d] .. ", battle->time, side, sdam, hdam, cdam );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      if( battle->a.shield > 0 )
+        battle->a.shield -= sdam;
+      else
+        battle->a.hull -= hdam;
+      battle->a.crew -= cdam;
+      /* clean up */
+      if( battle->a.shield < 0 ) battle->a.shield = 0;
+      if( battle->a.hull   < 0 ) battle->a.hull   = 0;
+      if( battle->a.crew   < 0 ) battle->a.crew   = 0;
+g_print( "[%d, %d, %d]\n", battle->a.shield, battle->a.hull, battle->a.crew );
+      break;
+    case VCRC_SIDE_B:
+      if( battle->b.shield > 0 )
+        battle->b.shield -= sdam;
+      else
+        battle->b.hull -= hdam;
+      battle->b.crew -= cdam;
+      /* clean up */
+      if( battle->b.shield < 0 ) battle->b.shield = 0;
+      if( battle->b.hull   < 0 ) battle->b.hull   = 0;
+      if( battle->b.crew   < 0 ) battle->b.crew   = 0;
+g_print( "[%d, %d, %d]\n", battle->b.shield, battle->b.hull, battle->b.crew );
+      break;
+    default:
+      break;
+  }
+
+  /* check for destruction */
+  if( battle->a.hull <= 0  ||
+      battle->a.crew <= 0  ||
+      battle->b.hull <= 0  ||
+      battle->b.crew <= 0 )
+      battle->time = VCRC_COMBAT_TIMEOUT;
 }
 
 
@@ -624,19 +900,20 @@ gint vcrc_get_shield_damage_for_torp( gint type, gint mass )
   gint p;
   switch( type )
   {
-    case 1:  p =  5;
-    case 2:  p =  8;
-    case 3:  p = 10;
-    case 4:  p =  2;
-    case 5:  p = 15;
-    case 6:  p = 30;
-    case 7:  p = 35;
-    case 8:  p = 40;
-    case 9:  p = 48;
-    case 10: p = 55;
+    case 1:  p =  5; break;
+    case 2:  p =  8; break;
+    case 3:  p = 10; break;
+    case 4:  p =  2; break;
+    case 5:  p = 15; break;
+    case 6:  p = 30; break;
+    case 7:  p = 35; break;
+    case 8:  p = 40; break;
+    case 9:  p = 48; break;
+    case 10: p = 55; break;
     default:
       g_message( "## Warning: VCR-Combat: one combatant seems to have invalid torpedo type (%d)", type );
       p = 1000;
+      break;
   }
   return( round( ( p * 160.0 )/( mass+1 ) ) + 1 );
 }
@@ -652,19 +929,20 @@ gint vcrc_get_hull_damage_for_torp( gint type, gint mass )
   gint p;
   switch( type )
   {
-    case 1:  p =  5;
-    case 2:  p =  8;
-    case 3:  p = 10;
-    case 4:  p =  2;
-    case 5:  p = 15;
-    case 6:  p = 30;
-    case 7:  p = 35;
-    case 8:  p = 40;
-    case 9:  p = 48;
-    case 10: p = 55;
+    case 1:  p =  5; break;
+    case 2:  p =  8; break;
+    case 3:  p = 10; break;
+    case 4:  p =  2; break;
+    case 5:  p = 15; break;
+    case 6:  p = 30; break;
+    case 7:  p = 35; break;
+    case 8:  p = 40; break;
+    case 9:  p = 48; break;
+    case 10: p = 55; break;
     default:
       g_message( "## Warning: VCR-Combat: one combatant seems to have invalid torpedo type (%d)", type );
       p = 1000;
+      break;
   }
   return( round( round( ( p* 160.0 )/( mass+1 ) + 1 ) * (( 80.0 )/( mass+1 )) ) + 1 );
 }
@@ -680,19 +958,20 @@ gint vcrc_get_crew_damage_for_torp( gint type, gint mass )
   gint p;
   switch( type )
   {
-    case 1:  p =  4;
-    case 2:  p =  6;
-    case 3:  p =  3;
-    case 4:  p = 15;
-    case 5:  p =  9;
-    case 6:  p = 13;
-    case 7:  p = 17;
-    case 8:  p = 23;
-    case 9:  p = 25;
-    case 10: p = 35;
+    case 1:  p =  4; break;
+    case 2:  p =  6; break;
+    case 3:  p =  3; break;
+    case 4:  p = 15; break;
+    case 5:  p =  9; break;
+    case 6:  p = 13; break;
+    case 7:  p = 17; break;
+    case 8:  p = 23; break;
+    case 9:  p = 25; break;
+    case 10: p = 35; break;
     default:
       g_message( "## Warning: VCR-Combat: one combatant seems to have invalid torpedo type (%d)", type );
       p = 1000;
+      break;
   }
   return( round(( p * 160.0 )/( mass+1 )) );
 }
@@ -708,21 +987,22 @@ gint vcrc_get_shield_damage_for_beam( gint type, gint fill, gint mass )
   gint p;
   switch( type )
   {
-    case 1:  p =  3;
-    case 2:  p =  1;
-    case 3:  p = 10;
-    case 4:  p = 25;
-    case 5:  p = 29;
-    case 6:  p = 20;
-    case 7:  p = 40;
-    case 8:  p = 35;
-    case 9:  p = 35;
-    case 10: p = 45;
+    case 1:  p =  3; break;
+    case 2:  p =  1; break;
+    case 3:  p = 10; break;
+    case 4:  p = 25; break;
+    case 5:  p = 29; break;
+    case 6:  p = 20; break;
+    case 7:  p = 40; break;
+    case 8:  p = 35; break;
+    case 9:  p = 35; break;
+    case 10: p = 45; break;
     default:
       g_message( "## Warning: VCR-Combat: one combatant seems to have invalid torpedo type (%d)", type );
       p = 1000;
+      break;
   }
-  return( round( ( round( p*fill ) * 80.0 )/( mass+1 ) ) + 1 );
+  return( round( ( round( (0.01*fill*p) ) * 80.0 )/( mass+1 ) ) + 1 );
 }
 
 
@@ -736,21 +1016,22 @@ gint vcrc_get_hull_damage_for_beam( gint type, gint fill, gint mass )
   gint p;
   switch( type )
   {
-    case 1:  p =  3;
-    case 2:  p =  1;
-    case 3:  p = 10;
-    case 4:  p = 25;
-    case 5:  p = 29;
-    case 6:  p = 20;
-    case 7:  p = 40;
-    case 8:  p = 35;
-    case 9:  p = 35;
-    case 10: p = 45;
+    case 1:  p =  3; break;
+    case 2:  p =  1; break;
+    case 3:  p = 10; break;
+    case 4:  p = 25; break;
+    case 5:  p = 29; break;
+    case 6:  p = 20; break;
+    case 7:  p = 40; break;
+    case 8:  p = 35; break;
+    case 9:  p = 35; break;
+    case 10: p = 45; break;
     default:
       g_message( "## Warning: VCR-Combat: one combatant seems to have invalid torpedo type (%d)", type );
       p = 1000;
+      break;
   }
-  return( round( round( ( round( p*fill ) * 80.0 )/( mass+1 ) + 1 ) * (( 80.0 )/( mass+1 )) ) + 1 );
+  return( round( round( ( round( (0.01*fill*p) ) * 80.0 )/( mass+1 ) + 1 ) * (( 80.0 )/( mass+1 )) ) + 1 );
 }
 
 
@@ -764,21 +1045,22 @@ gint vcrc_get_crew_damage_for_beam( gint type, gint fill, gint mass )
   gint p;
   switch( type )
   {
-    case 1:  p = 10;
-    case 2:  p = 15;
-    case 3:  p =  3;
-    case 4:  p = 10;
-    case 5:  p =  9;
-    case 6:  p = 30;
-    case 7:  p = 20;
-    case 8:  p = 30;
-    case 9:  p = 50;
-    case 10: p = 35;
+    case 1:  p = 10; break;
+    case 2:  p = 15; break;
+    case 3:  p =  3; break;
+    case 4:  p = 10; break;
+    case 5:  p =  9; break;
+    case 6:  p = 30; break;
+    case 7:  p = 20; break;
+    case 8:  p = 30; break;
+    case 9:  p = 50; break;
+    case 10: p = 35; break;
     default:
       g_message( "## Warning: VCR-Combat: one combatant seems to have invalid torpedo type (%d)", type );
       p = 1000;
+      break;
   }
-  return( round(( round( p*fill ) * 80.0 )/( mass+1 )) );
+  return( round(( round( (0.01*fill*p) ) * 80.0 )/( mass+1 )) );
 }
 
 
@@ -890,6 +1172,23 @@ g_message( "VCR-DEBUG: computed battlemasses: %d", mass );
   return( mass );
 }
 
+
+
+void vcrc_print_summary( battlefield *battle, combatdata *cdata )
+{
+  vcrc_log_str( "--- Summary ---\n" );
+  vcrc_log_str( "Side A: Shield   " ); vcrc_log_intn( cdata->a_shield     , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.shield          , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Hull     " ); vcrc_log_intn( cdata->a_hull       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.hull            , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Crew     " ); vcrc_log_intn( cdata->a_crew       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.crew            , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Fighters " ); vcrc_log_intn( cdata->a_nmb_fighter, 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.fighters.number , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Torpedos " ); vcrc_log_intn( cdata->a_nmb_torps  , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.torps           , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "Side B: Shield   " ); vcrc_log_intn( cdata->b_shield     , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.shield          , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Hull     " ); vcrc_log_intn( cdata->b_hull       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.hull            , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Crew     " ); vcrc_log_intn( cdata->b_crew       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.crew            , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Fighters " ); vcrc_log_intn( cdata->b_nmb_fighter, 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.fighters.number , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Torpedos " ); vcrc_log_intn( cdata->b_nmb_torps  , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.torps           , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "Side B Data is incorrect in case of planet/starbase fights\n" );
+}
 
 
 /*

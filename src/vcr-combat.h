@@ -4,6 +4,8 @@
 #include <gnome.h>
 #include <glib.h>
 #include <math.h>
+#include <sys/time.h>
+#include <stdio.h>
 
 /* global defines */
 #define VCRC_SIDE_A                         1
@@ -14,7 +16,7 @@
 #define VCRC_MAX_DISTANCE_SHIPS         58000
 #define VCRC_MAX_DISTANCE_PLANET        54000
 #define VCRC_MIN_DISTANCE_SHIPS          3000
-#define VCRC_COMBAT_TIMEOUT               190
+#define VCRC_COMBAT_TIMEOUT              2000
 
 /* ship/planet parameters */
 #define VCRC_MAX_NUMBER_TUBES              10
@@ -50,6 +52,7 @@
 
 typedef struct {
   gint fill;
+  gint type;
 } beamweapon;
 typedef struct {
   gint number;
@@ -57,8 +60,8 @@ typedef struct {
 } beamarray;
 
 typedef struct {
-  gint reload;
-  gint fill;
+  gint load;
+  gint full;
   gint shield;
   gint hull;
   gint crew;
@@ -159,10 +162,11 @@ void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle );
 void vcrc_prepare_beams( combatdata *cdata, battlefield *battle );
 
 void vcrc_fight( battlefield *battle );
+void vcrc_fight_reload_weapons( battlefield *battle );
 void vcrc_fight_move_platforms( battlefield *battle );
-void vcrc_fight_move_fighters( battlefield *battle );
+void vcrc_fight_move_fighters( battlefield *battle, gint side );
 void vcrc_fight_launch_fighters( battlefield *battle );
-void vcrc_fight_attack_fighters( battlefield *battle );
+void vcrc_fight_attack_fighters( battlefield *battle, gint side );
 void vcrc_fight_attack_torpedos( battlefield *battle );
 void vcrc_fight_attack_beams( battlefield *battle );
 void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id );
@@ -179,10 +183,10 @@ gint vcrc_get_shield_damage_for_fighter( gint mass );
 gint vcrc_get_hull_damage_for_fighter( gint mass );
 gint vcrc_get_crew_damage_for_fighter( gint mass );
 gint vcrc_get_engine_price( gint type );
-
 gint vcrc_get_planets_battlemass( combatdata *cdata );
 gint vcrc_get_ships_battlemass( combatdata *cdata, gint side );
 
+void vcrc_print_summary( battlefield *battle, combatdata *cdata );
 GtkTextBuffer *vcr_logging_textview_buffer;
 void init_log( void );
 void vcrc_print_combatants( combatdata *cdata );
