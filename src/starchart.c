@@ -1523,7 +1523,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     loaded = TRUE;
     pnames_group = starchart_get_grp_planet_names ();
     starchart = lookup_widget ("starchart");
-    group = gnome_canvas_root (GNOME_CANVAS (starchart));
+    group = starchart_get_grp_planets();
   }
 	
   planet = value;
