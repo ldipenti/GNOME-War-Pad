@@ -1,0 +1,87 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+  <!ENTITY dhfirstname "<firstname>Lucas</firstname>">
+  <!ENTITY dhsurname   "<surname>Di Pentima</surname>">
+  <!ENTITY dhdate      "<date>March 21, 2005</date>">
+  <!ENTITY dhsection   "<manvolnum>6</manvolnum>">
+  <!ENTITY dhemail     "<email>lucas@lunix.com.ar</email>">
+  <!ENTITY dhusername  "Lucas Di Pentima">
+  <!ENTITY dhucpackage "<refentrytitle>gwp</refentrytitle>">
+  <!ENTITY dhpackage   "gwp">
+  <!ENTITY debian      "<productname>Debian GNU/Linux</productname>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      &dhemail;
+    </address>
+    <author>
+      &dhfirstname;
+      &dhsurname;
+    </author>
+    <copyright>
+      <year>2005</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+
+    <refpurpose>is a VGA Planets client for GNOME.</refpurpose>
+
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+
+<para>GNOME War Pad is a VGA Planets client software, extensible with
+Python scripts.</para>
+
+<para>VGA Planets is a play-by-email space conquest strategy game, it
+can be played by 11 players max. This game is being played by strategy
+fanatics all over the world for some years now, is very addictive and
+there are several servers on the Internet that host various kinds of
+this games.</para>
+
+<para>There is plenty online documentationo the GNOME's Yelp help
+system, please execute &dhpackage; and press F1 for more
+information.</para>
+
+ </refsect1>
+  <refsect1>
+    <title>AUTHOR</title>
+
+    <para>This manual page was written by &dhusername; &dhemail; for
+      the &debian; system (but may be used by others).</para>
+
+  </refsect1>
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+sgml-set-face:non-nil
+End:
+-->

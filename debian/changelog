@@ -3,6 +3,5 @@ gwp (0.3.6-1) unstable; urgency=low
   * Upstream release 0.3.6
   * Debianization, closes: #300455
 
- -- Lucas Di Pentima <lucas@lunix.com.ar>  mar, 01 mar 2005 00:26:08 -0300
-
+ -- Lucas Di Pentima <lucas@lunix.com.ar>  Tue, 22 Mar 2005 07:49:00 -0300
 

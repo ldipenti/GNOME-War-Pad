@@ -2,6 +2,7 @@
 
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_INSTALL_MANPAGES_gwp := debian/gwp.6
 
 
 CFLAGS = -Wall -g
@@ -25,6 +26,7 @@ build: build-stamp
 build-stamp:  config.status
 	dh_testdir
 	$(MAKE)
+	/usr/bin/docbook-to-man debian/gwp.sgml > debian/gwp.6
 	touch build-stamp
 
 clean:
@@ -60,6 +62,7 @@ binary-arch: build install
 	dh_installdocs
 	dh_installexamples
 	dh_installmenu
+	dh_installman
 	dh_link
 	dh_strip
 	dh_compress

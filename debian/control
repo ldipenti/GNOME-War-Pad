@@ -9,8 +9,8 @@ Package: gwp
 Architecture: i386
 Section: contrib/games
 Priority: optional
-Depends: python-gtk2, python, python-glade2, ${shlibs:Depends}, ${misc:Depends}
-Description: A VGA Planets strategy game client for GNOME.
+Depends: python-gtk2, python, python-glade2, ${shlibs:Depends}
+Description: a VGA Planets strategy game client for GNOME
  GNOME War Pad is a VGA Planets client written in C for the GNOME
  desktop environment. It's design is very 'starchart centric',
  giving a global view of the game at all times.
@@ -18,3 +18,5 @@ Description: A VGA Planets strategy game client for GNOME.
  VGA Planets is a space conquest, play-by-email, strategy game
  that can be played by 11 players simultaneously, it's been
  played by strategy fanatics since the FidoNet times until now.
+ .
+ Homepage: http://gwp.lunix.com.ar
