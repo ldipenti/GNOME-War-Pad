@@ -853,6 +853,7 @@ void load_kore_data (void)
   gchar avc_buf[34]; /* Additional Visual Contacts buffer */
   gint32 target_nr;
   VpTargetReg target_reg, *tmp_target_reg;
+  gboolean do_warn = TRUE;
   gint i;
 
   kore_file_name = g_string_new (g_strdup_printf("kore%d.dat",
@@ -873,9 +874,14 @@ void load_kore_data (void)
 					 g_string_up (kore_file_name)->str), 
 		      "r");    
   }
+
+
+  g_object_get (game_state,
+		"warn-korefile", &do_warn,
+		NULL);
  
   /* If KOREx.DAT not found, warn the user but not quit */
-  if (!kore_dat) {
+  if (!kore_dat && do_warn) {
     GtkWidget *warn = NULL;
 
     warn = gwp_warning_dialog_new (game_mgr,
@@ -884,7 +890,12 @@ void load_kore_data (void)
 				   _("It seems that you use the DOS RST format. The missing file provides the data about ion storms and minefields, but couldn't be found in this case. This is not a fatal error, GWP will continue loading but this data won't appear on the game."));
     gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
-
+    
+    /* Don't warn the user again */
+    g_object_set (game_state, 
+		  "warn-korefile", FALSE,
+		  NULL);
+    
     g_message ("ERROR trying to open %s file.",
 	       gwp_game_state_get_full_path(game_state, kore_file_name->str));
     return;

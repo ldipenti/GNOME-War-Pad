@@ -41,6 +41,7 @@ enum {
   PROP_ION_STORMS,
   PROP_CONSTELLATIONS,
   PROP_GRID,
+  PROP_WARN_KOREFILE, 
 };
 
 /*
@@ -70,6 +71,8 @@ struct _GwpGameStatePrivate {
   gboolean ion_storms;
   gboolean constellations;
   gboolean grid;
+  gboolean warn_korefile; /**< Give the user a warning about missing 
+			     KOREx.DAT. TRUE means warn the user. */
 #ifdef USE_PYTHON
   /* Pointer to Python object: PluginManager */
   void *plugin_mgr;
@@ -134,6 +137,9 @@ gwp_game_state_set_property (GObject      *object,
   case PROP_CONSTELLATIONS:
     self->priv->constellations = g_value_get_boolean (value);
     break;
+  case PROP_WARN_KOREFILE:
+    self->priv->warn_korefile = g_value_get_boolean (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -173,6 +179,9 @@ gwp_game_state_get_property (GObject    *object,
   case PROP_CONSTELLATIONS:
     g_value_set_boolean (value, self->priv->constellations);
     break;
+  case PROP_WARN_KOREFILE:
+    g_value_set_boolean (value, self->priv->warn_korefile);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -205,6 +214,7 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->planet_names = TRUE;
   self->priv->grid = TRUE;
   self->priv->constellations = TRUE;
+  self->priv->warn_korefile = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
@@ -302,6 +312,13 @@ gwp_game_state_class_init (GwpGameStateClass *klass)
 				   g_param_spec_boolean ("constellations",
 							 "Constellations",
 							 "Whether show the constellations or not",
+							 TRUE,
+							 G_PARAM_READWRITE));
+
+  g_object_class_install_property (gobject_class, PROP_WARN_KOREFILE,
+				   g_param_spec_boolean ("warn-korefile",
+							 "Warn-Korefile",
+							 "Whether warn the user about the missing kore file or not",
 							 TRUE,
 							 G_PARAM_READWRITE));
 }
