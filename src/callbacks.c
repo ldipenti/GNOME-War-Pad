@@ -516,7 +516,7 @@ void on_about_activate(GtkWidget *widget)
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
-				_("\302\251 2002-2004 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
+				_("(C) 2002-2004 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
 				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
 				(const gchar **)authors,
 				(const gchar **)documenters,

@@ -596,9 +596,9 @@ void update_ship_panel_with (GwpShip *ship)
     gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
     gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
     if (h == 1) {
-      tmp = g_strdup_printf(_("%d\302\260 (%s)"), h, hstr);
+      tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
     } else {
-      tmp = g_strdup_printf(_("%d\302\260 (%s)"), h, hstr);
+      tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
     }
     gtk_label_set_text(heading, tmp);
     g_free(tmp);

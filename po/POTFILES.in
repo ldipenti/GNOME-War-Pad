@@ -4,10 +4,8 @@ src/callbacks.c
 src/support.c
 src/main.c
 src/game_state.c
-src/planet.c
-src/ship.c
-src/starchart.c
 src/gwp_types.c
+src/starchart.c
 src/vp_utils.c
 src/game_mgr.c
 src/vp_unpack.c
@@ -18,4 +16,4 @@ src/gwp-flying-object.c
 src/gwp-ship.c
 src/gwp-planet.c
 src/gwp-starbase.c
-src/base.c
+src/gwp-location.c
