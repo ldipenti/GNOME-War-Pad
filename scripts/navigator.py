@@ -112,8 +112,8 @@ class PluginNavigator(gwp.Plugin):
         self.details_table = self.__create_details_table()
         # additions
         self.vbox.pack_start(self.list_scroll, gtk.TRUE, gtk.TRUE, 0)
-        self.vbox.pack_start(self.details_btn, gtk.FALSE, gtk.TRUE, 0)
         self.vbox.pack_start(self.details_frame, gtk.FALSE, gtk.TRUE, 0)
+        self.vbox.pack_start(self.details_btn, gtk.FALSE, gtk.TRUE, 0)
         self.details_frame.add(self.details_table)
         self.list_scroll.add(self.list)
         self.window.add(self.vbox)
