@@ -134,15 +134,15 @@ class Quark(gwp.Plugin):
 
                 limit = p.get_col_growth_limit()
                 tax, max_i = self.calculate_max_income_from_natives(p)
-                #print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
+                print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
                 if (max_i < limit) or (max_i == 0):
                     # No interesa la temp, cobro poco
-                    #print "Cobro poco"
+                    print "Cobro poco"
                     return 0
                 else:
                     # La $$ cobrada es limitada por la temperatura
                     terraformado = p.copy()
-                    #print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
+                    print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
                     while max_i > limit:
                         if (terraformado.get_temperature_f() < 50):
                             terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
@@ -306,7 +306,7 @@ class Quark(gwp.Plugin):
                 if  (hap_dif >= 0) and  (limit >= income):
                     tax += 1
                 else:
-                    if hap_dif >= 0:
+                    if hap_dif < 0:
                         tax -= 1
                     future_p.set_tax_natives(tax)
                     income = future_p.get_tax_collected_natives()
@@ -461,7 +461,7 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------
     def notify(self, objeto, event):
         if (event == 'plugin-registered') and (objeto.name == 'Notification Area'):
-            #self.inicializar_interfaces() # Enlaza el notification area
+            self.inicializar_interfaces() # Enlaza el notification area
             pass
         if (event == 'plugin-unregistered') and (objeto.name == 'Notification Area'):
             self.destruir_interfaces()
