@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-18 15:28-0300\n"
+"POT-Creation-Date: 2003-06-23 03:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,283 +216,295 @@ msgid "Host Type: "
 msgstr ""
 
 #: src/gwp.glade.h:51
-msgid "Misc"
+msgid "Mini SC"
 msgstr ""
 
 #: src/gwp.glade.h:52
-msgid "NUK"
+msgid "Misc"
 msgstr ""
 
 #: src/gwp.glade.h:53
-msgid "New Game"
+msgid "NUK"
 msgstr ""
 
 #: src/gwp.glade.h:54
-msgid "Online Help"
+msgid "New Game"
 msgstr ""
 
 #: src/gwp.glade.h:55
-msgid "PHost"
+msgid "Online Help"
 msgstr ""
 
 #: src/gwp.glade.h:56
-msgid "Planet"
+msgid "PHost"
 msgstr ""
 
 #: src/gwp.glade.h:57
-msgid "Planet Detail"
+msgid "Planet"
 msgstr ""
 
 #: src/gwp.glade.h:58
-msgid "Play Game"
+msgid "Planet Detail"
 msgstr ""
 
 #: src/gwp.glade.h:59
-msgid "Play Selected Game"
+msgid "Play Game"
 msgstr ""
 
 #: src/gwp.glade.h:60
-msgid "Player Email: "
+msgid "Play Selected Game"
 msgstr ""
 
 #: src/gwp.glade.h:61
-msgid "Population"
+msgid "Player Email: "
 msgstr ""
 
 #: src/gwp.glade.h:62
-msgid "RST Dir: "
+msgid "Population"
 msgstr ""
 
 #: src/gwp.glade.h:63
-msgid "Race Name: "
+msgid "RST Dir: "
 msgstr ""
 
 #: src/gwp.glade.h:64
-msgid "Race selected"
+msgid "Race Name: "
 msgstr ""
 
 #: src/gwp.glade.h:65
+msgid "Race selected"
+msgstr ""
+
+#: src/gwp.glade.h:66
 msgid ""
 "Races available at this particular game directory, pick one by clicking on it"
 msgstr ""
 
-#: src/gwp.glade.h:66
+#: src/gwp.glade.h:67
 msgid "Resources"
 msgstr ""
 
-#: src/gwp.glade.h:67
+#: src/gwp.glade.h:68
 msgid "Resources (kT)"
 msgstr ""
 
-#: src/gwp.glade.h:68
+#: src/gwp.glade.h:69
 msgid "Select RST directory"
 msgstr ""
 
-#: src/gwp.glade.h:69
+#: src/gwp.glade.h:70
 msgid "Select TRN directory"
 msgstr ""
 
-#: src/gwp.glade.h:70
+#: src/gwp.glade.h:71
 msgid "Select game directory"
 msgstr ""
 
-#: src/gwp.glade.h:71
+#: src/gwp.glade.h:72
 msgid "Select if you want to edit this game's properties"
 msgstr ""
 
-#: src/gwp.glade.h:72
+#: src/gwp.glade.h:73
 msgid "Select if you want to play this game"
 msgstr ""
 
-#: src/gwp.glade.h:73
+#: src/gwp.glade.h:74
 msgid "Select this if the game is hosted by a PHost (alternative) host type"
 msgstr ""
 
-#: src/gwp.glade.h:74
+#: src/gwp.glade.h:75
 msgid "Select this if the game is hosted by a THost (classic) host type"
 msgstr ""
 
-#: src/gwp.glade.h:75
+#: src/gwp.glade.h:76
 msgid "Setup a new game"
 msgstr ""
 
-#: src/gwp.glade.h:76
+#: src/gwp.glade.h:77
 msgid "Ship Data"
 msgstr ""
 
-#: src/gwp.glade.h:77
+#: src/gwp.glade.h:78
 msgid "Ships"
 msgstr ""
 
-#: src/gwp.glade.h:78
+#: src/gwp.glade.h:79
 msgid "Starbase"
 msgstr ""
 
-#: src/gwp.glade.h:79
+#: src/gwp.glade.h:80
 msgid "Starbase Detail"
 msgstr ""
 
-#: src/gwp.glade.h:80
+#: src/gwp.glade.h:81
 msgid "Starchart"
 msgstr ""
 
-#: src/gwp.glade.h:81
+#: src/gwp.glade.h:82
 msgid "Starship"
 msgstr ""
 
-#: src/gwp.glade.h:82
+#: src/gwp.glade.h:83
 msgid "THost"
 msgstr ""
 
-#: src/gwp.glade.h:83
+#: src/gwp.glade.h:84
 msgid "TRN Dir: "
 msgstr ""
 
-#: src/gwp.glade.h:84
+#: src/gwp.glade.h:85
 msgid "Taxes"
 msgstr ""
 
-#: src/gwp.glade.h:85
+#: src/gwp.glade.h:86
 msgid "The directory where GWP will save its turns"
 msgstr ""
 
-#: src/gwp.glade.h:86
+#: src/gwp.glade.h:87
 msgid "The directory where GWP will search for host results"
 msgstr ""
 
-#: src/gwp.glade.h:87
+#: src/gwp.glade.h:88
 msgid "The host's email address, to send your turns"
 msgstr ""
 
-#: src/gwp.glade.h:88
+#: src/gwp.glade.h:89
 msgid "The label this game will have in the game manager"
 msgstr ""
 
-#: src/gwp.glade.h:89
-msgid "Unpack the new RST file"
-msgstr ""
-
 #: src/gwp.glade.h:90
-msgid "Where the game data files reside"
+msgid "Toggle toolbar"
 msgstr ""
 
 #: src/gwp.glade.h:91
-msgid "X"
+msgid "Unpack the new RST file"
 msgstr ""
 
 #: src/gwp.glade.h:92
-msgid "Y"
+msgid "Where the game data files reside"
 msgstr ""
 
 #: src/gwp.glade.h:93
-msgid "Your email address, to send your turns to the host"
+msgid "X"
 msgstr ""
 
 #: src/gwp.glade.h:94
-msgid "Zoom in"
+msgid "Y"
 msgstr ""
 
 #: src/gwp.glade.h:95
-msgid "Zoom out"
+msgid "Your email address, to send your turns to the host"
 msgstr ""
 
 #: src/gwp.glade.h:96
-msgid "_Delete"
+msgid "Zoom in"
 msgstr ""
 
 #: src/gwp.glade.h:97
-msgid "_Delete Game"
+msgid "Zoom out"
 msgstr ""
 
 #: src/gwp.glade.h:98
-msgid "_Edit"
+msgid "_Delete"
 msgstr ""
 
 #: src/gwp.glade.h:99
-msgid "_Edit Game"
+msgid "_Delete Game"
 msgstr ""
 
 #: src/gwp.glade.h:100
-msgid "_New"
+msgid "_Edit"
 msgstr ""
 
 #: src/gwp.glade.h:101
-msgid "_New Game"
+msgid "_Edit Game"
 msgstr ""
 
 #: src/gwp.glade.h:102
-msgid "_Online Help"
+msgid "_New"
 msgstr ""
 
 #: src/gwp.glade.h:103
-msgid "_Play"
+msgid "_New Game"
 msgstr ""
 
 #: src/gwp.glade.h:104
-msgid "_Play Game"
+msgid "_Online Help"
 msgstr ""
 
 #: src/gwp.glade.h:105
-msgid "_Random"
+msgid "_Play"
 msgstr ""
 
 #: src/gwp.glade.h:106
+msgid "_Play Game"
+msgstr ""
+
+#: src/gwp.glade.h:107
+msgid "_Random"
+msgstr ""
+
+#: src/gwp.glade.h:108
+msgid "_Toolbar"
+msgstr ""
+
+#: src/gwp.glade.h:109
 msgid "_Unpack"
 msgstr ""
 
-#: src/gwp.glade.h:107 src/planet.c:296 src/ship.c:141 src/starchart.c:356
-#: src/starchart.c:357 src/starchart.c:358 src/starchart.c:359
-#: src/starchart.c:361 src/starchart.c:362 src/starchart.c:363
-#: src/starchart.c:364 src/starchart.c:365 src/starchart.c:367
-#: src/starchart.c:368 src/starchart.c:369 src/starchart.c:370
-#: src/starchart.c:371 src/starchart.c:372
+#: src/gwp.glade.h:110 src/planet.c:296 src/ship.c:141 src/starchart.c:357
+#: src/starchart.c:358 src/starchart.c:359 src/starchart.c:360
+#: src/starchart.c:362 src/starchart.c:363 src/starchart.c:364
+#: src/starchart.c:365 src/starchart.c:366 src/starchart.c:368
+#: src/starchart.c:369 src/starchart.c:370 src/starchart.c:371
+#: src/starchart.c:372 src/starchart.c:373
 msgid "n/a"
 msgstr ""
 
-#: src/gwp.glade.h:109 src/starchart.c:184 src/starchart.c:189
-#: src/starchart.c:194 src/starchart.c:199
+#: src/gwp.glade.h:112 src/starchart.c:185 src/starchart.c:190
+#: src/starchart.c:195 src/starchart.c:200
 #, no-c-format
 msgid "n/a %"
 msgstr ""
 
-#: src/gwp.glade.h:110 src/starchart.c:209 src/starchart.c:210
+#: src/gwp.glade.h:113 src/starchart.c:210 src/starchart.c:211
 msgid "n/a MC"
 msgstr ""
 
-#: src/gwp.glade.h:111 src/starchart.c:182 src/starchart.c:187
-#: src/starchart.c:192 src/starchart.c:197
+#: src/gwp.glade.h:114 src/starchart.c:183 src/starchart.c:188
+#: src/starchart.c:193 src/starchart.c:198
 msgid "n/a kT"
 msgstr ""
 
-#: src/gwp.glade.h:112 src/starchart.c:204 src/starchart.c:205
-#: src/starchart.c:206 src/starchart.c:207
+#: src/gwp.glade.h:115 src/starchart.c:205 src/starchart.c:206
+#: src/starchart.c:207 src/starchart.c:208
 msgid "n/a kT/turn"
 msgstr ""
 
-#: src/callbacks.c:248
+#: src/callbacks.c:252
 msgid "New Game Properties"
 msgstr ""
 
-#: src/callbacks.c:371
+#: src/callbacks.c:375
 msgid "Edit Game Properties"
 msgstr ""
 
-#: src/callbacks.c:392
+#: src/callbacks.c:396
 msgid "Oops! there is some problem with this game"
 msgstr ""
 
-#: src/callbacks.c:426
+#: src/callbacks.c:430
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr ""
 
-#: src/callbacks.c:488
+#: src/callbacks.c:492
 msgid ""
 "(c) 2002,2003 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
 msgstr ""
 
-#: src/callbacks.c:489
+#: src/callbacks.c:493
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
@@ -599,8 +611,8 @@ msgstr ""
 msgid "arctic"
 msgstr ""
 
-#: src/starchart.c:100 src/starchart.c:116 src/starchart.c:132
-#: src/starchart.c:148
+#: src/starchart.c:101 src/starchart.c:117 src/starchart.c:133
+#: src/starchart.c:149
 #, c-format
 msgid "%d kT/turn"
 msgstr ""
