@@ -54,7 +54,6 @@ static gint32 getDWord(guchar* p);
 void init_data (void)
 {
   /* Game state initializations */
-  gwp_game_state_set_starchart_zoom (game_state, 1.0);
   gwp_game_state_set_pnames (game_state, load_pnames_file(PNAMES));
 
   target_list = load_target (gwp_game_state_get_race(game_state));
