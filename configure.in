@@ -1,9 +1,9 @@
 AC_PREREQ(2.52)
-AC_INIT(GNOME War Pad, 9.8.7, lucas@lunix.com.ar)
+AC_INIT(GNOME War Pad, 0.2.13, lucas@lunix.com.ar)
 
 AM_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gwp, 9.8.7)
+AM_INIT_AUTOMAKE(gwp, 0.2.13)
 
 AM_MAINTAINER_MODE
 AC_PROG_INTLTOOL
