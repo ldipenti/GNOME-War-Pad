@@ -873,7 +873,7 @@ void load_kore_data (void)
     warn = gwp_warning_dialog_new (game_mgr,
 				   g_strdup_printf(_("KORE%d.DAT not found, some data will be missing."), 
 						   gwp_game_state_get_race(game_state)),
-				   _("This file provides the data about ion storms and minefields, but couldn't be found in this case. This is not a fatal error, GWP will continue loading but this data won't appear on the game."));
+				   _("It seems that you use the DOS RST format. The missing file provides the data about ion storms and minefields, but couldn't be found in this case. This is not a fatal error, GWP will continue loading but this data won't appear on the game."));
     gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
 
