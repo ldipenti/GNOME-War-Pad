@@ -206,6 +206,7 @@ pixmaps/Makefile
 pixmaps/planets/Makefile
 pixmaps/ships/Makefile
 pixmaps/races/Makefile
+pixmaps/vcr-textures/Makefile
 scripts/Makefile
 gwp.desktop
 ])

@@ -31,6 +31,7 @@
 #define GWP_SCRIPTS_DIR DATADIR"/gwp/scripts"
 #define GWP_IMAGES_DIR DATADIR"/pixmaps/gwp/images"
 #define GWP_RACE_ICONS_DIR DATADIR"/pixmaps/gwp/races"
+#define GWP_VCR_TEXTURES_DIR DATADIR"/pixmaps/gwp/vcr-textures"
 
 /* 
  * Defines

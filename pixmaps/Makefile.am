@@ -1,4 +1,4 @@
-SUBDIRS = planets ships races
+SUBDIRS = planets ships races vcr-textures
 
 EXTRA_DIST = \
 		gwp_splash.png\
