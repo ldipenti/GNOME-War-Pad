@@ -14,6 +14,13 @@
   (gtype-id "GWP_TYPE_ENG_SPEC")
 )
 
+(define-object GameState
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpGameState")
+  (gtype-id "GWP_TYPE_GAME_STATE")
+)
+
 (define-object HullSpec
   (in-module "Gwp")
   (parent "GObject")
@@ -3118,6 +3125,11 @@
   )
 )
 
+(define-function get_game_state
+  (c-name "get_game_state")
+  (return-type "GwpGameState*")
+)
+
 (define-function ship_get_list
   (c-name "ship_get_list")
   (return-type "GSList*")
@@ -3490,6 +3502,373 @@
   (parameters
     '("GwpObject*" "obj")
   )
+)
+
+
+
+;; From src/gwp-game-state.h
+
+(define-function gwp_game_state_get_type
+  (c-name "gwp_game_state_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_game_state_new
+  (c-name "gwp_game_state_new")
+  (is-constructor-of "GwpGameState")
+  (return-type "GwpGameState*")
+)
+
+(define-method postinit
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_postinit")
+  (return-type "none")
+)
+
+(define-method get_full_path
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_full_path")
+  (return-type "gchar*")
+  (parameters
+    '("gchar*" "filename")
+  )
+)
+
+(define-method set_last_coords
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_last_coords")
+  (return-type "none")
+  (parameters
+    '("gint16" "x")
+    '("gint16" "y")
+  )
+)
+
+(define-method set_name
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_name")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-method get_name
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_name")
+  (return-type "const-gchar*")
+)
+
+(define-method set_dir
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_dir")
+  (return-type "none")
+  (parameters
+    '("gchar*" "dir")
+  )
+)
+
+(define-method get_dir
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_dir")
+  (return-type "gchar*")
+)
+
+(define-method set_starchart_zoom
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_starchart_zoom")
+  (return-type "none")
+  (parameters
+    '("gdouble" "zoom")
+  )
+)
+
+(define-method get_starchart_zoom
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_starchart_zoom")
+  (return-type "gdouble")
+)
+
+(define-method set_race
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_race")
+  (return-type "none")
+  (parameters
+    '("gint" "race_num")
+  )
+)
+
+(define-method get_race_nr
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_race_nr")
+  (return-type "gint")
+)
+
+(define-method set_last_x_coord
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_last_x_coord")
+  (return-type "none")
+  (parameters
+    '("gint" "x")
+  )
+)
+
+(define-method get_last_x_coord
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_last_x_coord")
+  (return-type "gint16")
+)
+
+(define-method set_last_y_coord
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_last_y_coord")
+  (return-type "none")
+  (parameters
+    '("gint" "y")
+  )
+)
+
+(define-method get_last_y_coord
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_last_y_coord")
+  (return-type "gint16")
+)
+
+(define-method set_pnames
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_pnames")
+  (return-type "none")
+  (parameters
+    '("GList*" "pnames")
+  )
+)
+
+(define-method get_pnames
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_pnames")
+  (return-type "GList*")
+)
+
+(define-method set_turn_number
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_turn_number")
+  (return-type "none")
+  (parameters
+    '("gint" "turn")
+  )
+)
+
+(define-method get_turn_number
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_turn_number")
+  (return-type "gint")
+)
+
+(define-method set_player_email
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_player_email")
+  (return-type "none")
+  (parameters
+    '("gchar*" "pe")
+  )
+)
+
+(define-method get_player_email
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_player_email")
+  (return-type "gchar*")
+)
+
+(define-method set_host_email
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_email")
+  (return-type "none")
+  (parameters
+    '("gchar*" "he")
+  )
+)
+
+(define-method get_host_email
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_email")
+  (return-type "gchar*")
+)
+
+(define-method set_trn_dir
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_trn_dir")
+  (return-type "none")
+  (parameters
+    '("gchar*" "dir")
+  )
+)
+
+(define-method get_trn_dir
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_trn_dir")
+  (return-type "gchar*")
+)
+
+(define-method set_rst_dir
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_rst_dir")
+  (return-type "none")
+  (parameters
+    '("gchar*" "dir")
+  )
+)
+
+(define-method get_rst_dir
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_rst_dir")
+  (return-type "gchar*")
+)
+
+(define-method set_host_type
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_type")
+  (return-type "none")
+  (parameters
+    '("gint" "type")
+  )
+)
+
+(define-method get_host_type
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_type")
+  (return-type "gint")
+)
+
+(define-method set_planet_names
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_planet_names")
+  (return-type "none")
+  (parameters
+    '("gboolean" "show")
+  )
+)
+
+(define-method get_planet_names
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_planet_names")
+  (return-type "gboolean")
+)
+
+(define-method set_scanner_area
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_scanner_area")
+  (return-type "none")
+  (parameters
+    '("gboolean" "show")
+  )
+)
+
+(define-method get_scanner_area
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_scanner_area")
+  (return-type "gboolean")
+)
+
+(define-method set_minefields
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_minefields")
+  (return-type "none")
+  (parameters
+    '("gboolean" "show")
+  )
+)
+
+(define-method get_minefields
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_minefields")
+  (return-type "gboolean")
+)
+
+(define-method set_ion_storms
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_ion_storms")
+  (return-type "none")
+  (parameters
+    '("gboolean" "show")
+  )
+)
+
+(define-method get_ion_storms
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_ion_storms")
+  (return-type "gboolean")
+)
+
+(define-method set_extra_panel_open
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_extra_panel_open")
+  (return-type "none")
+  (parameters
+    '("gboolean" "show")
+  )
+)
+
+(define-method get_extra_panel_open
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_extra_panel_open")
+  (return-type "gboolean")
+)
+
+(define-method set_plugin_mgr
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_plugin_mgr")
+  (return-type "none")
+  (parameters
+    '("void*" "obj")
+  )
+)
+
+(define-method get_plugin_mgr
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_plugin_mgr")
+  (return-type "void*")
+)
+
+(define-method get_selected_planet
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_selected_planet")
+  (return-type "gint")
+)
+
+(define-method get_selected_ship
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_selected_ship")
+  (return-type "gint")
+)
+
+(define-method get_host_mining_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mining_rate")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method get_host_tax_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_tax_rate")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method get_host_ships_visible_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ships_visible_range")
+  (return-type "gint")
+)
+
+(define-method get_host_sensors_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_sensors_range")
+  (return-type "gint")
 )
 
 

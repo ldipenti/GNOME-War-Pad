@@ -48,4 +48,10 @@ GwpPlanet * planet_get_by_id (gint id)
   return gwp_planet_get (planet_list, id);
 }
 
+/* GwpGameState reachable by plugins */
+GwpGameState * get_game_state (void)
+{
+  return game_state;
+}
+
 #endif

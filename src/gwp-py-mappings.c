@@ -35,6 +35,7 @@ static PyTypeObject *_PyGObject_Type;
 /* ---------- forward type declarations ---------- */
 PyTypeObject PyGwpBeamSpec_Type;
 PyTypeObject PyGwpEngSpec_Type;
+PyTypeObject PyGwpGameState_Type;
 PyTypeObject PyGwpHullSpec_Type;
 PyTypeObject PyGwpObject_Type;
 PyTypeObject PyGwpMinefield_Type;
@@ -618,6 +619,630 @@ PyTypeObject PyGwpEngSpec_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)pygobject_no_constructor,		/* tp_init */
+    (allocfunc)0,           /* tp_alloc */
+    (newfunc)0,               /* tp_new */
+    (freefunc)0,             /* tp_free */
+    (inquiry)0              /* tp_is_gc */
+};
+
+
+
+/* ----------- GwpGameState ----------- */
+
+static int
+_wrap_gwp_game_state_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    GType obj_type = pyg_type_from_object((PyObject *) self);
+
+    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError, "could not create %(typename)s object");
+        return -1;
+    }
+
+    pygobject_register_wrapper((PyObject *)self);
+    return 0;
+}
+
+
+static PyObject *
+_wrap_gwp_game_state_postinit(PyGObject *self)
+{
+    gwp_game_state_postinit(GWP_GAME_STATE(self->obj));
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_full_path(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "filename", NULL };
+    char *filename;
+    gchar *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.get_full_path", kwlist, &filename))
+        return NULL;
+    ret = gwp_game_state_get_full_path(GWP_GAME_STATE(self->obj), filename);
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_last_coords(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", "y", NULL };
+    int x, y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ii:GwpGameState.set_last_coords", kwlist, &x, &y))
+        return NULL;
+    gwp_game_state_set_last_coords(GWP_GAME_STATE(self->obj), x, y);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", NULL };
+    char *name;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.set_name", kwlist, &name))
+        return NULL;
+    gwp_game_state_set_name(GWP_GAME_STATE(self->obj), name);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_name(PyGObject *self)
+{
+    const gchar *ret;
+
+    ret = gwp_game_state_get_name(GWP_GAME_STATE(self->obj));
+    if (ret)
+        return PyString_FromString(ret);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_dir(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "dir", NULL };
+    char *dir;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.set_dir", kwlist, &dir))
+        return NULL;
+    gwp_game_state_set_dir(GWP_GAME_STATE(self->obj), dir);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_dir(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_game_state_get_dir(GWP_GAME_STATE(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_starchart_zoom(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "zoom", NULL };
+    double zoom;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "d:GwpGameState.set_starchart_zoom", kwlist, &zoom))
+        return NULL;
+    gwp_game_state_set_starchart_zoom(GWP_GAME_STATE(self->obj), zoom);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_starchart_zoom(PyGObject *self)
+{
+    double ret;
+
+    ret = gwp_game_state_get_starchart_zoom(GWP_GAME_STATE(self->obj));
+    return PyFloat_FromDouble(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_race(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "race_num", NULL };
+    int race_num;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_race", kwlist, &race_num))
+        return NULL;
+    gwp_game_state_set_race(GWP_GAME_STATE(self->obj), race_num);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_race_nr(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_race_nr(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_last_x_coord(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", NULL };
+    int x;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_last_x_coord", kwlist, &x))
+        return NULL;
+    gwp_game_state_set_last_x_coord(GWP_GAME_STATE(self->obj), x);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_last_x_coord(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_last_x_coord(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_last_y_coord(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "y", NULL };
+    int y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_last_y_coord", kwlist, &y))
+        return NULL;
+    gwp_game_state_set_last_y_coord(GWP_GAME_STATE(self->obj), y);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_last_y_coord(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_last_y_coord(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_turn_number(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "turn", NULL };
+    int turn;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_turn_number", kwlist, &turn))
+        return NULL;
+    gwp_game_state_set_turn_number(GWP_GAME_STATE(self->obj), turn);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_turn_number(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_turn_number(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_player_email(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "pe", NULL };
+    char *pe;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.set_player_email", kwlist, &pe))
+        return NULL;
+    gwp_game_state_set_player_email(GWP_GAME_STATE(self->obj), pe);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_player_email(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_game_state_get_player_email(GWP_GAME_STATE(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_host_email(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "he", NULL };
+    char *he;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.set_host_email", kwlist, &he))
+        return NULL;
+    gwp_game_state_set_host_email(GWP_GAME_STATE(self->obj), he);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_email(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_game_state_get_host_email(GWP_GAME_STATE(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_trn_dir(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "dir", NULL };
+    char *dir;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.set_trn_dir", kwlist, &dir))
+        return NULL;
+    gwp_game_state_set_trn_dir(GWP_GAME_STATE(self->obj), dir);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_trn_dir(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_game_state_get_trn_dir(GWP_GAME_STATE(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_rst_dir(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "dir", NULL };
+    char *dir;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpGameState.set_rst_dir", kwlist, &dir))
+        return NULL;
+    gwp_game_state_set_rst_dir(GWP_GAME_STATE(self->obj), dir);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_rst_dir(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_game_state_get_rst_dir(GWP_GAME_STATE(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_host_type(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "type", NULL };
+    int type;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_host_type", kwlist, &type))
+        return NULL;
+    gwp_game_state_set_host_type(GWP_GAME_STATE(self->obj), type);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_type(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_type(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_planet_names(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "show", NULL };
+    int show;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_planet_names", kwlist, &show))
+        return NULL;
+    gwp_game_state_set_planet_names(GWP_GAME_STATE(self->obj), show);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_planet_names(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_planet_names(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_scanner_area(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "show", NULL };
+    int show;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_scanner_area", kwlist, &show))
+        return NULL;
+    gwp_game_state_set_scanner_area(GWP_GAME_STATE(self->obj), show);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_scanner_area(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_scanner_area(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_minefields(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "show", NULL };
+    int show;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_minefields", kwlist, &show))
+        return NULL;
+    gwp_game_state_set_minefields(GWP_GAME_STATE(self->obj), show);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_minefields(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_minefields(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_ion_storms(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "show", NULL };
+    int show;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_ion_storms", kwlist, &show))
+        return NULL;
+    gwp_game_state_set_ion_storms(GWP_GAME_STATE(self->obj), show);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_ion_storms(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_ion_storms(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_set_extra_panel_open(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "show", NULL };
+    int show;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.set_extra_panel_open", kwlist, &show))
+        return NULL;
+    gwp_game_state_set_extra_panel_open(GWP_GAME_STATE(self->obj), show);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_extra_panel_open(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_extra_panel_open(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_selected_planet(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_selected_planet(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_selected_ship(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_selected_ship(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_mining_rate(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "race", NULL };
+    int race, ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.get_host_mining_rate", kwlist, &race))
+        return NULL;
+    ret = gwp_game_state_get_host_mining_rate(GWP_GAME_STATE(self->obj), race);
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_tax_rate(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "race", NULL };
+    int race, ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.get_host_tax_rate", kwlist, &race))
+        return NULL;
+    ret = gwp_game_state_get_host_tax_rate(GWP_GAME_STATE(self->obj), race);
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_ships_visible_range(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_ships_visible_range(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_sensors_range(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_sensors_range(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyMethodDef _PyGwpGameState_methods[] = {
+    { "postinit", (PyCFunction)_wrap_gwp_game_state_postinit, METH_NOARGS },
+    { "get_full_path", (PyCFunction)_wrap_gwp_game_state_get_full_path, METH_VARARGS|METH_KEYWORDS },
+    { "set_last_coords", (PyCFunction)_wrap_gwp_game_state_set_last_coords, METH_VARARGS|METH_KEYWORDS },
+    { "set_name", (PyCFunction)_wrap_gwp_game_state_set_name, METH_VARARGS|METH_KEYWORDS },
+    { "get_name", (PyCFunction)_wrap_gwp_game_state_get_name, METH_NOARGS },
+    { "set_dir", (PyCFunction)_wrap_gwp_game_state_set_dir, METH_VARARGS|METH_KEYWORDS },
+    { "get_dir", (PyCFunction)_wrap_gwp_game_state_get_dir, METH_NOARGS },
+    { "set_starchart_zoom", (PyCFunction)_wrap_gwp_game_state_set_starchart_zoom, METH_VARARGS|METH_KEYWORDS },
+    { "get_starchart_zoom", (PyCFunction)_wrap_gwp_game_state_get_starchart_zoom, METH_NOARGS },
+    { "set_race", (PyCFunction)_wrap_gwp_game_state_set_race, METH_VARARGS|METH_KEYWORDS },
+    { "get_race_nr", (PyCFunction)_wrap_gwp_game_state_get_race_nr, METH_NOARGS },
+    { "set_last_x_coord", (PyCFunction)_wrap_gwp_game_state_set_last_x_coord, METH_VARARGS|METH_KEYWORDS },
+    { "get_last_x_coord", (PyCFunction)_wrap_gwp_game_state_get_last_x_coord, METH_NOARGS },
+    { "set_last_y_coord", (PyCFunction)_wrap_gwp_game_state_set_last_y_coord, METH_VARARGS|METH_KEYWORDS },
+    { "get_last_y_coord", (PyCFunction)_wrap_gwp_game_state_get_last_y_coord, METH_NOARGS },
+    { "set_turn_number", (PyCFunction)_wrap_gwp_game_state_set_turn_number, METH_VARARGS|METH_KEYWORDS },
+    { "get_turn_number", (PyCFunction)_wrap_gwp_game_state_get_turn_number, METH_NOARGS },
+    { "set_player_email", (PyCFunction)_wrap_gwp_game_state_set_player_email, METH_VARARGS|METH_KEYWORDS },
+    { "get_player_email", (PyCFunction)_wrap_gwp_game_state_get_player_email, METH_NOARGS },
+    { "set_host_email", (PyCFunction)_wrap_gwp_game_state_set_host_email, METH_VARARGS|METH_KEYWORDS },
+    { "get_host_email", (PyCFunction)_wrap_gwp_game_state_get_host_email, METH_NOARGS },
+    { "set_trn_dir", (PyCFunction)_wrap_gwp_game_state_set_trn_dir, METH_VARARGS|METH_KEYWORDS },
+    { "get_trn_dir", (PyCFunction)_wrap_gwp_game_state_get_trn_dir, METH_NOARGS },
+    { "set_rst_dir", (PyCFunction)_wrap_gwp_game_state_set_rst_dir, METH_VARARGS|METH_KEYWORDS },
+    { "get_rst_dir", (PyCFunction)_wrap_gwp_game_state_get_rst_dir, METH_NOARGS },
+    { "set_host_type", (PyCFunction)_wrap_gwp_game_state_set_host_type, METH_VARARGS|METH_KEYWORDS },
+    { "get_host_type", (PyCFunction)_wrap_gwp_game_state_get_host_type, METH_NOARGS },
+    { "set_planet_names", (PyCFunction)_wrap_gwp_game_state_set_planet_names, METH_VARARGS|METH_KEYWORDS },
+    { "get_planet_names", (PyCFunction)_wrap_gwp_game_state_get_planet_names, METH_NOARGS },
+    { "set_scanner_area", (PyCFunction)_wrap_gwp_game_state_set_scanner_area, METH_VARARGS|METH_KEYWORDS },
+    { "get_scanner_area", (PyCFunction)_wrap_gwp_game_state_get_scanner_area, METH_NOARGS },
+    { "set_minefields", (PyCFunction)_wrap_gwp_game_state_set_minefields, METH_VARARGS|METH_KEYWORDS },
+    { "get_minefields", (PyCFunction)_wrap_gwp_game_state_get_minefields, METH_NOARGS },
+    { "set_ion_storms", (PyCFunction)_wrap_gwp_game_state_set_ion_storms, METH_VARARGS|METH_KEYWORDS },
+    { "get_ion_storms", (PyCFunction)_wrap_gwp_game_state_get_ion_storms, METH_NOARGS },
+    { "set_extra_panel_open", (PyCFunction)_wrap_gwp_game_state_set_extra_panel_open, METH_VARARGS|METH_KEYWORDS },
+    { "get_extra_panel_open", (PyCFunction)_wrap_gwp_game_state_get_extra_panel_open, METH_NOARGS },
+    { "get_selected_planet", (PyCFunction)_wrap_gwp_game_state_get_selected_planet, METH_NOARGS },
+    { "get_selected_ship", (PyCFunction)_wrap_gwp_game_state_get_selected_ship, METH_NOARGS },
+    { "get_host_mining_rate", (PyCFunction)_wrap_gwp_game_state_get_host_mining_rate, METH_VARARGS|METH_KEYWORDS },
+    { "get_host_tax_rate", (PyCFunction)_wrap_gwp_game_state_get_host_tax_rate, METH_VARARGS|METH_KEYWORDS },
+    { "get_host_ships_visible_range", (PyCFunction)_wrap_gwp_game_state_get_host_ships_visible_range, METH_NOARGS },
+    { "get_host_sensors_range", (PyCFunction)_wrap_gwp_game_state_get_host_sensors_range, METH_NOARGS },
+    { NULL, NULL, 0 }
+};
+
+PyTypeObject PyGwpGameState_Type = {
+    PyObject_HEAD_INIT(NULL)
+    0,					/* ob_size */
+    "gwp.GameState",			/* tp_name */
+    sizeof(PyGObject),	        /* tp_basicsize */
+    0,					/* tp_itemsize */
+    /* methods */
+    (destructor)0,	/* tp_dealloc */
+    (printfunc)0,			/* tp_print */
+    (getattrfunc)0,	/* tp_getattr */
+    (setattrfunc)0,	/* tp_setattr */
+    (cmpfunc)0,		/* tp_compare */
+    (reprfunc)0,		/* tp_repr */
+    (PyNumberMethods*)0,     /* tp_as_number */
+    (PySequenceMethods*)0, /* tp_as_sequence */
+    (PyMappingMethods*)0,   /* tp_as_mapping */
+    (hashfunc)0,		/* tp_hash */
+    (ternaryfunc)0,		/* tp_call */
+    (reprfunc)0,		/* tp_str */
+    (getattrofunc)0,			/* tp_getattro */
+    (setattrofunc)0,			/* tp_setattro */
+    (PyBufferProcs*)0,	/* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                      /* tp_flags */
+    NULL, 				/* Documentation string */
+    (traverseproc)0,	/* tp_traverse */
+    (inquiry)0,		/* tp_clear */
+    (richcmpfunc)0,	/* tp_richcompare */
+    offsetof(PyGObject, weakreflist),             /* tp_weaklistoffset */
+    (getiterfunc)0,		/* tp_iter */
+    (iternextfunc)0,	/* tp_iternext */
+    _PyGwpGameState_methods,			/* tp_methods */
+    0,					/* tp_members */
+    0,		       	/* tp_getset */
+    NULL,				/* tp_base */
+    NULL,				/* tp_dict */
+    (descrgetfunc)0,	/* tp_descr_get */
+    (descrsetfunc)0,	/* tp_descr_set */
+    offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
+    (initproc)_wrap_gwp_game_state_new,		/* tp_init */
     (allocfunc)0,           /* tp_alloc */
     (newfunc)0,               /* tp_new */
     (freefunc)0,             /* tp_free */
@@ -3472,7 +4097,7 @@ _wrap_gwp_ship_get_waypoint (PyGObject *self)
   
   return Py_BuildValue("(ii)", wp_x, wp_y); 
 }
-#line 3476 "src/gwp-py-mappings.c"
+#line 4101 "src/gwp-py-mappings.c"
 
 
 static PyObject *
@@ -6037,6 +6662,16 @@ _wrap_planet_get_by_id(PyObject *self, PyObject *args, PyObject *kwargs)
     return pygobject_new((GObject *)ret);
 }
 
+static PyObject *
+_wrap_get_game_state(PyObject *self)
+{
+    GwpGameState *ret;
+
+    ret = get_game_state();
+    /* pygobject_new handles NULL checking */
+    return pygobject_new((GObject *)ret);
+}
+
 #line 42 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_ship_get_list (PyObject *self)
@@ -6056,7 +6691,7 @@ _wrap_ship_get_list (PyObject *self)
 
   return ret;
 }
-#line 6060 "src/gwp-py-mappings.c"
+#line 6695 "src/gwp-py-mappings.c"
 
 
 #line 62 "src/gwp-py-mappings.override"
@@ -6078,7 +6713,7 @@ _wrap_planet_get_list (PyObject *self)
 
   return ret;
 }
-#line 6082 "src/gwp-py-mappings.c"
+#line 6717 "src/gwp-py-mappings.c"
 
 
 #line 110 "src/gwp-py-mappings.override"
@@ -6100,7 +6735,7 @@ _wrap_hullspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6104 "src/gwp-py-mappings.c"
+#line 6739 "src/gwp-py-mappings.c"
 
 
 #line 130 "src/gwp-py-mappings.override"
@@ -6122,7 +6757,7 @@ _wrap_engspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6126 "src/gwp-py-mappings.c"
+#line 6761 "src/gwp-py-mappings.c"
 
 
 #line 150 "src/gwp-py-mappings.override"
@@ -6144,7 +6779,7 @@ _wrap_beamspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6148 "src/gwp-py-mappings.c"
+#line 6783 "src/gwp-py-mappings.c"
 
 
 #line 170 "src/gwp-py-mappings.override"
@@ -6166,7 +6801,7 @@ _wrap_torpspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6170 "src/gwp-py-mappings.c"
+#line 6805 "src/gwp-py-mappings.c"
 
 
 #line 89 "src/gwp-py-mappings.override"
@@ -6182,7 +6817,7 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
   Py_INCREF (Py_None);
   return Py_None;
 }
-#line 6186 "src/gwp-py-mappings.c"
+#line 6821 "src/gwp-py-mappings.c"
 
 
 #line 103 "src/gwp-py-mappings.override"
@@ -6191,7 +6826,7 @@ _wrap_get_plugin_mgr (PyObject *self)
 {
   return (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
 }
-#line 6195 "src/gwp-py-mappings.c"
+#line 6830 "src/gwp-py-mappings.c"
 
 
 #line 223 "src/gwp-py-mappings.override"
@@ -6207,7 +6842,7 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
   return PyString_FromString (path);
 }
 
-#line 6211 "src/gwp-py-mappings.c"
+#line 6846 "src/gwp-py-mappings.c"
 
 
 #line 190 "src/gwp-py-mappings.override"
@@ -6233,7 +6868,7 @@ _wrap_get_truehull (PyObject *self)
   Py_INCREF(th);
   return th;
 }
-#line 6237 "src/gwp-py-mappings.c"
+#line 6872 "src/gwp-py-mappings.c"
 
 
 #line 214 "src/gwp-py-mappings.override"
@@ -6244,7 +6879,7 @@ _wrap_get_race_name (PyObject *self, PyObject *args)
   PyArg_ParseTuple (args, "i", &race);
   return PyString_FromString (race_get_name(race));
 }
-#line 6248 "src/gwp-py-mappings.c"
+#line 6883 "src/gwp-py-mappings.c"
 
 
 #line 82 "src/gwp-py-mappings.override"
@@ -6253,13 +6888,14 @@ _wrap_get_system_plugins_dir (PyObject *self)
 {
   return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
 }
-#line 6257 "src/gwp-py-mappings.c"
+#line 6892 "src/gwp-py-mappings.c"
 
 
 PyMethodDef gwp_functions[] = {
     { "gwp_planet_get_ground_percent", (PyCFunction)_wrap_gwp_planet_get_ground_percent, METH_VARARGS|METH_KEYWORDS },
     { "ship_get_by_id", (PyCFunction)_wrap_ship_get_by_id, METH_VARARGS|METH_KEYWORDS },
     { "planet_get_by_id", (PyCFunction)_wrap_planet_get_by_id, METH_VARARGS|METH_KEYWORDS },
+    { "get_game_state", (PyCFunction)_wrap_get_game_state, METH_NOARGS },
     { "ship_get_list", (PyCFunction)_wrap_ship_get_list, METH_NOARGS },
     { "planet_get_list", (PyCFunction)_wrap_planet_get_list, METH_NOARGS },
     { "hullspec_get_list", (PyCFunction)_wrap_hullspec_get_list, METH_NOARGS },
@@ -6297,9 +6933,10 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 6301 "src/gwp-py-mappings.c"
+#line 6937 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
+    pygobject_register_class(d, "GwpGameState", GWP_TYPE_GAME_STATE, &PyGwpGameState_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpObject", GWP_TYPE_OBJECT, &PyGwpObject_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpMinefield", GWP_TYPE_MINEFIELD, &PyGwpMinefield_Type, Py_BuildValue("(O)", &PyGwpObject_Type));

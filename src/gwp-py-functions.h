@@ -29,9 +29,11 @@
 #include <gnome.h>
 #include "gwp-ship.h"
 #include "gwp-planet.h"
+#include "gwp-game-state.h"
 
 GwpShip * ship_get_by_id (gint id);
 GwpPlanet * planet_get_by_id (gint id);
+GwpGameState * get_game_state (void);
 
 /************************/
 /* Overridden functions */
