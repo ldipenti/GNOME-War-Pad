@@ -51,14 +51,19 @@ fi
 dnl ====================================
 dnl = Begin tests for Check Unit Test
 dnl ====================================
-AM_PATH_CHECK(,have_unittest=yes,have_unittest=no)
+AC_ARG_ENABLE(check,
+	[  --enable-check	Enable Check Unit Tests (default=no).],,
+	[enable_check="no"])
 
-if test "$have_unittest" = "yes" ; then
+if test "yes" = "$enable_check"; then
+   AM_PATH_CHECK(,have_unittest=yes,have_unittest=no)
+
+   if test "$have_unittest" = "yes" ; then
 	AC_DEFINE(USE_CHECK, 1, Check Unit Testing support)
        	AC_SUBST(CHECK_CFLAGS)
 	AC_SUBST(CHECK_LIBS)
+   fi
 fi
-
 
 dnl ====================================
 dnl = Check for Python
