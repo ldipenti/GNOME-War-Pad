@@ -544,6 +544,9 @@ void on_game_mgr_delete_game (GtkWidget *widget,
       /* Remove icon */
       gnome_icon_list_remove(GNOME_ICON_LIST(iconlist),
 			     icon_idx);
+
+      /* Update appbar info */
+      game_mgr_update_appbar();
     }
   } 
 }

@@ -50,6 +50,7 @@ void game_mgr_init(void)
     GtkListStore *store;
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
+    GnomeAppBar *appbar;
     GSList *games = NULL;
     GwpGameState *game;
     gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
@@ -71,6 +72,7 @@ void game_mgr_init(void)
     gtk_tree_view_append_column(race_list, column);
 
     /* Load the games data */
+    appbar = (GnomeAppBar *)lookup_widget ("game_mgr_appbar");
     gwp_gconf = gconf_client_get_default();
     games = gconf_client_all_dirs(gwp_gconf, games_path, NULL);
     
@@ -89,7 +91,10 @@ void game_mgr_init(void)
 	gtk_widget_destroy(warn);
       }
     }
-
+    
+    /* Additional info */
+    game_mgr_update_appbar();
+    
     /* Load (or delete) the games */
     while(games != NULL) {
       name_tmp = g_strdup(g_strrstr(games->data, "/"));
@@ -233,6 +238,7 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
  */
 void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 {
+  gchar *game_name = NULL;
   gint icon_idx = game_mgr_get_icon_idx_selected();
   gchar *old_game_name = (gchar *)
     g_object_get_data(G_OBJECT(lookup_widget("game_mgr_entry_game_name")),
@@ -255,15 +261,20 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 
     /* Update it on GConf */
     game_mgr_delete_game(old_game_name);
-    game_mgr_save_game_state(state);
+    game_mgr_save_game_state(state, FALSE);
 
     /* Update icon name */
+    game_name = g_strdup(gwp_game_state_get_name(state));
+    game_mgr_game_name_demangle(game_name);
+    game_name = g_strconcat (game_name, "\n", 
+			     "(", _("turn "), 
+			     g_strdup_printf("%d", gwp_game_state_get_turn_number(state)),
+			     ")", NULL);
     icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
 						   icon_idx);
     g_assert(GNOME_IS_ICON_TEXT_ITEM(icon_text));
     gnome_icon_text_item_start_editing(icon_text);
-    icon_text->text = g_strdup(gwp_game_state_get_name(state));
-    game_mgr_game_name_demangle(icon_text->text);
+    icon_text->text = game_name;
     gnome_icon_text_item_stop_editing(icon_text, TRUE);
 
     /* Disconnect signal before releasing dialog */
@@ -296,11 +307,14 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
     gwp_game_state_set_last_coords (new_game, 1500, 1500);
 
     /* Save it on GConf */
-    game_mgr_save_game_state(new_game);
+    game_mgr_save_game_state(new_game, FALSE);
 
     /* Add icon with data */
     game_mgr_add_icon(iconlist, new_game);
 
+    /* Update appbar's info */
+    game_mgr_update_appbar();
+    
     /* Disconnect signal before releasing dialog */
     g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
 					 G_CALLBACK(game_mgr_cb_new_game),
@@ -731,10 +745,6 @@ static void game_mgr_init_message_history (void)
   g_string_free (filenamedest, TRUE);
 }
 
-
-/* FIXME: This code below comes from the dead game_state.[ch] files, 
-   it really belongs here, fix the function names please! */
-
 GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 {
   GwpGameState *game = gwp_game_state_new ();
@@ -813,7 +823,7 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 /**
  * Save game state data on GConf
  */
-void game_mgr_save_game_state (GwpGameState *state)
+void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
 {
   g_assert (GWP_IS_GAME_STATE (state));
 
@@ -856,17 +866,18 @@ void game_mgr_save_game_state (GwpGameState *state)
   gconf_client_set_bool (gwp_gconf, g_strconcat(path, "minefields", NULL),
 			 tmp_bool, NULL);
   
-  /* Registered plugins */
-  gconf_client_set_list (gwp_gconf, g_strconcat(path,"plugins", NULL),
-			 GCONF_VALUE_STRING,
-			 gwp_python_get_active_plugins (),
-			 NULL);
+  if (closing_game) {
+    /* Registered plugins */
+    gconf_client_set_list (gwp_gconf, g_strconcat(path,"plugins", NULL),
+			   GCONF_VALUE_STRING,
+			   gwp_python_get_active_plugins (),
+			   NULL);
+  }
 }
 
 
 /**
  * Deletes GConf Game entry... 
- *
  */
 void game_mgr_delete_game(const gchar *name)
 {
@@ -902,7 +913,9 @@ void game_mgr_delete_game(const gchar *name)
   }
 }
 
-/* Updates all data, call this before quitting or opening another game */
+/**
+ * Updates all data, call this before quitting or opening another game
+ */
 void game_mgr_close_game(GwpGameState *game_state)
 {
   if(game_state) {
@@ -911,7 +924,7 @@ void game_mgr_close_game(GwpGameState *game_state)
     /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
     gwp_game_state_set_last_coords(game_state, x, y);
-    game_mgr_save_game_state(game_state);
+    game_mgr_save_game_state(game_state, TRUE);
 
     /******************************/
     /* Clean up objects in memory */
@@ -928,13 +941,17 @@ void game_mgr_close_game(GwpGameState *game_state)
   }
 }
 
-/* Internal function to destroy GObjects from a HashTable */
+/**
+ * Internal function to destroy GObjects from a HashTable
+ */
 static void destroy_gobject (gpointer key, gpointer value, gpointer user_data)
 {
   g_object_unref (G_OBJECT(value));
 }
 
-/* Returns the format version number */
+/**
+ * Returns the format version number
+ */
 static gint game_state_get_version(void)
 {
   gint ret = 0;
@@ -950,4 +967,18 @@ static void game_state_set_version(gint version)
 		       g_strconcat(GWP_GCONF_PATH, "version", NULL),
 		       version,
 		       NULL);
+}
+
+/**
+ * Inform the number of games on the game manager.
+ */
+void
+game_mgr_update_appbar (void)
+{
+  GnomeAppBar *appbar = (GnomeAppBar *)lookup_widget("game_mgr_appbar");
+  gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
+  GSList *games = gconf_client_all_dirs(gwp_gconf, games_path, NULL);
+
+  gnome_appbar_set_status (appbar, g_strdup_printf(_("%d games"), 
+						   g_slist_length(games)));
 }

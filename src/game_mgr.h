@@ -55,7 +55,8 @@ gint game_mgr_get_icon_idx_selected(void);
 
 void game_mgr_delete_game(const gchar *name);
 void game_mgr_close_game(GwpGameState *game_state);
-void game_mgr_save_game_state (GwpGameState *self);
+void game_mgr_save_game_state (GwpGameState *self, gboolean closing_game);
 GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name);
+void game_mgr_update_appbar (void);
 
 #endif
