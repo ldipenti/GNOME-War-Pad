@@ -2635,6 +2635,64 @@ void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
 }
 
 
+void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data )
+{
+  gint i, id, race;
+  GwpHullSpec *hull;
+  GtkComboBox *box;
+  gint *nmbpt;
+
+  /* find out what race was selected */
+  race = vcr_get( widget, user_data, SHIP_A, TYP_RACE, VAL_CUR ) - 1;
+  g_message( "selected race is : %d", race );
+
+  /*
+   * Fill The Hulls
+   */
+  /* find out how many entries are (at least "should be") in hulls-list */
+  nmbpt = (gint *)g_object_get_data(
+    G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_a")), "nmb_of_hulls" );
+
+  /* make sure this function is not called too early */
+  if( nmbpt == NULL )
+  {
+    g_message( "# Warning: vcr_ship_a_race_selected() called too early" );
+    return;
+  }
+  else
+    g_message( "+++ race a selected ok" );
+
+
+  /* clear hulls-list */
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_a" ) );
+  for( i=0; i<nmbpt[0]; i++ )
+    gtk_combo_box_remove_text( box, 0 );
+  nmbpt[0] = 0;
+
+  /* fill ship-type list with race specific hulls */
+  if( race < 0 )
+  {
+    /* TODO */
+    /* maybe selecting 'none' as race should
+       show all possible hulls for all races
+    */
+  }
+  else
+  {
+    i = 0;
+    id = truehull[race][i];
+    do {
+      hull = GWP_HULLSPEC( g_slist_nth_data( hullspec_list, id-1 ) );
+      gtk_combo_box_append_text( box, gwp_hullspec_get_name_trunc( hull, 18 )->str );
+      nmbpt[0]++;
+      i++;
+      id = truehull[race][i];
+    } while( id>0 && i< MAX_SHIPS_PER_RACE );
+  }
+  //  gtk_combo_box_set_active( box, 0 );
+}
+
+
 void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
 {
   gint i, id, race;
@@ -2651,7 +2709,7 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
    */
   /* find out how many entries are (at least "should be") in hulls-list */
   nmbpt = (gint *)g_object_get_data(
-    G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_a")), "nmb_of_hulls" );
+    G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_b")), "nmb_of_hulls" );
 
   /* make sure this function is not called too early */
   if( nmbpt == NULL )
@@ -2689,7 +2747,7 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
       id = truehull[race][i];
     } while( id>0 && i< MAX_SHIPS_PER_RACE );
   }
-  gtk_combo_box_set_active( box, 0 );
+  //  gtk_combo_box_set_active( box, 0 );
 }
 
 

@@ -8177,6 +8177,7 @@
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_race_a">
 			      <property name="visible">True</property>
 			      <property name="items" translatable="yes"></property>
+			      <signal name="changed" handler="on_vcr_comboboxentry_sel_race_a_changed" last_modification_time="Sun, 13 Jun 2004 23:43:30 GMT"/>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>

@@ -54,6 +54,7 @@ void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data );
 void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data );
 
 void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data );
+void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data );
 void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data );
 
 

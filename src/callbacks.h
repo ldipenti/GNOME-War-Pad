@@ -172,6 +172,8 @@ void on_vcr_checkbutton_base_toggled( GtkWidget *widget,
                                       gpointer  user_data );
 void on_vcr_comboboxentry_sel_ext_shp_a_changed( GtkWidget *widget,
                                                  gpointer  user_data );
+void on_vcr_comboboxentry_sel_race_a_changed( GtkWidget *widget,
+                                              gpointer  user_data );
 void on_vcr_comboboxentry_sel_race_b_changed( GtkWidget *widget,
                                               gpointer  user_data );
 

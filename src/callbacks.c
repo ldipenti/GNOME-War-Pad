@@ -897,6 +897,13 @@ void on_vcr_comboboxentry_sel_ext_shp_a_changed( GtkWidget *widget,
 }
 
 
+void on_vcr_comboboxentry_sel_race_a_changed( GtkWidget *widget,
+                                              gpointer  user_data )
+{
+  vcr_ship_a_race_selected( widget, user_data );
+}
+
+
 void on_vcr_comboboxentry_sel_race_b_changed( GtkWidget *widget,
                                               gpointer  user_data )
 {
