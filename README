@@ -1,8 +1,5 @@
-GNOME War Pad - version 0.2.5
------------------------------
-
-This wants to be a help file, until I implement on-line help
-on the program itself.
+GNOME War Pad - version 0.2.11
+------------------------------
 
 With this version of GWP, you can do the following:
 
@@ -16,6 +13,8 @@ With this version of GWP, you can do the following:
 [SHIFT+Mouse_Button1_drag]: Starchart panning.
 [Mouse_Button1_click]: Select planet.
 [Mouse_Button1_double-click]: Select planet and activate extra panels.
+[Mouse_Button3_click]: Select ship.
+[Mouse_Button3_double-click]: Select ship and activate extra panels.
 [Esc]: Deactivate extra panels.
 [CTRL+Q]: Quit.
 [CTRL+W]: Close game and return to the Game Manager.
