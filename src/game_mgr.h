@@ -29,9 +29,17 @@
 #include "game_types.h"
 
 GtkWidget *game_mgr_get_properties_dlg(void);
+
+// Specific callbacks
 void game_mgr_cb_new_game(GtkWidget *widget, gpointer user_data);
+void game_mgr_cb_edit_game(GtkWidget *widget, gpointer iconlist);
+
 void game_mgr_update_race_list(char *dir);
 GameSettings *game_mgr_new_settings(void);
+void game_mgr_settings_free(GameSettings *s);
 void game_mgr_properties_dlg_clean(void);
+gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
+gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings);
+void game_mgr_properties_dlg_get_settings(GameSettings *settings);
 
 #endif

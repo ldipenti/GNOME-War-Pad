@@ -101,7 +101,9 @@ int main (int argc, char *argv[]) {
 						      NULL);
     gtk_tree_view_set_model(race_list, GTK_TREE_MODEL(store));
     gtk_tree_view_append_column(race_list, column);
-  }
+    // Clear the dialog
+    //game_mgr_properties_dlg_clean();
+}
 
   // Show it!
   //gtk_widget_show(gwp_select_race_dialog);

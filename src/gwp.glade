@@ -2070,7 +2070,7 @@
 			  <accelerator key="n" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image27">
+			    <widget class="GtkImage" id="image40">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-new</property>
 			      <property name="icon_size">1</property>
@@ -2093,9 +2093,32 @@
 			  <accelerator key="e" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image28">
+			    <widget class="GtkImage" id="image41">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-properties</property>
+			      <property name="icon_size">1</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkImageMenuItem" id="mnu_play_game">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Play Selected Game</property>
+			  <property name="label" translatable="yes">_Play Game</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_game_mgr_play_game" last_modification_time="Sun, 04 May 2003 20:18:46 GMT"/>
+			  <accelerator key="p" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+
+			  <child internal-child="image">
+			    <widget class="GtkImage" id="image42">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-execute</property>
 			      <property name="icon_size">1</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
@@ -2115,7 +2138,7 @@
 			  <accelerator key="d" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image29">
+			    <widget class="GtkImage" id="image43">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-delete</property>
 			      <property name="icon_size">1</property>
@@ -2137,7 +2160,7 @@
 			  <accelerator key="s" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image30">
+			    <widget class="GtkImage" id="image44">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-save</property>
 			      <property name="icon_size">1</property>
@@ -2210,6 +2233,7 @@
 		  <property name="label" translatable="yes">_Delete Game</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-delete</property>
+		  <signal name="clicked" handler="on_game_mgr_delete_game" last_modification_time="Mon, 05 May 2003 02:50:08 GMT"/>
 		</widget>
 	      </child>
 
@@ -2220,6 +2244,16 @@
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-properties</property>
 		  <signal name="clicked" handler="on_game_mgr_edit_game" last_modification_time="Fri, 02 May 2003 04:24:19 GMT"/>
+		</widget>
+	      </child>
+
+	      <child>
+		<widget class="button" id="btn_play_game">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">_Play Game</property>
+		  <property name="use_underline">True</property>
+		  <property name="stock_pixmap">gtk-execute</property>
+		  <signal name="clicked" handler="on_game_mgr_play_game" last_modification_time="Sun, 04 May 2003 20:16:13 GMT"/>
 		</widget>
 	      </child>
 	    </widget>
@@ -2250,7 +2284,7 @@
 	      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 	      <property name="icon_width">78</property>
 	      <property name="row_spacing">4</property>
-	      <property name="column_spacing">2</property>
+	      <property name="column_spacing">4</property>
 	      <property name="text_spacing">3</property>
 	      <property name="text_editable">False</property>
 	      <property name="text_static">False</property>
@@ -2259,19 +2293,6 @@
 	  </child>
 	</widget>
       </child>
-    </widget>
-    <packing>
-      <property name="padding">0</property>
-      <property name="expand">True</property>
-      <property name="fill">True</property>
-    </packing>
-  </child>
-
-  <child internal-child="appbar">
-    <widget class="GnomeAppBar" id="appbar3">
-      <property name="visible">True</property>
-      <property name="has_progress">True</property>
-      <property name="has_status">True</property>
     </widget>
     <packing>
       <property name="padding">0</property>
@@ -2520,39 +2541,6 @@
 		  </child>
 
 		  <child>
-		    <widget class="GnomeFileEntry" id="game_mgr_trn_dir">
-		      <property name="visible">True</property>
-		      <property name="history_id">game_mgr_trn_dir</property>
-		      <property name="max_saved">10</property>
-		      <property name="browse_dialog_title" translatable="yes">Select TRN directory</property>
-		      <property name="directory_entry">True</property>
-		      <property name="modal">True</property>
-
-		      <child internal-child="entry">
-			<widget class="GtkEntry" id="combo-entry2">
-			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">The directory where GWP will save its turns</property>
-			  <property name="can_focus">True</property>
-			  <property name="editable">True</property>
-			  <property name="visibility">True</property>
-			  <property name="max_length">0</property>
-			  <property name="text" translatable="yes"></property>
-			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
-			  <property name="activates_default">False</property>
-			</widget>
-		      </child>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">1</property>
-		      <property name="right_attach">2</property>
-		      <property name="top_attach">3</property>
-		      <property name="bottom_attach">4</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
 		    <widget class="GnomeFileEntry" id="game_mgr_rst_dir">
 		      <property name="visible">True</property>
 		      <property name="history_id">game_mgr_rst_dir</property>
@@ -2757,6 +2745,39 @@
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
+
+		  <child>
+		    <widget class="GnomeFileEntry" id="game_mgr_trn_dir">
+		      <property name="visible">True</property>
+		      <property name="history_id">game_mgr_trn_dir</property>
+		      <property name="max_saved">10</property>
+		      <property name="browse_dialog_title" translatable="yes">Select TRN directory</property>
+		      <property name="directory_entry">True</property>
+		      <property name="modal">True</property>
+
+		      <child internal-child="entry">
+			<widget class="GtkEntry" id="combo-entry2">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">The directory where GWP will save its turns</property>
+			  <property name="can_focus">True</property>
+			  <property name="editable">True</property>
+			  <property name="visibility">True</property>
+			  <property name="max_length">0</property>
+			  <property name="text" translatable="yes"></property>
+			  <property name="has_frame">True</property>
+			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="activates_default">False</property>
+			</widget>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="left_attach">1</property>
+		      <property name="right_attach">2</property>
+		      <property name="top_attach">3</property>
+		      <property name="bottom_attach">4</property>
+		      <property name="y_options"></property>
+		    </packing>
+		  </child>
 		</widget>
 	      </child>
 
@@ -2881,6 +2902,7 @@
 
 	      <child>
 		<widget class="GtkButton" id="game_mgr_button_cancel">
+		  <property name="border_width">5</property>
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="label">gtk-cancel</property>
@@ -2897,6 +2919,7 @@
 
 	      <child>
 		<widget class="GtkButton" id="game_mgr_button_ok">
+		  <property name="border_width">5</property>
 		  <property name="width_request">98</property>
 		  <property name="visible">True</property>
 		  <property name="can_default">True</property>
@@ -2936,22 +2959,68 @@
 <widget class="GtkMenu" id="game_mgr_popup_menu">
 
   <child>
-    <widget class="GtkMenuItem" id="play_game">
+    <widget class="GtkImageMenuItem" id="play_game">
       <property name="visible">True</property>
       <property name="tooltip" translatable="yes">Select if you want to play this game</property>
       <property name="label" translatable="yes">Play Game</property>
       <property name="use_underline">True</property>
       <signal name="activate" handler="on_game_mgr_play_game" last_modification_time="Fri, 02 May 2003 04:25:17 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image47">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-execute</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
     </widget>
   </child>
 
   <child>
-    <widget class="GtkMenuItem" id="edit_game">
+    <widget class="GtkImageMenuItem" id="edit_game">
       <property name="visible">True</property>
       <property name="tooltip" translatable="yes">Select if you want to edit this game's properties</property>
       <property name="label" translatable="yes">Edit Game</property>
       <property name="use_underline">True</property>
       <signal name="activate" handler="on_game_mgr_edit_game" last_modification_time="Fri, 02 May 2003 04:25:04 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image48">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-properties</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
+    </widget>
+  </child>
+
+  <child>
+    <widget class="GtkImageMenuItem" id="delete_game">
+      <property name="visible">True</property>
+      <property name="tooltip" translatable="yes">Delete this game configuration</property>
+      <property name="label" translatable="yes">_Delete Game</property>
+      <property name="use_underline">True</property>
+      <signal name="activate" handler="on_game_mgr_delete_game" last_modification_time="Mon, 05 May 2003 02:59:43 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image49">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-delete</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
     </widget>
   </child>
 </widget>

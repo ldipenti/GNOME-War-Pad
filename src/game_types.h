@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002, 2003 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@ typedef struct _GameSettings GameSettings;
 struct _GameSettings {
   gchar *game_dir, *game_name, *trn_dir, *rst_dir;
   gchar *player_email, *host_email;
-  gint16 host_type; // 1=THost ; 2=PHost
-  gint16 race;
+  gint host_type; // 1=THost ; 2=PHost
+  gint race;
 };
 
 #endif

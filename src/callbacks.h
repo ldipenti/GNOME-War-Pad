@@ -138,7 +138,12 @@ void on_game_mgr_game_dir_changed (GtkEditable *editable,
 void on_game_mgr_new_game (GtkWidget *widget,
 			   gpointer user_data);
 
-void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
+void on_game_mgr_edit_game(GtkWidget *widget,
+			   gpointer user_data);
+
+void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
+				       gint icon_idx,
+				       GdkEventButton *event,
 				       gpointer user_data);
 
 void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
@@ -146,3 +151,6 @@ void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
 
 void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
 						     gpointer user_data);
+
+void on_game_mgr_delete_game (GtkWidget *widget,
+			      gpointer user_data);
