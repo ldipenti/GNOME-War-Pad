@@ -402,14 +402,14 @@ void game_set_toolbar(GameState *game_state, gboolean tb)
 }
 
 /* FIXME: delete this */
-void game_set_f_key (GameState *self, gchar *fun)
+void game_set_f_key (GameState *self, PyObject *fun)
 {
   g_assert(self != NULL);
   g_assert(fun != NULL);
 
   self->f_key = fun;
 }
-gchar *game_get_f_key (GameState *self)
+PyObject *game_get_f_key (GameState *self)
 {
   g_assert(self);
 

@@ -17,11 +17,19 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
-#include <gnome.h>
+#ifdef USE_PYTHON
+/* Must be the first!! */
+#include "gwp-python.h"
+#endif
 
+#include <gnome.h>
 #include "race.h"
 
 /*******************************************/
@@ -71,7 +79,7 @@ struct _GameState
   /* User settings */
   GameSettings *settings;
   /* FIXME: delete this!! */
-  gchar *f_key;
+  PyObject *f_key;
 };
 
 GameState *game_state_new(void);
@@ -105,8 +113,8 @@ void game_set_turn_number(GameState *game_state, gint turn);
 gint game_get_turn_number(const GameState *game_state);
 
 /* delete!! */
-void game_set_f_key (GameState *self, gchar *fun);
-gchar *game_get_f_key (GameState *self);
+void game_set_f_key (GameState *self, PyObject *fun);
+PyObject *game_get_f_key (GameState *self);
 
 
 void game_state_save(const GameState *state);

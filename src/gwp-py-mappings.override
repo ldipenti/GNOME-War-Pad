@@ -80,12 +80,20 @@ override plugin_reg_key_f
 PyObject *
 _wrap_plugin_reg_key_f (PyObject *self, PyObject *args)
 {
+  /*
   gchar *file;
 
   PyArg_ParseTuple (args, "s", &file);
   g_assert (file != NULL);
   g_message ("uepa!! -> %s", file);
   game_set_f_key(game_state, file);
+
+  */
+
+  PyObject *obj = NULL;  
+  PyArg_ParseTuple (args, "O", &obj);
+
+  game_set_f_key (game_state, obj);
 
   Py_INCREF(Py_None);
   return Py_None;

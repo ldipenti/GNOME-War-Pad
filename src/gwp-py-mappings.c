@@ -5513,7 +5513,7 @@ _wrap_planet_get_list (PyObject *self)
 #line 5514 "src/gwp-py-mappings.c"
 
 
-#line 95 "src/gwp-py-mappings.override"
+#line 103 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_hullspec_get_list (PyObject *self)
 {
@@ -5535,7 +5535,7 @@ _wrap_hullspec_get_list (PyObject *self)
 #line 5536 "src/gwp-py-mappings.c"
 
 
-#line 115 "src/gwp-py-mappings.override"
+#line 123 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_engspec_get_list (PyObject *self)
 {
@@ -5557,7 +5557,7 @@ _wrap_engspec_get_list (PyObject *self)
 #line 5558 "src/gwp-py-mappings.c"
 
 
-#line 135 "src/gwp-py-mappings.override"
+#line 143 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_beamspec_get_list (PyObject *self)
 {
@@ -5579,7 +5579,7 @@ _wrap_beamspec_get_list (PyObject *self)
 #line 5580 "src/gwp-py-mappings.c"
 
 
-#line 155 "src/gwp-py-mappings.override"
+#line 163 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_torpspec_get_list (PyObject *self)
 {
@@ -5605,6 +5605,7 @@ _wrap_torpspec_get_list (PyObject *self)
 PyObject *
 _wrap_plugin_reg_key_f (PyObject *self, PyObject *args)
 {
+  /*
   gchar *file;
 
   PyArg_ParseTuple (args, "s", &file);
@@ -5612,10 +5613,17 @@ _wrap_plugin_reg_key_f (PyObject *self, PyObject *args)
   g_message ("uepa!! -> %s", file);
   game_set_f_key(game_state, file);
 
+  */
+
+  PyObject *obj = NULL;  
+  PyArg_ParseTuple (args, "O", &obj);
+
+  game_set_f_key (game_state, obj);
+
   Py_INCREF(Py_None);
   return Py_None;
 }
-#line 5619 "src/gwp-py-mappings.c"
+#line 5627 "src/gwp-py-mappings.c"
 
 
 PyMethodDef gwp_functions[] = {
@@ -5654,7 +5662,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5658 "src/gwp-py-mappings.c"
+#line 5666 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
