@@ -1023,13 +1023,19 @@ void update_ship_panel_with (GwpShip *ship)
     g_free (tmp);
 
     /* Update ETA */
-    gint e = gwp_ship_calculate_eta (ship);
-    if (e == 1) {
-      tmp = g_strdup_printf(_("%d turn"), e);
+    if (gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)) == 0 &&
+	gwp_ship_calculate_waypoint_distance(ship) > 0) {
+      tmp = _("<span foreground=\"red\">never</span>");
     } else {
-      tmp = g_strdup_printf(_("%d turns"), e);
+      gint e = gwp_ship_calculate_eta (ship);
+      if (e == 1) {
+	tmp = g_strdup_printf(_("%d turn"), e);
+      } else {
+	tmp = g_strdup_printf(_("%d turns"), e);
+      }
     }
-    gtk_label_set_text (eta, tmp);
+
+    gtk_label_set_markup (eta, tmp);
     g_free(tmp);
   }
   /* If it's not a ship, reset all fields */
