@@ -6,7 +6,7 @@
   <!ENTITY aboutgwp SYSTEM "aboutgwp.xml">
   <!ENTITY whatisvp SYSTEM "whatisvp.xml">
   <!ENTITY vpmechanics SYSTEM "vpmechanics.xml">
-  <!ENTITY games_internet SYSTEM "games_internet.xml">
+  <!ENTITY games-internet SYSTEM "games_internet.xml">
   <!ENTITY learnmore SYSTEM "learnmore.xml">
   <!ENTITY starchart-ops SYSTEM "starchart-ops.xml">
   <!ENTITY planet-ops SYSTEM "planet-ops.xml">
@@ -140,7 +140,7 @@ Information about the entities:
     &aboutgwp;
     &whatisvp;
     &vpmechanics;
-    &games_internet;
+    &games-internet;
     &learnmore;
   </chapter>    
   
