@@ -550,18 +550,22 @@ void game_mgr_properties_dlg_clean(void)
 void game_mgr_add_icon(GnomeIconList *iconlist, GameState *state)
 {
   gint icon_idx;
+  gchar *race_logo_img = g_strdup_printf("%s%d.png",
+					 GWP_RACE_ICONS_DIR"/race-logo",
+					 game_get_race_nr (state));
 
   gchar *game_name = g_strdup(game_get_name(state));
   game_mgr_game_name_demangle(game_name);
 
   // Add new game icon, with data
   icon_idx = gnome_icon_list_append(GNOME_ICON_LIST(iconlist),
-				    GWP_ICONS_DIR"/game_icon.png",
+				    race_logo_img,
 				    game_name);
   gnome_icon_list_set_icon_data(GNOME_ICON_LIST(iconlist),
 				icon_idx,
 				state);
   g_free(game_name);
+  g_free(race_logo_img);
 }
 
 // Translates ' ' to '_'

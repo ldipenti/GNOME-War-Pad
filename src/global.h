@@ -29,7 +29,7 @@
 
 #define GWP_GLADE_XML_DIR DATADIR"/gwp"
 #define GWP_IMAGES_DIR DATADIR"/pixmaps/gwp/images"
-#define GWP_ICONS_DIR DATADIR"/pixmaps/gwp/icons"
+#define GWP_RACE_ICONS_DIR DATADIR"/pixmaps/gwp/races"
 
 /* 
  * Defines
