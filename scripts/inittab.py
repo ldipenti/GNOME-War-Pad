@@ -65,12 +65,7 @@ class PluginManager:
     # This method is called from C code to assign a reference to the
     # plugin UI slots.
     def __set_plugin_slot (self, slot_name, slot):
-        if (slot_name == "plugin_slot_panel"):
-            self.__slots[slot_name] = slot
-        elif (slot_name == "plugin_slot_panel_planet"):
-            self.__slots[slot_name] = slot
-        elif (slot_name == "plugin_slot_panel_ship"):
-            self.__slots[slot_name] = slot
+        self.__slots[slot_name] = slot
         
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
@@ -207,12 +202,16 @@ class PluginManager:
 
     # UI Slots management
     def add_plugin_slot(self, slot_name, widget):
-        if (slot_name == "plugin_slot_panel"):
+        try:
             self.__slots[slot_name].add(widget)
-        elif (slot_name == "plugin_slot_panel_planet"):
-            self.__slots[slot_name].add(widget)
-        elif (slot_name == "plugin_slot_panel_ship"):
-            self.__slots[slot_name].add(widget)
+        except KeyError:
+            print "PluginManager: plugin slot '%s' does not exist!" % slot_name
+    
+    def remove_plugin_slot(self, slot_name, widget):
+        try:
+            self.__slots[slot_name].remove(widget)
+        except KeyError:
+            print "PluginManager: plugin slot '%s' does not exist!" % slot_name
 
 #######
 # Plugin abstract class
