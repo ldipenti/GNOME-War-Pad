@@ -84,6 +84,13 @@
   (gtype-id "GWP_TYPE_TORP_SPEC")
 )
 
+(define-object Ui
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpUi")
+  (gtype-id "GWP_TYPE_UI")
+)
+
 ;; Enumerations and flags ...
 
 
@@ -3064,6 +3071,58 @@
 (define-function planet_get_list
   (c-name "planet_get_list")
   (return-type "GSList*")
+)
+
+(define-function hullspec_get_list
+  (c-name "hullspec_get_list")
+  (return-type "GSList*")
+)
+
+(define-function engspec_get_list
+  (c-name "engspec_get_list")
+  (return-type "GSList*")
+)
+
+(define-function beamspec_get_list
+  (c-name "beamspec_get_list")
+  (return-type "GSList*")
+)
+
+(define-function torpspec_get_list
+  (c-name "torpspec_get_list")
+  (return-type "GSList*")
+)
+
+(define-function plugin_reg_key_f
+  (c-name "plugin_reg_key_f")
+  (return-type "none")
+  (parameters
+    '("gchar*" "file")
+  )
+)
+
+
+
+;; From src/gwp-ui.h
+
+(define-function gwp_ui_get_type
+  (c-name "gwp_ui_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_ui_new
+  (c-name "gwp_ui_new")
+  (is-constructor-of "GwpUi")
+  (return-type "GwpUi*")
+)
+
+(define-method set_notification
+  (of-object "GwpUi")
+  (c-name "gwp_ui_set_notification")
+  (return-type "none")
+  (parameters
+    '("gchar*" "msg")
+  )
 )
 
 

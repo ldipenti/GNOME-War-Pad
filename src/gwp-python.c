@@ -26,6 +26,7 @@
 #include "gwp-python.h"
 #include <pygobject.h>
 #include "gwp-ship.h"
+/*#include "game_state.h"*/
 
 /* Forwards */
 void initgwp (void);

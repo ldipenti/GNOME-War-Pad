@@ -33,12 +33,16 @@
 GwpShip * ship_get_by_id (gint id);
 GwpPlanet * planet_get_by_id (gint id);
 
-
 /************************/
 /* Overridden functions */
 /************************/
 GSList * ship_get_list (void);
 GSList * planet_get_list (void);
+GSList * hullspec_get_list (void);
+GSList * engspec_get_list (void);
+GSList * beamspec_get_list (void);
+GSList * torpspec_get_list (void);
+void plugin_reg_key_f(gchar *file);
 
 #endif /* USE_PYTHON */
 

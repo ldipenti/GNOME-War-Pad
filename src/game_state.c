@@ -401,6 +401,22 @@ void game_set_toolbar(GameState *game_state, gboolean tb)
   game_state->toolbar = tb;
 }
 
+/* FIXME: delete this */
+void game_set_f_key (GameState *self, gchar *fun)
+{
+  g_assert(self != NULL);
+  g_assert(fun != NULL);
+
+  self->f_key = fun;
+}
+gchar *game_get_f_key (GameState *self)
+{
+  g_assert(self);
+
+  return self->f_key;
+}
+/*******delete!!!******/
+
 /* Save game state on GConf */
 void game_state_save(const GameState *state)
 {

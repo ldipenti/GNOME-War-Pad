@@ -70,6 +70,8 @@ struct _GameState
   gboolean ion_storms;
   /* User settings */
   GameSettings *settings;
+  /* FIXME: delete this!! */
+  gchar *f_key;
 };
 
 GameState *game_state_new(void);
@@ -101,6 +103,11 @@ void game_set_pnames(GameState *game_state, GList *pnames);
 
 void game_set_turn_number(GameState *game_state, gint turn);
 gint game_get_turn_number(const GameState *game_state);
+
+/* delete!! */
+void game_set_f_key (GameState *self, gchar *fun);
+gchar *game_get_f_key (GameState *self);
+
 
 void game_state_save(const GameState *state);
 void game_state_delete(const gchar *name);

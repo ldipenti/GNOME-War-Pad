@@ -40,7 +40,13 @@
 #include "gwp-messages.h"
 #include "gwp-utils.h"
 #include "message-reader.h"
+#include "gwp-py-functions.h"
 #include "vcr.h"
+
+
+static void plugin_execute_key_f(void);
+
+
 
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
@@ -84,6 +90,9 @@ starchart_event_key                    (GtkWidget       *widget,
       /* Hide panels */
     case GDK_Escape:
       starchart_close_extra_panels();
+      return TRUE;
+    case GDK_f:
+      plugin_execute_key_f();
       return TRUE;
       /* Distance calculator */
       /*    case GDK_x:
@@ -976,3 +985,9 @@ void on_view_python_console_activate (GtkWidget *widget,
 }
 
 
+static void plugin_execute_key_f(void)
+{
+  FILE *plugin = fopen (game_get_f_key(game_state), "r");
+  PyRun_SimpleFile (plugin, "test.py");
+  fclose (plugin);
+}
