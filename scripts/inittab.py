@@ -234,7 +234,10 @@ class PluginManager:
     # UI Slots management
     def add_plugin_slot(self, slot_name, widget):
         try:
-            self.__slots[slot_name].add(widget)
+            if widget.parent:
+                widget.reparent(self.__slots[slot_name])
+            else:
+                self.__slots[slot_name].add(widget)
         except KeyError:
             print "PluginManager: plugin slot '%s' does not exist!" % slot_name
     
