@@ -1457,6 +1457,8 @@ gwp_planet_get_tax_rate_natives (GwpPlanet *self)
   
   if (natives == NATIVE_INSECTOID)
     taxrate *= 2;
+  else if (natives == NATIVE_AMORPHOUS)
+    taxrate *= 0;
 
   return taxrate;
 }
