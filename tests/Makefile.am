@@ -9,6 +9,7 @@ INCLUDES = \
 	$(PY_CFLAGS) \
 	$(GTKGLEXT_CFLAGS) \
 	$(PYGTK_CFLAGS) \
+	$(PCRE_FLAGS) \
 	$(CHECK_CFLAGS)
 
 # FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
@@ -43,8 +44,10 @@ sources =								\
 	../src/gwp-torpspec.h		../src/gwp-torpspec.c		\
 	../src/gwp-engspec.h		../src/gwp-engspec.c		\
 	../src/gwp-minefield.h		../src/gwp-minefield.c		\
+	../src/gwp-messages.h		../src/gwp-messages.c		\
 	../src/gwp-ion-storm.h		../src/gwp-ion-storm.c		\
 	../src/gwp-starchart.h		../src/gwp-starchart.c		\
+	../src/gwp-race.h		../src/gwp-race.c		\
 	../src/gwp-ui.h			../src/gwp-ui.c			\
 	../src/gwp-py-functions.h	../src/gwp-py-functions.c	\
 	../src/support.h		../src/support.c		\
@@ -72,4 +75,5 @@ check_gwp_LDADD =  \
 	$(PY_LIB_LOC) $(PY_EXTRA_LIBS) $(PY_LIBS) \
 	$(GTKGLEXT_LIBS) \
 	$(PYGTK_LIBS) \
+	$(PCRE_LIBS) \
 	$(CHECK_LIBS)
