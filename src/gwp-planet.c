@@ -40,7 +40,7 @@ gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);
 struct _GwpPlanetPrivate {
   gboolean dispose_has_run; /**< Internal object's variable. */
   /* private attributes */
-  gboolean is_known; /**< TRUE if the planet is owned by the player. */
+  gboolean is_known; /**< TRUE if we know the planet in any way. */
   GwpStarbase *starbase; /**< Pointer to a starbase orbiting the
 			    planet. NULL if the planet doesn't have one. */
   gint16 owner; /**< Owner's race number. Range 1..11. */
@@ -175,7 +175,7 @@ static void gwp_planet_init (GTypeInstance *instance,
   self->priv->mined_tritanium = 0;
   self->priv->mined_duranium = 0;
   self->priv->mined_molybdenum = 0;
-  self->priv->colonists = 0;
+  self->priv->colonists = -1;
   self->priv->supplies = 0;
   self->priv->megacredits = 0;
   self->priv->ground_neutronium = 0;
@@ -193,7 +193,7 @@ static void gwp_planet_init (GTypeInstance *instance,
   self->priv->natives_spi = 0;
   self->priv->natives = 0;
   self->priv->natives_race = 0;
-  self->priv->temperature = 0;
+  self->priv->temperature = -1;
   self->priv->build_base = 0;
 }
 

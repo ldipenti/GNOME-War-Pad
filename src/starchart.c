@@ -966,7 +966,7 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
   gtk_notebook_set_current_page (panel, PANEL_PLANET_PAGE);
 
   /* If we have data on this planet, then work */
-  if (gwp_planet_is_known (a_planet)) {
+  if (gwp_planet_is_mine (a_planet)) {
 
     /* Underline planet name if it has starbase */
     if(gwp_planet_has_starbase (a_planet)) {
@@ -1076,14 +1076,14 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     g_free(tmp);
 	
   } else {
-    /** If planet is unknown... */
+    /** If planet isn't mine... */
 	
     tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
 			   gwp_object_get_name (GWP_OBJECT(a_planet)),
 			   gwp_object_get_id (GWP_OBJECT(a_planet)));
     gtk_label_set_markup(planet_name, tmp);
     g_free(tmp);
-	
+
     gtk_label_set_text (mines, _("--"));
     gtk_label_set_text (factories, _("--"));
     gtk_label_set_text (defenses, _("--"));
@@ -1109,6 +1109,29 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 			  gwp_object_get_y_coord (GWP_OBJECT(a_planet)));
     gtk_label_set_text(coords, tmp);
     g_free(tmp);
+
+    /* If we know the planet in some way ... */
+    if (gwp_planet_is_known (a_planet)) {
+      /* Owner */
+      tmp = g_strdup_printf("%s", 
+			    race_get_name(gwp_planet_get_owner(a_planet)));
+      gtk_label_set_text(owner, tmp);
+      g_free(tmp);
+      /* Temp */
+      if (gwp_planet_get_temperature(a_planet) >= 0) {
+	tmp = g_strdup_printf("%s (%d)", 
+			      gwp_planet_get_temperature_str (a_planet),
+			      gwp_planet_get_temperature_f (a_planet));
+	gtk_label_set_text(temperature, tmp);
+	g_free(tmp);
+      }
+      /* Colonists */
+      if (gwp_planet_get_colonists(a_planet) >= 0) {
+	tmp = g_strdup_printf ("%d", gwp_planet_get_colonists (a_planet));
+	gtk_label_set_markup (colonists, tmp);
+	g_free (tmp);
+      }
+    }
   }
 }
 
@@ -1590,6 +1613,18 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 				    "width_pixels", 1,
 				    "fill_color_rgba", UNIVERSE_COLOR_A,
 				    NULL);
+
+    } else if (gwp_planet_is_known(planet)) {
+      item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
+				    "outline_color_rgba", ENEMY_PLANET_COLOR,
+				    "x1", xi - PLANET_RADIUS, 
+				    "y1", yi - PLANET_RADIUS, 
+				    "x2", xi + PLANET_RADIUS, 
+				    "y2", yi + PLANET_RADIUS, 
+				    "width_pixels", 1,
+				    "fill_color_rgba", UNIVERSE_COLOR_A,
+				    NULL);
+
     } else {
       item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
 				    "outline_color", PLANET_COLOR,
@@ -2004,7 +2039,6 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
 					    GSList * planets_nearby,
 					    gdouble wx, gdouble wy)
 {
-  /*  GnomeCanvasItem *planet; */
   GwpPlanet *planet_data;
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
@@ -2020,7 +2054,6 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
   }
   
   planet_data = (GwpPlanet *)starchart_find_nearest_object (planets_nearby, wx, wy);
-  /*  planet_data = g_object_get_data (G_OBJECT (planet), "planet_data"); */
 
   if (GWP_IS_PLANET(planet_data)) {
     starchart_mark_planet(planet_data);
@@ -2646,7 +2679,8 @@ void starchart_mini_set_planet_img(GwpPlanet *planet)
   GdkPixmap *pixmap;
   gchar *img_name = DATADIR"/pixmaps/gwp/planets/planet";
 
-  if(!gwp_planet_is_known(planet)) {
+  /* If temp < 0, then temp is unknown */
+  if(gwp_planet_get_temperature(planet) < 0) {
     img_name = g_strconcat(img_name, "-unknown.png", NULL);
   } else {
     if((gwp_planet_get_temperature_f(planet) >= 0) && 

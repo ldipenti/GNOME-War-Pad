@@ -49,7 +49,11 @@
 #include "gwp-messages.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
+
 void scan_messages (void);
+void scan_messages_planet_orbit (const gchar *msg_body);
+void scan_messages_planet_scanned (const gchar *msg_body);
+
 static gint16 getWord(guchar* p);
 static gint32 getDWord(guchar* p);
 static GHashTable *target_list;
@@ -1533,76 +1537,173 @@ scan_messages (void)
   gint i;
 
   for (i = 0; i < qty; i++) {
-    gchar *msg_body = g_strdup(gwp_messages_getMessageRaw (msg_store, i));
     gchar *msg_hdr = g_strdup(gwp_messages_getMessageHeader (msg_store, i));
 
     /* Scanner report on planets */
     if (gwp_messages_grepMessage (msg_hdr, "-z0")) {
 
+      gchar *msg_body = g_strdup(gwp_messages_getMessageRaw (msg_store, i));
       /* Search for enemy clans on planets below our ships */
-      if (gwp_messages_grepMessage (msg_body,
-				    "There are enemy colonists")) {
-	pcre *re;
-	const gchar *error;
-	gint erroffset;
-	const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
-	re = pcre_compile (regexp, /* the pattern */
-			   PCRE_DOTALL,    /* options */
-			   &error,         /* for error message */
-			   &erroffset,     /* for error offset */
-			   NULL);          /* use default character tables */
-	if (error) {
-	  g_message ("WARNING: %s - offset: %d", error, erroffset);
-	} else {
-	  gint rc;
-	  gint ovector[30];
-	  rc = pcre_exec (re,               /* compiled regexp */
-			  NULL,             /* didn't study the pattern */
-			  msg_body,         /* subject string */
-			  strlen(msg_body), /* subject's length */
-			  0,                /* start at offset 0 */
-			  0,                /* default opts */
-			  ovector,          /* offsets vector*/
-			  30);              /* ovector size */
-	  
-	  if (rc > 0) {
-	    const gchar *p_id, *p_temp, *p_race, *p_clans;
-	    GwpPlanet *planet;
-
-	    /* Get the data */
-	    pcre_get_substring (msg_body, /* subject string */
-				ovector,  /* offsets vector */
-				rc,       /* total matches */
-				1,        /* match number */
-				&p_id);  /* output string */
-	    pcre_get_substring (msg_body, /* subject string */
-				ovector,  /* offsets vector */
-				rc,       /* total matches */
-				2,        /* match number */
-				&p_temp);  /* output string */
-	    pcre_get_substring (msg_body, /* subject string */
-				ovector,  /* offsets vector */
-				rc,       /* total matches */
-				3,        /* match number */
-				&p_race);  /* output string */
-	    pcre_get_substring (msg_body, /* subject string */
-				ovector,  /* offsets vector */
-				rc,       /* total matches */
-				4,        /* match number */
-				&p_clans);  /* output string */
-	    g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans);
-	    
-	    planet = (GwpPlanet *)g_hash_table_lookup (planet_list, (gpointer)atoi(p_id));
-	    g_assert (GWP_IS_PLANET(planet));
-	    gwp_planet_set_is_known (planet, TRUE);
-	    gwp_planet_set_temperature (planet, atoi(p_temp));
-	  }
-	}
+      if (gwp_messages_grepMessage (msg_body, "There are enemy colonists")) {
+	scan_messages_planet_orbit (msg_body);
+      } 
+      /* Search for enemy planets based on our sensor sweeps */
+      else if (gwp_messages_grepMessage (msg_body, "Sensors show there")) {
+	scan_messages_planet_scanned (msg_body);
       }
+      g_free (msg_body);
     }
-
-    g_free (msg_body);
     g_free (msg_hdr);
   }
-  
+}
+
+/**
+ * Enemy planet detected when a ship is in orbit.
+ */
+void 
+scan_messages_planet_orbit (const gchar *msg_body)
+{
+  pcre *re;
+  const gchar *error;
+  gint erroffset;
+  const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
+  re = pcre_compile (regexp,         /* the pattern */
+		     PCRE_DOTALL,    /* options */
+		     &error,         /* for error message */
+		     &erroffset,     /* for error offset */
+		     NULL);          /* use default character tables */
+  if (error) {
+    g_message ("WARNING: %s - offset: %d", error, erroffset);
+  } else {
+    gint rc;
+    gint ovector[30];
+    rc = pcre_exec (re,               /* compiled regexp */
+		    NULL,             /* didn't study the pattern */
+		    msg_body,         /* subject string */
+		    strlen(msg_body), /* subject's length */
+		    0,                /* start at offset 0 */
+		    0,                /* default opts */
+		    ovector,          /* offsets vector*/
+		    30);              /* ovector size */
+    
+    if (rc > 0) {
+      const gchar *p_id, *p_temp, *p_race, *p_clans;
+      GwpPlanet *planet;
+      
+      /* Get the data */
+      pcre_get_substring (msg_body, /* subject string */
+			  ovector,  /* offsets vector */
+			  rc,       /* total matches */
+			  1,        /* match number */
+			  &p_id);  /* output string */
+      pcre_get_substring (msg_body, /* subject string */
+			  ovector,  /* offsets vector */
+			  rc,       /* total matches */
+			  2,        /* match number */
+			  &p_temp);  /* output string */
+      pcre_get_substring (msg_body, /* subject string */
+			  ovector,  /* offsets vector */
+			  rc,       /* total matches */
+			  3,        /* match number */
+			  &p_race);  /* output string */
+      pcre_get_substring (msg_body, /* subject string */
+			  ovector,  /* offsets vector */
+			  rc,       /* total matches */
+			  4,        /* match number */
+			  &p_clans);  /* output string */
+      g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans);
+      
+      planet = (GwpPlanet *)g_hash_table_lookup (planet_list, 
+						 (gpointer)atoi(p_id));
+      g_assert (GWP_IS_PLANET(planet));
+      /* Assign known planet values */
+      gwp_planet_set_is_known (planet, TRUE);
+      gwp_planet_set_temperature (planet, 100-atoi(p_temp));
+      gwp_planet_set_colonists (planet, atoi(p_clans));
+      
+      /* Compare func */
+      static gint compare_race (gconstpointer race, gconstpointer adj) {
+	gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
+	if (strncmp(race_str, adj, strlen(adj)) == 0) 
+	  return 0;
+	else
+	  return 1;
+      }
+      /* Search  for the correct race object */
+      GSList *race_e = g_slist_find_custom (race_list, p_race, compare_race);
+      if (race_e != NULL) {
+	gwp_planet_set_owner (planet, g_slist_position(race_list, race_e)+1);
+      }
+    }
+  }
+}
+
+/**
+ * Enemy planet detected from scanners.
+ */
+void
+scan_messages_planet_scanned (const gchar *msg_body)
+{
+  pcre *re;
+  const gchar *error;
+  gint erroffset;
+  const gchar *regexp = ".*Planet ID#.*(\\b[0-9]+\\b).*>>> (\\b\\w+\\b)";
+  re = pcre_compile (regexp,      /* the pattern */
+		     PCRE_DOTALL, /* options */
+		     &error,      /* for error message */
+		     &erroffset,  /* for error offset */
+		     NULL);       /* use default char tables */
+  if (error) {
+    g_message ("WARNING: %s - offset: %d", error, erroffset);
+  } else {
+    gint rc;
+    gint ovector[30];
+    rc = pcre_exec (re,               /* compiled regexp */
+		    NULL,             /* didn't study the pattern */
+		    msg_body,         /* subject string */
+		    strlen(msg_body), /* subject's length */
+		    0,                /* start at offset 0 */
+		    0,                /* default opts */
+		    ovector,          /* offset vectors */
+		    30);              /* vector size */
+
+    if (rc > 0) {
+      const gchar *p_id, *p_race;
+      GwpPlanet *planet;
+
+      /* Get the data */
+      pcre_get_substring (msg_body, /* subject string */
+			  ovector,  /* offsets vector */
+			  rc,       /* total matches */
+			  1,        /* match number */
+			  &p_id);   /* output string */
+
+      pcre_get_substring (msg_body, /* subject string */
+			  ovector,  /* offsets vector */
+			  rc,       /* total matches */
+			  2,        /* match number */
+			  &p_race); /* output string */
+      g_message ("MATCH: Planet #%s: %s", p_id, p_race);
+      
+      planet = (GwpPlanet *)g_hash_table_lookup (planet_list, 
+						 (gpointer)atoi(p_id));
+      g_assert (GWP_IS_PLANET(planet));
+
+      /* Assign known planet values */
+      gwp_planet_set_is_known (planet, TRUE);
+      /* Compare func */
+      static gint compare_race (gconstpointer race, gconstpointer adj) {
+	gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
+	if (strncmp(race_str, adj, strlen(adj)) == 0) 
+	  return 0;
+	else
+	  return 1;
+      }
+      /* Search  for the correct race object */
+      GSList *race_e = g_slist_find_custom (race_list, p_race, compare_race);
+      if (race_e != NULL) {
+	gwp_planet_set_owner (planet, g_slist_position(race_list, race_e)+1);
+      }
+    }
+  }
 }

@@ -82,6 +82,7 @@
 #define HIGHLIGHTED_OWNED_SHIP_COLOR "light sky blue"
 
 #define OWNED_PLANET_COLOR "green"
+#define ENEMY_PLANET_COLOR 0xff0000ff /* red */
 #define OWNED_STARBASE_COLOR 0x00ff0077 /* RGBA */
 #define PLANET_COLOR "gray60"
 
