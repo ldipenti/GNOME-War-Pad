@@ -17,6 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include "gwp-planet.h"
 #include "gwp-starbase.h"
 
 /*
@@ -180,7 +181,18 @@ GwpStarbase * gwp_starbase_new (void)
   return g_object_new (gwp_starbase_get_type (), NULL);
 }
 
+/**********************/
+/* High level methods */
+/**********************/
+gint16 gwp_starbase_get_id (GwpStarbase *self)
+{
+  g_assert (GWP_IS_STARBASE(self));
+  return gwp_object_get_id (GWP_OBJECT(gwp_starbase_get_planet (self)));
+}
+
+/*******************/
 /* get/set methods */
+/*******************/
 gint16 gwp_starbase_get_defense (GwpStarbase *self)
 {
   g_assert (GWP_IS_STARBASE(self));

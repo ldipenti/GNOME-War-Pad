@@ -22,6 +22,7 @@
 
 #include "vp_types.h"
 #include "gwp-planet.h"
+#include "gwp-starbase.h"
 
 // Starchart init function
 void init_starchart(GtkWidget *gwp);
@@ -32,7 +33,7 @@ gint handle_planet_event(GnomeCanvasItem *item, GdkEvent *event, gpointer data);
 gint handle_starchart_event(GnomeCanvas *item, GdkEvent *event, gpointer data);
 
 // Updates Planet Data on Panel
-void update_starbase_panel(gint16 planet_id);
+void update_starbase_panel(GwpPlanet *planet);
 void update_global_defense_panel(GwpPlanet *planet);
 void update_planet_panel(GtkWidget *gwp, GwpPlanet *a_planet);
 void update_planet_extra_panel (gint16 planet_id);

@@ -33,7 +33,6 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#include "gwp-planet.h"
 
 /*
  * Type macros.
@@ -57,6 +56,10 @@ struct _GwpStarbaseClass {
   /* class members */
 };
 
+/* This is included here because of the cyclic needs of types between
+   GwpStarbase and GwpPlanet */
+#include "gwp-planet.h"
+
 /* used by GWP_STARBASE_TYPE */
 GType gwp_starbase_get_type (void);
 
@@ -64,7 +67,16 @@ GType gwp_starbase_get_type (void);
  * Public method definitions.
  */
 GwpStarbase * gwp_starbase_new (void);
+
+/**********************/
+/* High level methods */
+/**********************/
+gint16 gwp_starbase_get_id (GwpStarbase *self);
+
+
+/*******************/
 /* get/set methods */
+/*******************/
 gint16 gwp_starbase_get_defense (GwpStarbase *self);
 void gwp_starbase_set_defense (GwpStarbase *self, gint16 def);
 gint16 gwp_starbase_get_damage (GwpStarbase *self);
@@ -109,10 +121,11 @@ gint16 gwp_starbase_get_build_torp_count (GwpStarbase *self);
 void gwp_starbase_set_build_torp_count (GwpStarbase *self, gint16 count);
 gint16 gwp_starbase_get_fighter_count (GwpStarbase *self);
 void gwp_starbase_set_fighter_count (GwpStarbase *self, gint16 count);
+
 /* FIXME: If I include this headers, I get parser errors from gcc (?)
-GwpPlanet * gwp_starbase_get_planet (GwpStarbase *self);
-void gwp_starbase_set_planet (GwpStarbase *self, GwpPlanet *p);
 */
+void gwp_starbase_set_planet (GwpStarbase *self, GwpPlanet *p);
+GwpPlanet * gwp_starbase_get_planet (GwpStarbase *self);
 
 /*
  * Standard defines.

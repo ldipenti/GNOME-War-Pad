@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002, 2003  Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004  Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -31,7 +31,6 @@
 #include <glib-object.h>
 
 #include "gwp-object.h"
-#include "gwp-starbase.h"
 
 /*
  * Type macros.
@@ -54,6 +53,10 @@ struct _GwpPlanetClass {
   GwpObjectClass parent;
   /* class members */
 };
+
+/* This is included here because of the cyclic needs of types between
+   GwpStarbase and GwpPlanet */
+#include "gwp-starbase.h"
 
 /* used by GWP_PLANET_TYPE */
 GType gwp_planet_get_type (void);
@@ -104,10 +107,9 @@ gint gwp_planet_get_tax_earned_natives(GwpPlanet *self);
 /*******************/
 gboolean gwp_planet_is_known (GwpPlanet *self);
 void gwp_planet_set_is_known (GwpPlanet *self, gboolean is_known);
-/* FIXME: If I include this headers, I get parser errors from gcc (?)
-GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self);
 void gwp_planet_set_starbase (GwpPlanet *self, GwpStarbase *sb);
-*/
+GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self);
+
 gint16 gwp_planet_get_owner (GwpPlanet *self);
 void gwp_planet_set_owner (GwpPlanet *self, gint16 o);
 GString * gwp_planet_get_fcode (GwpPlanet *self);

@@ -19,11 +19,11 @@
 
 #include <math.h>
 
-#include "gwp-planet.h"
 #include "gwp-starbase.h"
 #include "race.h"
 #include "global.h"
 #include "game_state.h"
+#include "gwp-planet.h"
 
 gint gwp_planet_mineral_extraction_rate(gint mines, gint density, gint mineral);
 gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);

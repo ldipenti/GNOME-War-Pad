@@ -22,6 +22,16 @@ EXTRA_DIST = \
 	gwp.glade
 
 gwp_SOURCES = \
+	gwp-object.h\
+	gwp-object.c\
+	gwp-flying-object.h\
+	gwp-flying-object.c\
+	gwp-ship.h\
+	gwp-ship.c\
+	gwp-starbase.h\
+	gwp-starbase.c\
+	gwp-planet.h\
+	gwp-planet.c\
 	callbacks.c\
 	callbacks.h\
 	support.c\
@@ -50,17 +60,7 @@ gwp_SOURCES = \
 	tables.c\
 	tables.h\
 	race.c\
-	race.h\
-	gwp-object.h\
-	gwp-object.c\
-	gwp-flying-object.h\
-	gwp-flying-object.c\
-	gwp-ship.h\
-	gwp-ship.c\
-	gwp-starbase.h\
-	gwp-starbase.c\
-	gwp-planet.h\
-	gwp-planet.c
+	race.h
 
 gwp_LDFLAGS = 
 

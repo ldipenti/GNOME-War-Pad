@@ -353,12 +353,12 @@ gboolean planet_valid_coords(Planet *planet)
 gint planet_what_is(Planet *planet)
 {
   g_assert(planet != NULL);
-  if(planet_get_owner(planet) == game_get_race(game_state))
-    {
-      return IS_MINE;
-    } else {
-      return IS_ENEMY; // FIXME: Check for allied planets!!!
-    }
+
+  if(planet_get_owner(planet) == game_get_race(game_state)) {
+    return IS_MINE;
+  } else {
+    return IS_ENEMY; // FIXME: Check for allied planets!!!
+  }
 }
 
 gint planet_get_visibility(Planet *planet)

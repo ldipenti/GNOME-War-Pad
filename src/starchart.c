@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/*
- * StarChart Helper Functions
- */
 #include <gnome.h>
 #include <math.h>
 
@@ -30,20 +27,19 @@
 #include "support.h"
 #include "vp_utils.h"
 #include "starchart.h"
-#include "planet.h"
 #include "ship.h"
 #include "tables.h"
-#include "base.h"
 
 /*
  * Updates Planet Data on Panel
  */
-void update_starbase_panel(gint16 planet_id)
+void update_starbase_panel(GwpPlanet *planet)
 {
   GtkProgressBar *tech_engines, *tech_hulls, *tech_beams, *tech_torps;
   GtkProgressBar *base_defenses, *base_fighters, *base_damage;
-  Planet *planet;
   gchar *tmp;
+
+  g_assert (GWP_IS_PLANET(planet));
   
   tech_engines = (GtkProgressBar *) lookup_widget("progressbar_tech_engines");
   tech_hulls = (GtkProgressBar *) lookup_widget("progressbar_tech_hulls");
@@ -57,49 +53,48 @@ void update_starbase_panel(gint16 planet_id)
   base_damage = (GtkProgressBar *) 
     lookup_widget("progressbar_base_damage");
 
-  planet = gwp_planet_get(planet_list, planet_id);
-  if(planet_has_starbase(planet)) {
-    Base *base = planet_get_base(planet);
+  if(gwp_planet_has_starbase(planet)) {
+    GwpStarbase *base = gwp_planet_get_starbase(planet);
 
     gtk_progress_bar_set_fraction(tech_engines, 
-				  (gdouble)base_get_engines_tech(base)/10);
-    tmp = g_strdup_printf(_("Engines: %d"), base_get_engines_tech(base));
+				  (gdouble)gwp_starbase_get_engines_tech(base)/10);
+    tmp = g_strdup_printf(_("Engines: %d"), gwp_starbase_get_engines_tech(base));
     gtk_progress_bar_set_text(tech_engines, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(tech_hulls, 
-				  (gdouble)base_get_hulls_tech(base)/10);
-    tmp = g_strdup_printf(_("Hulls: %d"), base_get_hulls_tech(base));
+				  (gdouble)gwp_starbase_get_hulls_tech(base)/10);
+    tmp = g_strdup_printf(_("Hulls: %d"), gwp_starbase_get_hulls_tech(base));
     gtk_progress_bar_set_text(tech_hulls, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(tech_beams, 
-				  (gdouble)base_get_beams_tech(base)/10);
-    tmp = g_strdup_printf(_("Beams: %d"), base_get_beams_tech(base));
+				  (gdouble)gwp_starbase_get_beams_tech(base)/10);
+    tmp = g_strdup_printf(_("Beams: %d"), gwp_starbase_get_beams_tech(base));
     gtk_progress_bar_set_text(tech_beams, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(tech_torps, 
-				  (gdouble)base_get_torps_tech(base)/10);
-    tmp = g_strdup_printf(_("Torpedoes: %d"), base_get_torps_tech(base));
+				  (gdouble)gwp_starbase_get_torps_tech(base)/10);
+    tmp = g_strdup_printf(_("Torpedoes: %d"), gwp_starbase_get_torps_tech(base));
     gtk_progress_bar_set_text(tech_torps, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(base_defenses,
-				  (gdouble)base_get_defense(base)/200);
-    tmp = g_strdup_printf(_("Defenses: %d"), base_get_defense(base));
+				  (gdouble)gwp_starbase_get_defense(base)/200);
+    tmp = g_strdup_printf(_("Defenses: %d"), gwp_starbase_get_defense(base));
     gtk_progress_bar_set_text(base_defenses, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(base_fighters, 
-				  (gdouble)base_get_fighters(base)/60);
-    tmp = g_strdup_printf(_("Fighters: %d"), base_get_fighters(base));
+				  (gdouble)gwp_starbase_get_fighters(base)/60);
+    tmp = g_strdup_printf(_("Fighters: %d"), gwp_starbase_get_fighters(base));
     gtk_progress_bar_set_text(base_fighters, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(base_damage, 
-				  (gdouble)base_get_damage(base)/100);
-    tmp = g_strdup_printf(_("Damage: %d%%"), base_get_damage(base));
+				  (gdouble)gwp_starbase_get_damage(base)/100);
+    tmp = g_strdup_printf(_("Damage: %d%%"), gwp_starbase_get_damage(base));
     gtk_progress_bar_set_text(base_damage, tmp);
     g_free(tmp);
 
@@ -526,9 +521,11 @@ void update_ship_panel (GtkWidget * gwp, GSList * ship_l)
   // END-FIXME
 
   GtkLabel *ship_name;
+  /*
   GList *item_list = NULL;
   Ship *a_ship;
   gint i, ship_id;
+  */
 
   // Select the planet page on panel
   panel = (GtkNotebook *) lookup_widget ("info_panel");
@@ -829,9 +826,9 @@ void init_starchart (GtkWidget * gwp)
   }
   
   // Loads Planets on Starchart
-  g_message("Cargando planetas...");
+  g_message("Loading planets...");
   g_hash_table_foreach (planet_list, (GHFunc) draw_planet, gwp);
-  g_message("Planetas cargados...");
+  g_message("Planets loaded...");
   
   // Set grid up in the item pile.
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
@@ -1031,11 +1028,11 @@ GnomeCanvasItem * starchart_highlight_nearest_ship (GSList * ships_in_quad,
 gboolean starchart_is_my_planet (GnomeCanvasItem * planet_item)
 {
   gdouble x, y;
-  Planet *planet = NULL;
+  GwpPlanet *planet = NULL;
   
   starchart_get_object_center_coord (planet_item, &x, &y);
   planet = g_object_get_data (G_OBJECT (planet_item), "planet_data");
-  if (planet_what_is (planet) == IS_MINE) {
+  if (gwp_planet_what_is (planet) == IS_MINE) {
     return TRUE;
   } else {
     return FALSE;
@@ -1085,10 +1082,8 @@ starchart_select_nearest_planet (GtkWidget * gwp,
     starchart_mini_set_planet_img(planet_data);
     table_population_update(planet_data);
     update_global_defense_panel(planet_data);
+    update_starbase_panel(planet_data);
 
-    /*
-    update_starbase_panel(planet_get_id(planet_data));
-    */
     return planet;
   } else {
     return NULL;

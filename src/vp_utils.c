@@ -33,6 +33,7 @@
 #include "base.h"
 #include "starchart.h"
 #include "gwp-planet.h"
+#include "gwp-starbase.h"
 
 /*
  * Data Loading Init Function
@@ -517,11 +518,6 @@ GHashTable * load_pdata (void)
   GString *pdata_dis_file, *pdata_dat_file;
   FILE *pdata = NULL;
   VpXYPlanReg *coords = NULL;
-  /*
-  VpPlanetReg planet;
-  VpPlanetReg *tmp = NULL;
-  Planet *planet_reg = NULL;
-  */
   GHashTable *planet_list = NULL;
   GList *pnames = NULL;
   gint16 planets_nr;
@@ -664,36 +660,13 @@ GHashTable * load_pdata (void)
     gwp_planet_set_temperature (p, getWord(buffer+81));
     gwp_planet_set_build_base (p, getWord(buffer+83));
 
-    /* Assign new memory for new planet */
-    /*
-    tmp = g_malloc (sizeof (VpPlanetReg));
-    tmp = planet;
-    */
-    
-    /* Generate the planet register */
-    /*
-    planet_reg = g_malloc (sizeof (Planet));
-    planet_reg->pdata = tmp;
-    */
-    /* coords = g_list_nth_data (xyplanet_list, planet.id - 1); */
     coords = g_list_nth_data (xyplanet_list, gwp_object_get_id(GWP_OBJECT(p))-1);
     gwp_object_set_x_coord (GWP_OBJECT(p), coords->x);
     gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
     gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (GWP_OBJECT(p)) - 1)));
-    /*
-    planet_reg->x = coords->x;
-    planet_reg->y = coords->y;
-    planet_reg->owner = planet_reg->pdata->owner;
-    planet_reg->id = planet_reg->pdata->id;
-    strcpy (planet_reg->name,
-	    (gchar *) g_list_nth_data (pnames, planet.id - 1));
-    */
+
 
     /* Add planet to list */
-    /*
-    g_hash_table_insert (planet_list, (gpointer)(gint)planet_get_id (planet_reg), planet_reg);
-    */
-
     g_hash_table_insert (planet_list, (gpointer)(gint)gwp_object_get_id(GWP_OBJECT(p)), p);
 
   }
@@ -839,11 +812,13 @@ GHashTable *load_bdata(void)
   GString *bdata_dis_file, *bdata_dat_file;
   FILE *bdata = NULL;
   Base *base;
+  GwpStarbase *b;
+  GwpPlanet *p;
   GHashTable *base_list = NULL;
   struct stat dis_data;
   struct stat dat_data;
   gint16 bases_nr;
-  gint i;
+  gint i, idx;
   gchar buffer[156];
 
   bdata_dis_file = 
@@ -890,102 +865,66 @@ GHashTable *load_bdata(void)
   fread(&bases_nr, sizeof(gint16), 1, bdata);
 
   for(i = 0; i < bases_nr; i++) {
+    gint16 starbase_id;
+
     /* Read Base data from file */
     fread(buffer, 156, 1, bdata);
 
     /* Load Base data on struct */
     base = base_new();
-    base->bdata->id = getWord(buffer);
-    base->bdata->owner = getWord(buffer + 2);
-    base->bdata->defense = getWord(buffer + 4);
-    base->bdata->damage = getWord(buffer + 6);
+    b = gwp_starbase_new();
 
-    base->bdata->engines_tech = getWord(buffer + 8);
-    base->bdata->hulls_tech = getWord(buffer + 10);
-    base->bdata->beams_tech = getWord(buffer + 12);
-    base->bdata->torps_tech = getWord(buffer + 14);
+    starbase_id = getWord (buffer);
+    /* owner is skipped...it's already on planet */
+    gwp_starbase_set_defense (b, getWord (buffer + 4));
+    gwp_starbase_set_damage (b, getWord (buffer + 6));
 
-    base->bdata->storage_engines[0] = getWord(buffer + 16);
-    base->bdata->storage_engines[1] = getWord(buffer + 18);
-    base->bdata->storage_engines[2] = getWord(buffer + 20);
-    base->bdata->storage_engines[3] = getWord(buffer + 22);
-    base->bdata->storage_engines[4] = getWord(buffer + 24);
-    base->bdata->storage_engines[5] = getWord(buffer + 26);
-    base->bdata->storage_engines[6] = getWord(buffer + 28);
-    base->bdata->storage_engines[7] = getWord(buffer + 30);
-    base->bdata->storage_engines[8] = getWord(buffer + 32);
+    gwp_starbase_set_engines_tech (b, getWord (buffer + 8));
+    gwp_starbase_set_hulls_tech (b, getWord (buffer + 10));
+    gwp_starbase_set_beams_tech (b, getWord (buffer + 12));
+    gwp_starbase_set_torps_tech (b, getWord (buffer + 14));
 
-    base->bdata->storage_hulls[0] = getWord(buffer + 34);
-    base->bdata->storage_hulls[1] = getWord(buffer + 36);
-    base->bdata->storage_hulls[2] = getWord(buffer + 38);
-    base->bdata->storage_hulls[3] = getWord(buffer + 40);
-    base->bdata->storage_hulls[4] = getWord(buffer + 42);
-    base->bdata->storage_hulls[5] = getWord(buffer + 44);
-    base->bdata->storage_hulls[6] = getWord(buffer + 46);
-    base->bdata->storage_hulls[7] = getWord(buffer + 48);
-    base->bdata->storage_hulls[8] = getWord(buffer + 50);
-    base->bdata->storage_hulls[9] = getWord(buffer + 52);
-    base->bdata->storage_hulls[10] = getWord(buffer + 54);
-    base->bdata->storage_hulls[11] = getWord(buffer + 56);
-    base->bdata->storage_hulls[12] = getWord(buffer + 58);
-    base->bdata->storage_hulls[13] = getWord(buffer + 60);
-    base->bdata->storage_hulls[14] = getWord(buffer + 62);
-    base->bdata->storage_hulls[15] = getWord(buffer + 64);
-    base->bdata->storage_hulls[16] = getWord(buffer + 66);
-    base->bdata->storage_hulls[17] = getWord(buffer + 68);
-    base->bdata->storage_hulls[18] = getWord(buffer + 70);
-    base->bdata->storage_hulls[19] = getWord(buffer + 72);
+    for(idx = 0; idx <= 8; idx++) {
+      gwp_starbase_set_storage_engines (b, idx, 
+					getWord (buffer + (16+(idx*2))));
+    }
 
-    base->bdata->storage_beams[0] = getWord(buffer + 74);
-    base->bdata->storage_beams[1] = getWord(buffer + 76);
-    base->bdata->storage_beams[2] = getWord(buffer + 78);
-    base->bdata->storage_beams[3] = getWord(buffer + 80);
-    base->bdata->storage_beams[4] = getWord(buffer + 82);
-    base->bdata->storage_beams[5] = getWord(buffer + 84);
-    base->bdata->storage_beams[6] = getWord(buffer + 86);
-    base->bdata->storage_beams[7] = getWord(buffer + 88);
-    base->bdata->storage_beams[8] = getWord(buffer + 90);
-    base->bdata->storage_beams[9] = getWord(buffer + 92);
+    for(idx = 0; idx <= 19; idx++) {
+      gwp_starbase_set_storage_hulls (b, idx, getWord (buffer + (34+(idx*2))));
+    }
 
-    base->bdata->storage_torp_launchers[0] = getWord(buffer + 94);
-    base->bdata->storage_torp_launchers[1] = getWord(buffer + 96);
-    base->bdata->storage_torp_launchers[2] = getWord(buffer + 98);
-    base->bdata->storage_torp_launchers[3] = getWord(buffer + 100);
-    base->bdata->storage_torp_launchers[4] = getWord(buffer + 102);
-    base->bdata->storage_torp_launchers[5] = getWord(buffer + 104);
-    base->bdata->storage_torp_launchers[6] = getWord(buffer + 106);
-    base->bdata->storage_torp_launchers[7] = getWord(buffer + 108);
-    base->bdata->storage_torp_launchers[8] = getWord(buffer + 110);
-    base->bdata->storage_torp_launchers[9] = getWord(buffer + 112);
+    for(idx = 0; idx <= 9; idx++) {
+      gwp_starbase_set_storage_beams (b, idx, getWord (buffer + (74+(idx*2))));
+    }
 
-    base->bdata->storage_torps[0] = getWord(buffer + 114);
-    base->bdata->storage_torps[1] = getWord(buffer + 116);
-    base->bdata->storage_torps[2] = getWord(buffer + 118);
-    base->bdata->storage_torps[3] = getWord(buffer + 120);
-    base->bdata->storage_torps[4] = getWord(buffer + 122);
-    base->bdata->storage_torps[5] = getWord(buffer + 124);
-    base->bdata->storage_torps[6] = getWord(buffer + 126);
-    base->bdata->storage_torps[7] = getWord(buffer + 128);
-    base->bdata->storage_torps[8] = getWord(buffer + 130);
-    base->bdata->storage_torps[9] = getWord(buffer + 132);
+    for(idx = 0; idx <= 9; idx++) {
+      gwp_starbase_set_storage_torp_launchers (b, idx, 
+					       getWord (buffer+(94+(idx*2))));
+    }
 
-    base->bdata->fighters = getWord(buffer + 134);
-    base->bdata->id_ship = getWord(buffer + 136);
-    base->bdata->ship_action = getWord(buffer + 138);
-    base->bdata->mission = getWord(buffer + 140);
+    for(idx = 0; idx <= 9; idx++) {
+      gwp_starbase_set_storage_torps (b, idx, getWord (buffer+(114+(idx*2))));
+    }
 
-    base->bdata->build_ship_type = getWord(buffer + 142);
-    base->bdata->build_engine_type = getWord(buffer + 144);
-    base->bdata->build_beam_type = getWord(buffer + 146);
-    base->bdata->build_beam_count = getWord(buffer + 148);
-    base->bdata->build_torp_type = getWord(buffer + 150);
-    base->bdata->build_torp_count = getWord(buffer + 152);
+    gwp_starbase_set_fighters (b, getWord (buffer + 134));
+    gwp_starbase_set_id_ship (b, getWord (buffer + 136));
+    gwp_starbase_set_ship_action (b, getWord (buffer + 138));
+    gwp_starbase_set_mission (b, getWord (buffer + 140));
 
-    /* This should always be zero */
-    base->bdata->fighter_count = 0;
+    gwp_starbase_set_build_ship_type (b, getWord (buffer + 142));
+    gwp_starbase_set_build_engine_type (b, getWord (buffer + 144));
+    gwp_starbase_set_build_beam_type (b, getWord (buffer + 146));
+    gwp_starbase_set_build_beam_count (b, getWord (buffer + 148));
+    gwp_starbase_set_build_torp_type (b, getWord (buffer + 150));
+    gwp_starbase_set_build_torp_count (b, getWord (buffer + 152));
 
-    /* Add base to list */
-    g_hash_table_insert(base_list, (gpointer)(gint)base_get_id(base), base);
+    /* Add planet reference to starbase and viceversa */
+    p = gwp_planet_get (planet_list, starbase_id);
+    gwp_starbase_set_planet (b, p);
+    gwp_planet_set_starbase (p, b);
+
+    /* Add starbase to list */
+    g_hash_table_insert(base_list, (gpointer)(gint)gwp_starbase_get_id(b), b);
   }
   fclose(bdata);
 
