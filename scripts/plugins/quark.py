@@ -8,6 +8,7 @@ import gtk.glade
 
 class Quark(gwp.Plugin):
     import quark_utils
+    
     name = "Quark"
     version = "0.15"
     author_name = "Cristian Abalos"
@@ -17,13 +18,12 @@ class Quark(gwp.Plugin):
     license = "GPL"
     hotkey = 'q'
 
-    FILTER_NONE = 1
-    RUTA_QUARK_FILES = gwp.get_system_plugins_dir() + 'quark_files/'
     natt = ''
     prioridad_aviso = quark_utils.PRIORIDAD_AVISO_NINGUNO
     
     #--------------------------------------------------------------------------     
     def _init_lists(self):
+        """Carga la lista de planetas propios y los conocidos desabitados."""
         self.pl = []
         self.pl_otros = []
         all_pl = gwp.planet_get_list()
@@ -35,19 +35,27 @@ class Quark(gwp.Plugin):
                 self.pl_otros.append(p)
 
     #--------------------------------------------------------------------------
-    
-# *******************************  REPORTE ************************************
+    def determine_planet_qdata(self, p, planeta):
+        """Determina el tipo de planeta y setea los valores en la estructura
+        planeta que se devuelve"""
+        income_col = p.get_tax_collected_colonists()
+        if income_col > self.quark_utils.RECAUDADOR_MIN_MC:
+            planeta['recaudador'] = 1
+        else:
+            tax, income = calculate_max_income_from_natives(p)
+            if income > self.quark_utils.RECAUDADOR_MIN_MC:
+                planeta['recaudador'] = 1
+        planeta = determine_mineral_composition(p, planeta)
 
-    #--------------------------------------------------------------------------    
-    def quark_report_generate(self, p):
-        """Realiza todos los chequeos para mostrar el reporte en la ventana de
-        existir algo que informar."""
-        self.textbuffer = self.tv_notification.get_buffer()
-        self.textbuffer.set_text(self.natt)
+        # Determino el tipo de planeta que recomiendo
+        if planeta['recaudador'] == 1:
+            planeta['tipo_quark'] = self.quark_utils.TIPO_RECAUDADOR
+        elif planeta['minero_neu'] or planeta['minero_tri'] or planeta['minero_dur'] or planeta['minero_mol']:
+            planeta['tipo_quark'] = self.quark_utils.TIPO_MINERO
+        else:
+            planeta['tipo_quark'] = self.quark_utils.TIPO_COMUN
         
-    #--------------------------------------------------------------------------
-    
-# ***************************  Notification Area  *****************************
+        return planeta
 
     #--------------------------------------------------------------------------
     def na_report_generate(self, p):
@@ -61,13 +69,6 @@ class Quark(gwp.Plugin):
         self.report_verify_colonists(p)
         #self.report_verify_temperature(p) # Ve si conviene Terraformar
         
-    #--------------------------------------------------------------------------
-    
-# *****************************************************************************
-# ***************************  Funciones comunes  *****************************
-# ************************  a reporte y notif area ****************************
-# *****************************************************************************
-
     #--------------------------------------------------------------------------
     def calculate_future_happyness_natives(self, p):
         """Devuelve el valor de happyness del siguiente turno"""
@@ -89,37 +90,46 @@ class Quark(gwp.Plugin):
         if (p.get_natives_race() <> 5): # Si no son Amorphous
             tax, max_i = self.calculate_max_income_from_natives(p)
             if max_i > p.get_tax_collected_natives():
-                factor_impuestos = p.get_tax_rate_natives()/100
-                col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
+
+                factor_impuestos = (p.get_tax_rate_colonists() / 100) * (p.get_tax_rate_natives()/100)
                 
-                if col_faltan > p.get_colonists():
-                    return col_faltan
+                col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
+                # Calculo el limite por temp
+                limit = p.get_col_growth_limit()
+                if limit < col_faltan:
+                    col_faltan = limit - p.get_colonists()
+                return col_faltan
         return 0
     #--------------------------------------------------------------------------    
     def calculate_max_income_from_natives(self, p):
         """ Determino el maximo que se puede cobrar (con una copia del planeta)
         devuelve (% de impuesto, cantidad de MC) """
-        if p.get_natives(): # SI no hay nativos no tiene sentido esto 
+        if p.get_natives() and (p.get_natives_race() <> 5): # nativos y no amorfos
             future_p = p.copy()
 
             #gs = gwp.get_game_state()
             #nro_raza = gs.get_race_nr()
             #future_p.set_owner(nro_raza)
-            
-            future_p.set_colonists(1000) # suficientemente grande para evitar problemas
+            factor_impuestos = (p.get_tax_rate_colonists() / 100) * (p.get_tax_rate_natives()/100)
+            future_p.set_colonists(99000) # suficientemente grande para evitar problemas
             tax = 1
-            while tax:
+            while tax <= 100:
                 future_p.set_tax_natives(tax)
                 hap_dif = future_p.get_happiness_nat_change()
                 limit = future_p.get_col_growth_limit()
                 income = future_p.get_tax_collected_natives()
-                if  (hap_dif >= 0) and  (limit >= income):
+                # Aumento los tax hasta que no tengo un  modificador negativo de happ
+                # y lo que cobro no es afectado por el limite de poblacion
+                if  (hap_dif >= 0) and ((limit * factor_impuestos) >= income):
                     tax += 1
                 else:
                     if hap_dif < 0:
                         tax -= 1
                     future_p.set_tax_natives(tax)
                     income = future_p.get_tax_collected_natives()
+                    if income > limit:
+                        income = limit * factor_impuestos
+                    # FIXME : Falta calcular el tax correcto
                     return tax, income
         return 0,0
 
@@ -135,11 +145,34 @@ class Quark(gwp.Plugin):
         return 0
 
     #--------------------------------------------------------------------------
-    def is_miner_planet(self, p):
+    def determine_mineral_composition(self, p, planeta):
         """Determina si la cantidad de mineral que se puede obtener esta dentro
         de los parametros de *Planeta Minero*."""
-        return 0
-
+        # Neu
+        if p.get_ground_neutronium() > self.quark_utils.MINERO_NEU:
+            densidad = str(p.get_dens_neutronium() * p.get_mining_rate()/100)
+            if densidad > self.quark_utils.MINERO_EXTR_NEU:
+                planeta['minero_neu'] = 1
+                
+        # Tri
+        if p.get_ground_tritanium() > self.quark_utils.MINERO_TRI:
+            densidad = str(p.get_dens_tritanium() * p.get_mining_rate()/100)
+            if densidad > self.quark_utils.MINERO_EXTR_TRI:
+                planeta['minero_tri'] = 1
+                
+        # Dur
+        if p.get_ground_duranium() > self.quark_utils.MINERO_DUR:
+            densidad = str(p.get_dens_duranium() * p.get_mining_rate()/100)
+            if densidad > self.quark_utils.MINERO_EXTR_DUR:
+                planeta['minero_dur'] = 1
+                
+        # Mol
+        if p.get_ground_molybdenum() > self.quark_utils.MINERO_MOL:
+            densidad = str(p.get_dens_Molybdenum() * p.get_mining_rate()/100)
+            if densidad > self.quark_utils.MINERO_EXTR_MOL:
+                planeta['minero_mol'] = 1
+                
+        return planeta
         
     #--------------------------------------------------------------------------
     def report_verify_happyness(self, p, people):
@@ -187,7 +220,7 @@ class Quark(gwp.Plugin):
             dif = max_i - p.get_tax_collected_natives()
             if dif < 0:
                 dif = 0
-            
+
             # REPORTA "Faltan colonos"
             if col_faltan_tax or col_faltan_sup:
                 if col_faltan_tax > col_faltan_sup:
@@ -293,8 +326,23 @@ class Quark(gwp.Plugin):
         self._init_lists()
         self.__create_gui()
         # self.conectar_planetas()
+        self.quark_utils.init_tips(self) # Carga lista de consejos
         self.inicializar_interfaces() # Notification Area
-    
+
+    #--------------------------------------------------------------------------
+    def init_planets_structure(self):
+        planeta_vacio = self.quark_utils.planeta_quark
+        self.pl_qdata = {}
+
+        for p in self.pl:
+            pid = p.get_id
+            planeta = planeta_vacio
+            planeta['pid'] = pid
+            planeta = self.determine_planet_qdata(p, planeta)
+            self.pl_qdata[pid] = planeta
+
+        # FIXME : los mismo para otros planetas
+        
     #--------------------------------------------------------------------------
     def __create_gui(self):
         # Para el manejo de la selecion en los treeviews
@@ -344,7 +392,7 @@ class Quark(gwp.Plugin):
             self.na.add_notification(self.quark_icon)
             self.natt = ''
             self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
-                                self.quark_utils.get_regla_adquisicion()) # Un msj cheto 
+                                self.quark_utils.get_tip(self)) # Un msj cheto 
 
     #--------------------------------------------------------------------------
     def destruir_interfaces(self):
@@ -378,13 +426,13 @@ class Quark(gwp.Plugin):
         # remuevo la imagen anterior
         self.quark_icon.remove(self.i)
         # preparo la nueva imagen
-        self.i.set_from_file(self.RUTA_QUARK_FILES + filename)
+        self.i.set_from_file(self.quark_utils.RUTA_QUARK_FILES + filename)
         self.i.show()
         # agrego la nueva imagen
         self.quark_icon.add(self.i)
         self.quark_icon.show()
         if not texto:
-            texto = self.quark_utils.get_regla_adquisicion() # Un msj cheto 
+            texto = self.quark_utils.get_tip(self) # Un msj cheto 
         self.na.set_tooltip(self.quark_icon, texto)
 
     #--------------------------------------------------------------------------
@@ -397,7 +445,7 @@ class Quark(gwp.Plugin):
         if self.na and (event == 'planet-selected'):
             self.natt = ''
             self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
-                                self.quark_utils.get_regla_adquisicion()) # Un msj cheto 
+                                self.quark_utils.get_tip(self)) # Un msj cheto 
             pid = objeto.get_id()
             for planeta in self.pl:
                 if planeta.get_id() == pid:
@@ -408,7 +456,14 @@ class Quark(gwp.Plugin):
         if self.na and (event == 'ship-selected'):
             self.na.remove_notification(self.quark_icon)
 
-    #--------------------------------------------------------------------------            
+    #--------------------------------------------------------------------------    
+    def quark_set_report(self, p):
+        """Realiza todos los chequeos para mostrar el reporte en la ventana de
+        existir algo que informar."""
+        self.textbuffer = self.tv_notification.get_buffer()
+        self.textbuffer.set_text(self.natt)
+        
+    #--------------------------------------------------------------------------                    
     def filter_load_data(self):
         # Cargo el filtro con un arreglo que tiene los tipos de filtro.
         #self.cmb_filter.set_popdown_strings(self.quark_utils.filter_list)
@@ -428,7 +483,7 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------
     def get_filter(self, texto):
         ##FIXME : Falta devolver el filtro correcto.
-        return self.FILTER_NONE
+        return self.quark_utils.FILTER_NONE
 
     #--------------------------------------------------------------------------        
     def planets_load_list(self, filter):
@@ -543,7 +598,7 @@ class Quark(gwp.Plugin):
         self.store_minerals.append(fila)
         
         ## renderer.set_property('background','green')
-        self.quark_report_generate(p)
+        self.quark_set_report(p)
 
     #--------------------------------------------------------------------------
     def main_cb(self, widget, data=None):
