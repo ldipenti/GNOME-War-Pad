@@ -751,7 +751,27 @@ void on_message_treeview_row_activated( GtkWidget *widget,
 void on_message_treeview_cursor_changed( GtkWidget *widget,
 				     gpointer user_data)
 {
-  g_message( "on_message_treeview_cursor_changed: NOTHING IMPLEMENTED YET" );
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  GtkTreeView *message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
+  GtkTreeModel *model = gtk_tree_view_get_model( message_tree );
+/* TODO - question: no gtk_tree_iter_new() ??? */
+  GtkTreeIter iter;
+
+  GtkTreeSelection *selection = gtk_tree_view_get_selection( message_tree );
+  gtk_tree_selection_get_selected( selection, NULL, &iter );
+
+  gint ident;
+
+  gtk_tree_model_get(model, &iter, COL_IDENT, &ident, -1);
+  if( ident < 0 )
+  {
+  }
+  else
+  {
+    g_message( "on_message_treeview_cursor_changed: new ident %d", ident-1 );
+    message_reader_show_body( widget, user_data, ident-1 );
+  }
 }
 
 /* Ship list double-click to open extra panels */

@@ -9,7 +9,7 @@
 #include "global.h"
 #include "support.h"
 
-#define DEBUGOUTPUT 0
+#define DEBUGOUTPUT 1
 
 
 
@@ -163,8 +163,6 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
   }
 
 
-
-
   /* fill the treeview with this new model */
   gtk_tree_view_set_model( message_tree, GTK_TREE_MODEL( treestore ) );
   /* jump again to first message */
@@ -178,10 +176,6 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
   g_free( tmps );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init finished" );
 }
-
-
-
-
 
 
 
@@ -217,13 +211,6 @@ void subject_cell_data_func (GtkTreeViewColumn *col,
 
   g_object_set(renderer, "text", buf, NULL);
 }
-
-
-
-
-
-
-
 
 
 void message_reader_combobox_init( GtkWidget *widget,
@@ -304,14 +291,10 @@ void message_reader_show_first_body( GtkWidget *widget,
 				      gpointer  user_data )
 {
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show first called" );
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageBody( messages, gwp_messages_getMessageIdFirst( messages ) ), -1 );
-  gtk_text_view_set_buffer( textview, buffer );
-  GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
-  gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
+  gint id = gwp_messages_getMessageIdFirst( messages );
+  message_reader_show_body( widget, user_data, messages );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show first finished" );
 }
 
@@ -319,14 +302,10 @@ void message_reader_show_prev_body( GtkWidget *widget,
 				      gpointer  user_data )
 {
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show prev called" );
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageBody( messages, gwp_messages_getMessageIdPrev( messages ) ), -1 );
-  gtk_text_view_set_buffer( textview, buffer );
-  GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
-  gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
+  gint id = gwp_messages_getMessageIdPrev( messages );
+  message_reader_show_body( widget, user_data, messages );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show prev finished" );
 }
 
@@ -334,14 +313,10 @@ void message_reader_show_next_body( GtkWidget *widget,
 				      gpointer  user_data )
 {
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show next called" );
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageBody( messages, gwp_messages_getMessageIdNext( messages ) ), -1 );
-  gtk_text_view_set_buffer( textview, buffer );
-  GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
-  gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
+  gint id = gwp_messages_getMessageIdNext( messages );
+  message_reader_show_body( widget, user_data, id );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show next finished" );
 }
 
@@ -349,15 +324,24 @@ void message_reader_show_last_body( GtkWidget *widget,
 				      gpointer  user_data )
 {
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show last called" );
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  gint id = gwp_messages_getMessageIdLast( messages );
+  message_reader_show_body( widget, user_data, messages );
+if( DEBUGOUTPUT ) g_message("DEBUG: mr show last finished" );
+}
+
+void message_reader_show_body( GtkWidget *widget,
+                      gpointer user_data, gint id )
+{
   GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
   GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageBody(messages, gwp_messages_getMessageIdLast( messages ) ), -1 );
+  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, id ), -1 );
   gtk_text_view_set_buffer( textview, buffer );
   GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
   gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
-if( DEBUGOUTPUT ) g_message("DEBUG: mr show last finished" );
 }
 
 void message_reader_all_init( GtkWidget *widget,
@@ -391,15 +375,14 @@ void message_reader_change_messagefile( GtkWidget *widget,
   gwp_messages_readFile( messages, tmpname );
 
   /* refresh all gui stuff */
-  /* TODO */
-GtkWidget *reader = lookup_widget("reader");
-/* display the first message */
-on_reader_firstmess_btn_clicked( reader, user_data );
-/* update message counter */
-GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
-gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
-/* update treeview */
-message_reader_treeview_init( widget, user_data );
+  GtkWidget *reader = lookup_widget("reader");
+  /* display the first message */
+  on_reader_firstmess_btn_clicked( reader, user_data );
+  /* update message counter */
+  GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
+  gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
+  /* update treeview */
+  message_reader_treeview_init( widget, user_data );
 
   /* cleanup */
   free( tmpname );

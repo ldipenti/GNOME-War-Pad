@@ -431,7 +431,7 @@ g_message( "###: MessageRaw called with ID %d", id );
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
     self->priv->currMsg = id;
-
+g_message( "leaving MessageRaw: currMsg set to: %d", self->priv->currMsg  );
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
 
@@ -1036,7 +1036,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: getnextid called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
-
+g_message( "IdNext Called, currMsg = %d", self->priv->currMsg );
     int retval = self->priv->currMsg + 1;
     if( retval >= self->priv->numberOfMessages-1 ) retval = self->priv->numberOfMessages-1;
 if( DEBUGOUTPUT ) g_message("DEBUG: getnextid finished" );

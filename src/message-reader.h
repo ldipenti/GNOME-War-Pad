@@ -28,6 +28,8 @@ void message_reader_show_next_body( GtkWidget *widget,
 				      gpointer  user_data );
 void message_reader_show_last_body( GtkWidget *widget,
 				      gpointer  user_data );
+void message_reader_show_body( GtkWidget *widget,
+                      gpointer user_data, gint id );
 void message_reader_change_messagefile( GtkWidget *widget,
 				      gpointer  user_data );
 void message_reader_get_msgfilename( GtkWidget *widget,
