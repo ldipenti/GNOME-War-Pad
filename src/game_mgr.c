@@ -647,8 +647,10 @@ void game_mgr_play_game(GameState *state)
     gtk_main_iteration();
 
   /* Read data files and init starchart */
-  game_mgr_init_message_history();
   init_data();
+  game_mgr_init_message_history(); /* This has to go after init_data()
+				      because of the turn number
+				      loading code. */
   init_starchart(gwp);
   init_starchart_mini();
 
