@@ -34,6 +34,8 @@ void message_reader_change_messagefile( GtkWidget *widget,
 				      gpointer  user_data );
 void message_reader_get_msgfilename( GtkWidget *widget,
 				      gpointer  user_data, char *copyhere, int turn );
+void message_reader_set_current_message_id( GtkWidget *widget,
+				      gpointer  user_data, gint id );
 void subject_cell_data_func (GtkTreeViewColumn *col,
                              GtkCellRenderer   *renderer,
                              GtkTreeModel      *model,

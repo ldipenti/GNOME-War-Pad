@@ -764,14 +764,9 @@ void on_message_treeview_cursor_changed( GtkWidget *widget,
   gint ident;
 
   gtk_tree_model_get(model, &iter, COL_IDENT, &ident, -1);
-  if( ident < 0 )
-  {
-  }
-  else
-  {
-    g_message( "on_message_treeview_cursor_changed: new ident %d", ident-1 );
+  if( ident >= 0 )
     message_reader_show_body( widget, user_data, ident-1 );
-  }
+
 }
 
 /* Ship list double-click to open extra panels */

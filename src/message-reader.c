@@ -294,7 +294,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr show first called" );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   gint id = gwp_messages_getMessageIdFirst( messages );
-  message_reader_show_body( widget, user_data, messages );
+  message_reader_show_body( widget, user_data, id );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show first finished" );
 }
 
@@ -305,7 +305,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr show prev called" );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   gint id = gwp_messages_getMessageIdPrev( messages );
-  message_reader_show_body( widget, user_data, messages );
+  message_reader_show_body( widget, user_data, id );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show prev finished" );
 }
 
@@ -327,7 +327,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr show last called" );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   gint id = gwp_messages_getMessageIdLast( messages );
-  message_reader_show_body( widget, user_data, messages );
+  message_reader_show_body( widget, user_data, id );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr show last finished" );
 }
 
@@ -339,6 +339,7 @@ void message_reader_show_body( GtkWidget *widget,
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, id ), -1 );
+  message_reader_set_current_message_id( widget, user_data, id );
   gtk_text_view_set_buffer( textview, buffer );
   GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
   gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
@@ -388,6 +389,28 @@ void message_reader_change_messagefile( GtkWidget *widget,
   free( tmpname );
 }
 
+void message_reader_set_current_message_id( GtkWidget *widget,
+				      gpointer  user_data, gint id )
+{
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+
+  /* explicitly tell the message-model which message is the current */
+  gwp_messages_setCurrMsgId( messages, id );
+
+
+//  GwpMessages *messages = (GwpMessages *)
+//    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+//  GtkTreeView *message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
+//  GtkTreeModel *model = gtk_tree_view_get_model( message_tree );
+///* TODO - question: no gtk_tree_iter_new() ??? */
+//  GtkTreeIter iter;
+//  GtkTreeSelection *selection = gtk_tree_view_get_selection( message_tree );
+//  gtk_tree_selection_get_selected( selection, NULL, &iter );
+//  gtk_tree_selection_get_selected( selection, NULL, &iter );
+//  gtk_tree_model_iter_next( model, &iter );
+//  gtk_tree_selection_select_iter( selection, &iter);
+}
 
 
 void message_reader_get_msgfilename( GtkWidget *widget,

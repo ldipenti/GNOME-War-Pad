@@ -122,6 +122,8 @@ void gwp_messages_nextMsg( GwpMessages *self );
 void gwp_messages_prevMsg( GwpMessages *self );
 void gwp_messages_firstMsg( GwpMessages *self );
 void gwp_messages_lastMsg( GwpMessages *self );
+void gwp_messages_setCurrMsgId( GwpMessages *self, gint id );
+void gwp_messages_sortByCategory( GwpMessages *self );
 
 /*
  * Standard defines.

@@ -398,10 +398,14 @@ if( DEBUGOUTPUT ) g_message("DEBUG: readFile finished x" );
         self->priv->msgs.m[i].t[self->priv->msgs.m[i].l]='\0';
 //        cout << endl << endl << "Message # " << i << ":" << endl << msgs.m[i].t << endl;
     }
-    
+
     /* done */
     self->priv->fileRead = true;
     fclose( mdatafile );
+
+    /* sort messages by category */
+    gwp_messages_sortByCategory( self );
+
 if( DEBUGOUTPUT ) g_message("DEBUG: readFile finished" );
     return( EXIT_SUCCESS );
 }
@@ -425,16 +429,19 @@ char *gwp_messages_getMessageRaw( GwpMessages *self, int id )
 if( DEBUGOUTPUT ) g_message("DEBUG: getRaw called" );
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
-g_message( "###: MessageRaw called with ID %d", id );
-    int i;
+
 
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
-    self->priv->currMsg = id;
-g_message( "leaving MessageRaw: currMsg set to: %d", self->priv->currMsg  );
+//    self->priv->currMsg = id;
+
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
 
+    /* standard version */
+    strncat( self->priv->tmptxt, self->priv->msgs.m[id].t, self->priv->msgs.m[id].l );
+
+    /* use this version if you have to adjust single chars
     for( i=0; i<self->priv->msgs.m[id].l; i++ )
     {
         self->priv->tmptxt[i] = self->priv->msgs.m[id].t[i];
@@ -442,6 +449,7 @@ g_message( "leaving MessageRaw: currMsg set to: %d", self->priv->currMsg  );
 //        else if( self->priv->tmptxt[i] < 32 ) self->priv->tmptxt[i] = 32;
     }
     self->priv->tmptxt[self->priv->msgs.m[id].l]='\0';
+    */
 
     /* done */
 if( DEBUGOUTPUT ) g_message("DEBUG: getRaw finished" );
@@ -459,7 +467,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: getBody called" );
 
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
-    self->priv->currMsg = id;
+//    self->priv->currMsg = id;
 
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
@@ -508,7 +516,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: getSub called" );
 
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
-    self->priv->currMsg = id;
+//    self->priv->currMsg = id;
 
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
@@ -552,7 +560,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: getHead called" );
 
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
-    self->priv->currMsg = id;
+//    self->priv->currMsg = id;
 
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
@@ -585,7 +593,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: getHeadLong called" );
 
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
-    self->priv->currMsg = id;
+//    self->priv->currMsg = id;
 
     /* get header code */
     char *header;
@@ -861,18 +869,18 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory called" );
 
     /* check for valid message id */
     gwp_messages_checkValidMessageId( self, &id );
-    self->priv->currMsg = id;
+//    self->priv->currMsg = id;
 
 
     /* get header code */
-    char *header;
-    header = (char *)malloc(128*sizeof(char));
-    header[0] = '\0';
-    strncat( header, gwp_messages_getMessageHeader( self, id ), 127 );
+    char *msg;
+    msg = (char *)malloc(128*sizeof(char));
+    msg[0] = '\0';
+    strncat( msg, gwp_messages_getMessageRaw( self, id ), 127 );
 
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
-    switch( header[1] )
+    switch( msg[2] )
     {
         case '9':
                 strcat( self->priv->tmptxt, "Race-specific Missions" );
@@ -881,8 +889,11 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory called" );
                 strcat( self->priv->tmptxt, "Message from 3rd-party add-on" );
                 break;
         case 'c':
-              strcat( self->priv->tmptxt, "Tim Continuum Attack" );
-              break;
+              if( strncmp( msg+8, "<<< Priority Points >>>", strlen( "<<< Priority Points >>>" ) ) )
+                strcat( self->priv->tmptxt, "Tim Continuum Attack" );
+              else
+                strcat( self->priv->tmptxt, "Priority Points" );
+                break;
         case 'd':
                 strcat( self->priv->tmptxt, "New Ship/Starbase" );
                 break;
@@ -939,10 +950,12 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory called" );
                 break;
         default:
             strcat( self->priv->tmptxt, "- unknown -" );
-            g_message( "# Warning: 'getMessageHeaderLong': unknown message header '%s'", header );
+            g_message( "# Warning: 'getMessageHeaderLong': unknown message type (header) of message '%s'", msg );
             break;
     }
 
+  /* cleanup */
+  free( msg );
 
 if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory finished" );
     return( self->priv->tmptxt );
@@ -1101,4 +1114,97 @@ void gwp_messages_lastMsg( GwpMessages *self )
 if( DEBUGOUTPUT ) g_message("DEBUG: lastmsg called" );
     self->priv->currMsg = self->priv->numberOfMessages - 1;
 if( DEBUGOUTPUT ) g_message("DEBUG: lastmsg finished" );
+}
+
+
+void gwp_messages_setCurrMsgId( GwpMessages *self, gint id )
+{
+  self->priv->currMsg = id;
+}
+
+
+void gwp_messages_sortByCategory( GwpMessages *self )
+{
+if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_sortByCategory called" );
+  /* check if file was already read */
+  if( !self->priv->fileRead )
+    gwp_messages_readFileAny( self );
+
+  gint i, j;
+  gint id1, id2, tmpl;
+  glong tmpa;
+  gchar *hd1 = (gchar *)g_malloc(64*sizeof(gchar));
+  gchar *hd2 = (gchar *)g_malloc(64*sizeof(gchar));
+  gchar *tmp = NULL;
+  gint offset = 0;
+
+
+  /* deal with the F*CKING case that priority points
+     get the same message-identifying header (c0000)
+     as Tim Continuum attacks */
+  for( i=0; i<self->priv->msgs.n; i++ )
+  {
+    /* look for the priority point message */
+    hd1[0] = '\0';
+    strncat( hd1, self->priv->msgs.m[i].t, 63 );
+    if( strncmp( hd1, "(-c0000)<<< Priority Points >>>",
+                 strlen( "(-c0000)<<< Priority Points >>>" ) ) == 0 )
+    {
+      id1 = i;
+      id2 = self->priv->msgs.n-1;
+      /* exchange message bodies */
+      tmp = self->priv->msgs.m[id2].t;
+      self->priv->msgs.m[id2].t = self->priv->msgs.m[id1].t;
+      self->priv->msgs.m[id1].t = tmp;
+      /* exchange message lengths */
+      tmpl = self->priv->msgs.m[id2].l;
+      self->priv->msgs.m[id2].l = self->priv->msgs.m[id1].l;
+      self->priv->msgs.m[id1].l = tmpl;
+      /* exchange file-adresses */
+      tmpa = self->priv->msgs.m[id2].a;
+      self->priv->msgs.m[id2].a = self->priv->msgs.m[id1].a;
+      self->priv->msgs.m[id1].a = tmpa;
+      /* the offset eliminates this message from the sorting later on */
+      offset++;
+      /* done */
+      break;
+    }
+  }
+
+  /* (bubble-)sort messages by message header */
+  for( i=1; i<self->priv->msgs.n-offset; i++ )
+  {
+    for( j=i; j>0; j-- )
+    {
+      id1 = j;
+      id2 = j-1;
+      hd1[0] = '\0';
+      strncat( hd1, self->priv->msgs.m[id1].t+2, 5 );
+      hd2[0] = '\0';
+      strncat( hd2, self->priv->msgs.m[id2].t+2, 5 );
+      if( strncmp( hd1, hd2, 5 ) < 0 )
+      {
+        /* exchange message bodies */
+        tmp = self->priv->msgs.m[id2].t;
+        self->priv->msgs.m[id2].t = self->priv->msgs.m[id1].t;
+        self->priv->msgs.m[id1].t = tmp;
+        /* exchange message lengths */
+        tmpl = self->priv->msgs.m[id2].l;
+        self->priv->msgs.m[id2].l = self->priv->msgs.m[id1].l;
+        self->priv->msgs.m[id1].l = tmpl;
+        /* exchange file-adresses */
+        tmpa = self->priv->msgs.m[id2].a;
+        self->priv->msgs.m[id2].a = self->priv->msgs.m[id1].a;
+        self->priv->msgs.m[id1].a = tmpa;
+      }
+      else
+        break;
+    }
+  }
+
+  /* cleanup */
+  g_free( hd2 );
+  g_free( hd1 );
+
+if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_sortByCategory finished" );
 }

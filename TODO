@@ -1,0 +1,25 @@
+[I][T][S]
+I = Importance: "   " - nice to have (program/part improvement)
+                "  X" - needed       (program/part usable without)
+                " XX" - essential    (program/part not usable without)
+                "XXX" - urgent       (program/part crashing, insecure, ...)
+T = Type:       "r"   - request
+                "B"   - bug
+S = Status:     "-"   - done
+                "n"   - will be one of the next things to do
+                "d"   - delayed, eg. to the next version
+
+-------------------------------------------------------------------------------
+
+message-reader:
+
+[  X][B][-] message-counter gets confused when selecting messages
+            directly and using the next/prev buttons
+[  X][r][n] always highlight the displayed message
+[  X][r][-] pre-sort messages to avoid multiple identical message categories
+[   ][r][n] add a message counter to every category
+[   ][r][n] try to create a significant subject for every message
+[   ][r][n] try to use colourified messages according to their importance
+[   ][r][n] expand/collapse categories with double-click
+
+
