@@ -1,5 +1,5 @@
 %define name gwp
-%define version 0.2.12
+%define version 0.2.13
 %define release 1mdk
 %define _unpackaged_files_terminate_build       0
 %define _missing_doc_files_terminate_build      0
