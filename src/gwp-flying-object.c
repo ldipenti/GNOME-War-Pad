@@ -22,10 +22,10 @@
 
 struct _GwpFlyingObjectPrivate {
   gboolean dispose_has_run;
-  gint heading;
-  gint speed;
-  gint owner;
-  gint id;
+  gint heading; /* range 0..360 */
+  gint speed; /* range 0..9, sometimes can be negative (set by the host) */
+  gint owner; /* range 1..11 */
+  gint id; /* normally 0..500 */
   GString *name;
 };
 
@@ -116,61 +116,62 @@ GwpFlyingObject * gwp_fo_new (void)
 
 gint gwp_fo_get_heading (GwpFlyingObject *self)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   return self->priv->heading;
 }
 
 void gwp_fo_set_heading (GwpFlyingObject *self, gint heading)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->heading = heading;
 }
 
 gint gwp_fo_get_speed (GwpFlyingObject *self)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   return self->priv->speed;
 }
 
 void gwp_fo_set_speed (GwpFlyingObject *self, gint speed)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->speed = speed;
 }
 
 gint gwp_fo_get_owner (GwpFlyingObject *self)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   return self->priv->owner;
 }
 
 void gwp_fo_set_owner (GwpFlyingObject *self, gint owner)
 {
-  g_assert(self != NULL);
+  g_assert (GWP_IS_FLYING_OBJECT(self));
+  g_assert (owner >= 0 && owner <= 12);
   self->priv->owner = owner;
 }
 
 gint gwp_fo_get_id (GwpFlyingObject *self)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   return self->priv->id;
 }
 
 void gwp_fo_set_id (GwpFlyingObject *self, gint id)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->id = id;
 }
 
 GString * gwp_fo_get_name (GwpFlyingObject *self)
 {
-  g_assert(self != NULL);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
   return g_string_new(self->priv->name->str);
 }
 
 void gwp_fo_set_name (GwpFlyingObject *self, GString *name)
 {
-  g_assert(self != NULL);
-  g_string_free(self->priv->name, 1);
+  g_assert(GWP_IS_FLYING_OBJECT(self));
+  g_string_free(self->priv->name, TRUE);
   self->priv->name = g_string_new(name->str);
 }
