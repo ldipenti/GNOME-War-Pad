@@ -767,7 +767,7 @@ void update_planet_extra_panel(gint16 planet_id)
   if ((planet_id >= 1) && (planet_id <= MAX_PLANETS)) {
     /* If we have data on this planet, then work */
     if ((a_planet = gwp_planet_get (planet_list, planet_id)) != NULL &&
-	gwp_planet_is_known (a_planet)) {
+	gwp_planet_is_mine (a_planet)) {
       /*** Friendly Code ***/
       tmp = g_strdup_printf ("%s", gwp_planet_get_fcode(a_planet));
       gtk_entry_set_text (GTK_ENTRY(planet_fc->entry), tmp);
@@ -905,6 +905,58 @@ void update_planet_extra_panel(gint16 planet_id)
       
       gtk_label_set_text(tax_nat_earned, _("-- MC"));
       gtk_label_set_text(tax_col_earned, _("-- MC"));
+
+      /* If we know the planet and isn't owned */
+      if (gwp_planet_is_known(a_planet) && gwp_planet_is_unowned (a_planet)) {
+	/*** Neutronium ***/
+	gtk_progress_bar_set_fraction(neu_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_neutronium(a_planet)));
+	tmp = g_strdup_printf(_("%d kT"), 
+			      gwp_planet_get_ground_neutronium(a_planet));
+	gtk_progress_bar_set_text(neu_ground, tmp);
+	g_free(tmp);
+      
+	gtk_progress_bar_set_fraction(neu_density, (gwp_planet_get_dens_neutronium(a_planet)/100.0));
+	tmp = g_strdup_printf("%d%%", 
+			      gwp_planet_get_dens_neutronium(a_planet));
+	gtk_progress_bar_set_text(neu_density, tmp);
+	g_free(tmp);
+      
+	/*** Duranium ***/
+	gtk_progress_bar_set_fraction(dur_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_duranium(a_planet)));
+	tmp = g_strdup_printf(_("%d kT"), 
+			      gwp_planet_get_ground_duranium(a_planet));
+	gtk_progress_bar_set_text(dur_ground, tmp);
+	g_free(tmp);
+	gtk_progress_bar_set_fraction(dur_density, (gwp_planet_get_dens_duranium(a_planet)/100.0));
+	tmp = g_strdup_printf("%d%%", 
+			      gwp_planet_get_dens_duranium(a_planet));
+	gtk_progress_bar_set_text(dur_density, tmp);
+	g_free(tmp);
+      
+	/*** Molybdenum ***/
+	gtk_progress_bar_set_fraction(mol_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_molybdenum(a_planet)));
+	tmp = g_strdup_printf(_("%d kT"), 
+			      gwp_planet_get_ground_molybdenum(a_planet));
+	gtk_progress_bar_set_text(mol_ground, tmp);
+	g_free(tmp);
+	gtk_progress_bar_set_fraction(mol_density, (gwp_planet_get_dens_molybdenum(a_planet)/100.0));
+	tmp = g_strdup_printf("%d%%", 
+			      gwp_planet_get_dens_molybdenum(a_planet));
+	gtk_progress_bar_set_text(mol_density, tmp);
+	g_free(tmp);
+      
+	/*** Tritanium ***/
+	gtk_progress_bar_set_fraction(tri_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_tritanium(a_planet)));
+	tmp = g_strdup_printf(_("%d kT"), 
+			      gwp_planet_get_ground_tritanium(a_planet));
+	gtk_progress_bar_set_text(tri_ground, tmp);
+	g_free(tmp);
+	gtk_progress_bar_set_fraction(tri_density, (gwp_planet_get_dens_tritanium(a_planet)/100.0));
+	tmp = g_strdup_printf("%d%%", 
+			      gwp_planet_get_dens_tritanium(a_planet));
+	gtk_progress_bar_set_text(tri_density, tmp);
+	g_free(tmp);
+      }
     }
   }
 }
@@ -1111,7 +1163,7 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     g_free(tmp);
 
     /* If we know the planet in some way ... */
-    if (gwp_planet_is_known (a_planet)) {
+    if (gwp_planet_is_known (a_planet) && !gwp_planet_is_unowned(a_planet)) {
       /* Owner */
       tmp = g_strdup_printf("%s", 
 			    race_get_name(gwp_planet_get_owner(a_planet)));
@@ -1134,6 +1186,8 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     } 
     /* If we are orbiting the planet and is unowned ... */
     else if (gwp_planet_is_unowned(a_planet)) {
+      gtk_label_set_text (owner, _("Nobody"));
+
       tmp = g_strdup_printf ("%d", gwp_planet_get_mines (a_planet));
       gtk_label_set_text (mines, tmp);
       g_free(tmp);

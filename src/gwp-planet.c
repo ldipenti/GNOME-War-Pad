@@ -43,7 +43,8 @@ struct _GwpPlanetPrivate {
   gboolean is_known; /**< TRUE if we know the planet in any way. */
   GwpStarbase *starbase; /**< Pointer to a starbase orbiting the
 			    planet. NULL if the planet doesn't have one. */
-  gint16 owner; /**< Owner's race number. Range 1..11. 0 = unowned */
+  gint16 owner; /**< Owner's race number. Range 1..11. 0 = unowned, -1
+		   = unknown */
   GString *fcode; /**< Planet's friendly Code. Max 3 chars. */
   gint16 mines; /**< Mineral mines on planet. */
   gint16 factories; /**< Supplies factories on planet. */
@@ -1015,7 +1016,7 @@ gint16 gwp_planet_get_owner (GwpPlanet *self)
 void gwp_planet_set_owner (GwpPlanet *self, gint16 o)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (o >= 0 && o <= 11);
+  g_assert (o >= -1 && o <= 11); /* -1 = unknown, 0 = unowned */
   self->priv->owner = o;
 }
 

@@ -767,6 +767,9 @@ GHashTable * load_pdata (void)
     gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
     gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (GWP_OBJECT(p)) - 1))->str);
 
+    /* All PDATAX.DAT planets are known (more o less) */
+    gwp_planet_set_is_known (p, TRUE);
+
     /* Add planet to list */
     g_hash_table_insert (planet_list, (gpointer)(gint)gwp_object_get_id(GWP_OBJECT(p)), p);
   }
@@ -782,7 +785,7 @@ GHashTable * load_pdata (void)
 
       gwp_object_set_x_coord (GWP_OBJECT(p), coords->x);
       gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
-      gwp_planet_set_owner (p, 0);
+      gwp_planet_set_owner (p, -1); /* Unknown owners */
       gwp_object_set_id (GWP_OBJECT(p), i+1);
       gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *) g_list_nth_data (pnames, i))->str);
 
