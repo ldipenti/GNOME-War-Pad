@@ -1,9 +1,10 @@
+#-------- Agregado para que funcione la internacionalizacion
 import sys
 import gwp
-# I don't understand why gwp_config.py has to exist even if I don't import it
 sys.path.append(gwp.get_system_plugins_dir())
 import gettext
 _ = gettext.gettext
+#--------
 
 #Tipos de funciones especiales
 CLOAK = 1

@@ -121,9 +121,7 @@ class Magallanes(gwp.Plugin):
             self.lbl_aux_nro.set_text("n/a")
         self.lbl_aux.set_text(aux)
 
-        #self.lbl_cargo.set_markup("<span background='blue' foreground='white'>"+ str(self.nave.get_cargo()) +'</span>')
         self.lbl_cargo.set_text(str(self.nave.get_cargo()))
-        #self.lbl_fuel.set_markup("<span background='blue' foreground='white'>"+ str(self.nave.get_fuel_tank()) +'</span>')
         self.lbl_fuel.set_text(str(self.nave.get_fuel_tank()))
         self.lbl_motores.set_text(str(self.nave.get_engines()))
         self.lbl_motores_nro.set_text(str(self.nave.get_engines()))
@@ -427,7 +425,7 @@ class Magallanes(gwp.Plugin):
 
     def __create_gui(self):
 
-	self.window = self.main_window.get_widget('window1')
+        self.window = self.main_window.get_widget('window1')
         # Para el manejo de la selecion en los treeviews
         self.treeselection_naves = self.lst_naves.get_selection()
         self.treeselection_comparacion = self.lst_comparacion.get_selection()
