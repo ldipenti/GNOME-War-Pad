@@ -23,6 +23,8 @@
 #include "global.h"
 #include "support.h"
 
+
+
 /* FIXME: Test concept function, to make a notification area for plugins */
 void gwp_ui_set_notification (gchar *msg)
 {

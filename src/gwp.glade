@@ -35,7 +35,7 @@
 	  <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 	  <child>
-	    <widget class="GtkMenuBar" id="menubar1">
+	    <widget class="GtkMenuBar" id="menubar">
 	      <property name="visible">True</property>
 
 	      <child>

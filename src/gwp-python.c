@@ -26,6 +26,7 @@
 #include "gwp-python.h"
 #include <pygobject.h>
 #include "gwp-ship.h"
+#include "support.h"
 #include "global.h"
 
 /* Forwards */
@@ -46,9 +47,21 @@ void gwp_python_init (char *argv0)
   initgwp();
 }
 
+/**
+ * Initializes the plugin structure for the loaded game.
+ *
+ * This function is executed every time a game is loaded, beware of this
+ * 'little' detail...when closing any game we should clean the mess made by
+ * all this code.
+ */
 void gwp_python_inittab (void)
 {
   FILE *script;
+  GtkWidget *plugin_menu = NULL;
+  GtkWidget *plugin_menu_root = NULL;
+  GtkWidget *menubar = NULL;
+  PyObject *plugin_mgr = NULL;
+  PyObject *pyobj_menu = NULL;
 
   /* Load 'inittab' script */
   script = fopen (GWP_SCRIPTS_DIR"/inittab.py", "r");
@@ -59,8 +72,27 @@ void gwp_python_inittab (void)
   script = fopen (GWP_SCRIPTS_DIR"/navigator.py", "r");
   PyRun_SimpleFile (script, "navigator.py");
   fclose (script);
+
+  /* Configure the plugins menu item and pass it to the PluginManager */
+  plugin_menu = gtk_menu_new ();
+  plugin_menu_root = gtk_menu_item_new_with_label (_("Plugins"));
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM(plugin_menu_root), plugin_menu);
+
+  menubar = lookup_widget ("menubar");
+  gtk_menu_bar_append (menubar, plugin_menu_root);
+
+/*   pyobj_menu = Py_BuildValue ("O", plugin_menu); */
+/*   plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state); */
+  
+/*   PyObject_CallMethodObjArgs (plugin_mgr, */
+/* 			      PyString_FromString("set_menu"), */
+/* 			      pyobj_menu, NULL); */
+  /*  Py_DECREF (pyobj_menu);  */
 }
 
+/**
+ * Bye bye, plugin system...
+ */
 void gwp_python_quit (void)
 {
   Py_Exit (0);

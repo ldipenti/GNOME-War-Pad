@@ -19,11 +19,19 @@ import inspect
 class PluginManager:
     __module__ = 'gwp'
 
-    # Private attributes
-    __key_hooks = {}
-    __plugins_registered = [] # instances
-    __plugins_available = [] # classes
-    
+    def __init__ (self):
+        # Private attributes
+        self.__key_hooks = {}
+        self.__plugins_registered = [] # instances
+        self.__plugins_available = [] # classes
+        self.__menu = None
+
+    # This method runs only once...it's called from C code to assign
+    # a reference to the Plugin's GtkMenu widget.
+    def set_menu (self, menu):
+        if not self.__menu:
+            self.__menu = menu
+        
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
             try:
@@ -51,6 +59,10 @@ class PluginManager:
             # Debugging message
             print "PluginManager: key event '%s' not found when unregistering plugin." % gtk.gdk.keyval_name(key)
 
+    # Creates a plugin menu entry with some action
+    def set_hook_menu (self, menu_label, action):
+        pass
+        
     def register_plugin (self, plugin_class):
         plugin = plugin_class()
         try:
