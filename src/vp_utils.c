@@ -54,14 +54,14 @@ void init_data (void)
   g_message ("SHIPXY loaded...");
   target_list = load_target(game_get_race(game_state));
   g_message ("TARGET loaded...");
+  load_kore_data();
+  g_message("KOREx loaded...");
   planet_list = load_pdata();
   g_message ("PDATA loaded...");
   ship_list = load_sdata();
   g_message ("SDATA loaded...");
   load_gen_data();
   g_message("GENx loaded...");
-  load_kore_data();
-  g_message("KOREx loaded...");
   base_list = load_bdata();
   g_message("BDATA loaded...");
   hullspec_list = load_hullspec();
@@ -527,6 +527,7 @@ GHashTable * load_sdata (void)
 
   /* Now add the rest unknown ships */
   for (i = 0; i < g_list_length (shipxy_list); i++) {
+
     /* Check if we have not this ship */
     if (gwp_ship_get (ship_list, i + 1) == NULL) {
 
@@ -551,6 +552,15 @@ GHashTable * load_sdata (void)
       
       /* Add ship to list */
       g_hash_table_insert (ship_list, (gpointer)(i + 1), s);
+
+      if (gwp_object_get_id(GWP_OBJECT(s)) == 324) {
+	g_message ("Encontre nave desconocida #324");
+      }
+
+    } else {
+      if (i+1 == 324) {
+	g_message ("#324 No es NULL!!!");
+      }
     }
   }
   fclose (sdata);
@@ -816,6 +826,9 @@ void load_kore_data (void)
   GString *kore_file_name;
   gchar mf_buf[8]; /* Minefields buffer */
   gchar is_buf[12]; /* Ion Storms buffer */
+  gchar avc_buf[34]; /* Additional Visual Contacts buffer */
+  gint32 target_nr;
+  VpTargetReg target_reg, *tmp_target_reg;
   gint i;
 
   kore_file_name = g_string_new (g_strdup_printf("kore%d.dat",
@@ -905,6 +918,37 @@ void load_kore_data (void)
 	       gwp_fo_get_heading (GWP_FLYING_OBJECT(storm)),
 	       gwp_ion_storm_get_class (storm));
 */
+  }
+
+  /* Load Additional Visual Contacts from file */
+  fseek (kore_dat, 12706, SEEK_SET);
+  fread (&target_nr, sizeof(gint32), 1, kore_dat);
+
+  for (i = 1; i <= target_nr; i++) {
+    fread (avc_buf, 34, 1, kore_dat);
+
+    target_reg.id = getWord (avc_buf);
+    target_reg.owner = getWord (avc_buf + 2);
+    target_reg.warp_factor = getWord (avc_buf + 4);
+    target_reg.x = getWord (avc_buf + 6);
+    target_reg.y = getWord (avc_buf + 8);
+    target_reg.hull_type = getWord (avc_buf + 10);
+    target_reg.heading = getWord (avc_buf + 12);
+
+    /* Decrypt target name */
+    gint j;
+    for (j = 0; j < 20; j++) {
+      target_reg.name[j] = (avc_buf[14+j] ^ (155-(j+1)));
+    }
+    target_reg.name[20] = '\0';
+
+    /* Assign new memory for new target */
+    tmp_target_reg = g_malloc (sizeof (VpTargetReg));
+    *tmp_target_reg = target_reg;
+    /* Add new target */
+    g_hash_table_insert (target_list, 
+			 (gpointer)(gint)tmp_target_reg->id, 
+			 tmp_target_reg);
   }
 
   fclose (kore_dat);
