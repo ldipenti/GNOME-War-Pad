@@ -14,7 +14,7 @@ class Quark(gwp.Plugin):
     author_name = "Cristian Abalos"
     author_email = "abalosc@gmail.com"
     desc_short = _("Help in the resources management")
-    desc_long = ""
+    desc_long = _("Quark provee una serie de informes del manejo de recursos por planeta. Hace recomendaciones de los posibles cambios para mejorar la situacion de los mismos.\nLos reportes que brinda son:\nEstado de los colonos y nativos el siguiente turno (Unhappy, Riot, etc) en funcion de la felicidad. \nCantidad de colonos necesarios para: \nCobrar el maximo de impuestos a los nativos.\nObtener el maximo de supplies en planetas con Bovinoides.\nConstruir las edificaciones necesarias (fabricas, minas, puestos de defensa).\nBeneficios obtenidos al terraformar el planeta para aumentar el limite de colonos que soporta.")
     license = "GPL"
     hotkey = 'q'
 
