@@ -9,6 +9,11 @@ ICONO_VERDE = 'quark_verde.gif'
 ICONO_AMARILLO = 'quark_amarillo.gif'
 ICONO_ROJO = 'quark_rojo.gif'
 
+PRIORIDAD_AVISO_ALTO = 3
+PRIORIDAD_AVISO_MEDIO = 2
+PRIORIDAD_AVISO_BAJO = 1
+PRIORIDAD_AVISO_NINGUNO = 0
+
 # Cantidades que definen cuando un planeta es considerado minero y se levantan las 
 # estructuras al maximo.
 # Cantidad de Minerales extraidos c/100 minas.
@@ -52,7 +57,12 @@ def widgets_make_link(self):
     self.inc_fab =  self.main_window.get_widget('inc_fab')
     self.inc_min =  self.main_window.get_widget('inc_min')
     self.inc_def =  self.main_window.get_widget('inc_def')
+
+#--------------------------------------------------------------------------
+def get_regla_adquisicion(): # FIXME AGREGAR LAS REGLAS
+    return 'El Latinio lo es todo'
     
+
 ##    self.btn_raza_11 = self.main_window.get_widget('btn_raza_11')
 
 

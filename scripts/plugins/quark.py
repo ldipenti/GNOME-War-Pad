@@ -18,8 +18,9 @@ class Quark(gwp.Plugin):
     hotkey = 'q'
 
     FILTER_NONE = 1
-    
     RUTA_QUARK_FILES = gwp.get_system_plugins_dir() + 'quark_files/'
+    natt = 'El latinio lo es todo!'
+    prioridad_aviso = quark_utils.PRIORIDAD_AVISO_NINGUNO
     
     #--------------------------------------------------------------------------     
     def _init_lists(self):
@@ -119,7 +120,6 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def report_verify_temperature(self, orig_p):
-        print orig_p.get_name()
         if orig_p.get_natives(): # SI no hay nativos no tiene sentido esto  
             if (orig_p.get_temperature_f() < 15) or (orig_p.get_temperature_f() > 84):
 
@@ -142,16 +142,12 @@ class Quark(gwp.Plugin):
                 else:
                     # La $$ cobrada es limitada por la temperatura
                     terraformado = p.copy()
-                    print terraformado.get_temperature_f()
-                    print terraformado.get_temperature()
                     print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
                     while max_i > limit:
-                        print "entra"
                         if (terraformado.get_temperature_f() < 50):
                             terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
                         else:
                             terraformado.set_temperature(100 - (terraformado.get_temperature_f() - 1))
-                        print "llega"
                         limit = terraformado.get_col_growth_limit()
                         tax, max_i = self.calculate_max_income_from_natives(terraformado)
                         print "Max: " + str(max_i) + " Limite: " + str(limit)
@@ -167,6 +163,9 @@ class Quark(gwp.Plugin):
     def na_generar(self, p):
         """Genera los avisos que van al area de notificacion."""
         print "Planeta elegido: " + p.get_name()
+        self.natt = ''
+        self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
+                            self.natt)        
         if p.is_mine():
             self.na_verify_happyness(p, 'c') # Colonists
             self.na_verify_happyness(p, 'n') # Natives
@@ -177,7 +176,7 @@ class Quark(gwp.Plugin):
     def na_verify_happyness(self, p, people): # FIXME NOTIFICATION AREA
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. Salida al area de notificacion"""
-        txt = ""
+        self.natt = ""
         if people == 'c':
             people = "Colonists "
             future_happ = self.calculate_future_happyness_colonists(p)
@@ -185,17 +184,18 @@ class Quark(gwp.Plugin):
             people = "Natives "        
             future_happ = self.calculate_future_happyness_natives(p)
         if future_happ < 1: # CIVIL WAR!
-            txt = people + "will be in CIVIL WAR the next turn\n\n"
+            self.natt = people + "will be in CIVIL WAR the next turn\n\n"
         elif future_happ < 30: # NO PAGAN
-            txt = people + "will not pay taxes the next turn\n\n"
+            self.natt = people + "will not pay taxes the next turn\n\n"
         elif future_happ < 40: # en 39 empieza el quilombo
-            txt = people + "will be RIOTING the next turn\n\n"
+            self.natt = people + "will be RIOTING the next turn\n\n"
         elif future_happ < 70: # en 69 dejan de crecer
-                txt = people + "will be UNHAPPY the next turn\n\n"
-        if txt:
-            print txt
-        else:
-            print people + "happyness dentro de los parametros en el planeta " + p.get_name()
+                self.natt = people + "will be UNHAPPY the next turn\n\n"
+        if self.natt:
+            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_ALTO, self.natt)
+            print self.natt
+        #else:
+        #    print people + "happyness dentro de los parametros en el planeta " + p.get_name()
         
     #--------------------------------------------------------------------------
     def na_verify_colonists(self, p_orig): # FIXME NOTIFICATION AREA
@@ -204,7 +204,7 @@ class Quark(gwp.Plugin):
         * sacar el max posible de supplies si hay Bovinoids
         * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
         """
-        txt = ""
+        self.natt = ""
 
         p = p_orig.copy()
         if (not p.is_mine()): # Para planetas orbitados y no mios
@@ -227,20 +227,24 @@ class Quark(gwp.Plugin):
                     col_faltan = col_faltan_tax
                 else:
                     col_faltan = col_faltan_sup
-                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
+                self.natt = "Need "+ str(col_faltan) +" clans of colonists!"
 
             # REPORTA "Puedo cobrar mas"
             if dif:
-                txt = txt + "You can collect " + str(max_i) + " MC "
-                txt = txt  + "(" + str(dif) +" more)\n"
+                if self.natt:
+                    self.natt = self.natt + "\n"
+                self.natt = self.natt + "You can collect " + str(max_i) + " MC "
+                self.natt = self.natt  + "(" + str(dif) +" more)"
                 
                 # Falta ver si pagan poco y conviene construir fab y minas
 
             # REPORTA "Puedo sacar mas supplies"
             if col_faltan_sup:
-                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
+                if self.natt:
+                    self.natt = self.natt + "\n"
+                self.natt = self.natt + "You can obtain " + str(col_faltan_sup) + " supplies "
                 dif = col_faltan_sup - p.get_colonists()
-                txt = txt + "(" + str(dif) +" more)\n"
+                self.natt = self.natt + "(" + str(dif) +" more)"
 
         
         chequear_construcciones = 1
@@ -248,8 +252,9 @@ class Quark(gwp.Plugin):
             # FALTA controlar si las fab y minas estan en valores optimos.
             pass
         # Se imprime!
-        if txt:
-           print txt + "\n"
+        if self.natt:
+            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_MEDIO, self.natt)
+            print self.natt
 
     #--------------------------------------------------------------------------
     
@@ -333,20 +338,21 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------
     def conectar_planetas(self):
         """Conecta la senial planeta seleccionado para mostrar avisos en el
-        area de notificacion."""
-        self.signals_id = []
-        for planeta in self.pl:
-            cod = planeta.connect("selected", self.na_generar)
-            if self.signals_id == []:
-                self.signals_id = { planeta.get_id() : cod }
-            else:
-                self.signals_id [ planeta.get_id() ] = cod
-        for planeta in self.pl_otros: # Planetas orbitados sin duenio
-            cod = planeta.connect("selected", self.na_generar)
-            if self.signals_id == []:
-                self.signals_id = { planeta.get_id() : cod }
-            else:
-                self.signals_id [ planeta.get_id() ] = cod
+        area de notificacion. YA NO SE USA"""
+        pass
+#         self.signals_id = []
+#         for planeta in self.pl:
+#             cod = planeta.connect("selected", self.na_generar)
+#             if self.signals_id == []:
+#                 self.signals_id = { planeta.get_id() : cod }
+#             else:
+#                 self.signals_id [ planeta.get_id() ] = cod
+#         for planeta in self.pl_otros: # Planetas orbitados sin duenio
+#             cod = planeta.connect("selected", self.na_generar)
+#             if self.signals_id == []:
+#                 self.signals_id = { planeta.get_id() : cod }
+#             else:
+#                 self.signals_id [ planeta.get_id() ] = cod
             
     ###########################################################################        
     ################################## GUI ####################################
@@ -361,7 +367,7 @@ class Quark(gwp.Plugin):
         self.quark_utils.widgets_make_link(self)
         self._init_lists()
         self.__create_gui()
-        self.conectar_planetas()
+        # self.conectar_planetas()
         self.inicializar_interfaces() # Notification Area
     
     #--------------------------------------------------------------------------
@@ -407,38 +413,75 @@ class Quark(gwp.Plugin):
             self.quark_icon = gtk.Button()
             self.i = gtk.Image()
             
-            self.quark_set_icon('transparente')
-            
+            self.quark_icon.add(self.i) #agregado para que tenga alguna imagen (x el remove)
             self.na.add_notification(self.quark_icon)
-            self.na.set_tooltip(self.quark_icon, 'El latinio lo es todo!')
-        
+            self.natt = ''
+            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
+                                self.quark_utils.get_regla_adquisicion()) # Un msj cheto 
+
     #--------------------------------------------------------------------------
-    def quark_set_icon(self, color):
+    def destruir_interfaces(self):
+        self.na = None
+
+    #--------------------------------------------------------------------------
+    def quark_set_icon(self, prioridad, texto=None):
         """ Devuelve una imagen con el icono del color correspondiente"""
         filename = ''
 
-        if color == 'transparente':
+        if prioridad == self.quark_utils.PRIORIDAD_AVISO_NINGUNO:
+            self.prioridad_aviso = self.quark_utils.PRIORIDAD_AVISO_NINGUNO
             filename = self.quark_utils.ICONO_TRANSPARENTE
-        elif color == 'verde':
+            
+        elif (prioridad > self.prioridad_aviso) \
+                 and (prioridad == self.quark_utils.PRIORIDAD_AVISO_BAJO):
+            self.prioridad_aviso = self.quark_utils.PRIORIDAD_AVISO_BAJO
             filename = self.quark_utils.ICONO_VERDE
-        elif color == 'amarillo':
+            
+        elif (prioridad > self.prioridad_aviso) \
+                 and (prioridad == self.quark_utils.PRIORIDAD_AVISO_MEDIO):
+            self.prioridad_aviso = self.quark_utils.PRIORIDAD_AVISO_MEDIO
             filename = self.quark_utils.ICONO_AMARILLO
-        elif color == 'rojo':
+            
+        elif (prioridad > self.prioridad_aviso) \
+                 and (prioridad == self.quark_utils.PRIORIDAD_AVISO_ALTO):
+            self.prioridad_aviso = self.quark_utils.PRIORIDAD_AVISO_ALTO
             filename = self.quark_utils.ICONO_ROJO
         else:
             return None
         # remuevo la imagen anterior
         self.quark_icon.remove(self.i)
         # preparo la nueva imagen
-        print self.RUTA_QUARK_FILES + filename
         self.i.set_from_file(self.RUTA_QUARK_FILES + filename)
         self.i.show()
         # agrego la nueva imagen
         self.quark_icon.add(self.i)
         self.quark_icon.show()
-        return 0
+        if not texto:
+            texto = self.quark_utils.get_regla_adquisicion() # Un msj cheto 
+        self.na.set_tooltip(self.quark_icon, texto)
 
-        
+    #--------------------------------------------------------------------------
+    def notify(self, objeto, event):
+        print event
+        if (event == 'plugin-registered') and (objeto.name == 'Notification Area'):
+            #self.inicializar_interfaces() # Enlaza el notification area
+            pass
+        if (event == 'plugin-unregistered') and (objeto.name == 'Notification Area'):
+            self.destruir_interfaces()
+        if self.na and (event == 'planet-selected'):
+            self.natt = ''
+            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
+                                self.quark_utils.get_regla_adquisicion()) # Un msj cheto 
+            pid = objeto.get_id()
+            for planeta in self.pl:
+                if planeta.get_id() == pid:
+                    self.na_generar(objeto)
+            for planeta in self.pl_otros: # Planetas orbitados sin duenio
+                if planeta.get_id() == pid:
+                    self.na_generar(objeto)
+        if self.na and (event == 'ship-selected'):
+            self.na.remove_notification(self.quark_icon)
+
     #--------------------------------------------------------------------------            
     def filter_load_data(self):
         # Cargo el filtro con un arreglo que tiene los tipos de filtro.
@@ -607,11 +650,12 @@ class Quark(gwp.Plugin):
     def unregister(self, pm):
         # Cleaning up
         #desconecto las senales de planeta seleccionado
-        for pid, signal in self.signals_id.iteritems():
-            planeta = gwp.planet_get_by_id(pid)
-            planeta.disconnect(signal)
+        #for pid, signal in self.signals_id.iteritems():
+        #    planeta = gwp.planet_get_by_id(pid)
+        #    planeta.disconnect(signal)
             
-        self.na.remove_notification(quark_icon)
+        if self.na:
+            self.na.remove_notification(self.quark_icon)
 
 
     
