@@ -2,6 +2,10 @@ Version ?.?.?? (released ??-??-????):
 
 	* Ship visualization UI completed.
 
+	* Character conversion from CP437 (DOS) to UTF-8 for object names.
+
+	* RPM .spec file added  - RPM package generation working
+
 Version 0.2.12 (released 04-10-2004):
 
 	* Starchart placed on the middle when defining a new game.
