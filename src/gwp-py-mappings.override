@@ -183,3 +183,27 @@ _wrap_torpspec_get_list (PyObject *self)
 
   return ret;
 }
+%%
+override get_truehull noargs
+static PyObject *
+_wrap_get_truehull (PyObject *self)
+{
+  int i, j;
+  PyObject *th = PyDict_New ();
+  PyObject *dict;
+
+  for (i=1; i <= 11; i++) {
+    dict = PyDict_New ();
+    for (j=1; j <= 20; j++) {
+      PyDict_SetItem (dict, 
+		      PyInt_FromLong(j), 
+		      PyInt_FromLong(truehull[i-1][j-1]));
+    }
+    PyDict_SetItem (th, 
+		    PyInt_FromLong(i), 
+		    dict);
+    Py_INCREF(dict);
+  }
+  Py_INCREF(th);
+  return th;
+}
