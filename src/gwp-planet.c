@@ -1429,26 +1429,22 @@ gwp_planet_mineral_extraction_rate(enum races   race,
 				   gint         mineral)
 {
   gint ret;
-
-  if(density < 10) {
-    ret = mines / 10;
-  } else if((density >= 10) && (density < 30)) {
-    ret = mines / 5;
-  } else if((density >= 30) && (density < 40)) {
-    ret = mines / 3;
-  } else if((density >= 40) && (density < 70)) {
-    ret = mines / 2;
-  } else {
-    ret = mines;
-  }
+  gdouble miningrate;
 
   /* Race & natives corrections */
   /* FIXME: Must get this values from Host config!!! */
   if (race == RACE_FEDS) {
-    ret *= 0.7;
+    miningrate = 70.0;
   } else if (race == RACE_LIZARDS) {
-    ret *= 2;
+    miningrate = 200.0;
+  } else {
+    miningrate = 100.0;
   }
+
+  /* WARNING: This calculus is the good one, check filefmt.txt, not Donovan! */
+  ret = rint (rint((gdouble)mines * (gdouble)density / 100.0) * 
+	      miningrate / 100.0);
+
   if (natives == NATIVE_REPTILIAN) {
     ret *= 2;
   }
