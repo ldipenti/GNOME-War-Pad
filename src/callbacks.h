@@ -185,3 +185,6 @@ void on_game_mgr_new_game (GtkWidget *widget,
 
 void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
 				       gpointer user_data);
+
+void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
+					gpointer user_data);

@@ -26,8 +26,8 @@
 
 typedef struct _GameSettings GameSettings;
 struct _GameSettings {
-  GString *game_dir, *game_name, *trn_dir, *rst_dir;
-  GString *player_email, *host_email;
+  gchar *game_dir, *game_name, *trn_dir, *rst_dir;
+  gchar *player_email, *host_email;
   gint16 host_type; // 1=THost ; 2=PHost
   gint16 race;
 };

@@ -26,6 +26,12 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
+#include "game_types.h"
+
+GtkWidget *game_mgr_get_properties_dlg(void);
+void game_mgr_cb_new_game(GtkWidget *widget, gpointer user_data);
 void game_mgr_update_race_list(char *dir);
+GameSettings *game_mgr_new_settings(void);
+void game_mgr_properties_dlg_clean(void);
 
 #endif

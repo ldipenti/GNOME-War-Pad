@@ -304,21 +304,39 @@ void on_game_mgr_new_game (GtkWidget *widget,
 			   gpointer user_data)
 {
   GtkWidget *iconlist;
+  GtkWidget *mgr_props = game_mgr_get_properties_dlg();
+  GtkWidget *mgr = lookup_widget("game_mgr");
+  GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
 
   iconlist = lookup_widget("game_mgr_iconlist");
-  g_assert(GNOME_IS_ICON_LIST(iconlist));
-  gnome_icon_list_insert(GNOME_ICON_LIST(iconlist),
-			 0,
-			 GWP_ICONS_DIR"/game_icon.png",
-			 "Nuevo Juego 1");
+
+  // Connect callback to OK button, so that works as a "new game" dialog.
+  g_signal_connect(G_OBJECT(ok_button), 
+		   "clicked", 
+		   G_CALLBACK(game_mgr_cb_new_game), iconlist);
+  gtk_window_set_transient_for(GTK_WINDOW(mgr_props), GTK_WINDOW(mgr));
+  gtk_widget_show(mgr_props);
 }
 
 // Displays pop-up menu on selected game icon
 void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
 				       gpointer user_data)
 {
-  GtkMenu *popup;
+  GtkWidget *popup;
 
   popup = lookup_widget("game_mgr_popup_menu");
-  gtk_menu_popup (popup, NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+  gtk_menu_popup (GTK_MENU(popup), NULL, NULL, NULL, NULL, 1, 
+		  gtk_get_current_event_time());
 }
+
+void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
+					gpointer user_data)
+{
+  GtkWidget *mgr_props;
+
+  mgr_props = lookup_widget("game_mgr_properties");
+
+  gtk_widget_hide(mgr_props);
+  game_mgr_properties_dlg_clean();
+}
+

@@ -36,7 +36,8 @@ gwp_SOURCES = \
 	vp_utils.c\
 	vp_utils.h\
 	game_mgr.c\
-	game_mgr.h
+	game_mgr.h\
+	game_types.h
 
 gwp_LDFLAGS = 
 
