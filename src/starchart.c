@@ -30,6 +30,9 @@
 #include "tables.h"
 #include "mission.h"
 
+/* Private functions */
+static void starchart_zoom (GnomeCanvas *starchart, gdouble zoom);
+
 /**
  * Notifications from game_state that should be taken seriously
  */
@@ -1606,15 +1609,6 @@ void init_starchart (GtkWidget * gwp)
   starchart_get_canvas()->aa = 1;
   gnome_canvas_update_now(starchart_get_canvas());
 
-  /* Set starchart zoom */
-  gnome_canvas_set_pixels_per_unit (starchart_get_canvas(), 
-				    gwp_game_state_get_starchart_zoom (game_state));
-
-  /* Scroll to last coordinates */
-  gnome_canvas_scroll_to(starchart_get_canvas(),
-			 gwp_game_state_get_last_x_coord (game_state),
-			 gwp_game_state_get_last_y_coord (game_state));
-
   starchart_set_grp_grid(GNOME_CANVAS_GROUP 
 			 (gnome_canvas_item_new 
 			  (starchart_get_grp_root(), 
@@ -1733,13 +1727,16 @@ void init_starchart (GtkWidget * gwp)
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
 		     "ships_group", starchart_get_grp_ships());
 
-  /* FIXME: This is just a test with emission hooks 
-  g_signal_add_emission_hook (g_signal_lookup ("property-changed", 
-					       GWP_TYPE_GAME_STATE),
-			      0,
-			      avisar_emission_hook,
-			      NULL,
-			      NULL); */
+  /* Set starchart zoom */
+  starchart_zoom (starchart_get_canvas(), 
+		  gwp_game_state_get_starchart_zoom (game_state));
+
+  /* Scroll to last coordinates */
+  gnome_canvas_scroll_to(starchart_get_canvas(),
+			 gwp_game_state_get_last_x_coord (game_state),
+			 gwp_game_state_get_last_y_coord (game_state));
+
+  /* Model events that starchart has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
 		    G_CALLBACK(starchart_boolean_notifications),
@@ -2013,49 +2010,46 @@ void starchart_get_object_center_coord (GnomeCanvasItem * item,
   *y = y1 + ((y2 - y1) / 2);
 }
 
-void starchart_zoom_in (GnomeCanvas * starchart)
+static void
+starchart_zoom (GnomeCanvas *starchart,
+		gdouble      zoom)
 {
-  gdouble zoom = gwp_game_state_get_starchart_zoom (game_state);
   gchar *zoom_status;
   GtkCheckMenuItem *pnames_menu = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
   
+  gnome_canvas_set_pixels_per_unit (starchart, zoom);
+  gwp_game_state_set_starchart_zoom (game_state, zoom);
+  
+  /* print status */
+  zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
+  starchart_set_status(zoom_status);
+  g_free(zoom_status);
+  
+  /* show planet names if needed */
+  if (zoom >= 1.0 && gtk_check_menu_item_get_active(pnames_menu)) {
+    starchart_show_planet_names (TRUE);
+  } else {
+    starchart_show_planet_names (FALSE);
+  }
+}
+
+void starchart_zoom_in (GnomeCanvas * starchart)
+{
+  gdouble zoom = gwp_game_state_get_starchart_zoom (game_state);
+  
   if (zoom < 2.0) {
     zoom += 0.2;
-    gnome_canvas_set_pixels_per_unit (starchart, zoom);
-    gwp_game_state_set_starchart_zoom (game_state, zoom);
-
-    /* print status */
-    zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
-    starchart_set_status(zoom_status);
-    g_free(zoom_status);
-
-    /* show planet names if needed */
-    if (zoom >= 1.0 && gtk_check_menu_item_get_active(pnames_menu)) {
-      starchart_show_planet_names (TRUE);
-    }
+    starchart_zoom (starchart, zoom);
   }
 }
 
 void starchart_zoom_out (GnomeCanvas * starchart)
 {
   gdouble zoom = gwp_game_state_get_starchart_zoom (game_state);
-  gchar *zoom_status;
-  GtkCheckMenuItem *pnames_menu = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
   
   if (zoom > 0.4) {
     zoom -= 0.2;
-    gnome_canvas_set_pixels_per_unit (starchart, zoom);
-    gwp_game_state_set_starchart_zoom (game_state, zoom);
-
-    /* print status */
-    zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
-    starchart_set_status(zoom_status);
-    g_free(zoom_status);
-
-    /* show planet names if needed */
-    if (zoom < 1.0 && gtk_check_menu_item_get_active(pnames_menu)) {
-      starchart_show_planet_names (FALSE);
-    }
+    starchart_zoom (starchart, zoom);
   }
 }
 
