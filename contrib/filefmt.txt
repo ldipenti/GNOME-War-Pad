@@ -20,7 +20,7 @@ Contents
   results. I just can't stand if there are files on my hard disk and I
   don't know how they are built up.
 
-  But also technically interested Planets players may find one or another
+  Technically interested Planets players may also find one or another
   useful information.
 
   As stated above, this list was created with the famous "Trial and
@@ -64,6 +64,11 @@ On Cheating
   If you want fun and challenge, play honest. If you want to cheat,
   play other games. Single-player Descent with BIGRED cheat comes to
   mind ;-)
+
+  Older hosts often send you data you should not have. Nowadays, it is
+  generally considered legal to make use of this information, as "official"
+  and "white hat guy" programs (Winplan, EchoView) let you access it. The
+  rationale is you should no longer use these ancient hosts (pre-3.2).
 
 
 Basics
@@ -194,14 +199,14 @@ Programs mentioned in this List
 --------------------------------
 
   þ VGA Planets 3.0, the original game by Wisseman
-  þ WinPlan 3.5x, the Windows version
+  þ Winplan 3.5x, the Windows version
   þ Host 3.x & Co., the Wisseman hosting programs, including Host999
   þ SRace, Wisseman's Race Switcher
   þ Planets Command Center, a client by Stefan Reuther (that's me ;-)
   þ PView 2.0, a starchart utility by Frank Hempel
   þ AFSim 1.2, a simulator by Sean Martens
   þ Informer 2.x, a player-side utility by Sean Martens
-  þ VPA, a client by Alex Ivlev
+  þ VPA, a client by Alex Ivlev, now Open Source
   þ PHost 2 and 3, the Portable Host
   þ VPUtil & Co., some client tools by Sysma Automatiseering
   þ Aliens!, a host add-on by Thore Schmechtig
@@ -212,6 +217,12 @@ Programs mentioned in this List
 CHANGES
 ========
 
+  15 Aug 2002   - some fixes, TONS2.HST
+  02 Jul 2002   - new PHost 3.4b UTILx.DAT records
+  13 May 2002   - notes on older UTILx.DAT records
+  05 Apr 2002   - older HCONFIG.HST sizes; UFO owner list updated
+  27 Mar 2002   - notes on ancient Host data leakage; PHost 3.4
+  10 Mar 2002   - fixed happiness formulas (hooray); some fixes
   19 Feb 2002   - note about CORR; odd fixes
   15 Feb 2002   - some notes on VPAx.DB, from VPA source
   05 Feb 2002   - VPAx.DB info from Piotr Winiarczyk (PLAN, SHIP, NPLN, EPLN)
@@ -266,8 +277,8 @@ CHANGES
                   complete lists available.
   08 Mar 1998   - Some changes in latest hosts
   30 Jan 1998   - SRace
-                - even more WinPlan
-  03 Jan 1998   - more WinPlan info
+                - even more Winplan
+  03 Jan 1998   - more Winplan info
                 - WPVCR.DLL updated
 
 
@@ -283,10 +294,10 @@ PLAYER DATA
   MAKETURN looks for differences between these and makes a TRN file.
 
 
-WinPlan Shareware
+Winplan Shareware
 ------------------
 
-  The WinPlan Shareware version is technically nearly identical to the DOS
+  The Winplan Shareware version is technically nearly identical to the DOS
   Planets client. It creates DOS TRNs and unpacks only DOS RSTs. The
   Windows resource files (WPVCR.DLL, BMP/WAV directory) are used anyway, as
   are version 3.5 message files (MESS35x.DAT).
@@ -318,11 +329,11 @@ AUTOx.DAT - WINPLAN - Auto stuff [T]
 
 ## Auto Waypoints
 
-  WinPlan allows to assign each ship up to 6 waypoints, missions and
+  Winplan allows to assign each ship up to 6 waypoints, missions and
   friendly codes for the future.
 
-  Note that this file format is buggy. For each ship's Auto Waypoint,
-  WinPlan reserves 48 bytes (that is, ship #1's record is loaded from
+  Note that this file format is bogus. For each ship's Auto Waypoint,
+  Winplan reserves 48 bytes (that is, ship #1's record is loaded from
   +4012, ship #2's record from +4060, etc.), though each record uses 102
   bytes. So waypoints for adjacent ship IDs overlap, with garbage being
   displayed in the auto waypoint window. This makes it impossible to
@@ -397,15 +408,14 @@ One Starbase Record:
 
 ## Build orders
 
-  Either specify a complete build record, or zero all fields. Beam Type and
-  Beam Count are either both zero or both nonzero, likewise Torpedo Type
-  and Count.
+  To build ship parts, ammo, tech levels or starbase defense, clients
+  subtract the required resources from the planet and increase the
+  starbase storage.
 
-  All items required by the build order must be ready in storage: the host
-  subtracts the appropriate amount from the available counts.
-
-  The client must, however, subtract the resources used for building parts
-  or defense, or raising tech levels.
+  To build a ship, you must buy the required items into storage; host
+  will subtract them again. The build order must either be completely
+  specified or completely zero. Beam Type and Beam Count are either
+  both zero or both nonzero, likewise Torpedo Type and Count.
 
 
 CONTRLx.DAT - WINPLAN - Checksums
@@ -419,9 +429,9 @@ CONTROL.DAT - Checksums
   need to play in the same game.
 
 
-## WINPLAN
+## Winplan
 
-  For each player a single CONTRLx.DAT file. WinPlan can handle multiple
+  For each player a single CONTRLx.DAT file. Winplan can handle multiple
   games in one directory, and one game spread over multiple directories,
   as long as there are no race collisions (i.e., two times player 3 in
   the same directory won't work).
@@ -450,7 +460,7 @@ CONTROL.DAT - Checksums
   message if it finds any mismatch:
     "DATA ENCRIPT ERROR".
   (This typo has successfully hidden itself in all versions, from DOS
-  Planets up to WinPlan 3.52...)
+  Planets up to Winplan 3.52...)
 
 
 FIZZ.BIN - Even more checksums
@@ -489,10 +499,13 @@ FIZZ.BIN - Even more checksums
   "VGA Planets shareware    "
   "Version 3.00             "  resp.  " V3.5 for windows        "
 
-  The host checks the first line to identify the shareware version. For
-  registered players, both lines need to be equal to be identified as the
-  same player. The strings are written to REG.LOG in each host run. They
-  are also stored in PLANETS.EXE. No, I won't describe this here...
+  The host checks the first line to identify the shareware version, hence
+  3rd-party clients can put their own version number into line two (I have
+  been told of some Autohost who rejects these; I believe the Autohost is
+  in error here.) For registered players, both lines need to be equal to
+  be identified as the same player. The strings are written to REG.LOG in
+  each host run. They are also stored in PLANETS.EXE. No, I won't describe
+  this here...
 
   If the values from PLANETS.EXE and FIZZ.BIN don't match, Planets
   refuses to run with the message:
@@ -525,7 +538,8 @@ GAMESTAT.DAT - WINPLAN - Game Definitions [T]
 +1649   WORD    Number of the game selected last in the menu (1..8)
 
   The unpacked game data is always in the WINPLAN\VPWORKx directory,
-  where x is the sequential number of the record (1..8).
+  where x is the sequential number of the record (1..8). There seems
+  to be no indication what race you chose last.
 
 
 GENx.DAT - General Information
@@ -554,7 +568,7 @@ GENx.DAT - General Information
 +137    DWORD   Checksum of BDATAx.DAT/DIS
                 These checksums are the total sum of all bytes of the
                 appropriate file.
-+141    WORD    13dec if the password has changed, 0 else
++141    WORD    13 if the password has changed, 0 else
 +143 10 BYTEs   New password, if any: each byte is increased by 50
 +153    WORD    Turn number
 +155    WORD    Checksum of the time stamp = sum of bytes at 0 to 17
@@ -600,7 +614,7 @@ KOREx.DAT - WINPLAN - Starcharts
                  +0     WORD    X
                  +2     WORD    Y
                  +4     WORD    Radius
-                 +6     WORD    Owner
+                 +6     WORD    Owner/Type
 +4102  50 RECORDs of 12 bytes each: Ion storms
                  +0     WORD    X
                  +2     WORD    Y
@@ -651,7 +665,7 @@ MDATAx.DAT - Received Messages
   The messages texts are encrypted: each ASCII code is increased by 13dec.
   A single carriage return (ASCII 0Dh, encrypted 1Ah) is a line break.
   Empty lines are stored as a line break only (no spaces). Messages do not
-  need to be all of the same length. Messages from WinPlan clients may have
+  need to be all of the same length. Messages from Winplan clients may have
   additional encrypted linefeeds (ASCII 0Ah, encrypted 17h) after the CRs.
 
   Characters with an ASCII code above 242 can't be encrypted in messages.
@@ -668,16 +682,16 @@ MDATAx.DAT - Received Messages
 ## Message Type Codes
 
   From Host 3.20 and PHost 2.6c onwards, received messages normally start
-  with a header like this:
+  with a header like this (PHost does this consistently since 3.3c):
     (-xy000)<<< Headline >>>
-  The headers were introduced to allow sorting the messages in WinPlan.
+  The headers were introduced to allow sorting the messages in Winplan.
 
   The hyphen identifies this message as a message from the current turn. If
   there is an "o" instead, it's an older message because the player has
   missed some turns.
 
   "x" specifies the type of the message. "y" is a race number, and "000"
-  a planet or ship id. The following list shows some message types:
+  a planet or ship id. The following list shows the existing message types:
 
     (-90xxx)    Race-specific mission (Hiss, Dark Sense), xxx is a planet
                 Id.
@@ -694,7 +708,7 @@ MDATAx.DAT - Received Messages
     (-i0xxx)    Ion storm #xxx.
     (-l0xxx)    Minefield #xxx laid.
     (-m0xxx)    Minefield #xxx scanned/swept.
-    (-n0xxx)    Intercepted enemy messages: ship #xxx run on a mine, or
+    (-n0xxx)    Intercepted enemy messages: ship #xxx ran on a mine, or
                 planet #xxx being pillaged/RGAed.
     (-p0xxx)    Message from planet #xxx.
     (-pRxxx)    New native life, overtaxed, or bad climate at planet #xxx.
@@ -727,7 +741,7 @@ MDATAx.DAT - Received Messages
 
 ## Add-on Messages (-a0xxx)
 
-  For messages starting with "(-a0xxx)", WinPlan displays a the file
+  For messages starting with "(-a0xxx)", Winplan displays a the file
   WINPLAN\BMP\VPAUXxxx.BMP in the message reader. Those pictures are not
   transferred with the RST file. Tim assigns Id numbers.
 
@@ -740,8 +754,8 @@ MDATAx.DAT - Received Messages
 
 ## VPA Data Transmission
 
-  VPA can transfer information about objects to allies. The messages are
-  built up as follows (normal player message):
+  VPA data transmissions are normal player-to-player messages where the
+  message body looks like this:
 
     <<< VPA Data Transmission >>>
 
@@ -848,7 +862,7 @@ MDATAx.DAT - Received Messages
 
   Informer (and other tools, such as EchoView) can transfer information
   about a player's planets and starbases to allied players. These messages
-  are built up as follows:
+  contain in the body:
 
     Allied Planets                       <-- Signature
     Passcode : 17                        <-- Passcode (optional)
@@ -870,8 +884,7 @@ MDATAx.DAT - Received Messages
 
 ## VPHost Binary Data Transfer
 
-  VPHost has a similar message transmission facility like VPA. VPHost's
-  messages have the form
+  VPHost's data transfer messages contain in the body
 
     <<  VPHOST Binary Data Transfer  >>
     80E300000010004586560235F6C6162702645646
@@ -927,14 +940,16 @@ MESSx.DAT - Sent Messages
   message headers. PCC dynamically moves the messages, leaving at least
   50 free slots.
 
+  Messages should end in a line break (CR, encoded as 26): when HOST.EXE
+  dumps host messages to the HOSTMESS.TXT file, it will not write a proper
+  linefeed after the message, so messages may accidentially run together.
+
 
 ## Message Size Limits
 
   THost limits the size of a TRN file "SendMessage" command to 700
   bytes. PHost limits messages to at most 18 lines of 40 characters each
-  (after breaking long lines). Note that these limits pertain to player
-  messages, I know of at least one case where a PHost-generated message
-  exceeds the limit.
+  (after breaking long lines).
 
   Both hosts prepend a signature line ("(-rX000)<<< Subspace Message >>>"),
   a "FROM:" and a "TO:" line, and (THost only) a blank line.
@@ -969,8 +984,8 @@ MESSx.DAT - Sent Messages
 MESS35x.DAT - WINPLAN - Sent Messages
 --------------------------------------
 
-  WinPlan uses this file instead of MESSx.DAT to send messages. Sending
-  messages to several people is supported by the file format, but WinPlan
+  Winplan uses this file instead of MESSx.DAT to send messages. Sending
+  messages to several people is supported by the file format, but Winplan
   does NOT insert header lines like the DOS clients as Planets and PCC do
   ("<<< Universal Messages >>>"). MakeTurn disassembles messages into
   single commands.
@@ -978,7 +993,7 @@ MESS35x.DAT - WINPLAN - Sent Messages
  +0     WORD    Number of sent messages
  +2  17 BYTEs   ? (unused, rubbish)
 +19   n RECORDs containing the messages. Probably, a variable record size
-                is possible, but not supported by WinPlan:
+                is possible, but not supported by Winplan:
                  +0     BYTE    unused fill byte
                  +1     BYTE    Flag. If the message is valid, this byte is
                                 31h ("1"). If the message has been deleted,
@@ -993,9 +1008,9 @@ MESS35x.DAT - WINPLAN - Sent Messages
   breaks contain both a CR and an LF (0Dh 0Ah, encrypted 1Ah 17h). The
   message is padded with encrypted spaces (2Dh, "-"). The THost line-break
   filter is not aware of the additional 0Ah's, so a line must not be
-  longer than 39 characters in a WinPlan message.
+  longer than 39 characters in a Winplan message.
 
-  If a message is deleted, WinPlan doesn't truncate the file but copies
+  If a message is deleted, Winplan doesn't truncate the file but copies
   all messages back some positions and sets the flag at the first invalid
   message to "0".
 
@@ -1003,18 +1018,18 @@ MESS35x.DAT - WINPLAN - Sent Messages
   zero word only.
 
   Possibly, a variable record size is planned though not implemented in
-  WinPlan. Since 600 bytes is too less for a message, PCC can extend the
-  format in this way if it knows WinPlan is not installed: WinPlan itself
+  Winplan. Since 600 bytes is too less for a message, PCC can extend the
+  format in this way if it knows Winplan is not installed: Winplan itself
   would crash reading the file.
 
-  WinPlan uses the Windows Editor Control. This is a full editor capable of
+  Winplan uses the Windows Editor Control. This is a full editor capable of
   doing automatic line breaks. CR/LF is only in the text if one has really
   pressed ENTER. If you have written down a complete paragraph, it will
   contain no single CR/LF, line breaks were only done at display time.
-  This was "downgraded" in later WinPlan versions (i.e., ENTER is required)
+  This was "downgraded" in later Winplan versions (i.e., ENTER is required)
   and a host-side filter adds linefeeds after 39 columns.
 
-  WinPlan uses an ad-hoc conversion for Latin-1 characters (Windows) to
+  Winplan uses an ad-hoc conversion for Latin-1 characters (Windows) to
   MS-DOS characters (cp437): "translate German letters". This conversion
   is neither perfect nor complete, so best avoid it.
 
@@ -1046,6 +1061,14 @@ PDATAx.DAT - New Planet Data [V]
 PDATAx.DIS - Old Planet Data [V]
 ---------------------------------
 
+  This file contains all your planets, and all unowned planets you are
+  orbiting (those for which you can request a mineral survey).
+
+  Up to Host 3.14, you were getting PDATA records also for planets owned
+  by enemies. This is problematic because they contain the friendly code,
+  which current client programs, including recent Winplans, will happily
+  display. Stealing minerals, sailing minefields -- it never was easier :)
+
  +0     WORD    Number of planets
  +2   n BYTEs   Records of 85 bytes each
  +m  10 BYTEs   PDATAx.DAT: Signature 2 -> GENx.DAT
@@ -1054,7 +1077,7 @@ PDATAx.DIS - Old Planet Data [V]
 One Planet record:
  +0     WORD    Player Id, 0 for unowned planets
  +2     WORD    Planet Id
- +4   3 BYTEs   Friendly Code
+ +4   3 BYTEs   Friendly Code. THost permits ASCII codes 32 to 122.
  +7     WORD    Number of mines (0..~516)
  +9     WORD    Number of factories (0..~416)
 +11     WORD    Number of defense posts (0..~366)
@@ -1071,8 +1094,8 @@ One Planet record:
 +17     DWORD   Mined Tritanium
 +21     DWORD   Mined Duranium
 +25     DWORD   Mined Molybdenum
-+29     DWORD   Colonists (Clans of 100 people). The THost limit is 100000,
-                the PHost limit is 250000.
++29     DWORD   Colonist clans (1 clan = 100 people). The THost limit
+                is 100000 clans, the PHost limit is 250000 clans.
 +33     DWORD   Supplies
 +37     DWORD   Megacredits
 +41     DWORD   Neutronium in ground
@@ -1111,7 +1134,7 @@ One Planet record:
                         40..49  very angry
                         20..39  rioting
                         <20     fighting
-                Tax collection possible for happiness>=40, population grows
+                Tax collection possible for happiness>=30, population grows
                 if >=70.
 +73     WORD    Native Government (SPI = Socio Political Index)
                         0       none              0%
@@ -1124,8 +1147,8 @@ One Planet record:
                         7       Representative  140%
                         8       Participatory   160%
                         9       Unity           180%
-+75     DWORD   Natives (Clans of 100 people). Maximum population somewhere
-                around 150000.
++75     DWORD   Native clans (1 clan = 100 people). Maximum population
+                somewhere around 150000 clans.
 +79     WORD    Native Race
                         0       none
                         1       Humanoid
@@ -1143,30 +1166,50 @@ One Planet record:
                         36..60  warm    (40..64øF)
                         61..85  cool    (15..39øF)
                         86..100 arctic  (0..14øF)
+                In case you wonder why we store `100-F': originally, this
+                was just a type code with no real-world equivalent. It was
+                changed to mean a temperature with Host 3.20 and Winplan.
 +83     WORD    1=Build base, 0 otherwise. The client program must subtract
                 the starbase cost (900mc, 402T, 120D, 340M) from the
                 available resources when setting this word to 1.
 
-  The colonist's happiness change is calculated as
-
-         sqrt(Clans)               3*abs(Temp-50)   Mines+Factories
-    10 - ÄÄÄÄÄÄÄÄÄÄÄ - 0.8*Taxes - ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ - ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-            100                         100               300
-
-  For the natives
-
-                sqrt(Clans)                Mines+Factories
-    5 + SPI/2 - ÄÄÄÄÄÄÄÄÄÄÄ - 0.85*Taxes - ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-                    100                          200
-
-  Cut the digits after the decimal point (TRUNC). The result equals the
-  value shown in PLANETS.EXE as follows:
+  The happiness change can be computed from the tax level and the other
+  planet data. It corresponds to the value shown in PLANETS.EXE as
+  follows:
 
    -ì .. -6     Hate you
    -5 .. -1     Are angry at you
        0        Are undecided about you
    +1 .. +4     Like your leadership
    +5 .. +ì     Love you
+
+  Formulas are different for PHost and THost.
+
+  + Natives, THost:
+    Trunc(500 + 50*SPI - 85*NativeTax - (Mines+Factories) DIV 2
+              - Sqrt(Natives)) DIV 100
+    ... plus 10 for Avians
+  + Natives, PHost:
+    Trunc(500 + 50*SPI - 85*NativesTax - (Mines+Factories) / 2
+              - Sqrt(Natives)) DIV 100
+    ... plus 10 for Avians
+    (Note that the difference PHost/THost here is that THost uses integer
+    division for industry effect while PHost does floating point).
+
+  + Colonists, THost, Crystals with desert advantage:
+    Trunc(1000 - 80*ColonistTax - Sqrt(ColonistClans)
+               - (Mines+Factories) DIV 3 - 3*TempCode) DIV 100
+  + Colonists, THost, other races:
+    Trunc(1000 - 80*ColonistTax - Sqrt(ColonistClans)
+               - (Mines+Factories) DIV 3 - 3*Abs(TempCode-50)) DIV 100
+  + Colonists, PHost, Crystals with desert advantage:
+    Trunc(1000 - 80*ColonistTax - Sqrt(ColonistClans)
+               - (Mines+Factories) / 3 - TempCode/0.66) DIV 100
+  + Colonists, PHost, other races:
+    Trunc(1000 - 80*ColonistTax - Sqrt(ColonistClans)
+               - (Mines+Factories) / 3 - Abs(TempCode-50)/0.33) DIV 100
+    (Difference, again, is integer vs. floating point, and different
+    handling of temperatures).
 
 
 PATH.DAT - Game Directory
@@ -1203,7 +1246,7 @@ SHIPx.DIS - Old Ship data [V]
 A ship record:
  +0     WORD    Ship ID
  +2     WORD    Player ID (1..11, or zero in SHIP.HST for free ship slots)
- +4   3 BYTEs   Friendly Code
+ +4   3 BYTEs   Friendly Code. THost permits ASCII codes 32 to 122.
  +7     WORD    Warp factor (0..9)
                 Sometimes this field is set to a negative value by the
                 host, if the ship has more than 100% damage (due to blindly
@@ -1218,8 +1261,8 @@ A ship record:
                 SHIPXYx.DAT file and probably many clients.
 +17     WORD    Engine type (1..9, index into ENGSPEC.DAT)
 +19     WORD    Hull type (1..105, index into HULLSPEC.DAT)
-+21     WORD    Beam weapon type (0 for none, 1..10 = index into
-                BEAMSPEC.DAT else). See note below.
++21     WORD    Beam weapon type (0 for none, or 1..10 = index into
+                BEAMSPEC.DAT). See note below.
 +23     WORD    Number of beams
 +25     WORD    Number of fighter bays (if not zero, the T-Launcher type
                 and T-Launcher number values are ignored/set to 0, since a
@@ -1288,9 +1331,19 @@ A ship record:
   Note that, however, PLANETS.EXE counts transporter contents toward the
   ship's cargo hold. That is, if a SDSF transfers 70 kt of something to
   an enemy ship, it is reported as fully-loaded by PLANETS.EXE although
-  it has nothing in its cargo hold. Host 3.22.30 is reported to enforce
-  this limit (earlier ones do not). Common 3rd-party clients (VPA, PCC)
-  allow overloading the ship this way, as do earlier Hosts and PHost.
+  it has nothing in its cargo hold. Host 3.22.030 enforces this limit
+  (earlier ones do not). Common 3rd-party clients (VPA, PCC) allow
+  overloading the ship this way, as do earlier Hosts and PHost. Since
+  3.22.036, this restriction is host-configurable ("VPA extra features"),
+  and Winplan also allows overloading.
+
+  When in deep space, ships can jettison cargo; this is a normal ship-to-
+  foreign-planet transfer with the target planet set to zero. One can
+  also jettison ammo, although there is no corresponding field; the cargo
+  is just "forgotten", i.e. subtracted from cargo hold. One can still
+  tell how much was dropped by summing up everything of that ammo type
+  at the particular place, and seeing how much is missing from the
+  beginning of the turn.
 
 
 ## Missions
@@ -1304,12 +1357,12 @@ A ship record:
   or missions are not performed.
 
   PHost uses missions 20..37 for extended missions (defaults, the base
-  number can be changed). PHost requires the mission arguments to be in
-  the range zero to 500, even if the mission would allow more (e.g.,
-  beam transfer money): larger values are flagged as Yellow status when
-  processing the turn, and are set to 250.
+  number can be changed). PHost (up to 3.3b) requires the mission arguments
+  to be in the range zero to 500, even if the mission would allow more
+  (e.g., beam transfer money): larger values are flagged as Yellow status
+  when processing the turn, and are set to 250.
 
-  The interface to enter extended (i.e. code >= 20) missions in WinPlan
+  The interface to enter extended (i.e. code >= 20) missions in Winplan
   is known as M.I.T. (Mission/Intercept/Tow) and can be configured with
   MISSION.INI.
 
@@ -1382,7 +1435,7 @@ SHIPXYx.DAT - Ship coordinates
 
   Generally, this file contains an XY entry for every ship in the
   SHIPx.DAT, TARGETx.DAT, and KOREx.DAT files, and possibly more. Allied
-  targets as sent by Host 3.22.036 do not have a corresponding entry,
+  targets as sent by Host 3.22.039 do not have a corresponding entry,
   though.
 
   For a standard host, this file contains 500 records (4000 bytes, plus 10
@@ -1425,9 +1478,8 @@ SKOREx.DAT - WINPLAN - Extended UFO Database [T]
 SNOOKER.DAT - WINPLAN - TempLock Deluxe
 ----------------------------------------
 
-  SNOOKER.DAT contains timestamps for all active games, plus information
-  to use for the TEMPLOCK TRN-file marking mechanism. See TEMPLOCK.DAT
-  for a description of that mechanism.
+  SNOOKER.DAT contains timestamps for all active games, and maps these to
+  a 11-DWORD block (44 byte) each. This is used for making TRN files.
 
   The file is located in the WINPLAN directory.
 
@@ -1438,20 +1490,31 @@ SNOOKER.DAT - WINPLAN - TempLock Deluxe
 +722 40 RECORDs of 44 bytes. These entries correspond with the timestamp
                 entries and contain random values.
 
-  When unpacking a result file, WinPlan checks if it already knows the
+  When unpacking a result file, Winplan checks if it already knows the
   time stamp and if not adds a record containing the timestamp plus 44
   random bytes to this file.
 
-  WinPlan will neither load nor MakeTurn for games not "registered" here
-  ("Game data is stale").
+  When making TRN files, the Id block in the TRN will contain the
+  corresponding 44-byte block. Winplan will neither load nor MakeTurn
+  for games not "registered" here ("Game data is stale").
 
 
 TARGETx.DAT - Visible enemy ships ("Contacts") [V]
 TARGETx.EXT - VPUNPACK/VPUTIL - More enemy ships
 ---------------------------------------------------
 
-  This file contains all ships scanable with [V]. In Host 3.20 and later
-  this means all ships from SHIPXYx.DAT.
+  This file contains visual scan information for ships.
+  + Host 3.00 packs many (all?) ships into this file, even those that
+    can't be seen because they're orbiting a planet. Visibility is
+    determined by PLANETS.EXE, via SHIPXYx.DAT (ships not in SHIPXYx.DAT
+    are not visible).
+  + Host 3.20 and later pack only ships you actually see here and in
+    SHIPXYx.DAT.
+  + Host 3.22.039's "FF allies" are only stored here, but not in the
+    SHIPXYx.DAT file.
+  Modern client programs (including Winplan and all 3rd party things) will
+  happily display Host 3.00's "invisible" ships. They must do so, otherwise
+  they would not support "FF allies" :-/
 
   The standard Unpack program can't handle TARGETx.DAT files with more than
   50 targets.
@@ -1484,7 +1547,7 @@ A ship record:
 TASKx.DAT - WINPLAN - Auto Tasks [T]
 -------------------------------------
 
-  WinPlan allows to define up to 10 tasks to be used with the Auto
+  Winplan allows to define up to 10 tasks to be used with the Auto
   Waypoints.
 
  +0     WORD    ? (unused)
@@ -1514,52 +1577,11 @@ TEMP.BMP - WINPLAN - Temporary file
 TEMPLOCK.DAT - Checksums
 -------------------------
 
-  When receiving two TRNs with identical registration, the host must decide
-  if they were made on the same computer (allowed) or not (illegal).
+  This file is created by Tim's MAKETURN, and can normally be safely
+  deleted.
 
-
-## DOS Planets
-
-  In DOS Planets, this is solved with a simple mechanism using this
-  file:
-
-  All turn files for one game must be made with at the same time in the
-  same directory. MAKETURN computes checksums over each file, temporarily
-  saving them in TEMPLOCK.DAT, and then appends all 11 checksums to each
-  of the turn files.
-
-  Values for players for which MAKETURN doesn't make a Turn file are
-  usually set to zero, though any other value also does: For some unknown
-  reason, Tim's MAKETURN puts 0F31h at the position of player 11. The
-  condition Host checks for is that the checksum block matches for all
-  files generated in one run.
-
-  For existant TRN files, the checksum is calculated as:
-
-        (templock sum) = (file sum) + (3 * (timestamp checksum)) + 13
-
-  The `file sum' is the sum of all bytes in the Turn file, except for the
-  block containing the checksums: the header, pointers and commands, and
-  the Windows trailer are processed. `timestamp checksum' means the sum of
-  all bytes in this Turn's time stamp, see also GENx.DAT.
-
-  This file exists once per directory. It is never used again and can be
-  safely deleted once MAKETURN has finished.
-
-
-## WinPlan
-
-  In WinPlan, all games are registered in SNOOKER.DAT which maps the game's
-  timestamp onto a 44-byte TEMPLOCK block containing random data. WinPlan's
-  MakeTurn will look up the appropriate block from there, thus allowing
-  to make turns for the same game in different directories. The 44 random
-  bytes are then placed at the same place in the TRN file where DOS
-  Maketurn places the TEMPLOCK checksum.
-
-  WinPlan will refuse to make a turn file (or even load a game) if its
-  timestamp can't be found in SNOOKER.DAT, for example, because it hasn't
-  been used for a while or was unpacked with an unpacker not aware of this
-  requirement.
+  It contains 11 DWORDs containing the checksum block from the turn
+  trailer.
 
 
 UTILx.DAT - PHost - Information for Client Programs [V]
@@ -1577,7 +1599,7 @@ UTILx.EXT - PHost - Add-on Information [V]
   If they want to check something, you may try to use the UTIL.TMP file
   generated by PHost, see under the `Host files' section.
 
-  In several record, PHost attempts to do you a favour in sending you
+  In several records, PHost attempts to do you a favour in sending you
   "human-readable" values, namely
   + you get a population count, not the number of clans like in the other
     files. Divide by 100 to get clans;
@@ -1604,7 +1626,7 @@ The file contains records of the following layout:
 
   The file begins with a control record (type 13). A program can use this
   record to check if the file corresponds to the current turn. PHost
-  generated records follow in more or less unsorted sequence. Finally, an
+  generated records follow in more or less chronological order. Finally, an
   End record (type 30) terminates the PHost information, after it follow
   records from add-on programs (UTILx.EXT).
 
@@ -1618,8 +1640,10 @@ The file contains records of the following layout:
  +6     WORD    Owner
  +8     DWORD   Mine Units
 +12     WORD    Type (1=Web, 0=normal)
+--- PHost 2.0+ (?): ---
 +14     WORD    for own mine fields, ID of planet with friendly code,
                 zero otherwise.
+--- PHost 2.6d+: ---
 +16     WORD    Cause of this report:
                  0      Mine field laid
                  1      Mine field swept
@@ -1633,6 +1657,8 @@ The file contains records of the following layout:
  +0     WORD    X
  +2     WORD    Y
  +4     WORD    Ship ID
+--- PHost 3.4+: ---
+ +6  20 BYTEs   Ship name
 
 --- Type 2 (Mine hit) ---
  +0     WORD    Ship ID
@@ -1688,6 +1714,7 @@ The file contains records of the following layout:
                  1      Object captured (ships only)
                  2      Object destroyed
                  3      Object without ammunition
+--- PHost 1.3+: ---
 +26     WORD    X
 +28     WORD    Y
 
@@ -1734,7 +1761,8 @@ The file contains records of the following layout:
                 BEAMSPEC.DAT, TORPSPEC.DAT, TRUEHULL.DAT, XYPLAN.DAT,
                 PCONFIG.???, RACE.NM, see below
 +56  32 BYTEs   Game Name
-+88     BYTE    PHost Release Code
+--- PHost 2.11h+: ---
++88     BYTE    PHost Release Code ('e' in 3.2e)
 
 --- Type 14 (Wormhole) ---
  +0     WORD    X
@@ -1763,7 +1791,7 @@ The file contains records of the following layout:
  +0     WORD    Ship ID
  +2     WORD    Base ID
 
---- Type 17 (Ion storm)
+--- Type 17 (Ion storm) (PHost 1.3+) ---
  +0     WORD    Storm ID
  +2     WORD    X
  +4     WORD    Y
@@ -1774,27 +1802,37 @@ The file contains records of the following layout:
 +14     WORD    Class (1..5)
 +16     WORD    Growth
 
---- Type 18 (Colonize Mission) ---
+--- Type 18 (Colonize Mission) (PHost 1.3+) ---
  +0     WORD    Ship ID
  +2     WORD    Planet ID
 
---- Type 19 (Ship surrendered) ---
+--- Type 19 (Ship surrendered) (PHost 1.3+) ---
  +0     WORD    Ship ID
  +2     WORD    old ship owner
  +4     WORD    Base ID
- +6     WORD    new base owner
+ +6     WORD    base owner
 
---- Type 20 (Ship built) ---
+  In PHost 1.3, this record did not contain the base owner (same format
+  as type 20), and reported a ship that surrendered to the enemy.
+
+--- Type 20 (Ship built) (PHost 1.4+) ---
  +0     WORD    Ship ID
  +2     WORD    Base ID
- +4     WORD    0=normal built, cloned otherwise
+ +4     WORD    0=normal build, cloned otherwise
 
---- Type 21 (Ship given away, "gsN" friendly code) ---
+  This record is used since PHost 1.4. In PHost 1.3, record 20
+  reported a ship that surrendered to us:
+
+ +0     WORD    Ship ID
+ +2     WORD    Base ID
+ +4     WORD    original owner
+
+--- Type 21 (Ship given away, "gsN" friendly code) (PHost 1.3c+) ---
  +0     WORD    Ship ID
  +2     WORD    old owner
  +4     WORD    new owner
 
---- Type 22 (Alliance) ---
+--- Type 22 (Alliance) (PHost 1.4b+) ---
  +0  11 BYTEs   Offered to ...
 +11  11 BYTEs   Offers exist from ...
                  Bit 0  Ships
@@ -1804,38 +1842,42 @@ The file contains records of the following layout:
                  Bit 4  Visibility
                  Bit 5  1=Valid offer, 0=invalid
                  Bits 6,7 = 0
+--- PHost 2.6+: ---
 +22  11 BYTEs   Conditionally offered to ...
 +33  11 BYTEs   Conditional offers exist from ...
                  Bits 0..4 like above, rest 0
 
---- Type 23 (Bioscan) ---
+--- Type 23 (Bioscan) (PHost 2.6+) ---
  +0     WORD    Planet ID
  +2     WORD    Natives (see PDATAx.DAT)
  +4     DWORD   Native clans
  +8     WORD    Temperature
 
---- Type 24 (Glory Device exploded) ---
+--- Type 24 (Glory Device exploded) (PHost 2.6+) ---
  +0     WORD    Ship ID
  +2     WORD    X
  +4     WORD    Y
 
---- Type 25 (damaged by Glory Device) ---
+--- Type 25 (damaged by Glory Device) (PHost 2.6+) ---
  +0     WORD    Ship ID
  +2     WORD    X
  +4     WORD    Y
  +6     WORD    Total damage
  +8     WORD    Ship Owner
 
---- Type 26 (Ship boarded) ---
+--- Type 26 (Ship boarded) (PHost 2.6+) ---
  +0     WORD    Ship ID
  +2     WORD    Old owner
  +4     WORD    New owner
+--- PHost 2.9e+: ---
  +6     WORD    ID of boarding ship
 
---- Type 27 (unused) ---
-This record isn't in use any more since PHost 2.10.
+--- Type 27 (PCONFIG.SRC) (PHost 2.6 to 2.9) ---
+ +0   n BYTEs   File data. Verbatim copy of PCONFIG.SRC.
 
---- Type 28 (Ground combat) ---
+  This record isn't in use any more since PHost 2.10.
+
+--- Type 28 (Ground combat) (PHost 2.6+) ---
  +0     WORD    Planet
  +2     WORD    Owner
  +4     WORD    Attacker
@@ -1844,7 +1886,7 @@ This record isn't in use any more since PHost 2.10.
                  1      Attacker wins
                  2      All colonists killed
 
---- Type 29 (Minefields explode) ---
+--- Type 29 (Minefields explode) (PHost 2.6d+) ---
  +0     WORD    X Mine field 1
  +2     WORD    Y Mine field 1
  +4     WORD    ID Mine field 1
@@ -1853,22 +1895,23 @@ This record isn't in use any more since PHost 2.10.
 +10     WORD    ID Mine field 2
 +12     DWORD   Number of exploded mines
 
---- Type 30 (End of PHost info) ---
+--- Type 30 (End of PHost info) (PHost 2.7a+) ---
 This record doesn't contain data.
 
---- Type 31 (Mines scooped "msc") ---
+--- Type 31 (Mines scooped "msc") (PHost 2.9d+) ---
  +0     WORD    Ship ID
  +2     WORD    Mine field ID
  +4     WORD    Number of torpedoes made
  +6     DWORD   Number of removed mines
+--- PHost 2.11h+: ---
 +10     DWORD   Number of mines before this action
 
---- Type 32 (Pillage Mission) ---
+--- Type 32 (Pillage Mission) (PHost 2.9d+) ---
  +0     WORD    Planet ID
  +2     DWORD   Colonists
  +6     DWORD   Natives
 
---- Type 33 (Object) ---
+--- Type 33 (Object) (PHost 2.10+) ---
  +0     WORD    ID (UFO ID, or bigger than 1000 if there isn't a matching
                 UFO record)
  +2     WORD    X
@@ -1897,7 +1940,7 @@ This record doesn't contain data.
   block. Most existing client programs (EchoView, PCC) will not handle
   this.
 
---- Type 34 (File) ---
+--- Type 34 (File) (PHost 2.9d+) ---
  +0  12 BYTEs   File name
 +12     BYTE    Flags
                  Bit 0  1=Text file, 0=binary
@@ -1909,7 +1952,7 @@ This record doesn't contain data.
   "send fcodes" commands. It should not problematic for your add-on to
   use it for similar purposes.
 
---- Type 35 (Cloak failure) ---
+--- Type 35 (Cloak failure) (PHost 2.10b+) ---
  +0     WORD    Ship ID
  +2     WORD    Cause
                  0      Cloak Failure Rate
@@ -1919,13 +1962,13 @@ This record doesn't contain data.
                  4      Wormhole passed
                  5      Tachyon pulse (Loki)
 
---- Type 36 (Cloaked ship detected) ---
+--- Type 36 (Cloaked ship detected) (PHost 2.11g+) ---
  +0     WORD    Ship ID
  +2     WORD    X
  +4     WORD    Y
  +6     WORD    Owner
 
---- Type 37 (Remote-controlled ship) ---
+--- Type 37 (Remote-controlled ships) (PHost 3.0+) ---
  +0   x BYTEs   Records of 4 bytes each
                  +0     WORD    Ship ID
                  +2     WORD    True owner. If the ship is in your
@@ -1935,33 +1978,33 @@ This record doesn't contain data.
                                 -1 for an own ship means remote control is
                                 disabled for that ship.
 
---- Type 38 (Activities) ---
+--- Type 38 (Activities) (PHost 3.0+) ---
  +0     DWORD   old value
  +4     DWORD   decayed points
  +8     DWORD   gained points
 +12     DWORD   new value
 
---- Type 39 (Build Queue) ---
+--- Type 39 (Build Queue) (PHost 3.0+) ---
  +0   n BYTEs   Records of 10 bytes each
                  +0     WORD    Base ID
                  +2     WORD    Hull Type
                  +4     WORD    Position in build queue
                  +6     DWORD   Priority
 
---- Type 40 (Web Drain Complete) ---
+--- Type 40 (Web Drain Complete) (PHost 3.0+) ---
  +0     WORD    Ship ID
 
---- Type 41 (RGA) (PHost 3.3c) ---
+--- Type 41 (RGA) (PHost 3.3c+) ---
  +0     WORD    Planet Id
  +2     WORD    0 = No natives, 1 = Planet has natives
 
---- Type 42 (General Object Destruction) ---
+--- Type 42 (General Object Destruction) (PHost 3.3c+) ---
  +0     WORD    Object Id
  +2     WORD    Type Code
 
   See record type 33 for more information on General Objects.
 
---- Type 43 (Minefield Status) (PHost 3.3c) ---
+--- Type 43 (Minefield Status) (PHost 3.3c+) ---
  +0  11 WORDs   Minefield limits, for all players. This is the value of
                 the MaximumMinefieldsPerPlayer config option.
  +2  11 WORDs   Number of minefields, for all players. You only see the
@@ -1970,6 +2013,44 @@ This record doesn't contain data.
 
   This record is only sent if it actually contains useful information;
   if minefield limits are not in effect, this record is not sent.
+
+--- Type 44 (Failure Notice) (PHost 3.4+) ---
+ +0     WORD    Action (=UTILx.DAT record number)
+                 20     Ship construction (cloning in particular)
+                 21     Ship trade
+                 35     Cloaking
+                 45     Planet trade
+ +2     WORD    Ship Id
+ +4     WORD    Planet Id
+ +6     WORD    Cause
+                  0     Random chance
+                  1     Not enough fuel
+                  2     Too badly damaged
+                  3     Ionic pulse
+                  4     Wormhole travel
+                  5     Tachyon pulse
+                 10     Not enough minerals
+                 11     Not enough tech
+                 12     No receiver unit at this place
+ +8   ? BYTEs   additional info could follow here
+
+--- Type 45 (Planet Trade) (PHost 3.4b+) ---
+ +0     WORD    Planet Id
+ +2     WORD    Old owner
+ +4     WORD    New owner
+
+--- Type 46 (Mine field) ---
+ +0     WORD    Mine field ID
+ +2     WORD    X
+ +4     WORD    Y
+ +6     WORD    Owner
+ +8     DWORD   Mine Units
++12     WORD    Type (1=Web, 0=normal)
++14     WORD    ID of planet with friendly code, or zero
++16     WORD    Cause of this report (0=laid, 1=swept, 2=scanned)
+
+  This record has the very same format as record 0. It is used for
+  minefields with Id numbers >500.
 
 
 ## Digests for specification files
@@ -2041,6 +2122,7 @@ A VCR record:
                 Host:    Must be in range 1..119. VCR's random number
                          generator uses a table of 119 "random numbers"
                          used in sequence and scaled to the needed range.
+                         Host actually generates 1..111 (111 is very rare).
                 PHost:   any value is possible.
  +2     WORD    Signature (first battle only):
                 Host:    must be zero
@@ -2068,7 +2150,10 @@ A VCR record:
                                 rotations as done by the Planets program
                                 are not reported. So the Alchemy Ships look
                                 exactly the same as a Super Transport
-                                Freighter.
+                                Freighter. The Nebula Class Cruiser usually
+                                has picture #16. However, when it is doing
+                                mission 9, THost assigns it #30 for no
+                                apparent reason.
                 +29     BYTE    Host: zero (Host addresses +28 as a WORD)
                                 PHost: hull number of ship, 0 for planets
                                 or in older PHosts.
@@ -2131,6 +2216,12 @@ A VCR record:
   and the last "battle" is in fact a configuration record. Otherwise,
   assume you're dealing with PHost 3.
 
+  If the last battle has the PHost signature, it might also be a VCR.HST
+  file. To detect that case, check the "battle type" field. If it is zero
+  or one, you have a VCR.HST file and the last record is a real battle.
+  Otherwise, it is a player-side VCR file and the last record is the
+  configuration.
+
 
 ## VPA & CORR
 
@@ -2150,7 +2241,8 @@ A VCR record:
  +0     WORD    Signature (random value)
  +2     WORD    Signature. This value plus the one at offset +0 gives
                 48879 (modulo 65536).
- +4     BYTE    Major version of PHost
+ +4     BYTE    Major version of PHost. If this is anything other than 1
+                or 2, you should ignore this record: PHost 3 never uses it.
  +5     BYTE    Minor version of PHost
  +6     WORD    Number of valid bytes in the following structure, 64 in
                 PHost 3.2.2.13.
@@ -2287,8 +2379,10 @@ Command:
   action "build a factory" is encoded as three commands:
   `PlanetChangeFactories', `PlanetChangeMoney' and `PlanetChangeSupplies'.
   MAKETURN looks for differences between the xxx.DAT and xxx.DIS files,
-  and emits such commands. A TRN file is _not_ kind-of macro recording
-  with a command "sell one supply" or similar! If you undo one action
+  and emits such commands.
+
+  A TRN file does not contain a list of things you did this turn ("sell one
+  supply"), it contains just the net effects. If you undo one action
   (e.g., raise taxes, then lower them to their original value), this is
   not reflected in the TRN file (here: no tax change command is generated
   at all).
@@ -2301,8 +2395,9 @@ Command:
   40..59        Starbases (BDATAx.DAT/.DIS)
    >= 60        general (Password, messages - GENx.DAT, MESSx.DAT)
 
-  Unknown numbers are rejected as "Unknown OPP" with a cheat warning, but
-  have no consequences for the player.
+  THost rejects unknown numbers as "Unknown OPP" with a cheat warning, but
+  no consequences for the player. PHost does not accept turns with invalid
+  commands.
 
   The command names given below are these used in my UN-TRN program, you
   should recognize what they do from their names and arguments: The
@@ -2313,7 +2408,7 @@ Identification of TRN files
 ----------------------------
 
   The last command is followed by a data structure. There are two types
-  of such "trailers", one for WinPlan, one for DOS.
+  of such "trailers", one for Winplan, one for DOS.
 
   The structures are addressed from the end of the file (i.e.,
   `Seek(F, FileSize(F) - N)', that's why it's deadly to enlarge a TRN file.
@@ -2330,18 +2425,17 @@ Identification of TRN files
  +8 204 BYTEs   Signature from FIZZ.BIN (offset 136, the 2 strings + sum)
 +212 11 DWORDs  Id block (see below)
 
-  The checksum `X' comes from TEMPLOCK.DAT, see also there. It is the sum
-  of all bytes in the TRN file up to (but not including) this structure,
-  plus 3 times the timestamp checksum, plus 13.
+  The checksum `X' is the sum of all bytes in the TRN file up to (but not
+  including) this structure, plus 3 times the timestamp checksum, plus 13.
 
   If the TRN file doesn't contain any command, this block is located at
   position 28 in the file.
 
-  WinPlan Shareware is identical to DOS planets from this point of
+  Winplan Shareware is identical to DOS planets from this point of
   view and generates the same file format.
 
 
-## Structure for WinPlan registered
+## Structure for Winplan registered
 
  +0   6 BYTEs   Signature "VER3.5"
  +6   2 BYTEs   Sub-version "00", "01"...
@@ -2372,7 +2466,7 @@ Identification of TRN files
 
   String 1 is interpreted as a serial number, 2 as registration date.
   The strings 3 and 4 appear "as is" in REG.LOG, they are unencoded. They
-  are the name and address the user entered when unlocking his WinPlan
+  are the name and address the user entered when unlocking his Winplan
   copy.
 
   Both DWORDs at position 8 and 12 give a value `Y':
@@ -2387,8 +2481,7 @@ Identification of TRN files
   While THost also accepts unregistered TRNs with Windows trailer, and
   answers with Windows RSTs, PHost evaluates the Windows trailer only
   for registered clients: there is no unregistered Wisseman client which
-  generates Windows TRNs. However, PCC can do this, or a registered
-  DOS client plus Winify.
+  generates Windows TRNs. However, PCC can do this.
 
 
 ## Id Block
@@ -2398,15 +2491,21 @@ Identification of TRN files
   generated by the same program, they contain the same registration
   signature and the same Id Block.
 
-  DOS MakeTurn places the contents of TEMPLOCK.DAT here. WINPLAN writes
-  44 more or less random bytes here, which are identical in TRN files
-  that were generated simultanously. See the TEMPLOCK.DAT entry for a
-  discussion of this "TempLock mechanism", and SNOOKER.DAT for the Windows
-  version.
+  With MAKETURN.EXE, the Id block contains 11 DWORDs. Each of these 11
+  entries is the checksum `X' from the respective player's TRN file, or
+  zero it that player was not processed by this Maketurn invocation. For
+  some unknown reason, player 11's position when he does not play is 0F31h.
 
-  There is no requirement for the Id block to be derived from the TRN file
-  contents in any way, like DOS MakeTurn does. The really only requirement
-  is that TRN files from the same registered copy bear the same block.
+  Winplan puts the respective game's SNOOKER.DAT entry here.
+
+  The actual values put here do not really matter. All you must make sure
+  that TRNs made for the same game from the same computer bear the same
+  11-DWORD block. With current hosts, there is no requirement for the Id
+  block to be derived from the TRN file contents in any way, like DOS
+  MakeTurn generates it. The really only requirement is that TRN files
+  from the same registered copy bear the same block. Older PHosts
+  (3.15.1.x) required the DOS-Planets behaviour (entry N = player N's
+  checksum `X'), and thus could not be used with Winplan.
 
 
 Valid Commands
@@ -2423,7 +2522,7 @@ Valid Commands
   stored directly after the pointers, with no padding inbetween. It also
   will not necessarily do the Right Thing(tm) if commands are not in their
   canonical order (i.e. first ship commands, then planet, then base, then
-  rest; each block sorted by Id; each object sorted by command code). All
+  rest; each block sorted by Id; each object sorted by command code). Most
   known MakeTurns fulfill these conditions though THost does not require
   them.
 
@@ -2576,9 +2675,9 @@ Valid Commands
  +0     WORD    Planet ID
 
   Note that the `PlanetBuildBase' command has no data. It is sent if the
-  last word in the planet record is non-zero meaning `build a base'.
-  However, it should not be problematic to include the data word anyway,
-  at least for THost (see note on PHost above).
+  last word in the planet record is non-zero meaning `build a base'. For
+  THost, you can include the data word; however, PHost does not accept
+  such turns (see above).
 
   The codes 35 (23h) to 39 (27h) are unused.
 
@@ -2648,13 +2747,13 @@ Valid Commands
 +12     WORD    Torpedo Count
 +14     WORD    Set to zero. See BDATAx.DAT for more info.
 
-  A well-known WinPlan bug (now fixed) is that its built-in MakeTurn
+  A well-known Winplan bug (now fixed) is that its built-in MakeTurn
   did not generate this command if the build order _changed_; instead it
   generated it if it was _present_. This prevented users from cancelling
   a build order after the ship limit.
 
   PHost has a workaround for this, which you should be aware of when
-  generating WinPlan TRNs: if it receives a WinPlan TRN, the BaseBuildShip
+  generating Winplan TRNs: if it receives a Winplan TRN, the BaseBuildShip
   command specifies the current build order for the starbase. If there is
   no such command for a particular starbase, the base's build order is
   cancelled. So you must send this command for all bases with either
@@ -2702,31 +2801,18 @@ Attachments
 +18  10 RECORDs of 20 bytes each:
                  +0     DWORD   Position of embedded file ( + 1)
                  +4     DWORD   Length of embedded file
-                 +8  12 BYTEs   File name, padded with spaces. You cannot
-                                send BAT, DAT, EXT, HST, INI, LOG, NM, RST
-                                or TRN files. Blank (=only spaces) if this
-                                "slot" doesn't contain a file.
+                 +8  12 BYTEs   File name, padded with spaces. Blank (=only
+                                spaces) if this "slot" doesn't contain a
+                                file.
 
   Following are the "attachments" and the TRN file. The host uses the data
   at +10 and +14 to extract the original TRN file. The result of extraction
   must be a valid TRN file (no more attachments).
 
-  Note that this opens a giant security hole. It is possible to send an
-  AUXHOSTx.EXE or HOST.EXE file that changes information of a player
-  (more money or better tech etc.). Note that these are the "harmless"
-  possibilities. You can also format the host's harddisk...
-
-  There is a possibility to prevent these actions: The EXE files need
-  to be in the host directory to be run, not the game directory. Sending
-  an EXE file needs to include a path specification originated at the
-  game directory, such as "..\HOST.EXE". A much longer name isn't
-  possible with 12 characters. So simply put your game data _TWO_
-  subdirectory levels below the host, or a completely different branch:
-  - Host in C:\HOST
-  - Game in C:\HOST\GAMES\GAME1, or C:\GAME1
-  From C:\GAME1, C:\HOST is not accessible with a 12-character name.
-  Setting HOST.EXE read-only won't help, since the Host will then crash
-  when trying to overwrite a r/o file.
+  Host rejects BAT, DAT, EXT, HST, INI, LOG, NM, RST and TRN files; since
+  3.22.035 also EXE, COM and BIN. This still is a security hole because
+  it is still possible to upload files that end up as `.exe' on the Host's
+  disk (I have a proof-of-concept program if you insist...)
 
   On the other hand, this is a method to work around the X Modem problem,
   because it explicitly encodes the TRN file size within the file. How
@@ -2738,9 +2824,9 @@ RST FILE
 
  +0   8 DWORDs  Addresses of the file sections, each + 1
 --- Host 3.20+ ---
-+32   6 BYTEs   Signature "VER3.5" for WinPlan RSTs.
++32   6 BYTEs   Signature "VER3.5" for Winplan RSTs.
 +38   2 BYTEs   Sub-Version, currently either "00" or "01".
-+40     DWORD   File position of the WinPlan data, when existant.
++40     DWORD   File position of the Winplan data, when existant.
 +44     DWORD   Position of LEECHx.DAT, if existing (0 otherwise).
 --- RST version "01" ---
 +48     DWORD   Position of extended UFO database
@@ -2748,8 +2834,8 @@ RST FILE
   Normally, the data follows at 96 (60h) or 33 (21h), with some
   uninitialized data between the header and the data.
 
-  WinPlan RSTs are sent if the host didn't get a TRN file, or if it got a
-  Windows Turn file. WinPlan RSTs contain a "DOS part" built up exactly
+  Winplan RSTs are sent if the host didn't get a TRN file, or if it got a
+  Windows Turn file. Winplan RSTs contain a "DOS part" built up exactly
   as the normal DOS file. Windows RSTs contain additional information, see
   below. PHost remembers the RST file style over turns, and only sends
   Windows RSTs to registered clients.
@@ -2762,8 +2848,8 @@ RST FILE
   not initialize the space after the header, and if DOS happens to assign
   a cluster previously used by a Windows-style file, the signature will be
   still there. To guard against this case, double-check the validity of
-  the WinPlan part of the file: the "1120" and "1211" signatures look like
-  good candidates. If you found the "VER3.5" signature, the WinPlan header
+  the Winplan part of the file: the "1120" and "1211" signatures look like
+  good candidates. If you found the "VER3.5" signature, the Winplan header
   itself usually is valid, as it comes from a real RST file: checking the
   file pointers alone for plausible values (i.e., "non-negative", "not
   more than 2 MB", ...) does not buy you much in this case.
@@ -2851,11 +2937,11 @@ Sections
   ship.
 
   Note that the standard Winplan999 and Unpack999 programs do not attempt
-  to detect that blindly copy 7992 bytes, thus making bogus SHIPXYx.DAT
-  files if Host999 is not used.
+  to detect that, and blindly copy 7992 bytes, thus making bogus
+  SHIPXYx.DAT files (see there) if Host999 is not used.
 
 
-WinPlan data
+Winplan data
 -------------
 
   The pointer to this section is at offset +40.
@@ -2871,10 +2957,11 @@ WinPlan data
                                  0      empty record
                                  1..11  Normal minefield belonging to
                                         race 1..11
-                                 12     Crystalline Web mine field. Note
-                                        that this does not allow
-                                        transmission of web minefields that
-                                        do not belong to the Crystals.
+                                 12     Crystalline Web mine field.
+                                Note that this does not allow transmission
+                                of web minefields that do not belong to the
+                                Crystals. PHost sends non-Crystalline webs
+                                as normal mines (1..11).
  +? 600 BYTEs   Ion storms, 50 records of 12 bytes each
                  +0     WORD    X
                  +2     WORD    Y. Note that THost sometimes generates
@@ -2921,10 +3008,9 @@ WinPlan data
  +0     DWORD   Size of LEECHx.DAT
  +4   n BYTEs   Contents of LEECHx.DAT
 
-  I do not know what this feature is used for (TacCom again?). You only
-  need to place a file named LEECHx.DAT in the Host directory, and the
-  Host will send it to the players. WinPlan's UNPACK will unpack it to
-  the game directory. This file is not used otherwise.
+  You only need to place a file named LEECHx.DAT in the Host directory,
+  and the Host will send it to the players. Winplan's UNPACK will unpack
+  it to the game directory. This file is not used otherwise.
 
 
 ## Extended UFO database
@@ -2932,7 +3018,7 @@ WinPlan data
   In version "01" RSTs, the value at +48 points to the following data:
 
  +0     WORD    Total number of UFOs. The minimum value is 100, as there
-                are already 100 UFO records in the standard WinPlan
+                are already 100 UFO records in the standard Winplan
                 section.
  +2   n RECORDs of 78 bytes each: the UFOs. This field contains the UFOs
                 from Id 101 onwards. Thus, the extended UFO database stores
@@ -2948,8 +3034,8 @@ HOST DATA
   where required by the architecture/ABI.
 
 
-AUXDATA.HST - PHost - Miscellaneous [T]
-----------------------------------------
+AUXDATA.HST - PHost 3.x - Miscellaneous [T]
+--------------------------------------------
 
   Most of this description by Piotr Winiarczyk, with information from
   Heiko Schlenker.
@@ -3098,8 +3184,6 @@ GREY.HST - Miscellaneous
 -------------------------
 
  +0 500 WORDs   Experience values of starship crews
-                Increased by 1 in each turn in which the ship moves, and
-                by alchemy ships.
 +1000 n BYTEs   Ion storms: 50 records of 16 bytes each
                  +0     WORD    X
                  +2     WORD    Y
@@ -3229,6 +3313,7 @@ HCONFIG.HST - Configuration [V]
 +180    WORD    Odds of running on a Web mine
 +182    WORD    Range from with mine fields can be seen
 +184    WORD   -Mines destroy enemy mines
+--- Host 3.11a and later: ---
 +186    WORD   -Engine Shield Bonus
 +188    WORD    Engine Shield Bonus Rate
 +190    WORD    Colonies: mine sweep rate when sweeping with fighters
@@ -3257,11 +3342,13 @@ HCONFIG.HST - Configuration [V]
                 +30     DWORD   Maximum Molybdenum
 +252 34 BYTEs   Information on large meteors, same as above
 +286    WORD   -Send messages for meteor impacts
+--- Host 3.12c and later: ---
 +288    WORD   -One-Engine ships can tow
 +290    WORD   -Hyperdrive ships
 +292    WORD    Climate death rate
 +294    WORD   -Gravity wells
-+296    WORD   -Crystal: immune against extreme climate (desert advantage)
++296    WORD   -Crystal: like hot planets
+--- Host 3.13b and later: ---
 +298    WORD   -Mines destroy web mines
 +300    WORD   -Climate limits population
 --- The Host 3.14 HConfig ends here ---
@@ -3277,6 +3364,7 @@ HCONFIG.HST - Configuration [V]
 +322    WORD   -Ship cloning
 +324    WORD   -Crystal and Privateer: boarding (tow capture)
 +326    WORD   -Imperial Assault
+--- Host 3.2 beta 2a and later: ---
 +328    WORD    Neutronium made by the Cobol ship per ly travelled
 +330    WORD   -Aries ship can do alchemy
 +332    WORD   -Bioscanner
@@ -3364,7 +3452,7 @@ MINES.HST - Mine fields
 
   Unused minefields are identified by the radius and owner being zero.
   Non-Crystalline Web Mines are problematic. They can't be transmitted
-  to WinPlan (see KOREx.DAT), and Host does sometimes still assume that
+  to Winplan (see KOREx.DAT), and Host does sometimes still assume that
   Web Mines always belong to the Crystals.
 
   Minefields with Id greater than 500 are stored in EXTMINES.HST (PHost).
@@ -3393,6 +3481,17 @@ PDATA.HST - Planet data
 
  +0     WORD    ? (unused)
  +2   n BYTEs   500 planet records of 85 bytes each, see PDATAx.DAT.
+
+  FHost is reported to mark destroyed planets by setting their ore content,
+  temperature, etc. to unpleasant values (everything zero). Note that the
+  "correct" way of destroying planets is to move them out of the way using
+  XYPLAN.DAT, not by zeroing them out in this file: the change in
+  XYPLAN.DAT can be communicated to the players, the change in PDATA.HST
+  can not.
+
+  PHost considers planets non-existant when it has an Id of zero in this
+  file (normally, planet slot X has Id X). This is problematic, too, for
+  the same reason, because it can't be communicated to the players.
 
 
 REFDATA.HST - Victory Conditions [T]
@@ -3478,8 +3577,12 @@ SHIPSCAN.EXT - PHost - Ship Scan Information [V]
 SHIPXY.HST - Ship Coordinates
 ------------------------------
 
-  Same as SHIPXYx.DAT. All ships are stored. Probably, this file is re-
-  created after each AUXHOST run.
+  Same as SHIPXYx.DAT. All ships are stored. Host uses this file instead
+  of fetching the relevant data from the SHIP.HST file, hence add-ons must
+  update both files. In particular, Host uses ship masses from the previous
+  turn to do Ion storm effects, and recomputes this file afterwards.
+
+  PHost does not read this file and only writes it for compatibility.
 
 500 (resp. 999) ship records:
  +0     WORD    X position
@@ -3495,15 +3598,29 @@ TONS.HST - Ship tons "sunk" this turn [V]
   program can make a text file from this file. This can be used for
   scoring purposes.
 
- +0  11 DWORDs  Sum of sunk ships (masses, total)
-+44  11 DWORDs  Sum of sunk ships this turn (masses)
+ +0  11 DWORDs  Sum of sunk ships (total masses destroyed by player)
++44  11 DWORDs  Sunk tonnage this turn
+--- PHost 3.4b+: ---
++88  11 DWORDs  Sum of lost ships (total masses lost by player)
++132 11 DWORDs  Lost tonnage this turn
+
+
+TONS2.HST - Ship tech sunk this turn [T]
+-----------------------------------------
+
+  Like TONS.HST, this one counts ship tonnage sunk this turn. It has the
+  very same format. However, this one scores ship mass times tech level,
+  that is, when you destroy a 150 kt Tech 6 ship, you get 6x150=900
+  points.
+
+  This file is generated by THost only.
 
 
 UFO.HST - UFOs, 3rd party additions [V]
 ----------------------------------------
 
   This file contains UFO data. These are not used within the host program,
-  but sent to WinPlan users in RST files. This file allows third-party
+  but sent to Winplan users in RST files. This file allows third-party
   programs to create completely new objects. Players can interact with
   these UFOs using the mission codes 20...999, special FCodes or messages,
   depending upon the program.
@@ -3547,10 +3664,45 @@ The file contains 100 or 1000 records of 78 bytes each:
                  101..150       Dan Gale
                  151..200       Jan Peter Dijkstra
                  201..250       Sean Martens
+                 251..255       Bret Lusskin
+                 256..260       DeltaDev@GMX.net
                  300..310       Norman Violet
                  311..350       Scott Zinssell
                  351..400       Boris Psakhis
-
+                 401..425       Nestor Delfino
+                 426..450       Bruno Smit
+                 451..475       Dave Killingsworth
+                 500..525       Tony Llopis
+                 526..550       Joerg Schueler
+                 551..575       Markus Mann
+                 576..599       Rick Blanchette
+                 600..620       Michael C. Patrick
+                 621..630       Anthony Adam
+                 631..650       Evan Shanks
+                 651..699       Marc Bonaventura
+                 700..799       RAW! (Dan and Dave)
+                 850..900       Rene Gallati
+                 901..999       Tobias Wolf
+                 1000..1050     Sven Bursch
+                 1051..1075     Jean-Marie Clement
+                 1076..1099     Scott Garner
+                 1100..1125     Kenneth Strom
+                 1126..1150     Atomic
+                 1151..1175     Hofbauer Heinz
+                 1176..1199     Kevin Foster
+                 1200..1299     George Carey
+                 1300..1349     Thorsten Kaben
+                 1350..1374     BioMenaced
+                 1375..1399     Jayesh Palshikar
+                 1400..1420     Scott Lombard
+                 1421..1440     Ronald Landheer
+                 1441..1460     Greg Kazarian
+                 1461..1470     Don Friesen (Robomaster)
+                 1471..1555     Wolfgang Merkel
+                 1556..1560     Bernd Ruf (PHCc)
+                 1561..1570     Dennis Weise
+                 10401..10499   Yann Ramin
+                 10500..10599   Star Destroyer
 
 ## PHost Wormholes
 
@@ -3570,7 +3722,8 @@ The file contains 100 or 1000 records of 78 bytes each:
   the information whether a wormhole is unidirectional or bidirectional!).
   Thanks to Piotr Winiarczyk for this.
 
-  Wormhole UFOs always have radius 5, color 2 and visibility range 5000.
+  Wormhole UFOs always have color 2, radius 5 and visibility range 5000,
+  although the last two can be considered bugs worth fixing.
 
 
 UTIL.TMP - PHost - Temporary UTILx.DAT Files [T]/[V]
@@ -3589,7 +3742,7 @@ UTIL.TMP - PHost - Temporary UTILx.DAT Files [T]/[V]
   Like UTILx.DAT, UTIL.TMP consists of multiple records.
 
 
-### Portable Format (PHost 3.3f and later) [V]
+### Portable Format (PHost 3.4 and later) [V]
 
 Each record starts with a header of the following format:
  +0     WORD    Player Id (whose UTILx.DAT file will contain this data)
@@ -3658,11 +3811,16 @@ XTERNCMD.EXT - PHost - External Commands
 
   Following lines contain the actual commands, in the form
   "player number: command", where "player number" is the number from 1 to
-  11, and "command" is what followed the `xtern' command.
+  11, and "command" is what followed the `xtern' command. As of PHost 3.4b,
+  there are no limits of line length.
 
   You can use the `xtern' command as a replacement for comments in command
   messages. EchoView does this to mark auto-generated messages: these
   start with `xtern echoview TYPE'.
+
+  It is recommended that add-ons recognize a command `cmd' also when
+  spelled as `name: cmd', where `name' is the name of the add-on. This
+  makes it clear whom a command belongs to.
 
 
 XTRFCODE.TXT - PHost - Special Friendly Codes
@@ -3680,10 +3838,12 @@ XTRFCODE.TXT - PHost - Special Friendly Codes
 
   E.g., if XTRFCODE.TXT contains "lfm md X", it will define "lfm" special,
   all codes starting with "md" (mine drop), and all starting with "X"
-  (inhibit Super Spy Deluxe).
+  (inhibit Super Spy Deluxe). Note that PHost itself does *not* consider
+  "md" and "X" special because they should match.
 
-  When players request this file, their copy will also include PHost's
-  own built-in special codes.
+  PHost 3.4 and later automatically include their own friendly codes in
+  this file at host-side; earlier versions did not. When players request
+  this file, their copy will always include the built-in special codes.
 
 
 XYPLAN.DAT - Planet coordinates
@@ -3706,7 +3866,7 @@ XYPLAN.HST - Planet coordinates
 
   According to Roger Burton West there is also an Y checksum with the
   value 1002633, but I could not confirm this. My copies of PLANETS.EXE
-  and WinPlan had no problems with this.
+  and Winplan had no problems with this.
 
   If you roll your own map, you have two alternatives for making the
   checksums right:
@@ -3883,7 +4043,7 @@ For each hull (105) a record of 60 bytes:
                 palette (e.g., Super Transport Freighter + Merlin Class
                 Alchemy Ship + Neutronic Refinery Ship). I don't know where
                 this information comes from, it seems to be hard-coded in
-                PLANETS.EXE. WinPlan automatically uses different pictures
+                PLANETS.EXE. Winplan automatically uses different pictures
                 for hull numbers 104 and 105 (see below).
 +32     WORD    =1. In VPCPLAY.BAS this field is identified as "image of a
                 heavily damaged ship", though it seems to be unused.
@@ -3918,7 +4078,7 @@ For each hull (105) a record of 60 bytes:
   higher hull number, and the PHost PDK also hardwires the maximum hull
   ID to 105.
 
-  WinPlan automatically "corrects" this information (though not the disk
+  Winplan automatically "corrects" this information (though not the disk
   file): hull 65 gets the name "TOPAZ CLASS GUNBOAT", hull 88 becomes a
   "GUARDIAN CLASS DESTROYER". Hull 104 (Neutronic refinery) is assigned
   picture 152, hull 105 (Merlin) gets picture 153. This removes typos in
@@ -3955,7 +4115,7 @@ MISSION.INI - WINPLAN - Missions
 ---------------------------------
 
   This text file contains definitions for the "extended" missions that may
-  be accessed via the M.I.T. window in WinPlan. Each line of the file has
+  be accessed via the M.I.T. window in Winplan. Each line of the file has
   the following format:
 
      000 Name..... *#/123456789ab
@@ -4134,10 +4294,8 @@ RESOURCE.PLN - Pictures
                      51  ³ Explosion (VCR)
                      43  ³ unused planet picture
 
-  A note on picture 30: This image is not used in HULLSPEC.DAT. Anyway, it
-  is required. In one turn, I got 2 VCRs. In both I fought against a
-  Nebula Class Cruiser. Once, it used picture #16 (normal), once #30. For
-  exactly the same ship! Mystery...
+  A note on picture 30: This image is not used in HULLSPEC.DAT. Anyway, VCR
+  uses it sometimes, see VCRx.DAT.
 
 
 ## Planet pictures
@@ -4237,9 +4395,14 @@ TRUEHOST.DAT - SRACE - Original TRUEHULL.DAT
 ----------------------------------------------------
 
   For each player (11) an array with 20 WORDs. Each WORD contains the
-  number of a hull that the player can build (Index into HULLSPEC.DAT)
-  or 0. These 20 "hull slots" correspond to the appropriate field in
+  number of a hull that the player can build (Index into HULLSPEC.DAT).
+  These 20 "hull slots" correspond to the appropriate field in
   the starbase record.
+
+  When a race can build fewer than 20 ship types, the last fields should
+  be zero; there should not be zeroes between filled ship slots. Although
+  Planets and Winplan can cope with that, most other client programs can
+  not (tested with VPA, PCC and VPUtil).
 
   SRACE makes a new TRUEHULL.DAT reflecting the changed situation. In a
   game with, say, 11 Federations, TRUEHULL.DAT contains eleven equal
@@ -4275,11 +4438,11 @@ VPH35.DLL - Version 3.5 Signatures
   PKZIP, this file which is 5 kB and should offer more redundant data,
   can only be compressed to save 1%.
 
-  THost will not run if it receives a WinPlan TRN but can't open this
+  THost will not run if it receives a Winplan TRN but can't open this
   file.
 
 
-WPVCR.DLL - WINPLAN - Images for the WinPlan VCR [T]
+WPVCR.DLL - WINPLAN - Images for the Winplan VCR [T]
 -----------------------------------------------------
 
   Another faked DLL. The file contains the monochrome counterparts for
@@ -4297,7 +4460,7 @@ WPVCR.DLL - WINPLAN - Images for the WinPlan VCR [T]
 --- Images ---
 +1999           Here are the pictures addressed by the fields above. They
                 are all complete 50x50 monochrome bitmap files. To display
-                a picture, WinPlan copies the image to TEMP.BMP and
+                a picture, Winplan copies the image to TEMP.BMP and
                 displays that file. It is a real BMP file that can be
                 edited with Paintbrush.
 
@@ -4346,7 +4509,7 @@ GENx.DAT
 +129    DWORD   Checksum of SHIPx.DAT/DIS
 +133    DWORD   Checksum of PDATAx.DAT/DIS
 +137    DWORD   Checksum of BDATAx.DAT/DIS
-+141    WORD    0, if the password has changed 0Dh
++141    WORD    13 if the password has changed, 0 otherwise
 +143 10 BYTEs   New password (if any)
 +153    WORD    Turn Number
 +155    WORD    Timestamp Sum
@@ -4537,15 +4700,14 @@ The RD contains a record for each entry of the file:
 
   The entries in the file are identified by their ID number and are copies
   of other files that can have many different formats:
-  - compressed pictures
-  - uncompressed pictures
+  - pictures
   - fonts
   - help texts
   - and the default specification files
+  - some other files, intentionally undocumented, change without notice
 
-  Since I didn't plan to disassemble the graphics engine and other interna
-  of PCC here, I give only a few further explanations. The file currently
-  has over 550 entries. If you need more, ask.
+  There are (almost) no type tags. When PCC finds a wrong type somewhere,
+  it will likely crash. Some entries are compressed, some not.
 
 
 ## Compression
@@ -4646,7 +4808,7 @@ Format 3 (sometimes compressed):
                 two ASCII characters and a colon precede the 5 ASCII
                 digits, which automatically jumps to the named anchor
                 (^Qab:10000Main^P = jump to anchor "ab" on page 10000);
-         20     (Ctrl-T) Followed by an ASCII digit. Tabulates: ^T0
+         20     (Ctrl-T) Followed by an ASCII digit. Tabulator: ^T0
                 moves to 40 pixels from the left, ^T1 to 80 pixels, and
                 so on;
 
@@ -4806,6 +4968,9 @@ Header:
 +n    n BYTEs   Names of extra planet properties
 +n    n BYTEs   Names of extra ship properties
 
+  By default, there is a planet property `COMMENT' and a ship property
+  `COMMENT' declared.
+
 Records:
  +0     WORD    Type
                  1      Planet History Record (one per planet; see below)
@@ -4964,7 +5129,7 @@ in VMx.CC:
  9      Yellow
 15      White
 128..137 Additional colors in 256 color mode. Displayed as white in 16
-        color modes. Values not listed here give undefined results.
+        color modes.
 
 
 CMDx.TXT - Additional Commands [V]
@@ -4976,9 +5141,9 @@ CMDx.TXT - Additional Commands [V]
   packed into the TRN by an appropriate Maketurn program.
 
   At the time of this writing, this file format is supported by PCC and
-  related programs. It is more or less the result of a discussion on the
-  phostdev mailing list; other program authors are encouraged to use
-  this file format if possible.
+  related programs, and VPA 3.61. It is more or less the result of a
+  discussion on the phostdev mailing list; other program authors are
+  encouraged to use this file format if possible.
 
   CMDx.TXT is a text file. Each line has the following format:
   - leading whitespace (ASCII 32) is ignored;
@@ -4992,16 +5157,16 @@ CMDx.TXT - Additional Commands [V]
   Programs should support both the Unix and the DOS linefeed convention
   (LF or CR+LF). Programs should support lines of at least 255 characters.
 
-  The following special commands defined at the time of this writing:
+  The following special commands are defined at the time of this writing:
 
   - `$include FILE': this token is reserved to mean "include specified
     file here", but as of now it is not implemented;
   - `$time MM-DD-YYYYhh:mm:ss': specify the timestamp of the turn to which
     this file belongs. If present, this must be the first command in the
     file;
-  - `$thost-allies ff1ee2FF3': alliance settings for THost. The parameter
-    is a sequence of 3-character alliance friendly codes, which are
-    themselves not separated anyhow;
+  - `$thost-allies ff1ee2FF3': (PCC) alliance settings for THost. The
+    parameter is a sequence of 3-character alliance friendly codes, which
+    are themselves not separated anyhow;
 
 
 CPx.CC - PCC - PHost Command Processor Commands [V]
@@ -5034,7 +5199,7 @@ CPx.CC - PCC - PHost Command Processor Commands [V]
   pair.
 
 
-## Currently supported commands
+## Commands
 
   Unused arguments are zero or empty. Command 12 is only generated in
   THost mode, all others only in PHost mode. Commands 7 and 8 are not
@@ -5198,12 +5363,13 @@ OBJx.CC - PCC - Objects in the starcharts [V]
 ----------------------------------------------
 
   NOTE: This file type is only documented here for historical reasons. It
-  is no longer supported by recent versions of PCC, which exclusively use
-  the KOREx.DAT file format from WinPlan. Do not use it.
+  is no longer supported by recent versions of PCC. Since version 1.0, it
+  exclusively uses the KOREx.DAT file format from Winplan. Do not use this
+  file format.
 
   The file consists of several chunks of variable length. It ends with a
   block with all values 0. The file contains the unpacked version of the
-  WinPlan part of a RST file. Records that were empty in the WinPlan file
+  Winplan part of a RST file. Records that were empty in the Winplan file
   do never appear here.
 
  +0     WORD    Number of records in this chunk
@@ -5300,7 +5466,9 @@ STAT.CC - PCC - Statistics [V]
                                  +2     WORD    Capital Ships
                                  +4     WORD    Freighters
                                  +6     WORD    Bases
-                +108 11 WORDs   Priority Build Points / PAL points
+                +108 11 WORDs   Priority Build Points / PAL points. Note
+                                that this does NOT allow representation of
+                                PAL values >32k.
 
 
 TEAMx.CC - PCC - Team Settings [V]
@@ -5341,8 +5509,9 @@ VMx.CC - PCC - Virtual Machine State [V]
 -----------------------------------------
 
   This file contains the state of PCC's script interpreter for player x.
-  Scripts which are suspended (`Stop') end up here. You should understand
-  how PCC's interpreter works before attempting to manipulate this.
+  Scripts which are suspended (`Stop') end up here, including auto tasks.
+  You should understand how PCC's interpreter works before attempting to
+  manipulate this.
 
   The file format consists of a header, followed by a sequence of code
   snippets, followed by a sequence of suspended processes.
@@ -5419,6 +5588,7 @@ Format of a saved command source (stack frame):
                                 0300h   Boolean
                                 0400h   String
                                 0500h   IEEE `single'
+                                0600h   Long String
                                 others  Real
                  +2     DWORD  Value
                                + EMPTY: unused
@@ -5429,8 +5599,12 @@ Format of a saved command source (stack frame):
                                + Real: all 6 bytes form a Turbo Pascal Real
                                + Single: IEEE 32-bit floating point number
                                  (read by PCC 1.0.9+)
- +?   n BYTEs   For each non-empty string in local variables, one
-                Pascal string
+                               + Long String: length of string, if non-
+                                 zero, value follows below (PCC II, read
+                                 by 1.0.18+)
+ +?   n BYTEs   For each non-empty string in local variables, one Pascal
+                string. For each long string, the appropriate number of
+                bytes.
 --- Type 0 Command Source ---
  +?     DWORD   "ip" of first line in saved code snippet
  +?     DWORD   Code snipped identifier ("uid")
@@ -5521,9 +5695,10 @@ VPAx.DB - VPA - Database [T]
   This file contains history and other information of the VGA Planets
   Assistant. The file begins with a signature:
 
- +0  15 BYTEs   "VPA Database",13,10,6
-
-  The value `6' seems to be the file format version.
+ +0  14 BYTEs   "VPA Database",13,10
+ +14    BYTE    Database format version. Has the value 6 for all VPA
+                versions in use nowadays (3.49+), and the text below
+                describes format version 6.
 
   Then, for each turn, a block follows. It has the following structure:
 
@@ -5570,10 +5745,15 @@ VPAx.DB - VPA - Database [T]
 
   þ "IMSG" - Incoming messages
         Incoming messages kept in the database using the "Keep" command
-        in VPA.MSG. The structure is the same as the MDATAx.DAT file,
-        with the "Count" word of the header being the first word of the
-        MDATAx.DAT file. Also the "plus 1" rule for file offsets applies,
-        which are relative to the "IMSG" record.
+        in VPA.MSG. The number of messages is in the "count" field in the
+        block header. The data block contains a sequence of message headers
+        followed by the texts. Message headers have the same format as in
+        MDATAx.DAT:
+         +0   DWORD     Offset
+         +2   WORD      Length
+        The offsets are relative to the position of the "count" word minus
+        one. That is, when you copy the "count" word and the block data
+        into a separate file, you get a standard MDATAx.DAT file.
 
   þ "IONS" - Ion Storms
         Records of 22 bytes each:
@@ -5701,7 +5881,7 @@ VPAx.DB - VPA - Database [T]
         +115  2 WORDs   Last turn's X,Y
         +119  2 WORDs   Last scanned X,Y
 
-  þ "UFOS" - UFOs (v3.58)
+  þ "UFOS" - UFOs (v3.58+)
         Contains the UFO objects; 90 bytes per object.
          +0     WORD    UFO Id
          +2     WORD    Turn number
@@ -5754,16 +5934,18 @@ VPAMSGx.DAT - VPA - Message Information [T]
   seems to be rather intrinsic to VPA.
 
  +0   n DWORDs    For each message from MDATAx.DAT:
-                   Bits 0..8    Object Id
-                   Bits 11..13
-                                000 if not associated with anything
-                                001 if message is associated with a planet
-                                010 if associated with a ship
-                                011 if associated with a minefield
-                                100 if associated with an ion storm
-                                101 if associated with a marker (object
-                                    Id is number of marker in VPAx.DB,
-                                    "MARK" block, counting from 1
+                   Bits 0..10   Object Id (0..2047)
+                   Bits 11..14  Object Type:
+                                0000 if not associated with anything
+                                0001 if message is associated with a planet
+                                0010 if associated with a ship
+                                0011 if associated with a minefield
+                                0100 if associated with an ion storm
+                                0101 if associated with a marker (object
+                                     Id is number of marker in VPAx.DB,
+                                     "MARK" block, counting from 1
+                                0110 if associated with a wormhole
+                                0111 if associated with an UFO
                    Bits 16..?   associated VCR number or 0 (?)
                   E.g., a `(-d0167)' message has the value 08A7h here,
                   where A7h = 167 is the planet/starbase Id, and bit 11
@@ -5994,7 +6176,7 @@ FILE LIST - WHO OWNS WHAT
     TEMP.PLN        Wisseman programs: Temporary file [*]
     TEMPLOCK.DAT    DOS Planets: Checksums [*]
     TONS.HST        Standard host: Ship tons "sunk" this turn [*]
-    TONS2.HST       THost: ?
+    TONS2.HST       THost: weighed tonnage sunk this turn [*]
     TORPSPEC.DAT    Standard static: Torpedoes [*]
     TRAFFIC.HST     Dominate: ?
     TRUEHOST.DAT    SRace: Original TRUEHULL.DAT [*]
@@ -6016,18 +6198,19 @@ FILE LIST - WHO OWNS WHAT
     VPADATx.INI     VPA: configuration file (data transfer) (plain text)
     VPAMSG.DAT      VPA: Message Information [*]
     VPAMSGx.DAT     VPA: Message Information [*]
+    VPASNMx.DAT     VPA: ship name scrambling
     VPAVCR.INI      VPA: ?
     VPAx.DB         VPA: Database [*]
     VPH35.DLL       THost: Version 3.5 Signatures [*]
     VPMIDI.INI      Winplan: music configuration (plain text)
     VPSOUND.INI     Winplan: sound f/x configuration (plain text)
     WORMHOLE.TXT    PHost: wormholes (plain text)
-    WPVCR.DLL       Winplan: Images for the WinPlan VCR [*]
+    WPVCR.DLL       Winplan: Images for the Winplan VCR [*]
     XTERNCMD.EXT    PHost: External Commands (plain text) [*]
     XTRFCODE.TXT    PHost: Special Friendly Codes (plain text) [*]
     XYPLAN.DAT      Standard static: Planet coordinates [*]
     XYPLAN.HST      Standard host: Planet coordinates [*]
-    XYPLANx.DAT     ExplMap: per-player starchart
+    XYPLANx.DAT     ExplMap: per-player starchart (see XYPLAN.DAT)
 
 
 AUTHOR & COPYRIGHT

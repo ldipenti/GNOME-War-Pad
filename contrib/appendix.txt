@@ -1,0 +1,315 @@
+
+                              VGA Planets(tm) 3
+                          ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                             File Formats and more
+                                 - Appendix -
+
+
+NOTE
+=====
+
+  This file is a supplement to my File Format List. It contains some
+  appendices. This file won't be of much use for you without the List
+  itself.
+
+  For a copyright/usage notice see the File Format List
+  (http://www.inf.tu-dresden.de/~sr21/filefmt.html). If you have
+  questions, bug reports, etc, mailto:Streu@gmx.de.
+
+                                                              Stefan
+
+
+APPENDIX -- SAMPLE CODE
+========================
+
+  Generating the checksums seems to be a major problem. I've been getting
+  requests for help over and over again, so I put some sample code here.
+  This is indeed a dirty business -- decoding binary files always is
+  digging in dirt.
+
+
+Checksums and Data Structures in QBasic
+----------------------------------------
+
+  The main problem in BASIC is that there is no way to access the binary
+  representation of a memory object. Checksumming must be done with files,
+  not memory buffers. Here is the QBasic version of a checksum generator
+  routine. It should run in any other newer BASIC dialect as well.
+
+  It starts with an example of how to use it (compare player 7's checksums
+  to the checksums stored on disk), the actual routine is at the end.
+
+    DECLARE FUNCTION ComputeChecksum! (handle AS INTEGER, fpos AS LONG, length AS INTEGER)
+    DIM numships AS INTEGER         ' number of ships in file
+    DIM shipid AS INTEGER           ' Id of current ship
+    DIM checksum AS LONG            ' computed checksum
+    DIM checksum1 AS LONG           ' control.dat checksum
+    DIM fpos AS LONG
+
+    OPEN "ship7.dat" FOR BINARY AS #1
+    OPEN "contrl7.dat" FOR BINARY AS #2
+
+    GET #1, 1, numships             ' get number of ships
+    PRINT numships; " ships"
+    FOR i = 1 TO numships
+       fpos = 107 * (i - 1) + 3     ' position of i'th ship
+       GET #1, fpos, shipid         ' get ship Id
+
+       checksum = ComputeChecksum(1, fpos, 107)
+
+       ' compare computed checksum to actual control.dat checksum
+       ' (doesn't work for Host999)
+       GET #2, (shipid - 1) * 4 + 1, checksum1
+       PRINT USING "  ship ###: ###### <-> ######"; shipid; checksum; checksum1
+    NEXT
+
+    CLOSE #1
+    CLOSE #2
+
+    ' computes a checksum over part of a file
+    '   handle = number with which the file was opened (`open #handle')
+    '   fpos   = file position (starting with 1, as usual in BASIC)
+    '   length = number of bytes to use
+    FUNCTION ComputeChecksum (handle AS INTEGER, fpos AS LONG, length AS INTEGER)
+       DIM s AS STRING              ' workspace
+       DIM i AS INTEGER
+       DIM sum AS LONG
+
+       sum = 0
+       s = SPACE$(length)           ' allocate /length/ bytes
+       GET #handle, fpos, s         ' read file
+       FOR i = 1 TO length          ' compute checksum
+          sum = sum + ASC(MID$(s, i, 1))
+       NEXT
+       ComputeChecksum = sum
+    END FUNCTION
+
+  Data structures themselves are easy in QBasic -- the most obvious
+  reason is that Tim has written Planets in BASIC, too. As an example,
+  here's the definition of a target record in QBasic, and a program to
+  read them:
+
+    TYPE Target
+      id    AS INTEGER
+      owner AS INTEGER
+      warp  AS INTEGER
+      x     AS INTEGER
+      y     AS INTEGER
+      hull  AS INTEGER
+      angle AS INTEGER
+      sname AS STRING * 20
+    END TYPE
+
+    DIM n AS INTEGER
+    DIM s AS Target
+
+    OPEN "target9.dat" FOR BINARY ACCESS READ AS #1
+    GET #1, 1, n
+    PRINT n; " targets"
+    FOR i = 1 TO n
+      GET #1, 3 + 34 * (i - 1), s
+      PRINT "ship "; s.id; " belongs to "; s.owner; " and is called "; s.sname
+    NEXT
+    CLOSE #1
+
+
+Checksums and Data Structures in Turbo Pascal
+----------------------------------------------
+
+  Turbo Pascal is a bit easier, its untyped VAR parameters and the
+  ABSOLUTE keyword provide a rather simple way to cast any high-level
+  object into a byte block:
+
+    FUNCTION ComputeChecksum(VAR block; length:INTEGER):LONGINT;
+    VAR bytes : ARRAY[1..MAXINT] OF BYTE ABSOLUTE block;
+        i     : INTEGER;
+        sum   : LONGINT;
+    BEGIN
+      sum := 0;
+      FOR i:=1 TO length DO sum := sum + bytes[i];
+      ComputeChecksum := sum;
+    END;
+
+  Use this function as
+
+    planet_checksum := ComputeChecksum(planet, Sizeof(planet));
+    ship_checksum := ComputeChecksum(ship, Sizeof(ship));
+
+  Since Turbo Pascal runs only on DOS PCs, there are no portability
+  problems to care about with data structures. Like for BASIC, all you
+  need to do is to define a record with appropriate types. Here's the
+  target record from PCC:
+
+    TYPE TTarget=RECORD
+            Id:INTEGER;
+            Owner:INTEGER;
+            Speed:INTEGER;
+            X,Y:INTEGER;
+            Hull:INTEGER;
+            Heading:INTEGER;
+            Name:ARRAY[1..20] OF CHAR;
+         END;
+
+  Reading these is straightforward:
+
+    VAR F : FILE;
+        t : TTarget;
+        i, n : INTEGER;
+    BEGIN
+      Assign(F, 'target9.dat');
+      Reset(F, 1);
+      Blockread(F, n, 2);
+      FOR i:=1 TO n DO BEGIN
+        Blockread(F, t, Sizeof(t));
+        Writeln('Ship ', t.Id, ' belongs to ', t.Owner, ' and is called ', t.Name);
+      END;
+      Close(F);
+    END.
+
+  Note that Turbo Pascal will read an array of CHAR as a fixed-length
+  string, thus names will include the space-padding. You'll have to trim
+  these manually.
+
+
+Checksums and Data Structures in C
+-----------------------------------
+
+  C makes it easy to get to the binary representation, so checksumming
+  is child's play. The problems lurk elsewhere. First the good news, a
+  simple checksummer:
+
+    unsigned long computeChecksum(void* data, size_t length)
+    {
+        unsigned char* bytes = (unsigned char*) data;
+        size_t i;
+        unsigned long sum = 0;
+        for(i = 0; i < length; i++)
+            sum += bytes[i];
+        return sum;
+    }
+
+  Use as
+
+    planet_checksum = computeChecksum(&planet, sizeof(planet));
+
+  Now the bad news: C compilers are allowed to lay out structures however
+  they like, that is, they may insert padding at any place. For example,
+  if a 32-bit field follows an 8-bit field, most newer compilers insert up
+  to 3 bytes to make the 32-bit field aligned on a 32-bit boundary. Modern
+  processors are faster accessing such values. If you want a program for
+  x86 only (although I do not recommend that; this world needs portable
+  Planets tools!), you can still convince your compiler to remove this
+  padding. Many compilers accept `#pragma pack'; GCC wants
+  `__attribute__((packed))' in the structure definition. Older compilers
+  (such as Turbo C 2.0) don't do padding at all. Your program will then
+  most likely only run with your compiler, but, well, you lost portability
+  anyway.
+
+  For a portable program, you must read the files byte by byte, and
+  manually assemble the `word' and `dword' values.
+
+    unsigned short getUnsignedWord(unsigned char* ptr) {
+        return 256U * ptr[1] + ptr[0];
+    }
+
+    /* ... */
+
+    unsigned char ship[107];
+    unsigned short id;
+    fread(&ship, 107, 1, fp);
+    id = getUnsignedWord(&ship[0]);
+
+  Checksums must then be computed using the original `unsigned char'
+  array.
+
+  Note that you also have to do it that verbose if you intend to write
+  your portable program in Pascal or Basic -- but those are usually used
+  very PC-centric. And even the above code is not portable to computers
+  with a 32-bit char type (yes! such things do exist! But you probably
+  won't make a Planets client that runs on the DSP in your fridge :-).
+
+
+APPENDIX -- RESOURCES
+======================
+
+  Things which may be of interest to the Planets Programmer:
+  All links work as of 29/Aug/2002.
+
+  þ `vpcplay.bas', the original CPlayer by Tim Wisseman. Besides playing
+    lousy and cheating massively, the main advantage of this program is
+    that it comes with source code, which contains the "official"
+    definitions of many Host file formats.
+    <ftp://ftp.fu-berlin.de/pc/msdos/games/vgaplanets/sources/dos/vpcplay.zip>
+
+  þ `k-unpack', `k-maketurn', `k-util', some portable utilities in C, by
+    Kero van Gelder.
+    + GPL (with source);
+    + Unpack and MakeTurn (file format version 3.0) with source code.
+    <http://members.chello.nl/~k.vangelder/vga/>
+
+  þ `The VGA Planets Toolkit for DJGPP', a C++ library for Host and Player
+    tools. By Roger Burton West.
+    + LGPL (with source);
+    + covers I/O of Planets files, and some formulas;
+    + for DJGPP, but looks like it also runs elsewhere, too.
+    <http://firedrake.org/roger/vgap/programming.html>
+
+  þ `The PHost Development Kit (PDK)', a C library for Host tools. The
+    official SDK for PHost. The library is available for various
+    compilers/platforms. Since beginning of 2001, it is distributed as
+    Open Source (GPL):
+    + extensive documentation and samples;
+    + covers I/O of host files, especially for PHost;
+    + PVCR module;
+    + PConfig reader;
+    <http://phost-contrib.sourceforge.net/> (also contains a few add-ons)
+
+  þ `xk', an X11 client program for Linux/x86 by Hans Wilmer, with source
+    code in C. Requires libsx. VPA-style (map-centric).
+    <http://www.yagibdah.de/>
+
+  þ `The VGA Planets Assistant (VPA)'. Need I say more? Since early 2002,
+    VPA is open-source (Mozilla license):
+    + Turbo Pascal;
+    + TVCR module, data file I/O, all client-side rules;
+    + unfortunately, not very well-documented;
+    <http://vpa.sourceforge.net/>
+
+  Things I have not yet tried personally:
+
+  þ `The Java VGA Planets Client (JVPC)' by Kero van Gelder. A full client
+    that runs on a variety of computers, open-source under GPL/LGPL.
+    <http://jvpc.sourceforge.net/>
+
+  þ `JVC' by Lars Dam includes an "add-in" interface. Maybe this is what
+    you want.
+    <http://home2.inet.tele.dk/larsdam/jvc.html>
+
+  My own utilities may be interesting for you, too. Peek around
+  <http://www.inf.tu-dresden.de/~sr21/vgapage.html> to get them.
+
+  þ `Planets Command Center (PCC)' is a complete client program. It
+    includes a simple scripting language. If you just want to try an
+    alternate taxing strategy or somesuch, the simplest way is probably to
+    write it as a PCC script (no need to deal with file I/O and formulas).
+    The scripting engine is also available separately. PCC also includes
+    a file `compat.doc' with a collection of useful formulas.
+
+  þ `UN-TRN', a TRN file decompiler. Converts a TRN file into a text file.
+    This is a very useful tool for debugging your client-side program.
+
+  þ `The Portable MakeTurn'. A MakeTurn utility explicitly designed to run
+    on any (32-bit) computer. Source code in C++. Currently DOS-style
+    TRN/game directory format only (no WinPlan).
+
+  þ If you intend to replace the VCR, have a look at `CCBSim', my battle
+    simulator: it comes with small C program that turns the simulator into
+    a VCR replacement.
+
+  þ `Planets Command Center II' (under construction). A port, nay, rewrite
+    of PCC in portable C++, under the BSD license. Currently (08/2002)
+    includes VCR, turn parser (un-trn), file I/O, starchart and rudimentary
+    control screens. Based on the SDL library.
+
+
+-eof-
