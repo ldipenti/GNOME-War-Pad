@@ -332,6 +332,9 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
     /* Get the data from the dialog */
     game_mgr_properties_dlg_get_settings(new_game->settings);
 
+    /* Set up initial coordinates to the middle of the echo cluster */
+    game_set_last_coords (new_game, 1500, 1500);
+
     /* Save it on GConf */
     game_state_save(new_game);
 
