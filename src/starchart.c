@@ -610,18 +610,20 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
     GnomeCanvasGroup *ships_group;
     gdouble xi, yi;
     GSList *ship_data_list;
-    Ship *ship;
+    GwpShip *ship;
+
     ship = value;
     ships_group = starchart_get_grp_ships_allied();
 
     /* Check if ship coords aren't invalid...and work */
-    if (ship_valid_coords(ship)) {
-      vp_coord_v2w (ship_get_x_position(ship), ship_get_y_position(ship), 
+    if (gwp_ship_valid_coords(ship)) {
+      vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(ship)), 
+		    gwp_object_get_y_coord(GWP_OBJECT(ship)), 
 		    &xi, &yi);
       /* Check if we don't have a ship in the same place */
       if ((item = gnome_canvas_get_item_at (starchart_get_canvas(), 
 					    xi, yi)) == NULL) {
-	if (ship_is_mine(ship)) {
+	if (gwp_ship_is_mine(ship)) {
 	  item = gnome_canvas_item_new (ships_group, 
 					GNOME_TYPE_CANVAS_ELLIPSE,
 					"outline_color", OWNED_SHIP_COLOR,

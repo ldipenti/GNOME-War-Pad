@@ -249,6 +249,31 @@ GwpShip * gwp_ship_get (GHashTable *list, gint ship_id)
   return (GwpShip *) g_hash_table_lookup(list, (gconstpointer)ship_id);
 }
 
+/* Returns TRUE if the ship's coordinates are valid */
+gboolean gwp_ship_valid_coords(GwpShip *self)
+{
+  g_assert(GWP_IS_SHIP(self));
+
+  if(gwp_object_get_x_coord(GWP_OBJECT(self)) <= SHIP_VALID_X_MAX && 
+     gwp_object_get_x_coord(GWP_OBJECT(self)) >= SHIP_VALID_X_MIN &&
+     gwp_object_get_y_coord(GWP_OBJECT(self)) <= SHIP_VALID_Y_MAX && 
+     gwp_object_get_y_coord(GWP_OBJECT(self)) >= SHIP_VALID_Y_MIN) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+gboolean gwp_ship_is_mine(GwpShip *self)
+{
+  g_assert(GWP_IS_SHIP(self));
+
+  if(gwp_ship_get_owner(self) == game_get_race(game_state)) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
 
 /****************************/
 /* Get/Set (boring) methods */

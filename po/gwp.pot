@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-30 02:31-0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-25 20:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -179,7 +180,7 @@ msgstr ""
 msgid "Base"
 msgstr ""
 
-#: src/gwp.glade.h:42 src/starchart.c:115
+#: src/gwp.glade.h:42 src/starchart.c:109
 msgid "Beams: n/a"
 msgstr ""
 
@@ -200,7 +201,7 @@ msgstr ""
 msgid "Def"
 msgstr ""
 
-#: src/gwp.glade.h:48 src/starchart.c:121
+#: src/gwp.glade.h:48 src/starchart.c:115
 msgid "Defenses: n/a"
 msgstr ""
 
@@ -224,7 +225,7 @@ msgstr ""
 msgid "Edit Game Preferences"
 msgstr ""
 
-#: src/gwp.glade.h:54 src/starchart.c:109
+#: src/gwp.glade.h:54 src/starchart.c:103
 msgid "Engines: n/a"
 msgstr ""
 
@@ -232,7 +233,7 @@ msgstr ""
 msgid "Estimated Growth"
 msgstr ""
 
-#: src/gwp.glade.h:56 src/starchart.c:124
+#: src/gwp.glade.h:56 src/starchart.c:118
 msgid "Fighters: n/a"
 msgstr ""
 
@@ -280,7 +281,7 @@ msgstr ""
 msgid "Host Type:"
 msgstr ""
 
-#: src/gwp.glade.h:68 src/starchart.c:112
+#: src/gwp.glade.h:68 src/starchart.c:106
 msgid "Hulls: n/a"
 msgstr ""
 
@@ -465,7 +466,7 @@ msgstr ""
 msgid "Toggle toolbar"
 msgstr ""
 
-#: src/gwp.glade.h:114 src/starchart.c:118
+#: src/gwp.glade.h:114 src/starchart.c:112
 msgid "Torpedoes: n/a"
 msgstr ""
 
@@ -545,65 +546,66 @@ msgstr ""
 msgid "_Unpack"
 msgstr ""
 
-#: src/gwp.glade.h:134 src/planet.c:322 src/ship.c:141 src/starchart.c:165
-#: src/starchart.c:166 src/starchart.c:167 src/starchart.c:168
-#: src/starchart.c:169 src/starchart.c:497 src/starchart.c:498
-#: src/starchart.c:499 src/starchart.c:500 src/starchart.c:502
-#: src/starchart.c:503 src/starchart.c:504 src/starchart.c:505
-#: src/starchart.c:506 src/starchart.c:508 src/starchart.c:509
-#: src/starchart.c:510 src/starchart.c:511 src/starchart.c:512
-#: src/starchart.c:513
+#: src/gwp.glade.h:134 src/planet.c:323 src/ship.c:163 src/starchart.c:157
+#: src/starchart.c:158 src/starchart.c:159 src/starchart.c:160
+#: src/starchart.c:161 src/starchart.c:493 src/starchart.c:494
+#: src/starchart.c:495 src/starchart.c:496 src/starchart.c:498
+#: src/starchart.c:499 src/starchart.c:500 src/starchart.c:501
+#: src/starchart.c:502 src/starchart.c:504 src/starchart.c:505
+#: src/starchart.c:506 src/starchart.c:507 src/starchart.c:508
+#: src/starchart.c:509 src/gwp-planet.c:380
 msgid "n/a"
 msgstr ""
 
-#: src/gwp.glade.h:136 src/starchart.c:325 src/starchart.c:330
-#: src/starchart.c:335 src/starchart.c:340
+#: src/gwp.glade.h:136 src/starchart.c:317 src/starchart.c:322
+#: src/starchart.c:327 src/starchart.c:332
 #, no-c-format
 msgid "n/a %"
 msgstr ""
 
-#: src/gwp.glade.h:137 src/starchart.c:350 src/starchart.c:351
+#: src/gwp.glade.h:137 src/starchart.c:342 src/starchart.c:343
 msgid "n/a MC"
 msgstr ""
 
-#: src/gwp.glade.h:138 src/starchart.c:323 src/starchart.c:328
-#: src/starchart.c:333 src/starchart.c:338
+#: src/gwp.glade.h:138 src/starchart.c:315 src/starchart.c:320
+#: src/starchart.c:325 src/starchart.c:330
 msgid "n/a kT"
 msgstr ""
 
-#: src/gwp.glade.h:139 src/starchart.c:345 src/starchart.c:346
-#: src/starchart.c:347 src/starchart.c:348
+#: src/gwp.glade.h:139 src/starchart.c:337 src/starchart.c:338
+#: src/starchart.c:339 src/starchart.c:340
 msgid "n/a kT/turn"
 msgstr ""
 
-#: src/gwp.glade.h:140 src/planet.c:248 src/planet.c:275
+#: src/gwp.glade.h:140 src/planet.c:249 src/planet.c:276 src/gwp-planet.c:444
+#: src/gwp-planet.c:462
 msgid "none"
 msgstr ""
 
-#: src/callbacks.c:252
+#: src/callbacks.c:253
 msgid "New Game Properties"
 msgstr ""
 
-#: src/callbacks.c:375
+#: src/callbacks.c:376
 msgid "Edit Game Properties"
 msgstr ""
 
-#: src/callbacks.c:396
+#: src/callbacks.c:397
 msgid "Oops! there is some problem with this game"
 msgstr ""
 
-#: src/callbacks.c:430
+#: src/callbacks.c:431
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr ""
 
-#: src/callbacks.c:495
+#: src/callbacks.c:496
 msgid ""
 "(c) 2002,2003 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
 msgstr ""
 
-#: src/callbacks.c:496
+#: src/callbacks.c:497
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
@@ -614,139 +616,139 @@ msgstr ""
 msgid "Couldn't find pixmap file: %s"
 msgstr ""
 
-#: src/planet.c:249
+#: src/planet.c:250 src/gwp-planet.c:463
 msgid "Anarchy"
 msgstr ""
 
-#: src/planet.c:250
+#: src/planet.c:251 src/gwp-planet.c:464
 msgid "Pre-Tribal"
 msgstr ""
 
-#: src/planet.c:251
+#: src/planet.c:252 src/gwp-planet.c:465
 msgid "Early-Tribal"
 msgstr ""
 
-#: src/planet.c:252
+#: src/planet.c:253 src/gwp-planet.c:466
 msgid "Tribal"
 msgstr ""
 
-#: src/planet.c:253
+#: src/planet.c:254 src/gwp-planet.c:467
 msgid "Feudal"
 msgstr ""
 
-#: src/planet.c:254
+#: src/planet.c:255 src/gwp-planet.c:468
 msgid "Monarchy"
 msgstr ""
 
-#: src/planet.c:255
+#: src/planet.c:256 src/gwp-planet.c:469
 msgid "Representative"
 msgstr ""
 
-#: src/planet.c:256
+#: src/planet.c:257 src/gwp-planet.c:470
 msgid "Participatory"
 msgstr ""
 
-#: src/planet.c:257
+#: src/planet.c:258 src/gwp-planet.c:471
 msgid "Unity"
 msgstr ""
 
-#: src/planet.c:276
+#: src/planet.c:277 src/gwp-planet.c:445
 msgid "Humanoid"
 msgstr ""
 
-#: src/planet.c:277
+#: src/planet.c:278 src/gwp-planet.c:446
 msgid "Bovinoid"
 msgstr ""
 
-#: src/planet.c:278
+#: src/planet.c:279 src/gwp-planet.c:447
 msgid "Reptilian"
 msgstr ""
 
-#: src/planet.c:279
+#: src/planet.c:280 src/gwp-planet.c:448
 msgid "Avian"
 msgstr ""
 
-#: src/planet.c:280
+#: src/planet.c:281 src/gwp-planet.c:449
 msgid "Amorphous"
 msgstr ""
 
-#: src/planet.c:281
+#: src/planet.c:282 src/gwp-planet.c:450
 msgid "Insectoid"
 msgstr ""
 
-#: src/planet.c:282
+#: src/planet.c:283 src/gwp-planet.c:451
 msgid "Amphibian"
 msgstr ""
 
-#: src/planet.c:283
+#: src/planet.c:284 src/gwp-planet.c:452
 msgid "Ghipsoldal"
 msgstr ""
 
-#: src/planet.c:284
+#: src/planet.c:285 src/gwp-planet.c:453
 msgid "Siliconoid"
 msgstr ""
 
-#: src/planet.c:312
+#: src/planet.c:313 src/gwp-planet.c:370
 msgid "desert"
 msgstr ""
 
-#: src/planet.c:314
+#: src/planet.c:315 src/gwp-planet.c:372
 msgid "tropical"
 msgstr ""
 
-#: src/planet.c:316
+#: src/planet.c:317 src/gwp-planet.c:374
 msgid "warm"
 msgstr ""
 
-#: src/planet.c:318
+#: src/planet.c:319 src/gwp-planet.c:376
 msgid "cool"
 msgstr ""
 
-#: src/planet.c:320
+#: src/planet.c:321 src/gwp-planet.c:378
 msgid "arctic"
 msgstr ""
 
-#: src/starchart.c:67
+#: src/starchart.c:61
 #, c-format
 msgid "Engines: %d"
 msgstr ""
 
-#: src/starchart.c:73
+#: src/starchart.c:67
 #, c-format
 msgid "Hulls: %d"
 msgstr ""
 
-#: src/starchart.c:79
+#: src/starchart.c:73
 #, c-format
 msgid "Beams: %d"
 msgstr ""
 
-#: src/starchart.c:85
+#: src/starchart.c:79
 #, c-format
 msgid "Torpedoes: %d"
 msgstr ""
 
-#: src/starchart.c:91
+#: src/starchart.c:85
 #, c-format
 msgid "Defenses: %d"
 msgstr ""
 
-#: src/starchart.c:97
+#: src/starchart.c:91
 #, c-format
 msgid "Fighters: %d"
 msgstr ""
 
-#: src/starchart.c:103
+#: src/starchart.c:97
 #, c-format
 msgid "Damage: %d%%"
 msgstr ""
 
-#: src/starchart.c:127
+#: src/starchart.c:121
 msgid "Damage: n/a"
 msgstr ""
 
-#: src/starchart.c:233 src/starchart.c:251 src/starchart.c:269
-#: src/starchart.c:287
+#: src/starchart.c:225 src/starchart.c:243 src/starchart.c:261
+#: src/starchart.c:279
 #, c-format
 msgid "%d kT/turn (%d turns)"
 msgstr ""
@@ -829,30 +831,30 @@ msgstr ""
 msgid "The Colonies"
 msgstr ""
 
-#: src/tables.c:68
+#: src/tables.c:67
 msgid "Turn"
 msgstr ""
 
-#: src/tables.c:74
+#: src/tables.c:73
 msgid "Colonists"
 msgstr ""
 
-#: src/tables.c:80
+#: src/tables.c:79
 msgid "C Happ"
 msgstr ""
 
-#: src/tables.c:86
+#: src/tables.c:85
 msgid "C Growth"
 msgstr ""
 
-#: src/tables.c:92
+#: src/tables.c:91
 msgid "Natives"
 msgstr ""
 
-#: src/tables.c:98
+#: src/tables.c:97
 msgid "N Happ"
 msgstr ""
 
-#: src/tables.c:104
+#: src/tables.c:103
 msgid "N Growth"
 msgstr ""

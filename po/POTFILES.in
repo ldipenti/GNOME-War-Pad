@@ -13,3 +13,9 @@ src/game_mgr.c
 src/vp_unpack.c
 src/race.c
 src/tables.c
+src/gwp-object.c
+src/gwp-flying-object.c
+src/gwp-ship.c
+src/gwp-planet.c
+src/gwp-starbase.c
+src/base.c

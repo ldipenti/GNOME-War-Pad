@@ -690,7 +690,7 @@ GHashTable * load_pdata (void)
 	stat (game_get_full_path(game_state, pdata_dis_file->str), &dis_data);
 	stat (game_get_full_path(game_state, pdata_dat_file->str), &dat_data);
 	
-	// Check what file to use
+	/* Check what file to use */
 	if (dis_data.st_mtime > dat_data.st_mtime) {
 	  if ((pdata =
 	       fopen (game_get_full_path(game_state, pdata_dis_file->str),

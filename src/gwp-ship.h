@@ -23,6 +23,7 @@
 #include <glib.h>
 #include <glib-object.h>
 
+#include "global.h"
 #include "gwp-flying-object.h"
 
 /*
@@ -60,6 +61,8 @@ GwpShip *gwp_ship_new (void);
 /* High level methods */
 /**********************/
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
+gboolean gwp_ship_valid_coords(GwpShip *self);
+gboolean gwp_ship_is_mine(GwpShip *self);
 
 
 /****************************/
