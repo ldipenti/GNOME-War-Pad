@@ -351,7 +351,9 @@ aparezcan en el programa en si.</para>
       de la destruccion de las referencias en memoria del programa
       respectivamente. Son las funciones que especificamos en
       <application>Glade</application> para manejar las señales de la
-      ventana.</para>
+      ventana. A decir verdad solo necesitamos definir la señal y
+      función destroy, ya que la función delete_event no cumple ningún
+      cometido, pero la dejaremos para usarla en el plugin.</para>
 
       <para>La función privada <command>__init__</command> es
       obviamente la constructora de la clase. Prestemos atención aqui
@@ -406,7 +408,7 @@ if __name__ == '__main__':
 
       <para>¿Por qué esta sentencia if en concreto es un truco? Los
       módulos son objetos, y todos los módulos tienen un atributo
-      <command>__name__</command> incorporado. El atributo
+      <command>__name__</command> incorporado). El atributo 
       <command>__name__</command> de un módulo depende
       de cómo se utiliza el módulo. Si se importa con import,
       <command>__name__</command>
@@ -415,6 +417,52 @@ if __name__ == '__main__':
       directamente como programa independiente, y en este caso
       <command>__name__</command> adquiere un valor especial,
       <command>__main__</command>.</para>
+
+      <para>Ahora agregaremos el contenido de las funciones. Para
+      hacer disponibles los controles que creamos en
+      <application>glade</application> debemos enlazarlos en nuestro
+      ejemplo de la siguiente forma: </para>
+
+<informalexample>
+<programlisting>
+    def __enlazar_controles(self):
+        #labels
+        self.lbl_label1 =  self.main_window.get_widget('label1')
+        #Textbox
+        self.tb_entry1 =  self.main_window.get_widget('entry1')
+        #botones
+        self.btn_button1 = self.main_window.get_widget('button1')
+        self.btn_button2 = self.main_window.get_widget('button2')
+</programlisting>
+</informalexample>
+
+      <para>Además de esto debemos enlazar las señales de los botones
+      ya que no lo hicimos en <application>glade</application>, aunque
+      tranquilamente se podría haber hecho, preferí hacerlo aquí para
+      mostrar la forma de realizar el enlace por código:</para>
+
+<informalexample>
+<programlisting>
+    def __create_gui(self):
+        self.btn_button1.connect("clicked", self.aplicar, None)
+        self.btn_button2.connect("clicked", self.salir, None)
+        pass
+
+    def aplicar(self, widget, data=None):
+        print "Se oprimio el boton Aplicar"
+        pass
+
+    def salir(self, widget, data=None):
+        print "Se oprimio el boton Salir"
+        self.delete_event(self.main_window)
+        pass
+</programlisting>
+</informalexample>
+
+      <para>Las dos funciones <command>aplicar</command> y
+      <command>salir</command> son las que se ejecutarán al presionar
+      los botones respectivamente.</para>
+
 
     </section>
   </chapter>
