@@ -1,3 +1,4 @@
+AC_PREREQ(2.52)
 AC_INIT(GNOME War Pad, 0.2.1, lucas@lunix.com.ar)
 
 AM_CONFIG_HEADER(config.h)
@@ -5,7 +6,7 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(gwp, 0.2.1)
 
 AM_MAINTAINER_MODE
-
+AC_PROG_INTLTOOL
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -38,7 +39,10 @@ dnl Checks for Additional stuffs.
 
 
 dnl Languages which your application supports
-ALL_LINGUAS=""
+GETTEXT_PACKAGE=gwp
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[The gettext package])
+ALL_LINGUAS="es"
 AM_GLIB_GNU_GETTEXT
 
 dnl Set PACKAGE_LOCALE_DIR in config.h.
@@ -108,6 +112,7 @@ AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}")
 AC_OUTPUT([
 Makefile
 src/Makefile
+po/Makefile.in
 pixmaps/Makefile
 gwp.desktop
 ])

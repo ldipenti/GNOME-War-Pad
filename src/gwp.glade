@@ -1588,7 +1588,6 @@
 	      <child>
 		<widget class="button" id="btn_new_game">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">Nuevo archivo</property>
 		  <property name="label" translatable="yes">_New Game</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-new</property>
@@ -1599,7 +1598,6 @@
 	      <child>
 		<widget class="button" id="btn_delete_game">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">Abrir un archivo</property>
 		  <property name="label" translatable="yes">_Delete Game</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-delete</property>

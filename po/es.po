@@ -1,0 +1,351 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GWP 0.2.1\n"
+"POT-Creation-Date: 2003-05-23 00:48-0300\n"
+"PO-Revision-Date: 2003-05-23 00:48-0300\n"
+"Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gwp.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: src/gwp.glade.h:2
+msgid ";"
+msgstr ";"
+
+#: src/gwp.glade.h:3
+msgid "Colonists:"
+msgstr "Colonos:"
+
+#: src/gwp.glade.h:4
+msgid "Data"
+msgstr "Datos"
+
+#: src/gwp.glade.h:5
+msgid "Defenses:"
+msgstr "Defensas:"
+
+#: src/gwp.glade.h:6
+msgid "Delete this game configuration"
+msgstr "Eliminar esta configuración de juego"
+
+#: src/gwp.glade.h:7
+msgid "Duranium:"
+msgstr "Duranio:"
+
+#: src/gwp.glade.h:8
+msgid "Edit Game Preferences"
+msgstr "Editar las preferencias de juego"
+
+#: src/gwp.glade.h:9
+msgid "Factories:"
+msgstr "Fábricas:"
+
+#: src/gwp.glade.h:10
+msgid "GNOME War Pad"
+msgstr "GNOME War Pad"
+
+#: src/gwp.glade.h:11
+msgid "GWP Game Manager"
+msgstr "Administrador de juegos del GWP"
+
+#: src/gwp.glade.h:12
+msgid "Game Directory"
+msgstr "Directorio del juego"
+
+#: src/gwp.glade.h:13
+msgid "Game Name: "
+msgstr "Nombre del juego:"
+
+#: src/gwp.glade.h:14
+msgid "Game Properties"
+msgstr "Propiedades del juego"
+
+#: src/gwp.glade.h:15
+msgid "Gov Type:"
+msgstr "Tipo Gob:"
+
+#: src/gwp.glade.h:16
+msgid "Host Email: "
+msgstr "Email del host:"
+
+#: src/gwp.glade.h:17
+msgid "Host Type: "
+msgstr "Tipo de host:"
+
+#: src/gwp.glade.h:18
+msgid "Mines:"
+msgstr "Minas:"
+
+#: src/gwp.glade.h:19
+msgid "Misc"
+msgstr "Misc"
+
+#: src/gwp.glade.h:20
+msgid "Molybdenum:"
+msgstr "Molibdeno:"
+
+#: src/gwp.glade.h:21
+msgid "Natives:"
+msgstr "Nativos:"
+
+#: src/gwp.glade.h:22
+msgid "Neutronium:"
+msgstr "Neutronio:"
+
+#: src/gwp.glade.h:23
+msgid "PHost"
+msgstr "PHost"
+
+#: src/gwp.glade.h:24
+msgid "Planet"
+msgstr "Planeta"
+
+#: src/gwp.glade.h:25
+msgid "Planet Detail"
+msgstr "Detalle del planeta"
+
+#: src/gwp.glade.h:26
+msgid "Play Selected Game"
+msgstr "Jugar el juego seleccionado"
+
+#: src/gwp.glade.h:27
+msgid "Player Email: "
+msgstr "Email del jugador:"
+
+#: src/gwp.glade.h:28
+msgid "Population"
+msgstr "Población"
+
+#: src/gwp.glade.h:29
+msgid "RST Dir: "
+msgstr "Directorio RST:"
+
+#: src/gwp.glade.h:30
+msgid "Race Name: "
+msgstr "Nombre de la raza:"
+
+#: src/gwp.glade.h:31
+msgid "Race selected"
+msgstr "Raza seleccionada"
+
+#: src/gwp.glade.h:32
+msgid "Race:"
+msgstr "Raza:"
+
+#: src/gwp.glade.h:33
+msgid "Races Available"
+msgstr "Razas disponibles"
+
+#: src/gwp.glade.h:34
+msgid ""
+"Races available at this particular game directory, pick one by double-"
+"clicking on it"
+msgstr ""
+"Razas disponibles en este directorio de juego en \n"
+"particular, elige una haciendo doble-clic en ella"
+
+#: src/gwp.glade.h:35
+msgid "Resources (KT)"
+msgstr "Recursos (KT)"
+
+#: src/gwp.glade.h:36
+msgid "Select RST directory"
+msgstr "Selecciona el directorio RST"
+
+#: src/gwp.glade.h:37
+msgid "Select TRN directory"
+msgstr "Selecciona el directorio TRN"
+
+#: src/gwp.glade.h:38
+msgid "Select game directory"
+msgstr "Selecciona el directorio de juego"
+
+#: src/gwp.glade.h:39
+msgid "Select if you want to edit this game's properties"
+msgstr "Selecciona si quieres editar las propiedades de este juego"
+
+#: src/gwp.glade.h:40
+msgid "Select if you want to play this game"
+msgstr "Selecciona si quieres jugar a este juego"
+
+#: src/gwp.glade.h:41
+msgid "Select this if the game is hosted by a PHost (alternative) host type"
+msgstr "Selecciona si el juego es manejado por un host PHost (alternativo)"
+
+#: src/gwp.glade.h:42
+msgid "Select this if the game is hosted by a THost (classic) host type"
+msgstr "Selecciona si el juego es manejado por un host THost (clásico)"
+
+#: src/gwp.glade.h:43
+msgid "Setup a new game"
+msgstr "Configura un juego nuevo"
+
+#: src/gwp.glade.h:44
+msgid "Ship Data"
+msgstr "Datos de la nave"
+
+#: src/gwp.glade.h:45
+msgid "Ships"
+msgstr "Naves"
+
+#: src/gwp.glade.h:46
+msgid "Starbase Detail"
+msgstr "Detalle de la base estelar"
+
+#: src/gwp.glade.h:47
+msgid "Starchart"
+msgstr "Mapa estelar"
+
+#: src/gwp.glade.h:48
+msgid "Supplies:"
+msgstr "Provisiones:"
+
+#: src/gwp.glade.h:49
+msgid "THost"
+msgstr "THost"
+
+#: src/gwp.glade.h:50
+msgid "TRN Dir: "
+msgstr "Directorio TRN:"
+
+#: src/gwp.glade.h:51
+msgid "The directory where GWP will save its turns"
+msgstr "El directorio donde GWP grabará los turnos"
+
+#: src/gwp.glade.h:52
+msgid "The directory where GWP will search for host results"
+msgstr "El directorio donde GWP buscará los resultados del host"
+
+#: src/gwp.glade.h:53
+msgid "The host's email address, to send your turns"
+msgstr "La dirección de correo-e, para enviar los turnos"
+
+#: src/gwp.glade.h:54
+msgid "The label this game will have in the game manager"
+msgstr "La etiqueta que este juego tendrá en el administrador de juegos"
+
+#: src/gwp.glade.h:55
+msgid "Tritanium:"
+msgstr "Tritanio:"
+
+#: src/gwp.glade.h:56
+msgid "Unpack the new RST file"
+msgstr "Desempaquetar el nuevo archivo RST"
+
+#: src/gwp.glade.h:57
+msgid "Where the game data files reside"
+msgstr "Lugar donde residen los archivos de datos"
+
+#: src/gwp.glade.h:58
+msgid "X"
+msgstr "X"
+
+#: src/gwp.glade.h:59
+msgid "Y"
+msgstr "Y"
+
+#: src/gwp.glade.h:60
+msgid "Your email address, to send your turns to the host"
+msgstr "Tu dirección de correo-e, para enviar tus turnos al host"
+
+#: src/gwp.glade.h:61
+msgid "["
+msgstr "["
+
+#: src/gwp.glade.h:62
+msgid "]"
+msgstr "]"
+
+#: src/gwp.glade.h:63
+msgid "_Delete Game"
+msgstr "E_liminar el juego"
+
+#: src/gwp.glade.h:64
+msgid "_Edit Game"
+msgstr "_Editar el juego"
+
+#: src/gwp.glade.h:65
+msgid "_New Game"
+msgstr "Juego _nuevo"
+
+#: src/gwp.glade.h:66
+msgid "_Play Game"
+msgstr "Jugar _partida"
+
+#: src/gwp.glade.h:67
+msgid "_Unpack"
+msgstr "Desempaque_tar"
+
+#: src/gwp.glade.h:68
+msgid "n/a"
+msgstr "n/d"
+
+#: src/callbacks.c:181
+msgid "New Game Properties"
+msgstr "Propiedades del nuevo juego"
+
+#: src/callbacks.c:304
+msgid "Edit Game Properties"
+msgstr "Editar las propiedades del juego"
+
+#: src/callbacks.c:325
+msgid "Oops! there is some problem with this game"
+msgstr "Ups! existe algún problema con este juego"
+
+#: src/callbacks.c:359
+#, c-format
+msgid "Are you sure you want to delete '%s'?"
+msgstr "¿Está seguro que desea eliminar «%s»?"
+
+#: src/callbacks.c:421
+msgid ""
+"(c) 2002,2003 Lucas Di Pentima\n"
+"This software is released under the GNU GPL License"
+msgstr ""
+"(c) 2002,2003 Lucas Di Pentima\n"
+"Este software se libera bajo las condiciones de la licencia GNU GPL"
+
+#: src/callbacks.c:422
+msgid ""
+"A VGA Planets client for the GNOME platform.\n"
+"http://www.lunix.com.ar/~ldipenti/gwp/"
+msgstr ""
+"Un cliente VGA Planets para la plataforma GNOME\n"
+"http://www.lunix.com.ar/~ldipenti/gwp/"
+
+#: src/support.c:48 src/support.c:73
+#, c-format
+msgid "Couldn't find pixmap file: %s"
+msgstr "No se encontró el archivo de imagen: %s"
+
+#: src/game_mgr.c:366
+#, c-format
+msgid "Game directory '%s' doesn't exist"
+msgstr "El directorio de juego «%s» no existe"
+
+#: src/game_mgr.c:385
+msgid "Please provide a name for this game"
+msgstr "Por favor, ingrese un nombre para este juego"
+
+#: src/game_mgr.c:420
+#, c-format
+msgid "A game named '%s' already exist, please select another name"
+msgstr "Ya existe un juego llamado «%s», por favor elija otro nombre"
+
+#: src/game_mgr.c:441
+msgid "Please select a race"
+msgstr "Por favor, selecciona una raza"
+
+#: src/game_mgr.c:654
+msgid "A new RST file was found. Do you want me to unpack it?"
+msgstr "Se encontró un nuevo archivo RST. ¿Desea desempaquetarlo?"
