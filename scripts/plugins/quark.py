@@ -250,22 +250,23 @@ class Quark(gwp.Plugin):
     def calculate_max_income_from_natives(self, p):
         """ Determino el maximo que se puede cobrar (con una copia del planeta)
         devuelve (% de impuesto, cantidad de MC) """
-        future_p = p.copy()
-        future_p.set_colonists(1000) # suficientemente grande para evitar problemas
-        tax = 1
-        while tax:
-            future_p.set_tax_natives(tax)
-            hap_dif = future_p.get_happiness_nat_change()
-            limit = future_p.get_col_growth_limit()
-            income = future_p.get_tax_collected_natives()
-            if  (hap_dif >= 0) and  (limit >= income):
-                tax += 1
-            else:
-                if hap_dif >= 0:
-                    tax -= 1
+        if p.get_natives(): # SI no hay nativos no tiene sentido esto 
+            future_p = p.copy()
+            future_p.set_colonists(1000) # suficientemente grande para evitar problemas
+            tax = 1
+            while tax:
                 future_p.set_tax_natives(tax)
+                hap_dif = future_p.get_happiness_nat_change()
+                limit = future_p.get_col_growth_limit()
                 income = future_p.get_tax_collected_natives()
-                return tax, income
+                if  (hap_dif >= 0) and  (limit >= income):
+                    tax += 1
+                else:
+                    if hap_dif >= 0:
+                        tax -= 1
+                    future_p.set_tax_natives(tax)
+                    income = future_p.get_tax_collected_natives()
+                    return tax, income
         return 0,0
 
     #--------------------------------------------------------------------------
@@ -273,7 +274,7 @@ class Quark(gwp.Plugin):
         """Devuelve la cantidad de colonos que faltan para que los bovinoides
         produzcan el maximo de supplies."""
         # Supplies Bovinoids
-        if (p.get_natives_race() == 2): #Bovinoid
+        if (p.get_natives_race() == 2): # Bovinoids
             sup = p.get_natives() / 100
             if p.get_colonists() < sup:
                 return sup
@@ -281,6 +282,8 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def is_miner_planet(self, p):
+        """Determina si la cantidad de mineral que se puede obtener esta dentro
+        de los parametros de *Planeta Minero*."""
         return 0
 
     #--------------------------------------------------------------------------
