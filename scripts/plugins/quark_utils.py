@@ -50,6 +50,22 @@ planeta_quark = {'pid': 0,
                  'terraformar': 0
                  }
 
+reporte_planeta = {'pid': 0,
+                   'temperature' : 0,
+                   'clanes_nec': 0,
+                   'clanes_nec_comment': '',
+                   'MC': 0,
+                   'supplies' : 0,
+                   'fabricas': 0,
+                   'minas': 0,
+                   'minas_comment': '',
+                   'dp': 0,
+                   'dp_comment': '',
+                   'costo_constr' : 0,
+                   }
+
+ID_BOVINOIDS = 2
+ID_AMORFOS = 5
 
 #--------------------------------------------------------------------------
 def widgets_make_link(self):
