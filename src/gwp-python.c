@@ -77,7 +77,7 @@ void gwp_python_inittab (void)
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (plugin_menu_root), plugin_menu);
 
   menubar = lookup_widget ("menubar");
-  gtk_menu_bar_append (menubar, plugin_menu_root);
+  gtk_menu_bar_insert (menubar, plugin_menu_root, 2);
 
   pyobj_menu = pygobject_new (plugin_menu);
   plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
