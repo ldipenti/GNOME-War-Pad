@@ -27,16 +27,26 @@ class PluginManager:
     
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
-            self.__key_hooks[event["string"]]()
+            try:
+                self.__key_hooks[event["string"]]()
+            except KeyError:
+                # Debugging message
+                print "PluginManager: key event '%s' not binded" % event["string"]
 
     def set_hook_key (self, key, action):
         self.__key_hooks[key] = action
+
+    def unset_hook_key (self, key):
+        try:
+            del(self.__key_hooks[key])
+        except KeyError:
+            print "PluginManager: key event '%s' not found when unregistering plugin." % key
 
     def register_plugin (self, plugin):
         try:
             plugin.register(self)
         except NotImplementedError:
-            pass
+            raise
         else:
             self.__plugins_registered.append (plugin)
             plugin.registered = True
@@ -52,7 +62,9 @@ class PluginManager:
             try:
                 plugin.unregister(self)
             except NotImplementedError:
-                pass
+                raise
+            else:
+                plugin.registered = False
 
 #######
 # Plugin abstract class
@@ -86,11 +98,11 @@ class Plugin:
         self.license = license
 
     # Executed at registration time
-    def register (self):
+    def register (self, pm):
         raise NotImplementedError
 
     # Executed at elimination time
-    def unregister (self):
+    def unregister (self, pm):
         raise NotImplementedError
 
 ########

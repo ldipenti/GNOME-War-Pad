@@ -121,6 +121,9 @@ class Finder(gwp.Plugin):
     def register(self, pm):
         pm.set_hook_key('f', self.__main)
 
+    # Cleaning up
+    def unregister(self, pm):
+        pm.unset_hook_key('f')
 
 #####
 # Load code
