@@ -1,0 +1,30 @@
+<!-- <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"> -->
+
+<sect1 id="message-reader">
+  <title>The Message Reader</title>
+
+  <para>&app; can read &vgap; messages via the message reader, a
+  feature contributed by Sven Wergandt. You can start the message
+  reader by selecting the <guimenuitem>Message reader</guimenuitem>
+  option on the <guimenu>View</guimenu> menu, or by pressing
+  <keycombo> <keycap>Ctrl</keycap>
+  <keycap>R</keycap></keycombo>.</para>
+
+  <para>The message reader can also show you the messages from past
+  turns, by selecting the turn from the combobox on the top left, as
+  you can see on <xref linkend="fig_message-reader"/>.</para>
+
+  <figure id="fig_message-reader">
+    <title>Message reader</title>
+    <graphic fileref="figures/message-reader.png"/>
+  </figure>
+
+  <para>The reader has two main panes, the left contains a tree list
+  of message headers, categorized by message type, and the right pane
+  contains the selected message text. On the left, some headers may be
+  of a special color if the message is relevant to the player.</para>
+
+  <para>The top section contains the usual navigational controls, plus
+  the mentioned combobox with the message history.</para>
+</sect1>

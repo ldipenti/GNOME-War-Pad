@@ -15,6 +15,7 @@ entities = legal.xml 			\
 	   ship-ops.xml			\
 	   plugins-intro.xml		\
 	   plugins-using.xml		\
-	   plugins-console.xml
+	   plugins-console.xml		\
+	   message-reader.xml
 include $(top_srcdir)/help/xmldocs.make
 dist-hook: app-dist-hook

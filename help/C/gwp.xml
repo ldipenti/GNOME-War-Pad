@@ -12,6 +12,7 @@
   <!ENTITY planet-ops SYSTEM "planet-ops.xml">
   <!ENTITY starbase-ops SYSTEM "starbase-ops.xml">
   <!ENTITY ship-ops SYSTEM "ship-ops.xml">
+  <!ENTITY message-reader SYSTEM "message-reader.xml">
   <!ENTITY plugins-intro SYSTEM "plugins-intro.xml">
   <!ENTITY plugins-using SYSTEM "plugins-using.xml">
   <!ENTITY plugins-console SYSTEM "plugins-console.xml">
@@ -192,6 +193,7 @@ Information about the entities:
     &planet-ops;
     &starbase-ops;
     &ship-ops;
+    &message-reader;
   </chapter>    
 
   <chapter id="plugins">
