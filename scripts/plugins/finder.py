@@ -197,6 +197,14 @@ class Finder(gwp.Plugin):
             if self.__filtering_function(key,obj,query):
                 self.store2.append([key, obj.get_name(), obj.get_colonists()])
 
+        self.list_scroll.show()
+        if self.store.__len__() == 0:
+            self.list_scroll.hide()
+
+        self.list2_scroll.show()
+        if self.store2.__len__() == 0:
+            self.list2_scroll.hide()
+
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
         self.window.hide()
