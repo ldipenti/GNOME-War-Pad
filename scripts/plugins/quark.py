@@ -16,23 +16,10 @@ class Quark(gwp.Plugin):
     desc_long = ""
     license = "GPL"
     hotkey = 'q'
-    
+
     FILTER_NONE = 1
     
-    # Cantidades que definen cuando un planeta es considerado minero y se levantan las 
-    # estructuras al maximo.
-    # Cantidad de Minerales extraidos c/100 minas.
-    MINERO_MIN_EXTR_NEU = 50
-    MINERO_MIN_EXTR_TRI = 50
-    MINERO_MIN_EXTR_DUR = 30
-    MINERO_MIN_EXTR_MOL = 30
-    # Cantidad de Minerales bajo tierra.
-    MINERO_MIN_NEU = 2000
-    MINERO_MIN_TRI = 2000
-    MINERO_MIN_DUR = 1000
-    MINERO_MIN_MOL = 900
-    # Minimo de MC para considerar a un planeta recaudador de guita en vez de minero
-    RECAUDADOR_MIN_MC = 500
+    RUTA_QUARK_FILES = gwp.get_system_plugins_dir() + 'quark_files/'
     
     #--------------------------------------------------------------------------     
     def _init_lists(self):
@@ -61,7 +48,6 @@ class Quark(gwp.Plugin):
         self.report_verify_happyness(p, 'n') # Natives
         self.report_verify_colonists(p)
         self.report_verify_temperature(p) # Ve si conviene Terraformar
-        
         
     #--------------------------------------------------------------------------
     def report_verify_happyness(self, p, people):
@@ -306,7 +292,10 @@ class Quark(gwp.Plugin):
         if p.get_natives(): # SI no hay nativos no tiene sentido esto 
             future_p = p.copy()
 
-          
+            #gs = gwp.get_game_state()
+            #nro_raza = gs.get_race_nr()
+            #future_p.set_owner(nro_raza)
+            
             future_p.set_colonists(1000) # suficientemente grande para evitar problemas
             tax = 1
             while tax:
@@ -415,12 +404,41 @@ class Quark(gwp.Plugin):
         self.pm = gwp.get_plugin_mgr()
         self.na = self.pm.get_plugin('NotificationArea')
         if self.na:
-            quark_icon = gtk.Button('Quark')
-            quark_icon.show()
-            self.na.add_notification(quark_icon)
-            self.na.set_tooltip(quark_icon, 'El latinio lo es todo!')
+            self.quark_icon = gtk.Button()
+            self.i = gtk.Image()
+            
+            self.quark_set_icon('transparente')
+            
+            self.na.add_notification(self.quark_icon)
+            self.na.set_tooltip(self.quark_icon, 'El latinio lo es todo!')
         
+    #--------------------------------------------------------------------------
+    def quark_set_icon(self, color):
+        """ Devuelve una imagen con el icono del color correspondiente"""
+        filename = ''
 
+        if color == 'transparente':
+            filename = self.quark_utils.ICONO_TRANSPARENTE
+        elif color == 'verde':
+            filename = self.quark_utils.ICONO_VERDE
+        elif color == 'amarillo':
+            filename = self.quark_utils.ICONO_AMARILLO
+        elif color == 'rojo':
+            filename = self.quark_utils.ICONO_ROJO
+        else:
+            return None
+        # remuevo la imagen anterior
+        self.quark_icon.remove(self.i)
+        # preparo la nueva imagen
+        print self.RUTA_QUARK_FILES + filename
+        self.i.set_from_file(self.RUTA_QUARK_FILES + filename)
+        self.i.show()
+        # agrego la nueva imagen
+        self.quark_icon.add(self.i)
+        self.quark_icon.show()
+        return 0
+
+        
     #--------------------------------------------------------------------------            
     def filter_load_data(self):
         # Cargo el filtro con un arreglo que tiene los tipos de filtro.
@@ -442,7 +460,6 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------        
     def planets_load_list(self, filter):
         """Carga la lista de planetas de acuerdo al filtro."""
-        
         ##FIXME : Falta darle bola al filtro
         self.store_planets.clear()
         for p in self.pl:
@@ -450,11 +467,31 @@ class Quark(gwp.Plugin):
                 
     #--------------------------------------------------------------------------
     def planets_init_selection(self):
-        """ Elige el primer planeta de la lista.
+        """ Elige el planeta seleccionado en la interface del gwp en la lista.
         Esto desencadena el evento de *planeta seleccionado* que carga los
         datos de este planeta en la interface del plugin."""
-        self.treeselection_planets.select_path((0,))
+        ggs = gwp.get_game_state()
+        p = ggs.get_selected_planet()
+        iter_found = [] # debe ser una lista para que se devuelva en los argumentos (puntero)
+        if p and p.is_mine():
+            self.store_planets.foreach(self.find_planet_in_list, (p.get_id(), iter_found))
+            # selecciona el planeta encontrado
+            self.treeselection_planets.select_iter(iter_found[0])
+        else:
+            self.treeselection_planets.select_path((0,)) # El primero
 
+    #--------------------------------------------------------------------------
+    def find_planet_in_list(self, i_model, i_path, i_iter, (id_selected, iter_found)):
+        """Busca el planeta seleccionado en la lista."""
+        # FIXME : Cuando funcione el filtro esta busqueda hay que hacerla distinto.
+        if i_model.get_value(i_iter, 0) == id_selected:
+            iter_found.append(i_iter)
+            # devuelve true para senialar que se encontro el planeta
+            return True
+        else:
+            # Se debe seguir iterando
+            return False
+        
     #--------------------------------------------------------------------------    
     def filter_selected(self, dato, data=None):
         pass
@@ -573,6 +610,8 @@ class Quark(gwp.Plugin):
         for pid, signal in self.signals_id.iteritems():
             planeta = gwp.planet_get_by_id(pid)
             planeta.disconnect(signal)
+            
+        self.na.remove_notification(quark_icon)
 
 
     
