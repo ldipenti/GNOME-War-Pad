@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
+
 #include "global.h"
 #include "gwp-object.h"
 
@@ -191,7 +193,10 @@ void gwp_object_set_id (GwpObject *self, gint id)
 GString * gwp_object_get_name (GwpObject *self)
 {
   g_assert (GWP_IS_OBJECT(self));
-  return g_string_new (self->priv->name->str);
+  /* CP437 (DOS format) to UTF-8 conversion is done */
+  return g_string_new (g_convert(self->priv->name->str, 
+				 strlen(self->priv->name->str), 
+				 "UTF-8", "CP437", NULL, NULL, NULL));
 }
 
 void gwp_object_set_name (GwpObject *self, GString *name)

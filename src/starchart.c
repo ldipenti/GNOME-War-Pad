@@ -1046,7 +1046,7 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
   static GtkLabel *summary = NULL;
   static GtkTreeView *panel_ship_list = NULL;
   GwpShip *ship;
-  gchar *tmp;
+  gchar *tmp = NULL;
   guint ships_nr = 0;
   gint i;
   GtkListStore *store;
