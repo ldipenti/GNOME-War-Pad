@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002-2004  Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -50,6 +50,11 @@ struct _GwpStarbase {
   GwpStarbasePrivate *priv;
 };
 
+struct _GwpStarbaseClass {
+  GObjectClass parent;
+  /* class members */
+};
+
 /* used by GWP_STARBASE_TYPE */
 GType gwp_starbase_get_type (void);
 
@@ -57,6 +62,51 @@ GType gwp_starbase_get_type (void);
  * Public method definitions.
  */
 GwpStarbase * gwp_starbase_new (void);
+/* get/set methods */
+gint16 gwp_starbase_get_defense (GwpStarbase *self);
+void gwp_starbase_set_defense (GwpStarbase *self, gint16 def);
+gint16 gwp_starbase_get_damage (GwpStarbase *self);
+void gwp_starbase_set_damage (GwpStarbase *self, gint dam);
+gint16 gwp_starbase_get_engines_tech (GwpStarbase *self);
+void gwp_starbase_set_engines_tech (GwpStarbase *self, gint16 tech);
+gint16 gwp_starbase_get_hulls_tech (GwpStarbase *self);
+void gwp_starbase_set_hulls_tech (GwpStarbase *self, gint16 tech);
+gint16 gwp_starbase_get_beams_tech (GwpStarbase *self);
+void gwp_starbase_set_beams_tech (GwpStarbase *self, gint16 tech);
+gint16 gwp_starbase_get_torps_tech (GwpStarbase *self);
+void gwp_starbase_set_torps_tech (GwpStarbase *self, gint16 tech);
+gint16 gwp_starbase_get_storage_engines (GwpStarbase *self, gint storage_nr);
+void gwp_starbase_set_storage_engines (GwpStarbase *self, gint storage_nr, gint16 engine);
+gint16 gwp_starbase_get_storage_hulls (GwpStarbase *self, gint storage_nr);
+void gwp_starbase_set_storage_hulls (GwpStarbase *self, gint storage_nr, gint16 hull);
+gint16 gwp_starbase_get_storage_beams (GwpStarbase *self, gint storage_nr);
+void gwp_starbase_set_storage_beams (GwpStarbase *self, gint storage_nr, gint16 beam);
+gint16 gwp_starbase_get_storage_torp_launchers (GwpStarbase *self, gint storage_nr);
+void gwp_starbase_set_storage_torp_launchers (GwpStarbase *self, gint storage_nr, gint16 t_launcher);
+gint16 gwp_starbase_get_storage_torps (GwpStarbase *self, gint storage_nr);
+void gwp_starbase_set_storage_torps (GwpStarbase *self, gint storage_nr, gint16 torp);
+gint16 gwp_starbase_get_fighters (GwpStarbase *self);
+void gwp_starbase_set_fighters (GwpStarbase *self, gint16 f);
+gint16 gwp_starbase_get_id_ship (GwpStarbase *self);
+void gwp_starbase_set_id_ship (GwpStarbase *self, gint16 id);
+gint16 gwp_starbase_get_ship_action (GwpStarbase *self);
+void gwp_starbase_set_ship_action (GwpStarbase *self, gint16 action);
+gint16 gwp_starbase_get_mission (GwpStarbase *self);
+void gwp_starbase_set_mission (GwpStarbase *self, gint16 mission);
+gint16 gwp_starbase_get_build_ship_type (GwpStarbase *self);
+void gwp_starbase_set_build_ship_type (GwpStarbase *self, gint16 type);
+gint16 gwp_starbase_get_build_engine_type (GwpStarbase *self);
+void gwp_starbase_set_build_engine_type (GwpStarbase *self, gint16 type);
+gint16 gwp_starbase_get_build_beam_type (GwpStarbase *self);
+void gwp_starbase_set_build_beam_type (GwpStarbase *self, gint16 type);
+gint16 gwp_starbase_get_build_beam_count (GwpStarbase *self);
+void gwp_starbase_set_build_beam_count (GwpStarbase *self, gint16 count);
+gint16 gwp_starbase_get_build_torp_type (GwpStarbase *self);
+void gwp_starbase_set_build_torp_type (GwpStarbase *self, gint16 type);
+gint16 gwp_starbase_get_build_torp_count (GwpStarbase *self);
+void gwp_starbase_set_build_torp_count (GwpStarbase *self, gint16 count);
+gint16 gwp_starbase_get_fighter_count (GwpStarbase *self);
+void gwp_starbase_set_fighter_count (GwpStarbase *self, gint16 count);
 
 /*
  * Standard defines.
