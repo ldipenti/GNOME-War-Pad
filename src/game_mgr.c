@@ -507,6 +507,9 @@ void game_mgr_properties_dlg_clean(void)
   gnome_file_entry_set_filename(fentry, "");
 }
 
+/**
+ * Add an icon with its label to the games list
+ */
 void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state)
 {
   gint icon_idx;
@@ -514,10 +517,15 @@ void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state)
 					 GWP_RACE_ICONS_DIR"/race-logo",
 					 gwp_game_state_get_race_nr (state));
 
+  /* Setup icon caption */
   gchar *game_name = g_strdup(gwp_game_state_get_name(state));
   game_mgr_game_name_demangle(game_name);
+  game_name = g_strconcat (game_name, "\n", 
+			   "(", _("turn "), 
+			   g_strdup_printf("%d", gwp_game_state_get_turn_number(state)),
+			   ")", NULL);
 
-  // Add new game icon, with data
+  /* Add new game icon, with data */
   icon_idx = gnome_icon_list_append(GNOME_ICON_LIST(iconlist),
 				    race_logo_img,
 				    game_name);
@@ -528,7 +536,9 @@ void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state)
   g_free(race_logo_img);
 }
 
-// Translates ' ' to '_'
+/**
+ * Translates ' ' to '_' 
+ */
 void game_mgr_game_name_mangle(gchar *name)
 {
   gchar *ptr;
@@ -542,7 +552,9 @@ void game_mgr_game_name_mangle(gchar *name)
   }
 }
 
-/* Translates '_' to ' ' */
+/**
+ * Translates '_' to ' ' 
+ */
 void game_mgr_game_name_demangle(gchar *name)
 {
   gchar *ptr;
