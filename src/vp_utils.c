@@ -518,7 +518,7 @@ GHashTable * load_pdata (void)
   FILE *pdata = NULL;
   VpPlanetReg planet;
   VpXYPlanReg *coords = NULL;
-  VpPlanetReg *tmp = NULL;
+  /* VpPlanetReg *tmp = NULL; */
   Planet *planet_reg = NULL;
   GHashTable *planet_list = NULL;
   GList *pnames = NULL;
@@ -618,8 +618,8 @@ GHashTable * load_pdata (void)
     fread (buffer, 85, 1, pdata);
     
     /* Load Planet Data on object */
-    gwp_planet_set_owner (p, buffer);
-    gwp_object_set_id (p, buffer+2);
+    gwp_planet_set_owner (p, getWord (buffer));
+    gwp_object_set_id (GWP_OBJECT(p), getWord (buffer+2));
     fc_tmp = g_malloc(sizeof(gchar)*4);
     /* Friendly code assembly */
     fc_tmp[0] = buffer[4];
@@ -628,24 +628,24 @@ GHashTable * load_pdata (void)
     fc_tmp[3] = '\0';
     gwp_planet_set_fcode (p, g_string_new(fc_tmp));
     g_free(fc_tmp);
-    gwp_planet_set_mines (p, buffer+7);
-    gwp_planet_set_factories (p, buffer+9);
-    gwp_planet_set_defense_posts (p, buffer+11);
-    gwp_planet_set_mined_neutronium (p, buffer+13);
-    gwp_planet_set_mined_tritanium (p, buffer+17);
-    gwp_planet_set_mined_duranium (p, buffer+21);
-    gwp_planet_set_mined_molybdenum (p, buffer+25);
-    gwp_planet_set_colonists (p, buffer+29);
-    gwp_planet_set_supplies (p, buffer+33);
-    gwp_planet_set_megacredits (p, buffer+37);
-    gwp_planet_set_ground_neutronium (p, buffer+41);
-    gwp_planet_set_ground_tritanium (p, buffer+45);
-    gwp_planet_set_ground_duranium (p, buffer+49);
-    gwp_planet_set_ground_molybdenum (p, buffer+53);
-    gwp_planet_set_dens_neutronium (p, buffer+57);
-    gwp_planet_set_dens_tritanium (p, buffer+59);
-    gwp_planet_set_dens_duranium (p, buffer+61);
-    gwp_planet_set_dens_molybdenum (p, buffer+63);
+    gwp_planet_set_mines (p, getWord(buffer+7));
+    gwp_planet_set_factories (p, getWord(buffer+9));
+    gwp_planet_set_defense_posts (p, getWord(buffer+11));
+    gwp_planet_set_mined_neutronium (p, getDWord(buffer+13));
+    gwp_planet_set_mined_tritanium (p, getDWord(buffer+17));
+    gwp_planet_set_mined_duranium (p, getDWord(buffer+21));
+    gwp_planet_set_mined_molybdenum (p, getDWord(buffer+25));
+    gwp_planet_set_colonists (p, getDWord(buffer+29));
+    gwp_planet_set_supplies (p, getDWord(buffer+33));
+    gwp_planet_set_megacredits (p, getDWord(buffer+37));
+    gwp_planet_set_ground_neutronium (p, getDWord(buffer+41));
+    gwp_planet_set_ground_tritanium (p, getDWord(buffer+45));
+    gwp_planet_set_ground_duranium (p, getDWord(buffer+49));
+    gwp_planet_set_ground_molybdenum (p, getDWord(buffer+53));
+    gwp_planet_set_dens_neutronium (p, getWord(buffer+57));
+    gwp_planet_set_dens_tritanium (p, getWord(buffer+59));
+    gwp_planet_set_dens_duranium (p, getWord(buffer+61));
+    gwp_planet_set_dens_molybdenum (p, getWord(buffer+63));
     /*
     planet.owner = getWord (buffer);
     planet.id = getWord (buffer + 2);
@@ -671,15 +671,15 @@ GHashTable * load_pdata (void)
     planet.dens_duranium = getWord (buffer + 61);
     planet.dens_molybdenum = getWord (buffer + 63);
     */
-    gwp_planet_set_tax_colonists (p, buffer+65);
-    gwp_planet_set_tax_natives (p, buffer+67);
-    gwp_planet_set_happiness_colonists (p, buffer+69);
-    gwp_planet_set_happiness_natives (p, buffer+71);
-    gwp_planet_set_native_spi (p, buffer+73);
-    gwp_planet_set_natives (p, buffer+75);
-    gwp_planet_set_native_race (p, buffer+79);
-    gwp_planet_set_temperature (p, buffer+81);
-    gwp_planet_set_build_base (p, buffer+83);
+    gwp_planet_set_tax_colonists (p, getWord(buffer+65));
+    gwp_planet_set_tax_natives (p, getWord(buffer+67));
+    gwp_planet_set_happiness_colonists (p, getWord(buffer+69));
+    gwp_planet_set_happiness_natives (p, getWord(buffer+71));
+    gwp_planet_set_natives_spi (p, getWord(buffer+73));
+    gwp_planet_set_natives (p, getDWord(buffer+75));
+    gwp_planet_set_natives_race (p, getWord(buffer+79));
+    gwp_planet_set_temperature (p, getWord(buffer+81));
+    gwp_planet_set_build_base (p, getWord(buffer+83));
     /*
     planet.tax_colonists = getWord (buffer + 65);
     planet.tax_natives = getWord (buffer + 67);
@@ -695,7 +695,7 @@ GHashTable * load_pdata (void)
     /* Assign new memory for new planet */
     /*
     tmp = g_malloc (sizeof (VpPlanetReg));
-    *tmp = planet;
+    tmp = planet;
     */
     
     /* Generate the planet register */
@@ -703,10 +703,11 @@ GHashTable * load_pdata (void)
     planet_reg = g_malloc (sizeof (Planet));
     planet_reg->pdata = tmp;
     */
-    coords = g_list_nth_data (xyplanet_list, planet.id - 1);
-    gwp_object_set_x_coord (p, coords->x);
-    gwp_object_set_y_coord (p, coords->y);
-    gwp_object_set_name (p, g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (p) - 1)));
+    /* coords = g_list_nth_data (xyplanet_list, planet.id - 1); */
+    coords = g_list_nth_data (xyplanet_list, gwp_object_get_id(GWP_OBJECT(p))-1);
+    gwp_object_set_x_coord (GWP_OBJECT(p), coords->x);
+    gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
+    gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (GWP_OBJECT(p)) - 1)));
     /*
     planet_reg->x = coords->x;
     planet_reg->y = coords->y;
@@ -720,14 +721,23 @@ GHashTable * load_pdata (void)
     /*
     g_hash_table_insert (planet_list, (gpointer)(gint)planet_get_id (planet_reg), planet_reg);
     */
-    g_hash_table_insert (planet_list, (gpointer)(gint)gwp_object_get_id(p), p);
+    g_hash_table_insert (planet_list, (gpointer)(gint)gwp_object_get_id(GWP_OBJECT(p)), p);
   }
 
-  // Now add the rest unknown planets
+  /* Now add the rest unknown planets */
   for (i = 0; i < g_list_length (xyplanet_list); i++) {
-    // Check if we have not this planet
+    /* Check if we have not this planet */
     if (planet_get (planet_list, i + 1) == NULL) {
+      p = gwp_planet_new();
+
       coords = g_list_nth_data (xyplanet_list, i);
+
+      gwp_object_set_x_coord (GWP_OBJECT(p), coords->x);
+      gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
+      gwp_planet_set_owner (p, 0);
+      gwp_object_set_id (GWP_OBJECT(p), i+1);
+      gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *) g_list_nth_data (pnames, i)));
+      /*
       planet_reg = g_malloc (sizeof (Planet));
       planet_reg->pdata = NULL;
       planet_reg->x = coords->x;
@@ -735,9 +745,11 @@ GHashTable * load_pdata (void)
       planet_reg->owner = 0;
       planet_reg->id = i + 1;
       strcpy (planet_reg->name, (gchar *) g_list_nth_data (pnames, i));
+      */
       
-      // Add planet to list
-      g_hash_table_insert (planet_list, (gpointer)(i + 1), planet_reg);
+      /* Add planet to list */
+      /* g_hash_table_insert (planet_list, (gpointer)(i + 1), planet_reg); */
+      g_hash_table_insert (planet_list, (gpointer)(i+1), p);
     }
   }
   fclose (pdata);
@@ -745,7 +757,7 @@ GHashTable * load_pdata (void)
   return planet_list;
 }
 
-// X, Y coords in world coord system...
+/* X, Y coords in world coord system... */
 void load_object_per_quad (gpointer obj, GSList * obj_per_quad[TOTAL_QUADS],
 			   gdouble wx, gdouble wy)
 {
