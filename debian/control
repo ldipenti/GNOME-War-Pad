@@ -1,0 +1,18 @@
+Source: gwp
+Section: games
+Priority: optional
+Maintainer: Lucas Di Pentima <lucas@lunix.com.ar>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.0
+
+Package: gwp
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A VGA Planets strategy game client for GNOME.
+ GNOME War Pad is a VGA Planets client written in C for the GNOME
+ desktop environment. It's design is very 'starchart centric',
+ giving a global view of the game at all times.
+ .
+ VGA Planets is a space conquest, play-by-email, strategy game
+ that can be played by 11 players simultaneously, it's been
+ played by strategy fanatics since the FidoNet times until now.

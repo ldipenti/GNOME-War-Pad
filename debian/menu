@@ -1,0 +1,2 @@
+?package(gwp):needs=X11 section=Games/Strategy \
+  title="Gnome War Pad" command="/usr/bin/gwp"
