@@ -1,5 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
+TESTS = \
+	check-gwp
+
 INCLUDES = \
 	$(GNOME_CFLAGS) \
 	$(PY_CFLAGS) \
@@ -21,7 +24,9 @@ CFLAGS = \
 	 -O1 \
 	 -g
 
-bin_PROGRAMS = gwp check-gwp
+bin_PROGRAMS = gwp 
+
+noinst_PROGRAMS = check-gwp
 
 EXTRA_DIST =    gwp.glade		\
 		gwp-py-mappings.c	\
@@ -112,7 +117,8 @@ glade_DATA = gwp.glade
 
 check_gwp_SOURCES = $(sources) 		\
 	check-gwp.c 			\
-	check-gwp-object.c
+	check-gwp-object.c		
+#	check-gwp-starchart.c
 
 check_gwp_LDADD = $(gwp_LDADD) \
 	$(CHECK_LIBS)
