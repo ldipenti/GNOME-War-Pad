@@ -28,6 +28,7 @@
 #include "gwp_types.h"
 
 #define GWP_GLADE_XML_DIR DATADIR"/gwp"
+#define GWP_SCRIPTS_DIR DATADIR"/gwp/scripts"
 #define GWP_IMAGES_DIR DATADIR"/pixmaps/gwp/images"
 #define GWP_RACE_ICONS_DIR DATADIR"/pixmaps/gwp/races"
 
