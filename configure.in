@@ -46,24 +46,19 @@ AC_PATH_PROG(SK_CONFIG,scrollkeeper-config,no)
 if test x$SK_CONFIG = xno; then
   AC_MSG_ERROR(Couldn't find scrollkeeper-config. Please install the scrollkeeper package: http://scrollkeeper.sourceforge.net)
 fi
+
+
 dnl ====================================
-dnl = End tests for scrollkeeper
+dnl = Begin tests for Check Unit Test
 dnl ====================================
+AM_PATH_CHECK(,have_unittest=yes,have_unittest=no)
 
+if test "$have_unittest" = "yes" ; then
+	AC_DEFINE(USE_CHECK, 1, Check Unit Testing support)
+       	AC_SUBST(CHECK_CFLAGS)
+	AC_SUBST(CHECK_LIBS)
+fi
 
-dnl Checks for libraries.
-
-
-dnl Checks for header files.
-
-
-dnl Checks for typedefs, structures, and compiler characteristics.
-
-
-dnl Checks for library functions.
-
-
-dnl Checks for Additional stuffs.
 
 dnl ====================================
 dnl = Check for Python
@@ -233,6 +228,12 @@ if test "$have_gtkglext" = "yes"; then
   echo - GtkGlExt supported. VCR player enabled.
 else
   echo - GtkGlExt not supported. VCR player disabled.
+fi
+
+if test "$have_unittest" = "yes"; then
+  echo - Check Unit Tests enabled.
+else
+  echo - Check Unit Tests disabled.
 fi
 
 echo

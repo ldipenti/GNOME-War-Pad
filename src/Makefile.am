@@ -4,7 +4,8 @@ INCLUDES = \
 	$(GNOME_CFLAGS) \
 	$(PY_CFLAGS) \
 	$(GTKGLEXT_CFLAGS) \
-	$(PYGTK_CFLAGS)
+	$(PYGTK_CFLAGS) \
+	$(CHECK_CFLAGS)
 
 # FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
 
@@ -20,12 +21,13 @@ CFLAGS = \
 	 -O1 \
 	 -g
 
-bin_PROGRAMS = gwp
+bin_PROGRAMS = gwp check-gwp
 
 EXTRA_DIST =    gwp.glade		\
-		gwp-py-mappings.c
+		gwp-py-mappings.c	\
+		testgwp
 
-gwp_SOURCES =				\
+sources =				\
 	gwp-object.h			\
 	gwp-object.c			\
 	gwp-flying-object.h		\
@@ -61,7 +63,6 @@ gwp_SOURCES =				\
 	callbacks.h			\
 	support.c			\
 	support.h			\
-	main.c				\
 	global.h			\
 	game_state.h			\
 	game_state.c			\
@@ -88,14 +89,17 @@ gwp_SOURCES =				\
 	vcr.h				\
 	vcr-combat.c			\
 	vcr-combat.h			\
-    vcr-combat-gl.c         \
-    vcr-combat-gl.h         \
-    trackball.c             \
-    trackball.h             \
+	vcr-combat-gl.c			\
+	vcr-combat-gl.h			\
+	trackball.c			\
+	trackball.h			\
 	gwp-python.h			\
 	gwp-python.c			\
 	gwp-utils.c			\
 	gwp-utils.h
+
+gwp_SOURCES = $(sources)		\
+	main.c
 
 gwp_LDADD =  \
 	$(GNOME_LIBS) \
@@ -106,3 +110,8 @@ gwp_LDADD =  \
 gladedir = $(datadir)/gwp
 glade_DATA = gwp.glade
 
+check_gwp_SOURCES = $(sources) 		\
+	check-gwp.c
+
+check_gwp_LDADD = $(gwp_LDADD) \
+	$(CHECK_LIBS)
