@@ -1,3 +1,9 @@
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#ifdef USE_CHECK
+
 #include <check.h>
 #include "gwp-starchart.h"
 
@@ -32,3 +38,14 @@ int main (void)
   srunner_free (sr);
   return nf;
 }
+
+#else
+
+/* Fallback main() */
+int main (void)
+{
+  printf ("Check Unit Tests are disabled, please install check software from your distribution's package system, or http://check.sourceforge.net.\n");
+  return -1;
+}
+
+#endif
