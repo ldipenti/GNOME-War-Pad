@@ -996,7 +996,8 @@ void update_ship_panel_with (GwpShip *ship)
     /* Update waypoint */
     gint x, y;
     gwp_ship_get_waypoint(ship, &x, &y);
-    tmp = g_strdup_printf("(%d , %d)", x, y);
+    /* tmp = g_strdup_printf("(%d , %d)", x, y); */
+    tmp = g_strdup_printf("%s", starchart_get_location_name(x, y)->str);
     gtk_label_set_text(waypoint, tmp);
     g_free(tmp);
 
