@@ -136,6 +136,7 @@ void gwp_messages_setCurrMsgId( GwpMessages *self, gint id );
 void gwp_messages_sortByCategory( GwpMessages *self );
 char *gwp_messages_getMessagePath( GwpMessages *self, gint id );
 void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path );
+bool gwp_messages_grepMessage( gchar *message, gchar *text );
 
 /*
  * Standard defines.
