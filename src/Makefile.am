@@ -73,7 +73,9 @@ gwp_SOURCES = \
 	mission.c\
 	mission.h\
 	race.c\
-	race.h
+	race.h\
+	gwp-utils.c\
+	gwp-utils.h
 
 gwp_LDFLAGS = 
 
