@@ -26,8 +26,12 @@
 
 #include "global.h"
 #include "vp_types.h"
+#include "gwp_types.h"
 #include "game_state.h"
 #include "game_mgr.h"
+
+void destroy_gobject (gpointer key, gpointer value, gpointer user_data);
+
 
 /*******************************************/
 /************** GAME SETTINGS **************/
@@ -410,11 +414,29 @@ void game_close(GameState *game_state)
   if(game_state) {
     gint x, y;
 
+    /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
     game_set_last_coords(game_state, x, y);
-
     game_state_save(game_state);
+
+    /******************************/
+    /* Clean up objects in memory */
+    /******************************/
+    
+    /* Eliminate planets and ships from memory*/
+    g_hash_table_foreach (planet_list, (GHFunc) destroy_gobject, NULL);
+    g_hash_table_destroy (planet_list);
+
+    g_hash_table_foreach (ship_list, (GHFunc) destroy_gobject, NULL);
+    g_hash_table_destroy (ship_list);
+    gtk_object_destroy (GTK_OBJECT(starchart_get_grp_ships_allied()));
   }
+}
+
+/* Internal function to destroy GObjects from a HashTable */
+void destroy_gobject (gpointer key, gpointer value, gpointer user_data)
+{
+  g_object_unref (G_OBJECT(value));
 }
 
 /* Returns the format version number */

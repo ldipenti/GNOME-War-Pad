@@ -141,8 +141,10 @@ GwpEngSpec * gwp_engspec_new (void)
 
 /** 
  * Calculates the fuel used by engines depending of certain data.
+ *
  * This function is intended to be used by the GwpShip class, all data
  * needed must come from an existing or theoretical ship.
+ *
  * @param self a GwpEngSpec
  * @param dist the distance needed to travel.
  * @param speed the warp factor set on the current engine.

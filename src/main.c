@@ -99,7 +99,6 @@ int main (int argc, char *argv[]) {
 void gwp_init(void) 
 {
   GtkWidget *notebk;
-  static gboolean gwp_was_running = FALSE;
 
   /* Hide all tabs on notebooks */
   notebk = lookup_widget("extra_info_panel");
@@ -119,16 +118,12 @@ void gwp_init(void)
   /* Hide panels */
   starchart_close_extra_panels();
 
-  /* Run once per execution */
-  if (!gwp_was_running) {
-    gwp_was_running = TRUE;
-
-    /* Game Properties Dialog Init */
-    game_mgr_init();
+  /* Game Properties Dialog Init */
+  game_mgr_init();
     
-    /* Tables Init */
-    table_all_init();
-  }
+  /* Tables Init */
+  table_all_init();
+  init_ship_panel();
 }
 
 void gwp_init_splash(void)

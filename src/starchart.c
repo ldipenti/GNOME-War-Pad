@@ -785,7 +785,7 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
   GwpLocation *location;
   
   ship = value;
-  ships_group = starchart_get_grp_ships_allied();
+  ships_group = starchart_get_grp_ships_allied(); /*FIXME: only allied!!*/
   
   /* Check if ship coords aren't invalid...and work */
   if (gwp_ship_valid_coords (ship)) {

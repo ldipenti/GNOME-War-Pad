@@ -618,7 +618,7 @@ void game_mgr_play_game(GameState *state)
 				  GTK_DIALOG_DESTROY_WITH_PARENT,
 				  GTK_MESSAGE_QUESTION,
 				  GTK_BUTTONS_YES_NO,
-				  _("A new RST file was found. Do you want me to unpack it?"));
+				  _("A new RST file was found. Do you want to unpack it?"));
 
     response = gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
@@ -632,7 +632,6 @@ void game_mgr_play_game(GameState *state)
   init_data();
   init_starchart(gwp);
   init_starchart_mini();
-  init_ship_panel();
 
   /* Get the widgets ready */
   gtk_label_set_text(race, race_get_name(game_get_race(game_state)));
