@@ -233,7 +233,7 @@ APPENDIX -- RESOURCES
 ======================
 
   Things which may be of interest to the Planets Programmer:
-  All links work as of 29/Aug/2002.
+  All links work as of 10/Sep/2003.
 
   þ `vpcplay.bas', the original CPlayer by Tim Wisseman. Besides playing
     lousy and cheating massively, the main advantage of this program is
@@ -283,7 +283,7 @@ APPENDIX -- RESOURCES
 
   þ `JVC' by Lars Dam includes an "add-in" interface. Maybe this is what
     you want.
-    <http://home2.inet.tele.dk/larsdam/jvc.html>
+    <http://www.jvc-client.com/>
 
   My own utilities may be interesting for you, too. Peek around
   <http://www.inf.tu-dresden.de/~sr21/vgapage.html> to get them.
@@ -307,7 +307,7 @@ APPENDIX -- RESOURCES
     a VCR replacement.
 
   þ `Planets Command Center II' (under construction). A port, nay, rewrite
-    of PCC in portable C++, under the BSD license. Currently (08/2002)
+    of PCC in portable C++, under the BSD license. Currently (03/2003)
     includes VCR, turn parser (un-trn), file I/O, starchart and rudimentary
     control screens. Based on the SDL library.
 

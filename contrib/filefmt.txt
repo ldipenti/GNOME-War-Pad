@@ -1,5 +1,5 @@
 
-                              VGA Planets(tm) 3
+                               VGA Planets(tm) 3
                           ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
                              File Formats and more
 
@@ -43,8 +43,8 @@ Contents
   a much better view, without obscure comments getting in the way ;-)
 
   I do not guarrantee for anything. If you mess up your game with this
-  information, it's your fault. If you get an advantage using this
-  information, your'e a .... (sorry, I don't know vulgar English words ;-)
+  information, it's your fault. If you get an unfair advantage using this
+  information, your'e a .... (sorry, I don't know English curses ;-)
   and should be kicked out of the Echo Cluster. Anyway, do you want to
   play your turn with a Hex editor?
 
@@ -83,8 +83,9 @@ Basics
 
   þ Character strings are, if not stated otherwise, stored in BASIC
     format. This means, they are padded with spaces and stored without a
-    length byte. Note that this format makes it impossible to store a
-    string ending with a space, something you'll have to live with.
+    length byte. Some programs will include the trailing spaces when
+    interpreting the value, some will not. At least for names it probably
+    makes most sense to trim trailing spaces.
 
   þ Most fields are WORDs and DWORDs. BASIC doesn't allow BYTE fields in
     files. All values are signed, little-endian integers unless specified
@@ -106,7 +107,7 @@ Basics
   þ If there's an array with 500 elements and the description talks about
     "the ship", use a Ship-ID as index into the array. This is similar for
     Planets and Starbases, and for arrays with 11 elements and races. Note
-    that with Host999 ship arrays are often splitted, one part containing
+    that with Host999 ship arrays are often split, one part containing
     the 500 "standard" ships, and one with the 499 "extra" ones.
 
   þ Except for messages, high-ASCII characters should be avoided. In
@@ -115,13 +116,17 @@ Basics
     a DOS (cp437) or Windows/Unix (latin1) character set. In FCodes
     and passwords, high-ASCII characters are not allowed.
 
-  I assume you're familiar with common programmer's terminology. The "sum
-  of some characters" means the sum of the ASCII codes, not some string
-  or whatever. In addition, I use a Pascal-like notation:
+  þ In string literals, control characters are shown using their decimal
+    value. For example, `"CCsim",26' is the literal "CCsim" followed by
+    character 26 (Ctrl-Z in this case).
+
+  I assume you're familiar with common programmer's terminology. I use
+  a Pascal-like notation:
     DIV               integer division (17 DIV 5 = 3)
     MOD               remainder (17 MOD 5 = 2)
     /                 float division (17 / 5 = 3.4)
     FOR i:=1 TO 10    for(i = 1; i <= 10; i++) in C
+    ARRAY[0..9] OF X  an array containing 10 elements with index 0 to 9
 
 
 Specialities
@@ -140,8 +145,12 @@ Specialities
 
   þ The Dominion computer player often generates zero-terminated ship
     names, not space-padded ones. This results in junk being displayed
-    after the actual ship name. You may want to add a bogon filter for ship
-    names and messages (which often cite ship names) to your program.
+    after the actual ship name. The "peng" shiplist compiler will also
+    do this when needed with specification files, to avoid checksum
+    problems. You may want to add a bogon filter for item names and
+    messages (which often cite ship names) to your program. Some PHost
+    versions will also store some fields (VCR, Ufos) as zero-terminated
+    strings.
 
   þ Not all programs generate or evaluate the 10 signature bytes at the
     end of each data file.
@@ -157,11 +166,11 @@ Specialities
 Special Thanks
 ---------------
 
-  þ to Franki, for PView, a killer app of which VPA is just a mere copy; and
+  þ to Franki, for PView, a killer app of which VPA is just a mere clone; and
     for decoding RESOURCE.PLN;
-  þ to Andy, for all those nice VCRs and his FIZZ.BIN;
-  þ to Westi, since I have decoded many of these files in _his_ CS lessons;
-  þ to Piotr Winiarczyk, for the AUXDATA.HST information, and PHost
+  þ to Bart Dopheide, whose invaluable eagle eyes pointed out many mistakes
+    here and elsewhere;
+  þ to Piotr Winiarczyk, for the original AUXDATA.HST information, and PHost
     wormholes;
   þ to Akseli Mki, for many close looks at small details;
   þ to Tim Wisseman who likes the number 13. This has made decoding many
@@ -207,16 +216,32 @@ Programs mentioned in this List
   þ AFSim 1.2, a simulator by Sean Martens
   þ Informer 2.x, a player-side utility by Sean Martens
   þ VPA, a client by Alex Ivlev, now Open Source
-  þ PHost 2 and 3, the Portable Host
-  þ VPUtil & Co., some client tools by Sysma Automatiseering
+  þ PHost 2 and later, the Portable Host
+  þ VPUtil & Co., some client tools by Jan P. Dijkstra
   þ Aliens!, a host add-on by Thore Schmechtig
   þ PTScore, an alternate scoring system by Thomas Voigt
+  þ VGA Planets Movie Recorder/Player, a program by William Barath
+  þ The Killing Floor (TKF), the multi-ship combat engine by Dale Pope
   þ ...and some random notes about others
 
 
 CHANGES
 ========
 
+  22 Jul 2004   - new UTILx.DAT, DISTTABL.DAT
+  07 Apr 2004   - note about intra-race ship/ship transfers in PLANETS.EXE
+  14 Mar 2004   - odd fixes
+  30 Dec 2003   - new UTILx.DAT/AUXDATA.HST stuff, odd fixes
+  14 Sep 2003   - new VPAx.DB "SEXP" and "PEXP" blocks
+  07 Sep 2003   - historic: AUXHULL.DAT, DEVSPEC.DAT (I searched for ages
+                  what program did write them into my planets directory :)
+                - random notes
+  01 Jul 2003   - notes about jettison
+  04 Jun 2003   - AUXDATA.HST updated, smaller corrections
+  01 May 2003   - Some TKF stuff
+  04 Jan 2003   - PHost 4 VCR stuff
+  16 Sep 2002   - upcoming SendBack / $send-file
+  04 Sep 2002   - VGA Planets Movie Recorder/Player (VPMC, VPMPLAY)
   15 Aug 2002   - some fixes, TONS2.HST
   02 Jul 2002   - new PHost 3.4b UTILx.DAT records
   13 May 2002   - notes on older UTILx.DAT records
@@ -280,6 +305,14 @@ CHANGES
                 - even more Winplan
   03 Jan 1998   - more Winplan info
                 - WPVCR.DLL updated
+  09 Dec 1997   - VPAx.DB basics
+                - first English version
+  19 Sep 1997   - Winplan, TRN attachments, parts of 3.5 TRN format
+  26 Aug 1997   - More host files
+  21 Apr 1996   - FIZZ.BIN, VCRx.DAT, complete 3.0 TRN format
+  24 Dec 1995   - most 3.0 player and host files
+  28 Oct 1995   - oldest existing copy: most important game data files,
+                  partial RST/TRN
 
 
 PLAYER DATA
@@ -346,6 +379,13 @@ AUTOx.DAT - WINPLAN - Auto stuff [T]
   task is placed at the end of the list.
 
 
+## NAUTOx.DAT
+
+  There's a patch to avoid the above problem. It changes the auto task
+  storage to proper 102-byte records, starting at +4012. The file name
+  is changed to NAUTOx.DAT.
+
+
 BDATAx.DAT - New Base Data [V]
 BDATAx.DIS - Old Base Data [V]
 -------------------------------
@@ -386,6 +426,7 @@ One Starbase Record:
                  1      Fix
                  2      Recycle
 +140    WORD    Mission (Primary Order)
+                 0      none
                  1      Refuel
                  2      Max Defense
                  3      Load Torps onto ships
@@ -696,6 +737,7 @@ MDATAx.DAT - Received Messages
     (-90xxx)    Race-specific mission (Hiss, Dark Sense), xxx is a planet
                 Id.
     (-a0xxx)    Message from 3rd-party add-on, see below.
+    (-afile)    TKF File transfer. See below.
     (-c0xxx)    Tim Continuum attacking planet #xxx. xxx is zero for ship
                 attacks and priority points.
     (-d0xxx)    Ship or starbase built at planet #xxx.
@@ -721,7 +763,8 @@ MDATAx.DAT - Received Messages
     (-uxxxx)    Message about UFO #xxxx (this type is not generated by
                 host. Currently, only PCC evaluates it, but other authors
                 are encouraged to use this, too, as it allows a nice and
-                consistent interface for messages associated with an UFO).
+                consistent interface for messages associated with an UFO.
+                PHost uses it for wormhole messages since 4.0e/3.4h).
     (-w0xxx)    Ship #xxx ran on a web mine.
     (-x0xxx)    Explosion on long range sensors (#xxx = sequential number
                 of explosion).
@@ -748,8 +791,11 @@ MDATAx.DAT - Received Messages
         Range        ณ Used by...
        ออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออออ
         101..126     ณ Dan & Dave Add-ons (RacePlus, Starbase+, etc.)
+        191..192     ณ HugeRock 1.2
+          401        ณ Trade 1.20 by Nestor Delfino & Alejandro Biondo
+        403..405     ณ 1st Corsarian Satellite Bank (1BANCO)
         666..668     ณ Aliens! (default configuration)
-        800..803     ณ Ryo Nakamura (PName, GivePlan, HugeRock)
+        800..803     ณ Ryo Nakamura (PName, GivePlan, HugeRock Advanced)
 
 
 ## VPA Data Transmission
@@ -920,6 +966,37 @@ The decoded data block reads as follows:
     bytes total).
 
 
+## TKF File Transfer
+
+  A TKF file transfer message looks like this:
+    (-afile)< FILE: kfvcr5.dat  [1/1] >
+    1'Z+!p!K"!]RJ5!"ga&!fh;H&*=/%!!!!!!7T^oQ
+    [!!!!1\)-&*=/%!!!!!!h"81&H!!!!1\)-&*=/%!
+    !$!!!h"81&H$<rr1\)-&*=/%!!!!!!h"81&H!!!!
+    1\)-&*=/%!!!!!!h"81&H!!!!1\)-&*=/%!iX/cn
+    ...
+  The header line tells you what file it is, and whether it was split;
+  the body of the message contains the file in radix-85 encoding.
+
+  In radix-85 encoding, five characters encode four bytes; therefore, each
+  line encodes 32 bytes. The encoding works as follows:
+    { let code[1] to code[5] be five characters from the message.
+      L is an (unsigned) 32 bit variable. }
+    L := 0
+    FOR i:=5 DOWNTO 1 DO
+     L := 85*L + (Ord(code[i]) - 33);
+
+    { now, L contains four bytes }
+    data[1] := L AND 255;
+    data[2] := (L SHR 8) AND 255;
+    data[3] := (L SHR 16) AND 255;
+    data[4] := (L SHR 24) AND 255;
+  Note that this method will always generate files whose size is divisible
+  by four; there is no way to encode "odd" sizes.
+
+  These messages are used to transmit "KFVCRx.DAT" files to players.
+
+
 MESSx.DAT - Sent Messages
 --------------------------
 
@@ -1084,12 +1161,12 @@ One Planet record:
                 The ranges are based upon the maximum population of 10
                 million colonists (100000 clans). The maximum number of
                 mines on a planet is (COLON = colonist clans):
-                  COLON                 if COLON <= 200
-                  200+SQRT(COLON-200)   if COLON > 200
+                  COLON                        if COLON <= 200
+                  ROUND(200+SQRT(COLON-200))   if COLON > 200
                 Replace 200 with 100 for factories, and 50 for defenses.
                 When building structures, the client program must subtract
                 the appropriate costs from the available resources (1
-                supply, and 4/3/10 mc for mines/factories/defenses)
+                supply, and 4/3/10 mc for mines/factories/defenses).
 +13     DWORD   Mined Neutronium
 +17     DWORD   Mined Tritanium
 +21     DWORD   Mined Duranium
@@ -1112,20 +1189,23 @@ One Planet record:
 +59     WORD    Tritanium density
 +61     WORD    Duranium density
 +63     WORD    Molybdenum density
-                        70..100 large masses    1 mine extracts 1 kt
-                        40..69  concentrated    2 mines extract 1 kt
-                        30..39  dispersed       3 mines extract 1 kt
-                        10..29  scattered       5 mines extract 1 kt
-                        0..9    very scattered  10 mines extract 1 kt
-                The amount of minerals extracted is (number of mines) *
-                (density) * (mining rate) / 10000, where "/10000"
-                compensates the fact that the mining rate and density are
-                both percentages. Double the mining rate on Reptilian
-                planets.
+                        70..100 large masses    "1 mine extracts 1 kt"
+                        40..69  concentrated    "2 mines extract 1 kt"
+                        30..39  dispersed       "3 mines extract 1 kt"
+                        10..29  scattered       "5 mines extract 1 kt"
+                        0..9    very scattered  "10 mines extract 1 kt"
+                The figures on the right are from the docs, the actual
+                amount of minerals extracted is
+                - THost:
+                  ERnd(ERnd(mines * density / 100) * miningrate / 100) * RF
+                - PHost:
+                  Trunc(Trunc(density * miningrate / 100) * RF * mines / 100)
+                where "miningrate" is the HConfig value, and RF it the
+                "reptile factor" (2 if Reptilian natives, 1 otherwise).
 +65     WORD    Colonist taxes (0..100)
 +67     WORD    Native taxes (0..100)
-                Note that THost blocks taxes above 75% when hisssssing,
-                but allows up to 100% otherwise.
+                Note that THost limits taxation: when hissing, the maximum
+                tax rate is 75%. Cyborgs can tax natives up to 20%.
 +69     WORD    Colonist happiness (-300..100)
 +71     WORD    Native happiness (-300..100)
                         90..100 happy
@@ -1291,6 +1371,7 @@ A ship record:
                 +83     WORD    Colonists
                 +85     WORD    Supplies
                 +87     WORD    Planet Id or 0 for Jettison
+                (see text below!)
 +89   7 WORDs   Transfer to enemy ship
                 +89     WORD    Neutronium
                 +91     WORD    Tritanium
@@ -1299,6 +1380,7 @@ A ship record:
                 +97     WORD    Colonists
                 +99     WORD    Supplies
                 +101    WORD    Ship ID or 0
+                (see text below!)
 +103    WORD    ID number for intercept mission or second mission argument.
                 In THost, this field must contain a valid ship ID or zero,
                 even if 3rd-party missions are used.
@@ -1322,7 +1404,7 @@ A ship record:
   side.
 
 
-## Cargo Transfers / Ship Mass
+## Cargo Transfers / Ship Mass / Jettison
 
   The ship mass is computed as the sum of the masses of all components
   of the ship (hull, weapons), ammunition, and cargo (fields at +43 to
@@ -1337,13 +1419,25 @@ A ship record:
   3.22.036, this restriction is host-configurable ("VPA extra features"),
   and Winplan also allows overloading.
 
+  When transferring stuff to an own ship, PLANETS.EXE often generates a
+  dummy transfer (Id set, but all amounts are zero). These transfer
+  orders should not be sent to the host, and can (should!) be cancelled.
+
   When in deep space, ships can jettison cargo; this is a normal ship-to-
-  foreign-planet transfer with the target planet set to zero. One can
-  also jettison ammo, although there is no corresponding field; the cargo
-  is just "forgotten", i.e. subtracted from cargo hold. One can still
-  tell how much was dropped by summing up everything of that ammo type
-  at the particular place, and seeing how much is missing from the
-  beginning of the turn.
+  foreign-planet transfer with the target planet set to zero. Most
+  clients implement it this way. When the ship has no fuel, the transfer
+  fails and the cargo is put back onto the ship.
+
+  Winplan implements jettison by just subtracting the cargo from the
+  ship's cargo hold, bypassing the transporter. This way, it can even
+  jettison ammo and money. One can still tell how much was dropped by
+  summing up everything of that cargo type at the particular place, and
+  seeing how much is missing from the beginning of the turn (PCC
+  implements such an algorithm for torps/fighters). Winplan does require
+  the ship to have fuel to allow this, though, so the effective rules
+  remain the same. PHost until 3.4g/4.0d supports this type of jettison
+  only for Winplan-style TRNs, others (including Winplan shareware users!)
+  will get a yellow status and PHost will undo the action.
 
 
 ## Missions
@@ -1356,11 +1450,12 @@ A ship record:
   number or zero. If these constraints are violated, arguments are cleared
   or missions are not performed.
 
-  PHost uses missions 20..37 for extended missions (defaults, the base
+  PHost uses missions 20 and up for extended missions (defaults, the base
   number can be changed). PHost (up to 3.3b) requires the mission arguments
   to be in the range zero to 500, even if the mission would allow more
   (e.g., beam transfer money): larger values are flagged as Yellow status
-  when processing the turn, and are set to 250.
+  when processing the turn, and are set to 250. Values outside this range
+  can be set with 'extmission' commands.
 
   The interface to enter extended (i.e. code >= 20) missions in Winplan
   is known as M.I.T. (Mission/Intercept/Tow) and can be configured with
@@ -1412,7 +1507,7 @@ A ship record:
         player, same location), Tow = Number of torpedoes (0=max)
    27   Transfer Fighters to ship (like "btf", Parameter as for mission 26)
    28   Transfer Money to ship (like "btm", Parameter as for mission 26)
-   29   unused
+   29   Standard Super Spy.
    30   Cloak. Like mission 10, if the client program does not allow that
    31   Extended Mission. Like mission 9.
    32   Gather-build fighters (like "lfm", Robot/Rebel/Colonies only).
@@ -1423,6 +1518,9 @@ A ship record:
    36   Add Mines to Field. Intercept = amount of torpedoes (0=all), Tow
         = mine field Id (0=first appropriate)
    37   Add Web Mines to Field. Parameters as for mission 36.
+   38   (PHost 4.0+) Training. Intercept = supplies to use
+  --- Add-on Missions ---
+  200 .. 228    FHost Missions
 
 
 SHIPXYx.DAT - Ship coordinates
@@ -1535,13 +1633,26 @@ TARGETx.EXT - VPUNPACK/VPUTIL - More enemy ships
 A ship record:
  +0     WORD    Id Number
  +2     WORD    Owner
- +4     WORD    Warp
+ +4     WORD    Warp (zero if ship doesn't have fuel, no matter what its
+                real speed is)
  +6     WORD    X position
  +8     WORD    Y position
-+10     WORD    Type of starship hull
++10     WORD    Type of starship hull (might differ from real ship type
+                if the RacePlus Chamaeleon Device is used)
 +12     WORD    Heading in degrees, 0=North, 90=East, 180=South, 270=West,
                 -1=unknown (i.e., not moving)
-+14  20 BYTEs   Ship name
++14  20 BYTEs   Ship name.
+
+  Remote-controlled ships have the remote-control player in the Owner
+  field, the original owner is marked by appending a signature such as
+  '*2' to the name. UTILx.DAT contains this information in a more
+  readable form.
+
+  If PHost is used with AllowShipNames restrictions, and you are not
+  allowed to see a particular ship name, the name will be 'Ship 345',
+  where 345 is the ship Id, possibly amended with a remote-control
+  signature. Otherwise, there is no sign saying whether the name
+  you're seeing is the true name or not.
 
 
 TASKx.DAT - WINPLAN - Auto Tasks [T]
@@ -1595,9 +1706,10 @@ UTILx.EXT - PHost - Add-on Information [V]
   in the host directory, PHost will append that file to the final UTILx.DAT
   file.
 
-  During PHost processing, add-ons still see the old UTILx.DAT files.
-  If they want to check something, you may try to use the UTIL.TMP file
-  generated by PHost, see under the `Host files' section.
+  During PHost processing, add-ons still see the old UTILx.DAT files. 
+  If you want to check something in such an add-on, you may try to use
+  the UTIL.TMP file generated by PHost, see under the `Host files'
+  section.
 
   In several records, PHost attempts to do you a favour in sending you
   "human-readable" values, namely
@@ -1619,7 +1731,8 @@ The file contains records of the following layout:
                  16432..16447   Rafael Alvarez
                  16448..16479   Sven Bursch
                  16480..16511   Ingo Korb
-                 16512..32767   Available
+                 16512..16639   Stefan Reuther
+                 16640..32767   Available
                  32768..65535   Reserved
  +2     WORD    Number of data bytes following
  +4   n BYTEs   data
@@ -1629,6 +1742,12 @@ The file contains records of the following layout:
   generated records follow in more or less chronological order. Finally, an
   End record (type 30) terminates the PHost information, after it follow
   records from add-on programs (UTILx.EXT).
+
+  This file lists all known version dependencies, but you should not
+  rely on them. To know whether a particular piece of information is
+  available in your UTILx.DAT, check the actual record sizes, not
+  version numbers. Records might grow in the future, so you should
+  handle the size anyway.
 
 
 ## The records
@@ -1665,6 +1784,8 @@ The file contains records of the following layout:
  +2     WORD    X
  +4     WORD    Y
  +6     WORD    Damage %
+--- PHost 3.4b+: ---
+ +8  20 BYTEs   Ship name
 
 --- Type 3 (Dark Sense) ---
  +0     WORD    Planet ID
@@ -1681,6 +1802,7 @@ The file contains records of the following layout:
  +8   3 BYTEs   Friendly Code
 +11   4 DWORDs  Minerals (N,T,D,M)
 +27     DWORD   Money
+--- PHost 3.0+: ---
 +31     DWORD   Supplies
 
 --- Type 5 (Planet) ---
@@ -1717,6 +1839,8 @@ The file contains records of the following layout:
 --- PHost 1.3+: ---
 +26     WORD    X
 +28     WORD    Y
+--- PHost 3.4b+: ---
++30     WORD    Random Seed
 
 --- Type 8 (Meteor) ---
 --- Type 9 (Meteorite Shower) ---
@@ -1733,7 +1857,7 @@ The file contains records of the following layout:
 +12     WORD    Heading in degrees, 0=North, 90=East, 180=South, 270=West
 +14  20 BYTEs   Ship name
 
-  This is the same record as in TARGETx.DAT.
+  This is the same format as in TARGETx.DAT.
 
 --- Type 11 (allied starbase) ---
  +0     WORD    Base ID
@@ -1776,6 +1900,9 @@ The file contains records of the following layout:
                  4      very unstable    20%
                  5      totally unstable <20%
  +8     WORD    ID. Even number for entry points, odd for exits
+--- PHost 3.4h/4.0e+: ---
++10     WORD    ID of corresponding Ufo
++12     WORD    1=bidirectional, 0=enter only
 
   For how wormholes and wormhole UFOs correspond, see UFO.HST.
 
@@ -1849,8 +1976,8 @@ The file contains records of the following layout:
 
 --- Type 23 (Bioscan) (PHost 2.6+) ---
  +0     WORD    Planet ID
- +2     WORD    Natives (see PDATAx.DAT)
- +4     DWORD   Native clans
+ +2     WORD    Native race (see PDATAx.DAT)
+ +4     DWORD   Natives (people, not clans!)
  +8     WORD    Temperature
 
 --- Type 24 (Glory Device exploded) (PHost 2.6+) ---
@@ -1864,6 +1991,9 @@ The file contains records of the following layout:
  +4     WORD    Y
  +6     WORD    Total damage
  +8     WORD    Ship Owner
+--- PHost 3.4b+: ---
++10     WORD    Hull type of damaged ship
++12  20 BYTEs   Name of damaged ship
 
 --- Type 26 (Ship boarded) (PHost 2.6+) ---
  +0     WORD    Ship ID
@@ -1908,8 +2038,10 @@ This record doesn't contain data.
 
 --- Type 32 (Pillage Mission) (PHost 2.9d+) ---
  +0     WORD    Planet ID
- +2     DWORD   Colonists
- +6     DWORD   Natives
+ +2     DWORD   Colonist clans(!)
+ +6     DWORD   Native clans(!)
+--- PHost 3.4g/4.0c+: ---
++10     WORD    Owner of Klingon ship (important in PlayerRace games)
 
 --- Type 33 (Object) (PHost 2.10+) ---
  +0     WORD    ID (UFO ID, or bigger than 1000 if there isn't a matching
@@ -1962,11 +2094,15 @@ This record doesn't contain data.
                  4      Wormhole passed
                  5      Tachyon pulse (Loki)
 
+  This record is superseded by type 44, but is still sent.
+
 --- Type 36 (Cloaked ship detected) (PHost 2.11g+) ---
  +0     WORD    Ship ID
  +2     WORD    X
  +4     WORD    Y
  +6     WORD    Owner
+--- PHost 3.4e/4.0c+: ---
+ +8     WORD    1=before movement, 0=after
 
 --- Type 37 (Remote-controlled ships) (PHost 3.0+) ---
  +0   x BYTEs   Records of 4 bytes each
@@ -1993,10 +2129,15 @@ This record doesn't contain data.
 
 --- Type 40 (Web Drain Complete) (PHost 3.0+) ---
  +0     WORD    Ship ID
+--- PHost 3.4d+: ---
+ +2     WORD    Ship Owner
+ +4  20 BYTEs   Ship Name
 
 --- Type 41 (RGA) (PHost 3.3c+) ---
  +0     WORD    Planet Id
  +2     WORD    0 = No natives, 1 = Planet has natives
+--- PHost 3.4g/4.0d+: ---
+ +4     WORD    RGA player (important in PlayerRace games)
 
 --- Type 42 (General Object Destruction) (PHost 3.3c+) ---
  +0     WORD    Object Id
@@ -2015,11 +2156,14 @@ This record doesn't contain data.
   if minefield limits are not in effect, this record is not sent.
 
 --- Type 44 (Failure Notice) (PHost 3.4+) ---
- +0     WORD    Action (=UTILx.DAT record number)
+ +0     WORD    Action (=UTILx.DAT record number, if possible):
                  20     Ship construction (cloning in particular)
                  21     Ship trade
                  35     Cloaking
                  45     Planet trade
+                 10000  Ship mission failed
+                (new actions might be added, see PHost docs for a
+                definite list)
  +2     WORD    Ship Id
  +4     WORD    Planet Id
  +6     WORD    Cause
@@ -2032,14 +2176,25 @@ This record doesn't contain data.
                  10     Not enough minerals
                  11     Not enough tech
                  12     No receiver unit at this place
+                 13     Host has disabled feature
+                 14     Not allowed by rules
+                 15     Not allowed by partner
+                 16     No slot for object (global limit exceeded)
+                 17     Player limit exceeded
+                 18     Unit does not have needed capability
+                 19     Target object does not exist
  +8   ? BYTEs   additional info could follow here
+                --- Action 10000 ---
+                 +8     Mission number
+                 +10    Intercept parameter
+                 +12    Tow parameter
 
 --- Type 45 (Planet Trade) (PHost 3.4b+) ---
  +0     WORD    Planet Id
  +2     WORD    Old owner
  +4     WORD    New owner
 
---- Type 46 (Mine field) ---
+--- Type 46 (Mine field) (PHost 3.4b+) ---
  +0     WORD    Mine field ID
  +2     WORD    X
  +4     WORD    Y
@@ -2050,7 +2205,67 @@ This record doesn't contain data.
 +16     WORD    Cause of this report (0=laid, 1=swept, 2=scanned)
 
   This record has the very same format as record 0. It is used for
-  minefields with Id numbers >500.
+  minefields with Id numbers >500 when AllowMoreThan500Minefields
+  is off for that player.
+
+--- Type 47 (Nonexistant Planets) (PHost 3.4c+) ---
+ +0   n WORDs   Ids of non-existant planets. All planets listed here do
+                not exist for the host and an attempt to (for example)
+                drop cargo there will fail.
+
+--- Type 48 (PAL Summary) (PHost 3.4c+) ---
+ +0  11 DWORDs  Player Activity Level for each player. -1 if not known.
+
+--- Type 49 (Ship Score) (PHost 3.4d / 4.0+) ---
+--- Type 50 (Planet Score) (PHost 3.4d / 4.0+) ---
+ +0  50 BYTEs   Name; player-readable description of this score.
++50     WORD    Identifier
+                 1      Ship / Planet Experience Level
+                 2..99  reserved
+                 100+   available
++52     WORD    Limit, -1 if no limit. The interpretation of the limit
+                depends on the type of the score. For experience, this is
+                the maximum level which can be reached.
++54 2xN WORDs   Scores. Each entry is a pair of object Id and score.
+                Units for which the score is not known are not listed here.
+
+--- Type 51 (Player Score) (PHost 3.4d / 4.0+) ---
+ +0  50 BYTEs   Name; player-readable description of this score.
++50     WORD    Identifier
+                 1      Per-game Score. This is intended to be used by
+                        the "main" scoring program in use for this game
+                        to report "the score".
+                 2      Build points (PAL / PBP)
+                 3      Minefields allowed
+                 4      Minefields laid
+                 5..99  reserved
+                 100+   available
++52     WORD    Turns-over-limit required to win, -1 if not known.
++54     DWORD   Win limit, -1 if none
++58  11 DWORDs  Scores for each player. -1 if not known.
+
+--- Type 52 (Ship Abilities) (PHost 4.0a+) ---
+ +0     WORD    Ship Id
+ +2   n WORDs   List of ability numbers. See HULLFUNC.DAT for a list of
+                special functions. Values <1000 are reserved for PHost,
+                higher values are available to add-ons. Records are
+                cumulative.
+
+--- Type 53 (Minefield Exploding) (PHost 4.0b+) ---
+ +0     WORD    X
+ +2     WORD    Y
+ +4     WORD    Minefield Id
+ +6     DWORD   Units lost
+
+  This record is defined but not used by PHost. It will be used when
+  mines-destroy-mines produces asymmetrical losses.
+
+--- Type 54 (Enemy Report) (PHost 4.0h+) ---
+ +0     WORD    List of enemies
+                 bit 0   unused
+                 bit 1   Feds
+                 bit 2   Lizards
+                etc.
 
 
 ## Digests for specification files
@@ -2098,8 +2313,14 @@ This record doesn't contain data.
 
   * The configuration digest is a byte-wise checksum over the internal
     configuration structure of PHost. It depends on the endianness of
-    the host machine as well as the padding. I believe there is no
-    real use for it outside PHost.
+    the host machine as well as the padding. In PHost below 3.0, this was
+    the PCONFIG.HST file; I believe there is no longer a real use for
+    this checksum outside PHost in 3.0 and later.
+
+    In PHost 3.4c and later, the configuration checksum covers the
+    PCONFIG key names and values in text form. For example, when your
+    PCONFIG.SRC contains "GameName = First Strike", the byte sequence
+    "GameNameFirstStrike" is checksummed.
 
   Note: except for the line marked {*}, this is precisely a standard CRC
   (for a CRC-16, one would say `crctab[b] := x' after the inner loop). If
@@ -2128,14 +2349,21 @@ A VCR record:
                 Host:    must be zero
                 PHost:   must be `48879-init' (modulo 65536). Zero on
                          subsequent battles.
- +4     WORD    Temperature code of planet for a Ship/Planet battle
+ +4     WORD    Host:    Temperature code of planet for a Ship/Planet battle
+                PHost:   Capability flags (first battle only):
+                          Bit 0    "Death rays"
+                          Bit 1    "Ship experience levels"
+                          Bit 15   Valid bit. If zero, the value of this
+                                   word is undefined and should be treated
+                                   as zero.
  +6     WORD    Type of battle
                  0      Ship/Ship
                  1      Ship/Planet
  +8     WORD    Mass of left object
 +10     WORD    Mass of right object
 +12  42 BYTEs   Left object (Ship)
-                 +0  20 BYTEs   Name
+                 +0  20 BYTEs   Name. Note that many PHost versions store
+                                this field as a zero-terminated string.
                 +20     WORD    Damage at beginning
                 +22     WORD    Crew
                 +24     WORD    Id Number
@@ -2158,8 +2386,11 @@ A VCR record:
                                 PHost: hull number of ship, 0 for planets
                                 or in older PHosts.
                 +30     WORD    Type of beams
-                +32     WORD    Number of beams
-                +34     WORD    Fighter Tubes
+                +32     BYTE    Number of beams
+                +33     BYTE    Host: zero (Host addresses +32 as a WORD)
+                                PHost: experience level of object (PHost 4
+                                and later)
+                +34     WORD    Fighter Bays
                 +36     WORD    Torpedo Type
                 +38     WORD    Number of Fighters/Torps
                 +40     WORD    Number of Torpedo Launchers
@@ -2172,7 +2403,7 @@ A VCR record:
 
 ## Secondary Weapons
 
-  The "Fighter Tubes" (+34) or "Number of torpedo launchers" (+40) field
+  The "Fighter Bays" (+34) or "Number of torpedo launchers" (+40) field
   determines whether a ship has fighter bays or torpedo launchers.
 
   If the player has set the `NTP' friendly code, hosts set these fields
@@ -2198,7 +2429,7 @@ A VCR record:
 
   In PVCR, planets may have torpedoes and fighters, if the configuration
   says so. In this case, the fields at +34 and later are set as follows:
-        +34     WORD    Fighter Tubes
+        +34     WORD    Fighter Bays
         +36     WORD    Torpedo Type
         +38     WORD    Number of Fighters
         +40     BYTE    Number of Torpedo Launchers
@@ -2207,20 +2438,34 @@ A VCR record:
 
 ## What VCR?
 
+  A battle record is said to "bear the PHost signature" if the WORDs at
+  +0 and +2 add up to 48879 as described above. Rumors claim that PHost 3
+  also uses the value 65261, but I've never seen these in the wild.
+
   If the first battle bears the PHost signature, the file was generated
   by PHost, otherwise it was made by THost.
 
-  Once you know you're dealing with a PHost VCR, you need to tell if it was
-  PHost 2 or 3: If the file contains only one battle, it's PHost 3. If the
-  last battle record contans a PHost signature, it is a PHost 2 VCR file,
-  and the last "battle" is in fact a configuration record. Otherwise,
-  assume you're dealing with PHost 3.
+  Once you know you're dealing with a PHost VCR, you need to tell what
+  version it is:
+  + If the file contains only one battle, it's PHost 3 or 4.
+  + If the file contains two battles, and the last one has owner fields
+    zero, the player has used CORR (see below), and the file contains one
+    PHost 3 or 4 fight.
+  + If the last battle record contains a PHost signature and the "battle
+    type" field is zero or one, it is a VCR.HST file. You can't tell the
+    version from those.
+  + If the last battle record contains a PHost signature and the "battle
+    type" field is two or larger, it is a PHost 2 player VCR file and the
+    last record is in fact the configuration record.
 
-  If the last battle has the PHost signature, it might also be a VCR.HST
-  file. To detect that case, check the "battle type" field. If it is zero
-  or one, you have a VCR.HST file and the last record is a real battle.
-  Otherwise, it is a player-side VCR file and the last record is the
-  configuration.
+  PHost 3 and 4 can be told apart using the "Capabilities" field. That
+  field contains a bitfield of features needed to play the file. The most
+  significant bit must be set to tell that this field is valid; if it is
+  clear, it should be treated as all-bits-zero. If there are capability
+  flags set which the VCR player doesn't know, it can't play the
+  recordings. PHost versions before 3.4d usually set this field to zero.
+  PHost 4 combat with all capabilities zero is identical to PHost 3
+  combat; they can't be distinguished.
 
 
 ## VPA & CORR
@@ -2229,7 +2474,7 @@ A VCR record:
   exactly one battle, it displays no battle at all. There is a program
   CORR.EXE which works around this problem by adding a dummy battle.
   This dummy battle can not be played. It can be detected because it has
-  almost all fields zero, in particular, the owner fields.
+  almost all fields -- in particular, the owner fields -- are zero.
 
 
 ## PHost Configuration
@@ -2322,7 +2567,8 @@ File Format:
     program which just terminates itself; you need to supply this program.
     If the signatures are missing, don't patch. You're then probably
     dealing with a copy of PVCR.EXE or a compressed VCR.EXE, your patch
-    would happily blast it into pieces.
+    would happily blast it into pieces. Alternatively, temporarily rename
+    your program `planets.com', so VCR will execute that one when exiting.
 
   þ Change to the Planets directory, otherwise VCR can't locate its data
     files.
@@ -2581,6 +2827,12 @@ Valid Commands
 +12     WORD    Supplies
 +14     WORD    Target ship ID
 
+  Note that, when transferring to an own ship, PLANETS.EXE generates
+  "dull" transfers (all amounts except for the target Id are zero),
+  those should not be written to TRN files to avoid confusing the host
+  (PHost up to 3.4i/4.0f only sees a intra-race transfer which is not
+  permitted using this command).
+
 --- Code 10 (0Ah=ShipIntercept)
  +0     WORD    Ship ID
  +2     WORD    Id of ship to intercept
@@ -2784,12 +3036,27 @@ Valid Commands
  +0     WORD    0 (?)
  +2  10 BYTEs   New password, encrypted. Each character is increased by 32h
 
+--- Code 62 (3Eh=SendBack) (PHost 4.0+) ---
+ +0     WORD    Receiver race, 0 means same as sender. Currently must be
+                either 0 or same as sender to avoid spoofing.
+ +2     WORD    Record Type
+ +4     WORD    Data Size. Note that the complete TRN command must be
+                below 32k, hence this value must be < 32760. You'd better
+                set the limit a bit lower to not tempt fate :)
+ +6   n BYTEs   Data
+
+  This command is ONLY supported by PHost 4.0 and later. The enclosed data
+  will be echoed back to the player in his UTILx.DAT, as a normal UTILx.DAT
+  record. This way, programs can send arbitrary information through the
+  host. In particular, by sending file transfer records (type 34), one can
+  send files.
+
 
 Attachments
 ------------
 
   It is possible to embed files in a TRN file. These are then copied into
-  the host directory when Host reads the TRN. This is used by `TacCom'
+  the host directory when Host reads the TRN. This is used by TacCom
   to transmit alliance information. This method is only supported by the
   Wisseman host, not PHost or others. As a consequence, only few hosting
   utilities consider TRNs with attachment valid. This function is supported
@@ -3034,44 +3301,188 @@ HOST DATA
   where required by the architecture/ABI.
 
 
-AUXDATA.HST - PHost 3.x - Miscellaneous [T]
---------------------------------------------
+AUXDATA.HST - PHost - Miscellaneous [V]
+----------------------------------------
 
   Most of this description by Piotr Winiarczyk, with information from
-  Heiko Schlenker.
+  Heiko Schlenker, and then updated from PHost source. The 3.0/4.0
+  definition is "official", whatever that means, hence the [V].
 
-  This file has some gaps which contain zero bytes. PHost uses this to
-  simplify index computations and checks. Bits not described here are zero.
+  Many arrays contain an unused zeroth element. PHost uses this to
+  simplify index computations and checks. Bits not described here
+  are zero.
+
+  The file format is version dependant.
+
+
+### All Versions
+
+  The AUXDATA.HST file always starts with the version number of PHost.
+
+ +0     BYTE    PHost major version
+ +1     BYTE    PHost minor version
+
+
+### PHost 4.x
+
+ +0     BYTE    PHost major version (4)
+ +1     BYTE    PHost minor version
+ +2  18 BYTEs   Timestamp
++20     WORD    Turn number
++22     WORD    First-Battle Info. For each race, one bit which is set if
+                the race has not yet seen a VCR and should be sent the
+                introductory message.
++24  14 BYTEs   unused
++38   n BYTEs   data. A sequence of blocks of variable size:
+                 +0     WORD    Block type
+                 +2     WORD    Block size
+                 +4   n BYTEs   Data
+                Programs must preserve blocks they don't know, and should
+                preserve the order of blocks. Blocks with numbers below
+                100 have permanent information, numbers above 100 are
+                transient and only exist during a host run.
+
+--- Block 1 (Native races for starbases) ---
+  A BYTE array, indexed by planet Id, 0 to 500 (i.e. first element is
+  unused). Whenever a starbase is built, PHost saves the native race here.
+  Thus, when unregistered Cyborgs build a base on a Ghipsoldal planet,
+  they'll legally keep the T10 engines even when the natives are
+  assimilated up and a new race appears.
+
+  Usually, this record is 501 bytes, but may be larger or shorter for
+  cross-version compatibility.
+
+--- Block 2 (Alliances) ---
+  An array of 169 WORDs, 13 rows of 13 WORDs each. Addressed as
+  `ARRAY[0..12, 0..12] OF WORD', where the first index (rows) is the race
+  offering an alliance, and the second index (columns) is the race the
+  alliance is offered to. The borders (0, 12) are there to avoid index
+  checks for unowned or Alien objects and are constant zero.
+         Bit 0          Ship level offered
+         Bit 1          Planet level offered
+         Bit 2          Mine level offered
+         Bit 3          Combat level offered
+         Bit 4          Vision level offered
+         Bit 5          Alliance offered
+         Bits 8..12     Corresponding offers are conditional
+  (compare to record type 22 in UTILx.DAT)
+
+  This must be exactly 338 bytes.
+
+--- Block 3 (Ship Scan Info) ---
+  A WORD array, indexed by ship Id, starting with 0 (i.e. first element is
+  unused). For each ship, this contains a bitfield of the races (other than
+  the owner of the ship) who saw the ship. This is used for consistency
+  checking of Intercept missions.
+         Bit 1          Fed saw it
+         Bit 2          Lizard saw it
+  etc.
+
+  Size may vary depending on the ship limit.
+
+--- Block 4 (Build Queue) ---
+  This block consists of a number of records of the following format:
+         +0     WORD    Starbase Id
+         +2     WORD    Hull type
+         +4     WORD    Engine type
+         +6     WORD    Beam type
+         +8     WORD    Beam count
+        +10     WORD    Torpedo type
+        +12     WORD    Torpedo launcher count
+        +14     WORD    1 if cloning, 0 for regular build
+        +16     WORD    Race
+        +18     DWORD   Points in queue (priority)
+        +22     DWORD   unused
+
+  This block's size may vary depending on the build queue length.
+
+--- Block 5 (PAL) ---
+  This block contains an array of DWORDs containing the current PAL for
+  each player. It is indexed by 0 (first element unused), and usually
+  contains a 13th element (index 12) which isn't used either.
+
+--- Block 6 (Remote Control) ---
+  This block contains two WORD arrays of equal size.
+
+  The first array contains records of the following format:
+         +0     BYTE    controller of an RC'd ship
+         +1     BYTE    80h if remote control forbidden, 0 else
+  As usual, the 0th entry is unused.
+
+  The second array contains the real owners of remote-controlled ships,
+  0 if ship is not under RC. The 0th entry contains a bitmask of the
+  player's "remote default" status:
+         Bit 1  Player 1 did "remote forbid default"
+         Bit 2  Player 2 did "remote forbid default"
+  etc.
+
+  The size of this block may vary, which affects the size of both arrays.
+
+--- Block 7 (Ship Specials) ---
+  This record contains hull functions assigned to individual ships. For
+  each ship, it contains 8 bytes (64 bit):
+         +0     BYTE    Special abilities 0 .. 7
+         +1     BYTE    Special abilities 8 .. 15
+         +2     BYTE    Special abilities 16 .. 23
+  etc. There is no unused dummy element.
+
+  The size of this block may vary.
+
+--- Block 8 (reserved) ---
+
+--- Block 9 (Ship Experience) ---
+--- Block 10 (Planet Experience) ---
+  These records contain, for each ship/planet, one DWORD with the number
+  of experience points it has. They do not contain an unused dummy element.
+
+  The size of this block may vary depending on the number of ships.
+
+--- Block 101 (Ship Flags) [PHost 4.0d+] ---
+  This block contains, for each ship, one DWORD with some useful
+  flags. There is no dummy element. The size of this block may vary
+  depending on the number of ships.
+
+   Bit 0         Ship was re-crewed (captured) this turn
+   Bits 1 .. 31  unused
+
+--- Block 102 (Planet Flags) [PHost 4.0d+] ---
+  This block contains, for each ship, one DWORD with some useful
+  flags. There is no dummy element. The size of this block may vary
+  depending on the number of ships.
+
+   Bit 0         Planet was re-crewed this turn (can this happen?)
+   Bits 1 .. 31  unused
+
+--- Block 103 (New Ship Experience) [PHost 4.0d+] ---
+--- Block 104 (New Planet Experience) [PHost 4.0d+] ---
+  These blocks contain, for each ship/planet, the number of new
+  experience points gathered this turn. Points will be collected and
+  added to the real experience at the end of the host run.
+
+  There is no dummy element.
+
+--- Block 105 (Turn Activity Level) [PHost 4.0f+] ---
+  This block contains 11 DWORDs with the turn activity level for each
+  player. The TAL is added to the player activity level at the end of
+  each turn.
+
+
+### PHost 3.x or 2.x
+
+  The contents of a 2.x/3.x file is similar to the contents of a 4.x file,
+  but does not contain the descriptive block headers.
 
  +0     BYTE    PHost major version
  +1     BYTE    PHost minor version
  +2  18 BYTEs   Timestamp
 +20     WORD    Turn number
-+22     WORD    ? ("First-battle info")
-+24  15 BYTEs   unused
-+39 500 BYTEs   Native races for starbases
-+539 169 WORDs  Alliance Information. 13 rows of 13 WORDs each. Addressed
-                as `ARRAY[0..12, 0..12] OF WORD', where the first index
-                (rows) is the race offering an alliance, and the second
-                index (columns) is the race the alliance is offered to.
-                The borders (0, 12) are there to avoid index checks for
-                unowned or Alien objects and are constant zero.
-                 Bit 0          Ship level offered
-                 Bit 1          Planet level offered
-                 Bit 2          Mine level offered
-                 Bit 3          Combat level offered
-                 Bit 4          Vision level offered
-                 Bit 5          Alliance offered
-                 Bits 8..12     Corresponding offers are conditional
-                (compare to record type 22 in UTILx.DAT)
-+877    WORD    0
-+879 500 WORDs  For each ship, a bitfield of the races (other than the
-                owner of the ship) who saw the ship. For consistency
-                checking of Intercept missions.
-                 Bit 1          Fed saw it
-                 Bit 2          Lizard saw it
-                etc.
-+1879 500 RECORDs of 26 bytes each: ship build queue
++22     WORD    PHost 3.x: First-Battle Info.
+                PHost 2.x: unused
++24  14 BYTEs   unused
++39 501 BYTEs   Native races for starbases. Indexed by planet Id, 0 to 500.
+ +? 169 WORDs   Alliance Information.
+ +? 501 WORDs   Ship Scan information. Indexed by ship Id, 0 to 500.
+ +? 500 RECORDs of 26 bytes each: ship build queue (same format as 4.x):
                  +0     WORD    Starbase Id
                  +2     WORD    Hull type
                  +4     WORD    Engine type
@@ -3081,18 +3492,41 @@ AUXDATA.HST - PHost 3.x - Miscellaneous [T]
                 +12     WORD    Torpedo launcher count
                 +14     WORD    1 if cloning, 0 for regular build
                 +16     WORD    Race
-                +18     DWORD   Points in queue (priority)
+                +18     DWORD   PHost 3.x: Points in queue (priority)
+                                PHost 2.x: unused
                 +22     DWORD   unused
-+14879  DWORD   0
-+14883 11 DWORDs Player activity levels
-+14927  DWORD   0
-+14933 500 RECORDs of 2 bytes each: remote control
-                 +0     BYTE    controller of an RC'd ship
-                 +1     BYTE    80h if remote control forbidden, 0 else
-+15933  WORD    Default remote control setting for each player (bit 1 for
-                Feds, bit 2 for Lizards, etc., set bit = forbidden)
-+15937 500 WORDs real owner of remote controlled ships (0 if remote
-                control not active)
+ +?  13 DWORDs  Player activity levels. Slot 0 and 12 are unused.
+--- PHost 3.x only: ---
+ +?     WORD    Unused
+ +? 500 RECORDs of 2 bytes each: remote control.
+ +?     WORD    Default remote control setting for each player.
+ +? 500 WORDs   real owner of remote controlled ships
+
+
+### PHost 1.x [T]
+
+ +0     BYTE    PHost major version
+ +1     BYTE    PHost minor version
+ +2 501 BYTEs   Native races for starbases
+ +? 144 BYTEs   Alliance info. An `ARRAY[0..11, 0..11] OF BYTE', where
+                where the first index (rows) is the race offering an
+                alliance, and the second index (columns) is the race the
+                alliance is offered to. Index 0 is not used.
+                 Bit 0          Ship level offered
+                 Bit 1          Planet level offered
+                 Bit 2          Mine level offered
+                 Bit 3          Combat level offered
+                 Bit 4          Vision level offered
+                 Bit 5          Alliance offered
+ +? 501 WORDs   Ship scan info, indexed 0 to 500.
++? 500 RECORDs of 14 bytes each: build queue
+                 +0     WORD    Starbase Id
+                 +2     WORD    Hull type
+                 +4     WORD    Engine type
+                 +6     WORD    Beam type
+                 +8     WORD    Beam count
+                +10     WORD    Torpedo type
+                +12     WORD    Torpedo launcher count
 
 
 BDATA.HST - Starbase Data [V]
@@ -3129,11 +3563,14 @@ CLOAKC.HST - Cloak & Shield State [V]
   before running AUXBC.INI and reads it back later (at least the cloak
   flags).
 
-   +0 500 WORDs  1, if the corresponding ship is cloaked.
-+1000 500 WORDs  Shield Charge States (0..100). Non-existing ships have
-                 value 100 here. Don't confuse this with the Shield
-                 Strength measured in kt, host does not store this value
-                 as you can compute it manually:
+  For the "normal" host and PHost 3.x, this file contains 2x500 words.
+  For Host999 and PHost 4.x, it contains 2x999.
+
+ +0   N WORDs   1, if the corresponding ship is cloaked.
++2N   N WORDs   Shield Charge States (0..100). Non-existing ships have
+                value 100 here. Don't confuse this with the Shield
+                Strength measured in kt, host does not store this value
+                as you can compute it manually:
                    (hull mass) + (ES bonus)*(engine price)/100
 
 
@@ -3155,7 +3592,7 @@ EXTMINES.HST - PHost - Minefields
 
   This file contains 9500 minefield records for minefields #501 to #10000.
   It is used by PHost 3.3 and later when the appropriate config option
-  is set.
+  is set. The file format is the same as MINES.HST.
 
 
 GEN.HST - Passwords and other
@@ -3220,6 +3657,8 @@ GREY.HST - Miscellaneous
                         towed) and is denied chunneling. Used to prevent
                         "tow-drop chunnels". Note that this flag is also
                         set for tow pairs when the tower does not move.
+                There is no Host999 3.22.027 (yet?); it is unknown how it
+                would handle this array.
 --- Host 3.22.039 and later ---
 +2847 11 WORDs  Level 2 Alliances ("FF allies"). For each player, whom he
                 has declared a level 2 ally, as a bitfield like above.
@@ -3317,7 +3756,7 @@ HCONFIG.HST - Configuration [V]
 +186    WORD   -Engine Shield Bonus
 +188    WORD    Engine Shield Bonus Rate
 +190    WORD    Colonies: mine sweep rate when sweeping with fighters
-+192    WORD   -Colonies: can use fighters for mine sweeping
++192    WORD   -Colonies: can use fighters for web sweeping
 +194    WORD    Mine Sweep Rate
 +196    WORD    Web Mine Sweep Rate
 +198    WORD    Lizard: Hissss Effect
@@ -3389,6 +3828,11 @@ LASTTURN.HST - Timestamp
 
   This file is updated after writing the RSTs. Programs run as AUXHOST
   use the old value.
+
+  In PHost 3.x and before, this file contains the same timestamp as
+  NEXTTURN.HST (i.e. the timestamp of the current host run, not the
+  previous one). Thus, add-ons run during PHost processing can not
+  access the old timestamp.
 
 
 MESS.OLD - Old Messages (=sent last turn)
@@ -3600,7 +4044,7 @@ TONS.HST - Ship tons "sunk" this turn [V]
 
  +0  11 DWORDs  Sum of sunk ships (total masses destroyed by player)
 +44  11 DWORDs  Sunk tonnage this turn
---- PHost 3.4b+: ---
+--- PHost 3.4b+: HeikoTons[tm]: ---
 +88  11 DWORDs  Sum of lost ships (total masses lost by player)
 +132 11 DWORDs  Lost tonnage this turn
 
@@ -3703,6 +4147,7 @@ The file contains 100 or 1000 records of 78 bytes each:
                  1561..1570     Dennis Weise
                  10401..10499   Yann Ramin
                  10500..10599   Star Destroyer
+
 
 ## PHost Wormholes
 
@@ -3958,13 +4403,16 @@ For each engine (9) a record of 66 bytes:
   Fuel used to travel d light years with a ship of m kt at speed v:
 
         d * m * X(v)         d
-    N = ฤฤฤฤฤฤฤฤฤฤฤฤ    t = ฤฤฤ
+    N = ฤฤฤฤฤฤฤฤฤฤฤฤ    t = ฤฤฤ (approximated)
         v*v * 100000        v*v
 
   N is the fuel required, t the time required (E.T.A.) and X(v) is the
   value from the table above. When travelling longer than 1 month (t>1),
   the fuel usage is calculated again each month since the ship mass
   changes (less Neutronium aboard).
+
+  See DISTTABL.DAT (under 3rd-party Clients) for how to correctly
+  compute the d used in this formula.
 
   After the engine records, 4 unused bytes follow.
 
@@ -3983,15 +4431,15 @@ HULLFUNC.DAT - PHost - Hull Functionalities [V]
   PHost itself never reads this file. Your program, should it want to
   support this mechanism, can either read this file or manually parse
   HULLFUNC.TXT. For example, for PCC, the `hullgen' utility converts
-  HULLFUNC.TXT into HULLSPEC.CC (PCC started earlier than PHost).
+  HULLFUNC.TXT into HULLSPEC.CC (PCC started earlier than PHost 3).
 
  +0     DWORD   Signature B1297F35h (that is, 4 bytes 35h, 7Fh, 29h, B1h)
  +4     BYTE    PHost minor version
  +5     BYTE    PHost major version
  +6  32 BYTEs   Game name
-+38   8 BYTEs   reserved
-+46     WORD    Number of records following
-+48   n RECORDs Records of variable length
++38  16 BYTEs   reserved
++54     WORD    Number of records following
++56   n RECORDs Records of variable length
                  +0     WORD    Hull Number (1..105)
                  +2     WORD    Number of special functions assigned to
                                 this hull
@@ -4030,6 +4478,14 @@ HULLFUNC.DAT - PHost - Hull Functionalities [V]
    17   ณ Bioscanner (Brynhild/Cobol)   ณ Bioscan
    18   ณ Glory Device (Saber)          ณ GloryDeviceLowDamage
    19   ณ Glory Device (D19b)           ณ GloryDeviceHighDamage
+   20   ณ Unclonable                    ณ Unclonable
+   21   ณ Clonable only once            ณ CloneOnce
+   22   ณ Cannot be given away          ณ Ungiveable
+   23   ณ Can be given away once        ณ GiveOnce
+   24   ณ Stronger Tow Beam             ณ Level2Tow
+
+  Values up to 999 are reserved for future use by PHost, values above
+  999 are available to add-ons.
 
 
 HULLSPEC.DAT - Starship Hulls [V]
@@ -4205,7 +4661,7 @@ RESOURCE.PLN - Pictures
                 BASIC commands PUT and GET normally work with memory dumps,
                 like here).
  +x   n BYTEs   unused
-+5306 15 WORDs  Color palette. 5 records of 3 words:
++5300 15 WORDs  Color palette. 5 records of 3 words:
                  +0     WORD    Red (0..63)
                  +2     WORD    Blue (0..63)
                  +4     WORD    Green (0..63)
@@ -4605,13 +5061,12 @@ AFSIM.SAV - AFSim - Saved simulation setup [T]
 
   There are multiple versions of this file format.
 
-  + signature "CCsim",26 (6 bytes): Version 0, PCC 0.99.10 and earlier
-  + signature "CCbsim0",26 (8 bytes): Version 1, PCC 1.0 and later
-  + signature "CCbsim1",26 (8 bytes): Version 2, PCC 1.0.7 and later
-  + signature "CCbsim2",26 (8 bytes): Version 3, PCC 1.0.16 and later
-
-  In version 0, each object is described by a 51 byte record, in v1 and
-  later, 53 bytes are used; 1.0.16 uses 57 bytes.
+    Format Version ณ Signature    ณ PCC Version ณ Bytes per Record
+   ออออออออออออออออุออออออออออออออุอออออออออออออุออออออออออออออออออ
+          0        ณ "CCsim",26   ณ   0.99.10   ณ        51
+          1        ณ "CCbsim0",26 ณ   1.0       ณ        53
+          2        ณ "CCbsim1",26 ณ   1.0.7     ณ        53
+          3        ณ "CCbsim2",26 ณ   1.0.16    ณ        57
 
  +0   n BYTEs   Signature. 6 or 8 bytes, see above
  +n     WORD    Bit 0..14       Number of ships
@@ -4630,6 +5085,7 @@ AFSIM.SAV - AFSim - Saved simulation setup [T]
                 +51     WORD    Aggressiveness
                                  0      passive
                                  1..12  Primary Enemy
+                                 13     no fuel
                                  -1     Kill
                --- Format version 3 and higher ---
                 +53     WORD    Mass (used when the hull type is zero)
@@ -4638,7 +5094,7 @@ AFSIM.SAV - AFSim - Saved simulation setup [T]
                                  bits 1..3      (1.0.17+) randomize these
                                                 chars of FC only
 --- only if planet participates ---
- +?  53 BYTEs   Planet record:
+ +?   n BYTEs   Planet record (51/53/57 bytes):
                  +0  10 WORDs   (Format version 2 and higher) Torpedoes on
                                 starbase. Unused in earlier versions.
                 +20   2 WORDs   (unused)
@@ -4714,7 +5170,7 @@ The RD contains a record for each entry of the file:
 
   PCC uses a simple RLE compression. Each compressed file starts with a
   DWORD specifying the length of the decompressed data. Then, the
-  compressed file follows, splitted in chunks of the following format:
+  compressed file follows, split into chunks of the following format:
 
          +0     WORD    Uncompressed length of the following chunk
          +2     BYTE    Value used as prefix code in this chunk
@@ -4821,6 +5277,258 @@ CHARTx.CC - PCC - Starchart entries [V]
 
   This file contains information on various things that are on the player's
   starcharts and are archived over a few turns.
+
+
+## New Format (PCC 1.0.8 and later)
+
+  The new starcharts file format is designed to be extensible, and to be
+  parsable by a program which does not fully understand it. So it is
+  divided into chunks, somewhat like UTILx.DAT.
+
+Header:
+ +0   8 BYTEs   Signature, "CCchart",26
+ +8     WORD    Turn number
++10     WORD    Start of first data block (file offset, 0-based)
++12     WORD    Number of extra planet properties
++14     WORD    Number of extra starship properties
++n    n BYTEs   Names of extra planet properties
++n    n BYTEs   Names of extra ship properties
+
+  By default, there is a planet property `COMMENT' and a ship property
+  `COMMENT' declared. Users may declare more properties.
+
+Blocks:
+ +0     WORD    Type
+                 1      Planet History (one per planet)
+                 2      Ship History (one per ship)
+                 3      Ship Track (one per ship; but see below)
+                 4      Mine Field (may be many)
+                 5      Painting (may be many)
+                 6      Auto Build (one)
+                 7      Ship Property (one per ship)
+                 8      Planet Property (one per planet)
+                --- PCC 1.1.6+: ---
+                 9      Ship Score (one per score; but see below)
+                10      Planet Score (one per score; but see below)
+                11      Painting Tag Info (see below)
+                --- PCC 1.1.7+: ---
+                12      Ufo History (one per Ufo)
+ +2     DWORD   Size
+ +6   n BYTEs   data
+
+  After CCMERGE is used, several of the records given here might appear
+  multiple times even if the above says the converse:
+  + Ship Track
+  + Ship Score
+  + Planet Score
+  PCC will merge them when it loads the starchart file.
+
+
+--- Type 1: Planet History (mostly a standard PDATAx.DAT record) ---
+ +0     WORD    (b) Owner
+ +2     WORD    Id [*]
+ +4   3 BYTEs   FCode
+ +7   3 WORDs   (b) Mine / factory / defense count
+                If only industry level known ("light" etc.), the factory
+                count is 30000+n (n = PHost industry level 0..5)
++13   4 DWORDs  (a) Mined N/T/D/M
++29     DWORD   (b) Clans
++33     DWORD   (d) Supplies
++37     DWORD   (d) mc
++41   4 DWORDs  (a) Ground N/T/D/M
++57   4 WORDs   (a) Density N/T/D/M
++65   2 WORDs   colonist / native tax
++69   2 WORDs   colonist / native happiness
++73     WORD    (c) native government
++75     DWORD   (c) Natives
++79     WORD    (c) Native race
++81     WORD    Temperature (-1 unknown)
++83     WORD    Starbase present? (0 or 1)
++85   n WORDs   Timestamps: (a) = minerals, (b) = colonists, (c) = Natives,
+                (d) = mc/sup
+
+--- Type 2: Ship History ---
+ +0     WORD    Id [*]
+ +2     WORD    Player id [*]
+ +4   3 BYTEs   (b) FCode
+ +7     WORD    Speed
+ +9   2 WORDs   (b) WaypointDX/DY
++13   2 WORDs   X/Y
++17     WORD    (b) Engine
++19     WORD    Hull
++21   2 WORDs   (a) Beam, Beam count
++25     WORD    (a) Bay count
++27     WORD    (a) Launcher type
++29     WORD    (a) T/F
++31     WORD    (a) Launcher count
++33     WORD    (b) Mission
++35     WORD    (b) PE
++37     WORD    (b) Tow id
++39     WORD    (a) Damage
++41     WORD    (a) Crew
++43     WORD    (b) Clans
++45  20 BYTEs   Name
++65   4 WORD    (b) N, T, D, M
++73     WORD    (b) Supplies
++75   7 WORDs   (b) Unload
++89   7 WORDs   (b) Transfer
++103    WORD    (b) Intercept id
++105    WORD    (b) Money
++107  n WORDs   Timestamps: (a) weaponry/combat, (b) rest
+
+--- Type 3: Ship Track ---
+ +0     WORD    Id
+ +2     WORD    Ref. Turn (=turn number of first record)
+ +4   n BYTEs   Records of 9 bytes each, newest turn first
+                 +0   2 WORDs   X, Y
+                 +4     BYTE    Speed
+                 +5     WORD    Heading
+                 +7     WORD    Mass
+
+--- Type 4: Mine Field ---
+ +0  n BYTEs    Records of 16 bytes each. The number of such records is
+                determined by the size of the whole block. There may be
+                any number of Mine Field blocks, each containing several
+                mine fields.
+                 +0     WORD    Id
+                 +2     WORD    X
+                 +4     WORD    Y
+                 +6     WORD    Owner
+                 +8     DWORD   Number of mine units
+                +12     WORD    Type
+                                 0      Normal Mines
+                                 1      Web Mines
+                +14     WORD    Turn of last information about this field
+
+--- Type 5: Painting ---
+ +0  n BYTEs    Records of variable size. The number of records is
+                determined by the size of the whole block. There may be
+                any number of Painting blocks, each containing several
+                elements.
+                 +0     BYTE    Type of element
+                                 0      Line
+                                 1      Rectangle
+                                 2      Circle
+                                 3      Marker
+                                Bit 7   1 if comment present
+                 +1     BYTE    Color
+                 +2     WORD    X1
+                 +4     WORD    Y1
+                 +6     WORD    Line, Rectangle: X2
+                                Circles: radius
+                                Markers: Type
+                                 0      "+" (plus)
+                                 1      "!" (exclamation mark)
+                                 2      "x" (cross)
+                                 3      "<>" (diamond)
+                                 4      "p" (flag)
+                                 5      (down-up `lock' arrows)
+                                 6      "><" (right-left `lock' arrows)
+                 +8     WORD    Line, Rectangle: Y2
+                                others: zero
+                +10     WORD    Tag (non-negative for user-defined markers)
+                +12     WORD    Turn of expiry (-1=never). If this field is,
+                                for example, 17, the marker will be deleted
+                                at turn 18.
+                +14   n BYTEs   Comment (Pascal string), only if bit 7 in
+                                type set. Used only for markers.
+
+--- Type 6: Auto Build ---
+ +?   & BYTEs   500 Records of 12 BYTEs each
+                 +0     WORD    Number of Mines
+                 +2     WORD    Number of Factories
+                 +4     WORD    Number of Defense Posts
+                 +6     WORD    Number of SB Defense
+                                0..999 specify the wanted amount, 1000
+                                means "max".
+                 +8     BYTE    Speed for Mines (1..100)
+                 +9     BYTE    Speed for Factories (1..100)
+                +10     BYTE    Speed for Defense Posts (1..100)
+                +11     BYTE    Speed for SB Defense (1..100)
+
+--- Type 7: Ship Properties ---
+--- Type 8: Planet Properties ---
+ +0     WORD    Id
+ +2     WORD    Number of values
+ +4   n RECORDs of 6 bytes each. These store the type information for each
+                value, as well as scalar values.
+                 +0     WORD   Type
+                                0100h   EMPTY
+                                0200h   Integer
+                                0300h   Boolean
+                                0400h   String
+                                0500h   IEEE `single'
+                                0600h   Long String
+                                others  Real
+                 +2     DWORD  Value
+                               + EMPTY: unused
+                               + Integer, Bool: value
+                               + String: 0 if empty string, nonzero if
+                                 non-empty string (actual value follows
+                                 below)
+                               + Real: all 6 bytes form a Turbo Pascal Real
+                               + Single: IEEE 32-bit floating point number
+                                 (read by PCC 1.0.9+)
+                               + Long String: length of string, if non-
+                                 zero, value follows below (PCC II, read
+                                 by 1.0.18+)
+ +?   n BYTEs   String values. Non-empty strings follow here, in correct
+                order. A normal string (0400h) is stored as length byte
+                plus actual string data, a long string (0600h) contains
+                just the data.
+
+--- Type 9: Ship Scores (PCC 1.1.6+) ---
+--- Type 10: Planet Scores (PCC 1.1.6+) ---
+ +0     WORD    Size of the following structure
+ +2  54 BYTEs   Header. This is the same header as in a type-49 resp.
+                type-50 UTILx.DAT record. The size is explicitly given
+                above in case we someday enlarge this structure.
+                 +0  50 BYTEs   Name
+                +50     WORD    Score Id
+                +52     WORD    Score Limit
+ +x  3N WORDs   Score entries. The number is implicitly given by the
+                total block size.
+                 +0     WORD    Id
+                 +2     WORD    Score Value
+                 +4     WORD    Turn number
+
+--- Type 11: Painting Tag Info (PCC 1.1.6+) ---
+ +0     WORD    Number of entries in this record
+ +2   n WORDs   Tag values
++2N   n BYTEs   For each tag value, a Pascal string
+
+  If existant, this record precedes a Painting record (type 5). It defines
+  how Tag values corresponded to strings (atoms) when the file was written.
+  Upon loading, PCC will modify the tags in the paintings accordingly.
+
+  When CCMerge was used, there will be multiple Painting Tag records.
+  Each of them only applies to the Painting record which follows.
+
+--- Type 12: Ufo History (PCC 1.1.7+) ---
+ +0     WORD    Id
+ +2  78 BYTEs   Standard Ufo record. See UFO.HST for a detailed description
+                of the fields.
+                 +0     WORD    Color
+                 +2  20 BYTEs   Name
+                +22  20 BYTEs   Info 1
+                +42  20 BYTEs   Info 2
+                +62   2 WORDs   X, Y
+                +66     WORD    Speed
+                +68     WORD    Heading
+                +70     WORD    Planet visibility range
+                +72     WORD    Ship visibility range
+                +74     WORD    Radius
+                +76     WORD    Type
++80     DWORD   Real Id number. If the Ufo represents some object which has
+                its own Id number, this Id number is stored here. For
+                PHost wormholes, this is the wormhole Id.
++84     WORD    Turn when this Ufo was last seen
++86     WORD    X position where this Ufo was last seen
++88     WORD    Y position where this Ufo was last seen
++90     WORD    X movement per turn
++92     WORD    Y movement per turn
+                PCC uses the last four fields to estimate the wormhole's
+                current position.
 
 
 ## Old Format (PCC up to v1.0.7)
@@ -4953,169 +5661,6 @@ CHARTx.CC - PCC - Starchart entries [V]
                 all these records with defaults when creating this file.
 
 
-## New Format (PCC 1.0.8 and later)
-
-  The new starcharts file format is designed to be extensible, and to be
-  parsable by a program which does not fully understand it. So it is
-  divided into chunks, somewhat like UTILx.DAT.
-
-Header:
- +0   8 BYTEs   Signature, "CCchart"^Z
- +8     WORD    Turn number
-+10     WORD    Start of first data record (file offset, 0-based)
-+12     WORD    Number of extra planet properties
-+14     WORD    Number of extra starship properties
-+n    n BYTEs   Names of extra planet properties
-+n    n BYTEs   Names of extra ship properties
-
-  By default, there is a planet property `COMMENT' and a ship property
-  `COMMENT' declared.
-
-Records:
- +0     WORD    Type
-                 1      Planet History Record (one per planet; see below)
-                 2      Ship History Record (one per ship; see below)
-                 3      Ship Track Record (usually one per ship; see below)
-                 4      Mine Field Record (may be many)
-                 5      Painting Record (may be many)
-                 6      Auto Build Record (one)
-                 7      Ship Property Record (one per ship)
-                 8      Planet Property Record (one per planet)
- +2     DWORD   Size
- +6   n BYTEs   data
-
-Format of Planet History Record (mostly a standard PData record):
- +0     WORD    (b) Owner
- +2     WORD    Id [*]
- +4   3 BYTEs   FCode
- +7   3 WORDs   (b) Mine / factory / defense count
-                If only industry level known ("light" etc.), the factory
-                count is 30000+n (n = PHost industry level 0..5)
-+13   4 DWORDs  (a) Mined N/T/D/M
-+29     DWORD   (b) Clans
-+33     DWORD   (d) Supplies
-+37     DWORD   (d) mc
-+41   4 DWORDs  (a) Ground N/T/D/M
-+57   4 WORDs   (a) Density N/T/D/M
-+65   2 WORDs   colonist / native tax
-+69   2 WORDs   colonist / native happiness
-+73     WORD    (c) native government
-+75     DWORD   (c) Natives
-+79     WORD    (c) Native race
-+81     WORD    Temperature (-1 unknown)
-+83     WORD    Starbase present? (0 or 1)
-+85   n WORDs   Timestamps: (a) = minerals, (b) = colonists, (c) = Natives,
-                (d) = mc/sup
-
-Format of Ship History Record:
- +0     WORD    Id [*]
- +2     WORD    Player id [*]
- +4   3 BYTEs   (b) FCode
- +7     WORD    Speed
- +9   2 WORDs   (b) WaypointDX/DY
-+13   2 WORDs   X/Y
-+17     WORD    (b) Engine
-+19     WORD    Hull
-+21   2 WORDs   (a) Beam, Beam count
-+25     WORD    (a) Bay count
-+27     WORD    (a) Launcher type
-+29     WORD    (a) T/F
-+31     WORD    (a) Launcher count
-+33     WORD    (b) Mission
-+35     WORD    (b) PE
-+37     WORD    (b) Tow id
-+39     WORD    (a) Damage
-+41     WORD    (a) Crew
-+43     WORD    (b) Clans
-+45  20 BYTEs   Name
-+65   4 WORD    (b) N, T, D, M
-+73     WORD    (b) Supplies
-+75   7 WORDs   (b) Unload
-+89   7 WORDs   (b) Transfer
-+103    WORD    (b) Intercept id
-+105    WORD    (b) Money
-+107  n WORDs   Timestamps: (a) weaponry/combat, (b) rest
-
-Format of Ship Track Record:
- +0     WORD    Id
- +2     WORD    Ref. Turn (=turn number of first record)
- +4   n BYTEs   Records of 9 bytes each, newest turn first
-                 +0   2 WORDs   X, Y
-                 +4     BYTE    Speed
-                 +5     WORD    Heading
-                 +7     WORD    Mass
-
-  After running CCMERGE, there may be many ship track records for a ship.
-  PCC will combine them when loading the game.
-
-Format of a Mine Field Record: contains any number of mine fields in
-the same format as ever:
- +0  n BYTEs    Records of 16 bytes each
-                 +0     WORD    Id
-                 +2     WORD    X
-                 +4     WORD    Y
-                 +6     WORD    Owner
-                 +8     DWORD   Number of mine units
-                +12     WORD    Type
-                                 0      Normal Mines
-                                 1      Web Mines
-                +14     WORD    Turn of last information about this field
-
-Format of a Painting Record: contains any number of paintings (note that
-this format is a bit different than before):
- +0  n BYTEs    Records of variable size
-                 +0     BYTE    Type of element
-                                 0      Line
-                                 1      Rectangle
-                                 2      Circle
-                                 3      Marker
-                                Bit 7   1 if comment present
-                 +1     BYTE    Color
-                 +2     WORD    X1
-                 +4     WORD    Y1
-                 +6     WORD    Line, Rectangle: X2
-                                Circles: radius
-                                Markers: Type
-                                 0      "+" (plus)
-                                 1      "!" (exclamation mark)
-                                 2      "x" (cross)
-                                 3      "<>" (diamond)
-                                 4      "p" (flag)
-                                 5      (down-up `lock' arrows)
-                                 6      "><" (right-left `lock' arrows)
-                 +8     WORD    Line, Rectangle: Y2
-                                others: zero
-                +10     WORD    Tag (non-negative for user-defined markers)
-                +12     WORD    Turn of expiry (-1=never). If this field is,
-                                for example, 17, the marker will be deleted
-                                at turn 18.
-                +14   n BYTEs   Comment (Pascal string), only if bit 7 in
-                                type set. Used only for markers.
-
-Format of Auto Build Record: same format since ever:
- +?   & BYTEs   500 Records of 12 BYTEs each
-                 +0     WORD    Number of Mines
-                 +2     WORD    Number of Factories
-                 +4     WORD    Number of Defense Posts
-                 +6     WORD    Number of SB Defense
-                                0..999 specify the wanted amount, 1000
-                                means "max".
-                 +8     BYTE    Speed for Mines (1..100)
-                 +9     BYTE    Speed for Factories (1..100)
-                +10     BYTE    Speed for Defense Posts (1..100)
-                +11     BYTE    Speed for SB Defense (1..100)
-                The 7th bit of the speed values is reserved for additional
-                flags which might be introduced in future. PCC initializes
-                all these records with defaults when creating this file.
-
-Format of Ship/Planet Property Record: same as local variable values
-in VMx.CC:
- +0     WORD    Id
- +2     WORD    Number of values
- +4  6N BYTEs   Scalar values
- +?   n BYTEs   String values
-
-
 ## Colors in PCC
 
  1      Dark gray
@@ -5161,6 +5706,9 @@ CMDx.TXT - Additional Commands [V]
 
   - `$include FILE': this token is reserved to mean "include specified
     file here", but as of now it is not implemented;
+  - `$send-file name.ext': generate a type-34 UTILx.DAT record (file
+    transfer) which contains the specified file, and send it through the
+    Host via TRN command 62 (SendBack). See there for further information;
   - `$time MM-DD-YYYYhh:mm:ss': specify the timestamp of the turn to which
     this file belongs. If present, this must be the first command in the
     file;
@@ -5228,6 +5776,27 @@ CPx.CC - PCC - PHost Command Processor Commands [V]
     bit 6..7 is 00 (offer alliance), 10 (drop), or 01 (offer FF alliance;
     PCC 1.0.15+);
   þ c=13: "send fcodes" command.
+
+
+DISTTABL.DAT - Distance Table [V]
+----------------------------------
+
+  This file contains a look-up table to emulate the distance
+  computations of HOST.EXE. Programs should use it to deliver exact
+  predictions. See <http://phost.de/~stefan/fuelusage.html> for
+  details. The idea is to compute 'Trunc(dx^2 + dy^2)'. HOST.EXE has
+  some math errors here making it hard to duplicate its behaviour
+  easily.
+
+  The file consists of 168 "rows" corresponding to dy values from 1 to
+  168. Each row consists of 21 bytes (168 bits) corresponding to dx
+  values from 0 to 167. The low-order bit corresponds to the
+  lower-valued dx. To compute the value 'Trunc(dx^2 + dy^2)', take the
+  first dx bits in row dy, count the '1' bits, and add dy-1.
+
+  If either dx or dy is negative, remove the sign; if dy is zero, swap
+  dx and dy (for dx=dy=0, the result is obviously zero). HOST.EXE
+  never plugs values larger than 162 into the fuel formula.
 
 
 FLEETx.CC - PCC - Fleet Information [V]
@@ -5342,11 +5911,110 @@ INFNOTES.Gx - Informer - Notes [T]
                                 each, the marker text
 
 
+.KFB - TKF - Saved battle setup [T]
+------------------------------------
+
+  This file contains a battle saved with the TKF viewer. This file format
+  is not very well-explored, as I do not use TKF on a regular basis.
+
+ +0     WORD    TKF Version number
+ +2     WORD    TKF Version number again (probably something like "minimum
+                version needed to play)
+                 1..n beta versions 1..n
+                 150  version 1.5
+ +4  11 WORDs   Allies. For every player, the players whom is is allied with.
++26  11 WORDs   Enemies. For every player, the players whom he is hostile to.
+                 Bit 0  unused, zero
+                 Bit 1  set if Fed is enemy
+                 Bit 2  set if Lizard is enemy
+                 ...
++38   n RECORDs Units in fight. The format is probably version specific.
+                In version 1.5, each record has the following format:
+                 +0     WORD    Id
+                 +2     WORD    Owner race (1..11)
+                 +4  20 BYTEs   Name. Zero- or space-padded.
+                +24     WORD    Hull type minus one (0..104), or -1 for
+                                planets
+                +26     WORD    Ship: Cargo Mass
+                +28     WORD    Planet: defense posts
+                +30     WORD    Ship: Damage times 100 (i.e. 500 = 5% damage)
+                +32     WORD    Ship: Shields times 100 (i.e. 10000 = 100%)
+                +34     WORD    Ship: Crew
+                +36     WORD    Ship: Engine type minus one (0..8)
+                +38     WORD    Ship: Beam count
+                +40     WORD    Ship: Beam type minus one (0..9)
+                +42     WORD    Ship: Fighter bay count
+                +44     WORD    Ship: Torpedo launcher count
+                +46     WORD    Ship: Torpedo type minus one (0..9)
+                +48     WORD    Ship: Torpedoes / fighters
+                +50     WORD    Aggression code (0..1000)
+               ---- The following is not in version beta-4 ---
+                +52     WORD    Flags?
+
+
+KFVCRx.DAT - TKF - Battles [T]
+-------------------------------
+
+  This file contains a battle saved with the TKF viewer. This file format
+  is not very well-explored, as I do not use TKF on a regular basis. This
+  is mostly just a notepad for things I already know.
+
+ +0     WORD    ?
+ +2     WORD    ? (100)
+ +4     WORD    Version number
+ +6     WORD    Turn number
+ +6   4 WORDs   ?
+--- Configuration ---
++16  11 RECORDs of 10 bytes each: configuration for each race
+                 +0     BYTE    Mass bonus (50 for Feds)
+                 +1     BYTE    Extra fighter bays (3 for Feds)
+                 +2     BYTE    Weapons don't get damage (0=off, -1=on;
+                                this is enabled for Feds)
+                 +3     WORD    Maximum damage * 100 (Lizard: 15000)
+                 +5     WORD    Weapon damage scale * 100 (Lizard: 15000)
+                 +7     BYTE    ?
+                 +8     BYTE    Beam 3x kill bonus (0=off, -1=on; Privs)
+                 +9     BYTE    Gather debris (0=off, -1=on; Cyborg)
++126    BYTE    EngineShieldBonusRate (?)
++127    WORD    MinimumDamagePerAttack * 1000
++129    BYTE    TorpHitOdds (?)
++130    BYTE    TorpsHitFighters (0=off, -1=on)
++131 10 WORDs   XXXChargedMin, for 10 beams
++151 10 WORDs   XXXCharged, for 10 torps
++171    WORD    ShipBayCharged (?)
++173    WORD    ?
++175    WORD    PlanetBayCharged (?)
++177  4 BYTEs   ? (0, 3, 0, 0)
++181    WORD    FighterBeamCharged
++183    WORD    FighterEnergy
++185    WORD    FighterCostBeamCharge
++187    WORD    FighterCostMovement
++189    WORD    FighterMovementSpeed
++191    BYTE    FighterBeamExplosive
++192    BYTE    FighterBeamKill
++193    WORD    FighterFiringRange
++195    BYTE    ? (-1)
++196    WORD    BeamRange
++198    BYTE    (?)
++199    WORD    TorpRange
++201    BYTE    (?)
++202    BYTE    AlternateCloakIntercept (?)
++203    DWORD   AltCloakInterceptDistance
++207  n BYTEs   ? I think the structure of the records that follow is
+                described here.
+--- Fights ---
++262  n RECORDs Objects taking part in first fight, same format as in .KFB
+                files
+
+
 MESSx.CC - PCC - Message-related Stuff [V]
 -------------------------------------------
 
   This file contains the template for messages from the appropriate player
   (the "signature"), and the "killfile" for incoming messages.
+
+  This format is no longer used in PCC 1.1.5 and later in favor of
+  MSGx.INI.
 
  +0 656 BYTEs   Message template. 16 fixed-size pascal strings with up to
                 40 characters (16 x 41 bytes). For messages to a single
@@ -5357,6 +6025,20 @@ MESSx.CC - PCC - Message-related Stuff [V]
 +656    WORD    Number of subjects in the killfile
 +658  n BYTEs   Fixed-size pascal strings, 36 bytes each: subjects in the
                 killfile (like in message overview)
+
+
+MSGx.INI - PCC/VPA - Message Configuration [V]
+-----------------------------------------------
+
+  This file is used for the message template and for the filter entries.
+  IT is used by PCC 1.1.5 and later, as well as VPA 3.61d and later.
+
+  This is a text file, in standard ".ini" or "pconfig.src" file format.
+
+  - "Filter = text": a message filter entry. Messages with the specified
+    subject line are not displayed.
+  - "Sig = text": add a line to the message template/"signature". This is
+    currently ignored by VPA.
 
 
 OBJx.CC - PCC - Objects in the starcharts [V]
@@ -5581,30 +6263,10 @@ Format of a saved command source (stack frame):
                 The previous two words do not have any connection, there can
                 be more names than values or vice versa.
 +10   n BYTEs   Local variable names, "nnam" names (see `Name List' below)
- +?   n BYTEs   Local variable values, "nval" records of 6 bytes each:
-                 +0     WORD   Type
-                                0100h   EMPTY
-                                0200h   Integer
-                                0300h   Boolean
-                                0400h   String
-                                0500h   IEEE `single'
-                                0600h   Long String
-                                others  Real
-                 +2     DWORD  Value
-                               + EMPTY: unused
-                               + Integer, Bool: value
-                               + String: 0 if empty string, nonzero if
-                                 non-empty string (actual value follows
-                                 below)
-                               + Real: all 6 bytes form a Turbo Pascal Real
-                               + Single: IEEE 32-bit floating point number
-                                 (read by PCC 1.0.9+)
-                               + Long String: length of string, if non-
-                                 zero, value follows below (PCC II, read
-                                 by 1.0.18+)
- +?   n BYTEs   For each non-empty string in local variables, one Pascal
-                string. For each long string, the appropriate number of
-                bytes.
+ +?  6N BYTEs   Local variable values, "nval" records of 6 bytes each.
+ +?   n BYTEs   String values.
+                See CHARTx.CC, block 7/8, for details about the previous
+                two fields.
 --- Type 0 Command Source ---
  +?     DWORD   "ip" of first line in saved code snippet
  +?     DWORD   Code snipped identifier ("uid")
@@ -5680,6 +6342,10 @@ Format of a saved context:
  +2     WORD    Minefield Id
 --- Type 18 (Ion Storm; 1.0.11+) ---
  +2     WORD    Ion storm Id
+--- Type 19 (Lock; 1.1.2+) ---
+ +2     WORD    0
+ +4   n BYTEs   Lock name, Pascal string
+ +x   n BYTEs   Info text, Pascal string
 
 
 ## Name Lists
@@ -5845,6 +6511,11 @@ VPAx.DB - VPA - Database [T]
         the race doesn't play or the number is unknown. The Count word in
         the block header is 0.
 
+  þ "PEXP" - Planet Experience (3.61f+)
+        Contains 500 bytes, one for each planet. Each entry contains the
+        experience level (>= 0) or 255 if not known. This record only
+        exists when PHost 4.x experience is actually used.
+
   þ "PHST" - PHost Version Number
         Exists if PHost is being used. Contains the PHost version number
         ("3.2e"). The Size field contains the length in characters of this
@@ -5862,9 +6533,18 @@ VPAx.DB - VPA - Database [T]
                         Code), see PDATAx.DAT for description. Unknown
                         values are set to -1.
 
-  þ "REFS" - ???
+  þ "REFS" - unused
+        This header tag is recognized but not evaluated by current
+        versions of VPA.
 
-  þ "SCOR" - ???
+  þ "SCOR" - unused
+        This header tag is recognized but not evaluated by current
+        versions of VPA.
+
+  þ "SEXP" - Ship Experience (3.61f+)
+        Contains 999 bytes, one for each ship. Each entry contains the
+        experience level (>= 0) or 255 if not known. This record only
+        exists when PHost 4.x experience is actually used.
 
   þ "SHIP" - Ship data
         Contains data for all starships, same as SHIPx.DAT, plus all
@@ -5893,7 +6573,7 @@ VPAx.DB - VPA - Database [T]
 
   þ "VERS" - VPA Version Number
         The Count field in the header contains the version number, encoded
-        as 351dec for 3.51. The data area itself is empty (size 0).
+        as 351 (decimal) for 3.51. The data area itself is empty (size 0).
 
   þ "WORM" - Wormholes
         Entries of 12 bytes each.
@@ -5979,6 +6659,120 @@ ALIENS!.HST - Aliens! - Hosting Information [T]
                 Defaults to 666.
 
 
+AUXHULL.DAT - VPEdit/VPHost - Auxiliary Hull Data [T]
+------------------------------------------------------
+
+  This file can be edited with VPEdit. VPHost 3.16 claims to use it
+  to define auxiliary hull information, but this seems not be true.
+  This file assigns special abilities to ships. So far, this mechanism was
+  never implemented completely. Just for curiosity, here it is.
+
+  The file contains one record per hull, each of which is 32 bytes.
+
+ +0   3 WORDs   Special devices assigned to this ship. Index into
+                DEVSPEC.DAT or 0.
+ +6     WORD    "Minimum Crew"
+ +8     WORD    "Free Device Bays"
++10  11 WORDs   ?
+
+
+DEVSPEC.DAT - VPEdit/VPHost - Device Information [T]
+-----------------------------------------------------
+
+  This file can be edited with VPEdit. VPHost 3.16 claims to use it
+  to define auxiliary hull information, but this seems not be true.
+  This file defines special devices. So far, this mechanism was
+  never implemented completely. Just for curiosity, here it is.
+
+  The file consists of a sequence of records, each of which is 255 bytes
+  long and has the following format:
+
+ +0  30 BYTEs   Name of device
++30   4 BYTEs   Short name of device
++34     WORD    Engine tech required
++36     WORD    Hull tech required
++38     WORD    Beam tech required
++40     WORD    Torp tech required
++42     WORD    Tritanium required
++44     WORD    Duranium required
++46     WORD    Molybdenum required
++48     WORD    Money required
++50     WORD    Device kind
+                 1      Alchemy device
+                 2      Refinery device
+                 3      Torpedo building device
+                 4      Fighter building device
+                 5      Gambling device
+                 6      Ram-scoop device
+                 7      Terraform: heating device
+                 8      Terraform: cooling device
+                 9      Ship repair device
+                10      Refit device
+                11      Bioscanner device
+                12      Industry scanner device
+                13      Scanner device
+                14      Dark sense
+                15      Minefield scanner
+                16      Deep space scanner
+                17      Cloaking device
+                18      Anti-cloak device
+                21      Gravitonic accelerator
+                22      Hyperdrive
+                23      Chunnel device
+                31      Super-spy device
+                32      Rob-ship device
+                33      Pillage device
+                34      RGA device
+                35      Combat device
+                36      Imperial assault device
+                37      Hiss device
+                38      Factory feed
+                41      Mine scoop device
+                42      Mine lay device
+                43      Web mine lay device
+                44      Mine sweep device
+                45      Fighter mine sweep device
+                46      Glory device
+                51      Terraform: optimum device (heat or cool?)
+                52      Native lifeform assimulator
+                53      Robot clan construction device
+                54      Colonist cloning device
+                55      Ground attack air supply
+                56      Terraform: ore condenser
+                57      Position jammer device
+                58      Chameleon device
+                59      Entertainment device
+                64      Camouflage scanner
++52     WORD    ?
++54  10 WORDs   Fuel usage, for each warp factor
++74  10 WORDs   "Fuel move", times 10 (i.e. 15 means 1.5)
++94  10 WORDs   Fuel usage, mass related, for each warp factor
++114 10 WORDs   Supply usage, for each warp factor
++134 10 WORDs   Maximum range, for each warp factor
++154 10 WORDs   ?
++174    WORD    Number of engines (required?)
++176    WORD    Cargo space (occupied by device?)
++178  2 WORDs   ?
++182    WORD    Maximum damage
++184    WORD    Minimum engine tech
++186    WORD    ?
++188    WORD    Standard (all applicable ships have it), 0 or 1
++190    WORD    Device is automatic, 0 or 1
++192    WORD    Shareware, 0 or 1
++194  2 WORDs   ?
++198    WORD    Racial orders: bitfield. Bit 1 = race 1, bit 2 = race 2, ...
+                Value 0 means 'all'.
++200    WORD    Racial usage: bitfield.
++202  3 BYTEs   'Trigger' FCode
++205  3 BYTEs   'Enable' FCode
++208  3 BYTEs   'Disable' FCode
++211    WORD    Minimum warp
++213    WORD    Maximum warp
++215  3 WORDs   ?
++221    WORD    Mass (of device?)
++223 16 WORDs   ?
+
+
 EXPLMAP.HST - Explore Map - Seen Planets [T]
 ---------------------------------------------
 
@@ -5994,6 +6788,25 @@ EXPLMAP.HST - Explore Map - Seen Planets [T]
   example) Intel machines and big-endian on Suns.
 
 
+KFROBO.HST - TKF - Result Information [V]
+------------------------------------------
+
+ +0     WORD    Number of battles this turn
+ +2   n RECORDs of variable length, for each battle:
+                 +0     WORD    X
+                 +2     WORD    Y
+                 +4     WORD    Number of surviving ships
+                 +6   n WORDs   Id numbers of surviving ships
+                 +?     WORD    Number of killed ships
+                 +?   n WORDs   Id numbers of killed ships
+
+
+KFTONS.HST - TKF - Tons score [V]
+----------------------------------
+
+  This file has the same format and contents as TONS.HST.
+
+
 TEAMS.DAT - PTScore - Teams [T]
 --------------------------------
 
@@ -6001,6 +6814,108 @@ TEAMS.DAT - PTScore - Teams [T]
 
  +0     WORD    0 (?)
  +2  11 WORDs   Team numbers for each player (0=not in a team)
+
+
+VPMOVIE.TMP - VGA Planets Movie Recorder (VPMC) - State of the World [T]
+-------------------------------------------------------------------------
+
+  This file is created by the Movie Recorder (VPMC) to store the current
+  state of the world. Each turn, the Recorder computes the difference
+  between the universe and this file and stores it to the .VPM file, and
+  updates VPMOVIE.TMP accordingly.
+
+ +0  10 BYTEs   "option block" (?)
++10 500 BYTEs   planet data
+                 bits 0..3      owner
+                 bit 4          ? (0)
+                 bit 5          starbase present
+                 bits 6, 7      ? (0)
++510 500 RECORDs of 9 bytes each
+                 +0     BYTE    Hull number
+                 +1     BYTE    bits 0..3  owner
+                                bits 4..7  engine type
+                 +2     BYTE    bits 0..3  beam type
+                                bits 4..7  beam count
+                 +3     BYTE    bits 0..3  torp type
+                                bits 4..7  torp launcher count
+                 +4     WORD    X
+                 +6     WORD    Y
+                 +8     BYTE    damage
++5010 500 RECORDs of 7 bytes each
+                 +0     WORD    X
+                 +2     WORD    Y
+                 +4     WORD    Radius
+                 +6     BYTE    Bits 0..3  owner
+                                Bit 4      1=web
+
+
+.VPM - VGA Planets Movie Player (VPMPLAY, VPMC) - Movie [T]
+------------------------------------------------------------
+
+ +0  10 BYTEs   Signature "VPM 2.1",0,0,0 (probably version dependant)
++10 1000 WORDs  Planet coordinates. 500 X,Y pairs
++2010 682 BYTEs Race names. Same format as RACE.NM
++2692 n BYTEs   Movie data, variable-sized blocks. Each block has the format
+                 +0     BYTE    block type
+                 +1   n BYTEs   block data
+                A turn ends with a block of type 0 containing no data, i.e.
+                just a null byte. Each block specifies the differences
+                from the previous turn to this one.
+
+--- Planet block ---
+ +0     BYTE    1 (block type)
+ +1   n WORDs   planet data
+                 bits 0..8      Id
+                 bits 9..12     owner
+                 bit 13         ? (0)
+                 bit 14         starbase present
+                 bit 15         ? (0)
+ +m     WORD    0 (block terminator)
+
+--- Ship block ---
+ +0     BYTE    2 (block type)
+ +n     RECORDs of variable size:
+                 +0     WORD    bit 0  hull info present
+                                bit 1  owner/engine info present
+                                bit 2  beam info present
+                                bit 3  torp info present
+                                bit 4  damage info present
+                                bit 5  X coordinate present
+                                bit 6  Y coordinate present
+                                bit 7..15  Id
+                --- all these fields are optional: ---
+                 +?     BYTE   hull
+                 +?     BYTE   bits 0..3 owner
+                               bits 4..7 engine
+                 +?     BYTE   bits 0..3 beam type
+                               bits 4..7 beam count
+                 +?     BYTE   bits 0..3 torp type
+                               bits 4..7 torp launcher count
+                 +?     BYTE   damage%
+                 +?     WORD   X
+                 +?     WORD   Y
+ +?     WORD    0 (block terminator)
+
+  Note: when a ship is destroyed, this is reported with an entry that has
+  only owner/engine information with new owner zero.
+
+--- Minefield block ---
+ +0     BYTE    3 (block type)
+ +1   n RECORDs of variable size:
+                 +0     WORD   Bits 0..8 Id
+                               Bit 15    1 if radius change only
+                --- if Bit 15 clear ---
+                 +2     WORD   X
+                 +4     WORD   Y
+                 +6     WORD   Radius
+                 +8     BYTE   Bits 0..3 owner
+                               Bit 4     1=web
+                --- if Bit 15 set ---
+                 +2     WORD   Radius
+ +m     WORD    0 (block terminator)
+
+  Note that the VPM player assumes that the first recorded turn is turn 1,
+  no matter what it really was.
 
 
 FILE LIST - WHO OWNS WHAT
@@ -6017,8 +6932,11 @@ FILE LIST - WHO OWNS WHAT
     .CCB            PCC, CCBSim: Battle simulations [*]
     .CCP            PCC: printer driver (plain text)
     .CCR            PCC: report definition
+    .KFB            TKF: Saved battle setup [*]
     .Q              PCC: script (plain text)
     .SEL            PCC: Saved Selection (plain text) [*]
+    .VPM            VPMC: Movie [*]
+    1BANCO.HST      1Banco (1st Corsarian Satellite Bank): ?
     AFSIM.SAV       AFSim: Saved simulation setup [*]
     AFSREPL.EXE     AFSim: helper program
     ALIENS!.HST     Aliens!: Hosting Information [*]
@@ -6029,6 +6947,7 @@ FILE LIST - WHO OWNS WHAT
     AUXDATA.HST     PHost: Miscellaneous [*]
     AUXHOST1.INI    Standard host: first hook (batch file)
     AUXHOST2.INI    Standard host: last hook (batch file)
+    AUXHULL.DAT     VPHost: additional hull info
     BDATA.HST       Standard host: Starbase data [*]
     BDATAx.DAT      Standard client: New Base Data [*]
     BDATAx.DIS      Standard client: Old Base Data [*]
@@ -6054,6 +6973,8 @@ FILE LIST - WHO OWNS WHAT
     COREx           PCC: core dump
     CPERROR.LOG     CPlayer: error log (plain text)
     CPx.CC          PCC: Command Processor Commands [*]
+    DEVSPEC.DAT     VPHost: device specifications
+    DISTTABL.DAT    Static: distance computation table [*]
     DOMERR.LOG      Dominate: error log (plain text)
     DOMOLD.LOG      Dominate: previous error log (plain text)
     EBANGx.DAT      EchoView: explosions
@@ -6097,6 +7018,9 @@ FILE LIST - WHO OWNS WHAT
     INF.Gx          Informer: Game Definition [*]
     INFNOTES.Gx     Informer: Notes [*]
     INIT.TMP        Standard client: Player List [*]
+    KFROBO.HST      TKF: Battle summary [*]
+    KFTONS.HST      TKF: Tons sunk [*]
+    KFVCRx.DAT      TKF: Combat recordings [*]
     KOREx.DAT       Winplan: Starcharts [*]
     LANG.PLN        THost: Host Language [*]
     LASTTURN.HST    Standard host: Timestamp [*]
@@ -6116,12 +7040,15 @@ FILE LIST - WHO OWNS WHAT
     MISPLAN.EXE     SRace: planets.exe mission name patch
     MISSION.CC      PCC: Mission list (plain text)
     MISSION.INI     Winplan: Missions (plain text) [*]
+    MSGx.INI        VPA/PCC: message-related configuration (plain text) [*]
     MTx.TXT         Winplan: maketurn log (plain text)
     MYCONFIG.SPL    Spacelord: ?
     MYPLANx.SPL     Spacelord: ?
     MYSHIPx.SPL     Spacelord: ?
+    NAMES.DAT       PTScore: player names (plain text)
     NEXTTURN.HST    Standard host: Timestamp [*]
     NOTESx.DAT      Winplan: Notes [*]
+    NAUTOx.DAT      Hacked Winplan: auto tasks (see AUTOx.DAT) [*]
     OBJx.CC         PCC: Objects in the starcharts [*]; no longer used
     OLDFIG.HST      THost: Host Configuration [*]
     PATCH.PLN       SRace: data file for FIXPLAN.EXE
@@ -6163,7 +7090,7 @@ FILE LIST - WHO OWNS WHAT
     SNOOKER.DAT     Winplan: TempLock Deluxe [*]
     SUNBST.HST      FHost: ?
     SUNDATA.HST     FHost: ?
-    STAT.CC         PCC: Statistics [*]
+    STAT.CC         PCC: Statistics (scores) [*]
     STORM.NM        Standard host: Names for Ion storms [*]
     TARGETx.DAT     Standard client: Visible enemy ships ("Contacts") [*]
     TARGETx.EXT     VPUNPACK/VPUTIL: More enemy ships [*]
@@ -6182,12 +7109,13 @@ FILE LIST - WHO OWNS WHAT
     TRUEHOST.DAT    SRace: Original TRUEHULL.DAT [*]
     TRUEHULL.DAT    Standard static: Assignment Player <-> Starship Hulls [*]
     TRUEHULL.NEW    SRace: modified TRUEHULL.DAT
-    TURNBASE:       PDV: ?
+    TURNBASE        PDV: ?
     TURNSTAT.LOG    PHost: turn status log (green/red, ...) (plain text)
     UFO.HST         Standard host: UFOs, 3rd party additions [*]
     UTIL.TMP        PHost: Temporary UTILx.DAT Files [*]
     UTILx.DAT       PHost: Information for Client Programs [*]
     UTILx.EXT       PHost: Add-on Information [*]
+    VCR.CFG         PlayVCR: configuration of Winplan integrator (plain text)
     VCR.HST         Standard host: VCRs [*]
     VCRINIT.TMP     DOS Planets: Temporary file [*]
     VCRx.DAT        Standard client: Visual Combat Recordings [*]
@@ -6203,9 +7131,11 @@ FILE LIST - WHO OWNS WHAT
     VPAx.DB         VPA: Database [*]
     VPH35.DLL       THost: Version 3.5 Signatures [*]
     VPMIDI.INI      Winplan: music configuration (plain text)
+    VPMOVIE.TMP     VPMC: State of the world [*]
     VPSOUND.INI     Winplan: sound f/x configuration (plain text)
     WORMHOLE.TXT    PHost: wormholes (plain text)
     WPVCR.DLL       Winplan: Images for the Winplan VCR [*]
+    WRAPPER.LOG     PlayVCR: log file of the Winplan integrator (plain text)
     XTERNCMD.EXT    PHost: External Commands (plain text) [*]
     XTRFCODE.TXT    PHost: Special Friendly Codes (plain text) [*]
     XYPLAN.DAT      Standard static: Planet coordinates [*]
@@ -6217,7 +7147,7 @@ AUTHOR & COPYRIGHT
 ===================
 
   This information was collected by Stefan Reuther in the years 1995 to
-  2002. Hereby, I donate it to the PUBLIC DOMAIN. That is, you may do
+  2004. Hereby, I place it into the PUBLIC DOMAIN. That is, you may do
   anything with it: copy it around, change it, translate it... But if you
   distribute a (possibly changed) copy of this list, or your new product
   is based in large parts on this list, courtesy should allow a reference
@@ -6243,7 +7173,7 @@ AUTHOR & COPYRIGHT
     mailto:Streu@gmx.de (Stefan Reuther)
 
   Updates and some other VGA Planets stuff will be released on my web page
-  at http://www.inf.tu-dresden.de/~sr21/vgapage.html
+  at http://phost.de/~stefan/vgapage.html
 
 
   Oh, remember: VGA Planets is (c) copyright and (tm) Trademark by
