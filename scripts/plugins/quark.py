@@ -30,7 +30,7 @@ class Quark(gwp.Plugin):
     RECAUDADOR_MIN_MC = 500
     
     #--------------------------------------------------------------------------     
-    def init_lists(self):
+    def _init_lists(self):
         self.pl = []
         all_pl = gwp.planet_get_list()
         for i in all_pl:
@@ -43,7 +43,7 @@ class Quark(gwp.Plugin):
         pass
     
     #--------------------------------------------------------------------------        
-    def planet_selected(self, treeselection, data=None):
+    def quark_planet_selected(self, treeselection, data=None):
         (model, iter) = treeselection.get_selected()
         try:
             id = self.store_planets.get_value(iter,0)
@@ -237,7 +237,7 @@ class Quark(gwp.Plugin):
         self.fname = self.ruta + '/quark.glade'
         self.__initglade(self.fname)
         self.quark_utils.widgets_make_link(self)
-        self.init_lists()
+        self._init_lists()
         self.__create_gui()    
     
     #--------------------------------------------------------------------------
@@ -270,29 +270,33 @@ class Quark(gwp.Plugin):
 
         # callbacks
         self.cmb_filter.entry.connect("changed", self.filter_selected, None)
-        self.treeselection_planets.connect("changed", self.planet_selected, None)
-        ##self.btn_nave.connect("clicked", self.agregar_nave, None)
+        self.treeselection_planets.connect("changed", self.quark_planet_selected, None)
         #Comienzo la cascada de inicializaciones
         self.filter_load_data()
         self.filter_init_selection()
 
     #--------------------------------------------------------------------------            
     def filter_load_data(self):
+        # Cargo el filtro con un arreglo que tiene los tipos de filtro.
         self.cmb_filter.set_popdown_strings(self.quark_utils.filter_list)
 
     #--------------------------------------------------------------------------    
     def filter_init_selection(self):
+        # Seteo el filtro por defecto, cargo la lista con los planetas
+        # correspondientes y llamo al inicializador de la lista de planetas.
         filter = self.get_filter(self.cmb_filter.entry.get_text())
         self.planets_load_list(filter)
         self.planets_init_selection()
         
     #--------------------------------------------------------------------------
     def get_filter(self, texto):
-        ##FIXME : Falta devolver el filtro correcto
+        ##FIXME : Falta devolver el filtro correcto.
         return self.FILTER_NONE
 
     #--------------------------------------------------------------------------        
     def planets_load_list(self, filter):
+        # Carga la lista de planetas de acuerdo al filtro.
+        
         ##FIXME : Falta darle bola al filtro
         self.store_planets.clear()
         for p in self.pl:
@@ -300,11 +304,13 @@ class Quark(gwp.Plugin):
                 
     #--------------------------------------------------------------------------
     def planets_init_selection(self):
+        # Elige el primer planeta de la lista.
+        # Esto desencadena el evento de "planeta seleccionado" que carga los
+        # datos de este planeta en la interface del plugin.
         self.treeselection_planets.select_path((0,))
 
     #--------------------------------------------------------------------------
     def main_cb(self, widget, data=None):
-        print "main cd carajo"
         self.main()
         
     #--------------------------------------------------------------------------
@@ -349,13 +355,5 @@ class Quark(gwp.Plugin):
     # Cleaning up
     def unregister(self, pm):
         pass
-##########################################################################
 
-#####
-# Load code
-#####
-#if __name__ == '__main__':
-#    # para modo pruebas lo arranco directo
-#    quark = Quark()
-#    quark.main()
     
