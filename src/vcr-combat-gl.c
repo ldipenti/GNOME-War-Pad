@@ -1,3 +1,7 @@
+
+#undef USE_TEXTURES
+
+
 #include "vcr-combat-gl.h"
 #include <gnome.h>
 #include "global.h"
@@ -38,7 +42,10 @@ enum {
    VCRCGL_TEX_COUNT
 };
 
+
+#ifdef USE_TEXTURES
 static GLuint vcrcgl_texture_names[ VCRCGL_TEX_COUNT -1 ];
+#endif
 
 static guint timeout_id = 0;
 static float begin_x = 0.0;
@@ -88,7 +95,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
   GdkGLContext *glcontext = gtk_widget_get_gl_context (widget);
   GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
 
-  static GLfloat light0_position[] = { 0.0, 0.0, 30.0, 0.0 };
+  static GLfloat light0_position[] = { 3.0, 3.0, 10.0, 0.0 };
   static GLfloat light0_diffuse[]  = { 1.0, 1.0, 1.0, 1.0 };
   static GLfloat light0_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
@@ -104,8 +111,10 @@ static void realize( GtkWidget *widget, gpointer user_data )
     return;
 
 
+#ifdef USE_TEXTURES
   glGenTextures( (VCRCGL_TEX_COUNT -1), vcrcgl_texture_names );
-
+  glEnable( GL_TEXTURE );
+#endif
 
   glClearColor (0.8, 0.8, 0.9, 1.0);
   glClearDepth (1.0);
@@ -120,8 +129,6 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
   glCullFace( GL_BACK );
   glEnable (GL_CULL_FACE);
-
-  glEnable( GL_TEXTURE );
 
   glShadeModel (GL_SMOOTH);
 
@@ -142,6 +149,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
 
 
+#ifdef USE_TEXTURES
 
   /* read planet texture */
   glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
@@ -193,7 +201,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
   glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
 
   glEnable( GL_TEXTURE );
-
+#endif
 
 
 
@@ -255,30 +263,38 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
   /* PLANET B */
   glNewList( VCRCGL_TEX_PLANET_B, GL_COMPILE );
+#ifdef USE_TEXTURES
     glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
     glEnable(GL_TEXTURE_2D);
+#endif
     glEnable( GL_CULL_FACE );
     glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
 
    GLfloat d[3] = {15.0, 0.0, 0.0};
     vcrcgl_draw_sphere( d, 1.5, 4 );
     glDisable (GL_CULL_FACE);
+#ifdef USE_TEXTURES
     glDisable(GL_TEXTURE_2D);
+#endif
   glEndList();
 
   /* UNIVERSE */
   glNewList( VCRCGL_TEX_UNIVERSE, GL_COMPILE );
+#ifdef USE_TEXTURES
     glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
     glEnable(GL_TEXTURE_2D);
+#endif
     glCullFace( GL_FRONT );
     glEnable( GL_CULL_FACE );
-    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_black );
 
    GLfloat e[3] = {0.0, 0.0, 0.0};
     vcrcgl_draw_sphere( e, 20.0, 4 );
     glDisable (GL_CULL_FACE);
     glCullFace( GL_BACK );
+#ifdef USE_TEXTURES
     glDisable(GL_TEXTURE_2D);
+#endif
   glEndList();
 
   /* SHIP A */
