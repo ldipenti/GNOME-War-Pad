@@ -1,4 +1,5 @@
-	* Feature: Added checks for gtkglext and python libs on build system.
+	* Feature: Added checks for gtkglext and python libs on build
+	  system.
 	* Bugfix: GNOME & Glade library version checks fixed on build
 	  system.
 	* Feature: Ship detection range added to starchart.
