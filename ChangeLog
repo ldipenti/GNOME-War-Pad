@@ -9,6 +9,7 @@ Version ?.?.?? (released ??-??-????):
 	* Minefields, ion storms and planet names are toggled using the
 	  'view' menu.
 	* Planet names only appear if zoom >= 100%.
+	* Ship Fuel usage and mass calculation fixed.
 
 Version 0.2.13 (released 05-03-2004):
 

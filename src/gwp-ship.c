@@ -855,6 +855,7 @@ gint gwp_ship_calculate_mass (GwpShip *self)
   total_mass += gwp_ship_calculate_cargo (self) + 
     gwp_ship_get_neutronium (self);
   
+  /* Planet unload actions */
   if (gwp_ship_get_unload_planet_id(self) != 0) {
     total_mass -= gwp_ship_get_unload_colonists (self) +
       gwp_ship_get_unload_neutronium (self) + 
@@ -863,7 +864,8 @@ gint gwp_ship_calculate_mass (GwpShip *self)
       gwp_ship_get_unload_molybdenum (self) +
       gwp_ship_get_unload_supplies (self);
   }
-  
+
+  /* Ship transfer actions */
   if (gwp_ship_get_transfer_ship_id(self) != 0) {
     total_mass -= gwp_ship_get_transfer_colonists (self) +
       gwp_ship_get_transfer_neutronium (self) +
@@ -879,13 +881,63 @@ gint gwp_ship_calculate_mass (GwpShip *self)
     total_mass += gwp_torpspec_get_mass (torp) * 
       gwp_ship_get_torps_launchers (self);
     total_mass += gwp_ship_get_torps (self);
+
+    /* If ship is laying mines, substract the torps used */
+    total_mass -= gwp_ship_calculate_lay_mines_torps (self);
   }
+  
   
   if (GWP_IS_BEAMSPEC(beam)) {
     total_mass += gwp_beamspec_get_mass (beam) * gwp_ship_get_beams (self);
   }
 
   return total_mass;
+}
+
+/**
+ * Calculates the number of torpedoes to be used by lay mines mission.
+ */
+gint gwp_ship_calculate_lay_mines_torps (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  gchar *fc = gwp_ship_get_fcode (self)->str;
+  gint torps = gwp_ship_get_torps (self);
+  gint torps_burned = 0;
+  
+  if (gwp_ship_get_mission(self) == MISSION_LAY_MINES &&
+      gwp_ship_get_torps (self) > 0) {
+    
+    if (fc == "md1") {
+      torps_burned = (torps >= 10)?10:torps;
+    } else if (fc == "md2") {
+      torps_burned = (torps >= 20)?20:torps;
+    } else if (fc == "md3") {
+      torps_burned = (torps >= 30)?30:torps;
+    } else if (fc == "md4") {
+      torps_burned = (torps >= 40)?40:torps;
+    } else if (fc == "md5") {
+      torps_burned = (torps >= 50)?50:torps;
+    } else if (fc == "md6") {
+      torps_burned = (torps >= 60)?60:torps;
+    } else if (fc == "md7") {
+      torps_burned = (torps >= 70)?70:torps;
+    } else if (fc == "md8") {
+      torps_burned = (torps >= 80)?80:torps;
+    } else if (fc == "md9") {
+      torps_burned = (torps >= 90)?90:torps;
+    } else if (fc == "md0") {
+      torps_burned = (torps >= 100)?100:torps;
+    } else if (fc == "mdq") {
+      torps_burned = torps / 0.25;
+    } else if (fc == "mdh") {
+      torps_burned = torps / 0.5;
+    } else {
+      torps_burned = torps;
+    }
+  }
+  
+  return torps_burned;
 }
 
 /****************************/

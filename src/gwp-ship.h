@@ -93,6 +93,7 @@ gint gwp_ship_calculate_eta (GwpShip *self);
 gint gwp_ship_calculate_fuel_usage (GwpShip *self);
 gint gwp_ship_calculate_cargo (GwpShip *self);
 gint gwp_ship_calculate_mass (GwpShip *self);
+gint gwp_ship_calculate_lay_mines_torps (GwpShip *self);
 
 
 /****************************/
