@@ -714,6 +714,7 @@ on_hscale_tax_natives_value_changed (GtkRange *scale,
 {
   gint value = (gint)gtk_range_get_value(scale);
   GwpPlanet *splanet = gwp_game_state_get_selected_planet (game_state);
+  g_message("Planeta: %s - %d", gwp_object_get_name(GWP_OBJECT(splanet)), value);
   gwp_planet_set_tax_natives (splanet, value);
 }
 /**
