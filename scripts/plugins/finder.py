@@ -224,10 +224,11 @@ class Finder(gwp.Plugin):
     
         self.window.connect("delete_event", self.delete_event)
         self.window.connect("destroy", self.destroy)
+        self.window.connect ("key_press_event", self.__on_event_key, None)
     
         # Sets the border width of the window.
         self.window.set_border_width(1)
-    
+   
         # Widgets
         self.vbox = gtk.VBox()
         self.hbox = gtk.HBox()
@@ -304,6 +305,21 @@ class Finder(gwp.Plugin):
         except TypeError:
             #print "Type Error al elegir planeta" 
             pass
+    # Key press event handler
+    def __on_event_key(self, widget, event, data=None):
+        # Hide the window
+        if event.keyval == gtk.gdk.keyval_from_name('Escape'):
+            self.window.hide()
+            return gtk.TRUE
+        # A new search: grab focus on the search entry
+        elif event.keyval == gtk.gdk.keyval_from_name('Delete'):
+            if self.search.is_focus():
+                return gtk.FALSE
+            else:
+                self.search.grab_focus()
+                return gtk.TRUE
+        else:
+            return gtk.FALSE
 
     # Dummy wrapper to real method
     def __main_menu_cb (self, widget, data=None):
