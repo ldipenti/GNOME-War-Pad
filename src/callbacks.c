@@ -706,7 +706,13 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 }
 
 /* CB to format the hscale widgets value */
-gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value)
+gchar* on_hscale_tax_colonists_format_value(GtkScale *scale, gdouble value)
+{
+  return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), value);
+}
+
+/* CB to format the hscale widgets value */
+gchar* on_hscale_tax_natives_format_value(GtkScale *scale, gdouble value)
 {
   return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), value);
 }
