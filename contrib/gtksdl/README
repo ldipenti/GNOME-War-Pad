@@ -1,0 +1,41 @@
+GTKSDL for GTK2
+===============
+
+This widget allows developers to embed SDL output as an ordinary 
+GtkWidget.
+
+for more information, a temporary page is on:
+
+http://am.xs4all.nl/phpwiki/index.php/GtkSdl
+
+for the gtksdl website of Javier:
+
+http://gtksdl.sourceforge.net
+
+---
+
+Usage:
+
+#include "gtksdl.h"
+
+// Initialize the SDL library like usual:
+
+gboolean InitSDL() {
+	/* Initialise the SDL library */
+	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE) < 0)
+	{
+		fprintf (stderr, "Unable to init SDL: %s", SDL_GetError() );
+		return (FALSE);
+	}
+	return TRUE;
+}
+
+// After calling gtk_init et al, you can call gtk_sdl_new to make the widget,
+// pack it in a normal container like any other GtkWidget:
+
+GtkWidget *gtksdl = gtk_sdl_new(640,480,0,SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE);
+gtk_widget_show(gtksdl);
+
+Building:
+
+See the included Makefile. 
