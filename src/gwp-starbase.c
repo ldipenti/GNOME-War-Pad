@@ -184,6 +184,22 @@ GwpStarbase * gwp_starbase_new (void)
 /**********************/
 /* High level methods */
 /**********************/
+
+/* Returns a copy of the original object */
+GwpStarbase * gwp_starbase_copy (GwpStarbase *self)
+{
+  GwpStarbase *sb_copy;
+
+  g_assert (GWP_IS_STARBASE(self));
+
+  sb_copy = gwp_starbase_new();
+  g_free(sb_copy->priv);
+  sb_copy->priv = g_malloc (sizeof(GwpStarbasePrivate));
+  sb_copy->priv = memcpy (sb_copy->priv, self->priv, sizeof(GwpStarbasePrivate));
+
+  return sb_copy;
+}
+
 gint16 gwp_starbase_get_id (GwpStarbase *self)
 {
   g_assert (GWP_IS_STARBASE(self));

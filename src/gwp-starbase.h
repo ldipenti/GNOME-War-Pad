@@ -71,8 +71,8 @@ GwpStarbase * gwp_starbase_new (void);
 /**********************/
 /* High level methods */
 /**********************/
+GwpStarbase * gwp_starbase_copy (GwpStarbase *self);
 gint16 gwp_starbase_get_id (GwpStarbase *self);
-
 
 /*******************/
 /* get/set methods */

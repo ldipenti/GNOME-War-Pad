@@ -302,6 +302,15 @@ GwpPlanet * gwp_planet_copy (GwpPlanet *self)
   g_free (p_copy->priv);
   p_copy->priv = g_malloc (sizeof(GwpPlanetPrivate));
   p_copy->priv = memcpy (p_copy->priv, self->priv, sizeof(GwpPlanetPrivate));
+
+  /* Now copy starbase if exists */
+  if (gwp_planet_has_starbase(self)) {
+    GwpStarbase *sb;
+    sb = gwp_starbase_copy (gwp_planet_get_starbase(self));
+    gwp_planet_set_starbase (p_copy, sb);
+    gwp_starbase_set_planet (sb, p_copy);
+  }
+
   return p_copy;
 }
 

@@ -253,5 +253,5 @@ void table_population_update(GwpPlanet *a_planet)
 				     + gwp_planet_get_happiness_col_change(planet));
     }
   }
-  g_free(planet);
+  g_object_unref(planet);
 }

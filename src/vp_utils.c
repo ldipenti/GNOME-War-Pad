@@ -45,19 +45,19 @@ void init_data (void)
   game_set_pnames(game_state, load_pnames_file(PNAMES));
 
   xyplanet_list = load_xyplan(XYPLAN);
-  g_message ("XYPLAN cargado...");
+  g_message ("XYPLAN loaded...");
   shipxy_list = load_shipxy(game_get_race(game_state));
-  g_message ("SHIPXY cargado...");
+  g_message ("SHIPXY loaded...");
   target_list = load_target(game_get_race(game_state));
-  g_message ("TARGET cargado...");
+  g_message ("TARGET loaded...");
   planet_list = load_pdata();
-  g_message ("PDATA cargado...");
+  g_message ("PDATA loaded...");
   ship_list = load_sdata();
-  g_message ("SDATA cargado...");
+  g_message ("SDATA loaded...");
   load_gen_data();
-  g_message("GENx cargado...");
+  g_message("GENx loaded...");
   base_list = load_bdata();
-  g_message("BDATA cargado...");
+  g_message("BDATA loaded...");
 }
 
 /*
