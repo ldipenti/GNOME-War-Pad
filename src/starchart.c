@@ -1075,7 +1075,9 @@ void update_ship_panel_with (GwpShip *ship)
   }
 }
 
-/* Given a GwpLocation, is shows how many ships are available */
+/**
+ * Given a GwpLocation, it shows how many ships are available.
+ */
 void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
 {
   static gboolean loaded = FALSE;
@@ -1083,7 +1085,7 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
   static GtkLabel *summary = NULL;
   static GtkTreeView *panel_ship_list = NULL;
   GwpShip *ship;
-  gchar *tmp = NULL;
+  gchar *tmp = NULL, *tmp2 = NULL;
   guint ships_nr = 0;
   gint i;
   GtkListStore *store;
@@ -1110,23 +1112,20 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
 
   /* Set up summary label */
   if (ships_nr == 1) {
-    tmp = g_strdup_printf (_("%d ship in %s"), ships_nr,
-			   starchart_get_location_name(gwp_object_get_x_coord(GWP_OBJECT(location)), gwp_object_get_y_coord(GWP_OBJECT(location)))->str);
-    gtk_label_set_text (summary, tmp);
-    g_free (tmp);
+    tmp2 = g_string_new ("ship")->str;
   } else {
-    tmp = g_strdup_printf (_("%d ships in (%d , %d)"), 
-			   ships_nr,
-			   gwp_object_get_x_coord(GWP_OBJECT(location)),
-			   gwp_object_get_y_coord(GWP_OBJECT(location)));
-    gtk_label_set_text (summary, tmp);
-    g_free (tmp);
+    tmp2 = g_string_new ("ships")->str;
   }
+  tmp = g_strdup_printf (_("%d %s in %s"), ships_nr, tmp2,
+			 starchart_get_location_name(gwp_object_get_x_coord(GWP_OBJECT(location)), gwp_object_get_y_coord(GWP_OBJECT(location)))->str);
+  gtk_label_set_text (summary, tmp);
+  g_free (tmp);
+  g_free (tmp2);
 
   /* Load GtkTreeView with ships */
   for (i = 0; i < ships_nr; i++) {
     /* Get ship from location */
-    ship = (GwpShip *) gwp_location_get_object(location, i);
+    ship = GWP_SHIP(gwp_location_get_object(location, i));
 
     /* Check if we have the ship's ID, this is because if we don't have it,
      it means that the ship appear on SHIPXY.DAT, but not on TARGETx.DAT 
@@ -1139,14 +1138,13 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
 			  0, gwp_object_get_id (GWP_OBJECT(ship)),
 			  1, g_strdup_printf("%s", gwp_object_get_name(GWP_OBJECT(ship))->str),
 			  -1);
-      
-      /* Select first ship on list */
-      path = gtk_tree_model_get_path (GTK_TREE_MODEL(store), &iter);
-      gtk_tree_view_scroll_to_cell (panel_ship_list, path, NULL, TRUE, 1.0, 0.0);
-      gtk_tree_view_set_cursor (panel_ship_list, path, NULL, FALSE);
-      gtk_tree_path_free (path);
     }
   }
+  /* Select first ship on list */
+  path = gtk_tree_model_get_path (GTK_TREE_MODEL(store), &iter);
+  gtk_tree_view_scroll_to_cell (panel_ship_list, path, NULL, TRUE, 1.0, 0.0);
+  gtk_tree_view_set_cursor (panel_ship_list, path, NULL, FALSE);
+  gtk_tree_path_free (path);
 }
 
 gint get_planet_from_coords (gdouble x_wc, gdouble y_wc)
