@@ -609,17 +609,18 @@ void on_about_activate(GtkWidget *widget)
     const gchar *authors[] = {
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       "Sven Wergandt <summ@gmx.de>",
+      "Cristian Abalos <abalosc@yahoo.com.ar>",
       NULL
     };
     const gchar *documenters[] = {
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       NULL
     };
-    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)";
+    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nDavid Botha <fermier@gmx.co.uk> (French)\nCarlos Paulino <freechgp@gmail.com> (Brazilian Portuguese)";
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
-				_("(C) 2002-2004 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
+				_("(C) 2002-2005 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
 				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
 				(const gchar **)authors,
 				(const gchar **)documenters,
