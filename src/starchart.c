@@ -1274,27 +1274,6 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
   gtk_tree_path_free (path);
 }
 
-GSList * get_ships_from_coords (gdouble x_wc, gdouble y_wc)
-{
-  VpShipXYReg *ship;
-  GSList *ship_list = NULL;
-  gint16 x, y;
-  gint i;
-
-  /* Convert World Coords to VP System */
-  vp_coord_w2v (x_wc, y_wc, &x, &y);
-
-  for (i = 0; i < g_list_length (shipxy_list); i++) {
-    ship = g_list_nth_data (shipxy_list, i);
-    
-    /* Check if this is the clicked ship */
-    if ((x == ship->x) && (y == ship->y)) {
-      ship_list = g_slist_append (ship_list, (gpointer) (i + 1));
-    }
-  }
-  return ship_list;
-}
-
 void draw_ship (gpointer key, gpointer value, gpointer user_data)
 {
   GnomeCanvasItem *item = NULL;
