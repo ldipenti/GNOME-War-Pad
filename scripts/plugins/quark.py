@@ -21,11 +21,17 @@ class Quark(gwp.Plugin):
     FILTER_NONE = 1
     
     # Cantidades que definen cuando un planeta es considerado minero y se levantan las 
-    # estructuras al maximo. La unidad de medida es la densidad.
-    MINERO_MIN_NEU = 50
-    MINERO_MIN_TRI = 50
-    MINERO_MIN_DUR = 30
-    MINERO_MIN_MOL = 30
+    # estructuras al maximo.
+    # Cantidad de Minerales extraidos c/100 minas.
+    MINERO_MIN_EXTR_NEU = 50
+    MINERO_MIN_EXTR_TRI = 50
+    MINERO_MIN_EXTR_DUR = 30
+    MINERO_MIN_EXTR_MOL = 30
+    # Cantidad de Minerales bajo tierra.
+    MINERO_MIN_NEU = 2000
+    MINERO_MIN_TRI = 2000
+    MINERO_MIN_DUR = 1000
+    MINERO_MIN_MOL = 900
     # Minimo de MC para considerar a un planeta recaudador de guita en vez de minero
     RECAUDADOR_MIN_MC = 500
     
@@ -146,35 +152,40 @@ class Quark(gwp.Plugin):
        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
        """
         txt = ""
-        if p.get_natives(): # SI no hay nativos no tiene sentido esto
-            if (p.get_natives_race() <> 5): #Amorphous
-                tax, max_i = self.calculate_max_income_from_natives(p)
-                print "TAX: " , tax , " MAX: " , max_i
-                if max_i > p.get_tax_collected_natives():
-                    factor_impuestos = p.get_tax_rate_natives()/100
-                    
-                    col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
-                    #if p.get_natives_race() == 6: #Insectoids
-                    #    col_faltan = col_faltan / 2
-                    #if p.get_owner() == 1: # Feds
-                        #FIXME deberia tomar el valor de la configuracion del host (Lucas 1ro)
-                    #    col_faltan = col_faltan / 2
-                    txt = "Need "+ str(col_faltan) +" clans of colonists!\nYou can collect " + str(max_i) + " MC "
-                    dif = str(max_i - p.get_tax_collected_natives())
-                    txt = txt  + "(" + dif +" more)\n"
+        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
+            #Hago todos los calculos
+            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
+            print "tax ", col_faltan_tax
+            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
+            print "sup ", col_faltan_sup
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            print "tax ", tax, "max ", max_i
+            dif = max_i - p.get_tax_collected_natives()
+            print dif
+            if dif < 0:
+                dif = 0
+            
+            # REPORTA "Faltan colonos"
+            if col_faltan_tax or col_faltan_sup:
+                if col_faltan_tax > col_faltan_sup:
+                    col_faltan = col_faltan_tax
+                else:
+                    col_faltan = col_faltan_sup
+                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
+
+            # REPORTA "Puedo cobrar mas"
+            if dif:
+                txt = txt + "You can collect " + str(max_i) + " MC "
+                txt = txt  + "(" + str(dif) +" more)\n"
                 
                 # Falta ver si pagan poco y conviene construir fab y minas
 
-                # Supplies Bovinoids
-                if (p.get_natives_race() == 2): #Bovinoid
-                    sup = p.get_natives() / 100
-                    if p.get_colonists() < sup:
-                        if txt:
-                            txt = txt + "You can obtain " + str(sup) + " supplies "
-                            dif = str(sup - p.get_colonists())
-                            txt = txt + "(" + dif +" more)\n"
-                        else:
-                            txt = "Need colonists!\n" + txt
+            # REPORTA "Puedo sacar mas supplies"
+            if col_faltan_sup:
+                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
+                dif = col_faltan_sup - p.get_colonists()
+                txt = txt + "(" + str(dif) +" more)\n"
+
         
         chequear_construcciones = 1
         if chequear_construcciones:
@@ -185,6 +196,17 @@ class Quark(gwp.Plugin):
             self.textbuffer.set_text(txt + "\n")
 
     #--------------------------------------------------------------------------
+    def calculate_missing_colonists_tax_natives(self, p):
+        if (p.get_natives_race() <> 5): #Amorphous
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            if max_i > p.get_tax_collected_natives():
+                factor_impuestos = p.get_tax_rate_natives()/100
+                col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
+                
+                if col_faltan > p.get_colonists():
+                    return col_faltan
+        return 0
+    #--------------------------------------------------------------------------    
     def calculate_max_income_from_natives(self, p):
         """ Determino el maximo que se puede cobrar (con una copia del planeta)
         devuelve (impuesto, cantidad_MC) """
@@ -203,8 +225,17 @@ class Quark(gwp.Plugin):
                     tax -= 1
                 future_p.set_tax_natives(tax)
                 income = future_p.get_tax_collected_natives()
-                print "TAX: " , tax , " MAX: " , income
                 return tax, income
+        return 0,0
+
+    #--------------------------------------------------------------------------
+    def calculate_missing_colonists_supplies(self, p):
+        # Supplies Bovinoids
+        if (p.get_natives_race() == 2): #Bovinoid
+            sup = p.get_natives() / 100
+            if p.get_colonists() < sup:
+                return sup
+        return 0
 
     #--------------------------------------------------------------------------
     def is_miner_planet(self, p):
@@ -347,7 +378,7 @@ class Quark(gwp.Plugin):
         pm.set_hook_key(0, # No modifier
                         gtk.gdk.keyval_from_name(self.hotkey),
                         self.main)
-        pm.set_hook_menu("Q_uark",
+        pm.set_hook_menu("_Quark",
                          self.main_cb)
 
 

@@ -100,7 +100,6 @@ gint gwp_planet_duranium_extraction_rate(GwpPlanet *self);
 gint gwp_planet_duranium_turns_left(GwpPlanet *self);
 gint gwp_planet_get_tax_collected_colonists(GwpPlanet *self);
 gint gwp_planet_get_tax_collected_natives(GwpPlanet *self);
-gint gwp_planet_get_tax_collected_colonists_max(GwpPlanet *self);
 gint gwp_planet_get_tax_collected_natives_max(GwpPlanet *self);
 gint gwp_planet_calculate_allowed_factories (GwpPlanet *self);
 gint gwp_planet_calculate_allowed_mines (GwpPlanet *self);

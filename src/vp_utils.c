@@ -709,7 +709,7 @@ GHashTable * load_pdata (void)
   fread (&planets_nr, sizeof (gint16), 1, pdata);
 
   for (i = 0; i < planets_nr; i++) {
-
+    g_message ("Planeta %d de %d cargado", i+1, planets_nr);
     /* Instantiate new planet */
     p = gwp_planet_new();
 

@@ -848,39 +848,18 @@ gint gwp_planet_duranium_turns_left(GwpPlanet *self)
  * Calculates how many MC will collect a planet from colonists taxes.
  *
  * @param self a GwpPlanet.
- * @return The maximum amount of MC collected from colonists.
- */
-gint gwp_planet_get_tax_collected_colonists_max (GwpPlanet *self)
-{
-  gint ret;
-
-  if(gwp_planet_get_happiness_colonists(self) > 30) {
-    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * (gwp_planet_get_tax_rate_colonists(self)/100);
-  } else {
-    ret = 0;
-  }
-
-  return ret;
-}
-
-/**
- * Calculates how many MC will collect a planet from colonists taxes.
- *
- * This value is limited by the kind and amount of colonists.
- *
- * @param self a GwpPlanet.
  * @return The amount of MC collected from colonists.
  */
 gint gwp_planet_get_tax_collected_colonists(GwpPlanet *self)
 {
   gint ret;
 
-  /* If colonists are too few...we cannot collect all the money */
-  if (gwp_planet_get_colonists(self) < ret) {
-    ret = gwp_planet_get_colonists(self) * 
-      (gwp_planet_get_tax_rate_colonists(self)/100);
+  if (gwp_planet_get_happiness_colonists(self) > 30) {
+    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * 
+      ((gdouble)gwp_planet_get_tax_colonists(self)/10) * 
+      (gdouble)(gwp_planet_get_tax_rate_colonists(self)/100);
   } else {
-    ret = gwp_planet_get_tax_collected_colonists_max (self);
+    ret = 0;
   }
 
   return ret;
@@ -921,11 +900,10 @@ gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
   gint ret;
 
   /* If colonists are too few...we cannot collect all the money */
+  ret = gwp_planet_get_tax_collected_natives_max (self);
   if (gwp_planet_get_colonists(self) < ret) {
     ret = gwp_planet_get_colonists(self) * 
       (gdouble)(gwp_planet_get_tax_rate_natives(self) / 100);
-  } else {
-    ret = gwp_planet_get_tax_collected_natives_max (self);
   }
   return ret;
 }
