@@ -44,105 +44,34 @@ class Quark(gwp.Plugin):
             if p.is_mine():
                 self.pl.append(p)
 
-    #--------------------------------------------------------------------------    
-    def filter_selected(self, dato, data=None):
-        pass
+    #--------------------------------------------------------------------------
     
-    #--------------------------------------------------------------------------        
-    def quark_planet_selected(self, treeselection, data=None):
-        """Manejador del evento que ocurre al seleccionar un planeta en la
-        ventana del plugin."""
-        (model, iter) = treeselection.get_selected()
-        try:
-            pid = self.store_planets.get_value(iter,0)
-            p = gwp.planet_get_by_id(pid)
-            s = gwp.Starchart()
-            s.select_nearest_planet(p.get_x_coord(), p.get_y_coord())
-            s.center_around(p)
-            self.planet_load_data(pid)
-            pass
-        except TypeError:
-            #print "Type Error al elegir planeta" 
-            pass
-
-    #--------------------------------------------------------------------------    
-    def planet_load_data(self, id):
-        """Carga los datos del planeta en la ventana."""
-        p = gwp.planet_get_by_id(id)
-        txt =  '<big><b>' + p.get_name()+ ' (' + str(p.get_id())+ ')'+'</b></big>'
-        self.lbl_planet_name.set_markup(txt)
-        #Colonos
-        self.lbl_colonists.set_text(str(p.get_colonists()))
-        txt = str(p.get_happiness_colonists()) + '% (' + str(p.get_happiness_col_change()) +')'
-        self.lbl_colonists_happ.set_text(txt)
-        self.inc_colonists_tax.set_value(p.get_tax_colonists())
-       #Nativos
-        self.lbl_natives.set_text(str(p.get_natives()))
-        txt = str(p.get_happiness_natives()) + '% (' + str(p.get_happiness_nat_change()) +')'
-        self.lbl_natives_happ.set_text(txt)
-        self.lbl_natives_type.set_text(p.get_natives_race_chars())
-        self.lbl_natives_spi.set_text(p.get_natives_spi_chars())
-        self.inc_natives_tax.set_value(p.get_tax_natives())
-       #Planeta
-        self.inc_fab.set_value(p.get_factories())
-        self.inc_min.set_value(p.get_mines())
-        self.inc_def.set_value(p.get_defense_posts())
-        self.lbl_MC.set_text(str(p.get_megacredits()))
-        self.lbl_supplies.set_text(str(p.get_supplies()))
-        self.lbl_income.set_text(str(p.get_tax_collected_colonists()+p.get_tax_collected_natives()))
-        self.lbl_fab_max.set_text(str(p.calculate_allowed_factories()))
-        self.lbl_min_max.set_text(str(p.calculate_allowed_mines()))
-        self.lbl_def_max.set_text(str(p.calculate_allowed_defenses()))
-        if p.has_starbase():
-            self.lbl_base.set_text(_("BASE"))
-        else:
-            self.lbl_base.set_text('')
-        # Lista Minerales
-        self.store_minerals.clear()
-        factor_minado = p.get_mining_rate()/100
-       
-        extraccion = str(p.neutronium_extraction_rate())
-        densidad = str(p.get_dens_neutronium()*factor_minado)
-        fila = ["Neu", p.get_mined_neutronium(), p.get_ground_neutronium(), extraccion, densidad ]
-        self.store_minerals.append(fila)
-
-        extraccion = str(p.tritanium_extraction_rate())
-        densidad = str(p.get_dens_tritanium()*factor_minado)
-        fila = ["Tri", p.get_mined_tritanium(), p.get_ground_tritanium(), extraccion, densidad ]
-        self.store_minerals.append(fila)
-
-        extraccion = str(p.duranium_extraction_rate())
-        densidad = str(p.get_dens_duranium()*factor_minado)        
-        fila = ["Dur", p.get_mined_duranium(), p.get_ground_duranium(), extraccion, densidad ]
-        self.store_minerals.append(fila)
-
-        extraccion = str(p.molybdenum_extraction_rate())
-        densidad = str(p.get_dens_molybdenum()*factor_minado)
-        fila = ["Mol", p.get_mined_molybdenum(), p.get_ground_molybdenum(), extraccion, densidad ]
-        self.store_minerals.append(fila)
-        
-        ##renderer.set_property('background','green')
-        self.report_generate(p)
+# *****************************************************************************
+# *******************************  REPORTE ************************************
+# *****************************************************************************
 
     #--------------------------------------------------------------------------    
     def report_generate(self, p):
         """Realiza todos los chequeos para mostrar el reporte en la ventana de
         existir algo que informar."""
         self.textbuffer = self.tv_notification.get_buffer()
-        self.report_verify_happyness(p)
-        #self.is_miner_planet(p)
-        
+        self.report_verify_happyness(p, 'c') # Colonists
+        self.report_verify_happyness(p, 'n') # Natives
         self.report_verify_colonists(p)
         
         
     #--------------------------------------------------------------------------
-    def report_verify_happyness(self, p):
+    def report_verify_happyness(self, p, people):
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. La salida es a la ventana"""
         txt = ""
-        people = "Natives "
-        future_happ = self.calculate_future_happyness(p)
-        if future_happ < 1: #CIVIL WAR!
+        if people == 'c':
+            people = "Colonists "
+            future_happ = self.calculate_future_happyness_colonists(p)
+        else:
+            people = "Natives "
+            future_happ = self.calculate_future_happyness_natives(p)
+        if future_happ < 1: # CIVIL WAR!
             txt = people + "will be in CIVIL WAR the next turn\n\n"
         elif future_happ < 30: # NO PAGAN
             txt = people + "will not pay taxes the next turn\n\n"
@@ -153,13 +82,77 @@ class Quark(gwp.Plugin):
         self.textbuffer.set_text(txt)
     
     #--------------------------------------------------------------------------
-    def na_verify_happyness(self, p): # FIXME NOTIFICATION AREA
+    def report_verify_colonists(self, p):
+        """ Verifica si existen suficiente cantidad de colonos para:
+        * cobrarles el maximo posible a los nativos 
+        * sacar el max posible de supplies si hay Bovinoids
+        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
+        """
+        txt = ""
+        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
+            # Hago todos los calculos
+            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
+            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            dif = max_i - p.get_tax_collected_natives()
+            if dif < 0:
+                dif = 0
+            
+            # REPORTA "Faltan colonos"
+            if col_faltan_tax or col_faltan_sup:
+                if col_faltan_tax > col_faltan_sup:
+                    col_faltan = col_faltan_tax
+                else:
+                    col_faltan = col_faltan_sup
+                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
+
+            # REPORTA "Puedo cobrar mas"
+            if dif:
+                txt = txt + "You can collect " + str(max_i) + " MC "
+                txt = txt  + "(" + str(dif) +" more)\n"
+                
+                # Falta ver si pagan poco y conviene construir fab y minas
+
+            # REPORTA "Puedo sacar mas supplies"
+            if col_faltan_sup:
+                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
+                dif = col_faltan_sup - p.get_colonists()
+                txt = txt + "(" + str(dif) +" more)\n"
+
+        
+        chequear_construcciones = 1
+        if chequear_construcciones:
+            # FALTA controlar si las fab y minas estan en valores optimos.
+            pass
+        # Se imprime!
+        if txt:
+            self.textbuffer.set_text(txt + "\n")
+
+    #--------------------------------------------------------------------------
+    
+# *****************************************************************************
+# ***************************  Notification Area  *****************************
+# *****************************************************************************
+
+    #--------------------------------------------------------------------------
+    def na_generar(self, p):
+        """Genera los avisos que van al area de notificacion."""
+        print "Planeta elegido: " + p.get_name()
+        self.na_verify_happyness(p, 'c') # Colonists
+        self.na_verify_happyness(p, 'n') # Natives
+        
+    #--------------------------------------------------------------------------
+    def na_verify_happyness(self, p, people): # FIXME NOTIFICATION AREA
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. Salida al area de notificacion"""
         txt = ""
-        people = "Natives "
-        future_happ = self.calculate_future_happyness(p)
-        if future_happ < 1: #CIVIL WAR!
+        if people == 'c':
+            people = "Colonists "
+            future_happ = self.calculate_future_happyness_colonists(p)
+        else:
+            people = "Natives "        
+            future_happ = self.calculate_future_happyness_natives(p)
+        if future_happ < 1: # CIVIL WAR!
             txt = people + "will be in CIVIL WAR the next turn\n\n"
         elif future_happ < 30: # NO PAGAN
             txt = people + "will not pay taxes the next turn\n\n"
@@ -170,109 +163,76 @@ class Quark(gwp.Plugin):
         if txt:
             print txt
         else:
-            print "Happyness dentro de los parametros en el planeta " + p.get_name()
+            print people + "happyness dentro de los parametros en el planeta " + p.get_name()
         
     #--------------------------------------------------------------------------
-    def calculate_future_happyness(self, p):
+    def na_verify_colonists(self, p): # FIXME NOTIFICATION AREA
+        """ Verifica si existen suficiente cantidad de colonos para:
+        * cobrarles el maximo posible a los nativos 
+        * sacar el max posible de supplies si hay Bovinoids
+        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
+        """
+        txt = ""
+        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
+            #Hago todos los calculos
+            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
+            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            dif = max_i - p.get_tax_collected_natives()
+            if dif < 0:
+                dif = 0
+            
+            # REPORTA "Faltan colonos"
+            if col_faltan_tax or col_faltan_sup:
+                if col_faltan_tax > col_faltan_sup:
+                    col_faltan = col_faltan_tax
+                else:
+                    col_faltan = col_faltan_sup
+                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
+
+            # REPORTA "Puedo cobrar mas"
+            if dif:
+                txt = txt + "You can collect " + str(max_i) + " MC "
+                txt = txt  + "(" + str(dif) +" more)\n"
+                
+                # Falta ver si pagan poco y conviene construir fab y minas
+
+            # REPORTA "Puedo sacar mas supplies"
+            if col_faltan_sup:
+                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
+                dif = col_faltan_sup - p.get_colonists()
+                txt = txt + "(" + str(dif) +" more)\n"
+
+        
+        chequear_construcciones = 1
+        if chequear_construcciones:
+            # FALTA controlar si las fab y minas estan en valores optimos.
+            pass
+        # Se imprime!
+        if txt:
+           print txt + "\n"
+
+    #--------------------------------------------------------------------------
+    
+# *****************************************************************************
+# ***************************  Funciones comunes  *****************************
+# ************************  a reporte y notif area ****************************
+# *****************************************************************************
+
+    #--------------------------------------------------------------------------
+    def calculate_future_happyness_natives(self, p):
         """Devuelve el valor de happyness del siguiente turno"""
         actual_change = p.get_happiness_nat_change()
         actual_happ = p.get_happiness_natives()
         return (actual_happ + actual_change)
        
     #--------------------------------------------------------------------------
-    def report_verify_colonists(self, p):
-        """ Verifica si existen suficiente cantidad de colonos para:
-        * cobrarles el maximo posible a los nativos 
-        * sacar el max posible de supplies si hay Bovinoids
-        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
-        """
-        txt = ""
-        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
-            #Hago todos los calculos
-            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
-            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
-            tax, max_i = self.calculate_max_income_from_natives(p)
-            dif = max_i - p.get_tax_collected_natives()
-            if dif < 0:
-                dif = 0
-            
-            # REPORTA "Faltan colonos"
-            if col_faltan_tax or col_faltan_sup:
-                if col_faltan_tax > col_faltan_sup:
-                    col_faltan = col_faltan_tax
-                else:
-                    col_faltan = col_faltan_sup
-                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
-
-            # REPORTA "Puedo cobrar mas"
-            if dif:
-                txt = txt + "You can collect " + str(max_i) + " MC "
-                txt = txt  + "(" + str(dif) +" more)\n"
-                
-                # Falta ver si pagan poco y conviene construir fab y minas
-
-            # REPORTA "Puedo sacar mas supplies"
-            if col_faltan_sup:
-                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
-                dif = col_faltan_sup - p.get_colonists()
-                txt = txt + "(" + str(dif) +" more)\n"
-
-        
-        chequear_construcciones = 1
-        if chequear_construcciones:
-            #FALTA controlar si las fab y minas estan en valores optimos.
-            pass
-        #Se imprime!
-        if txt:
-            self.textbuffer.set_text(txt + "\n")
-
-    #--------------------------------------------------------------------------
-    def na_verify_colonists(self, p): #FIXME NOTIFICATION AREA
-        """ Verifica si existen suficiente cantidad de colonos para:
-        * cobrarles el maximo posible a los nativos 
-        * sacar el max posible de supplies si hay Bovinoids
-        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
-        """
-        txt = ""
-        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
-            #Hago todos los calculos
-            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
-            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
-            tax, max_i = self.calculate_max_income_from_natives(p)
-            dif = max_i - p.get_tax_collected_natives()
-            if dif < 0:
-                dif = 0
-            
-            # REPORTA "Faltan colonos"
-            if col_faltan_tax or col_faltan_sup:
-                if col_faltan_tax > col_faltan_sup:
-                    col_faltan = col_faltan_tax
-                else:
-                    col_faltan = col_faltan_sup
-                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
-
-            # REPORTA "Puedo cobrar mas"
-            if dif:
-                txt = txt + "You can collect " + str(max_i) + " MC "
-                txt = txt  + "(" + str(dif) +" more)\n"
-                
-                # Falta ver si pagan poco y conviene construir fab y minas
-
-            # REPORTA "Puedo sacar mas supplies"
-            if col_faltan_sup:
-                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
-                dif = col_faltan_sup - p.get_colonists()
-                txt = txt + "(" + str(dif) +" more)\n"
-
-        
-        chequear_construcciones = 1
-        if chequear_construcciones:
-            #FALTA controlar si las fab y minas estan en valores optimos.
-            pass
-        #Se imprime!
-        if txt:
-           print txt + "\n"
-
+    def calculate_future_happyness_colonists(self, p):
+        """Devuelve el valor de happyness del siguiente turno"""
+        actual_change = p.get_happiness_col_change()
+        actual_happ = p.get_happiness_colonists()
+        return (actual_happ + actual_change)
+       
     #--------------------------------------------------------------------------
     def calculate_missing_colonists_tax_natives(self, p):
         """devuelve la cantidad de colonos que faltan para cobrar al maximo a
@@ -325,6 +285,8 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def conectar_planetas(self):
+        """Conecta la senial planeta seleccionado para mostrar avisos en el
+        area de notificacion."""
         self.signals_id = []
         for planeta in self.pl:
             cod = planeta.connect("selected", self.na_generar)
@@ -333,10 +295,6 @@ class Quark(gwp.Plugin):
             else:
                 self.signals_id [ planeta.get_id() ] = cod
         
-    #--------------------------------------------------------------------------
-    def na_generar(self, p):
-        print "Planeta elegido: " + p.get_name()
-        self.na_verify_happyness(p)
             
     ###########################################################################        
     ################################## GUI ####################################
@@ -395,8 +353,8 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------    
     def filter_init_selection(self):
-        # Seteo el filtro por defecto, cargo la lista con los planetas
-        # correspondientes y llamo al inicializador de la lista de planetas.
+        """ Seteo el filtro por defecto, cargo la lista con los planetas
+        correspondientes y llamo al inicializador de la lista de planetas."""
         filter = self.get_filter(self.cmb_filter.entry.get_text())
         self.planets_load_list(filter)
         self.planets_init_selection()
@@ -408,7 +366,7 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------        
     def planets_load_list(self, filter):
-        # Carga la lista de planetas de acuerdo al filtro.
+        """Carga la lista de planetas de acuerdo al filtro."""
         
         ##FIXME : Falta darle bola al filtro
         self.store_planets.clear()
@@ -417,46 +375,115 @@ class Quark(gwp.Plugin):
                 
     #--------------------------------------------------------------------------
     def planets_init_selection(self):
-        # Elige el primer planeta de la lista.
-        # Esto desencadena el evento de "planeta seleccionado" que carga los
-        # datos de este planeta en la interface del plugin.
+        """ Elige el primer planeta de la lista.
+        Esto desencadena el evento de *planeta seleccionado* que carga los
+        datos de este planeta en la interface del plugin."""
         self.treeselection_planets.select_path((0,))
+
+    #--------------------------------------------------------------------------    
+    def filter_selected(self, dato, data=None):
+        pass
+    
+    #--------------------------------------------------------------------------        
+    def quark_planet_selected(self, treeselection, data=None):
+        """Manejador del evento que ocurre al seleccionar un planeta en la
+        ventana del plugin."""
+        (model, iter) = treeselection.get_selected()
+        try:
+            pid = self.store_planets.get_value(iter,0)
+            p = gwp.planet_get_by_id(pid)
+            s = gwp.Starchart()
+            s.select_nearest_planet(p.get_x_coord(), p.get_y_coord())
+            s.center_around(p)
+            self.planet_load_data(pid)
+            pass
+        except TypeError:
+            #print "Type Error al elegir planeta" 
+            pass
+
+    #--------------------------------------------------------------------------    
+    def planet_load_data(self, id):
+        """Carga los datos del planeta en la ventana."""
+        p = gwp.planet_get_by_id(id)
+        txt =  '<big><b>' + p.get_name()+ ' (' + str(p.get_id())+ ')'+'</b></big>'
+        self.lbl_planet_name.set_markup(txt)
+        # Colonos
+        self.lbl_colonists.set_text(str(p.get_colonists()))
+        txt = str(p.get_happiness_colonists()) + '% (' + str(p.get_happiness_col_change()) +')'
+        self.lbl_colonists_happ.set_text(txt)
+        self.inc_colonists_tax.set_value(p.get_tax_colonists())
+       # Nativos
+        self.lbl_natives.set_text(str(p.get_natives()))
+        txt = str(p.get_happiness_natives()) + '% (' + str(p.get_happiness_nat_change()) +')'
+        self.lbl_natives_happ.set_text(txt)
+        self.lbl_natives_type.set_text(p.get_natives_race_chars())
+        self.lbl_natives_spi.set_text(p.get_natives_spi_chars())
+        self.inc_natives_tax.set_value(p.get_tax_natives())
+       # Planeta
+        self.inc_fab.set_value(p.get_factories())
+        self.inc_min.set_value(p.get_mines())
+        self.inc_def.set_value(p.get_defense_posts())
+        self.lbl_MC.set_text(str(p.get_megacredits()))
+        self.lbl_supplies.set_text(str(p.get_supplies()))
+        self.lbl_income.set_text(str(p.get_tax_collected_colonists()+p.get_tax_collected_natives()))
+        self.lbl_fab_max.set_text(str(p.calculate_allowed_factories()))
+        self.lbl_min_max.set_text(str(p.calculate_allowed_mines()))
+        self.lbl_def_max.set_text(str(p.calculate_allowed_defenses()))
+        if p.has_starbase():
+            self.lbl_base.set_text(_("BASE"))
+        else:
+            self.lbl_base.set_text('')
+        # Lista Minerales
+        self.store_minerals.clear()
+        factor_minado = p.get_mining_rate()/100
+       
+        extraccion = str(p.neutronium_extraction_rate())
+        densidad = str(p.get_dens_neutronium()*factor_minado)
+        fila = ["Neu", p.get_mined_neutronium(), p.get_ground_neutronium(), extraccion, densidad ]
+        self.store_minerals.append(fila)
+
+        extraccion = str(p.tritanium_extraction_rate())
+        densidad = str(p.get_dens_tritanium()*factor_minado)
+        fila = ["Tri", p.get_mined_tritanium(), p.get_ground_tritanium(), extraccion, densidad ]
+        self.store_minerals.append(fila)
+
+        extraccion = str(p.duranium_extraction_rate())
+        densidad = str(p.get_dens_duranium()*factor_minado)        
+        fila = ["Dur", p.get_mined_duranium(), p.get_ground_duranium(), extraccion, densidad ]
+        self.store_minerals.append(fila)
+
+        extraccion = str(p.molybdenum_extraction_rate())
+        densidad = str(p.get_dens_molybdenum()*factor_minado)
+        fila = ["Mol", p.get_mined_molybdenum(), p.get_ground_molybdenum(), extraccion, densidad ]
+        self.store_minerals.append(fila)
+        
+        ## renderer.set_property('background','green')
+        self.report_generate(p)
 
     #--------------------------------------------------------------------------
     def main_cb(self, widget, data=None):
+        """Arrancadora del plugin en modo ventana"""
         self.main()
         
     #--------------------------------------------------------------------------
     def main(self):
-        # All PyGTK applications must have a gtk.main(). Control ends here
-        # and waits for an event to occur (like a key press or mouse event).
-        #self.main_window.window1.show_all()
+        """Muestra la ventana del plugin y moienza el loop de eventos"""
         self.window.show_all()
         gtk.main()
 
-    ###########################################################################
-    ########## Todas estas funciones podrian ir en la clase Plugin ############
-    ###########################################################################
-    #Inicializa el arbol de widgets y conecta los eventos definidos en glade
+    #--------------------------------------------------------------------------
     def __initglade(self, glade_file_name):
+        """Inicializa el arbol de widgets y conecta los eventos definidos en glade"""
         self.main_window = gtk.glade.XML(glade_file_name)
         self.main_window.signal_autoconnect(self)
 
-    # Hide window but not terminate plugin
+    #--------------------------------------------------------------------------
     def delete_event(self, widget, event, data=None):
+        """Hide window but not terminate plugin"""
         self.window.hide()
         return gtk.TRUE
 
-    # Terminate App
-    def destroy(self, widget, data=None):
-        #gtk.main_quit()
-        pass
-
-    # Terminate App
-    def gtk_main_quit(self, *args):
-        gtk.main_quit()
-    
-    #Toma el valor self.hotkey del plugin
+    #--------------------------------------------------------------------------
     def register(self, pm):
         pm.set_hook_key(0, # No modifier
                         gtk.gdk.keyval_from_name(self.hotkey),
@@ -464,9 +491,9 @@ class Quark(gwp.Plugin):
         pm.set_hook_menu("_Quark",
                          self.main_cb)
 
-
-    # Cleaning up
+    #--------------------------------------------------------------------------
     def unregister(self, pm):
+        # Cleaning up
         #desconecto las senales de planeta seleccionado
         for pid, signal in self.signals_id.iteritems():
             planeta = gwp.planet_get_by_id(pid)
