@@ -3829,16 +3829,16 @@
   (return-type "void*")
 )
 
-(define-method get_selected_planet
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_selected_planet")
-  (return-type "gint")
-)
-
 (define-method get_selected_ship
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_selected_ship")
-  (return-type "gint")
+  (return-type "GwpShip*")
+)
+
+(define-method get_selected_planet
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_selected_planet")
+  (return-type "GwpPlanet*")
 )
 
 (define-method get_host_mining_rate

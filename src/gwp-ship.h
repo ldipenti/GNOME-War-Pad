@@ -23,7 +23,6 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#include "global.h"
 #include "gwp-flying-object.h"
 #include "gwp-specs.h"
 

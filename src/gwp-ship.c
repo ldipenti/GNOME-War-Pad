@@ -19,6 +19,7 @@
 
 #include <math.h>
 
+#include "global.h"
 #include "gwp-flying-object.h"
 #include "gwp-ship.h"
 #include "race.h"
