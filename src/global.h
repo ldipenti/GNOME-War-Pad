@@ -137,4 +137,10 @@ GameState *game_state;
 #define GWP_GCONF_PATH "/apps/gwp/"
 GConfClient *gwp_gconf;
 
+/* Specs sizes */
+#define ENGSPEC_SIZE 66
+#define TORPSPEC_SIZE 38
+#define BEAMSPEC_SIZE 36
+#define HULLSPEC_SIZE 60
+
 #endif
