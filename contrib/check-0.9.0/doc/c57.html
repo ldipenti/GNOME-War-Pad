@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML
+><HEAD
+><TITLE
+>Tutorial: Basic unit testing
+  </TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="Check Tutorial"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="Unit testing in C
+  "
+HREF="c33.html"><LINK
+REL="NEXT"
+TITLE="Setting up the money tests
+   "
+HREF="x68.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Check Tutorial</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c33.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x68.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN57"
+></A
+>Chapter 3. Tutorial: Basic unit testing
+  </H1
+><P
+>This tutorial will use the JUnit Test Infected article (see <A
+HREF="http://members.pingnet.ch/gamma/junit.htm"
+TARGET="_top"
+>Test Infected</A
+>) as a starting point. We will be creating a library to represent money, allowing conversions between different currency types. The development style will be &ldquo;test a little, code a little&rdquo; with unit test writing preceding coding. This constantly gives us insights into module usage, and also makes sure we are constantly thinking about how to test our code.
+  </P
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN61"
+>3.1. How to write a test</A
+></H1
+><P
+>Test writing using Check is very simple. The file in which the checks are defined must include check.h as so:
+   </P
+><PRE
+CLASS="PROGRAMLISTING"
+>#include &lt;check.h&gt;
+   </PRE
+><P
+>The basic unit test looks as follows:
+   </P
+><PRE
+CLASS="PROGRAMLISTING"
+>START_TEST(test_name)
+{
+  /* unit test code */
+}
+END_TEST
+   </PRE
+><P
+>The START_TEST/END_TEST pair are macros that setup basic structures to permit testing. It is a mistake to leave off the END_TEST marker; doing so produces all sorts of strange errors when the check is compiled. 
+   </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c33.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x68.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Unit testing in C</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Setting up the money tests</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

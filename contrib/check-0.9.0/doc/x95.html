@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML
+><HEAD
+><TITLE
+>Creating a suite
+   </TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="Check Tutorial"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Tutorial: Basic unit testing
+  "
+HREF="c57.html"><LINK
+REL="PREVIOUS"
+TITLE="Test a little, code a little
+   "
+HREF="x77.html"><LINK
+REL="NEXT"
+TITLE="SRunner output
+   "
+HREF="x102.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Check Tutorial</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x77.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 3. Tutorial: Basic unit testing</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x102.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN95"
+>3.4. Creating a suite</A
+></H1
+><P
+>To run unit tests with Check, we must create some test cases, aggregate them into a suite, and run them with a suite runner. That's a bit of overhead, but it is mostly one-off. Here's the code in check_money.c. Note that we include stdlib.h to get the definitions of EXIT_SUCCESS and EXIT_FAILURE.
+   </P
+><PRE
+CLASS="PROGRAMLISTING"
+>#include &lt;stdlib.h&gt;
+#include &lt;check.h&gt;
+
+Suite *money_suite (void) 
+{ 
+  Suite *s = suite_create ("Money"); 
+  TCase *tc_core = tcase_create ("Core");
+ 
+  suite_add_tcase (s, tc_core);
+ 
+  tcase_add_test (tc_core, test_create); 
+  return s; 
+}
+ 
+int main (void) 
+{ 
+  int nf; 
+  Suite *s = money_suite (); 
+  SRunner *sr = srunner_create (s); 
+  srunner_run_all (sr, CK_NORMAL); 
+  nf = srunner_ntests_failed (sr); 
+  srunner_free (sr); 
+  return (nf == 0) ? EXIT_SUCCESS : EXIT_FAILURE; 
+}
+   </PRE
+><P
+>Most of the money_suite code should be self-explanatory. We are creating a suite, creating a test case, adding the test case to the suite, and adding the unit test we created above to the test case. Why separate this off into a separate function, rather than inlining it in main? Because any new tests will get added in money_suite, but nothing will need to change in main for the rest of this example, so main will stay relatively clean and simple.
+   </P
+><P
+>Unit tests are internally defined as static functions. This means that the code to add unit tests to test cases must be in the same compilation unit as the unit tests themselves. This provides another reason to put the creation of the test suite in a separate function: you may later want to keep one source file per suite; defining a uniquely named suite creation function allows you later to define a header file giving prototypes for all the suite creation functions, and encapsulate the details of where and how unit tests are defined behind those functions. See the test program defined for Check itself for an example of this strategy.
+   </P
+><P
+>The code in main bears some explanation. We are creating a suite runner object from the suite we created in money_suite. We then run the suite, using the CK_NORMAL flag to specify that we should print a summary of the run, and list any failures that may have occurred. We capture the number of failures that occurred during the run, and use that to decide how to return. The check target created by Automake uses the return value to decide whether the tests passed or failed.
+   </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x77.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x102.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Test a little, code a little</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c57.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>SRunner output</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
