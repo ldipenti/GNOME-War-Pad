@@ -100,8 +100,8 @@ void vp_coord_v2w (gint16 x1, gint16 y1, gdouble * x2, gdouble * y2)
     *y2 = (gdouble) abs (y1 - 3000) + CANVAS_OFFSET_INT;
   } else {      
     /* Assign "dummy" values */
-    *x2 = (gdouble) 0;
-    *y2 = (gdouble) 0;
+    *x2 = 0.0;
+    *y2 = 0.0;
   }
 }
 

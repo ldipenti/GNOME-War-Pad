@@ -1,0 +1,5 @@
+This file contains a list of bugs detected and pending to fix on Gnome
+War Pad.
+
+* Ships outside the starchart are not showed, this is a problem with
+  games with the Sphere plugin.

@@ -11,6 +11,7 @@ gwpdoc_DATA = \
 	README\
 	COPYING\
 	COPYING-DOCS\
+	BUGS\
 	AUTHORS\
 	INSTALL\
 	ChangeLog\
