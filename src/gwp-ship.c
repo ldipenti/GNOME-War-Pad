@@ -421,7 +421,7 @@ gboolean gwp_ship_has_torp_weapons (GwpShip *self)
  * @param self a GwpShip.
  * @return A string with the primary enemy race name.
  */
-gchar * gwp_ship_get_primary_enemy_name (GwpShip *self)
+gchar * gwp_ship_get_primary_enemy_name (GwpShip *self)  /* TESTME */
 {
   g_assert (GWP_IS_SHIP(self));
 
@@ -445,7 +445,7 @@ gchar * gwp_ship_get_primary_enemy_name (GwpShip *self)
  * @param self a GwpShip.
  * @return A string with the mission's name.
  */
-gchar * gwp_ship_get_mission_name (GwpShip *self)
+gchar * gwp_ship_get_mission_name (GwpShip *self) /* TESTME */
 {
   g_assert (GWP_IS_SHIP(self));
   
