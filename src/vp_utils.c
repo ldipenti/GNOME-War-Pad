@@ -20,6 +20,10 @@
 #  include <config.h>
 #endif
 
+#ifdef USE_PYTHON
+#  include "gwp-python.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -73,6 +77,10 @@ void init_data (void)
   g_message("BEAMSPEC.DAT loaded...");
   load_truehull_data();
   g_message("TRUEHULL loaded...");
+
+#ifdef USE_PYTHON
+  gwp_python_inittab();
+#endif
 }
 
 /*
