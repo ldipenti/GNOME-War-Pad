@@ -25,37 +25,37 @@ gchar *race_get_name(gint racenum)
 {
   switch (racenum) {
   case 1:
-    return "The Federation";
+    return _("The Federation");
     break;
   case 2:
-    return "The Lizards";
+    return _("The Lizards");
     break;
   case 3:
-    return "The Birdmen";
+    return _("The Birdmen");
     break;
   case 4:
-    return "The Fascists";
+    return _("The Fascists");
     break;
   case 5:
-    return "The Privateers";
+    return _("The Privateers");
     break;
   case 6:
-    return "The Cyborgs";
+    return _("The Cyborgs");
     break;
   case 7:
-    return "The Crystalline";
+    return _("The Crystalline");
     break;
   case 8:
-    return "The Evil Empire";
+    return _("The Evil Empire");
     break;
   case 9:
-    return "The Robots";
+    return _("The Robots");
     break;
   case 10:
-    return "The Rebels";
+    return _("The Rebels");
     break;
   case 11:
-    return "The Colonies";
+    return _("The Colonies");
     break;
   default:
     return NULL;

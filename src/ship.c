@@ -141,7 +141,7 @@ gchar *ship_get_name(Ship *ship) {
 	} else if(ship->tdata != NULL) {
 		name = g_strdup(ship->tdata->name);
 	} else {
-		name = "n/a";
+		name = _("n/a");
 	}
 	return g_strchomp(name);
 }
@@ -231,7 +231,8 @@ gint16 ship_get_megacredits(Ship *ship) {
 }
 
 gboolean ship_is_known(Ship *ship) {
-	if((ship != NULL) && ((ship->sdata != NULL) || (ship->tdata != NULL))) {
+	if((ship != NULL) && ((ship->sdata != NULL) || 
+			      (ship->tdata != NULL))) {
 		return TRUE;
 	} else {
 		return FALSE;

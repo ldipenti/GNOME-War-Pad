@@ -163,16 +163,16 @@ gint16 planet_get_happiness_natives(Planet *planet) {
 gchar *planet_get_native_spi(Planet *planet) {
   gchar *spi[10];
 	
-  spi[0] = "none";
-  spi[1] = "Anarchy";
-  spi[2] = "Pre-Tribal";
-  spi[3] = "Early-Tribal";
-  spi[4] = "Tribal";
-  spi[5] = "Feudal";
-  spi[6] = "Monarchy";
-  spi[7] = "Representative";
-  spi[8] = "Participatory";
-  spi[9] = "Unity";
+  spi[0] = _("none");
+  spi[1] = _("Anarchy");
+  spi[2] = _("Pre-Tribal");
+  spi[3] = _("Early-Tribal");
+  spi[4] = _("Tribal");
+  spi[5] = _("Feudal");
+  spi[6] = _("Monarchy");
+  spi[7] = _("Representative");
+  spi[8] = _("Participatory");
+  spi[9] = _("Unity");
 	
   return spi[planet->pdata->native_spi];
 }
@@ -184,16 +184,16 @@ gint32 planet_get_natives(Planet *planet) {
 gchar *planet_get_native_race(Planet *planet) {
   gchar *race[10];
 
-  race[0] = "none";
-  race[1] = "Humanoid";
-  race[2] = "Bovinoid";
-  race[3] = "Reptilian";
-  race[4] = "Avian";
-  race[5] = "Amorphous";
-  race[6] = "Insectoid";
-  race[7] = "Amphibian";
-  race[8] = "Ghipsoldal";
-  race[9] = "Siliconoid";
+  race[0] = _("none");
+  race[1] = _("Humanoid");
+  race[2] = _("Bovinoid");
+  race[3] = _("Reptilian");
+  race[4] = _("Avian");
+  race[5] = _("Amorphous");
+  race[6] = _("Insectoid");
+  race[7] = _("Amphibian");
+  race[8] = _("Ghipsoldal");
+  race[9] = _("Siliconoid");
 	
   return race[planet->pdata->native_race];
 }
@@ -207,17 +207,17 @@ gchar *planet_get_temperature_str(Planet *planet) {
   temp = planet_get_temperature(planet);
 	
   if((temp >= 0) && (temp <= 15)) {
-    return "desert";
+    return _("desert");
   } else if((temp >= 16) && (temp <= 35)) {
-    return "tropical";
+    return _("tropical");
   } else if((temp >= 36) && (temp <= 60)) {
-    return "warm";
+    return _("warm");
   } else if((temp >= 61) && (temp <= 85)) {
-    return "cool";
+    return _("cool");
   } else if((temp >= 86) && (temp <= 100)) {
-    return "arctic";
+    return _("arctic");
   } else {
-    return "n/a";
+    return _("n/a");
   }
 }
 
