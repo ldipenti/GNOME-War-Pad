@@ -181,20 +181,22 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
       Every N mouse movements, make the calculations, to avoid
       loading the CPU too much.
     */
-    if((interleave++ % MOUSE_INTERLEAVE) == 0) {
-      if ((event->x >= 0) && (event->y >= 0)) {
-	/* Un-highlight planet before highlighting other */
-	starchart_unhighlight_planet(planet);
-	starchart_unhighlight_ship(ship);
+    
+/*     if((interleave++ % MOUSE_INTERLEAVE) == 0) { */
+/*       if ((event->x >= 0) && (event->y >= 0)) { */
+/* 	/\* Un-highlight planet before highlighting other *\/ */
+/* 	starchart_unhighlight_planet(planet); */
+/* 	starchart_unhighlight_ship(ship); */
 	
-	/* Search for nearest planet and highlight it */
-	q = get_quadrant(wx, wy);
-	planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
-	ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
-	planet = starchart_highlight_nearest_planet(planets_nearby, wx, wy);
-	ship = starchart_highlight_nearest_ship(ships_nearby, wx, wy);
-      }
-    }
+/* 	/\* Search for nearest planet and highlight it *\/ */
+/* 	q = get_quadrant(wx, wy); */
+/* 	planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q); */
+/* 	ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q); */
+/* 	planet = starchart_highlight_nearest_planet(planets_nearby, wx, wy); */
+/* 	ship = starchart_highlight_nearest_ship(ships_nearby, wx, wy); */
+/*       } */
+/*     } */
+
   }
 
   pointer_x = (gint) event->x;

@@ -55,6 +55,16 @@ GType gwp_ship_get_type (void);
  */
 GwpShip *gwp_ship_new (void);
 
+
+/**********************/
+/* High level methods */
+/**********************/
+GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
+
+
+/****************************/
+/* Get/Set (boring) methods */
+/****************************/
 gboolean gwp_ship_is_known (GwpShip *self);
 void gwp_ship_set_known (GwpShip *self, gboolean is_known);
 
@@ -126,6 +136,8 @@ gint16 gwp_ship_get_unload_molybdenum (GwpShip *self);
 void gwp_ship_set_unload_molybdenum (GwpShip *self, gint16 mol);
 gint16 gwp_ship_get_unload_supplies (GwpShip *self);
 void gwp_ship_set_unload_supplies (GwpShip *self, gint16 sup);
+void gwp_ship_set_unload_colonists (GwpShip *self, gint16 col);
+gint16 gwp_ship_get_unload_colonists (GwpShip *self);
 gint16 gwp_ship_get_unload_planet_id (GwpShip *self);
 void gwp_ship_set_unload_planet_id (GwpShip *self, gint16 pid);
 
@@ -140,6 +152,8 @@ gint16 gwp_ship_get_transfer_molybdenum (GwpShip *self);
 void gwp_ship_set_transfer_molybdenum (GwpShip *self, gint16 mol);
 gint16 gwp_ship_get_transfer_supplies (GwpShip *self);
 void gwp_ship_set_transfer_supplies (GwpShip *self, gint16 sup);
+void gwp_ship_set_transfer_colonists (GwpShip *self, gint16 col);
+gint16 gwp_ship_get_transfer_colonists (GwpShip *self);
 gint16 gwp_ship_get_transfer_ship_id (GwpShip *self);
 void gwp_ship_set_transfer_ship_id (GwpShip *self, gint16 sid);
 

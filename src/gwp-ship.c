@@ -239,7 +239,20 @@ GwpShip * gwp_ship_new (void)
   return g_object_new (gwp_ship_get_type(), NULL);
 }
 
+/**********************/
+/* High level methods */
+/**********************/
+
+/* Returns the ship with id */
+GwpShip * gwp_ship_get (GHashTable *list, gint ship_id) 
+{
+  return (GwpShip *) g_hash_table_lookup(list, (gconstpointer)ship_id);
+}
+
+
+/****************************/
 /* Get/Set (boring) methods */
+/****************************/
 gboolean gwp_ship_is_known (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -629,6 +642,19 @@ void gwp_ship_set_unload_supplies (GwpShip *self, gint16 sup)
   self->priv->unload_supplies = sup;
 }
 
+void gwp_ship_set_unload_colonists (GwpShip *self, gint16 col)
+{
+  g_assert (GWP_IS_SHIP(self));
+  g_assert (col >= 0 && col <= self->priv->colonists);
+  self->priv->unload_colonists = col;
+}
+
+gint16 gwp_ship_get_unload_colonists (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return self->priv->unload_colonists;
+}
+
 gint16 gwp_ship_get_unload_planet_id (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -699,6 +725,19 @@ gint16 gwp_ship_get_transfer_supplies (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
   return self->priv->transfer_supplies;
+}
+
+void gwp_ship_set_transfer_colonists (GwpShip *self, gint16 col)
+{
+  g_assert (GWP_IS_SHIP(self));
+  g_assert (col >= 0 && col <= self->priv->colonists);
+  self->priv->transfer_colonists = col;
+}
+
+gint16 gwp_ship_get_transfer_colonists (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return self->priv->transfer_colonists;
 }
 
 void gwp_ship_set_transfer_supplies (GwpShip *self, gint16 sup)

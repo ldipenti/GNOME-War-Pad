@@ -123,8 +123,11 @@ gint gwp_object_get_x_coord (GwpObject *self)
 void gwp_object_set_x_coord (GwpObject *self, gint x)
 {
   g_assert (GWP_IS_OBJECT(self));
-  g_assert (x >= 0 && x <= 4000);
-  self->priv->x_coord = x;
+  if (x >= 0 && x <= 4000) {
+    self->priv->x_coord = x;
+  } else {
+    self->priv->x_coord = 0;
+  }
 }
 
 gint gwp_object_get_y_coord (GwpObject *self)
@@ -136,8 +139,11 @@ gint gwp_object_get_y_coord (GwpObject *self)
 void gwp_object_set_y_coord (GwpObject *self, gint y)
 {
   g_assert (GWP_IS_OBJECT(self));
-  g_assert (y >= 0 && y <= 4000);
-  self->priv->y_coord = y;
+  if (y >= 0 && y <= 4000) {
+    self->priv->y_coord = y;
+  } else {
+    self->priv->y_coord = 0;
+  }
 }
 
 gint gwp_object_get_id (GwpObject *self)
