@@ -269,6 +269,7 @@ class Finder(gwp.Plugin):
         self.list2_scroll = gtk.ScrolledWindow()
         self.list2_scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.list2 = gtk.TreeView()
+        self.list2.get_selection().connect("changed", self.__on_planet_selected, None)
         # additions
         self.vbox.pack_start(self.list2_scroll, gtk.TRUE, gtk.TRUE, 0)
         self.list2_scroll.add(self.list2)
@@ -290,6 +291,19 @@ class Finder(gwp.Plugin):
         self.list2.append_column(col_name)
         self.list2.append_column(col_col)
         self.list2.set_model(self.store2)
+
+    # callback
+    def __on_planet_selected(self, treeselection, data=None):
+        """Manejador del evento que ocurre al seleccionar un planeta en la
+        ventana del plugin."""
+        (model, iter) = treeselection.get_selected()
+        try:
+            pid = self.store2.get_value(iter,0)
+            s = gwp.Starchart()
+            s.select_planet(pid)
+        except TypeError:
+            #print "Type Error al elegir planeta" 
+            pass
 
     # Dummy wrapper to real method
     def __main_menu_cb (self, widget, data=None):

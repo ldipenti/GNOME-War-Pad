@@ -498,6 +498,8 @@ gwp_starchart_select_nearest_planet (GwpStarchart *self,
   GSList *planets_nearby;
   GwpPlanet *s_planet;
 
+  g_assert (GWP_IS_STARCHART(self));
+
   /* Translate coords to World system */
   vp_coord_v2w (x, y, &wx, &wy);
   q = get_quadrant(wx, wy);
@@ -509,4 +511,27 @@ gwp_starchart_select_nearest_planet (GwpStarchart *self,
   g_signal_emit_by_name (s_planet, "selected");
 
   return s_planet;
+}
+
+GwpPlanet *
+gwp_starchart_select_planet (GwpStarchart *self,
+			     gint planet_id)
+{
+  GwpPlanet *planet = NULL;
+
+  g_assert (GWP_IS_STARCHART(self));
+  g_return_val_if_fail ((planet_id >= 1 && planet_id <= 500), NULL);
+
+  planet = gwp_planet_get (planet_list, planet_id);
+  
+  if (planet) {
+    gwp_starchart_select_nearest_planet (self, 
+					 gwp_object_get_x_coord (GWP_OBJECT(planet)),
+					 gwp_object_get_y_coord (GWP_OBJECT(planet)));
+    gwp_starchart_center_around (self, GWP_OBJECT(planet));
+
+    return planet;
+  } else {
+    return NULL;
+  }
 }

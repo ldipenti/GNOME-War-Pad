@@ -3495,6 +3495,15 @@
   )
 )
 
+(define-method select_planet
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_select_planet")
+  (return-type "GwpPlanet*")
+  (parameters
+    '("gint" "planet_id")
+  )
+)
+
 (define-method center_around
   (of-object "GwpStarchart")
   (c-name "gwp_starchart_center_around")

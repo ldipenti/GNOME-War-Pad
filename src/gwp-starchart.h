@@ -100,6 +100,7 @@ void gwp_starchart_set_ships_per_quad (GwpStarchart *self, GwpShip *ship);
 GSList *gwp_starchart_get_locations_per_quad (GwpStarchart *self, gint quad);
 void gwp_starchart_set_locations_per_quad (GwpStarchart *self, GwpLocation *loc);
 GwpPlanet *gwp_starchart_select_nearest_planet (GwpStarchart *self, gint x, gint y);
+GwpPlanet *gwp_starchart_select_planet (GwpStarchart *self, gint planet_id);
 
 
 
