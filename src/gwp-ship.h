@@ -61,6 +61,10 @@ GwpShip *gwp_ship_new (void);
 /**********************/
 /* High level methods */
 /**********************/
+GString * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len);
+gint gwp_ship_get_hull_cargo (GwpShip *self);
+gint gwp_ship_get_hull_fuel_tank (GwpShip *self);
+
 gint gwp_ship_calculate_heading (GwpShip *self);
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
 gboolean gwp_ship_valid_coords(GwpShip *self);
@@ -70,10 +74,7 @@ gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self);
 gint gwp_ship_calculate_eta (GwpShip *self);
 
 gint gwp_ship_calculate_fuel_usage (GwpShip *self);
-GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self);
-GwpEngSpec * gwp_ship_get_engspec (GwpShip *self);
-GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self);
-GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self);
+gint gwp_ship_calculate_cargo (GwpShip *self);
 gint gwp_ship_calculate_mass (GwpShip *self);
 
 

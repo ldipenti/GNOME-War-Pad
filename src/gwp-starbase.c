@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
+ 
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
 
@@ -150,7 +152,6 @@ static void gwp_starbase_init (GTypeInstance *instance,
   self->priv->build_beam_count = 0;
   self->priv->build_torp_type = 0;
   self->priv->build_torp_count = 0;
-  /* g_message("GwpStarbase init"); */
 }
 
 static void gwp_starbase_dispose (GwpStarbase *self)
@@ -172,14 +173,13 @@ static void gwp_starbase_finalize (GwpStarbase *self)
   /*
    * Here, complete object destruction.
    */
-  /* g_message ("GwpStarbase finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_starbase_class_init (GwpStarbaseClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  /*  g_message ("GwpStarbaseClass init"); */
+
   /* Register destructor methods */
   gobject_class->dispose = gwp_starbase_dispose;
   gobject_class->finalize = gwp_starbase_finalize;
@@ -208,7 +208,7 @@ GwpStarbase * gwp_starbase_copy (GwpStarbase *self)
   g_free(sb_copy->priv);
   sb_copy->priv = g_malloc (sizeof(GwpStarbasePrivate));
   sb_copy->priv = memcpy (sb_copy->priv, self->priv, sizeof(GwpStarbasePrivate));
-
+  /* FIXME: should be the planet referencee be copied? */
   return sb_copy;
 }
 

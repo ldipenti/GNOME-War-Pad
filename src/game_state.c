@@ -95,6 +95,7 @@ GameState *game_state_new(void)
   ret->turn_number = 0;
   ret->pnames = NULL;
   ret->toolbar = TRUE;
+  ret->extra_panel_open = FALSE;
   ret->settings = game_settings_new();
   
   return ret;
@@ -314,6 +315,20 @@ gint game_get_host_type(const GameState *game_state)
   g_assert(game_state != NULL);
   
   return game_state->settings->host_type;
+}
+
+gboolean game_is_extra_panel_open (const GameState *game_state)
+{
+  g_assert (game_state != NULL);
+
+  return game_state->extra_panel_open;
+}
+
+void game_set_extra_panel_open (GameState *game_state, gboolean is_open)
+{
+  g_assert (game_state != NULL);
+
+  game_state->extra_panel_open = is_open;
 }
 
 gboolean game_get_toolbar(const GameState *game_state)

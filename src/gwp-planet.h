@@ -68,6 +68,8 @@ GwpPlanet * gwp_planet_new (void);
 /**********************/
 /* High-level methods */
 /**********************/
+GString * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self);
+gint gwp_planet_get_def_sys_beams_type (GwpPlanet *self);
 gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self);
 gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self);
 gint gwp_planet_get_def_sys_fighter_bays(GwpPlanet *self);

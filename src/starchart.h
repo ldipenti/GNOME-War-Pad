@@ -42,6 +42,7 @@ gint handle_starchart_event(GnomeCanvas *item, GdkEvent *event, gpointer data);
 void update_starbase_panel(GwpPlanet *planet);
 void update_global_defense_panel(GwpPlanet *planet);
 void update_planet_panel(GtkWidget *gwp, GwpPlanet *a_planet);
+void update_ship_extra_panel (GwpShip *ship);
 void update_planet_extra_panel (gint16 planet_id);
 void update_ship_panel_with (GwpShip *ship);
 void update_ship_panel(GtkWidget *gwp, GwpLocation *location);
@@ -50,7 +51,8 @@ void starchart_update_coord_panel(GtkWidget *gwp, gdouble wx, gdouble wy);
 /* Show/Hide Functions */
 void starchart_show_grid(GnomeCanvas *starchart);
 void starchart_hide_grid(GnomeCanvas *starchart);
-void starchart_open_extra_panels(void);
+void starchart_open_extra_planet_panels(void);
+void starchart_open_extra_ship_panels(void);
 void starchart_close_extra_panels(void);
 
 /* Drawing functions */
@@ -58,12 +60,8 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data);
 void draw_ship (gpointer key, gpointer value, gpointer user_data);
 void draw_minefield (gpointer data, gpointer user_data);
 void draw_ion_storm (gpointer data, gpointer user_data);
-GnomeCanvasItem * starchart_highlight_nearest_planet (GSList *planets_in_quad, gdouble wx, gdouble wy);
-GnomeCanvasItem * starchart_highlight_nearest_ship (GSList *ships_in_quad, gdouble wx, gdouble wy);
 GnomeCanvasItem * starchart_select_nearest_planet (GtkWidget *gwp, GSList *planets_nearby, gdouble wx, gdouble wy);
 GnomeCanvasItem * starchart_select_nearest_ship (GtkWidget* gwp, GSList *ships_nearby, gdouble wx, gdouble wy);
-void starchart_unhighlight_planet (GnomeCanvasItem *planet);
-void starchart_unhighlight_ship (GnomeCanvasItem *ship);
 void starchart_zoom_in (GnomeCanvas *starchart);
 void starchart_zoom_out (GnomeCanvas *starchart);
 void starchart_mark_planet (GwpPlanet *a_planet);

@@ -18,12 +18,14 @@
  */
 
 #include <math.h>
+#include <string.h>
 
 #include "gwp-starbase.h"
 #include "race.h"
 #include "global.h"
 #include "game_state.h"
 #include "gwp-planet.h"
+#include "gwp-beamspec.h"
 
 gint gwp_planet_mineral_extraction_rate(gint mines, gint density, gint mineral);
 gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);
@@ -248,16 +250,81 @@ GwpPlanet * gwp_planet_new (void)
  */
 
 /**
+ * Type of beam weapons on defense systems - GDS
+ *
+ * This calculates the equivalent type of beams weapons a planet
+ * has to defend itself from attacks. It depend on the defense
+ * posts and if wether a starbase is orbiting around it.
+ *
+ * @param self a GwpPlanet.
+ * @return The name of the beam weapon type.
+ */
+GString * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  GString *ret = NULL;
+  GwpBeamSpec *beam = NULL;
+  gint beam_type = gwp_planet_get_def_sys_beams_type (self);
+
+  if (beam_type != 0) {
+    beam = g_slist_nth_data (beamspec_list, beam_type - 1);
+    g_assert (GWP_IS_BEAMSPEC(beam));
+
+    ret = g_string_new (gwp_beamspec_get_name(beam)->str);
+  } else {
+    ret = g_string_new (_("No beam weapon"));
+  }
+
+  return ret;
+}
+
+/**
+ * Type of beam weapons on defense systems - GDS
+ *
+ * This calculates the equivalent type of beams weapons a planet
+ * has to defend itself from attacks. It depend on the defense
+ * posts and if wether a starbase is orbiting around it.
+ *
+ * @param self a GwpPlanet.
+ * @return The beam weapon type.
+ */
+gint gwp_planet_get_def_sys_beams_type (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  gint ret;
+
+  ret = round (sqrt(gwp_planet_get_defense_posts(self) * 0.5));
+
+  /* 
+     FIXME: I don't understand what Donovan says here:
+     http://www.xs4all.nl/~donovan/help/details.htm#combat3
+     ...about the planet beam weapons type.
+  */
+/*   if (gwp_planet_has_starbase(self)) { */
+/*     if (ret < */
+/*   } */
+
+  /* Check for type "overrun" */
+  if (ret > 10) { ret = 10; };
+  
+  return ret;
+}
+
+/**
  * Number of beam weapons on defense systems - GDS.
  *
  * This calculates the equivalent number of beams a planet has to
  * defend itself from attacks.
  *
- * @param self a Gwp Planet.
+ * @param self a GwpPlanet.
  * @return The number of beam weapons.
  */
 gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
 
   if(gwp_planet_has_starbase(self)) {
@@ -282,6 +349,8 @@ gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self)
  */
 gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
 
   if(gwp_planet_get_defense_posts(self) >= 1) {
@@ -307,7 +376,16 @@ gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self)
  */
 gint gwp_planet_get_def_sys_fighter_bays(GwpPlanet *self)
 {
-  return trunc(sqrt(gwp_planet_get_defense_posts(self)));
+  g_assert (GWP_IS_PLANET(self));
+
+  gint ret;
+
+  ret = trunc(sqrt(gwp_planet_get_defense_posts(self)));
+
+  if (gwp_planet_has_starbase(self)) {
+    ret += 5;    
+  } 
+  return ret;
 }
 
 /**
@@ -321,6 +399,8 @@ gint gwp_planet_get_def_sys_fighter_bays(GwpPlanet *self)
  */
 gint gwp_planet_get_def_sys_battle_mass(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
 
   if(gwp_planet_has_starbase(self)) {
@@ -342,6 +422,8 @@ gint gwp_planet_get_def_sys_battle_mass(GwpPlanet *self)
  */
 gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret = 0;
 
   g_assert(GWP_IS_PLANET(self));
@@ -377,9 +459,9 @@ gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
  */
 gint gwp_planet_get_nat_growth_limit(GwpPlanet *self)
 {
-  gint ret = 0;
+  g_assert (GWP_IS_PLANET(self));
 
-  g_assert(GWP_IS_PLANET(self));
+  gint ret = 0;
 
   if(gwp_planet_is_known(self) && gwp_planet_is_mine(self)) {
     if(gwp_planet_get_natives_race(self) != NATIVE_NONE) {
@@ -405,9 +487,9 @@ gint gwp_planet_get_nat_growth_limit(GwpPlanet *self)
  */
 GwpPlanet * gwp_planet_copy (GwpPlanet *self)
 {
-  GwpPlanet *p_copy;
-
   g_assert (GWP_IS_PLANET(self));
+
+  GwpPlanet *p_copy;
 
   p_copy  = gwp_planet_new();
   g_free (p_copy->priv);
@@ -440,6 +522,7 @@ GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id)
 gboolean gwp_planet_is_mine (GwpPlanet *self)
 {
   g_assert(GWP_IS_PLANET(self));
+
   if(gwp_planet_what_is(self) == IS_MINE) {
     return TRUE;
   } else {
@@ -450,6 +533,7 @@ gboolean gwp_planet_is_mine (GwpPlanet *self)
 gint gwp_planet_what_is (GwpPlanet *self)
 {
   g_assert(GWP_IS_PLANET(self));
+
   if(gwp_planet_get_owner(self) == game_get_race(game_state)) {
     return IS_MINE;
   } else {
@@ -465,6 +549,8 @@ gint gwp_planet_what_is (GwpPlanet *self)
  */
 gint16 gwp_planet_get_temperature_f (GwpPlanet *self) 
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return 100 - gwp_planet_get_temperature(self);
 }
 
@@ -478,6 +564,8 @@ gint16 gwp_planet_get_temperature_f (GwpPlanet *self)
  */
 gchar * gwp_planet_get_temperature_str(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint16 temp;
 
   temp = gwp_planet_get_temperature (self);
@@ -509,6 +597,8 @@ gchar * gwp_planet_get_temperature_str(GwpPlanet *self)
  */
 gint gwp_planet_get_visibility(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
 
   if(((gwp_planet_get_mines (self) > 20) || 
@@ -533,6 +623,8 @@ gint gwp_planet_get_visibility(GwpPlanet *self)
  */
 gint gwp_planet_get_happiness_col_change (GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
 
   if(game_get_race(game_state) != RACE_CRYSTALLINE) {
@@ -564,6 +656,8 @@ gint gwp_planet_get_happiness_col_change (GwpPlanet *self)
  */
 gint gwp_planet_get_happiness_nat_change (GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret = 0;
 
   if(gwp_planet_get_natives_race (self) != NATIVE_NONE) {
@@ -590,6 +684,8 @@ gint gwp_planet_get_happiness_nat_change (GwpPlanet *self)
  */
 gchar * gwp_planet_get_natives_race_chars (GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gchar * race[] = {
     _("none"), 
     _("Humanoid"),
@@ -615,6 +711,8 @@ gchar * gwp_planet_get_natives_race_chars (GwpPlanet *self)
  */
 gchar * gwp_planet_get_natives_spi_chars (GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gchar * spi[] = {
     _("none"),
     _("Anarchy"),
@@ -639,9 +737,9 @@ gchar * gwp_planet_get_natives_spi_chars (GwpPlanet *self)
  */
 gboolean gwp_planet_has_starbase (GwpPlanet *self)
 {
-  gboolean ret = FALSE;
-
   g_assert (GWP_IS_PLANET(self));
+
+  gboolean ret = FALSE;
 
   if (GWP_IS_STARBASE(self->priv->starbase)) {
     ret = TRUE;
@@ -666,6 +764,8 @@ gdouble gwp_planet_get_ground_percent(gint mineral)
 
 gint gwp_planet_neutronium_extraction_rate(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_neutronium(self),
 					    gwp_planet_get_ground_neutronium(self));
@@ -673,12 +773,16 @@ gint gwp_planet_neutronium_extraction_rate(GwpPlanet *self)
 
 gint gwp_planet_neutronium_turns_left(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_turns_left(gwp_planet_get_ground_neutronium(self),
 				       gwp_planet_neutronium_extraction_rate(self));
 }
 
 gint gwp_planet_tritanium_extraction_rate(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_tritanium(self),
 					    gwp_planet_get_ground_tritanium(self));
@@ -686,12 +790,16 @@ gint gwp_planet_tritanium_extraction_rate(GwpPlanet *self)
 
 gint gwp_planet_tritanium_turns_left(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_turns_left(gwp_planet_get_ground_tritanium(self),
 				       gwp_planet_tritanium_extraction_rate(self));
 }
 
 gint gwp_planet_molybdenum_extraction_rate(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_molybdenum(self),
 					    gwp_planet_get_ground_molybdenum(self));
@@ -699,12 +807,16 @@ gint gwp_planet_molybdenum_extraction_rate(GwpPlanet *self)
 
 gint gwp_planet_molybdenum_turns_left(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_turns_left(gwp_planet_get_ground_molybdenum(self),
 				       gwp_planet_molybdenum_extraction_rate(self));
 }
 
 gint gwp_planet_duranium_extraction_rate(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_duranium(self),
 					    gwp_planet_get_ground_duranium(self));
@@ -712,6 +824,8 @@ gint gwp_planet_duranium_extraction_rate(GwpPlanet *self)
 
 gint gwp_planet_duranium_turns_left(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   return gwp_planet_mineral_turns_left(gwp_planet_get_ground_duranium(self),
 				       gwp_planet_duranium_extraction_rate(self));
 }
@@ -724,6 +838,8 @@ gint gwp_planet_duranium_turns_left(GwpPlanet *self)
  */
 gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
 
   if(gwp_planet_get_happiness_colonists(self) > 30) {
@@ -744,6 +860,8 @@ gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
  */
 gint gwp_planet_get_tax_earned_natives(GwpPlanet *self)
 {
+  g_assert (GWP_IS_PLANET(self));
+
   gint ret;
   
   if(gwp_planet_get_happiness_natives(self) > 30) {

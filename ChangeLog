@@ -1,4 +1,4 @@
-Version ?.?.?? (released ??-??-????):
+Version 0.2.12 (released 04-10-2004):
 
 	* Starchart placed on the middle when defining a new game.
 
@@ -9,7 +9,13 @@ Version ?.?.?? (released ??-??-????):
 	* Basic minefield visualization.
 
 	* Basic ion storm visualization.
+
+	* GDS panel info completed.
+
+	* Lots of code cleanups & bugfixes.
 	
+	* Several UI optimizations.
+
 Version 0.2.11 (released 03-15-2004):
 
 	* Bugs on some ship cargo unload and transfer methods were fixed.

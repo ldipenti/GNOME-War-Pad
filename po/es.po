@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GWP 0.2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-03-15 23:27-0300\n"
-"PO-Revision-Date: 2004-02-02 01:39-0300\n"
+"PO-Revision-Date: 2004-04-09 20:24-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgstr "<b>Col:</b>"
 
 #: src/gwp.glade.h:19
 msgid "<b>Colonists Pay:</b>"
-msgstr "<b>Colonos pagan:</b>:"
+msgstr "<b>Colonos pagan:</b>"
 
 #: src/gwp.glade.h:20
 #, fuzzy

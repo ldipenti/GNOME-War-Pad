@@ -22,6 +22,11 @@
 #include "gwp-flying-object.h"
 #include "gwp-ship.h"
 
+GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self);
+GwpEngSpec * gwp_ship_get_engspec (GwpShip *self);
+GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self);
+GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self);
+
 /**
  * Private data structure for the GwpShip type.
  *
@@ -278,9 +283,135 @@ GwpShip * gwp_ship_new (void)
   return g_object_new (gwp_ship_get_type(), NULL);
 }
 
+/*******************/
+/* Private methods */
+/*******************/
+
+/**
+ * Gets the correct hull specs for the ship.
+ *
+ * Search on the global hullspec list the correct hull spec for the
+ * current ship. This is a private method, just for use
+ * by the other ship's methods.
+ *
+ * @param self a GwpShip.
+ * @return The hull spec for the current ship.
+ */
+GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  return (GwpHullSpec *)g_slist_nth_data (hullspec_list, gwp_ship_get_hull_type(self) - 1);
+}
+
+/**
+ * Gets the correct engine specs for the ship.
+ *
+ * Search on the global engspec list the correct engine spec for the
+ * current ship. This is a private method.
+ *
+ * @param self a GwpShip.
+ * @return The engine spec for the current ship.
+ */
+GwpEngSpec * gwp_ship_get_engspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  return (GwpEngSpec *)g_slist_nth_data (engspec_list, gwp_ship_get_engines_type(self) - 1);
+}
+
+/**
+ * Gets the beam weapons specs for the ship.
+ *
+ * Search on the global beamspec list the correct beam weapon spec for
+ * the current ship. This is a private method.
+ * 
+ * @param self a GwpShip.
+ * @return The beam weapon spec for the current ship or NULL if it
+ * doesn't have.
+ */
+GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  gint beams_type = gwp_ship_get_beams_type (self);
+
+  if (beams_type != 0 && gwp_ship_get_beams(self) != 0) {
+    return (GwpBeamSpec *)g_slist_nth_data (beamspec_list, beams_type - 1);
+  } else {
+    return NULL;
+  }
+}
+
+/**
+ * Gets the torpedoes weapons specs.
+ *
+ * Search on the global torpspec list the correct beam weapon spec for
+ * the current ship. This is a private method.
+ *
+ * @param self a GwpShip.
+ * @return The torpedoes weapon spec for the current ship or NULL if
+ * it doesn't have.
+ */
+GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  gint torps_type = gwp_ship_get_torps_type (self);
+
+  if (torps_type != 0 && gwp_ship_get_torps(self) != 0) {
+    return (GwpTorpSpec *)g_slist_nth_data (torpspec_list, torps_type - 1);
+  } else {
+    return NULL;
+  }
+}
+
+
 /**********************/
 /* High level methods */
 /**********************/
+
+/**
+ * Returns the ship's hull name truncated.
+ *
+ * This is a mapping function to access the ship's hullspec data.
+ *
+ * @param self a GwpShip.
+ * @param len the maximum name length accepted.
+ * @return A string containing the hull name truncated if necessary.
+ * @see gwp_hullspec_get_name_trunc
+ */
+GString * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_name_trunc (gwp_ship_get_hullspec(self), len);
+}
+
+/**
+ * Returns the max cargo capacity of the current ship.
+ *
+ * @param self a GwpShip.
+ * @return The ship's maximum cargo capacity.
+ * @see gwp_hullspec_get_cargo
+ */
+gint gwp_ship_get_hull_cargo (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_cargo (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the fuel tank capacity of the current ship.
+ *
+ * @param self a GwpShip.
+ * @return The ship's maximum fuel capacity.
+ * @see gwp_hullspec_get_fuel_tank
+ */
+gint gwp_ship_get_hull_fuel_tank (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_fuel_tank (gwp_ship_get_hullspec(self));
+}
 
 /**
  * Calculates the ship's heading.
@@ -469,82 +600,18 @@ gint gwp_ship_calculate_fuel_usage (GwpShip *self)
 }
 
 /**
- * Gets the correct hull specs for the ship.
+ * Calculates total cargo mass.
  *
- * Search on the global hullspec list the correct hull spec for the
- * current ship. Maybe this should be a private method, just for use
- * by the other ship's methods.
- *
- * @param self a GwpShip.
- * @return The hull spec for the current ship.
+ * @param self a GwpShip
+ * @return The total cargo mass in kT.
  */
-GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self)
+gint gwp_ship_calculate_cargo (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
 
-  return (GwpHullSpec *)g_slist_nth_data (hullspec_list, gwp_ship_get_hull_type(self) - 1);
-}
-
-/**
- * Gets the correct engine specs for the ship.
- *
- * Search on the global engspec list the correct engine spec for the
- * current ship. Maybe this should be a private method.
- *
- * @param self a GwpShip.
- * @return The engine spec for the current ship.
- */
-GwpEngSpec * gwp_ship_get_engspec (GwpShip *self)
-{
-  g_assert (GWP_IS_SHIP(self));
-
-  return (GwpEngSpec *)g_slist_nth_data (engspec_list, gwp_ship_get_engines_type(self) - 1);
-}
-
-/**
- * Gets the beam weapons specs for the ship.
- *
- * Search on the global beamspec list the correct beam weapon spec for
- * the current ship. Maybe this should be a private method.
- * @param self a GwpShip.
- *
- * @return The beam weapon spec for the current ship or NULL if it
- * doesn't have.
- */
-GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
-{
-  g_assert (GWP_IS_SHIP(self));
-
-  gint beams_type = gwp_ship_get_beams_type (self);
-
-  if (beams_type != 0 && gwp_ship_get_beams(self) != 0) {
-    return (GwpBeamSpec *)g_slist_nth_data (beamspec_list, beams_type - 1);
-  } else {
-    return NULL;
-  }
-}
-
-/**
- * Gets the torpedoes weapons specs.
- *
- * Search on the global torpspec list the correct beam weapon spec for
- * the current ship. Maybe this should be a private method.
- *
- * @param self a GwpShip.
- * @return The torpedoes weapon spec for the current ship or NULL if
- * it doesn't have.
- */
-GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
-{
-  g_assert (GWP_IS_SHIP(self));
-
-  gint torps_type = gwp_ship_get_torps_type (self);
-
-  if (torps_type != 0 && gwp_ship_get_torps(self) != 0) {
-    return (GwpTorpSpec *)g_slist_nth_data (torpspec_list, torps_type - 1);
-  } else {
-    return NULL;
-  }
+  return gwp_ship_get_colonists (self) + gwp_ship_get_tritanium (self) + 
+    gwp_ship_get_duranium (self) + gwp_ship_get_molybdenum (self) + 
+    gwp_ship_get_supplies (self);
 }
 
 /**
@@ -568,10 +635,8 @@ gint gwp_ship_calculate_mass (GwpShip *self)
 
   gint total_mass = 0;
 
-  total_mass += gwp_ship_get_colonists (self) +
-    gwp_ship_get_neutronium (self) + gwp_ship_get_tritanium (self) +
-    gwp_ship_get_duranium (self) + gwp_ship_get_molybdenum (self) +
-    gwp_ship_get_supplies (self);
+  total_mass += gwp_ship_calculate_cargo (self) + 
+    gwp_ship_get_neutronium (self);
   
   if (gwp_ship_get_unload_planet_id(self) != 0) {
     total_mass -= gwp_ship_get_unload_colonists (self) +

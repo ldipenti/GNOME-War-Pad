@@ -1,3 +1,22 @@
+/*
+ *  Gnome War Pad: A VGA Planets Client for Gnome
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Library General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
@@ -84,9 +103,12 @@ starchart_event_button                 (GtkWidget       *widget,
   GSList *planets_nearby, *ships_nearby;
   static GnomeCanvasItem *ps_planet = NULL, *s_planet = NULL;
   static GnomeCanvasItem *ps_ship = NULL, *s_ship = NULL;
+  static gboolean loaded = FALSE;
   static GtkNotebook *mini = NULL;
 
-  if (!mini) {
+  if (!loaded) {
+    loaded = TRUE;
+
     mini = (GtkNotebook *) lookup_widget("notebook_mini");
   }
   
@@ -117,9 +139,11 @@ starchart_event_button                 (GtkWidget       *widget,
 	  && (!(event->state & GDK_SHIFT_MASK))) {
     /* If the d-click was on the same planet, show the panels! */
     if(ps_planet == s_planet) {
-      starchart_open_extra_panels();
-      /* Switch to planet image view */
-      gtk_notebook_set_current_page(mini, MINI_PLANET_PAGE);
+      starchart_open_extra_planet_panels();
+
+      /* Re-select planet to update extra panels */
+      planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
+      starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), planets_nearby, wx, wy);
     }
   } 
   /* Select a ship */
@@ -138,7 +162,7 @@ starchart_event_button                 (GtkWidget       *widget,
 	  && (!(event->state & GDK_SHIFT_MASK))) {
     /* If the d-click was on the same planet, show the panels! */
     if(ps_ship == s_ship) {
-      starchart_open_extra_panels();
+      starchart_open_extra_ship_panels();
       /* Switch to ship image view */
       gtk_notebook_set_current_page(mini, MINI_SHIP_PAGE);
     }
@@ -154,9 +178,6 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
 {
   gint x, y;
   gdouble wx, wy;
-  gint q;
-  GSList *planets_nearby, *ships_nearby;
-  static GnomeCanvasItem *planet, *ship;
   static guint interleave;
   static gint pointer_x = 0, pointer_y = 0;
   static gboolean panning = FALSE;
@@ -197,28 +218,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
     gnome_canvas_c2w(GNOME_CANVAS(widget), x, y, &wx, &wy);
     
     /* Update coord indicator */
-    starchart_update_coord_panel(widget, wx, wy);
-    
-    /*
-      Every N mouse movements, make the calculations, to avoid
-      loading the CPU too much.
-    */
-    
-/*     if((interleave++ % MOUSE_INTERLEAVE) == 0) { */
-/*       if ((event->x >= 0) && (event->y >= 0)) { */
-/* 	/\* Un-highlight planet before highlighting other *\/ */
-/* 	starchart_unhighlight_planet(planet); */
-/* 	starchart_unhighlight_ship(ship); */
-	
-/* 	/\* Search for nearest planet and highlight it *\/ */
-/* 	q = get_quadrant(wx, wy); */
-/* 	planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q); */
-/* 	ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q); */
-/* 	planet = starchart_highlight_nearest_planet(planets_nearby, wx, wy); */
-/* 	ship = starchart_highlight_nearest_ship(ships_nearby, wx, wy); */
-/*       } */
-/*     } */
-
+    starchart_update_coord_panel(widget, wx, wy);  
   }
 
   pointer_x = (gint) event->x;
@@ -597,7 +597,7 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
   // Unpack this game
   vp_unpack(game_dir, *race);
 
-  // Disable button if all ok
+  /* Disable button if all ok */
   if(! vp_can_unpack(game_dir, *race)) {
     GtkWidget *btn_unpack =
       lookup_widget("game_mgr_btn_unpack");
@@ -618,7 +618,7 @@ void on_online_help_activate (GtkWidget *widget,
   GError* error = NULL;
   
   if (!gnome_help_display ("gwp.xml", NULL, &error)) {
-    // report error
+    /* report error */
     g_error_free (error);
   }
 }

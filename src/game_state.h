@@ -62,6 +62,7 @@ struct _GameState
   gint16 last_y_coord;
   GList *pnames;
   gboolean toolbar;
+  gboolean extra_panel_open;
   GameSettings *settings;
 };
 
@@ -109,6 +110,8 @@ gint game_get_host_type(const GameState *game_state);
 void game_set_host_type(GameState *game_state, gint ht);
 gboolean game_get_toolbar(const GameState *game_state);
 void game_set_toolbar(GameState *game_state, gboolean tb);
+gboolean game_is_extra_panel_open (const GameState *game_state);
+void game_set_extra_panel_open (GameState *game_state, gboolean is_open);
 
 void game_close(GameState *game_state);
 gint game_state_get_version(void);
