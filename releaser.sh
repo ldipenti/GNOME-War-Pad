@@ -13,7 +13,7 @@ PKG_APIDOC="$PRJ_SHORT_NAME"-"$VERSION"-api.tar.gz
 PKG_RPM_MDK="$PRJ_SHORT_NAME"-"$VERSION"-1mdk.i586.rpm
 PKG_DEB="$PRJ_SHORT_NAME"_"$VERSION"-1_i386.deb
 # Various paths
-PATH_WEB="../gwp-web"
+PATH_WEB="../web"
 PATH_RELEASES="$PATH_WEB/releases"
 PATH_PACKAGES="$PATH_RELEASES/packages"
 PATH_DOCS="$PATH_RELEASES/documentation"
