@@ -642,7 +642,6 @@ void game_mgr_play_game(GwpGameState *state)
 				      because of the turn number
 				      loading code. */
   init_starchart(gwp);
-  g_message ("opsie!!!!");
   init_starchart_mini();
 
   /* Get the widgets ready */
