@@ -396,9 +396,16 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
       if ((a_planet = planet_get (planet_list, planet_id)) != NULL &&
 	  planet_is_known (a_planet))
 	{
-	  tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
-				 planet_get_name(a_planet),
-				 planet_get_id(a_planet));
+	  if(planet_has_starbase(a_planet)) {
+	    /* Underline planet name if it has starbase */
+	    tmp = g_strdup_printf ("<u><b>%s</b></u> (#%d)", 
+				   planet_get_name(a_planet),
+				   planet_get_id(a_planet));
+	  } else {
+	    tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
+				   planet_get_name(a_planet),
+				   planet_get_id(a_planet));
+	  }
 	  gtk_label_set_markup(planet_name, tmp);
 	  g_free(tmp);
 
