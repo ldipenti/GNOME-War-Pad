@@ -722,7 +722,9 @@ void
 on_view_grid_toggle (GtkCheckMenuItem *menuitem,
 		     gpointer          user_data)
 {
-  starchart_show_grid (gtk_check_menu_item_get_active(menuitem));
+  g_object_set (game_state, 
+		"grid", gtk_check_menu_item_get_active(menuitem),
+		NULL);
 }
 
 /* Hides/Shows the planet names on starchart */

@@ -55,6 +55,8 @@ starchart_boolean_notifications (GObject *obj, gpointer data)
     starchart_show_planet_names (flag);
   } else if (strcmp(property, "scanner-area") == 0) {
     starchart_show_scanner_area (flag);
+  } else if (strcmp(property, "grid") == 0) {
+    starchart_show_grid (flag);
   }
 }
 
@@ -1775,6 +1777,14 @@ void init_starchart (GtkWidget * gwp)
   gtk_check_menu_item_set_active (menu_bool, flag_bool);
   starchart_show_scanner_area (flag_bool);
 
+  /* Grid view */
+  menu_bool = (GtkCheckMenuItem *) lookup_widget ("grid");
+  g_object_get (game_state,
+		"grid", &flag_bool,
+		NULL);
+  gtk_check_menu_item_set_active (menu_bool, flag_bool);
+  starchart_show_grid (flag_bool);
+
   /* Model notifications that starchart view has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
@@ -1792,6 +1802,10 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::scanner-area",
 		    G_CALLBACK(starchart_boolean_notifications),
 		    (gpointer)"scanner-area");
+  g_signal_connect (game_state,
+		    "property-changed::grid",
+		    G_CALLBACK(starchart_boolean_notifications),
+		    (gpointer)"grid");
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)

@@ -838,6 +838,14 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 								      "scanner-area", 
 								      NULL),
 							 NULL));
+
+  g_object_set (game, 
+		"grid", gconf_client_get_bool(gwp_gconf, 
+					      g_strconcat (path, 
+							   "grid", 
+							   NULL),
+					      NULL),
+		NULL);
   /* Registered plugins */
   GSList *plugins = gconf_client_get_list (gwp_gconf,
 					   g_strconcat (path, "plugins", NULL),
@@ -905,6 +913,10 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
 
   g_object_get (G_OBJECT(state), "scanner-area", &tmp_bool, NULL);
   gconf_client_set_bool (gwp_gconf, g_strconcat(path, "scanner-area", NULL),
+			 tmp_bool, NULL);
+
+  g_object_get (G_OBJECT(state), "grid", &tmp_bool, NULL);
+  gconf_client_set_bool (gwp_gconf, g_strconcat(path, "grid", NULL),
 			 tmp_bool, NULL);
 
   if (closing_game) {
