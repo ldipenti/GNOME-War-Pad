@@ -18,7 +18,6 @@
  */
 
 #include "gwp-starbase.h"
-#include "gwp-planet.h"
 
 /*
  * Private members.

@@ -30,10 +30,10 @@
 #ifndef GWP_STARBASE_H
 #define GWP_STARBASE_H
 
-#include "gwp-planet.h"
-
 #include <glib.h>
 #include <glib-object.h>
+
+#include "gwp-planet.h"
 
 /*
  * Type macros.
@@ -109,8 +109,10 @@ gint16 gwp_starbase_get_build_torp_count (GwpStarbase *self);
 void gwp_starbase_set_build_torp_count (GwpStarbase *self, gint16 count);
 gint16 gwp_starbase_get_fighter_count (GwpStarbase *self);
 void gwp_starbase_set_fighter_count (GwpStarbase *self, gint16 count);
+/* FIXME: If I include this headers, I get parser errors from gcc (?)
 GwpPlanet * gwp_starbase_get_planet (GwpStarbase *self);
 void gwp_starbase_set_planet (GwpStarbase *self, GwpPlanet *p);
+*/
 
 /*
  * Standard defines.
