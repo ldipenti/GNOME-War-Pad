@@ -183,6 +183,8 @@ void on_vcr_comboboxentry_sel_type_a_changed( GtkWidget *widget,
 void on_vcr_comboboxentry_sel_type_b_changed( GtkWidget *widget,
                                               gpointer  user_data );
 
+void on_vcr_comboboxentry_sel_vcr_changed( GtkWidget *widget,
+                                           gpointer  user_data );
 
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data );
 

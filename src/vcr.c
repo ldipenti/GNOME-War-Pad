@@ -10,7 +10,7 @@
 #define NMB_OF_BEAMTYPES 10
 
 void vcr_all_init( GtkWidget *widget,
-				      gpointer  user_data )
+				   gpointer  user_data )
 {
   /* show window */
   vcr_show_window( widget, user_data, TRUE );
@@ -20,6 +20,7 @@ void vcr_all_init( GtkWidget *widget,
   vcr_populate_race_lists( widget, user_data );
   vcr_populate_torps_lists( widget, user_data );
   vcr_populate_hull_lists( widget, user_data );
+  vcr_populate_vcr_lists( widget, user_data );
 }
 
 
@@ -53,8 +54,10 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
   /*
    *     GLOBAL
    */
+  cdata.g_combat_is_vcr = 0;
   cdata.g_shibon = vcr_get( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR );
   cdata.g_a_is_ship = 1;
+  cdata.g_random_seed = -1; /* -1 means the random seed is generated later */
 
   /*
    *     SIDE A
@@ -2937,6 +2940,33 @@ void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data )
 }
 
 
+void vcr_populate_vcr_lists( GtkWidget *widget, gpointer user_data )
+{
+  gint i, n;
+  GtkComboBox *box;
+  GString *name;
+  GString *title = g_string_new( NULL );
+  GwpVCRFile *vcrfile = (GwpVCRFile *)gwp_vcrfile_new();
+  gwp_vcrfile_read( vcrfile );
+
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_vcr" ) );
+
+  gtk_combo_box_append_text( box, "custom simulation" );
+  n = gwp_vcrfile_get_number_of_combats( vcrfile );
+
+  for( i=1; i<=n; i++ )
+  {
+    gwp_vcrfile_set_current_combat( vcrfile, i );
+    g_string_truncate( title, 0 );
+    g_string_append( title, gwp_vcrfile_get_shipname( vcrfile, VCRC_SIDE_A ) );
+    g_string_append( title, "  VS.  " );
+    g_string_append( title, gwp_vcrfile_get_shipname( vcrfile, VCRC_SIDE_B ) );
+    gtk_combo_box_append_text( box, title->str );
+  }
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+}
+
+
 void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
 {
   GtkComboBoxEntry *entry;
@@ -3228,6 +3258,91 @@ gboolean vcr_base_selected( GtkWidget *widget, gpointer user_data )
     return( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( button ) ) );
   }
   return( FALSE );
+}
+
+
+gboolean vcr_record_selected( GtkWidget *widget, gpointer user_data )
+{
+  gint selected_vcr;
+  GtkComboBox *box;
+  combatdata cdata;
+  GwpVCRFile *vcrfile = (GwpVCRFile *)gwp_vcrfile_new();
+
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_vcr" ) );
+  selected_vcr = gtk_combo_box_get_active( box );
+
+  gwp_vcrfile_set_current_combat( vcrfile, selected_vcr );
+
+  g_message( "TODO: VCR combobox changed to %d", selected_vcr );
+
+  if( selected_vcr <= 0 )
+    return( TRUE );
+/*
+gint gwp_vcrfile_get_random_seed( GwpVCRFile *self );
+gboolean gwp_vcrfile_2nd_side_is_planet( GwpVCRFile *self );
+gint gwp_vcrfile_get_mass( GwpVCRFile *self, gint side );
+gchar* gwp_vcrfile_get_shipname( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_damage( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_shields( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_crew( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_shipid( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_owner( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_type_of_beams( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_number_of_beams( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_number_of_bays( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_type_of_torpedos( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_number_of_torpedos( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_number_of_fighters( GwpVCRFile *self, gint side );
+gint gwp_vcrfile_get_number_of_tubes( GwpVCRFile *self, gint side );
+*/
+
+  cdata.g_combat_is_vcr = 1;
+  cdata.g_random_seed     = gwp_vcrfile_get_random_seed( vcrfile );
+  /* TODO: get if globally from somewhere else :-), for the moment use the gui-stuff */ 
+  cdata.g_shibon = vcr_get( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR );
+  cdata.g_a_is_ship       = 1; /* future stuff, maybe side a is not a ship */
+  if( gwp_vcrfile_2nd_side_is_planet( vcrfile ) )
+    cdata.g_b_is_ship     = 0;
+  else
+    cdata.g_b_is_ship     = 1;
+
+  cdata.a_shield          = gwp_vcrfile_get_shields( vcrfile, VCRC_SIDE_A );
+  cdata.a_hull            = 100 - gwp_vcrfile_get_damage( vcrfile, VCRC_SIDE_A );
+  cdata.a_crew            = gwp_vcrfile_get_crew( vcrfile, VCRC_SIDE_A );
+  cdata.a_mass            = gwp_vcrfile_get_mass( vcrfile, VCRC_SIDE_A );
+  cdata.a_typ_hull        = 1; /* is not interesting for vcr's */
+  cdata.a_nmb_fighter     = gwp_vcrfile_get_number_of_fighters( vcrfile, VCRC_SIDE_A );
+  cdata.a_nmb_bays        = gwp_vcrfile_get_number_of_bays( vcrfile, VCRC_SIDE_A );
+  cdata.a_nmb_torps       = gwp_vcrfile_get_number_of_torpedos( vcrfile, VCRC_SIDE_A );
+  cdata.a_nmb_tubes       = gwp_vcrfile_get_number_of_tubes( vcrfile, VCRC_SIDE_A );
+  cdata.a_typ_torps       = gwp_vcrfile_get_type_of_torpedos( vcrfile, VCRC_SIDE_A );
+  cdata.a_nmb_beams       = gwp_vcrfile_get_number_of_beams( vcrfile, VCRC_SIDE_A );
+  cdata.a_typ_beams       = gwp_vcrfile_get_type_of_beams( vcrfile, VCRC_SIDE_A );
+  cdata.a_typ_engines     = 1; /* not interesting either */
+
+  cdata.b_shield          = gwp_vcrfile_get_shields( vcrfile, VCRC_SIDE_B );
+  cdata.b_hull            = 100 - gwp_vcrfile_get_damage( vcrfile, VCRC_SIDE_B );
+  cdata.b_crew            = gwp_vcrfile_get_crew( vcrfile, VCRC_SIDE_B );
+  cdata.b_mass            = gwp_vcrfile_get_mass( vcrfile, VCRC_SIDE_B );
+  cdata.b_typ_hull        = 1; /* is not interesting for vcr's */
+  cdata.b_nmb_fighter     = gwp_vcrfile_get_number_of_fighters( vcrfile, VCRC_SIDE_B );
+  cdata.b_nmb_bays        = gwp_vcrfile_get_number_of_bays( vcrfile, VCRC_SIDE_B );
+  cdata.b_nmb_torps       = gwp_vcrfile_get_number_of_torpedos( vcrfile, VCRC_SIDE_B );
+  cdata.b_nmb_tubes       = gwp_vcrfile_get_number_of_tubes( vcrfile, VCRC_SIDE_B );
+  cdata.b_typ_torps       = gwp_vcrfile_get_type_of_torpedos( vcrfile, VCRC_SIDE_B );
+  cdata.b_nmb_beams       = gwp_vcrfile_get_number_of_beams( vcrfile, VCRC_SIDE_B );
+  cdata.b_typ_beams       = gwp_vcrfile_get_type_of_beams( vcrfile, VCRC_SIDE_B );
+  cdata.b_typ_engines     = 1; /* not interesting either */
+
+  cdata.p_has_base        = 0;  /* we could only guess by looking at the other values */
+  cdata.p_typ_beams       = 1;  /* not interesting in case of vcr */
+  cdata.p_nmb_pdefense    = 10; /* not interesting in case of vcr */
+  cdata.p_nmb_bdefense    = 10; /* not interesting in case of vcr */
+  cdata.p_nmb_fighter     = 10; /* not interesting in case of vcr */
+
+g_message( "till here" );
+  /* try to start combat */
+  vcrc_combat_start( &cdata );
 }
 
 

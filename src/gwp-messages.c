@@ -296,7 +296,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny called" );
     testfile = fopen( game_get_full_path(game_state, filename), "rb" );
     g_message( "### Trying '%s'", game_get_full_path(game_state, filename) );
 
-    /* If not worked, check for lowecase */
+    /* If not worked, check for lowercase */
     if (! testfile) {
       GString *lc = g_string_new(filename);
       filename = g_string_down(lc)->str;
@@ -907,7 +907,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory called" );
                 strcat( self->priv->tmptxt, "Emergency call from ship" );
                 break;
         case 'f':
-                strcat( self->priv->tmptxt, "Ship/Planet Lost" );
+                strcat( self->priv->tmptxt, "Ship/Planet Battle Results" );
                 break;
         case 'g':
                 strcat( self->priv->tmptxt, "Host Configuration" );

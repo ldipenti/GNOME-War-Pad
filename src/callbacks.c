@@ -955,6 +955,13 @@ void on_vcr_comboboxentry_sel_type_b_changed( GtkWidget *widget,
 }
 
 
+void on_vcr_comboboxentry_sel_vcr_changed( GtkWidget *widget,
+                                           gpointer  user_data )
+{
+  vcr_record_selected( widget, user_data );
+}
+
+
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
 {
   vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, 1 );

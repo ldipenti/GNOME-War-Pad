@@ -8115,8 +8115,28 @@
 		  <property name="is_important">False</property>
 
 		  <child>
-		    <widget class="GtkButton" id="TESTBUTTON">
+		    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_vcr">
 		      <property name="visible">True</property>
+		      <property name="items" translatable="yes"></property>
+		      <signal name="changed" handler="on_vcr_comboboxentry_sel_vcr_changed" last_modification_time="Sun, 05 Sep 2004 17:08:49 GMT"/>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="expand">False</property>
+		  <property name="homogeneous">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkToolItem" id="toolitem15">
+		  <property name="visible">True</property>
+		  <property name="visible_horizontal">True</property>
+		  <property name="visible_vertical">True</property>
+		  <property name="is_important">False</property>
+
+		  <child>
+		    <widget class="GtkButton" id="TESTBUTTON">
 		      <property name="sensitive">False</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">Test</property>

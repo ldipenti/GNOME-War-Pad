@@ -45,6 +45,7 @@ gwp_SOURCES =						\
 	gwp-starchart.h		gwp-starchart.c		\
 	gwp-ui.h		gwp-ui.c		\
 	gwp-messages.h		gwp-messages.c		\
+    gwp-vcrfile.h       gwp-vcrfile.c       \
 	gwp-py-functions.h	gwp-py-functions.c	\
 	callbacks.h		callbacks.c		\
 	support.h		support.c		\

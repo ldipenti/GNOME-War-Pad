@@ -14,6 +14,7 @@
 #include "gwp-ship.h"
 #include "race.h"
 #include "vcr-combat.h"
+#include "gwp-vcrfile.h"
 
 #define ASCII_0   48
 #define ASCII_A   65
@@ -74,6 +75,7 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data );
 void vcr_populate_race_lists( GtkWidget *widget, gpointer user_data );
 void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data );
 void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data );
+void vcr_populate_vcr_lists( GtkWidget *widget, gpointer user_data );
 
 void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data );
 void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data );
@@ -82,6 +84,7 @@ void vcr_ship_a_hull_selected( GtkWidget *widget, gpointer user_data );
 void vcr_ship_b_hull_selected( GtkWidget *widget, gpointer user_data );
 gboolean vcr_planet_selected( GtkWidget *widget, gpointer user_data );
 gboolean vcr_base_selected( GtkWidget *widget, gpointer user_data );
+gboolean vcr_record_selected( GtkWidget *widget, gpointer user_data );
 
 gint str2int( char *str );
 gchar *str2low( gchar *str );
