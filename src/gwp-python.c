@@ -95,7 +95,7 @@ void gwp_python_inittab (void)
   plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
   PyObject_CallMethodObjArgs (plugin_mgr,
 			      PyString_FromString("_PluginManager__set_plugin_slot"),
-			      PyString_FromString("plugin_slot_panel"),
+			      PyString_FromString("panel"),
 			      plugin_slot_pyobj,
 			      NULL);
   Py_DECREF (plugin_slot_pyobj);
@@ -104,7 +104,7 @@ void gwp_python_inittab (void)
   plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
   PyObject_CallMethodObjArgs (plugin_mgr,
 			      PyString_FromString("_PluginManager__set_plugin_slot"),
-			      PyString_FromString("plugin_slot_panel_planet"),
+			      PyString_FromString("panel_planet"),
 			      plugin_slot_pyobj,
 			      NULL);
   Py_DECREF (plugin_slot_pyobj);
@@ -113,7 +113,7 @@ void gwp_python_inittab (void)
   plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
   PyObject_CallMethodObjArgs (plugin_mgr,
 			      PyString_FromString("_PluginManager__set_plugin_slot"),
-			      PyString_FromString("plugin_slot_panel_ship"),
+			      PyString_FromString("panel_ship"),
 			      plugin_slot_pyobj,
 			      NULL);
   Py_DECREF (plugin_slot_pyobj);
@@ -122,7 +122,7 @@ void gwp_python_inittab (void)
   plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
   PyObject_CallMethodObjArgs (plugin_mgr,
 			      PyString_FromString("_PluginManager__set_plugin_slot"),
-			      PyString_FromString("plugin_slot_left"),
+			      PyString_FromString("left"),
 			      plugin_slot_pyobj,
 			      NULL);
   Py_DECREF (plugin_slot_pyobj);
@@ -131,7 +131,7 @@ void gwp_python_inittab (void)
   plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
   PyObject_CallMethodObjArgs (plugin_mgr,
 			      PyString_FromString("_PluginManager__set_plugin_slot"),
-			      PyString_FromString("plugin_slot_right"),
+			      PyString_FromString("right"),
 			      plugin_slot_pyobj,
 			      NULL);
   Py_DECREF (plugin_slot_pyobj);
