@@ -101,35 +101,56 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   GSList *planets_nearby, *ships_nearby;
   static GnomeCanvasItem *planet, *ship;
   static guint interleave;
+  static gint pointer_x = 0, pointer_y = 0;
   
   /* First get canvas coords */
   x = (gint) event->x;
   y = (gint) event->y;
-  
-  /* Translate coords to World system */
-  gnome_canvas_c2w(GNOME_CANVAS(widget), x, y, &wx, &wy);
-  
-  /* Update coord indicator */
-  starchart_update_coord_panel(widget, wx, wy);
-  
-  /*
-    Every N mouse movements, make the calculations, to avoid
-    loading the CPU too much.
-  */
-  if((interleave++ % MOUSE_INTERLEAVE) == 0) {
-    if ((event->x >= 0) && (event->y >= 0)) {
-      /* Un-highlight planet before highlighting other */
-      starchart_unhighlight_planet(planet);
-      starchart_unhighlight_ship(ship);
-      
-      /* Search for nearest planet and highlight it */
-      q = get_quadrant(wx, wy);
-      planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
-      ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
-      planet = starchart_highlight_nearest_planet(planets_nearby, wx, wy);
-      ship = starchart_highlight_nearest_ship(ships_nearby, wx, wy);
+
+  /* If we are dragging the starchart to span... */
+  if(event->state == GDK_BUTTON1_MASK) {
+    gint offset_x, offset_y;
+
+    if((interleave++ % MOUSE_INTERLEAVE) == 0) {
+      gnome_canvas_get_scroll_offsets(starchart_get_canvas(), 
+				      &offset_x, 
+				      &offset_y);
+      gnome_canvas_scroll_to(starchart_get_canvas(), 
+			     offset_x + (pointer_x - x) * MOUSE_INTERLEAVE, 
+			     offset_y + (pointer_y - y) * MOUSE_INTERLEAVE);
+    }
+  } 
+  /* If not... */
+  else {
+    /* Translate coords to World system */
+    gnome_canvas_c2w(GNOME_CANVAS(widget), x, y, &wx, &wy);
+    
+    /* Update coord indicator */
+    starchart_update_coord_panel(widget, wx, wy);
+    
+    /*
+      Every N mouse movements, make the calculations, to avoid
+      loading the CPU too much.
+    */
+    if((interleave++ % MOUSE_INTERLEAVE) == 0) {
+      if ((event->x >= 0) && (event->y >= 0)) {
+	/* Un-highlight planet before highlighting other */
+	starchart_unhighlight_planet(planet);
+	starchart_unhighlight_ship(ship);
+	
+	/* Search for nearest planet and highlight it */
+	q = get_quadrant(wx, wy);
+	planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
+	ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
+	planet = starchart_highlight_nearest_planet(planets_nearby, wx, wy);
+	ship = starchart_highlight_nearest_ship(ships_nearby, wx, wy);
+      }
     }
   }
+
+  pointer_x = (gint) event->x;
+  pointer_y = (gint) event->y;
+
   return FALSE;
 }
 
