@@ -1,8 +1,10 @@
 #SUBDIRS = 
 
 EXTRA_DIST = \
-	     finder.py
+	     finder.py		\
+	     magallanes.py	\
+	     magallanes.glade
 
 pluginsdir = $(datadir)/gwp/scripts/plugins
-plugins_DATA = finder.py
+plugins_DATA = $(EXTRA_DIST)
 
