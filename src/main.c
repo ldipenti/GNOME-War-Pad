@@ -22,7 +22,9 @@
 #endif
 
 /* This should be the first include, because of the Python.h */
-#include "gwp-python.h"
+#ifdef USE_PYTHON
+#  include "gwp-python.h"
+#endif
 
 #include <gnome.h>
 
