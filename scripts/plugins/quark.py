@@ -15,7 +15,7 @@ class Quark(gwp.Plugin):
     desc_short = _("Help in the resources management")
     desc_long = ""
     license = "GPL"
-    hotkey = 'u'
+    hotkey = 'q'
     
     
     FILTER_NONE = 1
@@ -86,30 +86,25 @@ class Quark(gwp.Plugin):
             self.lbl_base.set_text('')
         # Lista Minerales
         self.store_minerals.clear()
-        # Natives 3 = Reptilian (minan x 2)
-        multip = 1
-        if p.get_owner() == 2:
-            multip = 2 #FIXME (tiene que usar el mining rate)
-        if p.get_natives_race() == 3:
-            multip = 2 #FIXME (tiene que usar el mining rate)
+        factor_minado = p.get_mining_rate()/100
        
         extraccion = str(p.neutronium_extraction_rate())
-        densidad = str(p.get_dens_neutronium()*multip)
+        densidad = str(p.get_dens_neutronium()*factor_minado)
         fila = ["Neu", p.get_mined_neutronium(), p.get_ground_neutronium(), extraccion, densidad ]
         self.store_minerals.append(fila)
 
         extraccion = str(p.tritanium_extraction_rate())
-        densidad = str(p.get_dens_tritanium()*multip)
+        densidad = str(p.get_dens_tritanium()*factor_minado)
         fila = ["Tri", p.get_mined_tritanium(), p.get_ground_tritanium(), extraccion, densidad ]
         self.store_minerals.append(fila)
 
         extraccion = str(p.duranium_extraction_rate())
-        densidad = str(p.get_dens_duranium()*multip)        
+        densidad = str(p.get_dens_duranium()*factor_minado)        
         fila = ["Dur", p.get_mined_duranium(), p.get_ground_duranium(), extraccion, densidad ]
         self.store_minerals.append(fila)
 
         extraccion = str(p.molybdenum_extraction_rate())
-        densidad = str(p.get_dens_molybdenum()*multip)
+        densidad = str(p.get_dens_molybdenum()*factor_minado)
         fila = ["Mol", p.get_mined_molybdenum(), p.get_ground_molybdenum(), extraccion, densidad ]
         self.store_minerals.append(fila)
         
@@ -153,16 +148,19 @@ class Quark(gwp.Plugin):
         txt = ""
         if p.get_natives(): # SI no hay nativos no tiene sentido esto
             if (p.get_natives_race() <> 5): #Amorphous
-                tax, max = self.calculate_max_income_from_natives(p)
-                if max > p.get_tax_collected_natives():
-                    col_faltan = max - p.get_tax_collected_natives()
-                    if p.get_natives_race() == 6: #Insectoids
-                        col_faltan = col_faltan / 2
-                    if p.get_owner() == 1: # Feds
+                tax, max_i = self.calculate_max_income_from_natives(p)
+                print "TAX: " , tax , " MAX: " , max_i
+                if max_i > p.get_tax_collected_natives():
+                    factor_impuestos = p.get_tax_rate_natives()/100
+                    
+                    col_faltan = (max_i - p.get_tax_collected_natives())/factor_impuestos
+                    #if p.get_natives_race() == 6: #Insectoids
+                    #    col_faltan = col_faltan / 2
+                    #if p.get_owner() == 1: # Feds
                         #FIXME deberia tomar el valor de la configuracion del host (Lucas 1ro)
-                        col_faltan = col_faltan / 2
-                    txt = "Need "+ str(col_faltan) +"clans of colonists!\nYou can to collect " + str(max) + " MC "
-                    dif = str(max - p.get_tax_collected_natives())
+                    #    col_faltan = col_faltan / 2
+                    txt = "Need "+ str(col_faltan) +" clans of colonists!\nYou can collect " + str(max_i) + " MC "
+                    dif = str(max_i - p.get_tax_collected_natives())
                     txt = txt  + "(" + dif +" more)\n"
                 
                 # Falta ver si pagan poco y conviene construir fab y minas
@@ -172,7 +170,7 @@ class Quark(gwp.Plugin):
                     sup = p.get_natives() / 100
                     if p.get_colonists() < sup:
                         if txt:
-                            txt = txt + "You can to obtain " + str(sup) + " supplies "
+                            txt = txt + "You can obtain " + str(sup) + " supplies "
                             dif = str(sup - p.get_colonists())
                             txt = txt + "(" + dif +" more)\n"
                         else:
@@ -201,10 +199,11 @@ class Quark(gwp.Plugin):
             if  (hap_dif >= 0) and  (limit >= income):
                 tax += 1
             else:
-                if limit >= income:
+                if hap_dif >= 0:
                     tax -= 1
                 future_p.set_tax_natives(tax)
                 income = future_p.get_tax_collected_natives()
+                print "TAX: " , tax , " MAX: " , income
                 return tax, income
 
     #--------------------------------------------------------------------------
@@ -255,7 +254,7 @@ class Quark(gwp.Plugin):
         col_surf = gtk.TreeViewColumn(_('Surf'), renderer, text=1)
         col_core = gtk.TreeViewColumn(_('Core'), renderer, text=2)
         col_extr = gtk.TreeViewColumn(_('Extr'), renderer, text=3)
-        col_dens = gtk.TreeViewColumn(_('c/100'), renderer, text=4)
+        col_extrx100 = gtk.TreeViewColumn(_('x/100'), renderer, text=4)
         # Add columns to models
         # Planetas
         self.lst_planets.append_column(col_planets)
@@ -265,7 +264,7 @@ class Quark(gwp.Plugin):
         self.lst_minerals.append_column(col_surf)
         self.lst_minerals.append_column(col_core)
         self.lst_minerals.append_column(col_extr)
-        self.lst_minerals.append_column(col_dens)
+        self.lst_minerals.append_column(col_extrx100)
         self.lst_minerals.set_model(self.store_minerals)
 
         # callbacks
