@@ -374,6 +374,12 @@ GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
 /* High level methods */
 /**********************/
 
+/**
+ * Checks if the current ship hash beam weapons.
+ *
+ * @param self a GwpShip
+ * @return True if current ship has beam weapons.
+ */
 gboolean gwp_ship_has_beam_weapons (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -385,6 +391,12 @@ gboolean gwp_ship_has_beam_weapons (GwpShip *self)
   }
 } 
 
+/**
+ * Checks if the current ship has torpedo weapons.
+ *
+ * @param self a GwpShip.
+ * @return True if the ship has torpedo tubes.
+ */
 gboolean gwp_ship_has_torp_weapons (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -397,6 +409,15 @@ gboolean gwp_ship_has_torp_weapons (GwpShip *self)
   }
 }
 
+/**
+ * Returns the enemy race's name for the current ship.
+ *
+ * This function checks if the current ship has a primary enemy, and
+ * if that is the case, returns the race's name.
+ *
+ * @param self a GwpShip.
+ * @return A string with the primary enemy race name.
+ */
 GString * gwp_ship_get_primary_enemy_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
