@@ -34,6 +34,7 @@
 /* 
  * Defines
  */
+#define MOUSE_INTERLEAVE 5
 #define MAX_PLANETS 500
 #define MAX_SHIPS 500
 #define XYPLAN "xyplan.dat"
