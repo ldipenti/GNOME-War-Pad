@@ -354,6 +354,14 @@ gint gwp_ship_calculate_eta (GwpShip *self)
   return eta;
 }
 
+/* Calculate the fuel usage - it uses the engspec data type */
+gint gwp_ship_calculate_fuel_usage (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  /* FIXME!!!!!!!!!!!! */
+}
+
 /****************************/
 /* Get/Set (boring) methods */
 /****************************/
