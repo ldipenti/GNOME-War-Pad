@@ -7760,7 +7760,7 @@
 	  <property name="visible">True</property>
 	  <property name="label_xalign">0</property>
 	  <property name="label_yalign">0.5</property>
-	  <property name="shadow_type">GTK_SHADOW_IN</property>
+	  <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 	  <child>
 	    <widget class="GtkAlignment" id="alignment10">
@@ -7840,7 +7840,7 @@
 	  <property name="visible">True</property>
 	  <property name="label_xalign">0</property>
 	  <property name="label_yalign">0.5</property>
-	  <property name="shadow_type">GTK_SHADOW_IN</property>
+	  <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 	  <child>
 	    <widget class="GtkAlignment" id="alignment9">
@@ -8086,6 +8086,7 @@
 			<widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_ext_shp_a">
 			  <property name="visible">True</property>
 			  <property name="items" translatable="yes"></property>
+			  <signal name="changed" handler="on_vcr_comboboxentry_sel_ext_shp_a_changed" last_modification_time="Fri, 11 Jun 2004 14:17:50 GMT"/>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -8159,17 +8160,7 @@
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_race_a">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">The Solar Federation
-The Lizard Alliance
-The Empire of the Birds
-The Fascist Empire
-The Privateer Bands
-The Cyborg
-The Crystal Confederation
-The Evil Empire
-The Robotic Imperium
-The Rebel Confederation
-The Missing Colonies of Man</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -8351,16 +8342,7 @@ The Missing Colonies of Man</property>
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_beam_a">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">Laser
-X-Ray Laser
-Plasma Bolt
-Blaster
-Positron Beam
-Disruptor
-Heavy Blaster
-Phaser
-Heavy Disruptor
-Heavy Phaser</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -8375,16 +8357,7 @@ Heavy Phaser</property>
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_torp_a">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">Mk 1 Photon Torp
-Proton Torpedo
-Mk 2 Photon Torp
-Gamma Bomb
-Mk 3 Photon Torp
-Mk 4 Photon Torp
-Mk 5 Photon Torp
-Mk 6 Photon Torp
-Mk 7 Photon Torp
-Mk 8 Photon Torp</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -9087,7 +9060,7 @@ Mk 8 Photon Torp</property>
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_race_b">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">The Solar Federation</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -9272,7 +9245,7 @@ Mk 8 Photon Torp</property>
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_beam_b">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">Laser</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -9287,7 +9260,7 @@ Mk 8 Photon Torp</property>
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_torp_b">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">Mk 1 Photon Torp</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -9928,7 +9901,7 @@ Mk 8 Photon Torp</property>
 			      <child>
 				<widget class="GtkComboBoxEntry" id="vcr_comboboxentry_race_p">
 				  <property name="visible">True</property>
-				  <property name="items" translatable="yes">The Solar Federation</property>
+				  <property name="items" translatable="yes"></property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -10213,16 +10186,7 @@ Mk 8 Photon Torp</property>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_bea_bas">
 			      <property name="width_request">60</property>
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">1
-2
-3
-4
-5
-6
-7
-8
-9
-10</property>
+			      <property name="items" translatable="yes"></property>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
