@@ -869,8 +869,8 @@ void draw_ion_storm (gpointer data, gpointer user_data)
       "green",        /* Class 1 */
       "light green",  /* Class 2 */
       "yellow",       /* Class 3 */
-      "indian red",          /* Class 4 */
-      "red"    /* Class 5 */
+      "indian red",   /* Class 4 */
+      "red"           /* Class 5 */
     };
 
     /* FIXME: make a canvas group for storms!!! */
