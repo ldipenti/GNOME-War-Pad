@@ -31,7 +31,7 @@ class Finder(gwp.Plugin):
     # This is a callback function. The data arguments are ignored
     # in this example. More on callbacks below.
     def entry_key(self, widget, event, data=None):
-        if (event.keyval == 65293): # GDK_Return
+        if (event.keyval == gtk.gdk.keyval_from_name('Return')):
             self.search_obj(self.btn)
       
     def search_obj(self,  widget, data=None):
