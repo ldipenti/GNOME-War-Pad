@@ -140,12 +140,16 @@ class Quark(gwp.Plugin):
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. La salida es a la ventana"""
         txt = ""
+        people = "Natives "
         future_happ = self.calculate_future_happyness(p)
-        if future_happ < 30: # en 29 empieza la guerra civil (kill each other)
-            txt = "Natives will be in CIVIL WAR the next turn\n\n"
-        else:
-            if future_happ < 70: # en 69 los nativos dejan de pagar (Descontentos)
-                txt = "Natives will be UNHAPPY the next turn\n\n"
+        if future_happ < 1: #CIVIL WAR!
+            txt = people + "will be in CIVIL WAR the next turn\n\n"
+        elif future_happ < 30: # NO PAGAN
+            txt = people + "will not pay taxes the next turn\n\n"
+        elif future_happ < 40: # en 39 empieza el quilombo
+            txt = people + "will be RIOTING the next turn\n\n"
+        elif future_happ < 70: # en 69 dejan de crecer
+                txt = people + "will be UNHAPPY the next turn\n\n"
         self.textbuffer.set_text(txt)
     
     #--------------------------------------------------------------------------
@@ -153,12 +157,16 @@ class Quark(gwp.Plugin):
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. Salida al area de notificacion"""
         txt = ""
+        people = "Natives "
         future_happ = self.calculate_future_happyness(p)
-        if future_happ < 30: # en 29 empieza la guerra civil (kill each other)
-            txt = "\nNatives will be in CIVIL WAR the next turn\n"
-        else:
-            if future_happ < 70: # en 69 los nativos dejan de pagar (Descontentos)
-                txt = "\nNatives will be UNHAPPY the next turn\n"
+        if future_happ < 1: #CIVIL WAR!
+            txt = people + "will be in CIVIL WAR the next turn\n\n"
+        elif future_happ < 30: # NO PAGAN
+            txt = people + "will not pay taxes the next turn\n\n"
+        elif future_happ < 40: # en 39 empieza el quilombo
+            txt = people + "will be RIOTING the next turn\n\n"
+        elif future_happ < 70: # en 69 dejan de crecer
+                txt = people + "will be UNHAPPY the next turn\n\n"
         if txt:
             print txt
         else:
@@ -319,7 +327,11 @@ class Quark(gwp.Plugin):
     def conectar_planetas(self):
         self.signals_id = []
         for planeta in self.pl:
-            self.signals_id.append(planeta.connect("selected", self.na_generar))
+            cod = planeta.connect("selected", self.na_generar)
+            if self.signals_id == []:
+                self.signals_id = { planeta.get_id() : cod }
+            else:
+                self.signals_id [ planeta.get_id() ] = cod
         
     #--------------------------------------------------------------------------
     def na_generar(self, p):
@@ -455,9 +467,10 @@ class Quark(gwp.Plugin):
 
     # Cleaning up
     def unregister(self, pm):
-        #for signal in self.signals_id:
-        #    print signal
-        #    planeta.disconnect(signal)
-        pass
+        #desconecto las senales de planeta seleccionado
+        for pid, signal in self.signals_id.iteritems():
+            planeta = gwp.planet_get_by_id(pid)
+            planeta.disconnect(signal)
+
 
     
