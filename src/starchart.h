@@ -21,6 +21,7 @@
 #define STARCHART_H
 
 #include "vp_types.h"
+#include "gwp-planet.h"
 
 // Starchart init function
 void init_starchart(GtkWidget *gwp);
@@ -33,7 +34,7 @@ gint handle_starchart_event(GnomeCanvas *item, GdkEvent *event, gpointer data);
 // Updates Planet Data on Panel
 void update_starbase_panel(gint16 planet_id);
 void update_global_defense_panel(gint16 planet_id);
-void update_planet_panel(GtkWidget *gwp, gint16 planet_id);
+void update_planet_panel(GtkWidget *gwp, GwpPlanet *a_planet);
 void update_planet_extra_panel (gint16 planet_id);
 void update_ship_panel(GtkWidget *gwp, GSList *ship_list);
 void starchart_update_coord_panel(GtkWidget *gwp, gdouble wx, gdouble wy);
@@ -55,7 +56,7 @@ void starchart_unhighlight_planet(GnomeCanvasItem *planet);
 void starchart_unhighlight_ship(GnomeCanvasItem *ship);
 void starchart_zoom_in(GnomeCanvas *starchart);
 void starchart_zoom_out(GnomeCanvas *starchart);
-void starchart_mark_planet(Planet *a_planet);
+void starchart_mark_planet(GwpPlanet *a_planet);
 
 // Moving functions
 void starchart_scroll (gint scroll_x, gint scroll_y);

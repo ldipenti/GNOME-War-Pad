@@ -63,7 +63,39 @@ GType gwp_planet_get_type (void);
  */
 GwpPlanet * gwp_planet_new (void);
 
+/**********************/
+/* High-level methods */
+/**********************/
+GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id);
+gboolean gwp_planet_valid_coords (GwpPlanet *self);
+gboolean gwp_planet_is_mine (GwpPlanet *self);
+gint gwp_planet_what_is (GwpPlanet *self);
+gint16 gwp_planet_get_temperature_f (GwpPlanet *self);
+gchar * gwp_planet_get_temperature_str(GwpPlanet *self);
+gint gwp_planet_get_visibility(GwpPlanet *self);
+gint gwp_planet_get_happiness_col_change(GwpPlanet *self);
+gint gwp_planet_get_happiness_nat_change (GwpPlanet *self);
+gchar * gwp_planet_get_natives_race_chars (GwpPlanet *self);
+gchar * gwp_planet_get_natives_spi_chars (GwpPlanet *self);
+gboolean gwp_planet_has_starbase (GwpPlanet *self);
+gdouble gwp_planet_get_ground_percent(gint mineral);
+gint gwp_planet_neutronium_extraction_rate(GwpPlanet *self);
+gint gwp_planet_neutronium_turns_left(GwpPlanet *self);
+gint gwp_planet_tritanium_extraction_rate(GwpPlanet *self);
+gint gwp_planet_tritanium_turns_left(GwpPlanet *self);
+gint gwp_planet_molybdenum_extraction_rate(GwpPlanet *self);
+gint gwp_planet_molybdenum_turns_left(GwpPlanet *self);
+gint gwp_planet_duranium_extraction_rate(GwpPlanet *self);
+gint gwp_planet_duranium_turns_left(GwpPlanet *self);
+gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self);
+gint gwp_planet_get_tax_earned_natives(GwpPlanet *self);
+
+
+/*******************/
 /* Get/Set methods */
+/*******************/
+gboolean gwp_planet_is_known (GwpPlanet *self);
+void gwp_planet_set_is_known (GwpPlanet *self, gboolean is_known);
 /* FIXME: If I include this headers, I get parser errors from gcc (?)
 GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self);
 void gwp_planet_set_starbase (GwpPlanet *self, GwpStarbase *sb);

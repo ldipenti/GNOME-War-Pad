@@ -96,7 +96,7 @@ starchart_event_button                 (GtkWidget       *widget,
   gnome_canvas_c2w(starchart_get_canvas(), x, y, &wx, &wy);
   q = get_quadrant(wx, wy);
   
-  // Select a planet
+  /* Select a planet */
   if((event->type == GDK_BUTTON_PRESS) && (event->button == 1) 
      && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest planet and select it */
@@ -107,7 +107,7 @@ starchart_event_button                 (GtkWidget       *widget,
     s_planet = starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), 
 					       planets_nearby, wx, wy);
   } 
-  // Open Planet panel (double-click)
+  /* Open Planet panel (double-click) */
   else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)
 	  && (!(event->state & GDK_SHIFT_MASK))) {
     /* If the d-click was on the same planet, show the panels! */
@@ -115,13 +115,12 @@ starchart_event_button                 (GtkWidget       *widget,
       starchart_open_extra_panels();
     }
   } 
-  // Select a ship
+  /* Select a ship */
   else if((event->button == 3) && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
     starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);
   }
-  
   return TRUE;
 }
 

@@ -22,7 +22,7 @@
 
 #include <gnome.h>
 
-#include "planet.h"
+#include "gwp-planet.h"
 
 enum spi {
   SPI_NONE,
@@ -66,6 +66,6 @@ enum races {
 };
 
 gchar *race_get_name(enum races racenum);
-gdouble race_get_tax_rate_colonists(Planet *planet);
+gdouble race_get_tax_rate_colonists(GwpPlanet *planet);
 
 #endif

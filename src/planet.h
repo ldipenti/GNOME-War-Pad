@@ -25,7 +25,7 @@
 #include "vp_types.h"
 #include "race.h"
 
-Planet *planet_get(GHashTable *list, gint planet_id);
+/* GwpPlanet *planet_get(GHashTable *list, gint planet_id);*/
 Planet *planet_copy(Planet *planet);
 Base *planet_get_base(Planet *planet);
 

@@ -32,11 +32,12 @@
 /*
  * Returns the planet with id
  */
-Planet *planet_get(GHashTable *list, gint planet_id)
+/*
+GwpPlanet *planet_get(GHashTable *list, gint planet_id)
 {
-  return (Planet *) g_hash_table_lookup(list, (gconstpointer)planet_id);
+  return (GwpPlanet *) g_hash_table_lookup(list, (gconstpointer)planet_id);
 }
-
+*/
 /* Returns the planet's corresponding base (if exists) */
 Base *planet_get_base(Planet *planet)
 {
@@ -475,6 +476,7 @@ gint planet_mineral_turns_left(gint mineral, gint extraction_rate)
 
 /* This function returns a number between 0.0 and 1.0, to be
    fed on a progress bar */
+/*
 gdouble planet_get_ground_percent(gint mineral)
 {
   gdouble ret = mineral / 10000.0;
@@ -485,8 +487,10 @@ gdouble planet_get_ground_percent(gint mineral)
     return ret;
   }
 }
+*/
 
 /* Calculates how many MC will collect a planet from colonists taxes */
+/*
 gint planet_get_tax_earned_colonists(Planet *planet)
 {
   gint ret;
@@ -501,9 +505,10 @@ gint planet_get_tax_earned_colonists(Planet *planet)
 
   return ret;
 }
-
+*/
 
 /* Calculates how many MC will collect a planet from native taxes */
+/*
 gint planet_get_tax_earned_natives(Planet *planet)
 {
   gint ret;
@@ -515,8 +520,9 @@ gint planet_get_tax_earned_natives(Planet *planet)
   } else {
     ret = 0;
   }
+*/
   /* FIXME: Complete this calculation correctly!! */
-
+/*
   switch(planet_get_native_race(planet)) {
   case NATIVE_INSECTOID:
     ret = ret * 2;
@@ -530,6 +536,7 @@ gint planet_get_tax_earned_natives(Planet *planet)
   
   return ret;
 }
+*/
 
 gint planet_get_happiness_col_change(Planet *planet)
 {

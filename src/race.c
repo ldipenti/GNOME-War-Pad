@@ -62,12 +62,11 @@ gchar *race_get_name(enum races racenum)
   }
 }
 
-gdouble race_get_tax_rate_colonists(Planet *planet)
+gdouble race_get_tax_rate_colonists(GwpPlanet *planet)
 {
   gdouble ret;
-  g_assert(planet != NULL);
 
-  switch(planet_get_owner(planet)) {
+  switch(gwp_planet_get_owner(planet)) {
   case RACE_FEDS:
     ret = 2.0;
     break;

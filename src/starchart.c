@@ -58,7 +58,7 @@ void update_starbase_panel(gint16 planet_id)
   base_damage = (GtkProgressBar *) 
     lookup_widget("progressbar_base_damage");
 
-  planet = planet_get(planet_list, planet_id);
+  planet = gwp_planet_get(planet_list, planet_id);
   if(planet_has_starbase(planet)) {
     Base *base = planet_get_base(planet);
 
@@ -142,7 +142,7 @@ void update_global_defense_panel(gint16 planet_id)
   fighter_bays = (GtkLabel *)lookup_widget("label_def_sys_fighter_bays");
   battle_mass = (GtkLabel *)lookup_widget("label_def_sys_battle_mass");
 
-  planet = planet_get(planet_list, planet_id);
+  planet = gwp_planet_get(planet_list, planet_id);
   if(planet_is_known(planet)) {
     tmp = g_strdup_printf("%d", planet_get_def_sys_beams_nr(planet));
     gtk_label_set_label(beams, tmp);
@@ -180,7 +180,7 @@ void update_planet_extra_panel(gint16 planet_id)
   GtkHScale *tax_col, *tax_nat;
   GtkLabel *mol_rate, *neu_rate, *dur_rate, *tri_rate;
   GtkLabel *tax_nat_earned, *tax_col_earned;
-  Planet *a_planet;
+  GwpPlanet *a_planet;
   gchar *tmp;
 
   planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");  
@@ -209,108 +209,108 @@ void update_planet_extra_panel(gint16 planet_id)
   if ((planet_id >= 1) && (planet_id <= MAX_PLANETS))
     {
       /* If we have data on this planet, then work */
-      if ((a_planet = planet_get (planet_list, planet_id)) != NULL &&
-	  planet_is_known (a_planet))
+      if ((a_planet = gwp_planet_get (planet_list, planet_id)) != NULL &&
+	  gwp_planet_is_known (a_planet))
 	{
 	  /*** Friendly Code ***/
-	  tmp = g_strdup_printf ("%s", planet_get_fcode(a_planet));
+	  tmp = g_strdup_printf ("%s", gwp_planet_get_fcode(a_planet)->str);
 	  gtk_entry_set_text (GTK_ENTRY(planet_fc->entry), tmp);
 	  g_free(tmp);
 
 	  /*** Neutronium ***/
-	  gtk_progress_bar_set_fraction(neu_ground, planet_get_ground_percent(planet_get_ground_neutronium(a_planet)));
+	  gtk_progress_bar_set_fraction(neu_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_neutronium(a_planet)));
 	  tmp = g_strdup_printf("%d kT", 
-				planet_get_ground_neutronium(a_planet));
+				gwp_planet_get_ground_neutronium(a_planet));
 	  gtk_progress_bar_set_text(neu_ground, tmp);
 	  g_free(tmp);
 
-	  gtk_progress_bar_set_fraction(neu_density, (planet_get_dens_neutronium(a_planet)/100.0));
+	  gtk_progress_bar_set_fraction(neu_density, (gwp_planet_get_dens_neutronium(a_planet)/100.0));
 	  tmp = g_strdup_printf("%d%%", 
-				planet_get_dens_neutronium(a_planet));
+				gwp_planet_get_dens_neutronium(a_planet));
 	  gtk_progress_bar_set_text(neu_density, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
-				planet_neutronium_extraction_rate(a_planet),
-				planet_neutronium_turns_left(a_planet));
+				gwp_planet_neutronium_extraction_rate(a_planet),
+				gwp_planet_neutronium_turns_left(a_planet));
 	  gtk_label_set_text(neu_rate, tmp);
 	  g_free(tmp);
 
 	  /*** Duranium ***/
-	  gtk_progress_bar_set_fraction(dur_ground, planet_get_ground_percent(planet_get_ground_duranium(a_planet)));
+	  gtk_progress_bar_set_fraction(dur_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_duranium(a_planet)));
 	  tmp = g_strdup_printf("%d kT", 
-				planet_get_ground_duranium(a_planet));
+				gwp_planet_get_ground_duranium(a_planet));
 	  gtk_progress_bar_set_text(dur_ground, tmp);
 	  g_free(tmp);
-	  gtk_progress_bar_set_fraction(dur_density, (planet_get_dens_duranium(a_planet)/100.0));
+	  gtk_progress_bar_set_fraction(dur_density, (gwp_planet_get_dens_duranium(a_planet)/100.0));
 	  tmp = g_strdup_printf("%d%%", 
-				planet_get_dens_duranium(a_planet));
+				gwp_planet_get_dens_duranium(a_planet));
 	  gtk_progress_bar_set_text(dur_density, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
-				planet_duranium_extraction_rate(a_planet),
-				planet_duranium_turns_left(a_planet));
+				gwp_planet_duranium_extraction_rate(a_planet),
+				gwp_planet_duranium_turns_left(a_planet));
 	  gtk_label_set_text(dur_rate, tmp);
 	  g_free(tmp);
 
 	  /*** Molybdenum ***/
-	  gtk_progress_bar_set_fraction(mol_ground, planet_get_ground_percent(planet_get_ground_molybdenum(a_planet)));
+	  gtk_progress_bar_set_fraction(mol_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_molybdenum(a_planet)));
 	  tmp = g_strdup_printf("%d kT", 
-				planet_get_ground_molybdenum(a_planet));
+				gwp_planet_get_ground_molybdenum(a_planet));
 	  gtk_progress_bar_set_text(mol_ground, tmp);
 	  g_free(tmp);
-	  gtk_progress_bar_set_fraction(mol_density, (planet_get_dens_molybdenum(a_planet)/100.0));
+	  gtk_progress_bar_set_fraction(mol_density, (gwp_planet_get_dens_molybdenum(a_planet)/100.0));
 	  tmp = g_strdup_printf("%d%%", 
-				planet_get_dens_molybdenum(a_planet));
+				gwp_planet_get_dens_molybdenum(a_planet));
 	  gtk_progress_bar_set_text(mol_density, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
-				planet_molybdenum_extraction_rate(a_planet),
-				planet_molybdenum_turns_left(a_planet));
+				gwp_planet_molybdenum_extraction_rate(a_planet),
+				gwp_planet_molybdenum_turns_left(a_planet));
 	  gtk_label_set_text(mol_rate, tmp);
 	  g_free(tmp);
 
 	  /*** Tritanium ***/
-	  gtk_progress_bar_set_fraction(tri_ground, planet_get_ground_percent(planet_get_ground_tritanium(a_planet)));
+	  gtk_progress_bar_set_fraction(tri_ground, gwp_planet_get_ground_percent(gwp_planet_get_ground_tritanium(a_planet)));
 	  tmp = g_strdup_printf("%d kT", 
-				planet_get_ground_tritanium(a_planet));
+				gwp_planet_get_ground_tritanium(a_planet));
 	  gtk_progress_bar_set_text(tri_ground, tmp);
 	  g_free(tmp);
-	  gtk_progress_bar_set_fraction(tri_density, (planet_get_dens_tritanium(a_planet)/100.0));
+	  gtk_progress_bar_set_fraction(tri_density, (gwp_planet_get_dens_tritanium(a_planet)/100.0));
 	  tmp = g_strdup_printf("%d%%", 
-				planet_get_dens_tritanium(a_planet));
+				gwp_planet_get_dens_tritanium(a_planet));
 	  gtk_progress_bar_set_text(tri_density, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
-				planet_tritanium_extraction_rate(a_planet),
-				planet_tritanium_turns_left(a_planet));
+				gwp_planet_tritanium_extraction_rate(a_planet),
+				gwp_planet_tritanium_turns_left(a_planet));
 	  gtk_label_set_text(tri_rate, tmp);
 	  g_free(tmp);
 
 	  /*** TAXES ***/
 	  gtk_range_set_value(GTK_RANGE(tax_col), 
-			      (gdouble)planet_get_tax_colonists(a_planet));
+			      (gdouble)gwp_planet_get_tax_colonists(a_planet));
 	  gtk_range_set_value(GTK_RANGE(tax_nat),
-			      (gdouble)planet_get_tax_natives(a_planet));
+			      (gdouble)gwp_planet_get_tax_natives(a_planet));
 
 	  /* Tax earned */
-	  if(planet_get_tax_earned_natives(a_planet) <=
-	     planet_get_colonists(a_planet)) {
+	  if(gwp_planet_get_tax_earned_natives(a_planet) <=
+	     gwp_planet_get_colonists(a_planet)) {
 	    tmp = g_strdup_printf("%d MC", 
-				  planet_get_tax_earned_natives(a_planet));
+				  gwp_planet_get_tax_earned_natives(a_planet));
 	  } else {
 	    tmp = g_strdup_printf("%d <span foreground=\"red\">(%d)</span> MC",
-				  planet_get_tax_earned_natives(a_planet),
-				  planet_get_colonists(a_planet));
+				  gwp_planet_get_tax_earned_natives(a_planet),
+				  gwp_planet_get_colonists(a_planet));
 	  }
 	  gtk_label_set_markup(tax_nat_earned, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf("%d MC", 
-				planet_get_tax_earned_colonists(a_planet));
+				gwp_planet_get_tax_earned_colonists(a_planet));
 	  gtk_label_set_text(tax_col_earned, tmp);
 	  g_free(tmp);
 
@@ -353,16 +353,17 @@ void update_planet_extra_panel(gint16 planet_id)
     }
 }
 
-void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
+void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 {
   GtkWidget *planet_page;
   GtkNotebook *panel;
   GtkLabel *planet_name, *mines, *factories, *defenses, *temperature;
   GtkLabel *neutronium, *tritanium, *duranium, *molybdenum, *supplies;
-  GtkLabel *colonists, *natives, *native_race, *spi;
+  GtkLabel *colonists, *natives, *natives_race, *spi;
   GtkLabel *megacredits, *visibility;
   gchar *tmp;
-  Planet *a_planet;
+
+  g_assert (GWP_IS_PLANET(a_planet));
 
   /* Select the planet page on panel */
   panel = (GtkNotebook *) lookup_widget ("info_panel");
@@ -383,143 +384,138 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 
   colonists = (GtkLabel *) lookup_widget ("label_colonists");
   natives = (GtkLabel *) lookup_widget ("label_natives");
-  native_race = (GtkLabel *) lookup_widget ("label_native_race");
+  natives_race = (GtkLabel *) lookup_widget ("label_native_race");
   spi = (GtkLabel *) lookup_widget ("label_spi");
   megacredits = (GtkLabel *) lookup_widget("label_mc");
   visibility = (GtkLabel *) lookup_widget("label_visibility");
 
 
-  /* If we received a valid planet id, we work */
-  if ((planet_id >= 1) && (planet_id <= MAX_PLANETS))
-    {
-      /* If we have data on this planet, then work */
-      if ((a_planet = planet_get (planet_list, planet_id)) != NULL &&
-	  planet_is_known (a_planet))
-	{
-	  if(planet_has_starbase(a_planet)) {
-	    /* Underline planet name if it has starbase */
-	    tmp = g_strdup_printf ("<u><b>%s</b></u> (#%d)", 
-				   planet_get_name(a_planet),
-				   planet_get_id(a_planet));
-	  } else {
-	    tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
-				   planet_get_name(a_planet),
-				   planet_get_id(a_planet));
-	  }
-	  gtk_label_set_markup(planet_name, tmp);
-	  g_free(tmp);
+  /* If we have data on this planet, then work */
+  if (gwp_planet_is_known (a_planet)) {
 
-	  tmp = g_strdup_printf ("%d", planet_get_mines (a_planet));
-	  gtk_label_set_text (mines, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_factories(a_planet));
-	  gtk_label_set_text (factories, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_defense_posts(a_planet));
-	  gtk_label_set_text (defenses, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf("%s (%d)", 
-				planet_get_temperature_str(a_planet),
-				planet_get_temperature_f(a_planet));
-	  gtk_label_set_text(temperature, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_mined_neutronium(a_planet));
-	  gtk_label_set_text (neutronium, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_mined_tritanium(a_planet));
-	  gtk_label_set_text (tritanium, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_mined_duranium(a_planet));
-	  gtk_label_set_text (duranium, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_mined_molybdenum(a_planet));
-	  gtk_label_set_text (molybdenum, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_supplies(a_planet));
-	  gtk_label_set_text (supplies, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf ("%d", planet_get_megacredits(a_planet));
-	  gtk_label_set_text (megacredits, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf("%d%%", planet_get_visibility(a_planet));
-	  gtk_label_set_text(visibility, tmp);
-	  g_free(tmp);
-
-	  if(planet_get_happiness_col_change(a_planet) >= 0) {
-	    tmp = g_strdup_printf("%d (%d%%, +%d)", 
-				  planet_get_colonists (a_planet),
-				  planet_get_happiness_colonists(a_planet),
-				  planet_get_happiness_col_change(a_planet));
-	  } else {
-	    tmp = g_strdup_printf("%d (%d%%, <span foreground=\"red\">%d</span>)", 
-				  planet_get_colonists (a_planet),
-				  planet_get_happiness_colonists(a_planet),
-				  planet_get_happiness_col_change(a_planet));
-	  }
-	  gtk_label_set_markup(colonists, tmp);
-	  g_free(tmp);
-
-	  if(planet_get_happiness_nat_change(a_planet) >= 0) {
-	    tmp = g_strdup_printf("%d (%d%%, +%d)", 
-				  planet_get_natives (a_planet),
-				  planet_get_happiness_natives(a_planet),
-				  planet_get_happiness_nat_change(a_planet));
-	  } else {
-	    tmp = g_strdup_printf("%d (%d%%, <span foreground=\"red\">%d</span>)", 
-				  planet_get_natives (a_planet),
-				  planet_get_happiness_natives(a_planet),
-				  planet_get_happiness_nat_change(a_planet));
-	  }
-
-	  gtk_label_set_markup(natives, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf("%s", planet_get_native_race_chars(a_planet));
-	  gtk_label_set_text (native_race, tmp);
-	  g_free(tmp);
-
-	  tmp = g_strdup_printf("%s", planet_get_native_spi_chars(a_planet));
-	  gtk_label_set_text (spi, tmp);
-	  g_free(tmp);
-
-	} else {
-	  /** If planet is unknown... */
-
-	  tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
-				 planet_get_name(a_planet),
-				 planet_get_id(a_planet));
-	  gtk_label_set_markup(planet_name, tmp);
-	  g_free(tmp);
-
-	  gtk_label_set_text (mines, _("n/a"));
-	  gtk_label_set_text (factories, _("n/a"));
-	  gtk_label_set_text (defenses, _("n/a"));
-	  gtk_label_set_text (temperature, _("n/a"));
-
-	  gtk_label_set_text (neutronium, _("n/a"));
-	  gtk_label_set_text (tritanium, _("n/a"));
-	  gtk_label_set_text (duranium, _("n/a"));
-	  gtk_label_set_text (molybdenum, _("n/a"));
-	  gtk_label_set_text (supplies, _("n/a"));
-
-	  gtk_label_set_text (colonists, _("n/a"));
-	  gtk_label_set_text (natives, _("n/a"));
-	  gtk_label_set_text (native_race, _("n/a"));
-	  gtk_label_set_text (spi, _("n/a"));
-	  gtk_label_set_text (megacredits, _("n/a"));
-	  gtk_label_set_text (visibility, _("n/a"));
-	}
+    /* Underline planet name if it has starbase */
+    if(gwp_planet_has_starbase (a_planet)) {
+      tmp = g_strdup_printf ("<u><b>%s</b></u> (#%d)", 
+			     gwp_object_get_name (GWP_OBJECT(a_planet))->str,
+			     gwp_object_get_id (GWP_OBJECT(a_planet)));
+    } else {
+      tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
+			     gwp_object_get_name (GWP_OBJECT(a_planet))->str,
+			     gwp_object_get_id (GWP_OBJECT(a_planet)));
     }
+    gtk_label_set_markup(planet_name, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_mines (a_planet));
+    gtk_label_set_text (mines, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_factories (a_planet));
+    gtk_label_set_text (factories, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_defense_posts (a_planet));
+    gtk_label_set_text (defenses, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf("%s (%d)", 
+			  gwp_planet_get_temperature_str (a_planet),
+			  gwp_planet_get_temperature_f (a_planet));
+    gtk_label_set_text(temperature, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_mined_neutronium (a_planet));
+    gtk_label_set_text (neutronium, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_mined_tritanium (a_planet));
+    gtk_label_set_text (tritanium, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_mined_duranium (a_planet));
+    gtk_label_set_text (duranium, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_mined_molybdenum (a_planet));
+    gtk_label_set_text (molybdenum, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_supplies (a_planet));
+    gtk_label_set_text (supplies, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf ("%d", gwp_planet_get_megacredits (a_planet));
+    gtk_label_set_text (megacredits, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf("%d%%", gwp_planet_get_visibility (a_planet));
+    gtk_label_set_text(visibility, tmp);
+    g_free(tmp);
+	
+    if(gwp_planet_get_happiness_col_change (a_planet) >= 0) {
+      tmp = g_strdup_printf ("%d (%d%%, +%d)", 
+			     gwp_planet_get_colonists (a_planet),
+			     gwp_planet_get_happiness_colonists (a_planet),
+			     gwp_planet_get_happiness_col_change (a_planet));
+    } else {
+      tmp = g_strdup_printf ("%d (%d%%, <span foreground=\"red\">%d</span>)", 
+			     gwp_planet_get_colonists (a_planet),
+			     gwp_planet_get_happiness_colonists (a_planet),
+			     gwp_planet_get_happiness_col_change (a_planet));
+    }
+    gtk_label_set_markup (colonists, tmp);
+    g_free (tmp);
+	
+    if(gwp_planet_get_happiness_nat_change (a_planet) >= 0) {
+      tmp = g_strdup_printf ("%d (%d%%, +%d)", 
+			     gwp_planet_get_natives (a_planet),
+			     gwp_planet_get_happiness_natives (a_planet),
+			     gwp_planet_get_happiness_nat_change (a_planet));
+    } else {
+      tmp = g_strdup_printf ("%d (%d%%, <span foreground=\"red\">%d</span>)", 
+			     gwp_planet_get_natives (a_planet),
+			     gwp_planet_get_happiness_natives (a_planet),
+			     gwp_planet_get_happiness_nat_change (a_planet));
+    }
+	
+    gtk_label_set_markup (natives, tmp);
+    g_free (tmp);
+	
+    tmp = g_strdup_printf("%s", gwp_planet_get_natives_race_chars (a_planet));
+    gtk_label_set_text (natives_race, tmp);
+    g_free(tmp);
+	
+    tmp = g_strdup_printf("%s", gwp_planet_get_natives_spi_chars (a_planet));
+    gtk_label_set_text (spi, tmp);
+    g_free(tmp);
+	
+  } else {
+    /** If planet is unknown... */
+	
+    tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
+			   gwp_object_get_name (GWP_OBJECT(a_planet))->str,
+			   gwp_object_get_id (GWP_OBJECT(a_planet)));
+    gtk_label_set_markup(planet_name, tmp);
+    g_free(tmp);
+	
+    gtk_label_set_text (mines, _("n/a"));
+    gtk_label_set_text (factories, _("n/a"));
+    gtk_label_set_text (defenses, _("n/a"));
+    gtk_label_set_text (temperature, _("n/a"));
+	
+    gtk_label_set_text (neutronium, _("n/a"));
+    gtk_label_set_text (tritanium, _("n/a"));
+    gtk_label_set_text (duranium, _("n/a"));
+    gtk_label_set_text (molybdenum, _("n/a"));
+    gtk_label_set_text (supplies, _("n/a"));
+	
+    gtk_label_set_text (colonists, _("n/a"));
+    gtk_label_set_text (natives, _("n/a"));
+    gtk_label_set_text (natives_race, _("n/a"));
+    gtk_label_set_text (spi, _("n/a"));
+    gtk_label_set_text (megacredits, _("n/a"));
+    gtk_label_set_text (visibility, _("n/a"));
+  }
 }
 
 void update_ship_panel (GtkWidget * gwp, GSList * ship_l)
@@ -624,11 +620,11 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
     ship = value;
     ships_group = starchart_get_grp_ships_allied();
 
-    // Check if ship coords aren't invalid...and work
+    /* Check if ship coords aren't invalid...and work */
     if (ship_valid_coords(ship)) {
       vp_coord_v2w (ship_get_x_position(ship), ship_get_y_position(ship), 
 		    &xi, &yi);
-      // Check if we don't have a ship in the same place
+      /* Check if we don't have a ship in the same place */
       if ((item = gnome_canvas_get_item_at (starchart_get_canvas(), 
 					    xi, yi)) == NULL) {
 	if (ship_is_mine(ship)) {
@@ -652,17 +648,19 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 					"fill_color_rgba", UNIVERSE_COLOR_A,
 					NULL);
 	}
-        // Bind canvas item to ship data
-        // FIXME!!!
-        //ship_data_list = g_malloc(sizeof(GSList));
-        //ship_data_list = g_slist_append(ship_data_list, ship);
-        //gtk_object_set_data(GTK_OBJECT(item), "ship_data_list", ship_data_list);
+        /* Bind canvas item to ship data */
+	/* FIXME!!! */
+	/*
+        ship_data_list = g_malloc(sizeof(GSList));
+        ship_data_list = g_slist_append(ship_data_list, ship);
+        gtk_object_set_data(GTK_OBJECT(item), "ship_data_list", ship_data_list);
+	*/
         
-        // Insert item into quadrant
+        /* Insert item into quadrant */
         load_object_per_quad (item, ships_per_quad, xi, yi);
       } else {
-	// Get data list and add this ship data
-        //ship_data_list = gtk_object_get_data (GTK_OBJECT (item), "ship_data_list");
+	/* Get data list and add this ship data */
+        /* ship_data_list = gtk_object_get_data (GTK_OBJECT (item), "ship_data_list"); */
         ship_data_list = g_object_get_data (G_OBJECT (item), "ship_data_list");
         ship_data_list = g_slist_append (ship_data_list, ship);
       }
@@ -675,7 +673,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
   GnomeCanvasItem *item;
   GnomeCanvasGroup *group;
   gdouble xi, yi;
-  Planet *planet;
+  GwpPlanet *planet;
 
   planet = value;
   gwp = user_data;
@@ -683,10 +681,11 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
   group = gnome_canvas_root (GNOME_CANVAS (starchart));
 
   // Check if planet coords aren't 0...and work
-  if (planet_valid_coords(planet)) {
-    vp_coord_v2w (planet->x, planet->y, &xi, &yi);
+  if (gwp_planet_valid_coords(planet)) {
+    vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet)), 
+		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
-    if (planet_is_mine(planet)) {
+    if (gwp_planet_is_mine(planet)) {
       item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
 				    "outline_color", OWNED_PLANET_COLOR,
 				    "x1", xi - PLANET_RADIUS, "y1",
@@ -706,9 +705,9 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 				    NULL);
     }
     
-    // Bind canvas item with planet data
+    /* Bind canvas item with planet data */
     g_object_set_data (G_OBJECT (item), "planet_data", planet);
-    // Insert item into quadrant
+    /* Insert item into quadrant */
     load_object_per_quad (item, planets_per_quad, xi, yi);
   }
 }
@@ -721,12 +720,12 @@ void init_starchart (GtkWidget * gwp)
   GnomeCanvasPoints *grid_points_v, *grid_points_h;
   gint i;
   
-  // Starchart struct initialization
+  /* Starchart struct initialization */
   starchart_set_grid(TRUE);
   starchart_set_canvas((GnomeCanvas *) lookup_widget ("starchart"));
   starchart_set_grp_root(gnome_canvas_root (starchart_get_canvas()));
 
-  // Set starchart on AA mode
+  /* Set starchart on AA mode */
   starchart_get_canvas()->aa = 1;
   gnome_canvas_update_now(starchart_get_canvas());
 
@@ -747,34 +746,43 @@ void init_starchart (GtkWidget * gwp)
 				   lookup_widget("toolbar_menu"),
 				   FALSE);
     gtk_widget_hide(lookup_widget("bonobodock_btn_bar"));
-    }*/
+  }
+  */
 
-  starchart_set_grp_grid(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-					     (starchart_get_grp_root(), 
-					      GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_grid(GNOME_CANVAS_GROUP 
+			 (gnome_canvas_item_new 
+			  (starchart_get_grp_root(), 
+			   GNOME_TYPE_CANVAS_GROUP, NULL)));
   
-  starchart_set_grp_planets(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						(starchart_get_grp_root(), 
-						 GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_planets_mine(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						     (starchart_get_grp_root(),
-						      GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_planets_enemy(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						      (starchart_get_grp_root(), 
-						       GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_planets_allied(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						       (starchart_get_grp_root(), 
-							GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_planets(GNOME_CANVAS_GROUP 
+			    (gnome_canvas_item_new 
+			     (starchart_get_grp_root(), 
+			      GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_planets_mine(GNOME_CANVAS_GROUP 
+				 (gnome_canvas_item_new 
+				  (starchart_get_grp_root(),
+				   GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_planets_enemy(GNOME_CANVAS_GROUP 
+				  (gnome_canvas_item_new 
+				   (starchart_get_grp_root(), 
+				    GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_planets_allied(GNOME_CANVAS_GROUP 
+				   (gnome_canvas_item_new 
+				    (starchart_get_grp_root(), 
+				     GNOME_TYPE_CANVAS_GROUP, NULL)));
   
-  starchart_set_grp_ships_mine(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						   (starchart_get_grp_root(), 
-						    GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_ships_enemy(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						    (starchart_get_grp_root(), 
-						     GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_ships_allied(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
-						     (starchart_get_grp_root(),
-						      GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_ships_mine(GNOME_CANVAS_GROUP 
+			       (gnome_canvas_item_new 
+				(starchart_get_grp_root(), 
+				 GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_ships_enemy(GNOME_CANVAS_GROUP 
+				(gnome_canvas_item_new 
+				 (starchart_get_grp_root(), 
+				  GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_ships_allied(GNOME_CANVAS_GROUP 
+				 (gnome_canvas_item_new 
+				  (starchart_get_grp_root(),
+				   GNOME_TYPE_CANVAS_GROUP, NULL)));
   // End struct initialization...
   
   // Initialize mouse cursor
@@ -1029,7 +1037,6 @@ gboolean starchart_is_my_planet (GnomeCanvasItem * planet_item)
   Planet *planet = NULL;
   
   starchart_get_object_center_coord (planet_item, &x, &y);
-  //planet = gtk_object_get_data (GTK_OBJECT (planet_item), "planet_data");
   planet = g_object_get_data (G_OBJECT (planet_item), "planet_data");
   if (planet_what_is (planet) == IS_MINE) {
     return TRUE;
@@ -1069,18 +1076,22 @@ starchart_select_nearest_planet (GtkWidget * gwp,
 				 gdouble wx, gdouble wy)
 {
   GnomeCanvasItem *planet;
-  Planet *planet_data;
+  GwpPlanet *planet_data;
   
   planet = starchart_find_nearest_object (planets_nearby, wx, wy);
   planet_data = g_object_get_data (G_OBJECT (planet), "planet_data");
-  if (planet_data != NULL) {
-    update_planet_panel (gwp, planet_get_id(planet_data));
-    update_planet_extra_panel(planet_get_id(planet_data));
+  if (GWP_IS_PLANET(planet_data)) {
+    g_message ("Planet selected: '%s'", gwp_object_get_name(GWP_OBJECT(planet_data))->str);
+    starchart_mark_planet(planet_data);
+    update_planet_panel (gwp, planet_data);
+    update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet_data)));
+
+    /*
     update_global_defense_panel(planet_get_id(planet_data));
     update_starbase_panel(planet_get_id(planet_data));
     table_population_update(planet_data);
-    starchart_mark_planet(planet_data);
     starchart_mini_set_planet_img(planet_data);
+    */
     return planet;
   } else {
     return NULL;
@@ -1284,7 +1295,7 @@ void starchart_set_status(gchar *msg)
   }
 }
 
-void starchart_mark_planet(Planet *a_planet)
+void starchart_mark_planet(GwpPlanet *a_planet)
 {
   static GnomeCanvasItem *planet_mark = NULL;
   static GnomeCanvasItem *planet_mark_l = NULL;
@@ -1295,7 +1306,8 @@ void starchart_mark_planet(Planet *a_planet)
   gdouble wx, wy;
   gdouble matrix[6];
 
-  vp_coord_v2w(a_planet->x, a_planet->y, &wx, &wy);
+  vp_coord_v2w(gwp_object_get_x_coord(GWP_OBJECT(a_planet)), 
+	       gwp_object_get_y_coord(GWP_OBJECT(a_planet)), &wx, &wy);
 
   /* If item doesn't exist yet, lets create it. */
   if(! planet_mark) {
