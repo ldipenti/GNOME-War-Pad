@@ -61,8 +61,8 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data);
 void draw_ship (gpointer key, gpointer value, gpointer user_data);
 void draw_minefield (gpointer data, gpointer user_data);
 void draw_ion_storm (gpointer data, gpointer user_data);
-GnomeCanvasItem * starchart_select_nearest_planet (GtkWidget *gwp, GSList *planets_nearby, gdouble wx, gdouble wy);
-GnomeCanvasItem * starchart_select_nearest_ship (GtkWidget* gwp, GSList *ships_nearby, gdouble wx, gdouble wy);
+GwpPlanet * starchart_select_nearest_planet (GtkWidget *gwp, GSList *planets_nearby, gdouble wx, gdouble wy);
+GwpShip * starchart_select_nearest_ship (GtkWidget* gwp, GSList *ships_nearby, gdouble wx, gdouble wy);
 void starchart_center_around (GwpObject *obj);
 void starchart_zoom_in (GnomeCanvas *starchart);
 void starchart_zoom_out (GnomeCanvas *starchart);
@@ -75,7 +75,7 @@ void starchart_scroll (gint scroll_x, gint scroll_y);
 /* Find functions */
 GwpPlanet * starchart_find_planet (GSList *planets_in_quad, gint x, gint y);
 GwpLocation * starchart_find_location (GSList *locations_in_quad, gint x, gint y);
-GnomeCanvasItem *starchart_find_nearest_object(GSList *objects_in_quad, gdouble x, gdouble y);
+GwpObject *starchart_find_nearest_object(GSList *objects_in_quad, gdouble x, gdouble y);
 GSList *starchart_get_surrounding_quads(GSList *objects_per_quad[TOTAL_QUADS], gint center_quad);
 gint get_quadrant(gdouble x, gdouble y);
 

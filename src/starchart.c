@@ -1351,10 +1351,12 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
       load_object_per_quad (location, locations_per_quad, xi, yi);
       
       /* Bind new location to item */
-      g_object_set_data(G_OBJECT(item), "ship_location", location);
+      /*      g_object_set_data(G_OBJECT(item), "ship_location", location); */
+      g_object_set_data(G_OBJECT(ship), "ship_location", location);
       
       /* Insert item into quadrant */
-      load_object_per_quad (item, ships_per_quad, xi, yi);
+      /*      load_object_per_quad (item, ships_per_quad, xi, yi); */
+      load_object_per_quad (ship, ships_per_quad, xi, yi);
 
     } 
     /* A location is here already, lets add the ship to it */
@@ -1556,8 +1558,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     /* Bind canvas item with planet data */
     g_object_set_data (G_OBJECT (item), "planet_data", planet);
     /* Insert item into quadrant */
-    load_object_per_quad (item, planets_per_quad, xi, yi);
-    load_object_per_quad (planet, gwp_planets_per_quad, xi, yi);
+    load_object_per_quad (planet, planets_per_quad, xi, yi);
   }
 }
 
@@ -1792,25 +1793,31 @@ GwpLocation * starchart_find_location (GSList *locations_in_quad,
   return NULL;
 }
 
-GnomeCanvasItem * starchart_find_nearest_object (GSList * objects_in_quad, 
-						 gdouble x, gdouble y)
+GwpObject * starchart_find_nearest_object (GSList * objects_in_quad, 
+					   gdouble x, gdouble y)
 {
   gint nr, i;
   gdouble min_dist, dist;
   gdouble px, py;
-  GnomeCanvasItem *object, *min_object;
+  GwpObject *object, *min_object;
 
   nr = g_slist_length (objects_in_quad);
 
   if (nr > 0) {
-    object = (GnomeCanvasItem *) g_slist_nth_data (objects_in_quad, 0);
+    object = (GwpObject *) g_slist_nth_data (objects_in_quad, 0);
     min_object = object;
-    starchart_get_object_center_coord (object, &px, &py);
+
+    vp_coord_v2w(gwp_object_get_x_coord (object), 
+		 gwp_object_get_y_coord (object), &px, &py);      
+
     min_dist = sqrt (((abs (px - x) ^ 2) + (abs (py - y) ^ 2)));
 
     for (i = 1; i < nr; i++) {
       object = g_slist_nth_data (objects_in_quad, i);
-      starchart_get_object_center_coord (object, &px, &py);
+      
+      vp_coord_v2w(gwp_object_get_x_coord (object), 
+		   gwp_object_get_y_coord (object), &px, &py);      
+
       dist = sqrt (((abs (px - x) ^ 2) + (abs (py - y) ^ 2)));
 
       if (dist < min_dist) {
@@ -1823,11 +1830,11 @@ GnomeCanvasItem * starchart_find_nearest_object (GSList * objects_in_quad,
   return NULL;
 }
 
-GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp, 
-						  GSList * planets_nearby,
-						  gdouble wx, gdouble wy)
+GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp, 
+					    GSList * planets_nearby,
+					    gdouble wx, gdouble wy)
 {
-  GnomeCanvasItem *planet;
+  /*  GnomeCanvasItem *planet; */
   GwpPlanet *planet_data;
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
@@ -1842,8 +1849,8 @@ GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp,
     mini = (GtkNotebook *) lookup_widget("notebook_mini");
   }
   
-  planet = starchart_find_nearest_object (planets_nearby, wx, wy);
-  planet_data = g_object_get_data (G_OBJECT (planet), "planet_data");
+  planet_data = (GwpPlanet *)starchart_find_nearest_object (planets_nearby, wx, wy);
+  /*  planet_data = g_object_get_data (G_OBJECT (planet), "planet_data"); */
 
   if (GWP_IS_PLANET(planet_data)) {
     starchart_mark_planet(planet_data);
@@ -1868,17 +1875,17 @@ GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp,
       gtk_notebook_set_current_page(extra_info_panel_planet, EXTRA_PANEL_PLANET_INNER_PLANET_PAGE);
     }
 
-    return planet;
+    return planet_data;
   } else {
     return NULL;
   }
 }
 
-GnomeCanvasItem *starchart_select_nearest_ship (GtkWidget * gwp, 
-						GSList * ships_nearby,
-						gdouble wx, gdouble wy)
+GwpShip *starchart_select_nearest_ship (GtkWidget * gwp, 
+					GSList * ships_nearby,
+					gdouble wx, gdouble wy)
 {
-  GnomeCanvasItem *ship;
+  GwpShip *ship;
   gdouble x, y;
   GwpLocation *location;
   static gboolean loaded = FALSE;
@@ -1892,7 +1899,7 @@ GnomeCanvasItem *starchart_select_nearest_ship (GtkWidget * gwp,
     mini = (GtkNotebook *) lookup_widget("notebook_mini");
   }
   
-  ship = starchart_find_nearest_object (ships_nearby, wx, wy);
+  ship = (GwpShip *)starchart_find_nearest_object (ships_nearby, wx, wy);
   location = g_object_get_data (G_OBJECT (ship), "ship_location");
 
   if (GWP_IS_LOCATION(location)) {
@@ -2572,7 +2579,7 @@ GString * starchart_get_location_name (gint x, gint y)
   vp_coord_v2w (x, y, &dx, &dy);
   q = get_quadrant(dx, dy);
 
-  objects_nearby = starchart_get_surrounding_quads (gwp_planets_per_quad, q);
+  objects_nearby = starchart_get_surrounding_quads (planets_per_quad, q);
 
   if ((obj = (GwpObject *)starchart_find_planet(objects_nearby, x, y))) {
     ret = g_string_new(gwp_object_get_name(obj));

@@ -122,7 +122,6 @@ GSList *engspec_list;
 
 /* Canvas items */
 GSList *planets_per_quad[TOTAL_QUADS];
-GSList *gwp_planets_per_quad[TOTAL_QUADS];
 GSList *ships_per_quad[TOTAL_QUADS];
 GSList *locations_per_quad[TOTAL_QUADS];
 

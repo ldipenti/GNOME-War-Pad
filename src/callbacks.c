@@ -84,6 +84,10 @@ starchart_event_key                    (GtkWidget       *widget,
     case GDK_Escape:
       starchart_close_extra_panels();
       return TRUE;
+      /* Distance calculator */
+      /*    case GDK_x:
+      starchart_toggle_dist_calc();
+      return TRUE; */
     }
   return FALSE;
 }
@@ -113,8 +117,10 @@ starchart_event_button                 (GtkWidget       *widget,
   gint x, y, q;
   gdouble wx, wy;
   GSList *planets_nearby, *ships_nearby;
-  static GnomeCanvasItem *ps_planet = NULL, *s_planet = NULL;
-  static GnomeCanvasItem *ps_ship = NULL, *s_ship = NULL;
+/*   static GnomeCanvasItem *ps_planet = NULL, *s_planet = NULL; */
+/*   static GnomeCanvasItem *ps_ship = NULL, *s_ship = NULL; */
+  static GwpPlanet *ps_planet = NULL, *s_planet = NULL;
+  static GwpShip *ps_ship = NULL, *s_ship = NULL;
   static gboolean loaded = FALSE;
   static GtkNotebook *mini = NULL;
 
