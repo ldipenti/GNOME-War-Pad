@@ -54,3 +54,23 @@ _wrap_ship_get_list (PyObject *self)
 
   return ret;
 }
+%%
+override planet_get_list noargs
+static PyObject *
+_wrap_planet_get_list (PyObject *self)
+{
+  PyObject *ret = PyDict_New();
+
+  static void add_planet (gpointer key, gpointer value, gpointer user_data) {
+    PyObject *dict = (PyObject *)user_data;
+    GwpShip *planet = GWP_PLANET(value);
+
+    PyDict_SetItem (dict, 
+		    PyInt_FromLong(gwp_object_get_id(GWP_OBJECT(planet))),
+		    pygobject_new((GObject *)planet));
+  }
+  
+  g_hash_table_foreach (planet_list, (GHFunc)add_planet, (gpointer)ret);
+
+  return ret;
+}

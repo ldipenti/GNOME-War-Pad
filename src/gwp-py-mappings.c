@@ -5409,11 +5409,34 @@ _wrap_ship_get_list (PyObject *self)
 #line 5410 "src/gwp-py-mappings.c"
 
 
+#line 59 "src/gwp-py-mappings.override"
+static PyObject *
+_wrap_planet_get_list (PyObject *self)
+{
+  PyObject *ret = PyDict_New();
+
+  static void add_planet (gpointer key, gpointer value, gpointer user_data) {
+    PyObject *dict = (PyObject *)user_data;
+    GwpShip *planet = GWP_PLANET(value);
+
+    PyDict_SetItem (dict, 
+		    PyInt_FromLong(gwp_object_get_id(GWP_OBJECT(planet))),
+		    pygobject_new((GObject *)planet));
+  }
+  
+  g_hash_table_foreach (planet_list, (GHFunc)add_planet, (gpointer)ret);
+
+  return ret;
+}
+#line 5432 "src/gwp-py-mappings.c"
+
+
 PyMethodDef gwp_functions[] = {
     { "gwp_planet_get_ground_percent", (PyCFunction)_wrap_gwp_planet_get_ground_percent, METH_VARARGS|METH_KEYWORDS },
     { "ship_get_by_id", (PyCFunction)_wrap_ship_get_by_id, METH_VARARGS|METH_KEYWORDS },
     { "planet_get_by_id", (PyCFunction)_wrap_planet_get_by_id, METH_VARARGS|METH_KEYWORDS },
     { "ship_get_list", (PyCFunction)_wrap_ship_get_list, METH_NOARGS },
+    { "planet_get_list", (PyCFunction)_wrap_planet_get_list, METH_NOARGS },
     { NULL, NULL, 0 }
 };
 
@@ -5439,7 +5462,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5443 "src/gwp-py-mappings.c"
+#line 5466 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));

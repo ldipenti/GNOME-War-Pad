@@ -3061,4 +3061,9 @@
   (return-type "GSList*")
 )
 
+(define-function planet_get_list
+  (c-name "planet_get_list")
+  (return-type "GSList*")
+)
+
 
