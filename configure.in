@@ -1,5 +1,5 @@
 dnl AC_INIT(src/main.c)
-AC_INIT(GNOME War Pad, 0.1.0, lucas@lunix.com.ar)
+AC_INIT(GNOME War Pad, 0.2.0, lucas@lunix.com.ar)
 
 AM_CONFIG_HEADER(config.h)
 

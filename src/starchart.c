@@ -759,11 +759,11 @@ void starchart_update_coord_panel(GtkWidget *gwp,
   
   x_coord = (GtkLabel *) lookup_widget("label_x_coord");
   y_coord = (GtkLabel *) lookup_widget("label_y_coord");
-  
-  // Get VP coords
+
+  /* Get VP coords */
   vp_coord_w2v(wx, wy, &x, &y);
   
-  // Update GUI
+  /* Update GUI */
   gtk_label_set_text(x_coord, g_strdup_printf("%d", x));
   gtk_label_set_text(y_coord, g_strdup_printf("%d", y));
 }
