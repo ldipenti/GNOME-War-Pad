@@ -23,6 +23,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
+#include "gwp-game-state.h"
 #include "gwp_types.h"
 
 void game_mgr_init(void);
@@ -40,16 +41,25 @@ void game_mgr_properties_dlg_clean(void);
 // icon_number < 0 if not editing or adding a game
 gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 					const gint icon_number);
-void game_mgr_properties_dlg_get_settings(GameSettings *settings);
-gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
+void game_mgr_properties_dlg_get_settings(GwpGameState *settings);
+gboolean game_mgr_properties_dlg_fill(GwpGameState *settings);
 
-void game_mgr_add_icon(GnomeIconList *iconlist, GameState *state);
-void game_mgr_play_game(GameState *state);
+void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state);
+void game_mgr_play_game(GwpGameState *state);
 
 // Game name translators
 void game_mgr_game_name_mangle(gchar *name);
 void game_mgr_game_name_demangle(gchar *name);
 
 gint game_mgr_get_icon_idx_selected(void);
+
+/* FIXME: This code below comes from the dead game_state.[ch] files, 
+   it really belongs here, fix the function names please! */
+void game_state_delete(const gchar *name);
+void game_close(GwpGameState *game_state);
+void destroy_gobject (gpointer key, gpointer value, gpointer user_data);
+gint game_state_get_version(void);
+void game_state_set_version(gint version);
+
 
 #endif

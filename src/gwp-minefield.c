@@ -17,7 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "game_state.h"
+#include "gwp-game-state.h"
 #include "gwp-object.h"
 #include "gwp-minefield.h"
 
@@ -133,9 +133,9 @@ gboolean gwp_minefield_is_mine(GwpMinefield *self)
 {
   g_assert(GWP_IS_MINEFIELD(self));
 
-  if(gwp_minefield_get_owner(self) == game_get_race(game_state) ||
+  if(gwp_minefield_get_owner(self) == gwp_game_state_get_race(game_state) ||
      (gwp_minefield_get_owner(self) == 12 &&
-      game_get_race(game_state) == RACE_CRYSTALLINE)) {
+      gwp_game_state_get_race(game_state) == RACE_CRYSTALLINE)) {
     return TRUE;
   } else {
     return FALSE;

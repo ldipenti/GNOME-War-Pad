@@ -32,7 +32,6 @@
 #include "vp_types.h"
 #include "vp_utils.h"
 #include "starchart.h"
-#include "game_state.h"
 #include "game_mgr.h"
 #include "tables.h"
 

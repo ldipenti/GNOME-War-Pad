@@ -149,8 +149,8 @@ void table_population_update(GwpPlanet *a_planet)
     nat_growth_limit = gwp_planet_get_nat_growth_limit(planet);
     col_growth_limit = gwp_planet_get_col_growth_limit(planet);
 
-    for(turn = game_get_turn_number(game_state)+1; 
-	turn <= game_get_turn_number(game_state)+11; turn++) {
+    for(turn = gwp_game_state_get_turn_number(game_state)+1; 
+	turn <= gwp_game_state_get_turn_number(game_state)+11; turn++) {
 
       /****************************/
       /* Calculate natives growth */
@@ -200,7 +200,7 @@ void table_population_update(GwpPlanet *a_planet)
       /**********************************/
       /*** Calculate colonists growth ***/
       /**********************************/
-      if(game_get_race(game_state) != RACE_CRYSTALLINE) {
+      if(gwp_game_state_get_race(game_state) != RACE_CRYSTALLINE) {
 
 	if((gwp_planet_get_colonists(planet) < col_growth_limit) &&
 	   (gwp_planet_get_happiness_colonists(planet) >= 70)) {

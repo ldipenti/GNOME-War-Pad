@@ -242,7 +242,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr combobox init called" );
 
   gint i, cur, max;
   FILE *msgfile;
-  max = game_get_turn_number(game_state);
+  max = gwp_game_state_get_turn_number(game_state);
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   gint *msgindex = messages->pub->msgindex;
@@ -462,13 +462,14 @@ void message_reader_get_msgfilename( GtkWidget *widget,
     return;
   }
   copyhere[0] = '\0';
-  strcat( copyhere, game_get_full_path(game_state, "message-history") );
+  strcat( copyhere, gwp_game_state_get_full_path(game_state, 
+						 "message-history") );
   strcat( copyhere, "/mdata" );
   copyhere[strlen(copyhere)+1] = '\0';
-  if( game_get_race(game_state) < 10 )
-    copyhere[strlen(copyhere)+0] = game_get_race(game_state) + 48;
+  if( gwp_game_state_get_race(game_state) < 10 )
+    copyhere[strlen(copyhere)+0] = gwp_game_state_get_race(game_state) + 48;
   else
-    copyhere[strlen(copyhere)+0] = game_get_race(game_state) + 55;
+    copyhere[strlen(copyhere)+0] = gwp_game_state_get_race(game_state) + 55;
   strcat( copyhere, "_" );
   strcat( copyhere, g_strdup_printf( "%d", turn ) );
   strcat( copyhere, ".dat" );

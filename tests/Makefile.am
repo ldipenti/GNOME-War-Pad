@@ -48,7 +48,7 @@ sources =								\
 	../src/gwp-ui.h			../src/gwp-ui.c			\
 	../src/gwp-py-functions.h	../src/gwp-py-functions.c	\
 	../src/support.h		../src/support.c		\
-	../src/game_state.h		../src/game_state.c		\
+	../src/gwp-game-state.h		../src/gwp-game-state.c		\
 	../src/starchart.h		../src/starchart.c		\
 	../src/gwp_types.h		../src/gwp_types.c		\
 	../src/vp_utils.h		../src/vp_utils.c		\

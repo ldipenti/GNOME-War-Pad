@@ -79,8 +79,8 @@ void gwp_python_inittab (void)
   menubar = lookup_widget ("menubar");
   gtk_menu_bar_insert (menubar, plugin_menu_root, 2);
 
-  pyobj_menu = pygobject_new (plugin_menu);
-  plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
+  pyobj_menu = pygobject_new ((GObject *)plugin_menu);
+  plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
   
   PyObject_CallMethodObjArgs (plugin_mgr,
 			      PyString_FromString("set_menu"),
@@ -137,7 +137,7 @@ void gwp_python_event_key (GdkEventKey *event)
 			    "string", event->string);
 
   if (evt_data) {
-    plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
+    plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
     
     PyObject_CallMethodObjArgs (plugin_mgr,
 				PyString_FromString("manage_event_key"),

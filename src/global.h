@@ -28,7 +28,7 @@
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
 
-#include "game_state.h"
+#include "gwp-game-state.h"
 #include "gwp_types.h"
 
 #define GWP_GLADE_XML_DIR DATADIR"/gwp"
@@ -141,7 +141,7 @@ GladeXML *xml_interface;
 /* GWP structures */
 Starchart starchart;
 StarchartMini starchart_mini;
-GameState *game_state;
+GwpGameState *game_state;
 gboolean extra_panels_showed;
 
 /* GConf subsystem */

@@ -21,6 +21,7 @@
 
 #include "global.h"
 #include "gwp-vcrfile.h"
+#include "gwp-game-state.h"
 
 /*
  * Private members.
@@ -245,7 +246,7 @@ gint gwp_vcrfile_read( GwpVCRFile *self )
 
   /* create the correct filename to the vcr-data */
   filename = g_string_new( (const gchar *)"VCR" );
-  switch( game_get_race(game_state) )
+  switch( gwp_game_state_get_race(game_state) )
   {
     case  1: g_string_append_c( filename, (const gchar)'1' ); break;
     case  2: g_string_append_c( filename, (const gchar)'2' ); break;
@@ -263,15 +264,15 @@ gint gwp_vcrfile_read( GwpVCRFile *self )
   g_string_append( filename, (const gchar *)".DAT" );
 
   /* try to open this file (upper case) */
-  self->priv->vcrfile = fopen( game_get_full_path( game_state, filename->str ), "rb" );
-  g_message( "vcrfile: trying to open '%s'\n", game_get_full_path( game_state, filename->str ) );
+  self->priv->vcrfile = fopen( gwp_game_state_get_full_path( game_state, filename->str ), "rb" );
+  g_message( "vcrfile: trying to open '%s'\n", gwp_game_state_get_full_path( game_state, filename->str ) );
 
   /* in case of failure, try again with lowercase */
   if( !self->priv->vcrfile )
   {
     GString *lc = g_string_ascii_down( filename );
-    self->priv->vcrfile = fopen( game_get_full_path( game_state, filename->str ), "rb" );
-    g_message( "vcrfile: trying to open '%s'\n", game_get_full_path( game_state, filename->str ) );
+    self->priv->vcrfile = fopen( gwp_game_state_get_full_path( game_state, filename->str ), "rb" );
+    g_message( "vcrfile: trying to open '%s'\n", gwp_game_state_get_full_path( game_state, filename->str ) );
     g_string_free(lc, FALSE);
   }
 

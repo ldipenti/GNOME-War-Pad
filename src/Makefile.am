@@ -44,12 +44,12 @@ gwp_SOURCES =						\
 	gwp-ion-storm.h		gwp-ion-storm.c		\
 	gwp-starchart.h		gwp-starchart.c		\
 	gwp-ui.h		gwp-ui.c		\
+	gwp-game-state.h	gwp-game-state.c	\
 	gwp-messages.h		gwp-messages.c		\
-    gwp-vcrfile.h       gwp-vcrfile.c       \
+	gwp-vcrfile.h		gwp-vcrfile.c		\
 	gwp-py-functions.h	gwp-py-functions.c	\
 	callbacks.h		callbacks.c		\
 	support.h		support.c		\
-	game_state.h		game_state.c		\
 	starchart.h		starchart.c		\
 	gwp_types.h		gwp_types.c		\
 	vp_utils.h		vp_utils.c		\
@@ -65,6 +65,8 @@ gwp_SOURCES =						\
 	trackball.h		trackball.c		\
 	gwp-python.h		gwp-python.c		\
 	gwp-utils.h		gwp-utils.c
+
+#	game_state.h		game_state.c		
 
 gwp_LDADD =  \
 	$(GNOME_LIBS) \

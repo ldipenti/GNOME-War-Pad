@@ -23,7 +23,7 @@
 #include "vp_types.h"
 #include "gwp_types.h"
 #include "global.h"
-#include "game_state.h"
+#include "gwp-game-state.h"
 #include "support.h"
 #include "vp_utils.h"
 #include "starchart.h"
@@ -151,7 +151,7 @@ void update_starbase_panel(GwpPlanet *planet)
     /*** Ship build ***/
     if (gwp_starbase_get_build_ship_type(base) != 0) {
       /* Hull */
-      GwpHullSpec *hull = GWP_HULLSPEC(g_slist_nth_data(hullspec_list, truehull[game_get_race(game_state)-1][gwp_starbase_get_build_ship_type(base)-1] - 1));
+      GwpHullSpec *hull = GWP_HULLSPEC(g_slist_nth_data(hullspec_list, truehull[gwp_game_state_get_race(game_state)-1][gwp_starbase_get_build_ship_type(base)-1] - 1));
 
       tmp = g_strdup_printf("%s", gwp_hullspec_get_name_trunc(hull, 18));
       gtk_label_set_text (build_hull, tmp);
@@ -1194,7 +1194,7 @@ void update_ship_panel_with (GwpShip *ship)
   g_free (tmp);
 
   /* Work extra only if necessary */
-  if (game_is_extra_panel_open(game_state)) {
+  if (gwp_game_state_get_extra_panel_open (game_state)) {
     /* Update ship image */
     starchart_mini_set_ship_img(ship);
     /* Update extra panel */
@@ -1582,8 +1582,8 @@ void init_starchart (GtkWidget * gwp)
 
   /* Scroll to last coordinates */
   gnome_canvas_scroll_to(starchart_get_canvas(),
-			 game_get_last_x_coord(game_state),
-			 game_get_last_y_coord(game_state));
+			 gwp_game_state_get_last_x_coord (game_state),
+			 gwp_game_state_get_last_y_coord (game_state));
 
   starchart_set_grp_grid(GNOME_CANVAS_GROUP 
 			 (gnome_canvas_item_new 
@@ -1859,7 +1859,7 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
     update_planet_panel (gwp, planet_data);
 
     /* Do extra work only if needed */
-    if(game_is_extra_panel_open(game_state)) {
+    if (gwp_game_state_get_extra_panel_open(game_state)) {
       starchart_mini_set_planet_img(planet_data);
       table_population_update(planet_data);
       update_global_defense_panel(planet_data);
@@ -1913,7 +1913,7 @@ GwpShip *starchart_select_nearest_ship (GtkWidget * gwp,
     update_ship_panel (gwp, location);
 
     /* Do extra work only if needed */
-    if(game_is_extra_panel_open(game_state)) {
+    if (gwp_game_state_get_extra_panel_open(game_state)) {
       gtk_notebook_set_current_page (extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
       gtk_notebook_set_current_page (mini, MINI_SHIP_PAGE);
       starchart_center_around(GWP_OBJECT(location));
@@ -1973,14 +1973,14 @@ void starchart_get_object_center_coord (GnomeCanvasItem * item,
 
 void starchart_zoom_in (GnomeCanvas * starchart)
 {
-  gdouble zoom = game_get_starchart_zoom(game_state);
+  gdouble zoom = gwp_game_state_get_starchart_zoom (game_state);
   gchar *zoom_status;
   GtkCheckMenuItem *pnames_menu = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
   
   if (zoom < 2.0) {
     zoom += 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
-    game_set_starchart_zoom(game_state, zoom);
+    gwp_game_state_set_starchart_zoom (game_state, zoom);
 
     /* print status */
     zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
@@ -1996,14 +1996,14 @@ void starchart_zoom_in (GnomeCanvas * starchart)
 
 void starchart_zoom_out (GnomeCanvas * starchart)
 {
-  gdouble zoom = game_get_starchart_zoom(game_state);
+  gdouble zoom = gwp_game_state_get_starchart_zoom (game_state);
   gchar *zoom_status;
   GtkCheckMenuItem *pnames_menu = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
   
   if (zoom > 0.4) {
     zoom -= 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
-    game_set_starchart_zoom(game_state, zoom);
+    gwp_game_state_set_starchart_zoom (game_state, zoom);
 
     /* print status */
     zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
@@ -2119,8 +2119,8 @@ void init_starchart_mini (void)
   /* End struct initialization... */
 
   /* Scroll to last known coords */
-  starchart_mini_scroll_zone_to(game_get_last_x_coord(game_state),
-				game_get_last_y_coord(game_state));
+  starchart_mini_scroll_zone_to (gwp_game_state_get_last_x_coord(game_state),
+				 gwp_game_state_get_last_y_coord(game_state));
 }
 
 void starchart_scroll_to(gint cx, gint cy)
@@ -2134,7 +2134,7 @@ void starchart_mini_scroll_zone_to(gint cx, gint cy)
   gint trans_x, trans_y;
   GnomeCanvasItem * zone = starchart_mini_get_zone();
   gdouble x1, y1, x2, y2;
-  gdouble zoom = game_get_starchart_zoom(game_state);
+  gdouble zoom = gwp_game_state_get_starchart_zoom(game_state);
 
   /* First we do some convertions */
   x = ((cx - 500) * 0.05) / zoom; /* 1/20 -> relation of the two starcharts */
@@ -2335,7 +2335,7 @@ void starchart_open_extra_planet_panels (void)
   gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_PLANET_PAGE);
 
   /* Show the panels!! (or not)  */
-  if (! game_is_extra_panel_open(game_state)) {
+  if (! gwp_game_state_get_extra_panel_open(game_state)) {
     starchart_open_extra_panels ();
   } else {
     starchart_close_extra_panels ();
@@ -2352,7 +2352,7 @@ void starchart_open_extra_ship_panels (void)
   gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
 
   /* Show the panels!! (or not)  */
-  if (! game_is_extra_panel_open(game_state)) {
+  if (! gwp_game_state_get_extra_panel_open(game_state)) {
     starchart_open_extra_panels ();
   } else {
     starchart_close_extra_panels ();
@@ -2380,7 +2380,7 @@ void starchart_open_extra_panels (void)
   gtk_widget_show(GTK_WIDGET(gds_panel));
 
   /* Register new panel state */
-  game_set_extra_panel_open (game_state, TRUE);
+  gwp_game_state_set_extra_panel_open (game_state, TRUE);
 }
 
 void starchart_close_extra_panels(void)
@@ -2397,7 +2397,7 @@ void starchart_close_extra_panels(void)
 
   /* Register new panel state */
   if (game_state) {
-    game_set_extra_panel_open (game_state, FALSE);
+    gwp_game_state_set_extra_panel_open (game_state, FALSE);
   }
 }
 
@@ -2513,7 +2513,7 @@ void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)
 
 void starchart_show_planet_names (gboolean show)
 {
-  game_set_planet_names (game_state, show);
+  gwp_game_state_set_planet_names (game_state, show);
     
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
@@ -2526,7 +2526,7 @@ void starchart_show_planet_names (gboolean show)
 
 void starchart_show_scanner_area (gboolean show)
 {
-  game_set_scanner_area (game_state, show);
+  gwp_game_state_set_scanner_area (game_state, show);
     
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
@@ -2539,7 +2539,7 @@ void starchart_show_scanner_area (gboolean show)
 
 void starchart_show_minefields (gboolean show)
 {
-  game_set_minefields (game_state, show);
+  gwp_game_state_set_minefields (game_state, show);
 
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
@@ -2552,7 +2552,7 @@ void starchart_show_minefields (gboolean show)
 
 void starchart_show_ion_storms (gboolean show)
 {
-  game_set_ion_storms (game_state, show);
+  gwp_game_state_set_ion_storms (game_state, show);
 
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *)

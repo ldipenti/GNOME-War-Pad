@@ -5536,7 +5536,7 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
   PyObject *obj = NULL;  
   PyArg_ParseTuple (args, "O", &obj);
 
-  game_set_plugin_mgr (game_state, obj);
+  gwp_game_state_set_plugin_mgr (game_state, obj);
 
   Py_INCREF (obj);
   Py_INCREF (Py_None);
@@ -5549,7 +5549,7 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
 PyObject *
 _wrap_get_plugin_mgr (PyObject *self)
 {
-  return (PyObject *)game_get_plugin_mgr (game_state);
+  return (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
 }
 #line 5555 "src/gwp-py-mappings.c"
 

@@ -23,7 +23,7 @@
 #include "gwp-starbase.h"
 #include "race.h"
 #include "global.h"
-#include "game_state.h"
+#include "gwp-game-state.h"
 #include "gwp-planet.h"
 #include "gwp-beamspec.h"
 
@@ -447,7 +447,7 @@ gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
     /* If planet conditions are good for life... */
     if((gwp_planet_get_temperature(self) <= 84) &&
        (gwp_planet_get_temperature(self) >= 15)) {
-      if(game_get_race(game_state) != RACE_CRYSTALLINE) {
+      if(gwp_game_state_get_race(game_state) != RACE_CRYSTALLINE) {
 	ret = sin(3.14 * ((100.0 - (gdouble)gwp_planet_get_temperature(self))
 			  / 100.0)) * 100000;
       } else {
@@ -548,7 +548,7 @@ gint gwp_planet_what_is (GwpPlanet *self)
 {
   g_assert(GWP_IS_PLANET(self));
 
-  if(gwp_planet_get_owner(self) == game_get_race(game_state)) {
+  if(gwp_planet_get_owner(self) == gwp_game_state_get_race(game_state)) {
     return IS_MINE;
   } else {
     return IS_ENEMY; // FIXME: Check for allied planets!!!
@@ -641,7 +641,7 @@ gint gwp_planet_get_happiness_col_change (GwpPlanet *self)
 
   gint ret;
 
-  if(game_get_race(game_state) != RACE_CRYSTALLINE) {
+  if(gwp_game_state_get_race(game_state) != RACE_CRYSTALLINE) {
     ret = trunc((1000 - sqrt(gwp_planet_get_colonists (self)) -
 		 80 * gwp_planet_get_tax_colonists (self) -
 		 abs(50 - gwp_planet_get_temperature (self)) * 3 -

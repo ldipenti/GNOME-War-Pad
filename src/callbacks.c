@@ -29,7 +29,7 @@
 #include <gnome.h>
 
 #include "global.h"
-#include "game_state.h"
+#include "gwp-game-state.h"
 #include "game_mgr.h"
 #include "callbacks.h"
 #include "support.h"
@@ -66,22 +66,22 @@ starchart_event_key                    (GtkWidget       *widget,
       break;
       /* Scrolling Events */
     case GDK_w:
-      if (!game_is_extra_panel_open(game_state))
+      if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(0, -SCROLL);
       handled = TRUE;
       break;
     case GDK_s:
-      if (!game_is_extra_panel_open(game_state))
+      if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(0, SCROLL);
       handled = TRUE;
       break;
     case GDK_a:
-      if (!game_is_extra_panel_open(game_state))
+      if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(-SCROLL, 0);
       handled = TRUE;
       break;
     case GDK_d:
-      if (!game_is_extra_panel_open(game_state))
+      if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(SCROLL, 0);
       handled = TRUE;
       break;
@@ -231,7 +231,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
     gint offset_x, offset_y;
 
     /* Check if extra panels are closed, panning is deactivated when open */
-    if (!game_is_extra_panel_open(game_state)) {
+    if (!gwp_game_state_get_extra_panel_open(game_state)) {
       
       /* Set drag cursor */
       if(!panning) {
@@ -295,7 +295,7 @@ void on_game_mgr_play_game (GtkWidget *widget,
 {
   GnomeIconList *iconlist =
     (GnomeIconList *)lookup_widget("game_mgr_iconlist");
-  GameState *state = (GameState *) 
+  GwpGameState *state = (GwpGameState *) 
     gnome_icon_list_get_icon_data(iconlist,
 				  game_mgr_get_icon_idx_selected());
 
@@ -339,7 +339,7 @@ void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 
   /* Double-click enters the game */
   if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
-    game_mgr_play_game((GameState *)
+    game_mgr_play_game((GwpGameState *)
 		       gnome_icon_list_get_icon_data(iconlist, 
 						     icon_idx));
     return;
@@ -439,18 +439,18 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 {
   GtkWidget *iconlist = NULL;
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
-  GameState *state = NULL;
+  GwpGameState *state = NULL;
   GList *selections = NULL;
 
   iconlist = lookup_widget("game_mgr_iconlist");
   selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
   if(selections) {
-    state = (GameState *) 
+    state = (GwpGameState *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 				  (gint)g_list_nth_data(selections, 0));
     g_assert(state != NULL);
 
-    if(game_mgr_properties_dlg_fill(state->settings)) {
+    if(game_mgr_properties_dlg_fill(state)) {
 
       /* 
 	 Connect callback to OK button, so that works as 
@@ -466,7 +466,8 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 			   _("Edit Game Properties"));
 
       /* Update 'Unpack' button status */
-      if(vp_can_unpack(game_get_dir(state), game_get_race(state))) {
+      if(vp_can_unpack(gwp_game_state_get_dir(state), 
+		       gwp_game_state_get_race(state))) {
 	GtkWidget *btn_unpack =
 	  lookup_widget("game_mgr_btn_unpack");
 	gtk_widget_set_sensitive(btn_unpack, TRUE);
@@ -495,7 +496,7 @@ void on_game_mgr_delete_game (GtkWidget *widget,
 			      gpointer user_data)
 {
   GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
-  GameState *state = NULL;
+  GwpGameState *state = NULL;
   GList *selections = NULL;
   
   selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
@@ -506,11 +507,11 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     GtkWidget *warn;
     gchar *game_name;
 
-    state = (GameState *) 
+    state = (GwpGameState *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 				    icon_idx);
     g_assert(state != NULL);
-    game_name = g_strdup(game_get_name(state));
+    game_name = g_strdup(gwp_game_state_get_name(state));
     game_mgr_game_name_mangle(game_name);
 
     /* Are you sureeee? */
@@ -531,7 +532,9 @@ void on_game_mgr_delete_game (GtkWidget *widget,
       gconf_client_suggest_sync(gwp_gconf, NULL);
 
       /* Free memory from GameState struct */
-      game_state_free(state);
+      /* FIXME!!: Destroy current GwpGameState object */
+      /*game_state_free(state);*/
+
       /* Remove icon */
       gnome_icon_list_remove(GNOME_ICON_LIST(iconlist),
 			     icon_idx);
@@ -700,10 +703,10 @@ void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
 
   if(gtk_check_menu_item_get_active(menuitem)) {
     gtk_widget_show(btn_bar);
-    game_set_toolbar(game_state, TRUE);
+    gwp_game_state_set_toolbar(game_state, TRUE);
   } else {
     gtk_widget_hide(btn_bar);
-    game_set_toolbar(game_state, FALSE);
+    gwp_game_state_set_toolbar(game_state, FALSE);
   }
 }
 
@@ -713,7 +716,7 @@ void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 {
   gboolean show = gtk_check_menu_item_get_active(menuitem);
 
-  if (game_get_starchart_zoom(game_state) >= 1.0) {
+  if (gwp_game_state_get_starchart_zoom(game_state) >= 1.0) {
     starchart_show_planet_names (show);
   }
 }
@@ -879,7 +882,7 @@ void on_ships_list_row_activated (GtkTreeView *ships_l,
     update_ship_panel_with (ship);
 
     /* Do extra work only if needed */
-    if (game_is_extra_panel_open(game_state)) {
+    if (gwp_game_state_get_extra_panel_open(game_state)) {
       gtk_notebook_set_current_page (extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
       gtk_notebook_set_current_page (mini, MINI_SHIP_PAGE);
 

@@ -23,7 +23,7 @@
 #include "gwp-ship.h"
 #include "race.h"
 #include "mission.h"
-#include "game_state.h"
+#include "gwp-game-state.h"
 
 GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self);
 GwpEngSpec * gwp_ship_get_engspec (GwpShip *self);
@@ -468,7 +468,7 @@ gchar * gwp_ship_get_mission_name (GwpShip *self) /* TESTME */
   if (gwp_ship_get_mission(self) != MISSION_SPECIAL) {
     ret = g_string_new (mission_get_name(gwp_ship_get_mission(self)));
   } else {
-    ret = g_string_new (mission_special_get_name(game_get_race(game_state)));
+    ret = g_string_new (mission_special_get_name(gwp_game_state_get_race(game_state)));
   }
 
   return ret->str;
@@ -737,7 +737,7 @@ gboolean gwp_ship_is_mine(GwpShip *self)
 {
   g_assert(GWP_IS_SHIP(self));
 
-  if(gwp_ship_get_owner(self) == game_get_race(game_state)) {
+  if(gwp_ship_get_owner(self) == gwp_game_state_get_race(game_state)) {
     return TRUE;
   } else {
     return FALSE;

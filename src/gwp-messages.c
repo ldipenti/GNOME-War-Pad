@@ -21,6 +21,7 @@
 
 #include "global.h"
 #include "gwp-messages.h"
+#include "gwp-game-state.h"
 
 #define WORKING_PATH "/home/werdge/planets/vpwork1/"
 #define TMPTXTLENG 65535
@@ -95,8 +96,8 @@ if( DEBUGOUTPUT ) g_message("DEBUG: constructor called" );
   self->priv->msgs.m = NULL;
   self->priv->tmptxt = (char *)malloc(TMPTXTLENG*sizeof(char));
   self->priv->currMsg = 0;
-  self->pub->msgindex = (gint *)malloc(game_get_turn_number(game_state)*sizeof(gint));
-  self->pub->msgexists = (gboolean *)malloc(game_get_turn_number(game_state)*sizeof(gboolean));
+  self->pub->msgindex = (gint *)malloc(gwp_game_state_get_turn_number(game_state)*sizeof(gint));
+  self->pub->msgexists = (gboolean *)malloc(gwp_game_state_get_turn_number(game_state)*sizeof(gboolean));
   self->pub->msgnmb = 0;
 if( DEBUGOUTPUT ) g_message("DEBUG: constructor finished" );
   /* g_message("GwpMessages init"); */
@@ -288,26 +289,26 @@ if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny called" );
 //    strcat( filename, g_strdup_printf("MDATA%d.DAT", game_get_race(game_state)) );
     strcat( filename, "MDATA" );
     filename[strlen(filename)+1] = '\0';
-    if( game_get_race(game_state) < 10 )
-        filename[strlen(filename)+0] = game_get_race(game_state) + 48;
+    if( gwp_game_state_get_race(game_state) < 10 )
+        filename[strlen(filename)+0] = gwp_game_state_get_race(game_state) + 48;
     else
-        filename[strlen(filename)+0] = game_get_race(game_state) + 55;
+        filename[strlen(filename)+0] = gwp_game_state_get_race(game_state) + 55;
     strcat( filename, ".DAT" );
-    testfile = fopen( game_get_full_path(game_state, filename), "rb" );
-    g_message( "### Trying '%s'", game_get_full_path(game_state, filename) );
+    testfile = fopen( gwp_game_state_get_full_path(game_state, filename), "rb" );
+    g_message( "### Trying '%s'", gwp_game_state_get_full_path(game_state, filename) );
 
     /* If not worked, check for lowercase */
     if (! testfile) {
       GString *lc = g_string_new(filename);
       filename = g_string_down(lc)->str;
-      testfile = fopen( game_get_full_path(game_state, filename), "rb" );
-      g_message( "### Trying '%s'", game_get_full_path(game_state, filename) );
+      testfile = fopen( gwp_game_state_get_full_path(game_state, filename), "rb" );
+      g_message( "### Trying '%s'", gwp_game_state_get_full_path(game_state, filename) );
       g_string_free(lc, FALSE);
     }
     
     if( testfile ) {
       fclose( testfile );
-      gwp_messages_readFile( self, game_get_full_path(game_state, filename) );
+      gwp_messages_readFile( self, gwp_game_state_get_full_path(game_state, filename) );
       free( filename );
 if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny finished" );
       return( EXIT_SUCCESS );
