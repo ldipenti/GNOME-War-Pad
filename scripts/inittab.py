@@ -13,27 +13,18 @@ import gwp
 # To-Do:
 # -----
 # * Check for user' plugin directory
+##
 class PluginManager:
     __module__ = 'gwp'
 
     # Private attributes
     __key_hooks = {}
     __plugins_registered = []
-    __plugins_available = []
+    plugins_available = []
     
     def __init__(self):
-        plugins_dir = gwp.plugins_get_dir()
-        for plugin in os.listdir(plugins_dir + '/'):
-            execfile (plugins_dir + '/' + plugin)
-        # Check the plugins and add them to the available plugins list
-        for obj in dir():
-            try:
-                if (isinstance(eval(obj), gwp.Plugin)):
-                    self.__plugins_available.append(obj)
-            except AttributeError:
-                # Ignore if 'obj' is not an instance
-                pass
-
+        pass
+    
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
             self.__key_hooks[event["string"]]()
@@ -113,5 +104,18 @@ if __name__ == "__main__":
     gwp.__dict__["PluginManager"] = PluginManager
     gwp.__dict__["Plugin"] = Plugin
     # Initialize a PluginManager and pass it to GameState in C
-    gwp.set_plugin_mgr (gwp.PluginManager ())
+    pm = gwp.PluginManager ()
+    gwp.set_plugin_mgr (pm)
 
+    plugins_dir = gwp.plugins_get_dir()
+    for plugin in os.listdir(plugins_dir + '/'):
+        execfile (plugins_dir + '/' + plugin)
+        # Check the plugins and add them to the available plugins list
+    for obj in dir():
+        try:
+            if (isinstance(eval(obj), gwp.Plugin)):
+                pm.plugins_available.append(eval(obj))
+        except AttributeError:
+            # Ignore if 'obj' is not an instance
+            pass
+            
