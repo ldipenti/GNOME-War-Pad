@@ -7,6 +7,7 @@ import os
 import os.path
 import gtk
 import gwp
+import re
 
 #######
 # Plugin manager class
@@ -150,7 +151,19 @@ if __name__ == "__main__":
     plugins_dir = gwp.plugins_get_dir()
     for plugin in os.listdir(plugins_dir + '/'):
         execfile (plugins_dir + '/' + plugin)
-        # Check the plugins and add them to the available plugins list
+
+    # Load user plugins
+    p = re.compile('^.*\.py$', re.IGNORECASE)
+    user_dir = os.path.expanduser('~/.gwp/plugins')
+    if (os.path.exists(user_dir)):
+        for plugin in os.listdir(user_dir + '/'):
+            if not p.match(plugin) == None:
+                execfile (user_dir + '/' + plugin)
+    else:
+        # Print some informational message
+        print "If you want to use your own plugins, you should place them on '%s'" % user_dir
+
+    # Check the plugins and add them to the available plugins list
     for obj in dir():
         try:
             if (isinstance(eval(obj), gwp.Plugin)):
@@ -158,22 +171,3 @@ if __name__ == "__main__":
         except AttributeError:
             # Ignore if 'obj' is not an instance
             pass
-
-    # Check for user plugins
-    user_dir = os.path.expanduser('~/.gwp/plugins')
-    if (os.path.exists(user_dir)):
-        for plugin in os.listdir(user_dir + '/'):
-            execfile (user_dir + '/' + plugin)
-            # Check the plugins and add them to the available plugins list
-        for obj in dir():
-            try:
-                if (isinstance(eval(obj), gwp.Plugin)):
-                    pm.add_plugin_available(eval(obj))
-            except AttributeError:
-                # Ignore if 'obj' is not an instance
-                pass
-    else:
-        # Print some informational message
-        print "If you want to use your own plugins, you should place them on '%s'" % user_dir
-
-    
