@@ -940,9 +940,15 @@
   (return-type "gint")
 )
 
-(define-method get_tax_rate
+(define-method get_tax_rate_colonists
   (of-object "GwpPlanet")
-  (c-name "gwp_planet_get_tax_rate")
+  (c-name "gwp_planet_get_tax_rate_colonists")
+  (return-type "gint")
+)
+
+(define-method get_tax_rate_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_rate_natives")
   (return-type "gint")
 )
 

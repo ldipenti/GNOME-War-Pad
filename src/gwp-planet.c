@@ -855,7 +855,7 @@ gint gwp_planet_get_tax_collected_colonists_max (GwpPlanet *self)
   gint ret;
 
   if(gwp_planet_get_happiness_colonists(self) > 30) {
-    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * (gwp_planet_get_tax_rate(self)/100);
+    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * (gwp_planet_get_tax_rate_colonists(self)/100);
   } else {
     ret = 0;
   }
@@ -880,7 +880,7 @@ gint gwp_planet_get_tax_collected_colonists(GwpPlanet *self)
   /* If colonists are too few...we cannot collect all the money */
   if (gwp_planet_get_colonists(self) < ret) {
     ret = gwp_planet_get_colonists(self) * 
-      (gwp_planet_get_tax_rate(self)/100);
+      (gwp_planet_get_tax_rate_colonists(self)/100);
   }
 
   return ret;
@@ -901,7 +901,7 @@ gint gwp_planet_get_tax_collected_natives_max (GwpPlanet *self)
     ret = ((gdouble)gwp_planet_get_natives(self)/100) * 
       ((gdouble)gwp_planet_get_tax_natives(self)/10) * 
       ((gdouble)gwp_planet_get_natives_spi(self)/5) * 
-      (gwp_planet_get_tax_rate(self)/100);
+      (gwp_planet_get_tax_rate_natives(self)/100);
   } else {
     ret = 0;
   }
@@ -925,7 +925,7 @@ gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
   /* If colonists are too few...we cannot collect all the money */
   if (gwp_planet_get_colonists(self) < ret) {
     ret = gwp_planet_get_colonists(self) * 
-      (gwp_planet_get_tax_rate(self) / 100);
+      (gwp_planet_get_tax_rate_natives(self) / 100);
   }
   return ret;
 }
@@ -1427,18 +1427,33 @@ gwp_planet_get_mining_rate (GwpPlanet *self)
 }
 
 /**
- * Returns the planet's tax rate depending on its owner and natives.
+ * Returns the planet's tax rate for colonists
  *
  * @return the planet's tax rate in percentage.
  */
 gint
-gwp_planet_get_tax_rate (GwpPlanet *self)
+gwp_planet_get_tax_rate_colonists (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  gint owner = gwp_planet_get_owner (self);
+  gint taxrate = gwp_game_state_get_host_tax_rate (game_state, owner);
+  
+  return taxrate;
+}
+
+/**
+ * Returns the planet's tax rate for natives
+ *
+ * @return the planet's tax rate in percentage.
+ */
+gint
+gwp_planet_get_tax_rate_natives (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
   enum natives natives = gwp_planet_get_natives_race (self);
-  gint owner = gwp_planet_get_owner (self);
-  gint taxrate = gwp_game_state_get_host_tax_rate (game_state, owner);
+  gint taxrate = gwp_planet_get_tax_rate_colonists (self);
   
   if (natives == NATIVE_INSECTOID)
     taxrate *= 2;
