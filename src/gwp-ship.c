@@ -24,7 +24,7 @@ struct _GwpShipPrivate {
   gboolean dispose_has_run;
 
   gboolean known;
-  /* guchar fcode[4]; */ /* max 3 chars */
+  gint owner; /* range 1..11 */
   GString *fcode; /* max 3 chars */
   
   gint16 x_to_waypoint; /* distance to x, y waypoints */
@@ -152,6 +152,7 @@ static void gwp_ship_init (GTypeInstance  *instance,
   self->priv->dispose_has_run = FALSE;
 
   /* Private members init */
+  self->priv->owner = 0;
   self->priv->known = FALSE;
   self->priv->fcode = g_string_new("GWP");
 
@@ -248,6 +249,19 @@ void gwp_ship_set_known (GwpShip *self, gboolean is_known)
 {
   g_assert (GWP_IS_SHIP(self));
   self->priv->known = is_known;
+}
+
+gint gwp_ship_get_owner (GwpShip *self)
+{
+  g_assert(GWP_IS_SHIP(self));
+  return self->priv->owner;
+}
+
+void gwp_ship_set_owner (GwpShip *self, gint owner)
+{
+  g_assert (GWP_IS_SHIP(self));
+  g_assert (owner >= 0 && owner <= 12);
+  self->priv->owner = owner;
 }
 
 GString *gwp_ship_get_fcode (GwpShip *self)

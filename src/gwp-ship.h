@@ -58,6 +58,9 @@ GwpShip *gwp_ship_new (void);
 gboolean gwp_ship_is_known (GwpShip *self);
 void gwp_ship_set_known (GwpShip *self, gboolean is_known);
 
+gint gwp_ship_get_owner (GwpShip *self);
+void gwp_ship_set_owner (GwpShip *self, gint owner);
+
 GString *gwp_ship_get_fcode (GwpShip *self);
 void gwp_ship_set_fcode (GwpShip *self, GString *fcode);
 

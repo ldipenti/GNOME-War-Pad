@@ -24,7 +24,6 @@ struct _GwpFlyingObjectPrivate {
   gboolean dispose_has_run;
   gint heading; /* range 0..360 */
   gint speed; /* range 0..9, sometimes can be negative (set by the host) */
-  gint owner; /* range 1..11 */
   GString *name;
 };
 
@@ -66,7 +65,6 @@ static void gwp_fo_init (GTypeInstance *instance,
   /* Attributes initialization */
   self->priv->heading = 0;
   self->priv->speed = 0;
-  self->priv->owner = 0;
   self->priv->name = g_string_new("");
   g_message("GwpFlyingObject initialized");
 }
@@ -134,19 +132,6 @@ void gwp_fo_set_speed (GwpFlyingObject *self, gint speed)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->speed = speed;
-}
-
-gint gwp_fo_get_owner (GwpFlyingObject *self)
-{
-  g_assert(GWP_IS_FLYING_OBJECT(self));
-  return self->priv->owner;
-}
-
-void gwp_fo_set_owner (GwpFlyingObject *self, gint owner)
-{
-  g_assert (GWP_IS_FLYING_OBJECT(self));
-  g_assert (owner >= 0 && owner <= 12);
-  self->priv->owner = owner;
 }
 
 GString * gwp_fo_get_name (GwpFlyingObject *self)
