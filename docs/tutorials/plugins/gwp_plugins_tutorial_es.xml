@@ -402,8 +402,10 @@ if __name__ == '__main__':
 </programlisting>
 </informalexample>
 
-      <para>Este código es muy común para probar modulos mientras se
-      los crea, nosotros lo usaremos sólo aquí, ya que en los plugins habrá una
+      <para>Este código es muy común para probar módulos mientras
+      están en desarrollo, ya sea que
+      posean funciones sueltas o clases, nosotros lo usaremos sólo
+      aquí, ya que en los plugins habrá una
       forma distinta de instanciarlos y llamarlos.</para>
 
       <para>¿Por qué esta sentencia if en concreto es un truco? Los
@@ -463,6 +465,7 @@ if __name__ == '__main__':
       <command>salir</command> son las que se ejecutarán al presionar
       los botones respectivamente.</para>
 
+      <para><ulink url="example1_00.py">example1.py</ulink></para>
 
     </section>
   </chapter>
