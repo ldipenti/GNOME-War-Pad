@@ -43,8 +43,10 @@ GSList * engspec_get_list (void);
 GSList * beamspec_get_list (void);
 GSList * torpspec_get_list (void);
 
-void set_plugin_mgr(void);
-void get_plugin_mgr(void);
+GSList * plugins_get_dir (void);
+
+void set_plugin_mgr(void *);
+void * get_plugin_mgr(void);
 
 #endif /* USE_PYTHON */
 

@@ -76,6 +76,13 @@ _wrap_planet_get_list (PyObject *self)
   return ret;
 }
 %%
+override plugins_get_dir noargs
+static PyObject *
+_wrap_plugins_get_dir (PyObject *self)
+{
+  return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
+}
+%%
 override set_plugin_mgr
 PyObject *
 _wrap_set_plugin_mgr (PyObject *self, PyObject *args)

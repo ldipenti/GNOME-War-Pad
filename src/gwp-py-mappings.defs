@@ -3093,14 +3093,22 @@
   (return-type "GSList*")
 )
 
+(define-function plugins_get_dir
+  (c-name "plugins_get_dir")
+  (return-type "GSList*")
+)
+
 (define-function set_plugin_mgr
   (c-name "set_plugin_mgr")
   (return-type "none")
+  (parameters
+    '("void" "*")
+  )
 )
 
 (define-function get_plugin_mgr
   (c-name "get_plugin_mgr")
-  (return-type "none")
+  (return-type "void*")
 )
 
 
