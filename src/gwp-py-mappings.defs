@@ -444,6 +444,24 @@
   (return-type "gint")
 )
 
+(define-method calculate_allowed_factories
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_calculate_allowed_factories")
+  (return-type "gint")
+)
+
+(define-method calculate_allowed_mines
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_calculate_allowed_mines")
+  (return-type "gint")
+)
+
+(define-method calculate_allowed_defenses
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_calculate_allowed_defenses")
+  (return-type "gint")
+)
+
 (define-method is_known
   (of-object "GwpPlanet")
   (c-name "gwp_planet_is_known")

@@ -1012,6 +1012,65 @@ gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
   return ret;
 }
 
+/**
+ * Calculates the maximum factories allowed for construction.
+ *
+ * @param self a GwpPlanet
+ * @return The number of factories
+ */
+gint 
+gwp_planet_calculate_allowed_factories (GwpPlanet *self)
+{
+  gint clans = gwp_planet_get_colonists (self);
+  gint ret;
+
+  if (clans <= 100) {
+    ret = clans;
+  } else {
+    ret = 100 + sqrt (clans - 100);
+  }
+  return ret;
+}
+
+/**
+ * Calculates the maximum mineral mines allowed for construction.
+ *
+ * @param self a GwpPlanet
+ * @return The number of mines
+ */
+gint 
+gwp_planet_calculate_allowed_mines (GwpPlanet *self)
+{
+  gint clans = gwp_planet_get_colonists (self);
+  gint ret;
+
+  if (clans <= 200) {
+    ret = clans;
+  } else {
+    ret = 200 + sqrt (clans - 200);
+  }
+  return ret;
+}
+
+/**
+ * Calculates the maximum defense posts allowed for construction.
+ *
+ * @param self a GwpPlanet
+ * @return The number of defenses
+ */
+gint 
+gwp_planet_calculate_allowed_defenses (GwpPlanet *self)
+{
+  gint clans = gwp_planet_get_colonists (self);
+  gint ret;
+
+  if (clans <= 50) {
+    ret = clans;
+  } else {
+    ret = 50 + sqrt (clans - 50);
+  }
+  return ret;
+}
 
 /**********************************/
 /* Get/Set method implementations */
