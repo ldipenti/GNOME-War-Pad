@@ -83,6 +83,7 @@ void starchart_set_default_cursor(void);
 void starchart_set_pan_cursor(void);
 void starchart_scroll_to(gint cx, gint cy);
 void starchart_mini_scroll_zone_to(gint cx, gint cy);
+void  starchart_mini_update_zone_size (void);
 void starchart_set_status(gchar *msg);
 void starchart_mini_set_planet_img(GwpPlanet *planet);
 void starchart_mini_set_ship_img(GwpShip *ship);

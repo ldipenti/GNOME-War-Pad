@@ -100,14 +100,7 @@ starchart_event_button_release         (GtkWidget       *widget,
                                         GdkEventButton  *event,
                                         gpointer         user_data)
 {
-  gint x, y;
-
   starchart_set_default_cursor();
-
-  x = (gint) event->x;
-  y = (gint) event->y;
-
-  starchart_mini_scroll_zone_to(x, y);
 
   return TRUE;
 }
@@ -120,8 +113,6 @@ starchart_event_button                 (GtkWidget       *widget,
   gint x, y, q;
   gdouble wx, wy;
   GSList *planets_nearby, *ships_nearby;
-/*   static GnomeCanvasItem *ps_planet = NULL, *s_planet = NULL; */
-/*   static GnomeCanvasItem *ps_ship = NULL, *s_ship = NULL; */
   static GwpPlanet *ps_planet = NULL, *s_planet = NULL;
   static GwpShip *ps_ship = NULL, *s_ship = NULL;
   static gboolean loaded = FALSE;
@@ -709,12 +700,18 @@ void on_button_zoom_in_clicked (GtkWidget *widget,
 				gpointer user_data)
 {
   starchart_zoom_in(starchart_get_canvas());
+
+  /* update mini starchart zone size */
+  starchart_mini_update_zone_size ();
 }
 
 void on_button_zoom_out_clicked (GtkWidget *wodget,
 				 gpointer user_data)
 {
   starchart_zoom_out(starchart_get_canvas());
+
+  /* update mini starchart zone size */
+  starchart_mini_update_zone_size ();
 }
 
 /* Zoom in */
@@ -723,6 +720,9 @@ on_zoom_in (GtkWidget *widget,
 	    gpointer user_data)
 {
   starchart_zoom_in (starchart_get_canvas());
+
+  /* update mini starchart zone size */
+  starchart_mini_update_zone_size ();
 }
 
 /* Zoom out */
@@ -731,6 +731,9 @@ on_zoom_out (GtkWidget *widget,
 	    gpointer user_data)
 {
   starchart_zoom_out (starchart_get_canvas());
+
+  /* update mini starchart zone size */
+  starchart_mini_update_zone_size ();
 }
 
 /**

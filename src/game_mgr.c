@@ -645,7 +645,6 @@ void game_mgr_play_game(GwpGameState *state)
 				      because of the turn number
 				      loading code. */
   init_starchart(gwp);
-  init_starchart_mini();
 
   /* Get the widgets ready */
   gtk_label_set_text (race, 
@@ -668,6 +667,10 @@ void game_mgr_play_game(GwpGameState *state)
   gtk_widget_hide (wait_notice);
   gtk_widget_hide(game_mgr);
   gtk_widget_show(gwp);
+
+  /* Initialize mini starchart *after* showing widgets so that I can grab
+     the allocation's sizes correctly */
+  init_starchart_mini();
 }
 
 gint game_mgr_get_icon_idx_selected(void)

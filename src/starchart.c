@@ -2382,7 +2382,19 @@ void init_ship_panel (void)
 void init_starchart_mini (void) 
 {
   GnomeCanvasItem *zone;
-  
+  gdouble ax, ay;
+
+  /* Do pending stuff on GTK */  
+  while (gtk_events_pending())
+    gtk_main_iteration();
+
+  /* Get starchart's viewport actual size */
+  ax = GTK_WIDGET (starchart_get_canvas())->allocation.width;
+  ay = GTK_WIDGET (starchart_get_canvas())->allocation.height;
+  /* 1/20 relation between starchart and mini */
+  ax *= (0.05 / gwp_game_state_get_starchart_zoom(game_state));
+  ay *= (0.05 / gwp_game_state_get_starchart_zoom(game_state));
+
   /* Starchart struct initialization */
   starchart_mini_set_canvas((GnomeCanvas *) lookup_widget ("starchart_mini"));
   starchart_mini_set_grp_root(gnome_canvas_root (starchart_mini_get_canvas()));
@@ -2402,13 +2414,18 @@ void init_starchart_mini (void)
   zone = gnome_canvas_item_new (starchart_mini_get_grp_root(),
 				GNOME_TYPE_CANVAS_RECT,
 				"outline_color", "grey",
-				"x1", 0.0, "y1", 0.0,
-				"x2", 20.0, "y2", 20.0,
-				"fill_color_rgba", UNIVERSE_COLOR_A, NULL);
+				"x1", 0.0, 
+				"y1", 0.0,
+				"x2", ax, 
+				"y2", ay,
+				"fill_color_rgba", UNIVERSE_COLOR_A, 
+				NULL);
   gnome_canvas_item_raise_to_top(zone);
 
   starchart_mini_set_zone(zone);
-  /* End struct initialization... */
+
+  /* update mini starchart zone size */
+  starchart_mini_update_zone_size ();
 
   /* Scroll to last known coords */
   starchart_mini_scroll_zone_to (gwp_game_state_get_last_x_coord(game_state),
@@ -2418,6 +2435,7 @@ void init_starchart_mini (void)
 void starchart_scroll_to(gint cx, gint cy)
 {
   gnome_canvas_scroll_to(starchart_get_canvas(), cx, cy);
+  starchart_mini_scroll_zone_to (cx, cy);
 }
 
 void starchart_mini_scroll_zone_to(gint cx, gint cy)
@@ -2427,12 +2445,22 @@ void starchart_mini_scroll_zone_to(gint cx, gint cy)
   GnomeCanvasItem * zone = starchart_mini_get_zone();
   gdouble x1, y1, x2, y2;
   gdouble zoom = gwp_game_state_get_starchart_zoom(game_state);
+  gdouble ax, ay;
 
-  /* First we do some convertions */
-  x = ((cx - 500) * 0.05) / zoom; /* 1/20 -> relation of the two starcharts */
-  y = ((cy - 500) * 0.05) / zoom;
+  /* Do pending stuff on GTK */  
+  while (gtk_events_pending())
+    gtk_main_iteration();
 
   gnome_canvas_item_get_bounds(zone, &x1, &y1, &x2, &y2);
+
+  /* Zone's height and width */
+  ax = x2 - x1;
+  ay = y2 - y1;
+
+  /* First we do some convertions */
+  x = ((cx - ax) * 0.05) / zoom; /* 1/20 -> relation of the two starcharts */
+  y = ((cy - ay) * 0.05) / zoom;
+
   item_x = x2 - ((x2 - x1) / 2);
   item_y = y2 - ((y2 - y1) / 2);
 
@@ -2440,23 +2468,74 @@ void starchart_mini_scroll_zone_to(gint cx, gint cy)
   trans_y = y - item_y;
 
   /* Bounds checks */
-  if(trans_x + item_x < 10) {
-    final_x = 10 - item_x;
-  } else if(trans_x + item_x > 90) {
-    final_x = 90 - item_x;
+  if(trans_x + item_x < (ax/2)) {
+    final_x = (ax/2) - item_x;
+  } else if(trans_x + item_x > (100-(ax/2))) {
+    final_x = (100-(ax/2)) - item_x;
   } else {
     final_x = trans_x;
   }
-  if(trans_y + item_y < 10) {
-    final_y = 10 - item_y;
-  } else if(trans_y + item_y > 90) {
-    final_y = 90 - item_y;
+  if(trans_y + item_y < (ay/2)) {
+    final_y = (ay/2) - item_y;
+  } else if(trans_y + item_y > (100-(ay/2))) {
+    final_y = (100-(ay/2)) - item_y;
   } else {
     final_y = trans_y;
   }
 
   /* Now move the darn item :-) */
   gnome_canvas_item_move(zone, final_x, final_y);
+}
+
+/**
+ * Updates zone height and width, to be used in case of window resizing,
+ * or zoom change.
+ */
+void 
+starchart_mini_update_zone_size (void)
+{
+  GnomeCanvasItem * zone = starchart_mini_get_zone();
+  GValue *gx1 = g_value_init(g_malloc0(sizeof(GValue)), G_TYPE_DOUBLE);
+  GValue *gx2 = g_value_init(g_malloc0(sizeof(GValue)), G_TYPE_DOUBLE);
+  GValue *gy1 = g_value_init(g_malloc0(sizeof(GValue)), G_TYPE_DOUBLE);
+  GValue *gy2 = g_value_init(g_malloc0(sizeof(GValue)), G_TYPE_DOUBLE);
+  gdouble zoom = gwp_game_state_get_starchart_zoom(game_state);
+  gdouble ax, ay;
+  gdouble item_x, item_y;
+  gdouble x1, y1, x2, y2;
+
+  /* Do pending stuff on GTK */  
+  while (gtk_events_pending())
+    gtk_main_iteration();
+
+  /* Get starchart's viewport actual size */
+  ax = GTK_WIDGET (starchart_get_canvas())->allocation.width;
+  ay = GTK_WIDGET (starchart_get_canvas())->allocation.height;
+
+  /* 1/20 relation between starchart and mini */
+  ax *= (0.05 / zoom);
+  ay *= (0.05 / zoom);
+
+  /* Get the center of the mini zone */
+  gnome_canvas_item_get_bounds(zone, &x1, &y1, &x2, &y2);
+  item_x = x2 - ((x2 - x1) / 2);
+  item_y = y2 - ((y2 - y1) / 2);
+
+  /* Change the size */
+  g_value_set_double(gx1, item_x - (ax/2));
+  g_value_set_double(gy1, item_y - (ay/2));
+  g_value_set_double(gx2, item_x + (ax/2));
+  g_value_set_double(gy2, item_y + (ay/2));
+  g_object_set_property ((GObject *)zone, "x1", gx1);
+  g_object_set_property ((GObject *)zone, "y1", gy1);
+  g_object_set_property ((GObject *)zone, "x2", gx2);
+  g_object_set_property ((GObject *)zone, "y2", gy2);
+
+  /* Free stuff */
+  g_free (gx1);
+  g_free (gx2);
+  g_free (gy1);
+  g_free (gy2);
 }
 
 void starchart_set_status(gchar *msg)
