@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import pygtk
 import gtk
 import gtk.glade

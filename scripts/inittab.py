@@ -11,8 +11,12 @@ import re
 import inspect
 import sys
 
+# I don't understand why gwp_config.py has to exist even if I don't import it
 sys.path.append(gwp.get_system_plugins_dir())
-import gwp_config
+import gettext
+_ = gettext.gettext
+
+
 
 #######
 # Plugin manager class
