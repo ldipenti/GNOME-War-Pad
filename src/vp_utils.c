@@ -28,9 +28,6 @@
 #include "game_state.h"
 #include "vp_utils.h"
 #include "vp_types.h"
-/* #include "ship.h" */
-/* #include "planet.h" */
-/* #include "base.h" */
 #include "starchart.h"
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
@@ -171,7 +168,7 @@ GList * load_xyplan (gchar * xyplan_file)
     tmp = g_malloc (sizeof (VpXYPlanReg));
     *tmp = coords;
 
-    // Append object to list
+    /* Append object to list */
     coords_list = g_list_append (coords_list, tmp);
   }
   fclose (xyplan);
@@ -188,10 +185,10 @@ GHashTable * load_target (gint race)
   gint16 i, target_nr;
   gchar buffer[34];
   
-  // Initialize hash
+  /* Initialize hash */
   target_list = g_hash_table_new (NULL, NULL);
   
-  // Initialize file name
+  /* Initialize file name */
   target_file = g_string_new ("TARGET");
   target_file =
     g_string_append (target_file, g_strdup_printf ("%d.DAT", race));
@@ -209,7 +206,7 @@ GHashTable * load_target (gint race)
   rewind (target);
   fread (&target_nr, sizeof (gint16), 1, target);
 
-  // read registers
+  /* read registers */
   for (i = 0; i < target_nr; i++) {
     fread (buffer, 34, 1, target);
     
@@ -242,10 +239,10 @@ GHashTable * load_target (gint race)
     target_reg.name[19] = buffer[33];
     target_reg.name[20] = '\0';
     
-    // Assign new memory for new target
+    /* Assign new memory for new target */
     tmp = g_malloc (sizeof (VpTargetReg));
     *tmp = target_reg;
-    // Add new target
+    /* Add new target */
     g_hash_table_insert (target_list, (gpointer)(gint)tmp->id, tmp);
   }
   fclose (target);
@@ -281,11 +278,11 @@ GList * load_shipxy (gint race)
   while (!feof (shipxy)) {
     fread (&coords, sizeof (VpShipXYReg), 1, shipxy);
     
-    // Copy ship to tmp variable to assign it in GList
+    /* Copy ship to tmp variable to assign it in GList */
     tmp = g_malloc (sizeof (VpShipXYReg));
     *tmp = coords;
     
-    // Append object to list
+    /* Append object to list */
     coords_list = g_list_append (coords_list, tmp);
   }
   fclose (shipxy);
@@ -319,10 +316,10 @@ GHashTable * load_sdata (void)
   sdata_dat_file =
     g_string_new (g_strdup_printf ("SHIP%d.DAT", game_get_race(game_state)));
   
-  // Init Ship Hash
+  /* Init Ship Hash */
   ship_list = g_hash_table_new (NULL, NULL);
   
-  // Load Ship Data
+  /* Load Ship Data */
   if (g_file_test (game_get_full_path(game_state, sdata_dis_file->str),
       G_FILE_TEST_EXISTS)) {
     if (g_file_test (game_get_full_path(game_state, sdata_dat_file->str),
@@ -330,7 +327,7 @@ GHashTable * load_sdata (void)
       stat (game_get_full_path(game_state, sdata_dis_file->str), &dis_data);
       stat (game_get_full_path(game_state, sdata_dat_file->str), &dat_data);
       
-      // Check what file to use
+      /* Check what file to use */
       if (dis_data.st_mtime > dat_data.st_mtime) {
 	if ((sdata =
 	     fopen (game_get_full_path(game_state, sdata_dis_file->str),
@@ -359,7 +356,7 @@ GHashTable * load_sdata (void)
 	stat (game_get_full_path(game_state, sdata_dis_file->str), &dis_data);
 	stat (game_get_full_path(game_state, sdata_dat_file->str), &dat_data);
 	
-	// Check what file to use
+	/* Check what file to use */
 	if (dis_data.st_mtime > dat_data.st_mtime) {
 	  if ((sdata =
 	       fopen (game_get_full_path(game_state, sdata_dis_file->str),
@@ -396,18 +393,6 @@ GHashTable * load_sdata (void)
     s = gwp_ship_new();
 
     /* Load Ship Data on struct */
-    /*
-    ship.id = getWord (buffer);
-    ship.owner = getWord (buffer + 2);
-    ship.fcode[0] = buffer[4];
-    ship.fcode[1] = buffer[5];
-    ship.fcode[2] = buffer[6];
-    ship.warp_factor = getWord (buffer + 7);
-    ship.x_to_waypoint = getWord (buffer + 9);
-    ship.y_to_waypoint = getWord (buffer + 11);
-    ship.x_position = getWord (buffer + 13);
-    ship.y_position = getWord (buffer + 15);
-    */
     gwp_object_set_id (GWP_OBJECT(s), getWord(buffer));
     gwp_ship_set_owner (s, getWord(buffer + 2));
 
@@ -426,13 +411,6 @@ GHashTable * load_sdata (void)
     gwp_object_set_x_coord (GWP_OBJECT(s), getWord(buffer + 13));
     gwp_object_set_y_coord (GWP_OBJECT(s), getWord(buffer + 15));
 
-    /*
-    ship.engine_type = getWord (buffer + 17);
-    ship.hull_type = getWord (buffer + 19);
-    ship.beams_type = getWord (buffer + 21);
-    ship.beams = getWord (buffer + 23);
-    ship.fighter_bays = getWord (buffer + 25);
-    */
     gwp_ship_set_engines_type (s, getWord(buffer + 17));
     gwp_ship_set_hull_type (s, getWord(buffer + 19));
     gwp_ship_set_beams_type (s, getWord(buffer + 21));
@@ -440,15 +418,6 @@ GHashTable * load_sdata (void)
     gwp_ship_set_fighter_bays (s, getWord(buffer + 25));
 
     /* Check if its a torp or carrier ship */
-    /*
-    if (ship.fighter_bays == 0)	{
-      ship.torpedoes_type = getWord (buffer + 27);
-      ship.torpedoes_launchers = getWord (buffer + 31);
-    } else {
-      ship.torpedoes_type = 0;
-      ship.torpedoes_launchers = 0;
-    }
-    */
     if (gwp_ship_get_fighter_bays (s) == 0) {
       gwp_ship_set_torps_type (s, getWord(buffer + 27));
       gwp_ship_set_torps (s, getWord(buffer + 29));
@@ -459,15 +428,6 @@ GHashTable * load_sdata (void)
       gwp_ship_set_torps_launchers (s, 0);      
     }
 
-    /*
-    ship.torpedoes_fighters = getWord (buffer + 29);
-    ship.mission = getWord (buffer + 33);
-    ship.primary_enemy = getWord (buffer + 35);
-    ship.tow_mission_ship_id = getWord (buffer + 37);
-    ship.damage = getWord (buffer + 39);
-    ship.crew = getWord (buffer + 41);
-    ship.colonists = getWord (buffer + 43);
-    */
     gwp_ship_set_mission (s, getWord(buffer + 33));
     gwp_ship_set_primary_enemy (s, getWord(buffer + 35));
     gwp_ship_set_tow_ship_id (s, getWord(buffer + 37));
@@ -475,29 +435,6 @@ GHashTable * load_sdata (void)
     gwp_ship_set_crew (s, getWord(buffer + 41));
     gwp_ship_set_colonists (s, getWord(buffer + 43));
 
-    /*
-    ship.name[0] = buffer[45];
-    ship.name[1] = buffer[46];
-    ship.name[2] = buffer[47];
-    ship.name[3] = buffer[48];
-    ship.name[4] = buffer[49];
-    ship.name[5] = buffer[50];
-    ship.name[6] = buffer[51];
-    ship.name[7] = buffer[52];
-    ship.name[8] = buffer[53];
-    ship.name[9] = buffer[54];
-    ship.name[10] = buffer[55];
-    ship.name[11] = buffer[56];
-    ship.name[12] = buffer[57];
-    ship.name[13] = buffer[58];
-    ship.name[14] = buffer[59];
-    ship.name[15] = buffer[60];
-    ship.name[16] = buffer[61];
-    ship.name[17] = buffer[62];
-    ship.name[18] = buffer[63];
-    ship.name[19] = buffer[64];
-    ship.name[20] = '\0';
-    */
     name_tmp = g_malloc (sizeof(gchar)*21);
     for (idx = 0; idx <= 19; idx++) {
       name_tmp[idx] = buffer[45+idx];
@@ -506,28 +443,12 @@ GHashTable * load_sdata (void)
     gwp_object_set_name (GWP_OBJECT(s), g_string_new(name_tmp));
     g_free(name_tmp);
 
-    /*
-    ship.neutronium = getWord (buffer + 65);
-    ship.tritanium = getWord (buffer + 67);
-    ship.duranium = getWord (buffer + 69);
-    ship.molybdenum = getWord (buffer + 71);
-    ship.supplies = getWord (buffer + 73);
-    */
     gwp_ship_set_neutronium (s, getWord(buffer + 65));
     gwp_ship_set_tritanium (s, getWord(buffer + 67));
     gwp_ship_set_duranium (s, getWord(buffer + 69));
     gwp_ship_set_molybdenum (s, getWord(buffer + 71));
     gwp_ship_set_supplies (s, getWord(buffer + 73));
 
-    /*
-    ship.unload_neutronium = getWord (buffer + 75);
-    ship.unload_tritanium = getWord (buffer + 77);
-    ship.unload_duranium = getWord (buffer + 79);
-    ship.unload_molybdenum = getWord (buffer + 81);
-    ship.unload_colonists = getWord (buffer + 83);
-    ship.unload_supplies = getWord (buffer + 85);
-    ship.unload_planet_id = getWord (buffer + 87);
-    */
     gwp_ship_set_unload_neutronium (s, getWord(buffer + 75));
     gwp_ship_set_unload_tritanium (s, getWord(buffer + 77));
     gwp_ship_set_unload_duranium (s, getWord(buffer + 79));
@@ -536,15 +457,6 @@ GHashTable * load_sdata (void)
     gwp_ship_set_unload_supplies (s, getWord(buffer + 85));
     gwp_ship_set_unload_planet_id (s, getWord(buffer + 87));
 
-    /*
-    ship.transfer_neutronium = getWord (buffer + 89);
-    ship.transfer_tritanium = getWord (buffer + 91);
-    ship.transfer_duranium = getWord (buffer + 93);
-    ship.transfer_molybdenum = getWord (buffer + 95);
-    ship.transfer_colonists = getWord (buffer + 97);
-    ship.transfer_supplies = getWord (buffer + 99);
-    ship.transfer_ship_id = getWord (buffer + 101);
-    */
     gwp_ship_set_transfer_neutronium (s, getWord(buffer + 89));
     gwp_ship_set_transfer_tritanium (s, getWord(buffer + 91));
     gwp_ship_set_transfer_duranium (s, getWord(buffer + 93));
@@ -553,10 +465,6 @@ GHashTable * load_sdata (void)
     gwp_ship_set_transfer_supplies (s, getWord(buffer + 99));
     gwp_ship_set_transfer_ship_id (s, getWord(buffer + 101));
 
-    /*
-    ship.intercept_mission_ship_id = getWord (buffer + 103);
-    ship.megacredits = getWord (buffer + 105);
-    */
     gwp_ship_set_intercept_ship_id (s, getWord(buffer + 103));
     gwp_ship_set_megacredits (s, getWord(buffer + 105));
     
@@ -582,11 +490,6 @@ GHashTable * load_sdata (void)
     */    
 
     /* Add ship to list */
-    /*
-    g_hash_table_insert (ship_list, 
-			 (gpointer)(gint)ship_get_id (ship_reg), 
-			 ship_reg);
-    */
     g_hash_table_insert (ship_list, 
 			 (gpointer)(gint)gwp_object_get_id (GWP_OBJECT(s)), s);
   }
