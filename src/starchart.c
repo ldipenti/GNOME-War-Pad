@@ -1723,6 +1723,9 @@ void init_starchart (GtkWidget * gwp)
   g_slist_foreach (storm_list, (GFunc) draw_ion_storm, NULL);
   g_message ("...ion storms loaded!");
 
+  /* Set scanner range on the top and hide it */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area()));
+  starchart_show_scanner_area (FALSE);
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
   /* Planets and ships */
@@ -1733,9 +1736,6 @@ void init_starchart (GtkWidget * gwp)
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_ion_storms()));
   /* Set Planet names on the top */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planet_names()));
-  /* Set scanner range on the top and hide it */
-  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area()));
-  starchart_show_scanner_area (FALSE);
 
   /* Various bindings */
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
