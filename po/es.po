@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GWP 0.2.8\n"
 "POT-Creation-Date: 2003-06-30 02:31-0300\n"
-"PO-Revision-Date: 2003-06-30 02:29-0300\n"
+"PO-Revision-Date: 2003-07-09 01:24-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "<b>Fábricas</b>"
 
 #: src/gwp.glade.h:19
 msgid "<b>Fighter Bays:</b>"
-msgstr "<b>Lanzaderas de cazas:</b>"
+msgstr "<b>Lanzaderas:</b>"
 
 #: src/gwp.glade.h:20
 msgid "<b>Fighters:</b>"
