@@ -875,12 +875,12 @@ gint gwp_planet_get_tax_collected_colonists(GwpPlanet *self)
 {
   gint ret;
 
-  ret = gwp_planet_get_tax_collected_colonists_max (self);
-
   /* If colonists are too few...we cannot collect all the money */
   if (gwp_planet_get_colonists(self) < ret) {
     ret = gwp_planet_get_colonists(self) * 
       (gwp_planet_get_tax_rate_colonists(self)/100);
+  } else {
+    ret = gwp_planet_get_tax_collected_colonists_max (self);
   }
 
   return ret;
@@ -901,7 +901,7 @@ gint gwp_planet_get_tax_collected_natives_max (GwpPlanet *self)
     ret = ((gdouble)gwp_planet_get_natives(self)/100) * 
       ((gdouble)gwp_planet_get_tax_natives(self)/10) * 
       ((gdouble)gwp_planet_get_natives_spi(self)/5) * 
-      (gwp_planet_get_tax_rate_natives(self)/100);
+      (gdouble)(gwp_planet_get_tax_rate_natives(self)/100);
   } else {
     ret = 0;
   }
@@ -920,12 +920,12 @@ gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
 {
   gint ret;
 
-  ret = gwp_planet_get_tax_collected_natives_max (self);
-
   /* If colonists are too few...we cannot collect all the money */
   if (gwp_planet_get_colonists(self) < ret) {
     ret = gwp_planet_get_colonists(self) * 
-      (gwp_planet_get_tax_rate_natives(self) / 100);
+      (gdouble)(gwp_planet_get_tax_rate_natives(self) / 100);
+  } else {
+    ret = gwp_planet_get_tax_collected_natives_max (self);
   }
   return ret;
 }
