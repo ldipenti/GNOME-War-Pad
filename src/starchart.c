@@ -53,6 +53,8 @@ starchart_boolean_notifications (GObject *obj, gpointer data)
     starchart_show_ion_storms (flag);
   } else if (strcmp(property, "planet-names") == 0) {
     starchart_show_planet_names (flag);
+  } else if (strcmp(property, "scanner-area") == 0) {
+    starchart_show_scanner_area (flag);
   }
 }
 
@@ -1710,9 +1712,8 @@ void init_starchart (GtkWidget * gwp)
   g_slist_foreach (storm_list, (GFunc) draw_ion_storm, NULL);
   g_message ("...ion storms loaded!");
 
-  /* Set scanner range on the top and hide it */
+  /* Set scanner range on the top */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area()));
-  starchart_show_scanner_area (FALSE);
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
   /* Planets and ships */
@@ -1766,7 +1767,7 @@ void init_starchart (GtkWidget * gwp)
   gtk_check_menu_item_set_active (menu_bool, flag_bool);
   starchart_show_planet_names (flag_bool);
 
-  /* Model events that starchart has to respond to. */
+  /* Model notifications that starchart view has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
 		    G_CALLBACK(starchart_boolean_notifications),
@@ -1779,6 +1780,10 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::planet-names",
 		    G_CALLBACK(starchart_boolean_notifications),
 		    (gpointer)"planet-names");
+  g_signal_connect (game_state,
+		    "property-changed::scanner-area",
+		    G_CALLBACK(starchart_boolean_notifications),
+		    (gpointer)"scanner-area");
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2598,8 +2603,6 @@ void starchart_show_planet_names (gboolean show)
 
 void starchart_show_scanner_area (gboolean show)
 {
-  gwp_game_state_set_scanner_area (game_state, show);
-    
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
 			    starchart_get_grp_scanner_area ());

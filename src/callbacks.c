@@ -729,11 +729,6 @@ on_view_grid_toggle (GtkCheckMenuItem *menuitem,
 void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 			      gpointer user_data)
 {
-/*   gboolean show = gtk_check_menu_item_get_active(menuitem); */
-
-/*   if (gwp_game_state_get_starchart_zoom(game_state) >= 1.0) { */
-/*     starchart_show_planet_names (show); */
-/*   } */
   g_object_set (game_state, 
 		"planet-names", gtk_check_menu_item_get_active(menuitem),
 		NULL);
@@ -743,7 +738,9 @@ void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
 				    gpointer user_data)
 {
-  starchart_show_scanner_area (gtk_check_menu_item_get_active(menuitem));
+  g_object_set (game_state, 
+		"scanner-area", gtk_check_menu_item_get_active(menuitem),
+		NULL);  
 }
 
 /* Hides/Shows the minefields on starchart */
