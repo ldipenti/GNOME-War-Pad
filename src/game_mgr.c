@@ -307,7 +307,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 
     /* Update it on GConf */
     game_mgr_delete_game(old_game_name);
-    gwp_game_state_save(state);
+    game_mgr_save_game(state);
 
     /* Update icon name */
     icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
@@ -348,7 +348,7 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
     gwp_game_state_set_last_coords (new_game, 1500, 1500);
 
     /* Save it on GConf */
-    gwp_game_state_save(new_game);
+    game_mgr_save_game(new_game);
 
     /* Add icon with data */
     game_mgr_add_icon(iconlist, new_game);
@@ -770,7 +770,55 @@ static void game_mgr_init_message_history (void)
 /* FIXME: This code below comes from the dead game_state.[ch] files, 
    it really belongs here, fix the function names please! */
 
-/* Deletes GConf Game entry... */
+/**
+ * Save game state data on GConf
+ */
+void game_mgr_save_game (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE (self));
+
+  gchar *name = g_strdup(gwp_game_state_get_name(self));
+  gchar *path;
+
+  game_mgr_game_name_mangle(name);
+  path = g_strconcat(GWP_GCONF_PATH"Games/",
+		     name,
+		     "/", NULL);
+
+  /* GameState data */
+  gconf_client_set_float(gwp_gconf, g_strconcat(path,"starchart_zoom", NULL),
+			 gwp_game_state_get_starchart_zoom(self), NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"turn_number",NULL),
+		       gwp_game_state_get_turn_number(self), NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"last_x_coord",NULL),
+		       gwp_game_state_get_last_x_coord(self), NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"last_y_coord",NULL),
+		       gwp_game_state_get_last_y_coord(self), NULL);
+  
+  /* GameSettings data */
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"player_email",NULL),
+			  gwp_game_state_get_player_email(self), NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"host_email",NULL),
+			  gwp_game_state_get_host_email(self), NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"game_dir",NULL),
+			  gwp_game_state_get_dir(self), NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"trn_dir",NULL),
+			  gwp_game_state_get_trn_dir(self), NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"rst_dir",NULL),
+			  gwp_game_state_get_rst_dir(self), NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"host_type",NULL),
+		       gwp_game_state_get_host_type(self), NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"race",NULL),
+		       gwp_game_state_get_race(self), NULL);
+  gconf_client_set_bool(gwp_gconf, g_strconcat(path,"toolbar",NULL),
+			gwp_game_state_get_toolbar(self), NULL);
+}
+
+
+/**
+ * Deletes GConf Game entry... 
+ *
+ */
 void game_mgr_delete_game(const gchar *name)
 {
   GSList *games, *entries, *p;
@@ -814,7 +862,7 @@ void game_mgr_close_game(GwpGameState *game_state)
     /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
     gwp_game_state_set_last_coords(game_state, x, y);
-    gwp_game_state_save(game_state);
+    game_mgr_save_game(game_state);
 
     /******************************/
     /* Clean up objects in memory */

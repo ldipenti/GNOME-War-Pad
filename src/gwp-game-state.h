@@ -73,7 +73,6 @@ GwpGameState *gwp_game_state_new (void);
 /**********************/
 gchar * gwp_game_state_get_full_path (GwpGameState *self, gchar *filename);
 void gwp_game_state_set_last_coords (GwpGameState *self, gint16 x, gint16 y);
-void gwp_game_state_save (GwpGameState *self);
 
 
 /*******************/
