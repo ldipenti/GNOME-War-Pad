@@ -101,11 +101,28 @@ static void gwp_location_class_init (GwpLocationClass *klass)
 /*
  * Public method implementations.
  */
+
+/**
+ * Instantiates a new location.
+ *
+ * A location is a way to group several objects in one place. More
+ * specifically, we are using locations to represent single starchart
+ * points where may exist more than one starship, it's a way to handle
+ * this cases more easy on the starchart.
+ * 
+ * @return The new instantiated GwpLocation.
+ */
 GwpLocation * gwp_location_new (void)
 {
   return g_object_new (gwp_location_get_type(), NULL);
 }
 
+/**
+ * Adds a GwpObject on the current GwpLocation.
+ *
+ * @param self the current location.
+ * @param obj the object to be added.
+ */
 void gwp_location_add_object (GwpLocation *self, GwpObject *obj)
 {
   g_assert(GWP_IS_LOCATION(self) && GWP_IS_OBJECT(obj));
@@ -113,6 +130,12 @@ void gwp_location_add_object (GwpLocation *self, GwpObject *obj)
   self->priv->obj_list = g_slist_append (self->priv->obj_list, obj);
 }
 
+/**
+ * Returns the number of objects on the current location.
+ *
+ * @param self the current location.
+ * @return The number of objects placed on the location.
+ */
 guint gwp_location_objects_nr (GwpLocation *self)
 {
   g_assert (GWP_IS_LOCATION(self));
@@ -120,6 +143,13 @@ guint gwp_location_objects_nr (GwpLocation *self)
   return g_slist_length (self->priv->obj_list);
 }
 
+/**
+ * Retrieve an object from the current location.
+ *
+ * @param self the current location.
+ * @param obj_nr the object index number.
+ * @return The GwpObject specified or NULL.
+ */
 GwpObject * gwp_location_get_object (GwpLocation *self, guint obj_nr)
 {
   g_assert (GWP_IS_LOCATION(self));
