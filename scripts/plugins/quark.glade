@@ -4,7 +4,7 @@
 <glade-interface>
 
 <widget class="GtkWindow" id="window1">
-  <property name="title" translatable="yes">Quark 0.1</property>
+  <property name="title" translatable="yes">Quark 0.15</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -267,6 +267,7 @@
 			      <child>
 				<widget class="GtkSpinButton" id="inc_colonists_tax">
 				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
 				  <property name="climb_rate">1</property>
 				  <property name="digits">0</property>
@@ -496,6 +497,7 @@
 			      <child>
 				<widget class="GtkSpinButton" id="inc_natives_tax">
 				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
 				  <property name="climb_rate">1</property>
 				  <property name="digits">0</property>
@@ -811,6 +813,7 @@
 				  <child>
 				    <widget class="GtkSpinButton" id="inc_fab">
 				      <property name="visible">True</property>
+				      <property name="sensitive">False</property>
 				      <property name="can_focus">True</property>
 				      <property name="climb_rate">1</property>
 				      <property name="digits">0</property>
@@ -886,6 +889,7 @@
 				  <child>
 				    <widget class="GtkSpinButton" id="inc_min">
 				      <property name="visible">True</property>
+				      <property name="sensitive">False</property>
 				      <property name="can_focus">True</property>
 				      <property name="climb_rate">1</property>
 				      <property name="digits">0</property>
@@ -961,6 +965,7 @@
 				  <child>
 				    <widget class="GtkSpinButton" id="inc_def">
 				      <property name="visible">True</property>
+				      <property name="sensitive">False</property>
 				      <property name="can_focus">True</property>
 				      <property name="climb_rate">1</property>
 				      <property name="digits">0</property>
