@@ -1,17 +1,30 @@
 This package was debianized by Lucas Di Pentima <lucas@lunix.com.ar> on
-Thu, 15 Apr 2004 15:29:52 -0300.
+Sat, 19 Mar 2005 15:29:52 -0300.
 
-It was downloaded from http://www.lunix.com.ar/~ldipenti/gwp/releases/packages
+It was downloaded from http://gwp.lunix.com.ar/releases/
 
-Upstream Author(s): Lucas Di Pentima <lucas@lunix.com.ar>
+Authors: Lucas Di Pentima
+         Sven Wergandt
+         Cristian Abalos
+         Nicolás D. César
 
 Copyright:
 
-This software is copyright (c) 2002-2005 by Lucas Di Pentima, LUNIX 
-Soluciones.
+  Copyright (C) 2002, 2004, 2004, 2005 Lucas Di Pentima
 
-You are free to distribute this software under the terms of the GNU 
-General Public License.
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of version 2 of the GNU General Public License as 
+  published by the Free Software Foundation.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Library General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 On Debian systems, the complete text of the GNU General Public License 
-can be found in /usr/share/common-licenses/GPL file.
+can be found in `/usr/share/common-licenses/GPL file'.
 

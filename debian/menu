@@ -1,3 +1,3 @@
-?package(gwp):needs=X11 section=Games/Strategy \
-  title="Gnome War Pad" command="/usr/bin/gwp" \
-  icon="/usr/share/pixmaps/gwp.png"
+?package(gwp):needs="X11" section="Games/Strategy" \
+  title="Gnome War Pad" command="/usr/games/gwp" \
+  icon="/usr/share/pixmaps/gwp.xpm"

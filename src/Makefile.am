@@ -78,3 +78,6 @@ gwp_LDADD =  \
 
 gladedir = $(datadir)/gwp
 glade_DATA = gwp.glade
+
+cacaculo:
+	python setup.py build $(COMPILE) $(gwp_LDADD)

@@ -1,7 +1,9 @@
 Authors:
 -------
-* Lucas Di Pentima <lucas@lunix.com.ar>: Main developer
-
+* Lucas Di Pentima <lucas@lunix.com.ar>: Main developer.
+* Sven Wergandt <summ@gmx.de>: VCR and Message Reader initial developments.
+* Cristian Abalos <abalosc75@yahoo.com.ar>: Quark and Magallanes plugins developer.
+* Nicolas Cesar <ncesar@lunix.com.ar>: Finder plugin enhancements.
 
 Other contributions:
 -------------------
@@ -13,4 +15,5 @@ Other contributions:
 * Kero van Gelder: I used his kunpack and kmaketurn GPL'd code.
 * Laura Gieco: Initial Spanish website translation.
 * Ricardo Burone <ricardo@kernel.com.ar>: Logo & splash images.
-
+* Rafael Riedel <rafaelriedel@gmail.com>: Starbases artwork.
+* David Botha: French translation

@@ -1,15 +1,15 @@
 Source: gwp
-Maintainer: Lucas Di Pentima (Tel: 54 342 4593122) <lucas@lunix.com.ar>
+Maintainer: Lucas Di Pentima <lucas@lunix.com.ar>
 Section: contrib/games
 Priority: optional
-Build-Depends: debhelper (>= 4.0.0), libgnome2-dev, python2.4-dev
-Standards-Version: 3.6.0
+Build-Depends: debhelper (>= 4.0.0), gnome-core-devel, python-dev, libpcre3-dev, libgtkglext1-dev, scrollkeeper, python-gtk2-dev
+Standards-Version: 3.6.1.1
 
 Package: gwp
-Architecture: i386-linux
+Architecture: i386
 Section: contrib/games
 Priority: optional
-Depends: python-gtk2, python2.4, ${shlibs:Depends}, ${misc:Depends}
+Depends: python-gtk2, python, python-glade2, ${shlibs:Depends}, ${misc:Depends}
 Description: A VGA Planets strategy game client for GNOME.
  GNOME War Pad is a VGA Planets client written in C for the GNOME
  desktop environment. It's design is very 'starchart centric',

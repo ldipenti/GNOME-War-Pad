@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #   Interactive Python-GTK Console
 #   Copyright (C), 1998 James Henstridge <james@daa.com.au>
 #

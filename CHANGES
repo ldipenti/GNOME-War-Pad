@@ -1,5 +1,36 @@
 Version 0.3.6 (released 03-01-2005):
-
+	* Bugfix: Updated credits on "About..." dialog.
+	* Bugfix: Fixed typo on PCRE flags.
+	* Feature: Added variables to store host configuration info on the 
+          game state manager.
+	* Feature: Added sensors sweep area to "scanner area" feature in 
+          a lughter blue color.
+	* Bugfix: tax rates taken from host config data, they were hardcoded
+	* Feature: New plugin! the Quark plugin is being written to help 
+          the player on maximizing the money and resources extraction 
+          on every planet. Thanks to Cristian!
+	* Bugfix: Several problems on the mini starchart were solved, it's 
+          still buggy but now it works nicer.
+	* Bugfix: Unowned planets with ships of our own orbiting it didn't 
+          showed the data on the planet. Thanks Cristian!
+	* Bugfix: Several tax collection miscalculations solved.
+	* Feature: Starchart now can be controlled from plugins (in a 
+          veeery basic way).
+	* Bugfix: ship selection signal emission wasn't in the correct place.
+	* Feature: Several enhancements on GwpGameState, including being 
+          exported to Python scripts.
+	* Feature: Now plugins can use GWP's UI slots to integrate their 
+          own piece of UI in the main window.
+	* Feature: New plugin 'NotificationArea', to allow other plugins 
+          to publish their own alerts to the user. Added some utility 
+          methods to PluginManager to get reference of active plugins, check 
+          plugin states, etc.
+	* Feature: Enhancements on the signal notification system between 
+          plugins.
+	* Bugfix: missing help figure, added.
+	* Feature: Finder plugin enhancements! many ways to search through 
+          planets and ships.
+	
 Version 0.3.5 (released 01-02-2005):
 
 	* Bugfix: enemy planets reached by scanners or visualized from

@@ -1,54 +1,8 @@
 gwp (0.3.6-1) unstable; urgency=low
 
-  * Release 0.3.6
+  * Upstream release 0.3.6
+  * Debianization, closes: #300455
 
- -- Lucas Di Pentima (Tel: 54 342 4593122) <lucas@lunix.com.ar>  mar, 01 mar 2005 00:26:08 -0300
+ -- Lucas Di Pentima <lucas@lunix.com.ar>  mar, 01 mar 2005 00:26:08 -0300
 
-gwp (0.3.5-1) unstable; urgency=low
-
-  * Release 0.3.5
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  dom, 02 ene 2005 02:31:31 -0300
-
-gwp (0.3.4-1) unstable; urgency=low
-
-  * Release 0.3.4
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  lun, 08 nov 2004 00:29:30 -0300
-
-gwp (0.3.3-1) unstable; urgency=low
-
-  * Release 0.3.3
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  lun, 18 oct 2004 00:12:27 -0300
-
-gwp (0.3.2-1) unstable; urgency=low
-
-  * Release 0.3.2
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  Wed, 07 Jul 2004 01:13:23 -0300
-
-gwp (0.3.1-1) unstable; urgency=low
-
-  * Release 0.3.1
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  Sun, 06 Jun 2004 18:58:48 -0300
-
-gwp (0.3.0-1) unstable; urgency=low
-
-  * Release 0.3.0
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  Mon, 24 May 2004 01:00:55 -0300
-
-gwp (0.2.13-1) unstable; urgency=low
-  
-  * Release 0.2.13
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  Mon, 03 Apr 2004 03:09:00 -0300
-
-gwp (0.2.12-1) unstable; urgency=low
-
-  * Initial Release.
-
- -- Lucas Di Pentima <lucas@lunix.com.ar>  Thu, 15 Apr 2004 15:29:52 -0300
 

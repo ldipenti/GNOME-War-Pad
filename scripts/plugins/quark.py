@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import sys
 sys.path.append(gwp.get_system_plugins_dir())
 ##import vp_utils

@@ -72,7 +72,7 @@ echo "gwp ($VERSION-1) unstable; urgency=low" >> $TMPFILE
 echo                                          >> $TMPFILE
 echo "  * Release $VERSION"                   >> $TMPFILE
 echo                                          >> $TMPFILE
-echo " -- Lucas Di Pentima <lucas@lunix.com.ar>  `date +'%a, %d %b %Y %T %z'`" >> $TMPFILE
+echo " -- Lucas Di Pentima (Tel: 54 342 4593122) <lucas@lunix.com.ar>  `date +'%a, %d %b %Y %T %z'`" >> $TMPFILE
 echo                                          >> $TMPFILE
 cat $TMPFILE debian/changelog > debian/changelog.tmp
 mv debian/changelog.tmp debian/changelog
@@ -102,13 +102,22 @@ cvs -q tag Release-`echo $VERSION | tr . _`
 # API
 rm -rf docs/api/html/* ; doxygen Doxyfile ; cd docs/api/ ; tar -cvzf ../../gwp-$VERSION-api.tar.gz html/ ; cd -
 # DEB
-fakeroot dpkg-buildpackage
+#fakeroot dpkg-buildpackage
+cp gwp-$VERSION.tar.gz ../gwp_$VERSION.orig.tar.gz
+cd ..
+tar xvzf gwp_$VERSION.orig.tar.gz
+cd gwp-$VERSION
+dpkg-buildpackage -rfakeroot -S -us -uc -klucas@lunix.com.ar
+cd ..
+debsign -klucas@lunix.com.ar gwp_$VERSION-1_source.changes
+cd gwp
 ####
 
 ### Package uploading
 echo "Uploading packages..."
 scp gwp-$VERSION.tar.gz $URL_SITE"/releases"
 scp gwp-$VERSION-api.tar.gz $URL_SITE"/releases/documentation"
-scp ../gwp_"$VERSION"-1_i386.deb $URL_SITE"/releases/packages"
 scp -r docs/api $URL_SITE"/docs"
+#scp ../gwp_"$VERSION"-1_i386.deb $URL_SITE"/releases/packages"
+echo "Generate as root the deb package for unstable: pbuilder build <.dsc file>"
 ###
