@@ -50,6 +50,8 @@ class Quark(gwp.Plugin):
     
     #--------------------------------------------------------------------------        
     def quark_planet_selected(self, treeselection, data=None):
+        """Manejador del evento que ocurre al seleccionar un planeta en la
+        ventana del plugin."""
         (model, iter) = treeselection.get_selected()
         try:
             pid = self.store_planets.get_value(iter,0)
@@ -65,6 +67,7 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------    
     def planet_load_data(self, id):
+        """Carga los datos del planeta en la ventana."""
         p = gwp.planet_get_by_id(id)
         txt =  '<big><b>' + p.get_name()+ ' (' + str(p.get_id())+ ')'+'</b></big>'
         self.lbl_planet_name.set_markup(txt)
@@ -119,10 +122,12 @@ class Quark(gwp.Plugin):
         self.store_minerals.append(fila)
         
         ##renderer.set_property('background','green')
-        self.report_load(p)
+        self.report_generate(p)
 
     #--------------------------------------------------------------------------    
-    def report_load(self, p):
+    def report_generate(self, p):
+        """Realiza todos los chequeos para mostrar el reporte en la ventana de
+        existir algo que informar."""
         self.textbuffer = self.tv_notification.get_buffer()
         self.report_verify_happyness(p)
         #self.is_miner_planet(p)
@@ -133,28 +138,46 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------
     def report_verify_happyness(self, p):
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
-        taxes con modificador negativo"""
-        
-        actual_income = p.get_tax_collected_natives()
-        actual_tax = p.get_tax_natives()
-        actual_change = p.get_happiness_nat_change()
+        taxes con modificador negativo. La salida es a la ventana"""
         txt = ""
-        if (actual_change < 0):
-            actual_happ = p.get_happiness_natives()
-            if (actual_happ + actual_change) < 31: # en 30 empieza la guerra civil
-                txt = "Natives will be in CIVIL WAR the next turn\n\n"
-            else:
-                if (actual_happ + actual_change) < 71: # en 70 los nativos dejan de pagar (Descontentos)
-                    txt = "Natives will be UNHAPPY the next turn\n\n"
+        future_happ = self.calculate_future_happyness(p)
+        if future_happ < 30: # en 29 empieza la guerra civil (kill each other)
+            txt = "Natives will be in CIVIL WAR the next turn\n\n"
+        else:
+            if future_happ < 70: # en 69 los nativos dejan de pagar (Descontentos)
+                txt = "Natives will be UNHAPPY the next turn\n\n"
         self.textbuffer.set_text(txt)
     
     #--------------------------------------------------------------------------
+    def na_verify_happyness(self, p): # FIXME NOTIFICATION AREA
+        """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
+        taxes con modificador negativo. Salida al area de notificacion"""
+        txt = ""
+        future_happ = self.calculate_future_happyness(p)
+        if future_happ < 30: # en 29 empieza la guerra civil (kill each other)
+            txt = "\nNatives will be in CIVIL WAR the next turn\n"
+        else:
+            if future_happ < 70: # en 69 los nativos dejan de pagar (Descontentos)
+                txt = "\nNatives will be UNHAPPY the next turn\n"
+        if txt:
+            print txt
+        else:
+            print "Happyness dentro de los parametros en el planeta " + p.get_name()
+        
+    #--------------------------------------------------------------------------
+    def calculate_future_happyness(self, p):
+        """Devuelve el valor de happyness del siguiente turno"""
+        actual_change = p.get_happiness_nat_change()
+        actual_happ = p.get_happiness_natives()
+        return (actual_happ + actual_change)
+       
+    #--------------------------------------------------------------------------
     def report_verify_colonists(self, p):
         """ Verifica si existen suficiente cantidad de colonos para:
-       * cobrarles el maximo posible a los nativos 
-       * sacar el max posible de supplies si hay Bovinoids
-       * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
-       """
+        * cobrarles el maximo posible a los nativos 
+        * sacar el max posible de supplies si hay Bovinoids
+        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
+        """
         txt = ""
         if p.get_natives(): # SI no hay nativos no tiene sentido esto  
             #Hago todos los calculos
@@ -196,7 +219,56 @@ class Quark(gwp.Plugin):
             self.textbuffer.set_text(txt + "\n")
 
     #--------------------------------------------------------------------------
+    def na_verify_colonists(self, p): #FIXME NOTIFICATION AREA
+        """ Verifica si existen suficiente cantidad de colonos para:
+        * cobrarles el maximo posible a los nativos 
+        * sacar el max posible de supplies si hay Bovinoids
+        * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
+        """
+        txt = ""
+        if p.get_natives(): # SI no hay nativos no tiene sentido esto  
+            #Hago todos los calculos
+            col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
+            col_faltan_sup = self.calculate_missing_colonists_supplies(p)
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            dif = max_i - p.get_tax_collected_natives()
+            if dif < 0:
+                dif = 0
+            
+            # REPORTA "Faltan colonos"
+            if col_faltan_tax or col_faltan_sup:
+                if col_faltan_tax > col_faltan_sup:
+                    col_faltan = col_faltan_tax
+                else:
+                    col_faltan = col_faltan_sup
+                txt = "Need "+ str(col_faltan) +" clans of colonists!\n"
+
+            # REPORTA "Puedo cobrar mas"
+            if dif:
+                txt = txt + "You can collect " + str(max_i) + " MC "
+                txt = txt  + "(" + str(dif) +" more)\n"
+                
+                # Falta ver si pagan poco y conviene construir fab y minas
+
+            # REPORTA "Puedo sacar mas supplies"
+            if col_faltan_sup:
+                txt = txt + "You can obtain " + str(col_faltan_sup) + " supplies "
+                dif = col_faltan_sup - p.get_colonists()
+                txt = txt + "(" + str(dif) +" more)\n"
+
+        
+        chequear_construcciones = 1
+        if chequear_construcciones:
+            #FALTA controlar si las fab y minas estan en valores optimos.
+            pass
+        #Se imprime!
+        if txt:
+           print txt + "\n"
+
+    #--------------------------------------------------------------------------
     def calculate_missing_colonists_tax_natives(self, p):
+        """devuelve la cantidad de colonos que faltan para cobrar al maximo a
+        los nativos."""
         if (p.get_natives_race() <> 5): #Amorphous
             tax, max_i = self.calculate_max_income_from_natives(p)
             if max_i > p.get_tax_collected_natives():
@@ -230,6 +302,8 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def calculate_missing_colonists_supplies(self, p):
+        """Devuelve la cantidad de colonos que faltan para que los bovinoides
+        produzcan el maximo de supplies."""
         # Supplies Bovinoids
         if (p.get_natives_race() == 2): #Bovinoid
             sup = p.get_natives() / 100
@@ -242,19 +316,15 @@ class Quark(gwp.Plugin):
         return 0
 
     #--------------------------------------------------------------------------
-    def calculate_happ_state_natives(self, p):
-        actual_income = p.get_tax_collected_natives()
-        actual_tax = p.get_tax_natives()
-        actual_change = p.get_happiness_nat_change()
-        if (actual_change < 0):
-            actual_happ = p.get_happiness_natives()
-            if (actual_happ + actual_change) < 31: # en 30 empieza la guerra civil
-                return self.quark_utils.HAPP_STATE_UNHAPPY
-            else:
-                if (actual_happ + actual_change) < 71: # en 70 dejan de pagar (Descontentos)
-                    return self.quark_utils.HAPP_STATE_CIVIL_WAR
-        return self.quark_utils.HAPP_STATE_NONE
-
+    def conectar_planetas(self):
+        self.signals_id = []
+        for planeta in self.pl:
+            self.signals_id.append(planeta.connect("selected", self.na_generar))
+        
+    #--------------------------------------------------------------------------
+    def na_generar(self, p):
+        print "Planeta elegido: " + p.get_name()
+        self.na_verify_happyness(p)
             
     ###########################################################################        
     ################################## GUI ####################################
@@ -268,7 +338,8 @@ class Quark(gwp.Plugin):
         self.__initglade(self.fname)
         self.quark_utils.widgets_make_link(self)
         self._init_lists()
-        self.__create_gui()    
+        self.__create_gui()
+        self.conectar_planetas()
     
     #--------------------------------------------------------------------------
     def __create_gui(self):
@@ -384,6 +455,9 @@ class Quark(gwp.Plugin):
 
     # Cleaning up
     def unregister(self, pm):
+        #for signal in self.signals_id:
+        #    print signal
+        #    planeta.disconnect(signal)
         pass
 
     
