@@ -2078,7 +2078,6 @@
 				  <child>
 				    <widget class="GtkHScale" id="hscale_tax_colonists">
 				      <property name="visible">True</property>
-				      <property name="sensitive">False</property>
 				      <property name="can_focus">True</property>
 				      <property name="draw_value">True</property>
 				      <property name="value_pos">GTK_POS_RIGHT</property>
@@ -2086,7 +2085,7 @@
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
 				      <property name="adjustment">0 0 100 1 5 0</property>
-				      <signal name="format_value" handler="on_hscale_tax_format_value" last_modification_time="Thu, 05 Jun 2003 22:28:00 GMT"/>
+				      <signal name="format_value" handler="on_hscale_tax_colonists_format_value" last_modification_time="Wed, 06 Apr 2005 11:13:56 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -2165,7 +2164,6 @@
 				  <child>
 				    <widget class="GtkHScale" id="hscale_tax_natives">
 				      <property name="visible">True</property>
-				      <property name="sensitive">False</property>
 				      <property name="can_focus">True</property>
 				      <property name="draw_value">True</property>
 				      <property name="value_pos">GTK_POS_RIGHT</property>
@@ -2173,7 +2171,7 @@
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
 				      <property name="adjustment">0 0 100 1 5 0</property>
-				      <signal name="format_value" handler="on_hscale_tax_format_value" last_modification_time="Thu, 05 Jun 2003 22:37:00 GMT"/>
+				      <signal name="format_value" handler="on_hscale_tax_natives_format_value" last_modification_time="Wed, 06 Apr 2005 11:13:46 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
