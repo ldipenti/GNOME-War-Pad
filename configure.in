@@ -50,7 +50,46 @@ dnl Checks for library functions.
 
 dnl Checks for Additional stuffs.
 
+dnl ====================================
+dnl = Check for Python
+dnl ====================================
+AC_ARG_ENABLE(python,
+	[  --enable-python	Enable Python language support.],,
+	[enable_python="yes"])
 
+if test "yes" = "$enable_python"; then
+  AC_CHECK_PROG(python_val, python, true, false)
+  HAVE_PYTHON=1
+  AC_MSG_CHECKING(for Python)
+  if $python_val; then
+	PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
+	PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
+	changequote(<<, >>)dnl
+	PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
+	changequote([, ])dnl
+	if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+		PY_LIBS="-lpython$PY_VERSION"
+		PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+		PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+		PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
+		PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
+		AC_SUBST(PY_LIBS)
+		AC_SUBST(PY_LIB_LOC)
+		AC_SUBST(PY_CFLAGS)
+		AC_SUBST(PY_EXTRA_LIBS)
+		AC_DEFINE(USE_PYTHON, 1, Python support)
+		AC_MSG_RESULT([version $PY_VERSION])
+		HAVE_PYTHON="$PY_VERSION"
+	else
+		AC_MSG_RESULT([
+		  Can't find Python headers or libraries
+		  Continuing build without Python support.])
+	fi
+  fi
+fi
 
 dnl Languages which your application supports
 GETTEXT_PACKAGE=gwp
@@ -136,3 +175,17 @@ pixmaps/races/Makefile
 gwp.desktop
 ])
 
+echo
+echo \-\*\- GNOME War Pad \-\*\-
+echo
+echo Build Configuration:
+echo
+
+if test "$HAVE_PYTHON" != ""; then
+  echo - Python version $HAVE_PYTHON.
+else
+  echo - No Python support.
+fi
+
+echo
+echo configure complete, now type \'make\'

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-23 21:40-0300\n"
+"POT-Creation-Date: 2004-06-06 19:00-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -298,450 +298,462 @@ msgid "<b>Tri:</b>"
 msgstr ""
 
 #: src/gwp.glade.h:66
-msgid "<b>Visibility:</b>"
+msgid "<b>Turn #</b>"
 msgstr ""
 
 #: src/gwp.glade.h:67
-msgid "<b>Waypoint:</b>"
+msgid "<b>Visibility:</b>"
 msgstr ""
 
 #: src/gwp.glade.h:68
-msgid "ATT"
+msgid "<b>Waypoint:</b>"
 msgstr ""
 
 #: src/gwp.glade.h:69
-msgid "Available Races"
+msgid "ATT"
 msgstr ""
 
 #: src/gwp.glade.h:70
-msgid "Build ship"
+msgid "Available Races"
 msgstr ""
 
 #: src/gwp.glade.h:71
-msgid "Cargo"
+msgid "Build ship"
 msgstr ""
 
 #: src/gwp.glade.h:72
-msgid "Construction"
+msgid "Cargo"
 msgstr ""
 
 #: src/gwp.glade.h:73
-msgid "Data"
+msgid "Construction"
 msgstr ""
 
 #: src/gwp.glade.h:74
-msgid "Delete Game"
+msgid "Data"
 msgstr ""
 
 #: src/gwp.glade.h:75
-msgid "Delete this game configuration"
+msgid "Delete Game"
 msgstr ""
 
 #: src/gwp.glade.h:76
-msgid "Density:"
+msgid "Delete this game configuration"
 msgstr ""
 
 #: src/gwp.glade.h:77
-msgid "Edit Game"
+msgid "Density:"
 msgstr ""
 
 #: src/gwp.glade.h:78
-msgid "Edit Game Preferences"
+msgid "Edit Game"
 msgstr ""
 
 #: src/gwp.glade.h:79
-msgid "Estimated Growth"
+msgid "Edit Game Preferences"
 msgstr ""
 
 #: src/gwp.glade.h:80
-msgid "First message"
+msgid "Estimated Growth"
 msgstr ""
 
 #: src/gwp.glade.h:81
-msgid "GDS"
+msgid "First message"
 msgstr ""
 
 #: src/gwp.glade.h:82
-msgid "GNOME War Pad"
+msgid "GDS"
 msgstr ""
 
 #: src/gwp.glade.h:83
-msgid "GWP Game Manager"
+msgid "GNOME War Pad"
 msgstr ""
 
 #: src/gwp.glade.h:84
-msgid "Game Directory"
+msgid "GWP Game Manager"
 msgstr ""
 
 #: src/gwp.glade.h:85
-msgid "Game Name:"
+msgid "Game Directory"
 msgstr ""
 
 #: src/gwp.glade.h:86
-msgid "Game Properties"
+msgid "Game Name:"
 msgstr ""
 
 #: src/gwp.glade.h:87
-msgid "Generate a random Friendly Code"
+msgid "Game Properties"
 msgstr ""
 
 #: src/gwp.glade.h:88
-msgid "Global Defense Systems"
+msgid "Generate a random Friendly Code"
 msgstr ""
 
 #: src/gwp.glade.h:89
-msgid "Grid"
+msgid "Global Defense Systems"
 msgstr ""
 
 #: src/gwp.glade.h:90
-msgid "Ground:"
+msgid "Grid"
 msgstr ""
 
 #: src/gwp.glade.h:91
-msgid "Host Email:"
+msgid "Ground:"
 msgstr ""
 
 #: src/gwp.glade.h:92
-msgid "Host Type:"
+msgid "Host Email:"
 msgstr ""
 
 #: src/gwp.glade.h:93
-msgid "Last message"
+msgid "Host Type:"
 msgstr ""
 
 #: src/gwp.glade.h:94
-msgid "Loading..."
+msgid "Last message"
 msgstr ""
 
 #: src/gwp.glade.h:95
-msgid "Message Reader"
+msgid "Loading..."
 msgstr ""
 
 #: src/gwp.glade.h:96
-msgid "Message _reader"
+msgid "Message"
 msgstr ""
 
 #: src/gwp.glade.h:97
-msgid "Mini SC"
+msgid "Message Reader"
 msgstr ""
 
 #: src/gwp.glade.h:98
-msgid "Mining"
+msgid "Message _reader"
 msgstr ""
 
 #: src/gwp.glade.h:99
-msgid "Misc"
+msgid "Mini SC"
 msgstr ""
 
 #: src/gwp.glade.h:100
-msgid "NUK"
+msgid "Mining"
 msgstr ""
 
 #: src/gwp.glade.h:101
-msgid "New Game"
+msgid "Misc"
 msgstr ""
 
 #: src/gwp.glade.h:102
-msgid "Next message"
+msgid "NUK"
 msgstr ""
 
 #: src/gwp.glade.h:103
-msgid "Online Help"
+msgid "New Game"
 msgstr ""
 
 #: src/gwp.glade.h:104
-msgid "Orders"
+msgid "Next message"
 msgstr ""
 
 #: src/gwp.glade.h:105
-msgid "Other Settings"
+msgid "Online Help"
 msgstr ""
 
 #: src/gwp.glade.h:106
-msgid "PHost"
+msgid "Orders"
 msgstr ""
 
 #: src/gwp.glade.h:107
-msgid "Planet"
+msgid "Other Settings"
 msgstr ""
 
 #: src/gwp.glade.h:108
-msgid "Planet/SB"
+msgid "PHost"
 msgstr ""
 
 #: src/gwp.glade.h:109
-msgid "Play Game"
+msgid "Planet"
 msgstr ""
 
 #: src/gwp.glade.h:110
-msgid "Play Selected Game"
+msgid "Planet/SB"
 msgstr ""
 
 #: src/gwp.glade.h:111
-msgid "Player Email:"
+msgid "Play Game"
 msgstr ""
 
 #: src/gwp.glade.h:112
-msgid "Population"
+msgid "Play Selected Game"
 msgstr ""
 
 #: src/gwp.glade.h:113
-msgid "Previous message"
+msgid "Player Email:"
 msgstr ""
 
 #: src/gwp.glade.h:114
-msgid "RST Dir:"
+msgid "Population"
 msgstr ""
 
 #: src/gwp.glade.h:115
-msgid "Race Name:"
+msgid "Previous message"
 msgstr ""
 
 #: src/gwp.glade.h:116
-msgid "Race selected"
+msgid "RST Dir:"
 msgstr ""
 
 #: src/gwp.glade.h:117
+msgid "Race Name:"
+msgstr ""
+
+#: src/gwp.glade.h:118
+msgid "Race selected"
+msgstr ""
+
+#: src/gwp.glade.h:119
 msgid ""
 "Races available at this particular game directory, pick one by clicking on it"
 msgstr ""
 
-#: src/gwp.glade.h:118
+#: src/gwp.glade.h:120
 msgid "Resources (KT)"
 msgstr ""
 
-#: src/gwp.glade.h:119
+#: src/gwp.glade.h:121
 msgid "Select RST directory"
 msgstr ""
 
-#: src/gwp.glade.h:120
+#: src/gwp.glade.h:122
 msgid "Select TRN directory"
 msgstr ""
 
-#: src/gwp.glade.h:121
+#: src/gwp.glade.h:123
 msgid "Select game directory"
 msgstr ""
 
-#: src/gwp.glade.h:122
+#: src/gwp.glade.h:124
 msgid "Select if you want to edit this game's properties"
 msgstr ""
 
-#: src/gwp.glade.h:123
+#: src/gwp.glade.h:125
 msgid "Select if you want to play this game"
 msgstr ""
 
-#: src/gwp.glade.h:124
+#: src/gwp.glade.h:126
 msgid "Select this if the game is hosted by a PHost (alternative) host type"
 msgstr ""
 
-#: src/gwp.glade.h:125
+#: src/gwp.glade.h:127
 msgid "Select this if the game is hosted by a THost (classic) host type"
 msgstr ""
 
-#: src/gwp.glade.h:126
+#: src/gwp.glade.h:128
 msgid "Setup a new game"
 msgstr ""
 
-#: src/gwp.glade.h:127
+#: src/gwp.glade.h:129
 msgid "Ship"
 msgstr ""
 
-#: src/gwp.glade.h:128
+#: src/gwp.glade.h:130
 msgid "Ship Data"
 msgstr ""
 
-#: src/gwp.glade.h:129
+#: src/gwp.glade.h:131
 msgid "Ship List"
 msgstr ""
 
-#: src/gwp.glade.h:130
+#: src/gwp.glade.h:132
 msgid "Ships"
 msgstr ""
 
-#: src/gwp.glade.h:131
+#: src/gwp.glade.h:133
 msgid "Specifications"
 msgstr ""
 
-#: src/gwp.glade.h:132
+#: src/gwp.glade.h:134
 msgid "Starbase"
 msgstr ""
 
-#: src/gwp.glade.h:133
+#: src/gwp.glade.h:135
 msgid "Starbase Defense Systems"
 msgstr ""
 
-#: src/gwp.glade.h:134
+#: src/gwp.glade.h:136
 msgid "Starship"
 msgstr ""
 
-#: src/gwp.glade.h:135
+#: src/gwp.glade.h:137
 msgid "Status"
 msgstr ""
 
-#: src/gwp.glade.h:136
+#: src/gwp.glade.h:138
 msgid "THost"
 msgstr ""
 
-#: src/gwp.glade.h:137
+#: src/gwp.glade.h:139
 msgid "TRN Dir:"
 msgstr ""
 
-#: src/gwp.glade.h:138
+#: src/gwp.glade.h:140
 msgid "Taxes"
 msgstr ""
 
-#: src/gwp.glade.h:139
+#: src/gwp.glade.h:141
 msgid "Technology Levels"
 msgstr ""
 
-#: src/gwp.glade.h:140
+#: src/gwp.glade.h:142
 msgid "The directory where GWP will save its turns"
 msgstr ""
 
-#: src/gwp.glade.h:141
+#: src/gwp.glade.h:143
 msgid "The directory where GWP will search for host results"
 msgstr ""
 
-#: src/gwp.glade.h:142
+#: src/gwp.glade.h:144
 msgid "The host's email address, to send your turns"
 msgstr ""
 
-#: src/gwp.glade.h:143
+#: src/gwp.glade.h:145
 msgid "The label this game will have in the game manager"
 msgstr ""
 
-#: src/gwp.glade.h:144
+#: src/gwp.glade.h:146
 msgid "Toggle mine fields"
 msgstr ""
 
-#: src/gwp.glade.h:145
+#: src/gwp.glade.h:147
 msgid "Toggle planet names"
 msgstr ""
 
-#: src/gwp.glade.h:146
+#: src/gwp.glade.h:148
 msgid "Toggle toolbar"
 msgstr ""
 
-#: src/gwp.glade.h:147
+#: src/gwp.glade.h:149
 msgid "Total cargo capacity"
 msgstr ""
 
-#: src/gwp.glade.h:148
+#: src/gwp.glade.h:150
 msgid "Unpack the new RST file"
 msgstr ""
 
-#: src/gwp.glade.h:149
+#: src/gwp.glade.h:151
 msgid "Where the game data files reside"
 msgstr ""
 
-#: src/gwp.glade.h:150
+#: src/gwp.glade.h:152
 msgid "X"
 msgstr ""
 
-#: src/gwp.glade.h:151
+#: src/gwp.glade.h:153
 msgid "Y"
 msgstr ""
 
-#: src/gwp.glade.h:152
+#: src/gwp.glade.h:154
 msgid "Your email address, to send your turns to the host"
 msgstr ""
 
-#: src/gwp.glade.h:153
+#: src/gwp.glade.h:155
 msgid "Zoom in"
 msgstr ""
 
-#: src/gwp.glade.h:154
+#: src/gwp.glade.h:156
 msgid "Zoom out"
 msgstr ""
 
-#: src/gwp.glade.h:155
+#: src/gwp.glade.h:157
 msgid "_Delete"
 msgstr ""
 
-#: src/gwp.glade.h:156
+#: src/gwp.glade.h:158
 msgid "_Delete Game"
 msgstr ""
 
-#: src/gwp.glade.h:157
+#: src/gwp.glade.h:159
 msgid "_Edit"
 msgstr ""
 
-#: src/gwp.glade.h:158
+#: src/gwp.glade.h:160
 msgid "_Edit Game"
 msgstr ""
 
-#: src/gwp.glade.h:159
+#: src/gwp.glade.h:161
 msgid "_Ion storms"
 msgstr ""
 
-#: src/gwp.glade.h:160
+#: src/gwp.glade.h:162
 msgid "_Mine fields"
 msgstr ""
 
-#: src/gwp.glade.h:161
+#: src/gwp.glade.h:163
 msgid "_New"
 msgstr ""
 
-#: src/gwp.glade.h:162
+#: src/gwp.glade.h:164
 msgid "_New Game"
 msgstr ""
 
-#: src/gwp.glade.h:163
+#: src/gwp.glade.h:165
 msgid "_Online Help"
 msgstr ""
 
-#: src/gwp.glade.h:164
+#: src/gwp.glade.h:166
 msgid "_Planet names"
 msgstr ""
 
-#: src/gwp.glade.h:165
+#: src/gwp.glade.h:167
 msgid "_Play"
 msgstr ""
 
-#: src/gwp.glade.h:166
+#: src/gwp.glade.h:168
 msgid "_Play Game"
 msgstr ""
 
-#: src/gwp.glade.h:167
+#: src/gwp.glade.h:169
 msgid "_Random"
 msgstr ""
 
-#: src/gwp.glade.h:168
+#: src/gwp.glade.h:170
 msgid "_Toolbar"
 msgstr ""
 
-#: src/gwp.glade.h:169
+#: src/gwp.glade.h:171
 msgid "_Unpack"
 msgstr ""
 
-#: src/gwp.glade.h:170
+#: src/gwp.glade.h:172
 msgid "n/a kT/turn"
 msgstr ""
 
-#: src/callbacks.c:286
+#: src/gwp.glade.h:173
+msgid "n/m"
+msgstr ""
+
+#: src/callbacks.c:288
 msgid "New Game Properties"
 msgstr ""
 
-#: src/callbacks.c:432
+#: src/callbacks.c:434
 msgid "Edit Game Properties"
 msgstr ""
 
-#: src/callbacks.c:453
+#: src/callbacks.c:455
 msgid "Oops! there is some problem with this game"
 msgstr ""
 
-#: src/callbacks.c:487
+#: src/callbacks.c:489
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr ""
 
-#: src/callbacks.c:553
+#: src/callbacks.c:555
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
 msgstr ""
 
-#: src/callbacks.c:554
+#: src/callbacks.c:556
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
@@ -925,64 +937,84 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/vp_utils.c:845
+#: src/vp_utils.c:849
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr ""
 
-#: src/vp_utils.c:847
+#: src/vp_utils.c:851
 msgid ""
 "This file provides the data about ion storms and minefields, but couldn't be "
 "found in this case. This is not a fatal error, GWP will continue loading but "
 "this data won't appear on the game."
 msgstr ""
 
-#: src/game_mgr.c:70
+#: src/game_mgr.c:75
 msgid "Your game definitions will be deleted."
 msgstr ""
 
-#: src/game_mgr.c:71
+#: src/game_mgr.c:76
 msgid ""
 "The game state data format have changed. Your game definitions will be "
 "deleted because are not compatible with this version, please re-create them. "
 "Your game files won't be touched, sorry for the inconvenience."
 msgstr ""
 
-#: src/game_mgr.c:421
+#: src/game_mgr.c:426
 #, c-format
 msgid "Game directory '%s' doesn't exist"
 msgstr ""
 
-#: src/game_mgr.c:437
+#: src/game_mgr.c:442
 msgid "Please provide a name for this game"
 msgstr ""
 
-#: src/game_mgr.c:471
+#: src/game_mgr.c:476
 #, c-format
 msgid "A game named '%s' already exist, please select another name"
 msgstr ""
 
-#: src/game_mgr.c:491
+#: src/game_mgr.c:496
 msgid "Please select a race"
 msgstr ""
 
-#: src/game_mgr.c:610
+#: src/game_mgr.c:615
 msgid "No game selected, please select one."
 msgstr ""
 
-#: src/game_mgr.c:611
+#: src/game_mgr.c:616
 msgid ""
 "If you don't have any game on your game manager, you should add one with the "
 "\"New\" button, adding the necessary game data."
 msgstr ""
 
-#: src/game_mgr.c:628
+#: src/game_mgr.c:633
 msgid "A new RST file was found. Do you want to unpack it?"
 msgstr ""
 
-#: src/game_mgr.c:653
+#: src/game_mgr.c:661
 #, c-format
 msgid "Turn: %d"
+msgstr ""
+
+#: src/game_mgr.c:706
+msgid "Error creating the message history directory."
+msgstr ""
+
+#: src/game_mgr.c:707
+msgid ""
+"A file already exists with the name 'message-history', please remove or "
+"rename this file so that the message history feature can work correctly."
+msgstr ""
+
+#: src/game_mgr.c:742
+msgid "Message data file not found."
+msgstr ""
+
+#: src/game_mgr.c:743
+msgid ""
+"The MDATA file was not found, it's needed to read the game messages, please "
+"check your VGA Planets installation."
 msgstr ""
 
 #: src/race.c:28
@@ -1061,6 +1093,10 @@ msgstr ""
 msgid "N Growth"
 msgstr ""
 
+#: src/gwp-object.c:76
+msgid "Unknown name"
+msgstr ""
+
 #: src/gwp-flying-object.c:119
 msgid "N"
 msgstr ""
@@ -1093,7 +1129,7 @@ msgstr ""
 msgid "NW"
 msgstr ""
 
-#: src/gwp-ship.c:430
+#: src/gwp-ship.c:431
 msgid "No enemy"
 msgstr ""
 

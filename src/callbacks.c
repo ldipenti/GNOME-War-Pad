@@ -21,6 +21,9 @@
 #  include <config.h>
 #endif
 
+/* Must be the first!! */
+#include "gwp-python.h"
+
 #include <gnome.h>
 
 #include "global.h"
@@ -517,6 +520,11 @@ void gwp_quit(void)
   gconf_client_suggest_sync(gwp_gconf, NULL);
   g_object_unref(gwp_gconf);
   
+#ifdef USE_PYTHON
+  /* Stop Python interpreter */
+  gwp_python_quit();
+#endif
+
   /* bye bye... */
   gtk_main_quit();
 }

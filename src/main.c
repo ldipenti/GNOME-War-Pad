@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,9 +21,12 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
-#include "support.h"
+/* This should be the first include, because of the Python.h */
+#include "gwp-python.h"
 
+#include <gnome.h>
+
+#include "support.h"
 #include "callbacks.h"
 #include "global.h"
 #include "vp_types.h"
@@ -45,6 +48,9 @@ int main (int argc, char *argv[]) {
   bindtextdomain (PACKAGE, PACKAGE_LOCALE_DIR);
   textdomain (PACKAGE);
 #endif
+
+  /* Python embedded interpreter initialization */
+  gwp_python_init (argv[0]);
 
   gwp = NULL;
   game_mgr = NULL;
