@@ -34,8 +34,8 @@
 #include "gwp-ship.h"
 #include "gwp-minefield.h"
 #include "gwp-ion-storm.h"
-
 #include "gwp-specs.h"
+#include "gwp-utils.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 
@@ -815,12 +815,37 @@ void load_kore_data (void)
 
   kore_file_name = g_string_new (g_strdup_printf("kore%d.dat",
 						 game_get_race(game_state)));
-  kore_dat = fopen (game_get_full_path(game_state, kore_file_name->str), "r");
+
+  /* Try to open KOREx.DAT or korex.dat */
+  /* Lowercase... */
+  if (g_file_test (game_get_full_path(game_state, kore_file_name->str),
+		   G_FILE_TEST_IS_REGULAR)) {
+    kore_dat = fopen (game_get_full_path(game_state, 
+					 kore_file_name->str), "r");
+  } 
+  /* Uppercase... */
+  else if (g_file_test (game_get_full_path(game_state, 
+					     g_string_up(kore_file_name)->str),
+			  G_FILE_TEST_IS_REGULAR)) {
+    kore_dat = fopen (game_get_full_path(game_state, 
+					 g_string_up (kore_file_name)->str), 
+		      "r");    
+  }
  
+  /* If KOREx.DAT not found, warn the user but not quit */
   if (!kore_dat) {
+    GtkWidget *warn = NULL;
+
+    warn = gwp_warning_dialog_new (game_mgr,
+				   g_strdup_printf(_("KORE%d.DAT not found, some data will be missing."), 
+						   game_get_race(game_state)),
+				   _("This file provides the data about ion storms and minefields, but couldn't be found in this case. This is not a fatal error, GWP will continue loading but this data won't appear on the game."));
+    gtk_dialog_run(GTK_DIALOG(warn));
+    gtk_widget_destroy(warn);
+
     g_message ("ERROR trying to open %s file.",
 	       game_get_full_path(game_state, kore_file_name->str));
-    exit(-1);
+    return;
   }
   rewind (kore_dat);
 		    
