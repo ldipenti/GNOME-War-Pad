@@ -41,6 +41,9 @@ enum {
   PROP_ION_STORMS,
   PROP_CONSTELLATIONS,
   PROP_GRID,
+  PROP_DISTANCE_CALC,
+  PROP_X_COORD,
+  PROP_Y_COORD,
   PROP_WARN_KOREFILE, 
 };
 
@@ -63,6 +66,8 @@ struct _GwpGameStatePrivate {
   gint turn_number;
   gint16 last_x_coord;
   gint16 last_y_coord;
+  gint16 x_coord;
+  gint16 y_coord;
   /* Toggle states */
   gboolean extra_panel_open;
   gboolean planet_names;
@@ -71,6 +76,8 @@ struct _GwpGameStatePrivate {
   gboolean ion_storms;
   gboolean constellations;
   gboolean grid;
+  gboolean distance_calc; /**< This flag tell the system if the user is 
+			     measuring distance from the starchart. */
   gboolean warn_korefile; /**< Give the user a warning about missing 
 			     KOREx.DAT. TRUE means warn the user. */
 #ifdef USE_PYTHON
@@ -137,6 +144,15 @@ gwp_game_state_set_property (GObject      *object,
   case PROP_CONSTELLATIONS:
     self->priv->constellations = g_value_get_boolean (value);
     break;
+  case PROP_DISTANCE_CALC:
+    self->priv->distance_calc = g_value_get_boolean (value);
+    break;
+  case PROP_X_COORD:
+    self->priv->x_coord = g_value_get_int (value);
+    break;
+  case PROP_Y_COORD:
+    self->priv->y_coord = g_value_get_int (value);
+    break;
   case PROP_WARN_KOREFILE:
     self->priv->warn_korefile = g_value_get_boolean (value);
     break;
@@ -179,6 +195,15 @@ gwp_game_state_get_property (GObject    *object,
   case PROP_CONSTELLATIONS:
     g_value_set_boolean (value, self->priv->constellations);
     break;
+  case PROP_DISTANCE_CALC:
+    g_value_set_boolean (value, self->priv->distance_calc);
+    break;
+  case PROP_X_COORD:
+    g_value_set_int (value, self->priv->x_coord);
+    break;
+  case PROP_Y_COORD:
+    g_value_set_int (value, self->priv->y_coord);
+    break;
   case PROP_WARN_KOREFILE:
     g_value_set_boolean (value, self->priv->warn_korefile);
     break;
@@ -214,6 +239,9 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->planet_names = TRUE;
   self->priv->grid = TRUE;
   self->priv->constellations = TRUE;
+  self->priv->distance_calc = FALSE;
+  self->priv->x_coord = 0;
+  self->priv->y_coord = 0;
   self->priv->warn_korefile = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
@@ -315,12 +343,35 @@ gwp_game_state_class_init (GwpGameStateClass *klass)
 							 TRUE,
 							 G_PARAM_READWRITE));
 
+  g_object_class_install_property (gobject_class, PROP_DISTANCE_CALC,
+				   g_param_spec_boolean ("distance-calc",
+							 "Distance-Calc",
+							 "Whether show the distance calculator or not",
+							 TRUE,
+							 G_PARAM_READWRITE));
+
   g_object_class_install_property (gobject_class, PROP_WARN_KOREFILE,
 				   g_param_spec_boolean ("warn-korefile",
 							 "Warn-Korefile",
 							 "Whether warn the user about the missing kore file or not",
 							 TRUE,
 							 G_PARAM_READWRITE));
+
+  g_object_class_install_property (gobject_class, PROP_X_COORD,
+				   g_param_spec_int ("x-coord",
+						     "X-Coord",
+						     "Actual pointer's X coordinate",
+						     0, 3000, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
+
+  g_object_class_install_property (gobject_class, PROP_Y_COORD,
+				   g_param_spec_int ("y-coord",
+						     "y-Coord",
+						     "Actual pointer's X coordinate",
+						     0, 3000, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
 }
 
 /*

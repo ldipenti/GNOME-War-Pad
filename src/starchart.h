@@ -46,6 +46,7 @@ void update_ship_extra_panel (GwpShip *ship);
 void update_planet_extra_panel (gint16 planet_id);
 void update_ship_panel_with (GwpShip *ship);
 void update_ship_panel(GtkWidget *gwp, GwpLocation *location);
+void starchart_toggle_distance_calc (void);
 void starchart_update_coord_panel(GtkWidget *gwp, gdouble wx, gdouble wy);
 
 /* Show/Hide Functions */

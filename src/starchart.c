@@ -33,7 +33,8 @@
 /* Private functions */
 static void starchart_zoom (GnomeCanvas *starchart, gdouble zoom);
 static void init_starchart_constellations(void);
-
+static void starchart_update_distance_calc (GObject *gs, gpointer user_data);
+/* Private data */
 static GnomeCanvasPoints *distance_p;
 static GnomeCanvasLine *distance_line;
 
@@ -1665,6 +1666,11 @@ void init_starchart (GtkWidget * gwp)
 				     (starchart_get_grp_root(),
 				      GNOME_TYPE_CANVAS_GROUP, NULL)));
 
+  starchart_set_grp_misc (GNOME_CANVAS_GROUP 
+			  (gnome_canvas_item_new 
+			   (starchart_get_grp_root(),
+			    GNOME_TYPE_CANVAS_GROUP, NULL)));
+
   starchart_set_default_cursor();
   
   /* Sets black background to starchart */
@@ -1705,17 +1711,20 @@ void init_starchart (GtkWidget * gwp)
 				       "points", grid_points_h, NULL);
   }
 
-  /*********** TEST ***********/
+  /* Draw distance calculator line */
   distance_p = gnome_canvas_points_new (2);
   distance_p->coords[0] = 1500.0;
   distance_p->coords[1] = 1500.0;
   distance_p->coords[2] = 1600.0;
   distance_p->coords[3] = 1600.0;
-  distance_line = gnome_canvas_item_new (starchart_get_grp_grid(),
+  distance_line = gnome_canvas_item_new (starchart_get_grp_misc(),
 					 GNOME_TYPE_CANVAS_LINE,
-					 "fill_color", "green",
+					 "fill_color", "yellow",
 					 "width_pixels", 1, 
-					 "points", distance_p, NULL);
+					 "points", distance_p, 
+					 NULL);
+  gnome_canvas_item_hide ((GnomeCanvasItem *)distance_line);
+
 
   /* Loads Planets on Starchart */
   g_message("Loading planets...");
@@ -1751,6 +1760,8 @@ void init_starchart (GtkWidget * gwp)
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_ion_storms()));
   /* Set Planet names on the top */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planet_names()));
+  /* Set misc objects on the top */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_misc()));
 
   /* Various bindings */
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
@@ -1848,6 +1859,14 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::constellations",
 		    G_CALLBACK(starchart_boolean_notifications),
 		    (gpointer)"constellations");
+  g_signal_connect (game_state,
+		    "property-changed::x-coord",
+		    G_CALLBACK(starchart_update_distance_calc),
+		    NULL);
+  g_signal_connect (game_state,
+		    "property-changed::y-coord",
+		    G_CALLBACK(starchart_update_distance_calc),
+		    NULL);
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2164,6 +2183,73 @@ void starchart_zoom_out (GnomeCanvas * starchart)
   }
 }
 
+void 
+starchart_toggle_distance_calc (void)
+{
+  gboolean was_active;
+  g_object_get (game_state,
+		"distance-calc", &was_active,
+		NULL);
+  g_object_set (game_state,
+		"distance-calc", !was_active,
+		NULL);
+  if (!was_active) {
+    gint x, y;
+    gdouble wx, wy;
+
+    g_object_get (game_state,
+		  "x-coord", &x,
+		  "y-coord", &y,
+		  NULL);
+    vp_coord_v2w (x, y, &wx, &wy);
+    distance_p->coords[0] = wx;
+    distance_p->coords[1] = wy;
+    distance_p->coords[2] = wx;
+    distance_p->coords[3] = wy;
+    g_object_set (distance_line, 
+		  "points", distance_p,
+		  NULL);
+    gnome_canvas_item_show ((GnomeCanvasItem *)distance_line);
+  } else {
+    gnome_canvas_item_hide ((GnomeCanvasItem *)distance_line);
+    starchart_set_status ("");
+  }
+}
+
+static void 
+starchart_update_distance_calc (GObject *state,
+				gpointer user_data)
+{
+  gint x, y;
+  gdouble wx, wy, dist;
+  gdouble ax, ay, bx, by;
+  gboolean active = FALSE;
+  g_object_get (state,
+		"distance-calc", &active,
+		NULL);
+
+  if (active) {
+    g_object_get (state,
+		  "x-coord", &x,
+		  "y-coord", &y,
+		  NULL);
+    vp_coord_v2w (x, y, &wx, &wy);
+
+    distance_p->coords[2] = wx;
+    distance_p->coords[3] = wy;
+    g_object_set (distance_line, 
+		  "points", distance_p,
+		  NULL);
+
+    ax = distance_p->coords[0];
+    ay = distance_p->coords[1];
+    bx = distance_p->coords[2];
+    by = distance_p->coords[3];
+    dist = sqrt (((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)));
+    starchart_set_status (g_strdup_printf(_("Distance: %.2f LY"), dist));
+  }
+}
+
 void starchart_update_coord_panel(GtkWidget *gwp, 
 				  gdouble wx, gdouble wy)
 {
@@ -2187,13 +2273,6 @@ void starchart_update_coord_panel(GtkWidget *gwp,
   /* Free stuff */
   g_free(x_tmp);
   g_free(y_tmp);
-
-  distance_p->coords[2] = wx;
-  distance_p->coords[3] = wy;
-  g_object_set (distance_line, 
-		"points", distance_p,
-		NULL);
-  g_message ("Moviendo a X:%f Y:%f", wx, wy);
 }
 
 void starchart_set_default_cursor(void)

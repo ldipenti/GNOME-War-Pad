@@ -79,6 +79,12 @@ starchart_event_key                    (GtkWidget       *widget,
       starchart_close_extra_panels();
       handled = TRUE;
       break;
+      /* Toggle distance calculator */
+    case GDK_d:
+    case GDK_D:
+      starchart_toggle_distance_calc();
+      handled = TRUE;
+      break;
     }
 
 #ifdef USE_PYTHON
@@ -200,6 +206,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
                                         gpointer         user_data)
 {
   gint x, y;
+  gint16 vpx, vpy;
   gdouble wx, wy;
   static guint interleave;
   static gint pointer_x = 0, pointer_y = 0;
@@ -244,8 +251,18 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
     /* Translate coords to World system */
     gnome_canvas_c2w(GNOME_CANVAS(widget), x, y, &wx, &wy);
     
+    /* Assign VP coords to game state*/
+    vp_coord_w2v (wx, wy, &vpx, &vpy);
+    g_object_set (game_state,
+		  "x-coord", vpx,
+		  "y-coord", vpy,
+		  NULL);
+
     /* Update coord indicator */
-    starchart_update_coord_panel(widget, wx, wy);  
+    starchart_update_coord_panel(widget, wx, wy);
+
+    /* Distance calculation stuff */
+    /*    starchart_update_distance_calc (wx, wy);*/
   }
 
   pointer_x = (gint) event->x;

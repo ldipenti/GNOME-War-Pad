@@ -159,3 +159,13 @@ void starchart_set_grp_constellations (GnomeCanvasGroup * group)
 {
   starchart.grp_constellations = group;
 }
+
+GnomeCanvasGroup * starchart_get_grp_misc (void)
+{
+  return starchart.grp_misc;
+}
+
+void starchart_set_grp_misc (GnomeCanvasGroup * group)
+{
+  starchart.grp_misc = group;
+}
