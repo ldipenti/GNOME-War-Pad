@@ -10,10 +10,6 @@
 #ifdef USE_GTKGLEXT
 
 
-
-
-
-
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkgl.h>
@@ -33,21 +29,23 @@
 #define VIEW_SCALE_MAX 12.0
 #define VIEW_SCALE_MIN 0.5
 
-#define LOGO_CUBE       1
-#define LOGO_G_FORWARD  2
-#define LOGO_G_BACKWARD 3
-#define LOGO_T_FORWARD  4
-#define LOGO_T_BACKWARD 5
-#define LOGO_K_FORWARD  6
-#define LOGO_K_BACKWARD 7
-#define TEST_SHIP       8
-#define UNIVERSE        9
-#define PLANET_B        10
+#define TEST_SHIP       1
+#define PLANET_B        2
+#define TEXTURE_TEST    3
 
 
+static guint timeout_id = 0;
+static float begin_x = 0.0;
+static float begin_y = 0.0;
+static float axis_x[3] = { 1.0, 0.0, 0.0 };
+static float axis_y[3] = { 0.0, 1.0, 0.0 };
+static float axis_z[3] = { 0.0, 0.0, 1.0 };
 static float view_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
 static float logo_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
 static float view_scale = 1.0;
+static int rot_count = DEFAULT_ROT_COUNT;
+static int mode = 0;
+static int counter = 0;
 
 static gboolean animate = FALSE;
 static gboolean vcrcgl_is_initialized = FALSE;
@@ -55,8 +53,9 @@ static gboolean vcrcgl_is_initialized = FALSE;
 static void toggle_animation (GtkWidget *widget);
 static void init_logo_view   (GtkWidget *widget);
 
-static void
-init_view (void)
+
+
+static void init_view( void )
 {
   float sine = sin (0.5 * VIEW_INIT_ANGLE * DIG_2_RAD);
   view_quat[0] = VIEW_INIT_AXIS_X * sine;
@@ -66,8 +65,9 @@ init_view (void)
   view_scale = 1.0;
 }
 
-static void
-init_logo_quat (void)
+
+
+static void init_logo_quat( void )
 {
   logo_quat[0] = 0.0;
   logo_quat[1] = 0.0;
@@ -75,9 +75,9 @@ init_logo_quat (void)
   logo_quat[3] = 1.0;
 }
 
-static void
-realize (GtkWidget *widget,
-	 gpointer   data)
+
+
+static void realize( GtkWidget *widget, gpointer user_data )
 {
   GdkGLContext *glcontext = gtk_widget_get_gl_context (widget);
   GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
@@ -86,16 +86,19 @@ realize (GtkWidget *widget,
   static GLfloat light0_diffuse[]  = { 1.0, 1.0, 1.0, 1.0 };
   static GLfloat light0_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
-  static GLfloat mat_specular[]  = { 0.5, 0.5, 0.5, 1.0 };
+  static GLfloat mat_specular[]  = { 0.5, 0.5, 0.5, 0.0 };
   static GLfloat mat_shininess[] = { 10.0 };
-  static GLfloat mat_black[]     = { 0.0, 0.0, 0.0, 1.0 };
-  static GLfloat mat_red[]       = { 1.0, 0.0, 0.0, 1.0 };
-  static GLfloat mat_green[]     = { 0.0, 1.0, 0.0, 1.0 };
-  static GLfloat mat_blue[]      = { 0.0, 0.0, 1.0, 1.0 };
+  static GLfloat mat_black[]     = { 0.0, 0.0, 0.0, 0.0 };
+  static GLfloat mat_red[]       = { 1.0, 0.0, 0.0, 0.0 };
+  static GLfloat mat_green[]     = { 0.0, 1.0, 0.0, 0.0 };
+  static GLfloat mat_blue[]      = { 0.0, 0.0, 1.0, 0.0 };
 
   /*** OpenGL BEGIN ***/
   if (!gdk_gl_drawable_gl_begin (gldrawable, glcontext))
     return;
+
+
+
 
   glClearColor (0.8, 0.8, 0.9, 1.0);
   glClearDepth (1.0);
@@ -117,31 +120,79 @@ realize (GtkWidget *widget,
 
   glMaterialfv (GL_FRONT, GL_SPECULAR, mat_specular);
   glMaterialfv (GL_FRONT, GL_SHININESS, mat_shininess);
+  glMaterialfv (GL_BACK, GL_SPECULAR, mat_specular);
+  glMaterialfv (GL_BACK, GL_SHININESS, mat_shininess);
 
   glPolygonMode( GL_FRONT, GL_FILL );
-  glPolygonMode( GL_BACK, GL_LINE );
+  glPolygonMode( GL_BACK, GL_FILL );
+
+/* DEBUG : try to read texture */
+vcrcgl_read_texture();
+g_message( "texture read" );
+
+
+  /* TEXTURE TEST */
+/*
+  glNewList( TEXTURE_TEST, GL_COMPILE );
+    glEnable( GL_TEXTURE_2D );
+	glBegin ( GL_TRIANGLES );
+		glNormal3f( 0.0, 0.0, 1.0 );
+		
+		glTexCoord2f( 0.0, 0.0 );
+		glVertex3f( -2.5, -1.25, 0.0 );
+		
+		glTexCoord2f( 1.0, 0.0 );
+		glVertex3f(  2.5, -1.25, 0.0 );
+
+		glTexCoord2f( 0.0, 1.0 );
+		glVertex3f( -2.5,  1.25, 0.0 );
+		
+	glEnd();
+	
+	glBegin( GL_POINTS );
+		glVertex3f(-2.6, -1.35, 0.0 ); // Tex-coord 0 0
+		glVertex3f( 2.6, -1.35, 0.0 ); // Tex-coord 1 0
+	glEnd();
+	
+	glBegin ( GL_TRIANGLES );
+		glNormal3f( 0.0, 0.0, 1.0 );
+		
+		glTexCoord2f( 0.0, 1.0 );
+		glVertex3f( -2.5,  1.25, 0.0 );
+		
+		glTexCoord2f( 1.0, 0.0 );
+		glVertex3f(  2.5, -1.25, 0.0 );
+		
+		glTexCoord2f( 1.0, 1.0 );
+		glVertex3f(  2.5,  1.25, 0.0 );
+		
+	glEnd(); 
+    glDisable( GL_TEXTURE_2D );
+  glEndList ();
+*/
+
+
+
+  /* PLANET B */
+  glNewList( PLANET_B, GL_COMPILE );
+    glEnable(GL_TEXTURE_2D);
+    glEnable( GL_CULL_FACE );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
+
+   GLfloat d[3] = {15.0, 0.0, 0.0};
+    vcrcgl_draw_sphere( d, 4.5, 4 );
+    glDisable (GL_CULL_FACE);
+    glDisable(GL_TEXTURE_2D);
+  glEndList();
 
   /* SHIP */
   glNewList (TEST_SHIP, GL_COMPILE);
-    glDisable (GL_CULL_FACE);
+    glEnable( GL_CULL_FACE );
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_red);
     GLfloat c[3] = { -15.0, 0.0, 0.0 };
+    glDisable (GL_CULL_FACE);
     vcrcgl_draw_ship( c, 1, 1 );
   glEndList ();
-
-  /* PLANET B */
-  glNewList( UNIVERSE, GL_COMPILE );
-    glEnable(GL_TEXTURE_2D);
-    glDisable( GL_CULL_FACE );
-    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
-    GLfloat d[3] = {15.0, 0.0, 0.0};
-    vcrcgl_draw_sphere( d, 4.5, 2 );
-    glEnable(GL_TEXTURE_2D);
-  glEndList();
-
-
-
-
 
   glEnable (GL_NORMALIZE);
 
@@ -155,10 +206,11 @@ realize (GtkWidget *widget,
   /*** OpenGL END ***/
 }
 
-static gboolean
-configure_event (GtkWidget         *widget,
-		 GdkEventConfigure *event,
-		 gpointer           data)
+
+
+static gboolean configure_event( GtkWidget *widget,
+		                         GdkEventConfigure *event,
+		                         gpointer user_data )
 {
   GdkGLContext *glcontext = gtk_widget_get_gl_context (widget);
   GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
@@ -194,9 +246,7 @@ configure_event (GtkWidget         *widget,
   return TRUE;
 }
 
-static float axis_x[3] = { 1.0, 0.0, 0.0 };
-static float axis_y[3] = { 0.0, 1.0, 0.0 };
-static float axis_z[3] = { 0.0, 0.0, 1.0 };
+
 
 /* Logo rotation mode. */
 typedef struct _RotMode
@@ -217,14 +267,11 @@ static RotMode rot_mode[] = {
   { NULL,    0.0 }  /* terminator */
 };
 
-static int rot_count = DEFAULT_ROT_COUNT;
-static int mode = 0;
-static int counter = 0;
 
-static gboolean
-expose_event (GtkWidget      *widget,
-	      GdkEventExpose *event,
-	      gpointer        data)
+
+static gboolean expose_event( GtkWidget *widget,
+                              GdkEventExpose *event,
+                              gpointer user_data )
 {
   GdkGLContext *glcontext = gtk_widget_get_gl_context (widget);
   GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
@@ -279,8 +326,8 @@ expose_event (GtkWidget      *widget,
 //    glCallList (LOGO_K_FORWARD);
 //    glCallList (LOGO_K_BACKWARD);
     glCallList( TEST_SHIP );
-    glCallList( UNIVERSE );
     glCallList( PLANET_B );
+//    glCallList( TEXTURE_TEST );
   glPopMatrix ();
 
   /* Swap buffers. */
@@ -295,13 +342,11 @@ expose_event (GtkWidget      *widget,
   return TRUE;
 }
 
-static float begin_x = 0.0;
-static float begin_y = 0.0;
 
-static gboolean
-button_press_event (GtkWidget      *widget,
-		    GdkEventButton *event,
-		    GtkWidget      *menu)
+
+static gboolean button_press_event( GtkWidget *widget,
+                                    GdkEventButton *event,
+                                    GtkWidget *menu )
 {
   begin_x = event->x;
   begin_y = event->y;
@@ -309,10 +354,11 @@ button_press_event (GtkWidget      *widget,
   return FALSE;
 }
 
-static gboolean
-motion_notify_event (GtkWidget      *widget,
-		     GdkEventMotion *event,
-		     gpointer        data)
+
+
+static gboolean motion_notify_event( GtkWidget *widget,
+                                     GdkEventMotion *event,
+                                     gpointer user_data )
 {
   float w = widget->allocation.width;
   float h = widget->allocation.height;
@@ -353,10 +399,11 @@ motion_notify_event (GtkWidget      *widget,
   return TRUE;
 }
 
-static gboolean
-key_press_event (GtkWidget   *widget,
-		 GdkEventKey *event,
-		 gpointer     data)
+
+
+static gboolean key_press_event( GtkWidget *widget,
+                                 GdkEventKey *event,
+                                 gpointer user_data )
 {
   switch (event->keyval)
     {
@@ -376,8 +423,9 @@ key_press_event (GtkWidget   *widget,
   return TRUE;
 }
 
-static gboolean
-timeout (GtkWidget *widget)
+
+
+static gboolean timeout( GtkWidget *widget )
 {
   /* Invalidate the whole window. */
   gdk_window_invalidate_rect (widget->window, &widget->allocation, FALSE);
@@ -388,10 +436,9 @@ timeout (GtkWidget *widget)
   return TRUE;
 }
 
-static guint timeout_id = 0;
 
-static void
-timeout_add (GtkWidget *widget)
+
+static void timeout_add( GtkWidget *widget )
 {
   if (timeout_id == 0)
     {
@@ -401,8 +448,9 @@ timeout_add (GtkWidget *widget)
     }
 }
 
-static void
-timeout_remove (GtkWidget *widget)
+
+
+static void timeout_remove( GtkWidget *widget )
 {
   if (timeout_id != 0)
     {
@@ -411,10 +459,11 @@ timeout_remove (GtkWidget *widget)
     }
 }
 
-static gboolean
-map_event (GtkWidget   *widget,
-	   GdkEventAny *event,
-	   gpointer     data)
+
+
+static gboolean map_event( GtkWidget *widget,
+                           GdkEventAny *event,
+                           gpointer user_data )
 {
   if (animate)
     timeout_add (widget);
@@ -422,20 +471,22 @@ map_event (GtkWidget   *widget,
   return TRUE;
 }
 
-static gboolean
-unmap_event (GtkWidget   *widget,
-	     GdkEventAny *event,
-	     gpointer     data)
+
+
+static gboolean unmap_event( GtkWidget *widget,
+                             GdkEventAny *event,
+                             gpointer user_data )
 {
   timeout_remove (widget);
 
   return TRUE;
 }
 
-static gboolean
-visibility_notify_event (GtkWidget          *widget,
-			 GdkEventVisibility *event,
-			 gpointer            data)
+
+
+static gboolean visibility_notify_event( GtkWidget *widget,
+                                         GdkEventVisibility *event,
+                                         gpointer user_data )
 {
   if (animate)
     {
@@ -448,8 +499,9 @@ visibility_notify_event (GtkWidget          *widget,
   return TRUE;
 }
 
-static void
-toggle_animation (GtkWidget *widget)
+
+
+static void toggle_animation( GtkWidget *widget )
 {
   animate = !animate;
 
@@ -464,8 +516,9 @@ toggle_animation (GtkWidget *widget)
     }
 }
 
-static void
-init_logo_view (GtkWidget *widget)
+
+
+static void init_logo_view( GtkWidget *widget )
 {
   init_logo_quat ();
   init_view ();
@@ -476,11 +529,11 @@ init_logo_view (GtkWidget *widget)
     gdk_window_invalidate_rect (widget->window, &widget->allocation, FALSE);
 }
 
-/* For popup menu. */
-static gboolean
-button_press_event_popup_menu (GtkWidget      *widget,
-			       GdkEventButton *event,
-			       gpointer        data)
+
+ 
+static gboolean button_press_event_popup_menu( GtkWidget *widget,
+                                               GdkEventButton *event,
+                                               gpointer user_data )
 {
   if (event->button == 3)
     {
@@ -493,9 +546,9 @@ button_press_event_popup_menu (GtkWidget      *widget,
   return FALSE;
 }
 
-/* Creates the popup menu.*/
-static GtkWidget *
-create_popup_menu (GtkWidget *drawing_area)
+
+
+static GtkWidget *create_popup_menu( GtkWidget *drawing_area )
 {
   GtkWidget *menu;
   GtkWidget *menu_item;
@@ -526,11 +579,12 @@ create_popup_menu (GtkWidget *drawing_area)
   return menu;
 }
 
-static void
-print_gl_config_attrib (GdkGLConfig *glconfig,
-                        const gchar *attrib_str,
-                        int          attrib,
-                        gboolean     is_boolean)
+
+
+static void print_gl_config_attrib( GdkGLConfig *glconfig,
+                                    const gchar *attrib_str,
+                                    int          attrib,
+                                    gboolean     is_boolean )
 {
   int value;
 
@@ -546,8 +600,9 @@ print_gl_config_attrib (GdkGLConfig *glconfig,
     g_print ("*** Cannot get %s attribute value\n", attrib_str);
 }
 
-static void
-examine_gl_config_attrib (GdkGLConfig *glconfig)
+
+
+static void examine_gl_config_attrib( GdkGLConfig *glconfig )
 {
   g_print ("\nOpenGL visual configurations :\n\n");
 
@@ -591,17 +646,7 @@ examine_gl_config_attrib (GdkGLConfig *glconfig)
 
 
 
-
-
-
-
-
-
-
-static void
-logo_draw_triangle (GLfloat *v0,
-		    GLfloat *v1,
-		    GLfloat *v2)
+static void logo_draw_triangle( GLfloat *v0, GLfloat *v1, GLfloat *v2)
 {
   GLfloat w0[3], w1[3];
   GLfloat n[3], m;
@@ -637,20 +682,7 @@ logo_draw_triangle (GLfloat *v0,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #define TEST_SHIP_SIZE 34
-
 static GLfloat test_ship[TEST_SHIP_SIZE][3][3] = {
   {  {  2.0000,  0.0000,  0.5000*2 }, {  0.0000, -0.5000,  0.2500*2 }, {  0.0000,  0.5000,  0.2500*2 } },
   {  {  2.0000, -1.0000,  0.5000*2 }, {  0.0000, -0.5000,  0.2500*2 }, {  2.0000,  0.0000,  0.5000*2 } },
@@ -693,6 +725,8 @@ static GLfloat test_ship[TEST_SHIP_SIZE][3][3] = {
   {  {  5.5000,  0.8500, -0.1500*2 }, {  5.5000, -0.8500, -0.1500*2 }, {  5.5000,  0.7500,  0.3000*2 } }
 };
 
+
+
 void vcrcgl_draw_ship( GLfloat coord[3], GLint direction, GLfloat size )
 {
   GLint i;
@@ -715,17 +749,6 @@ void vcrcgl_draw_ship( GLfloat coord[3], GLint direction, GLfloat size )
     logo_draw_triangle( &v2, &v1, &v0 );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -784,10 +807,8 @@ void vcrcgl_init( void )
 
   examine_gl_config_attrib (glconfig);
 
-/* DEBUG : try to read texture */
-//vcrcgl_read_texture();
 
-  vbox = GTK_VBOX( lookup_widget( "vcr_vbox_simulation" ) );
+
 
 
   /*
@@ -832,6 +853,7 @@ void vcrcgl_init( void )
   g_signal_connect_swapped (G_OBJECT (drawing_area), "key_press_event",
 			    G_CALLBACK (key_press_event), drawing_area);
 
+  vbox = GTK_VBOX( lookup_widget( "vcr_vbox_simulation" ) );
   gtk_box_pack_start_defaults( GTK_BOX( vbox ), drawing_area );
   gtk_widget_show( drawing_area );
 
@@ -849,16 +871,18 @@ void vcrcgl_init( void )
   return;
 }
 
+
+
 void vcrcgl_read_texture( void )
 {
 
   gint i, j, k, l;
   FILE *dz;
-  dz = fopen( "/home/werdge/programming/gwp-cvs/pixmaps/vcr_texture_background.bmp", "rb" );
+  dz = fopen( "/home/werdge/programming/gwp-cvs/pixmaps/planet_earth.bmp", "rb" );
   if( !dz )
   {
     g_message( "## ERROR: unable to open texture file '%s'",
-               "/home/werdge//programming/gwp-cvs/pixmaps/vcr_texture_background.bmp" );
+               "/home/werdge//programming/gwp-cvs/pixmaps/planet_earth.bmp" );
     return;
   }
 
@@ -872,16 +896,18 @@ void vcrcgl_read_texture( void )
     {
       k=i%VCRCGL_TextImaX;
       l=j%VCRCGL_TextImaY;
-      VCRCGL_TextIma[i][j][2] = k;
-      VCRCGL_TextIma[i][j][1] = l;
-      VCRCGL_TextIma[i][j][0] = (gint)((k+l)/2);
-      VCRCGL_TextIma[i][j][3] = 255;
+      VCRCGL_TextIma[i][j][2] = (GLubyte) fgetc( dz );
+      VCRCGL_TextIma[i][j][1] = (GLubyte) fgetc( dz );
+      VCRCGL_TextIma[i][j][0] = (GLubyte) fgetc( dz );
+      VCRCGL_TextIma[i][j][3] = (GLubyte) 255;
+//      VCRCGL_TextIma[i][j][2] = (GLubyte) k;
+//      VCRCGL_TextIma[i][j][1] = (GLubyte) l;
+//      VCRCGL_TextIma[i][j][0] = (GLubyte) (gint)((k+l)/2);
+//      VCRCGL_TextIma[i][j][3] = (GLubyte) 255;
     }
   }
 
   fclose( dz );
-
-glEnable( GL_TEXTURE );
 
   glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
   glTexImage2D( GL_TEXTURE_2D, 0, 4, VCRCGL_TextImaX, VCRCGL_TextImaY, 0,
@@ -892,42 +918,27 @@ glEnable( GL_TEXTURE );
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
   glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
 
+  glEnable( GL_TEXTURE );
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#define pi 3.1415926535898
-#define X .525731112119133606
-#define Z .850650808352039932
-#define TextAdjustX 0.96875       // (992/1024)
-#define TextAdjustY 0.97265625    // (498/512)
-#define ITERDEPTH 2
-
 static GLfloat vdata[12][3] = {
-	{-X, 0.0, Z }, { X, 0.0, Z }, {-X, 0.0,-Z }, { X, 0.0,-Z },
-	{ 0.0, Z, X }, { 0.0, Z,-X }, { 0.0,-Z, X }, { 0.0,-Z,-X }, 
-	{ Z, X, 0.0 }, {-Z, X, 0.0 }, { Z,-X, 0.0 }, {-Z,-X, 0.0 }
+	{-0.525731112119133606, 0.0, 0.850650808352039932 },
+    { 0.525731112119133606, 0.0, 0.850650808352039932 },
+    {-0.525731112119133606, 0.0,-0.850650808352039932 },
+    { 0.525731112119133606, 0.0,-0.850650808352039932 },
+	{ 0.0, 0.850650808352039932, 0.525731112119133606 },
+    { 0.0, 0.850650808352039932,-0.525731112119133606 },
+    { 0.0,-0.850650808352039932, 0.525731112119133606 },
+    { 0.0,-0.850650808352039932,-0.525731112119133606 }, 
+	{ 0.850650808352039932, 0.525731112119133606, 0.0 },
+    {-0.850650808352039932, 0.525731112119133606, 0.0 },
+    { 0.850650808352039932,-0.525731112119133606, 0.0 },
+    {-0.850650808352039932,-0.525731112119133606, 0.0 }
 }; 
+
+
 
 static GLint tindices[20][3] = {
 	{  4,0,  1 }, { 9,0,  4 }, {  5,9, 4 }, { 5, 4, 8 }, { 8,4,  1 }, 
@@ -936,6 +947,8 @@ static GLint tindices[20][3] = {
 	{  1,6, 10 }, { 0,9, 11 }, { 11,9, 2 }, { 2, 9, 5 }, { 2,7, 11 }
 }; 
 
+
+#define pi 3.1415926535898
 float Tx( float v[3], float size )
 {
 	float tx;
@@ -943,16 +956,16 @@ float Tx( float v[3], float size )
 	{ 
 		if ( v[0] > 0 )
 		{
-			tx =( 0.5 + (atan(v[2]/v[0])+ pi/2) / (pi*2) ) *TextAdjustX;
+			tx =( 0.5 + (atan(v[2]/v[0])+ pi/2) / (pi*2) ) *1;
 		}
 		else
 		{
-			tx = ((atan(v[2]/v[0])+ pi/2) / (pi*2) ) *TextAdjustX;
+			tx = ((atan(v[2]/v[0])+ pi/2) / (pi*2) ) *1;
 		}
 	}
 	else
 	{
-		tx = (0.5 + v[2]*(0.5/size)) *TextAdjustX; 
+		tx = (0.5 + v[2]*(0.5/(size/4.0))) *1; 
 	}
 	return tx;
 }
@@ -960,36 +973,41 @@ float Tx( float v[3], float size )
 float Ty( float v[3], float size )
 {	
 	float ty;		
-	ty = (0.5 + ( ( asin( v[1] / size ) ) / pi )) *TextAdjustY ;
+	ty = (0.5 + ( ( asin( v[1] / (size/4.0) ) ) / pi )) *1 ;
 	return ty;
 }
 
+
+
 void normalize( float v[3] )
 {
-	double d = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
-	v[0] /= d;
-	v[1] /= d;
-	v[2] /= d;
+  double d = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
+  v[0] /= d;
+  v[1] /= d;
+  v[2] /= d;
 }
+
+
 
 void vcrcgl_draw_sphere( GLfloat coord[3], GLfloat diameter, GLint density )
 {
   gint i;
   for (i=0; i<20; i++ )
-    polyhedron( vdata[tindices[i][0]],
-                vdata[tindices[i][1]],
-                vdata[tindices[i][2]], coord, diameter, density );
+  polyhedron( vdata[tindices[i][0]],
+              vdata[tindices[i][1]],
+              vdata[tindices[i][2]], coord, diameter, density );
 }
+
+
 
 /* draws a sphere-like shape with lots of triangles
    'level' specifies how many triangles are used:
    0: 20, 1: 80, 2: 320, 3: 1280, etc ...             */
-int polyhedron ( float *v1, float *v2, float *v3,
+void polyhedron ( float *v1, float *v2, float *v3,
                  GLfloat coord[3], GLfloat diameter, GLint level )
 {
 	float v12[3], v23[3], v31[3];
 	int i;
-	static int counter=0;
 	
 	if (level == 0 )
 	{
@@ -1037,7 +1055,7 @@ int polyhedron ( float *v1, float *v2, float *v3,
 		glEnd();
 		glFinish();
 		counter += 3;
-		return counter;
+        return;
 	}
 	
 	for (i=0; i<3; i++)
@@ -1055,8 +1073,6 @@ int polyhedron ( float *v1, float *v2, float *v3,
 	polyhedron(  v2, v23, v12, coord, diameter, (level-1) );
 	polyhedron(  v3, v31, v23, coord, diameter, (level-1) );
 	polyhedron( v12, v23, v31, coord, diameter, (level-1) );
-	
-	return( counter );
 }
 
 
