@@ -39,6 +39,7 @@ class PluginManager:
             pass
         else:
             self.__plugins_registered.append (plugin)
+            plugin.registered = True
             
     def unregister_plugin (self, plugin):
         # Try removing the plugin from registered list
@@ -64,24 +65,25 @@ class Plugin:
     __module__ = 'gwp'
 
     # Custom attributes
-    plugin_name = ''
-    plugin_version = 0
-    plugin_author_name = ''
-    plugin_author_email = ''
-    plugin_desc_short = ''
-    plugin_desc_long = ''
-    plugin_license = ''
+    name = ''
+    version = 0
+    author_name = ''
+    author_email = ''
+    desc_short = ''
+    desc_long = ''
+    license = ''
+    registered = False
 
     # Constructor
     def __init__ (self, name, version, author_name,
                   author_email, desc_s, desc_l, license):
-        self.plugin_name = name
-        self.plugin_version = version
-        self.plugin_author_name = author_name
-        self.plugin_author_email = author_email
-        self.plugin_desc_short = desc_s
-        self.plugin_desc_long = desc_l
-        self.plugin_license = license
+        self.name = name
+        self.version = version
+        self.author_name = author_name
+        self.author_email = author_email
+        self.desc_short = desc_s
+        self.desc_long = desc_l
+        self.license = license
 
     # Executed at registration time
     def register (self):
