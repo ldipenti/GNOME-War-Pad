@@ -62,14 +62,13 @@ class Quark(gwp.Plugin):
     def na_report_generate(self, p):
         """Genera los avisos que van al area de notificacion."""
         self.natt = ''
-        self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
-                            self.natt)        
+        self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO)
         if p.is_mine():
             self.report_verify_happyness(p, 'c') # Colonists
             self.report_verify_happyness(p, 'n') # Natives
         self.report_verify_colonists(p)
         self.report_verify_temperature(p) # Ve si conviene Terraformar
-        
+
     #--------------------------------------------------------------------------
     def calculate_future_happyness_natives(self, p):
         """Devuelve el valor de happyness del siguiente turno"""
@@ -179,7 +178,7 @@ class Quark(gwp.Plugin):
     def report_verify_happyness(self, p, people):
         """Verifica si van a pasar a estar desontentos o en guerra civil en caso de
         taxes con modificador negativo. Salida al area de notificacion"""
-        self.natt = ""
+        #self.natt = ""
         if people == 'c':
             people = _("Colonists ")
             future_happ = self.calculate_future_happyness_colonists(p)
@@ -205,8 +204,6 @@ class Quark(gwp.Plugin):
         * sacar el max posible de supplies si hay Bovinoids
         * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
         """
-        self.natt = ""
-
         p = p_orig.copy()
         if (not p.is_mine()): # Para planetas orbitados y no mios
             gs = gwp.get_game_state()
@@ -265,7 +262,7 @@ class Quark(gwp.Plugin):
                 p = orig_p.copy()
                 if not orig_p.is_mine(): # Si no es mio
                     # Lo simulo para hacer los calculos
-                    print "SIMULO"
+                    #print "SIMULO"
                     gs = gwp.get_game_state()
                     nro_raza = gs.get_race_nr()
                     p.set_owner(nro_raza)
@@ -297,25 +294,6 @@ class Quark(gwp.Plugin):
                         self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_MEDIO, self.natt)
 
 
-    #--------------------------------------------------------------------------
-    def conectar_planetas(self):
-        """Conecta la senial planeta seleccionado para mostrar avisos en el
-        area de notificacion. YA NO SE USA"""
-        pass
-#         self.signals_id = []
-#         for planeta in self.pl:
-#             cod = planeta.connect("selected", self.na_generar)
-#             if self.signals_id == []:
-#                 self.signals_id = { planeta.get_id() : cod }
-#             else:
-#                 self.signals_id [ planeta.get_id() ] = cod
-#         for planeta in self.pl_otros: # Planetas orbitados sin duenio
-#             cod = planeta.connect("selected", self.na_generar)
-#             if self.signals_id == []:
-#                 self.signals_id = { planeta.get_id() : cod }
-#             else:
-#                 self.signals_id [ planeta.get_id() ] = cod
-            
     ###########################################################################        
     ################################## GUI ####################################
     ###########################################################################
@@ -330,7 +308,6 @@ class Quark(gwp.Plugin):
         self.quark_utils.widgets_make_link(self)
         self._init_lists()
         self.__create_gui()
-        # self.conectar_planetas()
         self.quark_utils.init_tips(self) # Carga lista de consejos
         self.inicializar_interfaces() # Notification Area
 
@@ -398,9 +375,7 @@ class Quark(gwp.Plugin):
             
             self.quark_icon.add(self.i) #agregado para que tenga alguna imagen (x el remove)
             self.na.add_notification(self.quark_icon)
-            self.natt = ''
-            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
-                                self.quark_utils.get_tip(self)) # Un msj cheto 
+            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO)
 
     #--------------------------------------------------------------------------
     def destruir_interfaces(self):
@@ -451,16 +426,13 @@ class Quark(gwp.Plugin):
         if (event == 'plugin-unregistered') and (objeto.name == 'Notification Area'):
             self.destruir_interfaces()
         if self.na and (event == 'planet-selected'):
-            self.natt = ''
-            self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
-                                self.quark_utils.get_tip(self)) # Un msj cheto 
-            pid = objeto.get_id()
-            for planeta in self.pl:
-                if planeta.get_id() == pid:
-                    self.na_report_generate(objeto)
-            for planeta in self.pl_otros: # Planetas orbitados sin duenio
-                if planeta.get_id() == pid:
-                    self.na_report_generate(objeto)
+            self.na_report_generate(objeto)
+            #for planeta in self.pl:
+            #    if planeta.get_id() == pid:
+            #        self.na_report_generate(objeto)
+            #for planeta in self.pl_otros: # Planetas orbitados sin duenio
+            #    if planeta.get_id() == pid:
+            #        self.na_report_generate(objeto)
         if self.na and (event == 'ship-selected'):
             self.na.remove_notification(self.quark_icon)
 
@@ -469,6 +441,7 @@ class Quark(gwp.Plugin):
         """Realiza todos los chequeos para mostrar el reporte en la ventana de
         existir algo que informar."""
         self.textbuffer = self.tv_notification.get_buffer()
+        print self.natt
         self.textbuffer.set_text(self.natt)
         
     #--------------------------------------------------------------------------                    
@@ -643,11 +616,6 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------
     def unregister(self, pm):
         # Cleaning up
-        #desconecto las senales de planeta seleccionado
-        #for pid, signal in self.signals_id.iteritems():
-        #    planeta = gwp.planet_get_by_id(pid)
-        #    planeta.disconnect(signal)
-            
         if self.na:
             self.na.remove_notification(self.quark_icon)
 
