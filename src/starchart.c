@@ -895,6 +895,12 @@ void starchart_set_status(gchar *msg)
 void starchart_mark_planet(Planet *a_planet)
 {
   static GnomeCanvasItem *planet_mark = NULL;
+  static GnomeCanvasItem *planet_mark_l = NULL;
+  static GnomeCanvasItem *planet_mark_r = NULL;
+  static GnomeCanvasItem *planet_mark_u = NULL;
+  static GnomeCanvasItem *planet_mark_d = NULL;
+  //  GdkColor red = {0, 0xffff, 0x0000, 0x0000};
+  GnomeCanvasPoints *p;
   gdouble wx, wy;
   gdouble matrix[6];
 
@@ -903,16 +909,71 @@ void starchart_mark_planet(Planet *a_planet)
   // If item doesn't exist yet, lets create it.
   if(! planet_mark) {
     planet_mark = gnome_canvas_item_new (starchart_get_grp_root(), 
-					 GNOME_TYPE_CANVAS_RECT,
+					 GNOME_TYPE_CANVAS_ELLIPSE,
 					 "outline_color_rgba", 0xff0000ff,
 					 "x1", -2.5, 
 					 "y1", -2.5,
 					 "x2", 2.5,
-					 "y2", 2.5, "width_units", 1.0,
+					 "y2", 2.5, "width_pixels", 1,
 					 "fill_color_rgba", 0xdd000011, 
 					 NULL);
+    p = gnome_canvas_points_new(2);
+    p->coords[0] = -7.5;
+    p->coords[1] = 0.0;
+    p->coords[2] = -2.5;
+    p->coords[3] = 0.0;
+    planet_mark_l = gnome_canvas_item_new (starchart_get_grp_root(), 
+					   GNOME_TYPE_CANVAS_LINE,
+					   "fill_color", "red",
+					   "points", p,
+					   "line_style", GDK_LINE_SOLID,
+					   "width_pixels", 1,
+					   NULL);
+
+    p = gnome_canvas_points_new(2);
+    p->coords[0] = 2.5;
+    p->coords[1] = 0.0;
+    p->coords[2] = 7.5;
+    p->coords[3] = 0.0;
+    planet_mark_r = gnome_canvas_item_new (starchart_get_grp_root(), 
+					   GNOME_TYPE_CANVAS_LINE,
+					   "fill_color", "red",
+					   "points", p,
+					   "line_style", GDK_LINE_SOLID,
+					   "width_pixels", 1,
+					   NULL);
+
+    p = gnome_canvas_points_new(2);
+    p->coords[0] = 0.0;
+    p->coords[1] = -7.5;
+    p->coords[2] = 0.0;
+    p->coords[3] = -2.5;
+    planet_mark_u = gnome_canvas_item_new (starchart_get_grp_root(), 
+					   GNOME_TYPE_CANVAS_LINE,
+					   "fill_color", "red",
+					   "points", p,
+					   "line_style", GDK_LINE_SOLID,
+					   "width_pixels", 1,
+					   NULL);
+
+    p = gnome_canvas_points_new(2);
+    p->coords[0] = 0.0;
+    p->coords[1] = 2.5;
+    p->coords[2] = 0.0;
+    p->coords[3] = 7.5;
+    planet_mark_d = gnome_canvas_item_new (starchart_get_grp_root(), 
+					   GNOME_TYPE_CANVAS_LINE,
+					   "fill_color", "red",
+					   "points", p,
+					   "line_style", GDK_LINE_SOLID,
+					   "width_pixels", 1,
+					   NULL);
   }
   // Translate the mark!
   art_affine_translate(matrix, wx, wy);
   gnome_canvas_item_affine_absolute(planet_mark, matrix);
+  gnome_canvas_item_affine_absolute(planet_mark_l, matrix);
+  gnome_canvas_item_affine_absolute(planet_mark_r, matrix);
+  gnome_canvas_item_affine_absolute(planet_mark_u, matrix);
+  gnome_canvas_item_affine_absolute(planet_mark_d, matrix);
 }
