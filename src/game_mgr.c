@@ -108,7 +108,7 @@ void game_mgr_init(void)
 	game = game_mgr_load_game_state (games_path, name_tmp);
 
 	/* Add icon to iconlist */
-	game_mgr_add_icon(iconlist, game);
+	game_mgr_add_icon(iconlist, game, -1);
       }
       /* Move forward on the list... */
       games = games->next;
@@ -238,7 +238,6 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
  */
 void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 {
-  gchar *game_name = NULL;
   gint icon_idx = game_mgr_get_icon_idx_selected();
   gchar *old_game_name = (gchar *)
     g_object_get_data(G_OBJECT(lookup_widget("game_mgr_entry_game_name")),
@@ -249,7 +248,6 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_idx)) {
     GwpGameState *state = NULL;
     GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
-    GnomeIconTextItem *icon_text = NULL;
 
     state = (GwpGameState *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
@@ -263,19 +261,9 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
     game_mgr_delete_game(old_game_name);
     game_mgr_save_game_state(state, FALSE);
 
-    /* Update icon name */
-    game_name = g_strdup(gwp_game_state_get_name(state));
-    game_mgr_game_name_demangle(game_name);
-    game_name = g_strconcat (game_name, "\n", 
-			     "(", _("turn "), 
-			     g_strdup_printf("%d", gwp_game_state_get_turn_number(state)),
-			     ")", NULL);
-    icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
-						   icon_idx);
-    g_assert(GNOME_IS_ICON_TEXT_ITEM(icon_text));
-    gnome_icon_text_item_start_editing(icon_text);
-    icon_text->text = game_name;
-    gnome_icon_text_item_stop_editing(icon_text, TRUE);
+    /* Update icon */
+    gnome_icon_list_remove (GNOME_ICON_LIST(iconlist), icon_idx);
+    game_mgr_add_icon (GNOME_ICON_LIST(iconlist), state, icon_idx);
 
     /* Disconnect signal before releasing dialog */
     g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
@@ -286,7 +274,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
   }
 }
 
-/* 
+/**
  * Callback function connected to OK button on the game 
  * properties dialog when using it as a new game dialog 
  */
@@ -310,7 +298,7 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
     game_mgr_save_game_state(new_game, FALSE);
 
     /* Add icon with data */
-    game_mgr_add_icon(iconlist, new_game);
+    game_mgr_add_icon(iconlist, new_game, -1);
 
     /* Update appbar's info */
     game_mgr_update_appbar();
@@ -323,6 +311,7 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
     game_mgr_properties_dlg_clean();
   }
 }
+
 
 void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
 {
@@ -522,9 +511,16 @@ void game_mgr_properties_dlg_clean(void)
 }
 
 /**
- * Add an icon with its label to the games list
+ * Add an icon with its label to the games list.
+ *
+ * @param iconlist The game iconlist
+ * @param state The GwpGameState object
+ * @param pos The position where to add the new icon. If pos < 0, the icon will be added last.
  */
-void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state)
+void 
+game_mgr_add_icon(GnomeIconList *iconlist, 
+		  GwpGameState  *state, 
+		  gint           pos)
 {
   gint icon_idx;
   gchar *race_logo_img = g_strdup_printf("%s%d.png",
@@ -540,12 +536,22 @@ void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state)
 			   ")", NULL);
 
   /* Add new game icon, with data */
-  icon_idx = gnome_icon_list_append(GNOME_ICON_LIST(iconlist),
-				    race_logo_img,
-				    game_name);
-  gnome_icon_list_set_icon_data(GNOME_ICON_LIST(iconlist),
-				icon_idx,
-				state);
+  if (pos < 0) {
+    icon_idx = gnome_icon_list_append(GNOME_ICON_LIST(iconlist),
+				      race_logo_img,
+				      game_name);
+    gnome_icon_list_set_icon_data(GNOME_ICON_LIST(iconlist),
+				  icon_idx,
+				  state);
+  } else {
+    gnome_icon_list_insert(GNOME_ICON_LIST(iconlist),
+			   pos,
+			   race_logo_img,
+			   game_name);
+    gnome_icon_list_set_icon_data(GNOME_ICON_LIST(iconlist),
+				  pos,
+				  state);
+  }
   g_free(game_name);
   g_free(race_logo_img);
 }
@@ -981,4 +987,6 @@ game_mgr_update_appbar (void)
 
   gnome_appbar_set_status (appbar, g_strdup_printf(_("%d games"), 
 						   g_slist_length(games)));
+  g_slist_free (games);
+  g_free (games_path);
 }

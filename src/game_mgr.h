@@ -44,7 +44,7 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 void game_mgr_properties_dlg_get_settings(GwpGameState *settings);
 gboolean game_mgr_properties_dlg_fill(GwpGameState *settings);
 
-void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state);
+void game_mgr_add_icon(GnomeIconList *iconlist, GwpGameState *state, gint pos);
 void game_mgr_play_game(GwpGameState *state);
 
 // Game name translators
