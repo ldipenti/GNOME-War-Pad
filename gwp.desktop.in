@@ -3,7 +3,7 @@
 Name=GNOME War Pad
 Comment=A VGA Planets client for GNOME
 Exec=gwp
-Icon=@PACKAGE_PIXMAPS_DIR@/ 
+Icon=@PACKAGE_PIXMAPS_DIR@/gwp.png 
 Terminal=false
 MultipleArgs=false
 Type=Application

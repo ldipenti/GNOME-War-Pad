@@ -13,6 +13,9 @@ CFLAGS =\
 
 bin_PROGRAMS = gwp
 
+EXTRA_DIST = \
+	gwp.glade
+
 gwp_SOURCES = \
 	callbacks.c\
 	callbacks.h\

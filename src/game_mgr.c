@@ -227,14 +227,8 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
    properties dialog when using it as an edit game dialog */
 void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name)
 {
-  GList *selections = NULL;
+  gint icon_idx = game_mgr_get_icon_idx_selected();
   GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
-  gint icon_idx;
-
-  g_assert(iconlist != NULL);
-
-  selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
-  icon_idx = (gint)g_list_nth_data(selections, 0);
   
   // If validations are ok...
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_idx)) {
@@ -675,4 +669,16 @@ void game_mgr_play_game(GameSettings *sett)
   init_starchart(gwp);
   gtk_widget_hide(game_mgr);
   gtk_widget_show(gwp);
+}
+
+gint game_mgr_get_icon_idx_selected(void)
+{
+  gint icon_idx;
+  GList *selections = NULL;
+  GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
+
+  selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
+  icon_idx = (gint)g_list_nth_data(selections, 0);
+  
+  return icon_idx;
 }

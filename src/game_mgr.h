@@ -58,4 +58,6 @@ void game_mgr_play_game(GameSettings *sett);
 void game_mgr_game_name_mangle(gchar *name);
 void game_mgr_game_name_demangle(gchar *name);
 
+gint game_mgr_get_icon_idx_selected(void);
+
 #endif

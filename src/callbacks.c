@@ -54,8 +54,8 @@ void
 on_exit1_activate                      (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-    // Bye bye
-    gtk_main_quit();
+  /* Bye bye */
+  gtk_main_quit();
 }
 
 
@@ -119,34 +119,34 @@ starchart_event_key                    (GtkWidget       *widget,
                                         GdkEventKey     *event,
                                         gpointer         user_data)
 {	
-	switch(event->keyval)
-	{
-		// Zoom Events
-		case GDK_KP_Add:
-			starchart_zoom_in(starchart_get_canvas());
-			return TRUE;
-		case GDK_KP_Subtract:
-			starchart_zoom_out(starchart_get_canvas());
-			return TRUE;
-		// Scrolling Events
-		case GDK_w:
-			starchart_scroll(0, -SCROLL);
-			return TRUE;
-		case GDK_s:
-			starchart_scroll(0, SCROLL);
-			return TRUE;
-		case GDK_a:
-			starchart_scroll(-SCROLL, 0);
-			return TRUE;
-		case GDK_d:
-			starchart_scroll(SCROLL, 0);
-			return TRUE;
-        // Activate/Deactivate Grid
-        case GDK_g:
-            starchart_toggle_grid();
-            return TRUE;
-	}
-	return FALSE;
+  switch(event->keyval)
+    {
+      /* Zoom Events */
+    case GDK_KP_Add:
+      starchart_zoom_in(starchart_get_canvas());
+      return TRUE;
+    case GDK_KP_Subtract:
+      starchart_zoom_out(starchart_get_canvas());
+      return TRUE;
+      /* Scrolling Events */
+    case GDK_w:
+      starchart_scroll(0, -SCROLL);
+      return TRUE;
+    case GDK_s:
+      starchart_scroll(0, SCROLL);
+      return TRUE;
+    case GDK_a:
+      starchart_scroll(-SCROLL, 0);
+      return TRUE;
+    case GDK_d:
+      starchart_scroll(SCROLL, 0);
+      return TRUE;
+      /* Activate/Deactivate Grid */
+    case GDK_g:
+      starchart_toggle_grid();
+      return TRUE;
+    }
+  return FALSE;
 }
 
 
@@ -160,23 +160,23 @@ starchart_event_button                 (GtkWidget       *widget,
   gdouble wx, wy;
   GSList *planets_nearby, *ships_nearby;
   
-  // Get focus on starchart
+  /* Get focus on starchart */
   gtk_widget_grab_focus(GTK_WIDGET(starchart_get_canvas()));
   
-  // First get canvas coords
+  /* First get canvas coords */
   x = (gint) event->x;
   y = (gint) event->y;
   
-  // Translate coords to World system
+  /* Translate coords to World system */
   gnome_canvas_c2w(starchart_get_canvas(), x, y, &wx, &wy);
   q = get_quadrant(wx, wy);
   
   if(event->button == 1) {
-    // Search for nearest planet and select it
+    /* Search for nearest planet and select it */
     planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
     starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), planets_nearby, wx, wy);
   } else if(event->button == 3) {
-    // Search for nearest ship and select it
+    /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
     starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);
   }
@@ -197,25 +197,27 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   static GnomeCanvasItem *planet, *ship;
   static guint interleave;
   
-  // First get canvas coords
+  /* First get canvas coords */
   x = (gint) event->x;
   y = (gint) event->y;
   
-  // Translate coords to World system
+  /* Translate coords to World system */
   gnome_canvas_c2w(GNOME_CANVAS(widget), x, y, &wx, &wy);
   
-  // Update coord indicator
+  /* Update coord indicator */
   starchart_update_coord_panel(widget, wx, wy);
   
-  // Every N mouse movements, make the calculations, to avoid
-  // loading the CPU too much.
+  /*
+    Every N mouse movements, make the calculations, to avoid
+    loading the CPU too much.
+  */
   if((interleave++ % MOUSE_INTERLEAVE) == 0) {
     if ((event->x >= 0) && (event->y >= 0)) {
-      // Un-highlight planet before highlighting other
+      /* Un-highlight planet before highlighting other */
       starchart_unhighlight_planet(planet);
       starchart_unhighlight_ship(ship);
       
-      // Search for nearest planet and highlight it
+      /* Search for nearest planet and highlight it */
       q = get_quadrant(wx, wy);
       planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
       ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
@@ -235,9 +237,21 @@ void on_game_mgr_game_dir_changed (GtkEditable *editable,
   dir = gtk_editable_get_chars(editable, 0, -1);
   game_mgr_update_race_list(dir);
 
-  // Clear the race name on the entry
+  /* Clear the race name on the entry */
   race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
   gtk_entry_set_text(race_name_entry, "");
+}
+
+/* Lets play, dude! */
+void on_game_mgr_play_game (GtkWidget *widget,
+			    gpointer user_data)
+{
+  GnomeIconList *iconlist =
+    (GnomeIconList *)lookup_widget("game_mgr_iconlist");
+  GameSettings *settings = (GameSettings *) 
+    gnome_icon_list_get_icon_data(iconlist,
+				  game_mgr_get_icon_idx_selected());
+  game_mgr_play_game(settings);
 }
 
 void on_game_mgr_new_game (GtkWidget *widget,
@@ -248,7 +262,7 @@ void on_game_mgr_new_game (GtkWidget *widget,
 
   iconlist = lookup_widget("game_mgr_iconlist");
 
-  // Connect callback to OK button, so that works as a "new game" dialog.
+  /* Connect callback to OK button, so that works as a "new game" dialog. */
   g_signal_connect(G_OBJECT(ok_button), 
 		   "clicked", 
 		   G_CALLBACK(game_mgr_cb_new_game), iconlist);
@@ -259,13 +273,13 @@ void on_game_mgr_new_game (GtkWidget *widget,
   gtk_widget_show(game_mgr_properties);
 }
 
-// Button events on iconlist
+/* Button events on iconlist */
 void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 				       gint icon_idx,
 				       GdkEventButton *event,
 				       gpointer user_data)
 {
-  // Displays a pop-up menu
+  /* Displays a pop-up menu */
   if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
     GtkWidget *popup = NULL;
     
@@ -275,7 +289,7 @@ void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
     return;
   }
 
-  // Double-click enters the game
+  /* Double-click enters the game */
   if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
     game_mgr_play_game((GameSettings *)
 		       gnome_icon_list_get_icon_data(iconlist, 
@@ -291,7 +305,7 @@ void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
     (GtkButton *) lookup_widget("game_mgr_button_ok");
   GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
 
-  // Disconnect signal before releasing dialog
+  /* Disconnect signal before releasing dialog */
   g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
 				       G_CALLBACK(game_mgr_cb_new_game),
 				       iconlist);
@@ -303,7 +317,7 @@ void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
   game_mgr_properties_dlg_clean();
 }
 
-// Get the race number and assign it to the race name field
+/* Get the race number and assign it to the race name field */
 void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
 						     gpointer user_data)
 {
@@ -318,26 +332,20 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   model = gtk_tree_view_get_model(race_l);
   sel = gtk_tree_view_get_selection(race_l);
 
-  // get the iterator at the selection
+  /* get the iterator at the selection */
   gtk_tree_selection_get_selected(sel, NULL, &iter);
 
-  // get the "hidden" data from the second column
+  /* get the "hidden" data from the second column */
   race = g_malloc(sizeof(gint));
   gtk_tree_model_get(model, &iter, 1, race, -1);
 
-  // Copy the race name on the entry
+  /* Copy the race name on the entry */
   race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
   gtk_entry_set_text(race_name_entry, race_get_name(*race));
 
-  // Bind its number (the really important data)
+  /* Bind its number (the really important data) */
   g_object_set_data(G_OBJECT(race_name_entry),
 		      "race_number", race);
-}
-
-void on_game_mgr_play_game (GtkWidget *widget,
-			    gpointer user_data)
-{
-  // FIXME: Do some stuff here!!
 }
 
 void on_game_mgr_edit_game(GtkWidget *widget,
@@ -358,8 +366,10 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 
     if(game_mgr_properties_dlg_fill(settings)) {
 
-      /* Connect callback to OK button, so that works as 
-	 an "edit game" dialog. */
+      /* 
+	 Connect callback to OK button, so that works as 
+	 an "edit game" dialog. 
+      */
       g_signal_connect(G_OBJECT(ok_button), 
 		       "clicked", 
 		       G_CALLBACK(game_mgr_cb_edit_game), 
@@ -405,7 +415,7 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     game_name = g_strdup_printf("%s", settings->game_name);
     game_mgr_game_name_demangle(game_name);
 
-    // Are you sureeee?
+    /* Are you sureeee? */
     warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
 				  GTK_DIALOG_DESTROY_WITH_PARENT,
 				  GTK_MESSAGE_QUESTION,
@@ -415,16 +425,16 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     response = gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
 
-    // Oh well...
+    /* Oh well... */
     if(response == GTK_RESPONSE_YES) {
     
-      // Remove it from GConf
+      /* Remove it from GConf */
       game_mgr_settings_delete(settings->game_name);
       gconf_client_suggest_sync(gwp_gconf, NULL);
 
-      // Free memory from GameSettings struct
+      /* Free memory from GameSettings struct */
       game_mgr_settings_free(settings);
-      // Remove icon
+      /* Remove icon */
       gnome_icon_list_remove(GNOME_ICON_LIST(iconlist),
 			     icon_idx);
     }
@@ -433,10 +443,64 @@ void on_game_mgr_delete_game (GtkWidget *widget,
 
 void gwp_quit(void)
 {
-  // Disconnect from GConf server
+  /* Disconnect from GConf server */
   gconf_client_suggest_sync(gwp_gconf, NULL);
   g_object_unref(gwp_gconf);
   
-  // bye bye...
+  /* bye bye... */
   gtk_main_quit();
+}
+
+/* Proxy funcs to show about... dialog */
+void on_game_mgr_about_activate(GtkWidget *widget,
+				gpointer data)
+{
+  on_about_activate(game_mgr);
+}
+void on_starchart_about_activate(GtkWidget *widget,
+				 gpointer data)
+{
+  on_about_activate(gwp);
+}
+/* The real About show func */
+void on_about_activate(GtkWidget *widget)
+{
+  if(GTK_IS_WIDGET(widget)) {
+    GtkWidget *about_gwp;
+    const gchar *authors[] = {
+      "Lucas Di Pentima <lucas@lunix.com.ar>",
+      NULL
+    };
+    const gchar *documenters[] = {
+      "Lucas Di Pentima <lucas@lunix.com.ar>",
+      NULL
+    };
+
+    about_gwp = gnome_about_new("GNOME War Pad",
+				"0.1",
+				"(c) 2002-2003 Lucas Di Pentima",
+				_("A VGA Planets client for the GNOME2 platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
+				(const gchar **)authors,
+				(const gchar **)documenters,
+				NULL,
+				gdk_pixbuf_new_from_file(DATA_DIR"/gwp/logo.png",
+							 NULL));
+
+    gtk_window_set_transient_for(GTK_WINDOW(about_gwp), 
+				 GTK_WINDOW(widget));
+    gtk_widget_show(about_gwp);
+  }
+}
+
+/*
+  This cb is used to catch the "close window" clicks of those
+  pop-up windows we don't want to be destroyed.
+*/
+gboolean delete_event (GtkWidget *widget,
+		       GdkEvent *event,
+		       gpointer data)
+{
+  /* Return true, so that the window is not destroyed. */
+  gtk_widget_hide(widget);
+  return TRUE;
 }

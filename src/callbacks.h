@@ -93,14 +93,14 @@ on_gwp_destroy_event                   (GtkWidget       *widget,
 void on_game_mgr_game_dir_changed (GtkEditable *editable,
 				   gpointer user_data);
 
-void on_game_mgr_play_game (GtkWidget *widget,
-			    gpointer user_data);
-
 void on_game_mgr_new_game (GtkWidget *widget,
 			   gpointer user_data);
 
 void on_game_mgr_edit_game(GtkWidget *widget,
 			   gpointer user_data);
+
+void on_game_mgr_play_game (GtkWidget *widget,
+			    gpointer user_data);
 
 void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 				       gint icon_idx,
@@ -117,3 +117,14 @@ void on_game_mgr_delete_game (GtkWidget *widget,
 			      gpointer user_data);
 
 void gwp_quit(void);
+
+void on_about_activate(GtkWidget *widget);
+void on_game_mgr_about_activate(GtkWidget *widget,
+				gpointer data);
+void on_starchart_about_activate(GtkWidget *widget,
+				 gpointer data);
+
+gboolean delete_event (GtkWidget *widget,
+		       GdkEvent *event,
+		       gpointer data);
+
