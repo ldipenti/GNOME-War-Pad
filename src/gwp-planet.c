@@ -440,25 +440,48 @@ gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
   g_assert (GWP_IS_PLANET(self));
 
   gint ret = 0;
-
-  g_assert(GWP_IS_PLANET(self));
+  gint my_race = gwp_game_state_get_race(game_state);
+  gint temp = gwp_planet_get_temperature(self); 
 
   if(gwp_planet_is_known(self) && gwp_planet_is_mine(self)) {
 
     /* If planet conditions are good for life... */
-    if((gwp_planet_get_temperature(self) <= 84) &&
-       (gwp_planet_get_temperature(self) >= 15)) {
-      if(gwp_game_state_get_race(game_state) != RACE_CRYSTALLINE) {
-	ret = sin(3.14 * ((100.0 - (gdouble)gwp_planet_get_temperature(self))
-			  / 100.0)) * 100000;
-      } else {
+    if((temp <= 84) && (temp >= 15)) {
+      if(my_race == RACE_CRYSTALLINE &&
+	 gwp_game_state_get_host_crystal_desert_adv(game_state)) {
 	/* If we are Crystalline... */
-	ret = gwp_planet_get_temperature(self) * 1000;
+	ret = temp * 1000;
+      } else {
+	ret = sin(3.14 * ((100.0 - (gdouble)temp)
+			  / 100.0)) * 100000;
       }
     } else {
       /* If planet conditions are extreme... */
+      gint cdr = gwp_game_state_get_host_climate_death_rate (game_state);
 
-      /* FIXME!!!: We need to know host configuration for this... */
+      /* First the exceptions */
+      if (my_race == RACE_REBELS && temp <= 19) {
+	ret = 90000;
+      } else if ((my_race == RACE_FASCISTS || my_race == RACE_ROBOTS ||
+		  my_race == RACE_REBELS   || my_race == RACE_COLONIES) &&
+		 temp > 80) {
+	ret = 60;
+      } else if (my_race == RACE_CRYSTALLINE &&
+		 gwp_game_state_get_host_crystal_desert_adv(game_state)) {
+	ret = temp * 1000;
+      } else {
+	/* Arctic planet */
+	if (temp <= 14) {
+	  ret = floor((299.9 + 200 * temp) / cdr);
+	}
+	/* Desert planet */ 
+	else if (gwp_planet_get_temperature(self) >= 85) {
+	  ret = floor((20099.9 - 200 * temp) / cdr);
+	}
+      }
+      /* Make corrections if "colonists eat supplies" seeting is ON */
+      if (gwp_game_state_get_host_colonists_eat_supplies(game_state))
+	ret += (gwp_planet_get_supplies (self) / 40) * (100 / cdr);
     }
   } 
 

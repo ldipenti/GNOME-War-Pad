@@ -1073,3 +1073,33 @@ gwp_game_state_get_host_sensors_range (GwpGameState *self)
   g_assert (GWP_IS_GAME_STATE(self));
   return self->priv->host_sensors_range;  
 }
+
+/**
+ * Returns Host's climate death rate setting.
+ */ 
+gint
+gwp_game_state_get_host_climate_death_rate (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_climate_death_rate;
+}
+
+/**
+ * Returns Host's "crystals like it hot" setting.
+ */
+gboolean
+gwp_game_state_get_host_crystal_desert_adv (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_crystal_desert_adv;
+}
+
+/**
+ * Returns Host's "colonists eat supps" setting.
+ */
+gboolean
+gwp_game_state_get_host_colonists_eat_supplies (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_colonists_eat_supplies;
+}

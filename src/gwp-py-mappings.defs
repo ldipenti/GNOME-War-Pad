@@ -3871,4 +3871,22 @@
   (return-type "gint")
 )
 
+(define-method get_host_climate_death_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_climate_death_rate")
+  (return-type "gint")
+)
+
+(define-method get_host_crystal_desert_adv
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_crystal_desert_adv")
+  (return-type "gboolean")
+)
+
+(define-method get_host_colonists_eat_supplies
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_colonists_eat_supplies")
+  (return-type "gboolean")
+)
+
 

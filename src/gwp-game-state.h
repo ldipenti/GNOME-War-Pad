@@ -129,6 +129,9 @@ gint gwp_game_state_get_host_mining_rate (GwpGameState *self, gint race);
 gint gwp_game_state_get_host_tax_rate (GwpGameState *self, gint race);
 gint gwp_game_state_get_host_ships_visible_range (GwpGameState *self);
 gint gwp_game_state_get_host_sensors_range (GwpGameState *self);
+gint gwp_game_state_get_host_climate_death_rate (GwpGameState *self);
+gboolean gwp_game_state_get_host_crystal_desert_adv (GwpGameState *self);
+gboolean gwp_game_state_get_host_colonists_eat_supplies (GwpGameState *self);
 
 /*
  * Standard defines.
