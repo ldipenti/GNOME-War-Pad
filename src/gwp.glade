@@ -146,7 +146,7 @@
 			  <accelerator key="KP_Add" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image113">
+			    <widget class="GtkImage" id="image121">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-zoom-in</property>
 			      <property name="icon_size">1</property>
@@ -168,7 +168,7 @@
 			  <accelerator key="KP_Subtract" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image114">
+			    <widget class="GtkImage" id="image122">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-zoom-out</property>
 			      <property name="icon_size">1</property>
@@ -235,9 +235,10 @@
 			  <property name="label" translatable="yes">Online Help</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_online_help_activate" last_modification_time="Mon, 16 Jun 2003 21:19:21 GMT"/>
+			  <accelerator key="F1" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image115">
+			    <widget class="GtkImage" id="image123">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-help</property>
 			      <property name="icon_size">1</property>
@@ -6233,7 +6234,7 @@
 			  <accelerator key="n" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image93">
+			    <widget class="GtkImage" id="image116">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-new</property>
 			      <property name="icon_size">1</property>
@@ -6256,7 +6257,7 @@
 			  <accelerator key="e" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image94">
+			    <widget class="GtkImage" id="image117">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-properties</property>
 			      <property name="icon_size">1</property>
@@ -6279,7 +6280,7 @@
 			  <accelerator key="p" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image95">
+			    <widget class="GtkImage" id="image118">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-execute</property>
 			      <property name="icon_size">1</property>
@@ -6301,7 +6302,7 @@
 			  <accelerator key="d" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image96">
+			    <widget class="GtkImage" id="image119">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-delete</property>
 			      <property name="icon_size">1</property>
@@ -6315,7 +6316,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkMenuItem" id="separator4">
+			<widget class="GtkSeparatorMenuItem" id="separator4">
 			  <property name="visible">True</property>
 			</widget>
 		      </child>
@@ -6346,9 +6347,10 @@
 			  <property name="label" translatable="yes">_Online Help</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_online_help_activate" last_modification_time="Mon, 16 Jun 2003 21:18:05 GMT"/>
+			  <accelerator key="F1" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image97">
+			    <widget class="GtkImage" id="image120">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-help</property>
 			      <property name="icon_size">1</property>
