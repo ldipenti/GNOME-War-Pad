@@ -682,7 +682,7 @@ gint16 gwp_ship_get_unload_neutronium (GwpShip *self)
 void gwp_ship_set_unload_neutronium (GwpShip *self, gint16 neu)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (neu >= 0 && neu <= self->priv->neutronium);
+  g_assert (neu >= 0);
   self->priv->unload_neutronium = neu;
 }
 
@@ -695,7 +695,7 @@ gint16 gwp_ship_get_unload_tritanium (GwpShip *self)
 void gwp_ship_set_unload_tritanium (GwpShip *self, gint16 tri)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (tri >= 0 && tri <= self->priv->tritanium);
+  g_assert (tri >= 0);
   self->priv->unload_tritanium = tri;
 }
 
@@ -708,7 +708,7 @@ gint16 gwp_ship_get_unload_duranium (GwpShip *self)
 void gwp_ship_set_unload_duranium (GwpShip *self, gint16 dur)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (dur >= 0 && dur <= self->priv->duranium);
+  g_assert (dur >= 0);
   self->priv->unload_duranium = dur;
 }
 
@@ -721,7 +721,7 @@ gint16 gwp_ship_get_unload_molybdenum (GwpShip *self)
 void gwp_ship_set_unload_molybdenum (GwpShip *self, gint16 mol)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (mol >= 0 && mol <= self->priv->molybdenum);
+  g_assert (mol >= 0);
   self->priv->unload_molybdenum = mol;
 }
 
@@ -734,14 +734,14 @@ gint16 gwp_ship_get_unload_supplies (GwpShip *self)
 void gwp_ship_set_unload_supplies (GwpShip *self, gint16 sup)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (sup >= 0 && sup <= self->priv->supplies);
+  g_assert (sup >= 0);
   self->priv->unload_supplies = sup;
 }
 
 void gwp_ship_set_unload_colonists (GwpShip *self, gint16 col)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (col >= 0 && col <= self->priv->colonists);
+  g_assert (col >= 0);
   self->priv->unload_colonists = col;
 }
 
@@ -774,7 +774,7 @@ gint16 gwp_ship_get_transfer_neutronium (GwpShip *self)
 void gwp_ship_set_transfer_neutronium (GwpShip *self, gint16 neu)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (neu >= 0 && neu <= self->priv->neutronium);
+  g_assert (neu >= 0);
   self->priv->transfer_neutronium = neu;
 }
 
@@ -787,7 +787,7 @@ gint16 gwp_ship_get_transfer_tritanium (GwpShip *self)
 void gwp_ship_set_transfer_tritanium (GwpShip *self, gint16 tri)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (tri >= 0 && tri <= self->priv->tritanium);
+  g_assert (tri >= 0);
   self->priv->transfer_tritanium = tri;
 }
 
@@ -800,7 +800,7 @@ gint16 gwp_ship_get_transfer_duranium (GwpShip *self)
 void gwp_ship_set_transfer_duranium (GwpShip *self, gint16 dur)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (dur >= 0 && dur <= self->priv->duranium);
+  g_assert (dur >= 0);
   self->priv->transfer_duranium = dur;
 }
 
@@ -813,7 +813,7 @@ gint16 gwp_ship_get_transfer_molybdenum (GwpShip *self)
 void gwp_ship_set_transfer_molybdenum (GwpShip *self, gint16 mol)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (mol >= 0 && mol <= self->priv->molybdenum);
+  g_assert (mol >= 0);
   self->priv->transfer_molybdenum = mol;
 }
 
@@ -826,7 +826,7 @@ gint16 gwp_ship_get_transfer_supplies (GwpShip *self)
 void gwp_ship_set_transfer_colonists (GwpShip *self, gint16 col)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (col >= 0 && col <= self->priv->colonists);
+  g_assert (col >= 0);
   self->priv->transfer_colonists = col;
 }
 
@@ -839,7 +839,7 @@ gint16 gwp_ship_get_transfer_colonists (GwpShip *self)
 void gwp_ship_set_transfer_supplies (GwpShip *self, gint16 sup)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (sup >= 0 && sup <= self->priv->supplies);
+  g_assert (sup >= 0);
   self->priv->transfer_supplies = sup;
 }
 
