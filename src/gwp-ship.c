@@ -339,7 +339,7 @@ GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
 
   gint beams_type = gwp_ship_get_beams_type (self);
 
-  if (beams_type != 0 && gwp_ship_get_beams(self) != 0) {
+  if (gwp_ship_has_beam_weapons(self)) {
     return (GwpBeamSpec *)g_slist_nth_data (beamspec_list, beams_type - 1);
   } else {
     return NULL;
@@ -362,7 +362,7 @@ GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
 
   gint torps_type = gwp_ship_get_torps_type (self);
 
-  if (torps_type != 0 && gwp_ship_get_torps(self) != 0) {
+  if (gwp_ship_has_torp_weapons(self)) {
     return (GwpTorpSpec *)g_slist_nth_data (torpspec_list, torps_type - 1);
   } else {
     return NULL;
@@ -373,6 +373,29 @@ GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
 /**********************/
 /* High level methods */
 /**********************/
+
+gboolean gwp_ship_has_beam_weapons (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  if (gwp_ship_get_beams(self) > 0 && gwp_ship_get_beams_type(self) > 0) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+} 
+
+gboolean gwp_ship_has_torp_weapons (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  if (gwp_ship_get_torps_launchers(self) > 0 &&
+      gwp_ship_get_torps_type(self) > 0) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
 
 GString * gwp_ship_get_primary_enemy_name (GwpShip *self)
 {

@@ -61,6 +61,9 @@ GwpShip *gwp_ship_new (void);
 /**********************/
 /* High level methods */
 /**********************/
+gboolean gwp_ship_has_beam_weapons (GwpShip *self);
+gboolean gwp_ship_has_torp_weapons (GwpShip *self);
+
 GString * gwp_ship_get_primary_enemy_name (GwpShip *self);
 GString * gwp_ship_get_mission_name (GwpShip *self);
 GString * gwp_ship_get_owner_name (GwpShip *self);
@@ -75,9 +78,7 @@ gint gwp_ship_get_hull_torp_launchers (GwpShip *self);
 gint gwp_ship_get_hull_fighter_bays (GwpShip *self);
 
 GString * gwp_ship_get_engine_name (GwpShip *self);
-
 GString * gwp_ship_get_beams_name (GwpShip *self);
-
 GString * gwp_ship_get_torps_name (GwpShip *self);
 
 gint gwp_ship_calculate_heading (GwpShip *self);
