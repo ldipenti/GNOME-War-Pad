@@ -16,7 +16,7 @@ AC_PROG_LIBTOOL
 GNOME_COMPILE_WARNINGS
 
 dnl ==========================================
-dnl = Check for GNOME libs
+dnl = Check for GNOME libs - REQUIRED
 dnl ==========================================
 PKG_CHECK_MODULES(LIBGNOMEUI, libgnomeui-2.0 >= 2.6.0, have_libgnomeui=yes, have_libgnomeui=no)
 if test "$have_libgnomeui" = "yes"; then

@@ -58,7 +58,7 @@ perl -p -i -e "s/^PROJECT_NUMBER(.*)=(.*)$/PROJECT_NUMBER\1= $VERSION/"  Doxyfil
 ###
 # configure.in
 perl -p -i -e "s/AC_INIT\((.*),(.*),(.*)\)/AC_INIT(\1, $VERSION,\3)/" configure.in
-perl -p -i -e "s/AM_INIT_AUTOMAKE\((.*),(.*)\)/AM_INIT_AUTOMAKE(\1, $VERSION)/" configure.in
+#perl -p -i -e "s/AM_INIT_AUTOMAKE\((.*),(.*)\)/AM_INIT_AUTOMAKE(\1, $VERSION)/" configure.in
 
 ###
 # SPEC files

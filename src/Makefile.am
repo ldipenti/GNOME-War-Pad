@@ -1,8 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
 INCLUDES = \
-	$(FOO_CFLAGS) \
-	$(PY_CFLAGS)
+	$(GNOME_CFLAGS) \
+	$(PY_CFLAGS) \
+	$(GTKGLEXT_CFLAGS)
 
 # FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
 
@@ -87,8 +88,9 @@ gwp_SOURCES =				\
 
 
 gwp_LDADD =  \
-	$(FOO_LIBS) \
-	$(PY_LIB_LOC) $(PY_EXTRA_LIBS) $(PY_LIBS) 
+	$(GNOME_LIBS) \
+	$(PY_LIB_LOC) $(PY_EXTRA_LIBS) $(PY_LIBS) \
+	$(GTKGLEXT_LIBS)
 
 gladedir = $(datadir)/gwp
 glade_DATA = gwp.glade
