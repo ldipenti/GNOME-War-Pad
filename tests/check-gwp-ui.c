@@ -11,17 +11,17 @@
 GwpUi *ui;
 
 /* Prototypes */
-void gwp_ui_setup (void);
-void gwp_ui_teardown (void);
+static void setup (void);
+static void teardown (void);
 Suite *suite_gwp_object (void);
 
 /* Tests */
-void gwp_ui_setup (void)
+static void setup (void)
 {
   ui = gwp_ui_new ();
 }
 
-void gwp_ui_teardown (void)
+static void teardown (void)
 {
   g_object_unref (ui);
 }
@@ -40,7 +40,7 @@ Suite *suite_gwp_ui (void)
   TCase *tc = tcase_create ("Core");
 
   suite_add_tcase (s, tc);
-  tcase_add_checked_fixture (tc, gwp_ui_setup, gwp_ui_teardown);
+  tcase_add_checked_fixture (tc, setup, teardown);
 
   tcase_add_test (tc, ui_new);
 

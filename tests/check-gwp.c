@@ -16,8 +16,8 @@ int main (void)
   SRunner *sr = srunner_create (s);
 
   /* Add module suites */
-  srunner_add_suite (sr, suite_gwp_ui());
   srunner_add_suite (sr, suite_gwp_object());
+  srunner_add_suite (sr, suite_gwp_ui());
 /*  srunner_add_suite (sr, suite_gwp_starchart()); */
 
   srunner_run_all (sr, CK_VERBOSE);

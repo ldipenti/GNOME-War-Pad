@@ -17,17 +17,17 @@
 GwpObject *object;
 
 /* Prototypes */
-void setup (void);
-void teardown (void);
+static void setup (void);
+static void teardown (void);
 Suite *suite_gwp_object (void);
 
 /* Tests */
-void setup (void)
+static void setup (void)
 {
   object = gwp_object_new ();
 }
 
-void teardown (void)
+static void teardown (void)
 {
   g_object_unref (object);
 }
@@ -80,6 +80,13 @@ START_TEST(object_get_name_trunc)
 }
 END_TEST
 
+START_TEST(object_set_name_null)
+{
+  gwp_object_set_name (object, NULL);
+  fail("object name should raise an exception for a NULL value");  
+}
+END_TEST
+
 /* Suite assembling */
 Suite *suite_gwp_object (void)
 {
@@ -91,6 +98,7 @@ Suite *suite_gwp_object (void)
 
   tcase_add_test (tc, object_new);
   tcase_add_test (tc, object_default_name);
+  tcase_add_test_raise_signal (tc, object_set_name_null, 6);
   tcase_add_test (tc, object_set_empty_name);
   tcase_add_test (tc, object_set_get_name);
   tcase_add_test (tc, object_get_name_trunc);
