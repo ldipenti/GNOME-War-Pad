@@ -1606,6 +1606,10 @@ void init_starchart (GtkWidget * gwp)
   starchart_get_canvas()->aa = 1;
   gnome_canvas_update_now(starchart_get_canvas());
 
+  /* Set starchart zoom */
+  gnome_canvas_set_pixels_per_unit (starchart_get_canvas(), 
+				    gwp_game_state_get_starchart_zoom (game_state));
+
   /* Scroll to last coordinates */
   gnome_canvas_scroll_to(starchart_get_canvas(),
 			 gwp_game_state_get_last_x_coord (game_state),
