@@ -174,6 +174,15 @@ class PluginManager:
                 names.append(plugin.__class__.__name__)
         return names
 
+    # Search if the given classes are available on the plugin list
+    # and register the ones who are.
+    # This function is called from C code, plugin writers shouldn't
+    # mess with this.
+    def set_plugin_registered_names(self, names):
+        for plugin in self.__plugins_available:
+            if plugin.__name__ in names:
+                self.register_plugin (plugin)
+
 #######
 # Plugin abstract class
 #######

@@ -621,7 +621,12 @@ void game_mgr_play_game(GwpGameState *state)
 		    " - GNOME War Pad", NULL);
   gtk_window_set_title(GTK_WINDOW(gwp), tmp);
   g_free(tmp);
-
+  
+  /* Activate plugins */
+  gwp_python_set_active_plugins ((GSList *)g_object_get_data (G_OBJECT(state),
+							      "active_plugins"));
+  
+  /* Show the good stuff! */
   gtk_widget_hide (wait_notice);
   gtk_widget_hide(game_mgr);
   gtk_widget_show(gwp);
@@ -720,79 +725,81 @@ static void game_mgr_init_message_history (void)
 
 GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 {
-  gchar *tmp = NULL;
   GwpGameState *game = gwp_game_state_new ();
+  gchar *path = g_strconcat(games_path, "/", game_name, "/", NULL);
 
   gwp_game_state_set_name(game, game_name);
   
   /* GwpGameState */
-  tmp = g_strconcat(games_path, "/", game_name, "/starchart_zoom", NULL);
   gwp_game_state_set_starchart_zoom(game, 
 				    gconf_client_get_float(gwp_gconf, 
-							   tmp, NULL));
-  g_free(tmp);
-  
-  tmp = g_strconcat(games_path, "/", game_name, "/turn_number", NULL);
+							   g_strconcat(path, "starchart_zoom", NULL),
+							   NULL));
   gwp_game_state_set_turn_number(game, 
 				 gconf_client_get_int(gwp_gconf, 
-						      tmp, NULL));
-  g_free(tmp);
-  
-  tmp = g_strconcat(games_path, "/", game_name, "/last_x_coord", NULL);
+						      g_strconcat(path, "turn_number", NULL), 
+						      NULL));
   gwp_game_state_set_last_x_coord(game, 
-				  gconf_client_get_int(gwp_gconf, tmp, NULL));
-  g_free(tmp);
-  
-  tmp = g_strconcat(games_path, "/", game_name, "/last_y_coord", NULL);
+				  gconf_client_get_int(gwp_gconf, 
+						       g_strconcat(path, "last_x_coord", NULL),
+						       NULL));
   gwp_game_state_set_last_y_coord(game, 
-				  gconf_client_get_int(gwp_gconf, tmp, NULL));
-  g_free(tmp);
-  
-  tmp = g_strconcat(games_path, "/", game_name, "/toolbar", NULL);
+				  gconf_client_get_int(gwp_gconf, 
+						       g_strconcat(path, "last_y_coord", NULL),
+						       NULL));
   gwp_game_state_set_toolbar(game, 
-			     gconf_client_get_bool(gwp_gconf, tmp, NULL));
-  g_free(tmp);
+			     gconf_client_get_bool(gwp_gconf, 
+						   g_strconcat(path, "toolbar", NULL),
+						   NULL));
   
   /* Game Settings */
-  tmp = g_strconcat(games_path, "/", game_name, "/game_dir", NULL);
-  gwp_game_state_set_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
-  g_free(tmp);
-  
-  tmp = g_strconcat(games_path, "/", game_name, "/trn_dir", NULL);
+  gwp_game_state_set_dir(game, 
+			 gconf_client_get_string(gwp_gconf, 
+						 g_strconcat(path, "game_dir", NULL),
+						 NULL));
+
   gwp_game_state_set_trn_dir(game, 
-			     gconf_client_get_string(gwp_gconf, tmp, NULL));
-  g_free(tmp);
+			     gconf_client_get_string(gwp_gconf, 
+						     g_strconcat(path, "trn_dir", NULL),
+						     NULL));
   
-  tmp = g_strconcat(games_path, "/", game_name, "/rst_dir", NULL);
   gwp_game_state_set_rst_dir(game, 
-			     gconf_client_get_string(gwp_gconf, tmp, NULL));
-  g_free(tmp);
+			     gconf_client_get_string(gwp_gconf, 
+						     g_strconcat(path, "rst_dir", NULL),
+						     NULL));
   
-  tmp = g_strconcat(games_path, "/", game_name, "/player_email", NULL);
   gwp_game_state_set_player_email(game, 
 				  gconf_client_get_string(gwp_gconf, 
-							  tmp, NULL));
-  g_free(tmp);
+							  g_strconcat(path, "player_email", NULL),
+							  NULL));
   
-  tmp = g_strconcat(games_path, "/", game_name, "/host_email", NULL);
   gwp_game_state_set_host_email(game, 
-				gconf_client_get_string(gwp_gconf, tmp, NULL));
-  g_free(tmp);
+				gconf_client_get_string(gwp_gconf, 
+							g_strconcat(path, "host_email", NULL),
+							NULL));
   
-  tmp = g_strconcat(games_path, "/", game_name, "/host_type", NULL);
   gwp_game_state_set_host_type(game, 
-			       gconf_client_get_int(gwp_gconf, tmp, NULL));
-  g_free(tmp);
+			       gconf_client_get_int(gwp_gconf, 
+						    g_strconcat(path, "host_type", NULL),
+						    NULL));
   
-  tmp = g_strconcat(games_path, "/", game_name, "/race", NULL);
-  gwp_game_state_set_race(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
-  g_free(tmp);
-
-  tmp = g_strconcat (games_path, "/", game_name, "/minefields", NULL);
-  gwp_game_state_set_minefields (game, gconf_client_get_bool(gwp_gconf, 
-							     tmp, NULL));
-  g_free (tmp);
-
+  gwp_game_state_set_race(game, 
+			  gconf_client_get_int(gwp_gconf, 
+					       g_strconcat(path, "race", NULL),
+					       NULL));
+  
+  gwp_game_state_set_minefields (game, 
+				 gconf_client_get_bool(gwp_gconf, 
+						       g_strconcat (path, "minefields", NULL),
+						       NULL));
+  /* Registered plugins */
+  GSList *plugins = gconf_client_get_list (gwp_gconf,
+					   g_strconcat (path, "plugins", NULL),
+					   GCONF_VALUE_STRING,
+					   NULL);
+  g_object_set_data (G_OBJECT(game),
+		     "active_plugins", (gpointer)plugins);
+  
   return game;
 }
 

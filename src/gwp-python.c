@@ -123,6 +123,9 @@ void initgwp (void)
   }
 }
 
+/**
+ * Sends keypress events to the PluginManager
+ */
 void gwp_python_event_key (GdkEventKey *event)
 {
   PyObject *plugin_mgr = NULL;
@@ -161,6 +164,7 @@ gwp_python_get_active_plugins (void)
   gint i;
 
   plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
+  g_assert (plugin_mgr != NULL);
 
   pylist = PyObject_CallMethod (plugin_mgr,
 				"get_plugin_registered_names",
@@ -168,7 +172,7 @@ gwp_python_get_active_plugins (void)
   /* Make sure that we have a Python list */
   g_assert (PyList_Check(pylist) == 1);
 
-  /*  Assemble the GSList */
+  /* Assemble the GSList */
   for (i = 0; i < PyList_Size(pylist); i++) {
     PyObject *name = PyList_GetItem (pylist, i);
     g_assert (PyString_Check(name)); /* Must be a Python string */
@@ -178,6 +182,42 @@ gwp_python_get_active_plugins (void)
   Py_DECREF (pylist);
 
   return names;
+}
+
+/**
+ * Utility function for gwp_python_set_active_plugins()
+ */
+static void
+gfunc_build_pylist (gpointer data, gpointer user_data)
+{
+  PyObject *pylist = (PyObject *)user_data;
+  gchar *plugin = (gchar *)data;
+
+  PyList_Append (pylist, PyString_FromString(plugin));
+}
+
+/**
+ * Set up the registered plugin list on the PluginManager
+ */
+void
+gwp_python_set_active_plugins (GSList *names)
+{
+  PyObject *plugin_mgr = NULL;
+  PyObject *pylist = PyList_New (0);
+  PyObject *arg;
+  
+  plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
+  g_assert (plugin_mgr != NULL);
+
+  /* Assemble Python List and send it to PluginManager */
+  g_slist_foreach (names, gfunc_build_pylist, pylist);
+  arg = Py_BuildValue ("O", pylist);
+  PyObject_CallMethodObjArgs (plugin_mgr,
+			      PyString_FromString("set_plugin_registered_names"),
+			      arg,
+			      NULL);
+  Py_DECREF (arg);
+  Py_DECREF (pylist);
 }
 
 #endif /* USE_PYTHON */
