@@ -535,6 +535,7 @@ void on_about_activate(GtkWidget *widget)
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       NULL
     };
+    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)";
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
@@ -542,7 +543,7 @@ void on_about_activate(GtkWidget *widget)
 				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
 				(const gchar **)authors,
 				(const gchar **)documenters,
-				NULL,
+				(const gchar *)translators,
 				gdk_pixbuf_new_from_file(DATADIR"/gwp/logo.png",
 							 NULL));
 

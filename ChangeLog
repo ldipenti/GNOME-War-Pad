@@ -1,14 +1,17 @@
-Version 0.3.0 (released ??-??-2004):
+Version 0.2.11 (released 03-15-2004):
 
 	* Bugs on some ship cargo unload and transfer methods were fixed.
 
 	* Bugs on ship data loading and ship on starchart manipulation
 	  were fixed.
 	
-	* Bug on the game_get_dir() function, didn't added the trailer "/".
+	* Bug on the unpack detection was fixed, the path was assembled
+	  incorrectly so the playerN.rst was not found.
 	
 	* Unpack feature enhanced to store additional targets on TARGETx.EXT
 	  file.
+	
+	* German translation, thanks to Stefan Reuther!!!
 
 Version 0.2.10 (released 02-02-2004):
 
@@ -17,13 +20,13 @@ Version 0.2.10 (released 02-02-2004):
 	* Planet and ship marks restyled.
 
 	* Planets are shown as circles, ships as triangles oriented
-	dpeending on their heading.
+  	  depending on their heading.
 
 	* First implementation on ship data: right-click on them to check
-	for their info.
+	  for their info.
 
 	* Implementation of GwpLocation, a new object to group other
-	objects on the starchart that are on the same place.
+	  objects on the starchart that are on the same place.
 
 	* Several bug fixes on the new data objects.
 
@@ -31,13 +34,13 @@ Version 0.2.10 (released 02-02-2004):
 Version 0.2.9 (released 01-25-2004):
 
 	* Internal data redesign: planets, starbases and ships now are
-	GObjects, part of a object hierarchy that will represent the
-	entire data scheme on GWP. This will make very easy the binding to
-	another languajes to treat this data.
+	  GObjects, part of a object hierarchy that will represent the
+	  entire data scheme on GWP. This will make very easy the binding to
+	  another languajes to treat this data.
 
 	* This version doesn't add any new feature, the amount of work
-	needed to change the internal data was enough to release a new
-	version, the new features will arrive shortly!
+	  needed to change the internal data was enough to release a new
+	  version, the new features will arrive shortly!
 
 
 Version 0.2.8 (released 06-30-2003):
@@ -53,12 +56,12 @@ Version 0.2.8 (released 06-30-2003):
 	* Turns left calculation for mineral extraction on planets.
 
 	* Starchart coordinates are now saved from one GWP execution to
-	another.
+	  another.
 
 	* Global Defense Systems calculation on each planet.
 
 	* Some buttons were added to the toolbar, one to toggle the GDS
-	panel, the other to show starbase panel.
+	  panel, the other to show starbase panel.
 
 
 Version 0.2.7 (released 06-23-2003):
@@ -68,7 +71,7 @@ Version 0.2.7 (released 06-23-2003):
 	* Added toolbar with show/hide menu function.
 
 	* Show planet image when double-clicking on it. The image depends
-	on planet's temperature.
+	  on planet's temperature.
 
 
 Version 0.2.6 (released 06-17-2003):
@@ -78,8 +81,8 @@ Version 0.2.6 (released 06-17-2003):
 	* Some UI usability issues on the game manager were fixed.
 
 	* With this release, now GWP website is going dynamic, featuring
-	internationalization, and soon, automatic screenshots thumbnails,
-	and releases download list generation.
+	  internationalization, and soon, automatic screenshots thumbnails,
+	  and releases download list generation.
 	
 
 Version 0.2.5 (released 06-09-2003):
@@ -93,7 +96,7 @@ Version 0.2.5 (released 06-09-2003):
 	* User interface polished.
 
 	* Fixed some problems with starchart panning (now it's necessary
-	to press the shift key).
+	  to press the shift key).
 	
 
 Version 0.2.3 (released 05-26-2003):
@@ -126,8 +129,8 @@ Version 0.2.0 (released 05-18-2003):
 Version 0.1.0 (released 05-11-2003):
 
 	* Very basic game manager, it needs to have all filenames in
-	lowercase (a script to force this is in the way...)
+	  lowercase (a script to force this is in the way...)
 
 	* Starchart visor, very incomplete: it can be viewed the planets
-	and ships, and planet data, nothing more...well, what do you want
-	for the very first release? :-)
+	  and ships, and planet data, nothing more...well, what do you want
+	  for the very first release? :-)
