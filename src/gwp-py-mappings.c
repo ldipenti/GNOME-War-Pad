@@ -5081,45 +5081,45 @@ _wrap_gwp_torpspec_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyObject *
-_wrap_gwp_torpspec_get_torpedo_cost(PyGObject *self)
+_wrap_gwp_torpspec_get_ammo_cost(PyGObject *self)
 {
     int ret;
 
-    ret = gwp_torpspec_get_torpedo_cost(GWP_TORP_SPEC(self->obj));
+    ret = gwp_torpspec_get_ammo_cost(GWP_TORP_SPEC(self->obj));
     return PyInt_FromLong(ret);
 }
 
 static PyObject *
-_wrap_gwp_torpspec_set_torpedo_cost(PyGObject *self, PyObject *args, PyObject *kwargs)
+_wrap_gwp_torpspec_set_ammo_cost(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
     static char *kwlist[] = { "tc", NULL };
     int tc;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpTorpSpec.set_torpedo_cost", kwlist, &tc))
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpTorpSpec.set_ammo_cost", kwlist, &tc))
         return NULL;
-    gwp_torpspec_set_torpedo_cost(GWP_TORP_SPEC(self->obj), tc);
+    gwp_torpspec_set_ammo_cost(GWP_TORP_SPEC(self->obj), tc);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject *
-_wrap_gwp_torpspec_get_launcher_cost(PyGObject *self)
+_wrap_gwp_torpspec_get_cost(PyGObject *self)
 {
     int ret;
 
-    ret = gwp_torpspec_get_launcher_cost(GWP_TORP_SPEC(self->obj));
+    ret = gwp_torpspec_get_cost(GWP_TORP_SPEC(self->obj));
     return PyInt_FromLong(ret);
 }
 
 static PyObject *
-_wrap_gwp_torpspec_set_launcher_cost(PyGObject *self, PyObject *args, PyObject *kwargs)
+_wrap_gwp_torpspec_set_cost(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
     static char *kwlist[] = { "lc", NULL };
     int lc;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpTorpSpec.set_launcher_cost", kwlist, &lc))
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpTorpSpec.set_cost", kwlist, &lc))
         return NULL;
-    gwp_torpspec_set_launcher_cost(GWP_TORP_SPEC(self->obj), lc);
+    gwp_torpspec_set_cost(GWP_TORP_SPEC(self->obj), lc);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -5283,10 +5283,10 @@ static PyMethodDef _PyGwpTorpSpec_methods[] = {
     { "set_id", (PyCFunction)_wrap_gwp_torpspec_set_id, METH_VARARGS|METH_KEYWORDS },
     { "get_name", (PyCFunction)_wrap_gwp_torpspec_get_name, METH_NOARGS },
     { "set_name", (PyCFunction)_wrap_gwp_torpspec_set_name, METH_VARARGS|METH_KEYWORDS },
-    { "get_torpedo_cost", (PyCFunction)_wrap_gwp_torpspec_get_torpedo_cost, METH_NOARGS },
-    { "set_torpedo_cost", (PyCFunction)_wrap_gwp_torpspec_set_torpedo_cost, METH_VARARGS|METH_KEYWORDS },
-    { "get_launcher_cost", (PyCFunction)_wrap_gwp_torpspec_get_launcher_cost, METH_NOARGS },
-    { "set_launcher_cost", (PyCFunction)_wrap_gwp_torpspec_set_launcher_cost, METH_VARARGS|METH_KEYWORDS },
+    { "get_ammo_cost", (PyCFunction)_wrap_gwp_torpspec_get_ammo_cost, METH_NOARGS },
+    { "set_ammo_cost", (PyCFunction)_wrap_gwp_torpspec_set_ammo_cost, METH_VARARGS|METH_KEYWORDS },
+    { "get_cost", (PyCFunction)_wrap_gwp_torpspec_get_cost, METH_NOARGS },
+    { "set_cost", (PyCFunction)_wrap_gwp_torpspec_set_cost, METH_VARARGS|METH_KEYWORDS },
     { "get_tritanium", (PyCFunction)_wrap_gwp_torpspec_get_tritanium, METH_NOARGS },
     { "set_tritanium", (PyCFunction)_wrap_gwp_torpspec_set_tritanium, METH_VARARGS|METH_KEYWORDS },
     { "get_duranium", (PyCFunction)_wrap_gwp_torpspec_get_duranium, METH_NOARGS },

@@ -1978,30 +1978,30 @@
   )
 )
 
-(define-method get_torpedo_cost
+(define-method get_ammo_cost
   (of-object "GwpTorpSpec")
-  (c-name "gwp_torpspec_get_torpedo_cost")
+  (c-name "gwp_torpspec_get_ammo_cost")
   (return-type "gint")
 )
 
-(define-method set_torpedo_cost
+(define-method set_ammo_cost
   (of-object "GwpTorpSpec")
-  (c-name "gwp_torpspec_set_torpedo_cost")
+  (c-name "gwp_torpspec_set_ammo_cost")
   (return-type "none")
   (parameters
     '("gint" "tc")
   )
 )
 
-(define-method get_launcher_cost
+(define-method get_cost
   (of-object "GwpTorpSpec")
-  (c-name "gwp_torpspec_get_launcher_cost")
+  (c-name "gwp_torpspec_get_cost")
   (return-type "gint")
 )
 
-(define-method set_launcher_cost
+(define-method set_cost
   (of-object "GwpTorpSpec")
-  (c-name "gwp_torpspec_set_launcher_cost")
+  (c-name "gwp_torpspec_set_cost")
   (return-type "none")
   (parameters
     '("gint" "lc")

@@ -1298,8 +1298,8 @@ GSList * load_torpspec (void)
     gwp_torpspec_set_name (ts, g_string_new(g_strchomp(name_tmp))->str);
     g_free(name_tmp);
 
-    gwp_torpspec_set_torpedo_cost (ts, getWord(buffer + 20));
-    gwp_torpspec_set_launcher_cost (ts, getWord(buffer + 22));
+    gwp_torpspec_set_ammo_cost (ts, getWord(buffer + 20));
+    gwp_torpspec_set_cost (ts, getWord(buffer + 22));
     gwp_torpspec_set_tritanium (ts, getWord(buffer + 24));
     gwp_torpspec_set_duranium (ts, getWord(buffer + 26));
     gwp_torpspec_set_molybdenum (ts, getWord(buffer + 28));

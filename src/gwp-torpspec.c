@@ -162,14 +162,14 @@ void gwp_torpspec_set_name (GwpTorpSpec *self, gchar *name)
   }
 }
 
-gint gwp_torpspec_get_torpedo_cost (GwpTorpSpec *self)
+gint gwp_torpspec_get_ammo_cost (GwpTorpSpec *self)
 {
   g_assert (GWP_IS_TORPSPEC(self));
 
   return self->priv->torpedo_cost;
 }
 
-void gwp_torpspec_set_torpedo_cost (GwpTorpSpec *self, gint tc)
+void gwp_torpspec_set_ammo_cost (GwpTorpSpec *self, gint tc)
 {
   g_assert (GWP_IS_TORPSPEC(self));
   g_assert (tc >= 0);
@@ -177,14 +177,14 @@ void gwp_torpspec_set_torpedo_cost (GwpTorpSpec *self, gint tc)
   self->priv->torpedo_cost = tc;
 }
 
-gint gwp_torpspec_get_launcher_cost (GwpTorpSpec *self)
+gint gwp_torpspec_get_cost (GwpTorpSpec *self)
 {
   g_assert (GWP_IS_TORPSPEC(self));
 
   return self->priv->launcher_cost;
 }
 
-void gwp_torpspec_set_launcher_cost (GwpTorpSpec *self, gint lc)
+void gwp_torpspec_set_cost (GwpTorpSpec *self, gint lc)
 {
   g_assert (GWP_IS_TORPSPEC(self));
   g_assert (lc >= 0);
