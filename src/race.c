@@ -24,6 +24,9 @@
 gchar *race_get_name(enum races racenum)
 {
   switch (racenum) {
+  case RACE_NONE:
+    return _("None");
+    break;
   case RACE_FEDS:
     return _("The Federation");
     break;

@@ -779,6 +779,7 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
   static GtkLabel *megacredits = NULL;
   static GtkLabel *visibility = NULL;
   static GtkLabel *coords = NULL;
+  static GtkLabel *owner = NULL;
   gchar *tmp = NULL;
 
   g_assert (GWP_IS_PLANET(a_planet));
@@ -793,6 +794,7 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     factories = (GtkLabel *) lookup_widget ("label_factories");
     defenses = (GtkLabel *) lookup_widget ("label_defenses");
     coords = (GtkLabel *) lookup_widget ("label_coords");
+    owner = (GtkLabel *) lookup_widget ("label_owner");
     
     neutronium = (GtkLabel *) lookup_widget ("label_neutronium");
     tritanium = (GtkLabel *) lookup_widget ("label_tritanium");
@@ -879,6 +881,11 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 			  gwp_object_get_y_coord (GWP_OBJECT(a_planet)));
     gtk_label_set_text(coords, tmp);
     g_free(tmp);
+
+    /* Owner */
+    tmp = g_strdup_printf("%s", race_get_name(gwp_planet_get_owner(a_planet)));
+    gtk_label_set_text(owner, tmp);
+    g_free(tmp);
     
     if(gwp_planet_get_happiness_col_change (a_planet) >= 0) {
       tmp = g_strdup_printf ("%d (%d%%, +%d)", 
@@ -926,23 +933,24 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     gtk_label_set_markup(planet_name, tmp);
     g_free(tmp);
 	
-    gtk_label_set_text (mines, "--");
-    gtk_label_set_text (factories, "--");
-    gtk_label_set_text (defenses, "--");
-    gtk_label_set_text (temperature, "--");
+    gtk_label_set_text (mines, _("--"));
+    gtk_label_set_text (factories, _("--"));
+    gtk_label_set_text (defenses, _("--"));
+    gtk_label_set_text (temperature, _("--"));
+    gtk_label_set_text(owner, _("--"));
 	
-    gtk_label_set_text (neutronium, "--");
-    gtk_label_set_text (tritanium, "--");
-    gtk_label_set_text (duranium, "--");
-    gtk_label_set_text (molybdenum, "--");
-    gtk_label_set_text (supplies, "--");
+    gtk_label_set_text (neutronium, _("--"));
+    gtk_label_set_text (tritanium, _("--"));
+    gtk_label_set_text (duranium, _("--"));
+    gtk_label_set_text (molybdenum, _("--"));
+    gtk_label_set_text (supplies, _("--"));
 	
-    gtk_label_set_text (colonists, "--");
-    gtk_label_set_text (natives, "--");
-    gtk_label_set_text (natives_race, "--");
-    gtk_label_set_text (spi, "--");
-    gtk_label_set_text (megacredits, "--");
-    gtk_label_set_text (visibility, "--");
+    gtk_label_set_text (colonists, _("--"));
+    gtk_label_set_text (natives, _("--"));
+    gtk_label_set_text (natives_race, _("--"));
+    gtk_label_set_text (spi, _("--"));
+    gtk_label_set_text (megacredits, _("--"));
+    gtk_label_set_text (visibility, _("--"));
 
     /* Planet coords are always known */
     tmp = g_strdup_printf("%d , %d", 
