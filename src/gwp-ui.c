@@ -115,6 +115,33 @@ void gwp_ui_set_notification (GwpUi *self, gchar *msg)
   static GtkWidget *notif = NULL;
   static GtkWidget *btn = NULL;
   static gboolean loaded = FALSE;
+  static const gchar *icon[] = {"16 16 6 1",
+				"       c None",
+				".      c #000000",
+				"+      c #0000FF",
+				"@      c #008080",
+				"#      c #C0C0C0",
+				"$      c #808080",
+				"       ..       ",
+				"     ..++.      ",
+				"   ..+++++.     ",
+				" ..++++++++.    ",
+				".@#+++++++++.   ",
+				".+@#+++++++++.  ",
+				".++@#+++++++++. ",
+				".+++@#++++++++..",
+				".++++@#+++++..@$",
+				" .++++@#++..@#@$",
+				"  .++++@..@###..",
+				"   .+++.@####.. ",
+				"    .++.###..   ",
+				"     .+.@..     ",
+				"      ...       ",
+				"                "};
+  
+  GdkPixmap *pixmap;
+  GdkBitmap *mask;
+
   GtkTooltips *tt = gtk_tooltips_new ();
 
   g_assert (GWP_IS_UI(self));
@@ -125,6 +152,10 @@ void gwp_ui_set_notification (GwpUi *self, gchar *msg)
     btn = lookup_widget ("btn_noti");
     loaded = TRUE;
   }
+
+  pixmap = gdk_pixmap_create_from_xpm_d (btn->window, &mask, NULL, &icon);
+  gtk_image_set_from_pixmap (GTK_IMAGE(notif), pixmap, mask);
+
   gtk_tooltips_enable (tt);
   gtk_tooltips_set_tip (tt, notif,
 			msg,
