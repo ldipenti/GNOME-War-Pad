@@ -115,6 +115,14 @@ static void gwp_engspec_class_init (GwpEngSpecClass *klass)
   gobject_class->finalize = gwp_engspec_finalize;
 }
 
+/*
+ * Public method implementations.
+ */
+GwpEngSpec * gwp_engspec_new (void)
+{
+  return g_object_new (gwp_engspec_get_type (), NULL);
+}
+
 /**********************/
 /* high level methods */
 /**********************/
