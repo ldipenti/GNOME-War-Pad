@@ -5,6 +5,7 @@ HAPP_STATE_UNHAPPY = 1
 HAPP_STATE_CIVIL_WAR = 2
 
 def widgets_make_link(self):
+    self.window = self.main_window.get_widget('window1')
     self.cmb_filter =  self.main_window.get_widget('cmb_filter')
     self.lst_planets =  self.main_window.get_widget('lst_planets')
     self.lst_minerals =  self.main_window.get_widget('lst_minerals')

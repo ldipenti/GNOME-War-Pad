@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-#ruta='/u/home/cristian/devel/quark/01'
 import sys
 sys.path.append(gwp.get_system_plugins_dir())
-#sys.path.append(ruta)
 ##import vp_utils
 import pygtk
 import gtk
@@ -14,10 +12,10 @@ class Quark(gwp.Plugin):
     version = "0.1"
     author_name = "Cristian Abalos"
     author_email = "abalosc@gmail.com"
-    desc_short = "Inform deficiences in the resourses management"
+    desc_short = _("Help in the resources management")
     desc_long = ""
     license = "GPL"
-    hotkey = "q"
+    hotkey = 'u'
     
     
     FILTER_NONE = 1
@@ -83,22 +81,36 @@ class Quark(gwp.Plugin):
         self.lbl_min_max.set_text(str(p.calculate_allowed_mines()))
         self.lbl_def_max.set_text(str(p.calculate_allowed_defenses()))
         if p.has_starbase():
-            self.lbl_base.set_text("BASE")
+            self.lbl_base.set_text(_("BASE"))
         else:
             self.lbl_base.set_text('')
         # Lista Minerales
         self.store_minerals.clear()
-        extraccion = str(p.neutronium_extraction_rate())# + "/0"
-        fila = ["Neu", p.get_mined_neutronium(), p.get_ground_neutronium(), extraccion ]
+        # Natives 3 = Reptilian (minan x 2)
+        multip = 1
+        if p.get_owner() == 2:
+            multip = 2 #FIXME (tiene que usar el mining rate)
+        if p.get_natives_race() == 3:
+            multip = 2 #FIXME (tiene que usar el mining rate)
+       
+        extraccion = str(p.neutronium_extraction_rate())
+        densidad = str(p.get_dens_neutronium()*multip)
+        fila = ["Neu", p.get_mined_neutronium(), p.get_ground_neutronium(), extraccion, densidad ]
         self.store_minerals.append(fila)
-        extraccion = str(p.tritanium_extraction_rate())# + "/0"
-        fila = ["Tri", p.get_mined_tritanium(), p.get_ground_tritanium(), extraccion ]
+
+        extraccion = str(p.tritanium_extraction_rate())
+        densidad = str(p.get_dens_tritanium()*multip)
+        fila = ["Tri", p.get_mined_tritanium(), p.get_ground_tritanium(), extraccion, densidad ]
         self.store_minerals.append(fila)
-        extraccion = str(p.duranium_extraction_rate())# + "/0"
-        fila = ["Dur", p.get_mined_duranium(), p.get_ground_duranium(), extraccion ]
+
+        extraccion = str(p.duranium_extraction_rate())
+        densidad = str(p.get_dens_duranium()*multip)        
+        fila = ["Dur", p.get_mined_duranium(), p.get_ground_duranium(), extraccion, densidad ]
         self.store_minerals.append(fila)
-        extraccion = str(p.molybdenum_extraction_rate())# + "/0"
-        fila = ["Mol", p.get_mined_molybdenum(), p.get_ground_molybdenum(), extraccion ]
+
+        extraccion = str(p.molybdenum_extraction_rate())
+        densidad = str(p.get_dens_molybdenum()*multip)
+        fila = ["Mol", p.get_mined_molybdenum(), p.get_ground_molybdenum(), extraccion, densidad ]
         self.store_minerals.append(fila)
         
         ##renderer.set_property('background','green')
@@ -210,7 +222,7 @@ class Quark(gwp.Plugin):
                 return self.quark_utils.HAPP_STATE_UNHAPPY
             else:
                 if (actual_happ + actual_change) < 71: # en 70 dejan de pagar (Descontentos)
-                return self.quark_utils.HAPP_STATE_CIVIL_WAR
+                    return self.quark_utils.HAPP_STATE_CIVIL_WAR
         return self.quark_utils.HAPP_STATE_NONE
 
             
@@ -221,7 +233,7 @@ class Quark(gwp.Plugin):
     # Constructor
     #--------------------------------------------------------------------------
     def __init__(self):
-        self.ruta = ruta ##gwp.get_system_plugins_dir()
+        self.ruta = gwp.get_system_plugins_dir()
         self.fname = self.ruta + '/quark.glade'
         self.__initglade(self.fname)
         self.quark_utils.widgets_make_link(self)
@@ -234,15 +246,16 @@ class Quark(gwp.Plugin):
         self.treeselection_planets = self.lst_planets.get_selection()
         # treeview setup
         self.store_planets = gtk.ListStore(int, str)
-        self.store_minerals = gtk.ListStore(str, int, int, str)
+        self.store_minerals = gtk.ListStore(str, int, int, str, str)
         renderer = gtk.CellRendererText()
         
         # Columns Lista Planetas
         col_planets = gtk.TreeViewColumn('Planets', renderer, text=1)
         col_minerals = gtk.TreeViewColumn('Mineral', renderer, text=0)
-        col_surf = gtk.TreeViewColumn('Surf', renderer, text=1)
-        col_core = gtk.TreeViewColumn('Core', renderer, text=2)
-        col_extr = gtk.TreeViewColumn('Extr', renderer, text=3)
+        col_surf = gtk.TreeViewColumn(_('Surf'), renderer, text=1)
+        col_core = gtk.TreeViewColumn(_('Core'), renderer, text=2)
+        col_extr = gtk.TreeViewColumn(_('Extr'), renderer, text=3)
+        col_dens = gtk.TreeViewColumn(_('c/100'), renderer, text=4)
         # Add columns to models
         # Planetas
         self.lst_planets.append_column(col_planets)
@@ -252,6 +265,7 @@ class Quark(gwp.Plugin):
         self.lst_minerals.append_column(col_surf)
         self.lst_minerals.append_column(col_core)
         self.lst_minerals.append_column(col_extr)
+        self.lst_minerals.append_column(col_dens)
         self.lst_minerals.set_model(self.store_minerals)
 
         # callbacks
@@ -290,6 +304,7 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def main_cb(self, widget, data=None):
+        print "main cd carajo"
         self.main()
         
     #--------------------------------------------------------------------------
@@ -297,6 +312,7 @@ class Quark(gwp.Plugin):
         # All PyGTK applications must have a gtk.main(). Control ends here
         # and waits for an event to occur (like a key press or mouse event).
         #self.main_window.window1.show_all()
+        self.window.show_all()
         gtk.main()
 
     ###########################################################################
@@ -314,7 +330,8 @@ class Quark(gwp.Plugin):
 
     # Terminate App
     def destroy(self, widget, data=None):
-        gtk.main_quit()
+        #gtk.main_quit()
+        pass
 
     # Terminate App
     def gtk_main_quit(self, *args):
@@ -323,8 +340,11 @@ class Quark(gwp.Plugin):
     #Toma el valor self.hotkey del plugin
     def register(self, pm):
         pm.set_hook_key(0, # No modifier
-                        gtk.gdk.keyval_from_name(self.hotkey), # self.hotkey se define al pcipio junto con los datos del plugin
-                        self.__main)
+                        gtk.gdk.keyval_from_name(self.hotkey),
+                        self.main)
+        pm.set_hook_menu("Q_uark",
+                         self.main_cb)
+
 
     # Cleaning up
     def unregister(self, pm):
