@@ -28,20 +28,28 @@ class PluginManager:
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
             try:
-                self.__key_hooks[event["string"]]()
+                # FIXME: don't know why I have to substract 16
+                self.__key_hooks[event["state"] - 16][event["keyval"]]()
             except KeyError:
                 # Debugging message
-                print "PluginManager: key event '%s' not binded" % event["string"]
+                print "PluginManager: key name '%s', mask '%d' not binded" % (gtk.gdk.keyval_name(event["keyval"]), event["state"])
+            except TypeError:
+                # Debugging msg
+                print "PluginManager: it seems that you've registered an object that isn't callable!"
 
-    def set_hook_key (self, key, action):
-        self.__key_hooks[key] = action
+    def set_hook_key (self, state, key, action):
+        if not self.__key_hooks.has_key(state):
+            # Register modifier
+            self.__key_hooks[state] = {}
+        # Register key event
+        self.__key_hooks[state][key] = action
 
-    def unset_hook_key (self, key):
+    def unset_hook_key (self, state, key):
         try:
-            del(self.__key_hooks[key])
+            del(self.__key_hooks[state][key])
         except KeyError:
             # Debugging message
-            print "PluginManager: key event '%s' not found when unregistering plugin." % key
+            print "PluginManager: key event '%s' not found when unregistering plugin." % gtk.gdk.keyval_name(key)
 
     def register_plugin (self, plugin):
         try:
@@ -66,6 +74,15 @@ class PluginManager:
                 raise
             else:
                 plugin.registered = False
+            # Unregister plugin's remaining events
+            for mod, event in self.__key_hooks.items():
+                for keyval, action in event.items():
+                    try:
+                        if action.im_self == plugin:
+                            del(self.__key_hooks[mod][keyval])
+                    except AttributeError:
+                        # Debugging
+                        print "PluginManager: '%s' action is not a method!!!" % gtk.gdk.keyval_name(keyval)
                 
     def get_plugins_available(self):
         return self.__plugins_available
