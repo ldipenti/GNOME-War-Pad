@@ -25,8 +25,7 @@
 #include "race_select.h"
 #include "game_state.h"
 
-void
-init_select_dlg (GtkWidget * gwp_select_dlg)
+void init_select_dlg (GtkWidget * gwp_select_dlg)
 {
   GtkEntry *game_dir_entry;
 
@@ -40,10 +39,9 @@ init_select_dlg (GtkWidget * gwp_select_dlg)
 
 void update_select_dlg (GtkWidget * gwp_select_dlg)
 {
-  GString *pdata, *pdata_lower, *ship, *button, *label;
+  GString *pdata, *pdata_lower, *button, *label;
   GtkWidget *btn_widget, *lbl_widget;
   gint i;
-  ship = g_string_new ("SHIP");
   
   for (i = 1; i <= 11; i++) {
     pdata = g_string_new ("PDATA");

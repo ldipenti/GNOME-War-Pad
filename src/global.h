@@ -29,6 +29,10 @@
 #include "game_state.h"
 #include "gwp_types.h"
 
+
+#define GWP_GLADE_XML_DIR DATA_DIR"/gwp"
+#define GWP_ICONS_DIR DATA_DIR"/pixmaps/gwp/icons"
+
 /* 
  * Defines
  */
@@ -101,8 +105,10 @@ GList *xyplanet_list;
 GList *shipxy_list;
 
 // Various widgets
-GtkWidget *gwp, *gwp_select_race_dialog;
-GladeXML *xml_interface;
+GtkWidget *gwp, *gwp_select_race_dialog, *game_mgr, *game_mgr_properties;
+
+// Is needed by both main.c & support.c
+GladeXML *xml_interface; 
 
 // GWP structures
 Starchart starchart;

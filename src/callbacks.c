@@ -9,6 +9,7 @@
 
 #include "global.h"
 #include "game_state.h"
+#include "game_mgr.h"
 #include "race_select.h"
 #include "callbacks.h"
 #include "support.h"
@@ -280,15 +281,44 @@ void select_race11_event(GtkButton *button, gpointer user_data)
   select_race_event(button, (gpointer)11);
 }
 
-void
-on_vp_game_dir_changed                 (GtkEditable     *editable,
-                                        gpointer         gwp_select_dlg)
+void on_vp_game_dir_changed (GtkEditable *editable,
+			     gpointer gwp_select_dlg) 
 {
-  editable = (GtkEditable *) lookup_widget("vp_game_dir");
+  //editable = (GtkEditable *) lookup_widget("vp_game_dir");
   game_set_dir(gtk_editable_get_chars(editable, 0, -1));
   gnome_config_set_string("General/game_dir", 
 			  gtk_editable_get_chars(editable, 0, -1));
-  update_select_dlg((GtkWidget *) gwp_select_dlg);
-  
+  update_select_dlg((GtkWidget *) gwp_select_dlg);  
 }
 
+void on_game_mgr_game_dir_changed (GtkEditable *editable,
+				   gpointer user_data)
+{
+  char *dir;
+
+  dir = gtk_editable_get_chars(editable, 0, -1);
+  game_mgr_update_race_list(dir);
+}
+
+void on_game_mgr_new_game (GtkWidget *widget,
+			   gpointer user_data)
+{
+  GtkWidget *iconlist;
+
+  iconlist = lookup_widget("game_mgr_iconlist");
+  g_assert(GNOME_IS_ICON_LIST(iconlist));
+  gnome_icon_list_insert(GNOME_ICON_LIST(iconlist),
+			 0,
+			 GWP_ICONS_DIR"/game_icon.png",
+			 "Nuevo Juego 1");
+}
+
+// Displays pop-up menu on selected game icon
+void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
+				       gpointer user_data)
+{
+  GtkMenu *popup;
+
+  popup = lookup_widget("game_mgr_popup_menu");
+  gtk_menu_popup (popup, NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+}

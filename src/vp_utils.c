@@ -470,7 +470,9 @@ GHashTable * load_sdata (void)
     ship_reg->tdata = NULL;
     
     // Add ship to list
-    g_hash_table_insert (ship_list, (gpointer)(gint)ship_get_id (ship_reg), ship_reg);
+    g_hash_table_insert (ship_list, 
+			 (gpointer)(gint)ship_get_id (ship_reg), 
+			 ship_reg);
   }
 
   // Now add the rest unknown ships

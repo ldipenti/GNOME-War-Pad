@@ -1,9 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-## Created by Anjuta - will be overwritten
-## If you don't want it to overwrite it,
-## 	Please disable it in the Anjuta project configuration
-
 INCLUDES = \
 	$(FOO_CFLAGS)
 
@@ -11,7 +7,7 @@ CFLAGS =\
 	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment \
 	 -Wuninitialized -Wparentheses -Wpointer-arith \
 	 -Wmissing-prototypes -export-dynamic \
-	 -DGWP_GLADE_XML_DIR=\""$(gladedir)"\" \
+	 -DDATA_DIR=\""$(datadir)"\" \
 	 -O1\
 	 -g
 
@@ -38,7 +34,9 @@ gwp_SOURCES = \
 	gwp_types.h\
 	vp_types.h\
 	vp_utils.c\
-	vp_utils.h
+	vp_utils.h\
+	game_mgr.c\
+	game_mgr.h
 
 gwp_LDFLAGS = 
 
@@ -47,3 +45,4 @@ gwp_LDADD =  \
 
 gladedir = $(datadir)/gwp
 glade_DATA = gwp.glade
+

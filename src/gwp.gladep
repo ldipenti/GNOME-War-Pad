@@ -2,6 +2,6 @@
 <!DOCTYPE glade-project SYSTEM "http://glade.gnome.org/glade-project-2.0.dtd">
 
 <glade-project>
-  <name></name>
-  <program_name></program_name>
+  <name>GNOME War Pad</name>
+  <program_name>gwp</program_name>
 </glade-project>

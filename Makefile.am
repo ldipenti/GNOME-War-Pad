@@ -3,7 +3,8 @@
 ## If you don't want it to overwrite it,
 ## 	Please disable it in the Anjuta project configuration
 
-SUBDIRS = po src 
+#SUBDIRS = po src 
+SUBDIRS = pixmaps src
 
 gwpdocdir = ${prefix}/doc/gwp
 gwpdoc_DATA = \

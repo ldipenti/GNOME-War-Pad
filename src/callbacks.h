@@ -176,3 +176,12 @@ on_vp_game_dir_changed                 (GtkEditable     *editable,
 void
 on_vp_game_dir_changed                 (GtkEditable     *editable,
                                         gpointer         user_data);
+
+void on_game_mgr_game_dir_changed (GtkEditable *editable,
+				   gpointer user_data);
+
+void on_game_mgr_new_game (GtkWidget *widget,
+			   gpointer user_data);
+
+void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
+				       gpointer user_data);

@@ -107,8 +107,8 @@ AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}")
 
 AC_OUTPUT([
 Makefile
-po/Makefile.in
 src/Makefile
+pixmaps/Makefile
 gwp.desktop
 ])
 

@@ -36,12 +36,11 @@
 #include "starchart.h"
 #include "race_select.h"
 #include "game_state.h"
+//#include "game_mgr.h"
 
 #define GWP_GLADE_XML_FILE GWP_GLADE_XML_DIR"/gwp.glade"
 
-int
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
 
 #ifdef ENABLE_NLS
   bindtextdomain (PACKAGE, PACKAGE_LOCALE_DIR);
@@ -50,6 +49,10 @@ main (int argc, char *argv[])
 
   gwp = NULL;
   gwp_select_race_dialog = NULL;
+  game_mgr = NULL;
+
+  // FIXME: Que es esto de abajo??
+  //game_mgr_new_game = NULL;
 
   gnome_program_init(PACKAGE, VERSION, LIBGNOMEUI_MODULE,
 		     argc, argv,
@@ -67,17 +70,26 @@ main (int argc, char *argv[])
   gwp = glade_xml_get_widget(xml_interface, "gwp");
   g_assert(gwp != NULL);
 
+  game_mgr = glade_xml_get_widget(xml_interface, "game_mgr");
+  g_assert(game_mgr != NULL);
+
+  game_mgr_properties = glade_xml_get_widget(xml_interface, "game_mgr_properties");
+  g_assert(game_mgr_properties != NULL);
+
+  /* Esto lo sacamos para darle lugar al manager mejorado
   gwp_select_race_dialog = glade_xml_get_widget(xml_interface,
 						"gwp_select_race_dialog");
   g_assert(gwp_select_race_dialog != NULL);
+  */
   
   // Initialisations
   gnome_config_push_prefix("/gwp/");
   game_init_dir(gnome_config_get_string("General/game_dir=\"\""));
-  init_select_dlg(gwp_select_race_dialog);
+  //init_select_dlg(gwp_select_race_dialog);
   
   // Show it!
-  gtk_widget_show(gwp_select_race_dialog);
+  //gtk_widget_show(gwp_select_race_dialog);
+  gtk_widget_show(game_mgr);
   
   gtk_main();
   

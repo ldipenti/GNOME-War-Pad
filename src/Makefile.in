@@ -72,9 +72,7 @@ FOO_LIBS = @FOO_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
-INTLOBJS = @INTLOBJS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 MAINT = @MAINT@
@@ -96,20 +94,24 @@ PACKAGE_PIXMAPS_DIR = @PACKAGE_PIXMAPS_DIR@
 PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
+PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
+PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+WARN_CFLAGS = @WARN_CFLAGS@
+cxxflags_set = @cxxflags_set@
 
 INCLUDES =  	$(FOO_CFLAGS)
 
 
-CFLAGS =  	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment 	 -Wuninitialized -Wparentheses -Wpointer-arith 	 -Wmissing-prototypes -export-dynamic 	 -DGWP_GLADE_XML_DIR=\""$(gladedir)"\" 	 -O1 	 -g
+CFLAGS =  	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment 	 -Wuninitialized -Wparentheses -Wpointer-arith 	 -Wmissing-prototypes -export-dynamic 	 -DDATA_DIR=\""$(datadir)"\" 	 -O1 	 -g
 
 
 bin_PROGRAMS = gwp
 
-gwp_SOURCES =  	callbacks.c 	callbacks.h 	support.c 	support.h 	main.c 	global.h 	race_select.c 	race_select.h 	game_state.h 	game_state.c 	planet.c 	planet.h 	ship.c 	ship.h 	starchart.c 	starchart.h 	gwp_types.c 	gwp_types.h 	vp_types.h 	vp_utils.c 	vp_utils.h
+gwp_SOURCES =  	callbacks.c 	callbacks.h 	support.c 	support.h 	main.c 	global.h 	race_select.c 	race_select.h 	game_state.h 	game_state.c 	planet.c 	planet.h 	ship.c 	ship.h 	starchart.c 	starchart.h 	gwp_types.c 	gwp_types.h 	vp_types.h 	vp_utils.c 	vp_utils.h 	game_mgr.c 	game_mgr.h
 
 
 gwp_LDFLAGS = 
@@ -133,7 +135,7 @@ LIBS = @LIBS@
 gwp_OBJECTS =  callbacks.$(OBJEXT) support.$(OBJEXT) main.$(OBJEXT) \
 race_select.$(OBJEXT) game_state.$(OBJEXT) planet.$(OBJEXT) \
 ship.$(OBJEXT) starchart.$(OBJEXT) gwp_types.$(OBJEXT) \
-vp_utils.$(OBJEXT)
+vp_utils.$(OBJEXT) game_mgr.$(OBJEXT)
 gwp_DEPENDENCIES = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -148,9 +150,9 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/callbacks.P .deps/game_state.P .deps/gwp_types.P \
-.deps/main.P .deps/planet.P .deps/race_select.P .deps/ship.P \
-.deps/starchart.P .deps/support.P .deps/vp_utils.P
+DEP_FILES =  .deps/callbacks.P .deps/game_mgr.P .deps/game_state.P \
+.deps/gwp_types.P .deps/main.P .deps/planet.P .deps/race_select.P \
+.deps/ship.P .deps/starchart.P .deps/support.P .deps/vp_utils.P
 SOURCES = $(gwp_SOURCES)
 OBJECTS = $(gwp_OBJECTS)
 
