@@ -1499,6 +1499,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
     /* Add planet names */
+    /* FIXME: TOOOOOOO SLOOOOOOOOOOOOOOOWWWWWWWW!!!
     gnome_canvas_item_new (starchart_get_grp_planet_names (), 
 			   GNOME_TYPE_CANVAS_TEXT,
 			   "text", gwp_object_get_name(GWP_OBJECT(planet)),
@@ -1506,6 +1507,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 			   "y", yi + 10,
 			   "fill_color", "white",
 			   NULL);
+    */
 
     if (gwp_planet_is_mine(planet)) {
 
