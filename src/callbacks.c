@@ -763,6 +763,15 @@ void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 		NULL);
 }
 
+/* Hides/Shows the constellations on starchart */
+void on_view_constellations_activate (GtkCheckMenuItem *menuitem,
+				      gpointer user_data)
+{
+  g_object_set (game_state, 
+		"constellations", gtk_check_menu_item_get_active(menuitem),
+		NULL);
+}
+
 void on_view_message_reader_activate (GtkWidget *widget,
 				      gpointer  user_data)
 {

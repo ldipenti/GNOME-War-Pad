@@ -150,3 +150,12 @@ void starchart_set_grp_ion_storms (GnomeCanvasGroup * group)
   starchart.grp_ion_storms = group;
 }
 
+GnomeCanvasGroup * starchart_get_grp_constellations (void)
+{
+  return starchart.grp_constellations;
+}
+
+void starchart_set_grp_constellations (GnomeCanvasGroup * group)
+{
+  starchart.grp_constellations = group;
+}

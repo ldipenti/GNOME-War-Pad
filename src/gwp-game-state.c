@@ -39,6 +39,7 @@ enum {
   PROP_SCANNER_AREA,
   PROP_MINEFIELDS,
   PROP_ION_STORMS,
+  PROP_CONSTELLATIONS,
   PROP_GRID,
 };
 
@@ -67,6 +68,7 @@ struct _GwpGameStatePrivate {
   gboolean scanner_area;
   gboolean minefields;
   gboolean ion_storms;
+  gboolean constellations;
   gboolean grid;
 #ifdef USE_PYTHON
   /* Pointer to Python object: PluginManager */
@@ -129,6 +131,9 @@ gwp_game_state_set_property (GObject      *object,
   case PROP_GRID:
     self->priv->grid = g_value_get_boolean (value);
     break;
+  case PROP_CONSTELLATIONS:
+    self->priv->constellations = g_value_get_boolean (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -165,6 +170,9 @@ gwp_game_state_get_property (GObject    *object,
   case PROP_GRID:
     g_value_set_boolean (value, self->priv->grid);
     break;
+  case PROP_CONSTELLATIONS:
+    g_value_set_boolean (value, self->priv->constellations);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -196,6 +204,7 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->extra_panel_open = FALSE;
   self->priv->planet_names = TRUE;
   self->priv->grid = TRUE;
+  self->priv->constellations = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
@@ -287,6 +296,12 @@ gwp_game_state_class_init (GwpGameStateClass *klass)
 				   g_param_spec_boolean ("grid",
 							 "Grid",
 							 "Whether show the grid or not",
+							 TRUE,
+							 G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_CONSTELLATIONS,
+				   g_param_spec_boolean ("constellations",
+							 "Constellations",
+							 "Whether show the constellations or not",
 							 TRUE,
 							 G_PARAM_READWRITE));
 }

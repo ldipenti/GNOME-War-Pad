@@ -91,6 +91,7 @@ void starchart_show_planet_names (gboolean show);
 void starchart_show_scanner_area (gboolean show);
 void starchart_show_minefields (gboolean show);
 void starchart_show_ion_storms (gboolean show);
+void starchart_show_constellations (gboolean show);
 
 GString * starchart_get_location_name (gint x, gint y);
 

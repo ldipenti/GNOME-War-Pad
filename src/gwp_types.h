@@ -58,6 +58,8 @@ GnomeCanvasGroup * starchart_get_grp_minefields (void);
 void starchart_set_grp_minefields (GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_ion_storms (void);
 void starchart_set_grp_ion_storms (GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_constellations (void);
+void starchart_set_grp_constellations (GnomeCanvasGroup * group);
 
 typedef struct _Fleet Fleet;
 struct _Fleet {
@@ -82,6 +84,7 @@ struct _Starchart {
 
   GnomeCanvasGroup *grp_minefields;
   GnomeCanvasGroup *grp_ion_storms;
+  GnomeCanvasGroup *grp_constellations;
 };
 
 typedef struct _StarchartMini StarchartMini;

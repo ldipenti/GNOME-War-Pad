@@ -141,6 +141,8 @@ void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
 void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
+void on_view_constellations_activate (GtkCheckMenuItem *menuitem,
+				      gpointer user_data);
 
 
 void on_view_message_reader_activate (GtkWidget *widget,

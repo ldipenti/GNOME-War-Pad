@@ -32,6 +32,7 @@
 
 /* Private functions */
 static void starchart_zoom (GnomeCanvas *starchart, gdouble zoom);
+static void init_starchart_constellations(void);
 
 /**
  * Notifications from game_state that should be taken seriously
@@ -57,6 +58,8 @@ starchart_boolean_notifications (GObject *obj, gpointer data)
     starchart_show_scanner_area (flag);
   } else if (strcmp(property, "grid") == 0) {
     starchart_show_grid (flag);
+  } else if (strcmp(property, "constellations") == 0) {
+    starchart_show_constellations (flag);
   }
 }
 
@@ -1654,6 +1657,11 @@ void init_starchart (GtkWidget * gwp)
 				 (starchart_get_grp_root(),
 				  GNOME_TYPE_CANVAS_GROUP, NULL)));
 
+  starchart_set_grp_constellations (GNOME_CANVAS_GROUP 
+				    (gnome_canvas_item_new 
+				     (starchart_get_grp_root(),
+				      GNOME_TYPE_CANVAS_GROUP, NULL)));
+
   starchart_set_default_cursor();
   
   /* Sets black background to starchart */
@@ -1718,6 +1726,8 @@ void init_starchart (GtkWidget * gwp)
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area()));
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
+  /* Set Constellations on the top */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_constellations()));
   /* Planets and ships */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planets()));
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_ships()));
@@ -1736,6 +1746,11 @@ void init_starchart (GtkWidget * gwp)
   /* Set starchart zoom */
   starchart_zoom (starchart_get_canvas(), 
 		  gwp_game_state_get_starchart_zoom (game_state));
+
+  /* Draw constellations, must be after zoom! */
+  g_message ("Creating constellations...");
+  init_starchart_constellations();
+  g_message ("...constellations created!");
 
   /* Scroll to last coordinates */
   gnome_canvas_scroll_to(starchart_get_canvas(),
@@ -1785,6 +1800,14 @@ void init_starchart (GtkWidget * gwp)
   gtk_check_menu_item_set_active (menu_bool, flag_bool);
   starchart_show_grid (flag_bool);
 
+  /* Constellations view */
+  menu_bool = (GtkCheckMenuItem *) lookup_widget ("view_constellations");
+  g_object_get (game_state,
+		"constellations", &flag_bool,
+		NULL);
+  gtk_check_menu_item_set_active (menu_bool, flag_bool);
+  starchart_show_constellations (flag_bool);
+
   /* Model notifications that starchart view has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
@@ -1806,6 +1829,10 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::grid",
 		    G_CALLBACK(starchart_boolean_notifications),
 		    (gpointer)"grid");
+  g_signal_connect (game_state,
+		    "property-changed::constellations",
+		    G_CALLBACK(starchart_boolean_notifications),
+		    (gpointer)"constellations");
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2660,6 +2687,17 @@ void starchart_show_ion_storms (gboolean show)
   }
 }
 
+void starchart_show_constellations (gboolean show)
+{
+  if (show) {
+    gnome_canvas_item_show ((GnomeCanvasItem *)
+			    starchart_get_grp_constellations ());
+  } else {
+    gnome_canvas_item_hide ((GnomeCanvasItem *)
+			    starchart_get_grp_constellations ());
+  }
+}
+
 /**
  * Searches for planets on the given coords and return its name if any.
  */
@@ -2697,5 +2735,79 @@ starchart_show_grid (gboolean show)
     gnome_canvas_item_show ((GnomeCanvasItem *) starchart_get_grp_grid());
   } else {
     gnome_canvas_item_hide ((GnomeCanvasItem *) starchart_get_grp_grid());
+  }
+}
+
+/**
+ * Initializes starchart constellations.
+ */
+static void 
+init_starchart_constellations (void)
+{
+  GSList *planets = NULL;
+  GSList *ppq[TOTAL_QUADS];
+  GSList *list_nearby = NULL;
+  GwpPlanet *planet_a, *planet_b;
+  gint i, j, quad;
+  gdouble dist;
+  gdouble wx, wy;
+  gdouble ax, ay, bx, by, zoom;
+
+  static void add_item (gpointer key, gpointer value, gpointer user_data) {
+    /*    GSList *p_list = (GSList *)user_data; */
+    planets = g_slist_append (planets, value);
+  }
+
+  g_hash_table_foreach (planet_list, (GHFunc)add_item, NULL);
+  
+  for (i = 0; i < TOTAL_QUADS; i++) {
+    ppq[i] = g_slist_copy(planets_per_quad[i]);
+  }
+
+  for (i = 0; i < g_slist_length(planets); i++) {
+    /* Get 'i' planet... */
+    planet_a = GWP_PLANET (g_slist_nth_data (planets, i));
+    g_assert (GWP_IS_PLANET(planet_a));
+    vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet_a)),
+		  gwp_object_get_y_coord(GWP_OBJECT(planet_a)),
+		  &wx, &wy);
+    quad = get_quadrant (wx, wy);
+
+    /* ...remove it from the list per quad... */
+    ppq[quad] = g_slist_remove (ppq[quad], planet_a);
+
+    /* ...and draw the lines! (if necessary) */
+    list_nearby = starchart_get_surrounding_quads (ppq, quad);
+    for (j = 0; j < g_slist_length(list_nearby); j++) {
+      planet_b = GWP_PLANET (g_slist_nth_data (list_nearby, j));
+      g_assert (GWP_IS_PLANET(planet_b));
+
+      vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet_a)),
+		    gwp_object_get_y_coord(GWP_OBJECT(planet_a)),
+		    &ax, &ay);
+      vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet_b)),
+		    gwp_object_get_y_coord(GWP_OBJECT(planet_b)),
+		    &bx, &by);
+
+      dist = sqrt (((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)));
+
+      /* When distance is 1 or less LY at Warp 9... */
+      if (dist <= 81.0) {
+	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+	zoom = gwp_game_state_get_starchart_zoom (game_state);
+
+	points->coords[0] = ax;
+	points->coords[1] = ay;
+	points->coords[2] = bx;
+	points->coords[3] = by;
+
+	gnome_canvas_item_new (starchart_get_grp_constellations (),
+			       GNOME_TYPE_CANVAS_LINE,
+			       "fill_color", QUADRANT_GRID_COLOR,
+			       "line_style", GDK_LINE_ON_OFF_DASH,
+			       "width_pixels", 1,
+			       "points", points, NULL);
+      }
+    }
   }
 }
