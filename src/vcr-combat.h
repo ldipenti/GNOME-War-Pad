@@ -14,11 +14,11 @@
 #define VCRC_MAX_DISTANCE_SHIPS         58000
 #define VCRC_MAX_DISTANCE_PLANET        54000
 #define VCRC_MIN_DISTANCE_SHIPS          3000
-#define VCRC_COMBAT_TIMEOUT               200
+#define VCRC_COMBAT_TIMEOUT               190
 
 /* ship/planet parameters */
 #define VCRC_MAX_NUMBER_TUBES              10
-#define VCRC_MAX_NUMBER_BAYS               50
+#define VCRC_MAX_NUMBER_BAYS               13   // 10 + Fed Crew Bonus of 3
 #define VCRC_MAX_NUMBER_BEAMS              10
 #define VCRC_MAX_ABOARD_FIGHTERS          500
 #define VCRC_MAX_LAUNCHED_FIGHTERS         19
@@ -42,15 +42,14 @@
 
 /* fighter weapons parameters */
 #define VCRC_SPEED_FIGHTER                400
-#define VCRC_RANGE_FIGHTER_SHIP             0 // TODO
-#define VCRC_RANGE_FIGHTER_FIGHTER          0 // TODO
+#define VCRC_RANGE_FIGHTER_SHIP          3500 // TODO Guessed
+#define VCRC_RANGE_FIGHTER_FIGHTER          0 // TODO 99% sure
 #define VCRC_CHANCE_LAUNCH                  5 // TODO (unsure about this value)
+#define VCRC_CHANCE_FIGHTER_HIT_FIGHTER    50
+#define VCRC_CHANGE_FIGHTER_HIT_PLATFORM  100 // TODO (unsure)
 
 typedef struct {
   gint fill;
-  gint shield;
-  gint hull;
-  gint crew;
 } beamweapon;
 typedef struct {
   gint number;
@@ -83,6 +82,9 @@ typedef struct {
   gint position;
   gint direction;
   gint speed;
+  gint shield;  /* damage inflicted on opponents shield */
+  gint hull;    /* damage inflicted on opponents hull */
+  gint crew;    /* damage inflicted on opponents crew */
 } fightertype;
 typedef struct {
   gint number;
@@ -164,15 +166,20 @@ void vcrc_fight_attack_fighters( battlefield *battle );
 void vcrc_fight_attack_torpedos( battlefield *battle );
 void vcrc_fight_attack_beams( battlefield *battle );
 void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id );
+void vcrc_fight_hit( battlefield *battle, gint side, gint sdam, gint hdam, gint cdam );
 
 gint vcrc_get_reload_time_for_torp( gint type );
-gint vcrc_get_shield_damage_for_torp( gint type );
-gint vcrc_get_hull_damage_for_torp( gint type );
-gint vcrc_get_crew_damage_for_torp( gint type );
-gint vcrc_get_shield_damage_for_beam( gint type );
-gint vcrc_get_hull_damage_for_beam( gint type );
-gint vcrc_get_crew_damage_for_beam( gint type );
+gint vcrc_get_shield_damage_for_torp( gint type, gint mass );
+gint vcrc_get_hull_damage_for_torp( gint type, gint mass );
+gint vcrc_get_crew_damage_for_torp( gint type, gint mass );
+gint vcrc_get_shield_damage_for_beam( gint type, gint fill, gint mass );
+gint vcrc_get_hull_damage_for_beam( gint type, gint fill, gint mass );
+gint vcrc_get_crew_damage_for_beam( gint type, gint fill, gint mass );
+gint vcrc_get_shield_damage_for_fighter( gint mass );
+gint vcrc_get_hull_damage_for_fighter( gint mass );
+gint vcrc_get_crew_damage_for_fighter( gint mass );
 gint vcrc_get_engine_price( gint type );
+
 gint vcrc_get_planets_battlemass( combatdata *cdata );
 gint vcrc_get_ships_battlemass( combatdata *cdata, gint side );
 
