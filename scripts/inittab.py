@@ -19,6 +19,7 @@ import inspect
 class PluginManager:
     __module__ = 'gwp'
 
+    # Constructor
     def __init__ (self):
         # Private attributes
         self.__key_hooks = {}
@@ -26,6 +27,25 @@ class PluginManager:
         self.__plugins_registered = [] # instances
         self.__plugins_available = [] # classes
         self.__menu = None # Plugins menu reference
+
+        ###
+        # Connect to all needed signals to the event hub
+        for ship in gwp.ship_get_list().values():
+            ship.connect ("selected", self.__event_hub, "ship_selected")
+        #
+        for planet in gwp.planet_get_list().values():
+            planet.connect ("selected", self.__event_hub, "planet_selected")
+        ###
+
+    # Event Hub: This concentrates and propagates all events (except the
+    # keyboard events) to the active plugins. Each plugin will implement
+    # a method called 'notify' that will decide what events to take care of.
+    def __event_hub (self, object, event):
+        for plugin in self.__plugins_registered:
+            try:
+                plugin.notify (object, event)
+            except NotImplementedError:
+                pass
 
     # This method runs only once...it's called from C code to assign
     # a reference to the Plugin's GtkMenu widget.
@@ -175,6 +195,10 @@ class Plugin:
 
     # Executed at elimination time
     def unregister (self, pm):
+        raise NotImplementedError
+
+    # Every system event is passed to each plugin
+    def notify (self, object, event):
         raise NotImplementedError
 
 ##############
