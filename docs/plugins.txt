@@ -1,0 +1,43 @@
+                        ------------------------
+                        - GWP PLUGIN INTERFACE -
+                        ------------------------
+
+The Python plugins will need to be placed on ~/.gwp/plugins/
+directory.
+
+The active plugin list needs to be saved per game, so that race or
+add-on specific plugins can be loaded as needed. For this feature
+we'll have to write a plugin activation/deactivation dialog.
+
+Plugin registering process:
+--------------------------
+* Plugin name.
+* Plugin version.
+* Plugin author (name <email@some.host.com>).
+* Plugin description.
+* Plugin license.
+* Hooks to connect to.
+
+
+Plugin hooks:
+------------
+* A preset list of callbacks (UI events, system events).
+* Function keys (F1, F2, ...).
+* Hotkeys (Ctrl-A, Alt-N, ...).
+
+
+UI Integration:
+--------------
+* Menu item with plugin's name as its label.
+* Detachable toolbar, with one category per plugin, like glade.
+* Pop-up menus (on different parts of GWP's UI).
+* GWP provides empty panes where the plugins can add their own UI. The
+  user will choose to view the default UI or the plugin one, by
+  selecting the right tab.
+* For plugins that activate some feature on selected planets/ships, it
+  should exist a 'notification area' on the main info panel. This
+  notification area should not be hidden when other plugins add new
+  panes for their own UI. The data that should be shown there could be
+  a simple icon or letter that will show a tooltip or popup window
+  with the feature configuration or brief description when the mouse
+  passes over.
