@@ -748,6 +748,7 @@ void on_message_treeview_row_activated( GtkWidget *widget,
   g_message( "on_message_treeview_row_activated: NOTHING IMPLEMENTED YET" );
 }
 
+
 void on_message_treeview_cursor_changed( GtkWidget *widget,
 				     gpointer user_data)
 {
@@ -755,6 +756,7 @@ void on_message_treeview_cursor_changed( GtkWidget *widget,
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   GtkTreeView *message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
   GtkTreeModel *model = gtk_tree_view_get_model( message_tree );
+
 /* TODO - question: no gtk_tree_iter_new() ??? */
   GtkTreeIter iter;
 
@@ -767,7 +769,38 @@ void on_message_treeview_cursor_changed( GtkWidget *widget,
   if( ident >= 0 )
     message_reader_show_body( widget, user_data, ident-1 );
 
+
+
+/*
+
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  GtkTreeView *message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
+  GtkTreeModel *model = gtk_tree_view_get_model( message_tree );
+  GtkTreeIter iter;
+
+  GtkTreeSelection *selection = gtk_tree_view_get_selection( message_tree );
+  gtk_tree_selection_get_selected( selection, NULL, &iter );
+
+//  gtk_tree_model_iter_next( model, &iter );
+//  gtk_tree_model_
+//  gtk_
+g_message( "### 1: '%s'", gtk_tree_model_get_string_from_iter( model, &iter ) );
+gtk_tree_model_iter_next( model, &iter );
+g_message( "### 2: '%s'", gtk_tree_model_get_string_from_iter( model, &iter ) );
+
+//  gint ident;
+
+//  gtk_tree_model_get(model, &iter, COL_IDENT, &ident, -1);
+//  if( ident >= 0 )
+//    message_reader_show_body( widget, user_data, ident-1 );
+
+
+
+
+*/
 }
+
 
 /* Ship list double-click to open extra panels */
 void on_ships_list_row_activated (GtkTreeView *ships_l,

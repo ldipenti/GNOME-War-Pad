@@ -24,6 +24,7 @@
 
 #define WORKING_PATH "/home/werdge/planets/vpwork1/"
 #define TMPTXTLENG 65535
+#define MAXMSGPATHLEN 64
 #define ASCII_LF 10
 #define ASCII_CR 13
 #define ASCII_SP 32
@@ -124,7 +125,10 @@ if( DEBUGOUTPUT ) g_message("DEBUG: destructor called" );
   /*g_message("GwpMessages finalize"); */
   int i;
   for( i=0; i<self->priv->msgs.n; i++ )
+  {
     free( self->priv->msgs.m[i].t );
+    free( self->priv->msgs.m[i].p );
+  }
   free( self->priv->msgs.m );
   free( self->priv->tmptxt );
   free( self->pub->msgindex );
@@ -383,6 +387,8 @@ if( DEBUGOUTPUT ) g_message("DEBUG: readFile finished x" );
         self->priv->msgs.m[i].a = adress;
         self->priv->msgs.m[i].l = length;
         self->priv->msgs.m[i].t = (char *)malloc((length+1)*sizeof(char));
+        self->priv->msgs.m[i].p = (char *)malloc(MAXMSGPATHLEN*sizeof(char));
+        self->priv->msgs.m[i].p[0] = '\0';
 //        cout << "Message # " << i << ": offset " << adress << ", length " << length << endl;
     }
 
@@ -1208,3 +1214,33 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_sortByCategory called" );
 
 if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_sortByCategory finished" );
 }
+
+
+char *gwp_messages_getMessagePath( GwpMessages *self, gint id )
+{
+  /* check if file was already read */
+  if( !self->priv->fileRead )
+    gwp_messages_readFileAny( self );
+
+  /* check for valid message id */
+  gwp_messages_checkValidMessageId( self, &id );
+
+  /* return the right path-string */
+  return( self->priv->msgs.m[id].p );
+}
+
+
+void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path )
+{
+  /* check if file was already read */
+  if( !self->priv->fileRead )
+    gwp_messages_readFileAny( self );
+
+  /* check for valid message id */
+  gwp_messages_checkValidMessageId( self, &id );
+
+  /* copy the string to the path-entry */
+  strncat( self->priv->msgs.m[id].p, path, MAXMSGPATHLEN-1 );
+}
+
+

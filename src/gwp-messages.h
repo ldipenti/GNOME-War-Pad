@@ -39,6 +39,7 @@ typedef struct
     long a;
     int l;
     char *t;
+    char *p;
 } mdataMessage;
 
 typedef struct
@@ -124,6 +125,8 @@ void gwp_messages_firstMsg( GwpMessages *self );
 void gwp_messages_lastMsg( GwpMessages *self );
 void gwp_messages_setCurrMsgId( GwpMessages *self, gint id );
 void gwp_messages_sortByCategory( GwpMessages *self );
+char *gwp_messages_getMessagePath( GwpMessages *self, gint id );
+void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path );
 
 /*
  * Standard defines.

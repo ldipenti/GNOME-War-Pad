@@ -159,6 +159,9 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
                    COL_SUBJECT, tmps,
                    COL_IDENT, tmpi,
                    -1);
+    /* tell the message 'object' which path leads to its message */
+    gwp_messages_setMessagePath( messages, i,
+      gtk_tree_model_get_string_from_iter( GTK_TREE_MODEL(treestore), &child ) );
   }
 
 
@@ -333,20 +336,35 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr show last finished" );
 void message_reader_show_body( GtkWidget *widget,
                       gpointer user_data, gint id )
 {
+  /* preparations */
   gchar *tmp = (gchar *)g_malloc( MAXMSGLEN*sizeof(gchar) );
   GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
   GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+
+  /* get message text and store it in UTF-8 format */
   tmp[0] = '\0';
   strncat( tmp, gwp_messages_getMessageRaw( messages, id ), MAXMSGLEN-1 );
   g_convert( tmp, strlen(tmp), "UTF-8", "CP437", NULL, NULL, NULL );
   gtk_text_buffer_set_text( buffer, g_convert( tmp, strlen(tmp), "UTF-8", "CP437", NULL, NULL, NULL ), -1 );
-  message_reader_set_current_message_id( widget, user_data, id );
   gtk_text_view_set_buffer( textview, buffer );
+
+  /* tell the message 'object' that this message is the current */
+  message_reader_set_current_message_id( widget, user_data, id );
+
+  /* refresh the message counter */
   GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
   gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
   g_free( tmp );
+
+  /* hightlight current message in message tree */
+  GtkTreePath *treepath = gtk_tree_path_new_from_string( gwp_messages_getMessagePath( messages, id ) );
+  GtkTreeView *message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
+  GtkTreeSelection *treeselection = gtk_tree_view_get_selection( message_tree );
+
+  gtk_tree_view_expand_to_path( message_tree, treepath );
+  gtk_tree_selection_select_path( treeselection, treepath );
 }
 
 void message_reader_all_init( GtkWidget *widget,
