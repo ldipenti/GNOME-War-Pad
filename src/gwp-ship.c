@@ -247,8 +247,9 @@ static void gwp_ship_dispose (GwpShip *self)
   /* Make sure dispose does not run twice. */
   self->priv->dispose_has_run = TRUE;
 
-  g_message ("Destroying ship #%d: %s", gwp_object_get_id(GWP_OBJECT(self)),
+/*  g_message ("Destroying ship #%d: %s", gwp_object_get_id(GWP_OBJECT(self)),
 	     gwp_object_get_name(GWP_OBJECT(self))->str);
+*/
 
   /*
    * Here I have to unref all members on which I own a reference.

@@ -108,18 +108,22 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
               "weight-set", TRUE,
                NULL);
 
+
   oldhead = '\n';
   for( i=0; i<gwp_messages_getNumberOfMessages( messages ); i++ )
   {
     tmph[0] = '\0';
     strcat( tmph, gwp_messages_getMessageHeader( messages, i ) );
-    tmps[0] = '\0';
-    strcat( tmps, gwp_messages_getMessageSubject( messages, i ) );
 
     if( oldhead != tmph[1] )
     {
       /* new message division */
       oldhead = tmph[1];
+      /* create the right header/subjects */
+      tmph[0] = '\0';
+      strncat( tmph, gwp_messages_getMessageHeader( messages, i )+1, 1 );
+      tmps[0] = '\0';
+      strcat( tmps, gwp_messages_getMessageSubject( messages, i ) );
       /* Append a top level row */
       gtk_tree_store_append(treestore, &toplevel, NULL);
       gtk_tree_store_set(treestore, &toplevel,
@@ -129,6 +133,11 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
     }
     else
     {
+      /* create the right header/subjects */
+    tmph[0] = '\0';
+    strcat( tmph, gwp_messages_getMessageHeader( messages, i ) );
+    tmps[0] = '\0';
+    strcat( tmps, gwp_messages_getMessageHeaderLong( messages, i ) );
       /* Append a child to the top level row, and fill in some data */
       gtk_tree_store_append(treestore, &child, &toplevel);
       gtk_tree_store_set(treestore, &child,
@@ -144,7 +153,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
   /* fill the treeview with this new model */
   gtk_tree_view_set_model( message_tree, GTK_TREE_MODEL( treestore ) );
   /* expand the message tree */
-  gtk_tree_view_expand_all( message_tree );
+//  gtk_tree_view_expand_all( message_tree );
   /* jump again to first message */
   gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdFirst( messages ) );
 

@@ -742,6 +742,36 @@ void on_treeview1_button_press_event( GtkWidget *widget,
     /* TODO */
 }
 
+void on_message_treeview_row_activated( GtkWidget *widget,
+                    gpointer user_data )
+{
+  g_message( "on_message_treeview_row_activated" );
+}
+void on_message_treeview_row_collapsed( GtkWidget *widget,
+                    gpointer user_data )
+{
+  g_message( "on_message_treeview_row_collapsed" );
+}
+void on_message_treeview_row_expanded( GtkWidget *widget,
+                    gpointer user_data )
+{
+  g_message( "on_message_treeview_row_expanded" );
+}
+void on_message_treeview_expand_collapse_cursor_row( GtkWidget *widget,
+                    gpointer user_data )
+{
+  g_message( "on_message_treeview_expand_collapse_cursor_row" );
+}
+void on_message_treeview_test_collapse_row( GtkWidget *widget,
+                    gpointer user_data )
+{
+  g_message( "on_message_treeview_test_collapse_row" );
+}
+void on_message_treeview_test_expand_row( GtkWidget *widget,
+                    gpointer user_data )
+{
+  g_message( "on_message_treeview_test_expand_row" );
+}
 
 
 /* Ship list double-click to open extra panels */

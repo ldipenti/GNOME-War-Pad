@@ -871,12 +871,13 @@ void load_kore_data (void)
     gwp_minefield_set_owner (minefield, getWord(mf_buf + 6));
 
     minefield_list = g_slist_append (minefield_list, minefield);
-    g_message ("Minefield #%d: %d,%d (%d LY) - Owner: %d", 
+/*    g_message ("Minefield #%d: %d,%d (%d LY) - Owner: %d", 
 	       gwp_object_get_id (GWP_OBJECT(minefield)),
 	       gwp_object_get_x_coord (GWP_OBJECT(minefield)),
 	       gwp_object_get_y_coord (GWP_OBJECT(minefield)),
 	       gwp_minefield_get_radius (minefield),
 	       gwp_minefield_get_owner (minefield));
+*/
   }
 
   /* Load Ion Storms from file */
@@ -895,7 +896,7 @@ void load_kore_data (void)
     gwp_fo_set_heading (GWP_FLYING_OBJECT(storm), getWord(is_buf + 10));
 
     storm_list = g_slist_append (storm_list, storm);
-    g_message ("Storm #%d: %d,%d (%d LY) Warp: %d Heading: %d Class: %d",
+/*    g_message ("Storm #%d: %d,%d (%d LY) Warp: %d Heading: %d Class: %d",
 	       gwp_object_get_id (GWP_OBJECT(storm)),
 	       gwp_object_get_x_coord (GWP_OBJECT(storm)),
 	       gwp_object_get_y_coord (GWP_OBJECT(storm)),
@@ -903,6 +904,7 @@ void load_kore_data (void)
 	       gwp_fo_get_speed (GWP_FLYING_OBJECT(storm)),
 	       gwp_fo_get_heading (GWP_FLYING_OBJECT(storm)),
 	       gwp_ion_storm_get_class (storm));
+*/
   }
 
   fclose (kore_dat);
