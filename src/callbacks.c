@@ -1011,21 +1011,10 @@ void on_view_python_console_activate (GtkWidget *widget,
 				      gpointer user_data)
 {
 #ifdef USE_PYTHON
-  GtkWidget *console = lookup_widget ("python_console");
   
-  if (!GTK_WIDGET_VISIBLE(console)) {
-    GtkTextBuffer *buf;
-    GtkTextView *tv = (GtkTextView *) lookup_widget ("console_output_textview");
-    GString *init_str = g_string_new(_("Welcome to GNOME War Pad's Python Console!\n\n"));
-
-    buf = gtk_text_view_get_buffer (tv);
-    gtk_text_buffer_set_text (buf, 
-			      init_str->str, 
-			      init_str->len);
-
-    /* Show console window */
-    gtk_widget_show (console);
-  }
+  FILE *console = fopen (GWP_SCRIPTS_DIR"/gtkcons.py", "r");
+  PyRun_SimpleFile(console, "gtkcons.py");
+  fclose (console);
 #endif
 }
 
