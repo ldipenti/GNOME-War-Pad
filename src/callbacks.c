@@ -94,7 +94,7 @@ starchart_event_key                    (GtkWidget       *widget,
     }
 
 #ifdef USE_PYTHON
-  gwp_python_event_key (event->string);
+  gwp_python_event_key (event);
 #endif
 
   return FALSE;

@@ -31,10 +31,12 @@
 #define GWP_PYTHON_H
 
 #include <Python.h>
+#include <gnome.h>
 
 void gwp_python_init (char *argv0);
 void gwp_python_quit (void);
-void gwp_python_event_key (char *event);
+void gwp_python_event_key (GdkEventKey *event);
+void gwp_python_inittab (void);
 
 #endif
 

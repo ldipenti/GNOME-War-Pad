@@ -40,8 +40,6 @@ void gwp_register_classes (PyObject *d);
  */
 void gwp_python_init (char *argv0)
 {
-  FILE *script;
-
   Py_SetProgramName (argv0);
   Py_Initialize ();
 
@@ -50,6 +48,11 @@ void gwp_python_init (char *argv0)
 
   /* Import module to have GWP's methods available */
   PyRun_SimpleString ("import gwp");
+}
+
+void gwp_python_inittab (void)
+{
+  FILE *script;
 
   /* Load 'inittab' script */
   script = fopen (GWP_SCRIPTS_DIR"/inittab.py", "r");
@@ -83,12 +86,28 @@ void initgwp (void)
   }
 }
 
-void gwp_python_event_key (char *event)
+void gwp_python_event_key (GdkEventKey *event)
 {
+  PyObject *plugin_mgr = NULL;
+  PyObject *res;
+
   g_assert (event != NULL);
 
-  PyObject *plugin_mgr = game_get_plugin_mgr (game_state);
-  PyObject_CallMethod (plugin_mgr, "manage_key_event", "(s)", event);
+  plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
+
+  res = PyObject_CallMethod (plugin_mgr, "manage_key_event", 
+			     "({sisisiss})",
+			     PyString_FromString("type"), 
+			     PyInt_FromLong(event->type),
+			     PyString_FromString("state"),
+			     PyInt_FromLong(event->state),
+			     PyString_FromString("keyval"),
+			     PyInt_FromLong(event->keyval),
+			     PyString_FromString("string"),
+			     PyString_FromStringAndSize(event->string,
+							event->length));
+
+  Py_DECREF (res);
 }
 
-#endif
+#endif /* USE_PYTHON */

@@ -3,8 +3,10 @@ class PluginManager:
     __module__ = 'gwp'
     
     def manage_key_event (self, event):
-        if (event.type == gtk.gdk.KEY_PRESS):
-            print "Key press: %s\n" % (event.string)
+        print "GUACAAAAAAAA"
+        
+        if (event["type"] == gtk.gdk.KEY_PRESS):
+            print "Key press: %s\n" % (event["string"])
 
 if __name__ == "__main__":
     # Register clases on 'gwp' module
