@@ -191,7 +191,10 @@ void UnpackTarget(char *player)
     fwrite(datsig, 10, 1, target);
     fclose(target);
 
-    /* TARGETx.EXT */
+    /* 
+     * TARGETx.EXT -> When RST has the AllowBigTargets ON, this have nothing 
+     * to do with Winplan data, see below. 
+     */
     target = OpenPlayerFile("target", player, "ext");
     fwrite(rstremember + place + 50, 2 + size * (notargets - 50), 1, target);
     fwrite(datsig, 10, 1, target);

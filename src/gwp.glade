@@ -6559,7 +6559,7 @@
 	      <property name="browse_dialog_title" translatable="yes">Select game directory</property>
 	      <property name="directory_entry">True</property>
 	      <property name="modal">True</property>
-	      <property name="use_filechooser">False</property>
+	      <property name="use_filechooser">True</property>
 	      <signal name="changed" handler="on_game_mgr_game_dir_changed" last_modification_time="Mon, 23 Dec 2002 03:55:49 GMT"/>
 
 	      <child internal-child="entry">
@@ -6742,7 +6742,7 @@
 		      <property name="browse_dialog_title" translatable="yes">Select TRN directory</property>
 		      <property name="directory_entry">True</property>
 		      <property name="modal">True</property>
-		      <property name="use_filechooser">False</property>
+		      <property name="use_filechooser">True</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">
@@ -6778,7 +6778,7 @@
 		      <property name="browse_dialog_title" translatable="yes">Select RST directory</property>
 		      <property name="directory_entry">True</property>
 		      <property name="modal">True</property>
-		      <property name="use_filechooser">False</property>
+		      <property name="use_filechooser">True</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry3">

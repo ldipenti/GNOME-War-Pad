@@ -73,7 +73,7 @@ static void gwp_object_init (GTypeInstance *instance,
   self->priv->x_coord = 0;
   self->priv->y_coord = 0;
   self->priv->id = 0;
-  self->priv->name = g_string_new("");
+  self->priv->name = g_string_new(_("Unknown name"));
   /* g_message("GwpObject init"); */
 }
 
