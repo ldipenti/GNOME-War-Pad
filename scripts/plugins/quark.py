@@ -17,7 +17,6 @@ class Quark(gwp.Plugin):
     license = "GPL"
     hotkey = 'q'
     
-    
     FILTER_NONE = 1
     
     # Cantidades que definen cuando un planeta es considerado minero y se levantan las 
@@ -133,20 +132,44 @@ class Quark(gwp.Plugin):
             self.textbuffer.set_text(txt + "\n")
 
     #--------------------------------------------------------------------------
-    def report_verify_temperature(self, p): # FIXME : ESTADO TEMPORAL
-        if (p.get_temperature_f() < 15) or (p.get_temperature_f() > 84):
-            limit = p.get_col_growth_limit()
-            tax, max_i = self.calculate_max_income_from_natives(p)
-            if max_i < limit:
-                return 0
-            else:
-                # La $$ cobrada es limitada por la temperatura
-                terraformado = p.copy()
-                if (p.get_temperature_f() < 15):
-                    terraformado.set_temperature(100 \
-                                                 - terraformado.get_temperature() \
-                                                 + 1)
-                    # EN PROCESO
+    def report_verify_temperature(self, orig_p):
+        print orig_p.get_name()
+        if orig_p.get_natives(): # SI no hay nativos no tiene sentido esto  
+            if (orig_p.get_temperature_f() < 15) or (orig_p.get_temperature_f() > 84):
+
+                p = orig_p.copy()
+                if not orig_p.is_mine(): # Si no es mio
+                    # Lo simulo para hacer los calculos
+                    print "SIMULO"
+                    gs = gwp.get_game_state()
+                    nro_raza = gs.get_race_nr()
+                    p.set_owner(nro_raza)
+                    p.set_colonists(1000)
+
+                limit = p.get_col_growth_limit()
+                tax, max_i = self.calculate_max_income_from_natives(p)
+                print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
+                if (max_i < limit) or (max_i == 0):
+                    # No interesa la temp, cobro poco
+                    print "Cobro poco"
+                    return 0
+                else:
+                    # La $$ cobrada es limitada por la temperatura
+                    terraformado = p.copy()
+                    print terraformado.get_temperature_f()
+                    print terraformado.get_temperature()
+                    print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
+                    while max_i > limit:
+                        print "entra"
+                        if (terraformado.get_temperature_f() < 50):
+                            terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
+                        else:
+                            terraformado.set_temperature(100 - (terraformado.get_temperature_f() - 1))
+                        print "llega"
+                        limit = terraformado.get_col_growth_limit()
+                        tax, max_i = self.calculate_max_income_from_natives(terraformado)
+                        print "Max: " + str(max_i) + " Limite: " + str(limit)
+                        print "A " + str(terraformado.get_temperature_f()) + " grados"
 
     #--------------------------------------------------------------------------
     
@@ -158,8 +181,9 @@ class Quark(gwp.Plugin):
     def na_generar(self, p):
         """Genera los avisos que van al area de notificacion."""
         print "Planeta elegido: " + p.get_name()
-        self.na_verify_happyness(p, 'c') # Colonists
-        self.na_verify_happyness(p, 'n') # Natives
+        if p.is_mine():
+            self.na_verify_happyness(p, 'c') # Colonists
+            self.na_verify_happyness(p, 'n') # Natives
         self.na_verify_colonists(p)
 
         
@@ -188,13 +212,20 @@ class Quark(gwp.Plugin):
             print people + "happyness dentro de los parametros en el planeta " + p.get_name()
         
     #--------------------------------------------------------------------------
-    def na_verify_colonists(self, p): # FIXME NOTIFICATION AREA
+    def na_verify_colonists(self, p_orig): # FIXME NOTIFICATION AREA
         """ Verifica si existen suficiente cantidad de colonos para:
         * cobrarles el maximo posible a los nativos 
         * sacar el max posible de supplies si hay Bovinoids
         * Max de Fab y minas si no hay nativos que paguen bien # FALTA #
         """
         txt = ""
+
+        p = p_orig.copy()
+        if (not p.is_mine()): # Para planetas orbitados y no mios
+            gs = gwp.get_game_state()
+            nro_raza = gs.get_race_nr()
+            p.set_owner(nro_raza)
+            
         if p.get_natives(): # SI no hay nativos no tiene sentido esto  
             #Hago todos los calculos
             col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
@@ -275,10 +306,7 @@ class Quark(gwp.Plugin):
         if p.get_natives(): # SI no hay nativos no tiene sentido esto 
             future_p = p.copy()
 
-            gs = gwp.get_game_state()
-            nro_raza = gs.get_race_nr()
-            future_p.set_owner(nro_raza)
-            
+          
             future_p.set_colonists(1000) # suficientemente grande para evitar problemas
             tax = 1
             while tax:
@@ -345,6 +373,7 @@ class Quark(gwp.Plugin):
         self._init_lists()
         self.__create_gui()
         self.conectar_planetas()
+        self.inicializar_interfaces() # Notification Area
     
     #--------------------------------------------------------------------------
     def __create_gui(self):
@@ -380,6 +409,17 @@ class Quark(gwp.Plugin):
         #Comienzo la cascada de inicializaciones
         self.filter_load_data()
         self.filter_init_selection()
+
+    #--------------------------------------------------------------------------            
+    def inicializar_interfaces(self):
+        self.pm = gwp.get_plugin_mgr()
+        self.na = self.pm.get_plugin('NotificationArea')
+        if self.na:
+            quark_icon = gtk.Button('Quark')
+            quark_icon.show()
+            self.na.add_notification(quark_icon)
+            self.na.set_tooltip(quark_icon, 'El latinio lo es todo!')
+        
 
     #--------------------------------------------------------------------------            
     def filter_load_data(self):
