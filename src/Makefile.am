@@ -111,7 +111,8 @@ gladedir = $(datadir)/gwp
 glade_DATA = gwp.glade
 
 check_gwp_SOURCES = $(sources) 		\
-	check-gwp.c
+	check-gwp.c 			\
+	check-gwp-object.c
 
 check_gwp_LDADD = $(gwp_LDADD) \
 	$(CHECK_LIBS)
