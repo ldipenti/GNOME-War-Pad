@@ -63,14 +63,6 @@ void starchart_set_grp_constellations (GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_misc (void);
 void starchart_set_grp_misc (GnomeCanvasGroup * group);
 
-typedef struct _Fleet Fleet;
-struct _Fleet {
-  gint fleet_num; /* Fleet id */
-  GSList *ships_in_fleet; /* First Ship is fleet leader */
-  GString *fleet_name;
-  GString *fleet_note;
-};
-
 typedef struct _Starchart Starchart;
 struct _Starchart {
   GnomeCanvas *canvas;
