@@ -577,6 +577,20 @@ gint gwp_ship_get_hull_fighter_bays (GwpShip *self)
 }
 
 /**
+ * Returns the picture number for the current ship's hull
+ *
+ * @param self a GwpShip.
+ * @return The hull picture's number.
+ * @see gwp_hullspec_get_picture
+ */
+gint gwp_ship_get_hull_picture (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_picture (gwp_ship_get_hullspec(self));
+}
+
+
+/**
  * Returns the engine's name for the current ship.
  *
  * @param self a GwpShip.

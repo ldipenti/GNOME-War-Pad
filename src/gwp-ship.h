@@ -76,6 +76,7 @@ gint gwp_ship_get_hull_engines (GwpShip *self);
 gint gwp_ship_get_hull_beam_weapons (GwpShip *self);
 gint gwp_ship_get_hull_torp_launchers (GwpShip *self);
 gint gwp_ship_get_hull_fighter_bays (GwpShip *self);
+gint gwp_ship_get_hull_picture (GwpShip *self);
 
 GString * gwp_ship_get_engine_name (GwpShip *self);
 GString * gwp_ship_get_beams_name (GwpShip *self);

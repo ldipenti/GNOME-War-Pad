@@ -2350,11 +2350,12 @@ void starchart_mini_set_ship_img(GwpShip *ship)
   g_assert (GWP_IS_SHIP(ship));
 
   GtkImage *s_img = (GtkImage *) lookup_widget("image_ship");
-  GString *img_name = g_string_new(DATADIR"/pixmaps/gwp/ships/ship");
+  GString *img_name = g_string_new(DATADIR"/pixmaps/gwp/ships/vpl");
   gchar *ship_nr;
 
   /* Assemble file name and load image */
-  ship_nr = g_strdup_printf ("%d.jpg", gwp_ship_get_hull_type(ship));
+  ship_nr = g_strdup_printf ("%d.jpg", gwp_ship_get_hull_picture(ship));
+  g_message("Número de nave: %d", gwp_ship_get_hull_picture(ship));
   img_name = g_string_append (img_name, ship_nr);
   gtk_image_set_from_file(s_img, g_strdup(img_name->str));
 
