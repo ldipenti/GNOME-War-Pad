@@ -51,6 +51,8 @@ starchart_boolean_notifications (GObject *obj, gpointer data)
     starchart_show_minefields (flag);
   } else if (strcmp(property, "ion-storms") == 0) {
     starchart_show_ion_storms (flag);
+  } else if (strcmp(property, "planet-names") == 0) {
+    starchart_show_planet_names (flag);
   }
 }
 
@@ -1531,7 +1533,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
     /* Add planet names */
-    /* FIXME: TOOOOOOO SLOOOOOOOOOOOOOOOWWWWWWWW!!! 
+    /* FIXME: TOOOOOOO SLOOOOOOOOOOOOOOOWWWWWWWW!!!  
     gnome_canvas_item_new (pnames_group, 
 			   GNOME_TYPE_CANVAS_TEXT,
 			   "text", gwp_object_get_name(GWP_OBJECT(planet)),
@@ -1756,6 +1758,14 @@ void init_starchart (GtkWidget * gwp)
   gtk_check_menu_item_set_active (menu_bool, flag_bool);
   starchart_show_ion_storms (flag_bool);
 
+  /* Planet names view */
+  menu_bool = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
+  g_object_get (game_state,
+		"planet-names", &flag_bool,
+		NULL);
+  gtk_check_menu_item_set_active (menu_bool, flag_bool);
+  starchart_show_planet_names (flag_bool);
+
   /* Model events that starchart has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
@@ -1765,6 +1775,10 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::ion-storms",
 		    G_CALLBACK(starchart_boolean_notifications),
 		    (gpointer)"ion-storms");
+  g_signal_connect (game_state,
+		    "property-changed::planet-names",
+		    G_CALLBACK(starchart_boolean_notifications),
+		    (gpointer)"planet-names");
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2050,7 +2064,7 @@ starchart_zoom (GnomeCanvas *starchart,
   g_free(zoom_status);
   
   /* show planet names if needed */
-  if (zoom >= 1.0 && gtk_check_menu_item_get_active(pnames_menu)) {
+  if (gtk_check_menu_item_get_active(pnames_menu)) {
     starchart_show_planet_names (TRUE);
   } else {
     starchart_show_planet_names (FALSE);
@@ -2573,9 +2587,7 @@ void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)
 
 void starchart_show_planet_names (gboolean show)
 {
-  gwp_game_state_set_planet_names (game_state, show);
-    
-  if (show) {
+  if (show && gwp_game_state_get_starchart_zoom(game_state) >= 1.0) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
 			    starchart_get_grp_planet_names ());
   } else {
