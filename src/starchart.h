@@ -53,6 +53,7 @@ void starchart_show_grid(GnomeCanvas *starchart);
 void starchart_hide_grid(GnomeCanvas *starchart);
 void starchart_open_extra_planet_panels(void);
 void starchart_open_extra_ship_panels(void);
+void starchart_open_extra_panels (void);
 void starchart_close_extra_panels(void);
 
 /* Drawing functions */
@@ -62,6 +63,7 @@ void draw_minefield (gpointer data, gpointer user_data);
 void draw_ion_storm (gpointer data, gpointer user_data);
 GnomeCanvasItem * starchart_select_nearest_planet (GtkWidget *gwp, GSList *planets_nearby, gdouble wx, gdouble wy);
 GnomeCanvasItem * starchart_select_nearest_ship (GtkWidget* gwp, GSList *ships_nearby, gdouble wx, gdouble wy);
+void starchart_center_around (GwpObject *obj);
 void starchart_zoom_in (GnomeCanvas *starchart);
 void starchart_zoom_out (GnomeCanvas *starchart);
 void starchart_mark_planet (GwpPlanet *a_planet);

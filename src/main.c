@@ -117,6 +117,7 @@ void gwp_init(void)
 
   /* Hide panels */
   starchart_close_extra_panels();
+  extra_panels_showed = FALSE;
 
   /* Game Properties Dialog Init */
   game_mgr_init();

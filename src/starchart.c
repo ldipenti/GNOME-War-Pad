@@ -1764,6 +1764,7 @@ GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp,
       gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_PLANET_PAGE);
       update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet_data)));
       gtk_notebook_set_current_page (mini, MINI_PLANET_PAGE);
+      starchart_center_around(GWP_OBJECT(planet_data));
     }
 
     return planet;
@@ -1801,15 +1802,41 @@ GnomeCanvasItem *starchart_select_nearest_ship (GtkWidget * gwp,
     starchart_mark_ship (x, y);
     update_ship_panel (gwp, location);
 
+    /* Do extra work only if needed */
     if(game_is_extra_panel_open(game_state)) {
       gtk_notebook_set_current_page (extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
       gtk_notebook_set_current_page (mini, MINI_SHIP_PAGE);
+      starchart_center_around(GWP_OBJECT(location));
     }
 
     return ship;
   } else {
     return NULL;
   }
+}
+
+/**
+ * Centers the starchart around the given object.
+ *
+ * @param obj any GwpObject on the starchart.
+ */
+void starchart_center_around (GwpObject *obj)
+{
+  gint ax, ay;
+  gdouble obj_x, obj_y;
+
+  g_assert (GWP_IS_OBJECT(obj));
+
+  vp_coord_v2w (gwp_object_get_x_coord(obj),
+		gwp_object_get_y_coord(obj),
+		&obj_x, &obj_y);
+
+  ax = GTK_WIDGET (starchart_get_canvas())->allocation.width;
+  ay = GTK_WIDGET (starchart_get_canvas())->allocation.height;
+
+  gnome_canvas_scroll_to (starchart_get_canvas(), 
+			  ((gint)obj_x) - (ax / 2), 
+			  ((gint)obj_y) - (ay / 2));
 }
 
 /* (x, y) in world coords */
@@ -2199,34 +2226,41 @@ void starchart_mark_ship (gint x, gint y)
   gnome_canvas_item_affine_absolute(ship_mark_d, matrix);
 }
 
-void starchart_open_extra_planet_panels(void)
+void starchart_open_extra_planet_panels (void)
 {
-  static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
-  static GtkNotebook *calc_panel = NULL;
-  static GtkNotebook *gds_panel = NULL;
 
-  if (!loaded) {
-    loaded = TRUE;
-
-    extra_info_panel = (GtkNotebook *) lookup_widget("extra_info_panel");
-    calc_panel = (GtkNotebook *) lookup_widget("calc_panel");
-    gds_panel = (GtkNotebook *) lookup_widget("global_defense_panel");
-  }
+  extra_info_panel = (GtkNotebook *) lookup_widget("extra_info_panel");
 
   /* Select subpanels */
   gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_PLANET_PAGE);
 
-  /* Show the panels!! */
-  gtk_widget_show(GTK_WIDGET(extra_info_panel));
-  gtk_widget_show(GTK_WIDGET(calc_panel));
-  gtk_widget_show(GTK_WIDGET(gds_panel));
-
-  /* Register new panel state */
-  game_set_extra_panel_open (game_state, TRUE);
+  /* Show the panels!! (or not)  */
+  if (! game_is_extra_panel_open(game_state)) {
+    starchart_open_extra_panels ();
+  } else {
+    starchart_close_extra_panels ();
+  }
 }
 
 void starchart_open_extra_ship_panels (void)
+{
+  static GtkNotebook *extra_info_panel = NULL;
+
+  extra_info_panel = (GtkNotebook *) lookup_widget("extra_info_panel");
+
+  /* Select subpanels */
+  gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
+
+  /* Show the panels!! (or not)  */
+  if (! game_is_extra_panel_open(game_state)) {
+    starchart_open_extra_panels ();
+  } else {
+    starchart_close_extra_panels ();
+  }
+}
+
+void starchart_open_extra_panels (void)
 {
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
@@ -2240,9 +2274,6 @@ void starchart_open_extra_ship_panels (void)
     calc_panel = (GtkNotebook *) lookup_widget("calc_panel");
     gds_panel = (GtkNotebook *) lookup_widget("global_defense_panel");
   }
-
-  /* Select subpanels */
-  gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
 
   /* Show the panels!! */
   gtk_widget_show(GTK_WIDGET(extra_info_panel));
@@ -2355,7 +2386,6 @@ void starchart_mini_set_ship_img(GwpShip *ship)
 
   /* Assemble file name and load image */
   ship_nr = g_strdup_printf ("%d.jpg", gwp_ship_get_hull_picture(ship));
-  g_message("Número de nave: %d", gwp_ship_get_hull_picture(ship));
   img_name = g_string_append (img_name, ship_nr);
   gtk_image_set_from_file(s_img, g_strdup(img_name->str));
 

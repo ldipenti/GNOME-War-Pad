@@ -135,6 +135,7 @@ GladeXML *xml_interface;
 Starchart starchart;
 StarchartMini starchart_mini;
 GameState *game_state;
+gboolean extra_panels_showed;
 
 /* GConf subsystem */
 #define GWP_GCONF_PATH "/apps/gwp/"

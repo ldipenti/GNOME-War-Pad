@@ -124,8 +124,7 @@ starchart_event_button                 (GtkWidget       *widget,
   q = get_quadrant(wx, wy);
   
   /* Select a planet */
-  if((event->type == GDK_BUTTON_PRESS) && (event->button == 1) 
-     && (!(event->state & GDK_SHIFT_MASK))) {
+  if((event->type == GDK_BUTTON_PRESS) && (event->button == 1)) {
     /* Search for nearest planet and select it */
     planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
 
@@ -135,8 +134,7 @@ starchart_event_button                 (GtkWidget       *widget,
 					       planets_nearby, wx, wy);
   } 
   /* Open Planet panel (double-click) */
-  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)
-	  && (!(event->state & GDK_SHIFT_MASK))) {
+  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
     /* If the d-click was on the same planet, show the panels! */
     if(ps_planet == s_planet) {
       starchart_open_extra_planet_panels();
@@ -147,8 +145,7 @@ starchart_event_button                 (GtkWidget       *widget,
     }
   } 
   /* Select a ship */
-  else if((event->type == GDK_BUTTON_PRESS) && (event->button == 3) 
-	  && (!(event->state & GDK_SHIFT_MASK))) {
+  else if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
 
@@ -158,14 +155,10 @@ starchart_event_button                 (GtkWidget       *widget,
 					   ships_nearby, wx, wy);
   }
   /* Open Ship panel (double-click) */
-  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 3)
-	  && (!(event->state & GDK_SHIFT_MASK))) {
+  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 3)) {
     /* If the d-click was on the same planet, show the panels! */
     if(ps_ship == s_ship) {
       starchart_open_extra_ship_panels();
-
-      /* Switch to ship image view */
-      gtk_notebook_set_current_page(mini, MINI_SHIP_PAGE);
 
       /* Re-select ship to update extra panels */
       ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
