@@ -52,15 +52,18 @@ void game_set_dir(gchar *dir) {
   game_state.dir = g_string_append(game_state.dir, "/");
 }
 
-GString* game_get_dir(void) {
-	return game_state.dir;
+GString* game_get_dir(void) 
+{
+  /* Add a trailer slash just in case */
+  return g_string_append(game_state.dir, "/");
 }
 
-GString* game_get_full_path(GString *filename) {
-    GString *tmp;
-    
-    tmp = g_string_new(game_get_dir()->str);
-    return g_string_append(tmp, filename->str);
+GString* game_get_full_path(GString *filename) 
+{
+  GString *tmp;
+  
+  tmp = g_string_new(game_get_dir()->str);
+  return g_string_append(tmp, filename->str);
 }
 
 void game_init_dir(gchar *dir) {
