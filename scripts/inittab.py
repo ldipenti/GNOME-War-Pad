@@ -4,6 +4,7 @@ pygtk.require("2.0")
 
 # Import the rest of the needed modules
 import os
+import os.path
 import gtk
 import gwp
 
@@ -40,6 +41,7 @@ class PluginManager:
         try:
             del(self.__key_hooks[key])
         except KeyError:
+            # Debugging message
             print "PluginManager: key event '%s' not found when unregistering plugin." % key
 
     def register_plugin (self, plugin):
@@ -105,11 +107,6 @@ class Plugin:
     def unregister (self, pm):
         raise NotImplementedError
 
-########
-# 
-########
-
-
 ##############
 # Main code execute at load
 ##############
@@ -117,10 +114,16 @@ if __name__ == "__main__":
     # Register clases on 'gwp' module
     gwp.__dict__["PluginManager"] = PluginManager
     gwp.__dict__["Plugin"] = Plugin
+
     # Initialize a PluginManager and pass it to GameState in C
     pm = gwp.PluginManager ()
     gwp.set_plugin_mgr (pm)
 
+    ### FIXME!!! The code below really suck, should put everything on
+    # PluginManager's constructor, but I have some problem with scopes
+    # that I have to solve.
+    
+    # Load system plugins
     plugins_dir = gwp.plugins_get_dir()
     for plugin in os.listdir(plugins_dir + '/'):
         execfile (plugins_dir + '/' + plugin)
@@ -132,4 +135,22 @@ if __name__ == "__main__":
         except AttributeError:
             # Ignore if 'obj' is not an instance
             pass
-            
+
+    # Check for user plugins
+    user_dir = os.path.expanduser('~/.gwp/plugins')
+    if (os.path.exists(user_dir)):
+        for plugin in os.listdir(user_dir + '/'):
+            execfile (user_dir + '/' + plugin)
+            # Check the plugins and add them to the available plugins list
+        for obj in dir():
+            try:
+                if (isinstance(eval(obj), gwp.Plugin)):
+                    pm.plugins_available.append(eval(obj))
+            except AttributeError:
+                # Ignore if 'obj' is not an instance
+                pass
+    else:
+        # Print some informational message
+        print "If you want to use your own plugins, you should place them on %s" % user_dir
+
+    
