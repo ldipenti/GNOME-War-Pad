@@ -46,8 +46,10 @@
 #include "gwp-utils.h"
 #include "gwp-messages.h"
 #include "gwp-race.h"
+#include "gwp-messages.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
+void scan_messages (void);
 static gint16 getWord(guchar* p);
 static gint32 getDWord(guchar* p);
 static GHashTable *target_list;
@@ -87,6 +89,8 @@ void init_data (void)
   g_message("BEAMSPEC.DAT loaded...");
   load_truehull_data();
   g_message("TRUEHULL loaded...");
+  scan_messages();
+  g_message("Messages Scanned...");
 
 #ifdef USE_PYTHON
   if (! python_loaded)
@@ -615,7 +619,6 @@ GHashTable * load_pdata (void)
   struct stat dat_data;
   GwpPlanet *p;
   gchar *fc_tmp;
-  GwpMessages *messages = gwp_messages_new();
 
   /* Load temp planets coord data */
   xyplanet_list = load_xyplan(XYPLAN);
@@ -1511,4 +1514,76 @@ GSList * load_beamspec (void)
   fclose (beamspec);
 
   return beamspec_list;
+}
+
+/**
+ * Scan messages for interesting data.
+ *
+ * Tim is so great, that many important game data only comes from the
+ * game's message system, so I have to scan them to show all the good stuff, 
+ * cool isn't it?
+ */
+void 
+scan_messages (void)
+{
+  GwpMessages *msg_store = (GwpMessages *)gwp_messages_new ();
+  gint qty = gwp_messages_getMessagesNumber (msg_store);
+  gint i;
+
+  for (i = 0; i < qty; i++) {
+    gchar *msg_body = g_strdup(gwp_messages_getMessageBody (msg_store, i));
+    gchar *msg_hdr = g_strdup(gwp_messages_getMessageHeader (msg_store, i));
+
+    /* Scanner report on planets */
+    if (gwp_messages_grepMessage (msg_hdr, "-z0")) {
+
+      /* Search for enemy clans on planets below our ships */
+      if (gwp_messages_grepMessage (msg_body,
+				    "There are enemy colonists")) {
+	pcre *re;
+	const gchar *error;
+	gint erroffset;
+	const gchar *regexp = "(.*) race";
+	re = pcre_compile (regexp, /* the pattern */
+			   0,              /* options */
+			   &error,         /* for error message */
+			   &erroffset,     /* for error offset */
+			   NULL);          /* use default character tables */
+	if (error) {
+	  g_message ("WARNING: %s - offset: %d", error, erroffset);
+	} else {
+	  gint rc;
+	  gint ovector[30];
+	  rc = pcre_exec (re,               /* compiled regexp */
+			  NULL,             /* didn't study the pattern */
+			  msg_body,         /* subject string */
+			  strlen(msg_body), /* subject's length */
+			  0,                /* start at offset 0 */
+			  0,                /* default opts */
+			  ovector,          /* offsets vector*/
+			  30);              /* ovector size */
+	  
+	  if (rc > 0) {
+	    const gchar *match1;
+	    const gchar *match2;
+	    pcre_get_substring (msg_body, /* subject string */
+				ovector,  /* offsets vector */
+				rc,       /* total matches */
+				1,        /* match number */
+				&match1);  /* output string */
+/* 	    pcre_get_substring (msg_body, /\* subject string *\/ */
+/* 				ovector,  /\* offsets vector *\/ */
+/* 				rc,       /\* total matches *\/ */
+/* 				2,        /\* match number *\/ */
+/* 				&match2);  /\* output string *\/ */
+/* 	    g_message ("MATCH: %s - %s clans", match1, match2); */
+	  }
+	}
+      }
+    }
+
+    g_free (msg_body);
+    g_free (msg_hdr);
+  }
+  
 }

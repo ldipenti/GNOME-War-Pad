@@ -1223,6 +1223,24 @@ gboolean gwp_messages_grepMessage( gchar *message, gchar *text )
   return (strstr (message, text) != NULL);
 }
 
+/**
+ * Return the message quantity on the store
+ *
+ * @param self a GwpMessages store
+ * @return the number of messages on the store.
+ */
+gint
+gwp_messages_getMessagesNumber (GwpMessages *self)
+{
+  g_assert (GWP_IS_MESSAGES(self));
+
+  /* check if file was already read */
+  if( !self->priv->fileRead )
+    gwp_messages_readFileAny( self );
+  
+  return self->priv->msgs.n;
+}
+
 /*********************/
 /* Private functions */
 /*********************/

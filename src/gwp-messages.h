@@ -117,6 +117,7 @@ void gwp_messages_sortByCategory( GwpMessages *self );
 char *gwp_messages_getMessagePath( GwpMessages *self, gint id );
 void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path );
 gboolean gwp_messages_grepMessage( gchar *message, gchar *text );
+gint gwp_messages_getMessagesNumber (GwpMessages *self);
 
 /*
  * Standard defines.
