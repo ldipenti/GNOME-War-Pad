@@ -10,8 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-#SUBDIRS = po pixmaps src help
-
 
 SHELL = @SHELL@
 
@@ -124,7 +122,8 @@ STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 
-SUBDIRS = po pixmaps src
+SUBDIRS = po pixmaps src help
+#SUBDIRS = po pixmaps src
 
 gwpdocdir = ${prefix}/doc/gwp
 gwpdoc_DATA =  	README 	COPYING 	COPYING-DOCS 	AUTHORS 	INSTALL 	ChangeLog 	NEWS 	TODO 	ABOUT-NLS
