@@ -83,8 +83,8 @@ int main (int argc, char *argv[]) {
   g_assert(game_mgr_properties != NULL);
 
   /* Initialisations */
-  gwp_init();
   g_type_init(); /* GLib's type system */
+  gwp_init();
   
   /* Hide splash screen & show game manager */
   /* gtk_widget_hide(gwp_splash_screen); */

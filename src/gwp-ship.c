@@ -196,7 +196,6 @@ static void gwp_ship_init (GTypeInstance  *instance,
   self->priv->intercept_ship_id = 0;
   self->priv->megacredits = 0;
 
-  /* g_message("GwpShip init"); */
 }
 
 static void gwp_ship_dispose (GwpShip *self)
@@ -218,14 +217,12 @@ static void gwp_ship_finalize (GwpShip *self)
   /* 
    * Here, complete object destruction.
    */
-  /* g_message("GwpShip finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_ship_class_init (GwpShipClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  /* g_message("GwpShipClass init"); */
   /*
    * Register destructor methods.
    */
@@ -244,6 +241,7 @@ GwpShip * gwp_ship_new (void)
 /**********************/
 /* High level methods */
 /**********************/
+
 
 /* Using own data, calculates heading */
 gint gwp_ship_calculate_heading (GwpShip *self)
@@ -265,16 +263,6 @@ gint gwp_ship_calculate_heading (GwpShip *self)
 
     h = rint(heading * (360 / (2 * 3.14159)));
     
-/*     if (dx >= 0 && dy < 0) { */
-/*       h = 90 + (h * -1); */
-/*     } else if (dx < 0 && dy < 0) { */
-/*       h = h + 270; */
-/*     } else if (dx < 0 && dy >= 0) { */
-/*       h = h + 270; */
-/*     } else if (dx >= 0 && dy >= 0) { */
-/*       h = 90 + (h * -1); */
-/*     } */
-
     if (dx >= 0) {
       h = 90 + (h * -1);
     } else {
@@ -284,9 +272,6 @@ gint gwp_ship_calculate_heading (GwpShip *self)
   } else {
     h = 0;
   }
-
-  g_message("heading: %d - %f, %f -> '%s'", h, dx, dy, gwp_object_get_name(GWP_OBJECT(self))->str);
-
   return h;
 }
 
@@ -320,6 +305,45 @@ gboolean gwp_ship_is_mine(GwpShip *self)
   } else {
     return FALSE;
   }
+}
+
+void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y)
+{
+  g_assert(GWP_IS_SHIP(self) && wp_x != NULL && wp_y != NULL);
+
+  *wp_x = gwp_object_get_x_coord(GWP_OBJECT(self)) + 
+    gwp_ship_get_x_to_waypoint (self);
+  *wp_y = gwp_object_get_y_coord(GWP_OBJECT(self)) + 
+    gwp_ship_get_y_to_waypoint (self);
+}
+
+/* Calculates the distance left to reach the waypoint */
+gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self)
+{
+  g_assert(GWP_IS_SHIP(self));
+
+  gdouble x, y;
+
+  x = gwp_ship_get_x_to_waypoint(self);
+  y = gwp_ship_get_y_to_waypoint(self);
+
+  return sqrt((x*x) + (y*y));  
+}
+
+/* Calculate the Estimated Time of Arrival */
+gint gwp_ship_calculate_eta (GwpShip *self)
+{
+  g_assert(GWP_IS_SHIP(self));
+
+  gdouble dist = gwp_ship_calculate_waypoint_distance (self);
+  gdouble speed = gwp_fo_get_speed (GWP_FLYING_OBJECT(self));
+
+  gint eta = 0;
+  if (dist > 0.0) {
+    eta = rint(dist / (speed*speed));
+  }
+  
+  return eta;
 }
 
 /****************************/

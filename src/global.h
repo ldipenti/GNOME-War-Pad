@@ -92,36 +92,34 @@
 
 #define GAME_STATE_VERSION 2
 
-// Global vars
+/* Global vars */
 GHashTable *planet_list;
 GHashTable *base_list;
 GHashTable *ship_list;
 GHashTable *target_list;
 GHashTable *fleet_list;
 
-// Canvas items
+/* Canvas items */
 GSList *planets_per_quad[TOTAL_QUADS];
 GSList *ships_per_quad[TOTAL_QUADS];
-// Real data
-GSList *planets_data_per_quad[TOTAL_QUADS];
-GSList *ships_data_per_quad[TOTAL_QUADS];
+GSList *locations_per_quad[TOTAL_QUADS];
 
 GList *xyplanet_list;
 GList *shipxy_list;
 
-// Various widgets
+/* Various widgets */
 GtkWidget *gwp, *game_mgr, *game_mgr_properties;
 GtkWidget *gwp_splash_screen;
 
-// Is needed by both main.c & support.c
+/* Is needed by both main.c & support.c */
 GladeXML *xml_interface; 
 
-// GWP structures
+/* GWP structures */
 Starchart starchart;
 StarchartMini starchart_mini;
 GameState *game_state;
 
-// GConf subsystem
+/* GConf subsystem */
 #define GWP_GCONF_PATH "/apps/gwp/"
 GConfClient *gwp_gconf;
 

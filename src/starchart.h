@@ -24,10 +24,12 @@
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
+#include "gwp-location.h"
 
 /* Starchart init function */
 void init_starchart(GtkWidget *gwp);
 void init_starchart_mini(void);
+void init_ship_panel (void);
 
 /* Starchart Object Event Handlers */
 gint handle_planet_event(GnomeCanvasItem *item, GdkEvent *event, gpointer data);
@@ -38,7 +40,8 @@ void update_starbase_panel(GwpPlanet *planet);
 void update_global_defense_panel(GwpPlanet *planet);
 void update_planet_panel(GtkWidget *gwp, GwpPlanet *a_planet);
 void update_planet_extra_panel (gint16 planet_id);
-void update_ship_panel(GtkWidget *gwp, GSList *ship_list);
+void update_ship_panel_with (GwpShip *ship);
+void update_ship_panel(GtkWidget *gwp, GwpLocation *location);
 void starchart_update_coord_panel(GtkWidget *gwp, gdouble wx, gdouble wy);
 
 /* Show/Hide Functions */
@@ -65,6 +68,7 @@ void starchart_mark_ship (gint x, gint y);
 void starchart_scroll (gint scroll_x, gint scroll_y);
 
 /* Find functions */
+GwpLocation * starchart_find_location (GSList *locations_in_quad, gint x, gint y);
 GnomeCanvasItem *starchart_find_nearest_object(GSList *objects_in_quad, gdouble x, gdouble y);
 GSList *starchart_get_surrounding_quads(GSList *objects_per_quad[TOTAL_QUADS], gint center_quad);
 gint get_quadrant(gdouble x, gdouble y);

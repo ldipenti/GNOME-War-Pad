@@ -471,24 +471,6 @@ GHashTable * load_sdata (void)
     /* Calculate heading from other data */
     gwp_fo_set_heading(GWP_FLYING_OBJECT(s), gwp_ship_calculate_heading(s));
 
-    /* Assign new memory for new ship */
-    /*
-    tmp = g_malloc (sizeof (VpShipReg));
-    *tmp = ship;
-    */
-           
-    /* Generate the ship register */
-    /*
-    ship_reg = g_malloc (sizeof (Ship));
-    ship_reg->sdata = tmp;
-    ship_reg->fleet_num = 0;
-    coords = g_list_nth_data (shipxy_list, ship.id - 1);
-    ship_reg->x = coords->x;
-    ship_reg->y = coords->y;
-    ship_reg->owner = ship_reg->sdata->owner;
-    ship_reg->tdata = NULL;
-    */    
-
     /* Add ship to list */
     g_hash_table_insert (ship_list, 
 			 (gpointer)(gint)gwp_object_get_id (GWP_OBJECT(s)), s);
@@ -694,8 +676,8 @@ GHashTable * load_pdata (void)
 
   /* Now add the rest unknown planets */
   for (i = 0; i < g_list_length (xyplanet_list); i++) {
-    /* Check if we have not this planet */
 
+    /* Check if we have not this planet */
     if (gwp_planet_get (planet_list, i + 1) == NULL) {
       p = gwp_planet_new();
 
@@ -717,7 +699,8 @@ GHashTable * load_pdata (void)
 }
 
 /* X, Y coords in world coord system... */
-void load_object_per_quad (gpointer obj, GSList * obj_per_quad[TOTAL_QUADS],
+void load_object_per_quad (gpointer obj, 
+			   GSList * obj_per_quad[TOTAL_QUADS],
 			   gdouble wx, gdouble wy)
 {
   gint q;
@@ -728,27 +711,8 @@ void load_object_per_quad (gpointer obj, GSList * obj_per_quad[TOTAL_QUADS],
   }
 }
 
-/*
-void
-load_ships_per_quad (GnomeCanvasItem * ship,
-		     GSList * ships_per_quad[TOTAL_QUADS])
-{
-  gint q;
-  gdouble x, y;
-
-  if (ship != NULL)
-    {
-      starchart_get_object_center_coord (ship, &x, &y);
-      q = get_quadrant (x, y);
-      ships_per_quad[q] = g_slist_append (ships_per_quad[q], ship);
-    }
-}
-*/
-
+/* Returns TRUE if the race can be unpacked on given directory */
 gboolean vp_can_unpack(gchar *game_dir, gint race)
-/*
- * Returns TRUE if the race can be unpacked on given directory
- */
 {
   struct stat rst_file;
   struct stat pdata_file;

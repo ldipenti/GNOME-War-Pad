@@ -14,7 +14,6 @@
 #include "vp_unpack.h"
 #include "race.h"
 
-
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
                                         GdkEventKey     *event,
@@ -117,6 +116,7 @@ starchart_event_button                 (GtkWidget       *widget,
   } 
   /* Select a ship */
   else if((event->button == 3) && (!(event->state & GDK_SHIFT_MASK))) {
+
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
     starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);

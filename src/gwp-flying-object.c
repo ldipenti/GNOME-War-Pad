@@ -64,7 +64,6 @@ static void gwp_fo_init (GTypeInstance *instance,
   /* Attributes initialization */
   self->priv->heading = 0;
   self->priv->speed = 0;
-  /* g_message("GwpFlyingObject initialized"); */
 }
 
 static void gwp_fo_dispose (GwpFlyingObject *self)
@@ -86,14 +85,13 @@ static void gwp_fo_finalize (GwpFlyingObject *self)
   /*
    * Here, complete object destruction.
    */
-  /* g_message("GwpFlyingObject finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_fo_class_init (GwpFlyingObjectClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  /* g_message("GwpFlyingObjectClass init"); */
+
   /* Register destructor methods. */
   gobject_class->dispose = gwp_fo_dispose;
   gobject_class->finalize = gwp_fo_finalize;
@@ -108,6 +106,31 @@ GwpFlyingObject * gwp_fo_new (void)
   return g_object_new(gwp_fo_get_type(), NULL);
 }
 
+/**********************/
+/* High-Level methods */
+/**********************/
+GString *gwp_fo_get_heading_str (GwpFlyingObject *self)
+{
+  g_assert (GWP_IS_FLYING_OBJECT(self));
+
+  gint h = gwp_fo_get_heading(self);
+  GString *hstr = NULL;
+
+  if (h == 0 || h == 360) hstr = g_string_new(_("N"));
+  else if (h > 0 && h < 90) hstr = g_string_new(_("NE"));
+  else if (h == 90) hstr = g_string_new(_("E"));
+  else if (h > 90 && h < 180) hstr = g_string_new(_("SE"));
+  else if (h == 180) hstr = g_string_new(_("S"));
+  else if (h > 180 && h < 270) hstr = g_string_new(_("SW"));
+  else if (h == 270) hstr = g_string_new(_("W"));
+  else hstr = g_string_new(_("NW"));
+
+  return hstr;
+}
+
+/*******************/
+/* Get/Set methods */
+/*******************/
 gint gwp_fo_get_heading (GwpFlyingObject *self)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
@@ -131,3 +154,4 @@ void gwp_fo_set_speed (GwpFlyingObject *self, gint speed)
   g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->speed = speed;
 }
+

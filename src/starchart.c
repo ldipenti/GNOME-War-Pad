@@ -27,7 +27,6 @@
 #include "support.h"
 #include "vp_utils.h"
 #include "starchart.h"
-/* #include "ship.h" */
 #include "tables.h"
 
 /*
@@ -164,38 +163,52 @@ void update_global_defense_panel(GwpPlanet *planet)
 
 void update_planet_extra_panel(gint16 planet_id)
 {
-  GtkCombo *planet_fc;
-  GtkProgressBar *neu_ground, *neu_density;
-  GtkProgressBar *mol_ground, *mol_density;
-  GtkProgressBar *tri_ground, *tri_density;
-  GtkProgressBar *dur_ground, *dur_density;
-  GtkHScale *tax_col, *tax_nat;
-  GtkLabel *mol_rate, *neu_rate, *dur_rate, *tri_rate;
-  GtkLabel *tax_nat_earned, *tax_col_earned;
+  static gboolean loaded = FALSE;
+  static GtkCombo *planet_fc = NULL;
+  static GtkProgressBar *neu_ground = NULL;
+  static GtkProgressBar *neu_density = NULL;
+  static GtkProgressBar *mol_ground = NULL;
+  static GtkProgressBar *mol_density = NULL;
+  static GtkProgressBar *tri_ground = NULL;
+  static GtkProgressBar *tri_density = NULL;
+  static GtkProgressBar *dur_ground = NULL;
+  static GtkProgressBar *dur_density = NULL;
+  static GtkHScale *tax_col = NULL;
+  static GtkHScale *tax_nat = NULL;
+  static GtkLabel *mol_rate = NULL;
+  static GtkLabel *neu_rate = NULL;
+  static GtkLabel *dur_rate = NULL;
+  static GtkLabel *tri_rate = NULL;
+  static GtkLabel *tax_nat_earned = NULL;
+  static GtkLabel *tax_col_earned = NULL;
   GwpPlanet *a_planet;
   gchar *tmp;
 
-  planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");  
+  if (!loaded) {
+    loaded = TRUE;
+    
+    planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");  
+    
+    neu_ground = (GtkProgressBar *) lookup_widget("progressbar_neu_ground");
+    neu_density = (GtkProgressBar *) lookup_widget("progressbar_neu_density");
+    mol_ground = (GtkProgressBar *) lookup_widget("progressbar_mol_ground");
+    mol_density = (GtkProgressBar *) lookup_widget("progressbar_mol_density");
+    tri_ground = (GtkProgressBar *) lookup_widget("progressbar_tri_ground");
+    tri_density = (GtkProgressBar *) lookup_widget("progressbar_tri_density");
+    dur_ground = (GtkProgressBar *) lookup_widget("progressbar_dur_ground");
+    dur_density = (GtkProgressBar *) lookup_widget("progressbar_dur_density");
+    
+    tax_nat = (GtkHScale *) lookup_widget("hscale_tax_natives");
+    tax_col = (GtkHScale *) lookup_widget("hscale_tax_colonists");
+    
+    mol_rate = (GtkLabel *) lookup_widget("label_mol_rate");
+    neu_rate = (GtkLabel *) lookup_widget("label_neu_rate");
+    tri_rate = (GtkLabel *) lookup_widget("label_tri_rate");
+    dur_rate = (GtkLabel *) lookup_widget("label_dur_rate");
 
-  neu_ground = (GtkProgressBar *) lookup_widget("progressbar_neu_ground");
-  neu_density = (GtkProgressBar *) lookup_widget("progressbar_neu_density");
-  mol_ground = (GtkProgressBar *) lookup_widget("progressbar_mol_ground");
-  mol_density = (GtkProgressBar *) lookup_widget("progressbar_mol_density");
-  tri_ground = (GtkProgressBar *) lookup_widget("progressbar_tri_ground");
-  tri_density = (GtkProgressBar *) lookup_widget("progressbar_tri_density");
-  dur_ground = (GtkProgressBar *) lookup_widget("progressbar_dur_ground");
-  dur_density = (GtkProgressBar *) lookup_widget("progressbar_dur_density");
-
-  tax_nat = (GtkHScale *) lookup_widget("hscale_tax_natives");
-  tax_col = (GtkHScale *) lookup_widget("hscale_tax_colonists");
-
-  mol_rate = (GtkLabel *) lookup_widget("label_mol_rate");
-  neu_rate = (GtkLabel *) lookup_widget("label_neu_rate");
-  tri_rate = (GtkLabel *) lookup_widget("label_tri_rate");
-  dur_rate = (GtkLabel *) lookup_widget("label_dur_rate");
-
-  tax_nat_earned = (GtkLabel *) lookup_widget("label_tax_nat_pay");
-  tax_col_earned = (GtkLabel *) lookup_widget("label_tax_col_pay");
+    tax_nat_earned = (GtkLabel *) lookup_widget("label_tax_nat_pay");
+    tax_col_earned = (GtkLabel *) lookup_widget("label_tax_col_pay");
+  }
 
   /* If we received a valid planet id, we work */
   if ((planet_id >= 1) && (planet_id <= MAX_PLANETS))
@@ -347,13 +360,27 @@ void update_planet_extra_panel(gint16 planet_id)
 
 void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 {
-  GtkWidget *planet_page;
-  GtkNotebook *panel;
-  GtkLabel *planet_name, *mines, *factories, *defenses, *temperature;
-  GtkLabel *neutronium, *tritanium, *duranium, *molybdenum, *supplies;
-  GtkLabel *colonists, *natives, *natives_race, *spi;
-  GtkLabel *megacredits, *visibility, *coords;
-  gchar *tmp;
+  static gboolean loaded = FALSE;
+  static GtkWidget *planet_page = NULL;
+  static GtkNotebook *panel = NULL;
+  static GtkLabel *planet_name = NULL;
+  static GtkLabel *mines = NULL;
+  static GtkLabel *factories = NULL;
+  static GtkLabel *defenses = NULL;
+  static GtkLabel *temperature = NULL;
+  static GtkLabel *neutronium = NULL;
+  static GtkLabel *tritanium = NULL;
+  static GtkLabel *duranium = NULL;
+  static GtkLabel *molybdenum = NULL;
+  static GtkLabel *supplies = NULL;
+  static GtkLabel *colonists = NULL;
+  static GtkLabel *natives = NULL;
+  static GtkLabel *natives_race = NULL;
+  static GtkLabel *spi = NULL;
+  static GtkLabel *megacredits = NULL;
+  static GtkLabel *visibility = NULL;
+  static GtkLabel *coords = NULL;
+  gchar *tmp = NULL;
 
   g_assert (GWP_IS_PLANET(a_planet));
 
@@ -362,26 +389,29 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
   gtk_notebook_set_current_page (panel, PANEL_PLANET_PAGE);
   planet_page = gtk_notebook_get_nth_page (panel, PANEL_PLANET_PAGE);
 
-  planet_name = (GtkLabel *) lookup_widget ("label_planet");
-  mines = (GtkLabel *) lookup_widget ("label_mines");
-  factories = (GtkLabel *) lookup_widget ("label_factories");
-  defenses = (GtkLabel *) lookup_widget ("label_defenses");
-  coords = (GtkLabel *) lookup_widget ("label_coords");
+  if (!loaded) {
+    loaded = TRUE;
 
-  neutronium = (GtkLabel *) lookup_widget ("label_neutronium");
-  tritanium = (GtkLabel *) lookup_widget ("label_tritanium");
-  duranium = (GtkLabel *) lookup_widget ("label_duranium");
-  molybdenum = (GtkLabel *) lookup_widget ("label_molybdenum");
-  supplies = (GtkLabel *) lookup_widget ("label_supplies");
-  temperature = (GtkLabel *) lookup_widget("label_temperature");
-
-  colonists = (GtkLabel *) lookup_widget ("label_colonists");
-  natives = (GtkLabel *) lookup_widget ("label_natives");
-  natives_race = (GtkLabel *) lookup_widget ("label_native_race");
-  spi = (GtkLabel *) lookup_widget ("label_spi");
-  megacredits = (GtkLabel *) lookup_widget("label_mc");
-  visibility = (GtkLabel *) lookup_widget("label_visibility");
-
+    planet_name = (GtkLabel *) lookup_widget ("label_planet");
+    mines = (GtkLabel *) lookup_widget ("label_mines");
+    factories = (GtkLabel *) lookup_widget ("label_factories");
+    defenses = (GtkLabel *) lookup_widget ("label_defenses");
+    coords = (GtkLabel *) lookup_widget ("label_coords");
+    
+    neutronium = (GtkLabel *) lookup_widget ("label_neutronium");
+    tritanium = (GtkLabel *) lookup_widget ("label_tritanium");
+    duranium = (GtkLabel *) lookup_widget ("label_duranium");
+    molybdenum = (GtkLabel *) lookup_widget ("label_molybdenum");
+    supplies = (GtkLabel *) lookup_widget ("label_supplies");
+    temperature = (GtkLabel *) lookup_widget("label_temperature");
+    
+    colonists = (GtkLabel *) lookup_widget ("label_colonists");
+    natives = (GtkLabel *) lookup_widget ("label_natives");
+    natives_race = (GtkLabel *) lookup_widget ("label_native_race");
+    spi = (GtkLabel *) lookup_widget ("label_spi");
+    megacredits = (GtkLabel *) lookup_widget("label_mc");
+    visibility = (GtkLabel *) lookup_widget("label_visibility");
+  }
 
   /* If we have data on this planet, then work */
   if (gwp_planet_is_known (a_planet)) {
@@ -524,51 +554,149 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
   }
 }
 
-void update_ship_panel (GtkWidget * gwp, GSList * ship_l)
+/* Completes the ship panel with the selected ship's data */
+void update_ship_panel_with (GwpShip *ship)
+{
+  static gboolean loaded = FALSE;
+  static GtkLabel *waypoint = NULL;
+  static GtkLabel *distance = NULL;
+  static GtkLabel *speed = NULL;
+  static GtkLabel *eta = NULL;
+  static GtkLabel *mass = NULL;
+  static GtkLabel *fuel_usage = NULL;
+  static GtkLabel *heading = NULL;
+  gchar *tmp = NULL;
+
+  if (! loaded) {
+    loaded = TRUE;
+
+    waypoint = (GtkLabel *) lookup_widget("label_ship_panel_waypoint");
+    distance = (GtkLabel *) lookup_widget("label_ship_panel_distance");
+    heading = (GtkLabel *) lookup_widget("label_ship_panel_heading");
+    speed = (GtkLabel *) lookup_widget("label_ship_panel_speed");
+    eta = (GtkLabel *) lookup_widget("label_ship_panel_eta");
+    mass = (GtkLabel *) lookup_widget("label_ship_panel_mass");
+    fuel_usage = (GtkLabel *) lookup_widget("label_ship_panel_fuel");
+  }
+
+  if (GWP_IS_SHIP(ship)) {
+    /* Update waypoint */
+    gint x, y;
+    gwp_ship_get_waypoint(ship, &x, &y);
+    tmp = g_strdup_printf("(%d , %d)", x, y);
+    gtk_label_set_text(waypoint, tmp);
+    g_free(tmp);
+
+    /* Update distance */
+    tmp = g_strdup_printf(_("%.2f LY"), gwp_ship_calculate_waypoint_distance(ship));
+    gtk_label_set_text(distance, tmp);
+    g_free(tmp);
+
+    /* Update heading */
+    gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
+    gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
+    if (h == 1) {
+      tmp = g_strdup_printf(_("%d\302\260 (%s)"), h, hstr);
+    } else {
+      tmp = g_strdup_printf(_("%d\302\260 (%s)"), h, hstr);
+    }
+    gtk_label_set_text(heading, tmp);
+    g_free(tmp);
+
+    /* Update speed */
+    tmp = g_strdup_printf("%d", gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
+    gtk_label_set_text(speed, tmp);
+    g_free(tmp);
+
+    /* Update ETA */
+    gint e = gwp_ship_calculate_eta (ship);
+    if (e == 1) {
+      tmp = g_strdup_printf(_("%d turn"), e);
+    } else {
+      tmp = g_strdup_printf(_("%d turns"), e);
+    }
+    gtk_label_set_text (eta, tmp);
+    g_free(tmp);
+  }
+  /* If it's not a ship, reset all fields */
+  else {
+    gtk_label_set_text(waypoint, _("n/a"));
+    gtk_label_set_text(distance, _("n/a"));
+    gtk_label_set_text(heading, _("n/a"));
+    gtk_label_set_text(speed, _("n/a"));
+    gtk_label_set_text(eta, _("n/a"));
+    gtk_label_set_text(mass, _("n/a"));
+    gtk_label_set_text(fuel_usage, _("n/a"));
+    gtk_label_set_text(eta, _("n/a"));
+  }
+}
+
+/* Given a GwpLocation, is shows how many ships are available */
+void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
 {
   GtkWidget *ship_page;
   GtkNotebook *panel;
-
-  // FIXME: Deprecated!
-  //  GtkList *panel_ship_list;
-  //  GtkListItem *panel_ship_list_item;
-  // END-FIXME
-
-  GtkLabel *ship_name;
-  /*
-  GList *item_list = NULL;
-  Ship *a_ship;
-  gint i, ship_id;
-  */
-
-  // Select the planet page on panel
+  GtkLabel *summary;
+  GwpShip *ship;
+  gchar *tmp;
+  guint ships_nr = 0;
+  gint i;
+  GtkTreeView *panel_ship_list = NULL;
+  GtkListStore *store;
+  GtkTreeIter iter;
+  GtkTreePath *path;
+  
+  /* Select the planet page on panel */
   panel = (GtkNotebook *) lookup_widget ("info_panel");
   gtk_notebook_set_current_page (panel, PANEL_SHIP_PAGE);
   ship_page = gtk_notebook_get_nth_page (panel, PANEL_SHIP_PAGE);
 
-  ship_name = (GtkLabel *) lookup_widget ("label_name");
+  /* Retrieve all info widgets */
+  summary = (GtkLabel *) lookup_widget ("label_ship_panel_summary");
+  
+  /* Set up ship list */
+  panel_ship_list = (GtkTreeView *) lookup_widget ("ships_list");
+  store = (GtkListStore *) gtk_tree_view_get_model (panel_ship_list);
+  g_assert (store != NULL);
+  gtk_list_store_clear (store);
 
-  // FIXME: Revisar esta bosta
-  //-->panel_ship_list = (GtkList *) lookup_widget ("ships_list");
+  ships_nr = gwp_location_objects_nr(location);
 
-  // Load GtkList with ships
-  /*
-  for (i = 0; i < g_slist_length (ship_l); i++)
-    {
-      ship_id = (gint) g_slist_nth_data (ship_l, i);
-      // If we received a valid planet id, we work
-      if ((ship_id >= 1) && (ship_id <= MAX_SHIPS))
-	{
-	  a_ship = ship_get (ship_list, ship_id);
-	  panel_ship_list_item =
-	    (GtkListItem *)
-	    gtk_list_item_new_with_label (ship_get_name (a_ship));
-	  item_list =
-	    g_list_append (item_list, (gpointer) panel_ship_list_item);
-	}
-    }
-  gtk_list_append_items (panel_ship_list, item_list);
-  */
+  /* Set up summary label */
+  if (ships_nr == 1) {
+    tmp = g_strdup_printf (_("%d ship in (%d , %d)"), 
+			   ships_nr,
+			   gwp_object_get_x_coord(GWP_OBJECT(location)),
+			   gwp_object_get_y_coord(GWP_OBJECT(location)));
+    gtk_label_set_text (summary, tmp);
+    g_free (tmp);
+  } else {
+    tmp = g_strdup_printf (_("%d ships in (%d , %d)"), 
+			   ships_nr,
+			   gwp_object_get_x_coord(GWP_OBJECT(location)),
+			   gwp_object_get_y_coord(GWP_OBJECT(location)));
+    gtk_label_set_text (summary, tmp);
+    g_free (tmp);
+  }
+
+  /* Load GtkTreeView with ships */
+  for (i = 0; i < ships_nr; i++) {
+    /* Get ship from location */
+    ship = gwp_location_get_object(location, i);
+
+    /* Add item to ship list */
+    gtk_list_store_append (store, &iter);
+    gtk_list_store_set (store, &iter,
+			0, gwp_object_get_id (GWP_OBJECT(ship)),
+			1, g_strdup_printf("%s", gwp_object_get_name(GWP_OBJECT(ship))->str),
+			-1);
+
+    /* Select first ship on list */
+    path = gtk_tree_model_get_path (GTK_TREE_MODEL(store), &iter);
+    gtk_tree_view_scroll_to_cell (panel_ship_list, path, NULL, TRUE, 1.0, 0.0);
+    gtk_tree_view_set_cursor (panel_ship_list, path, NULL, FALSE);
+    gtk_tree_path_free (path);
+  }
 }
 
 gint get_planet_from_coords (gdouble x_wc, gdouble y_wc)
@@ -577,21 +705,19 @@ gint get_planet_from_coords (gdouble x_wc, gdouble y_wc)
   gint16 x, y;
   gint i;
 
-  // Convert World Coords to VP System
+  /* Convert World Coords to VP System */
   vp_coord_w2v (x_wc, y_wc, &x, &y);
 
-  for (i = 0; i < g_list_length (xyplanet_list); i++)
-    {
-      planet = g_list_nth_data (xyplanet_list, i);
-
-      // Check if this is the clicked planet
-      if ((x == planet->x) && (y == planet->y))
-	{
-	  return i + 1;
-	}
+  for (i = 0; i < g_list_length (xyplanet_list); i++) {
+    planet = g_list_nth_data (xyplanet_list, i);
+    
+    /* Check if this is the clicked planet */
+    if ((x == planet->x) && (y == planet->y))	{
+      return i + 1;
     }
-
-  // If we don't find the planet...
+  }
+  
+  /* If we don't find the planet... */
   return 0;
 }
 
@@ -602,91 +728,98 @@ GSList * get_ships_from_coords (gdouble x_wc, gdouble y_wc)
   gint16 x, y;
   gint i;
 
-  // Convert World Coords to VP System
+  /* Convert World Coords to VP System */
   vp_coord_w2v (x_wc, y_wc, &x, &y);
 
-  for (i = 0; i < g_list_length (shipxy_list); i++)
-    {
-      ship = g_list_nth_data (shipxy_list, i);
-        
-        // Check if this is the clicked ship
-      if ((x == ship->x) && (y == ship->y))
-	{
-	  ship_list = g_slist_append (ship_list, (gpointer) (i + 1));
-	}
+  for (i = 0; i < g_list_length (shipxy_list); i++) {
+    ship = g_list_nth_data (shipxy_list, i);
+    
+    /* Check if this is the clicked ship */
+    if ((x == ship->x) && (y == ship->y)) {
+      ship_list = g_slist_append (ship_list, (gpointer) (i + 1));
     }
+  }
   return ship_list;
 }
 
+
 void draw_ship (gpointer key, gpointer value, gpointer user_data)
 {
-    GnomeCanvasItem *item = NULL;
-    GnomeCanvasGroup *ships_group;
-    gdouble xi, yi;
-    GSList *ship_data_list;
-    GwpShip *ship;
+  GnomeCanvasItem *item = NULL;
+  GnomeCanvasGroup *ships_group;
+  gdouble xi, yi;
+  gint xv, yv, q;
+  GwpShip *ship;
+  GSList *locations_nearby = NULL;
+  GwpLocation *location;
+  
+  ship = value;
+  ships_group = starchart_get_grp_ships_allied();
+  
+  /* Check if ship coords aren't invalid...and work */
+  if (gwp_ship_valid_coords (ship)) {
+    xv = gwp_object_get_x_coord (GWP_OBJECT(ship));
+    yv = gwp_object_get_y_coord (GWP_OBJECT(ship));
+    vp_coord_v2w (xv, yv, &xi, &yi);
 
-    ship = value;
-    ships_group = starchart_get_grp_ships_allied();
+    /* Check if we don't have a ship in the same place */
+    q = get_quadrant(xi, yi);
+    locations_nearby = starchart_get_surrounding_quads (locations_per_quad, q);
+    location = starchart_find_location (locations_nearby, xv, yv);
+    
+    if (! GWP_IS_LOCATION (location)) {
+      GnomeCanvasPoints *points;
+      
+      /* Generate polygon points for triangle */
+      points = gnome_canvas_points_new(3);
+      points->coords[0] = xi - 1.5; /* 1st point */
+      points->coords[1] = yi + 1.5;
+      points->coords[2] = xi + 1.5; /* 2nd point */
+      points->coords[3] = yi + 1.5;
+      points->coords[4] = xi; /* 3rd point */
+      points->coords[5] = yi - 3.0;
 
-    /* Check if ship coords aren't invalid...and work */
-    if (gwp_ship_valid_coords(ship)) {
-      vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(ship)), 
-		    gwp_object_get_y_coord(GWP_OBJECT(ship)), 
-		    &xi, &yi);
-      /* Check if we don't have a ship in the same place */
-      if ((item = gnome_canvas_get_item_at (starchart_get_canvas(), 
-					    xi, yi)) == NULL) {
-	GnomeCanvasPoints *points;
-
-	/* Generate polygon points */
-	points = gnome_canvas_points_new(3);
-	points->coords[0] = xi - 1.5; /* 1st point */
-	points->coords[1] = yi + 1.5;
-	points->coords[2] = xi + 1.5; /* 2nd point */
-	points->coords[3] = yi + 1.5;
-	points->coords[4] = xi; /* 3rd point */
-	points->coords[5] = yi - 3.0;
-
-	if (gwp_ship_is_mine(ship)) {
-	  item = gnome_canvas_item_new (ships_group, 
-					GNOME_TYPE_CANVAS_POLYGON,
-					"outline_color_rgba", OWNED_SHIP_COLOR,
-					"points", points,
-					"width_pixels", 1,
-					"fill_color_rgba", UNIVERSE_COLOR_A, 
-					NULL);
-
-	} else {
-	  item = gnome_canvas_item_new (ships_group, 
-					GNOME_TYPE_CANVAS_POLYGON,
-					"outline_color_rgba", SHIP_COLOR, 
-					"points", points,
-					"width_pixels", 1,
-					"fill_color_rgba", UNIVERSE_COLOR_A,
-					NULL);
-	}
-	starchart_rotate_ship (ship, item);
-
-	gnome_canvas_points_free(points);
-
-        /* Bind canvas item to ship data */
-	/* FIXME!!! */
-	/*
-        ship_data_list = g_malloc(sizeof(GSList));
-        ship_data_list = g_slist_append(ship_data_list, ship);
-        gtk_object_set_data(GTK_OBJECT(item), "ship_data_list", ship_data_list);
-	*/
-        
-        /* Insert item into quadrant */
-        load_object_per_quad (item, ships_per_quad, xi, yi);
+      if (gwp_ship_is_mine(ship)) {
+	item = gnome_canvas_item_new (ships_group, 
+				      GNOME_TYPE_CANVAS_POLYGON,
+				      "outline_color_rgba", OWNED_SHIP_COLOR,
+				      "points", points,
+				      "width_pixels", 1,
+				      "fill_color_rgba", OWNED_SHIP_COLOR, 
+				      NULL);
       } else {
-	/* Get data list and add this ship data */
-        /* ship_data_list = gtk_object_get_data (GTK_OBJECT (item), "ship_data_list"); */
-        ship_data_list = g_object_get_data (G_OBJECT (item), "ship_data_list");
-        ship_data_list = g_slist_append (ship_data_list, ship);
+	item = gnome_canvas_item_new (ships_group, 
+				      GNOME_TYPE_CANVAS_POLYGON,
+				      "outline_color_rgba", SHIP_COLOR, 
+				      "points", points,
+				      "width_pixels", 1,
+				      "fill_color_rgba", SHIP_COLOR,
+				      NULL);
       }
+      starchart_rotate_ship (ship, item);
+      gnome_canvas_item_raise_to_top(item);
+      gnome_canvas_points_free(points);
+      
+      /* Instantiate a new location and add the ship to it */
+      location = gwp_location_new();
+      gwp_object_set_x_coord (GWP_OBJECT(location), xv);
+      gwp_object_set_y_coord (GWP_OBJECT(location), yv);
+      gwp_location_add_object (location, GWP_OBJECT(ship));
+      load_object_per_quad (location, locations_per_quad, xi, yi);
+      
+      /* Bind new location to item */
+      g_object_set_data(G_OBJECT(item), "ship_location", location);
+      
+      /* Insert item into quadrant */
+      load_object_per_quad (item, ships_per_quad, xi, yi);
+
+    } 
+    /* A location is here already, lets add the ship to it */
+    else {
+      /* Get location and add the new ship */
+      gwp_location_add_object (location, GWP_OBJECT(ship));
     }
+  }
 }
 
 void draw_planet (gpointer key, gpointer value, gpointer user_data)
@@ -702,7 +835,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
   starchart = lookup_widget ("starchart");
   group = gnome_canvas_root (GNOME_CANVAS (starchart));
 
-  // Check if planet coords aren't 0...and work
+  /* Check if planet coords aren't 0...and work */
   if (gwp_planet_valid_coords(planet)) {
     vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet)), 
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
@@ -807,17 +940,12 @@ void init_starchart (GtkWidget * gwp)
 				 (gnome_canvas_item_new 
 				  (starchart_get_grp_root(),
 				   GNOME_TYPE_CANVAS_GROUP, NULL)));
-  // End struct initialization...
-  
-  // Initialize mouse cursor
+  /* End struct initialization... */
+
+  /* Initialize mouse cursor */
   starchart_set_default_cursor();
   
-  // Loads Ships on Starchart
-  g_message ("Cargando naves...");
-  g_hash_table_foreach (ship_list, (GHFunc) draw_ship, NULL);
-  g_message ("Naves cargadas...");
-  
-  // Sets black background to starchart
+  /* Sets black background to starchart */
   background = gnome_canvas_item_new (starchart_get_grp_root(), 
 				      GNOME_TYPE_CANVAS_RECT,
 				      "outline_color", "grey",
@@ -825,28 +953,28 @@ void init_starchart (GtkWidget * gwp)
 				      "y2", CANVAS_WIDTH, "width_units", 1.0,
 				      "fill_color", UNIVERSE_COLOR, NULL);
   
-  // Sets starchart grid
+  /* Sets starchart grid */
   grid_points_v = gnome_canvas_points_new (2);
   grid_points_h = gnome_canvas_points_new (2);
   for (i = 0; i < (STARCHART_WIDTH_INT / QUAD_WIDTH_INT) + 1 ; i++) {
-    // Vertical lines
+    /* Vertical lines */
     grid_points_v->coords[0] = CANVAS_OFFSET + i * QUAD_WIDTH;
     grid_points_v->coords[1] = CANVAS_OFFSET;
     grid_points_v->coords[2] = CANVAS_OFFSET + i * QUAD_WIDTH;
     grid_points_v->coords[3] = CANVAS_OFFSET + STARCHART_WIDTH;
-    // Horizontal lines
+    /* Horizontal lines */
     grid_points_h->coords[0] = CANVAS_OFFSET;
     grid_points_h->coords[1] = CANVAS_OFFSET + i * QUAD_WIDTH;
     grid_points_h->coords[2] = CANVAS_OFFSET + STARCHART_WIDTH;
     grid_points_h->coords[3] = CANVAS_OFFSET + i * QUAD_WIDTH;
-    // Draw Vertical Line
+    /* Draw Vertical Line */
     grid_line = gnome_canvas_item_new (starchart_get_grp_grid(), 
 				       GNOME_TYPE_CANVAS_LINE,
 				       "fill_color", QUADRANT_GRID_COLOR,
 				       "line_style", GDK_LINE_ON_OFF_DASH,
 				       "width_pixels", 1,
 				       "points", grid_points_v, NULL);
-    // Draw Horizontal Line
+    /* Draw Horizontal Line */
     grid_line = gnome_canvas_item_new (starchart_get_grp_grid(), 
 				       GNOME_TYPE_CANVAS_LINE,
 				       "fill_color", QUADRANT_GRID_COLOR,
@@ -855,17 +983,22 @@ void init_starchart (GtkWidget * gwp)
 				       "points", grid_points_h, NULL);
   }
   
-  // Loads Planets on Starchart
+  /* Loads Planets on Starchart */
   g_message("Loading planets...");
   g_hash_table_foreach (planet_list, (GHFunc) draw_planet, gwp);
-  g_message("Planets loaded...");
+  g_message("...planets loaded!");
   
-  // Set grid up in the item pile.
+  /* Loads Ships on Starchart */
+  g_message ("Loading ships...");
+  g_hash_table_foreach (ship_list, (GHFunc) draw_ship, NULL);
+  g_message ("...ships loaded!");
+
+  /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
-  // Put ships above all other objects
+  /* Put ships above all other objects */
   gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (starchart_get_grp_ships_allied()));
   
-  // Various bindings
+  /* Various bindings */
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
 		     "grid_group", starchart_get_grp_grid());
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
@@ -898,7 +1031,7 @@ GSList * starchart_get_surrounding_quads (GSList * objects_per_quad[TOTAL_QUADS]
   south_east = south + 1;
   south_west = south - 1;
 
-  // Depending on the position, add different quads to list
+  /* Depending on the position, add different quads to list */
   if ((center_quad >= 0) && (center_quad < TOTAL_QUADS))
     objects =
       g_slist_concat (objects, g_slist_copy (objects_per_quad[center_quad]));
@@ -928,6 +1061,24 @@ GSList * starchart_get_surrounding_quads (GSList * objects_per_quad[TOTAL_QUADS]
   return objects;
 }
 
+GwpLocation * starchart_find_location (GSList *locations_in_quad,
+				       gint x, gint y)
+{
+  gint nr, i;
+  GwpLocation *loc = NULL;
+
+  nr = g_slist_length (locations_in_quad);
+  for (i = 0; i < nr; i++) {
+    loc = (GwpLocation *) g_slist_nth_data (locations_in_quad, i);
+    if (gwp_object_get_x_coord(GWP_OBJECT(loc)) == x &&
+	gwp_object_get_y_coord(GWP_OBJECT(loc)) == y) {
+      /* Location found! return it */
+      return loc;
+    }
+  }
+  return NULL;
+}
+
 GnomeCanvasItem * starchart_find_nearest_object (GSList * objects_in_quad, 
 						 gdouble x, gdouble y)
 {
@@ -937,25 +1088,25 @@ GnomeCanvasItem * starchart_find_nearest_object (GSList * objects_in_quad,
   GnomeCanvasItem *object, *min_object;
 
   nr = g_slist_length (objects_in_quad);
-  if (nr > 0)
-    {
-      object = (GnomeCanvasItem *) g_slist_nth_data (objects_in_quad, 0);
-      min_object = object;
+
+  if (nr > 0) {
+    object = (GnomeCanvasItem *) g_slist_nth_data (objects_in_quad, 0);
+    min_object = object;
+    starchart_get_object_center_coord (object, &px, &py);
+    min_dist = sqrt (((abs (px - x) ^ 2) + (abs (py - y) ^ 2)));
+
+    for (i = 1; i < nr; i++) {
+      object = g_slist_nth_data (objects_in_quad, i);
       starchart_get_object_center_coord (object, &px, &py);
-      min_dist = sqrt (((abs (px - x) ^ 2) + (abs (py - y) ^ 2)));
-      for (i = 1; i < nr; i++)
-	{
-	  object = g_slist_nth_data (objects_in_quad, i);
-	  starchart_get_object_center_coord (object, &px, &py);
-	  dist = sqrt (((abs (px - x) ^ 2) + (abs (py - y) ^ 2)));
-	  if (dist < min_dist)
-	    {
-	      min_dist = dist;
-	      min_object = object;
-	    }
-	}
-      return min_object;
+      dist = sqrt (((abs (px - x) ^ 2) + (abs (py - y) ^ 2)));
+
+      if (dist < min_dist) {
+	min_dist = dist;
+	min_object = object;
+      }
     }
+    return min_object;
+  }
   return NULL;
 }
 
@@ -1104,8 +1255,8 @@ starchart_select_nearest_planet (GtkWidget * gwp,
   
   planet = starchart_find_nearest_object (planets_nearby, wx, wy);
   planet_data = g_object_get_data (G_OBJECT (planet), "planet_data");
+
   if (GWP_IS_PLANET(planet_data)) {
-    g_message ("Planet selected: '%s'", gwp_object_get_name(GWP_OBJECT(planet_data))->str);
     starchart_mark_planet(planet_data);
     update_planet_panel (gwp, planet_data);
     update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet_data)));
@@ -1128,16 +1279,25 @@ void starchart_select_nearest_ship (GtkWidget * gwp,
   gdouble x, y;
   GSList *ship_list;
   GwpShip *ship_data;
+  GwpLocation *location;
   
   ship = starchart_find_nearest_object (ships_nearby, wx, wy);
-  starchart_get_object_center_coord (ship, &x, &y);
-  ship_list = get_ships_from_coords (x, y);
-  starchart_mark_ship (x, y);
-  update_ship_panel (gwp, ship_list);
-  g_message ("Ship selected");
+  location = g_object_get_data (G_OBJECT (ship), "ship_location");
+
+  if (GWP_IS_LOCATION(location)) {
+    vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(location)),
+		  gwp_object_get_y_coord(GWP_OBJECT(location)),
+		  &x, &y);
+
+    starchart_close_extra_panels(); /* FIXME: this is temporary, I shouldn't
+				       close the extra panels when I have
+				       it finished */
+    starchart_mark_ship (x, y);
+    update_ship_panel (gwp, location);
+  }
 }
 
-// (x, y) in world coords
+/* (x, y) in world coords */
 gint get_quadrant (gdouble x, gdouble y)
 {
   gint xi, yi;
@@ -1220,7 +1380,7 @@ void starchart_set_default_cursor(void)
   
   gtk_widget_realize ((GtkWidget *) starchart_get_canvas());
   gdk_window_set_cursor (GTK_WIDGET(starchart_get_canvas())->window, cursor);
-  gdk_cursor_destroy (cursor);
+  gdk_cursor_destroy (cursor); 
 }
 
 void starchart_set_pan_cursor(void)
@@ -1230,6 +1390,31 @@ void starchart_set_pan_cursor(void)
   gtk_widget_realize ((GtkWidget *) starchart_get_canvas());
   gdk_window_set_cursor (GTK_WIDGET(starchart_get_canvas())->window, cursor);
   gdk_cursor_destroy (cursor);
+}
+
+/* Initializes the ship list */
+void init_ship_panel (void)
+{
+  GtkTreeView *panel_ship_list;
+  GtkCellRenderer *name_renderer, *id_renderer;
+  GtkListStore *store;
+  GtkTreeViewColumn *column1, *column2;
+
+  panel_ship_list = (GtkTreeView *) lookup_widget ("ships_list");
+  store = gtk_list_store_new (2, G_TYPE_INT, G_TYPE_STRING);
+  name_renderer = gtk_cell_renderer_text_new();
+  id_renderer = gtk_cell_renderer_text_new();
+  column1 = gtk_tree_view_insert_column_with_attributes (panel_ship_list,
+							 0,
+							 "#", id_renderer,
+							 "text", 0,
+							 NULL);
+  column2 = gtk_tree_view_insert_column_with_attributes (panel_ship_list,
+							 1, _("Name"), 
+							 name_renderer,
+							 "text", 1,
+							 NULL);
+  gtk_tree_view_set_model (panel_ship_list, GTK_TREE_MODEL(store));
 }
 
 void init_starchart_mini (void) 
@@ -1322,7 +1507,7 @@ void starchart_set_status(gchar *msg)
 
 void starchart_mark_planet(GwpPlanet *a_planet)
 {
-  static GnomeCanvasItem *planet_mark = NULL;
+  /*  static GnomeCanvasItem *planet_mark = NULL; */
   static GnomeCanvasItem *planet_mark_l = NULL;
   static GnomeCanvasItem *planet_mark_r = NULL;
   static GnomeCanvasItem *planet_mark_u = NULL;
@@ -1335,16 +1520,16 @@ void starchart_mark_planet(GwpPlanet *a_planet)
 	       gwp_object_get_y_coord(GWP_OBJECT(a_planet)), &wx, &wy);
 
   /* If item doesn't exist yet, lets create it. */
-  if(! planet_mark) {
-    planet_mark = gnome_canvas_item_new (starchart_get_grp_root(), 
-					 GNOME_TYPE_CANVAS_ELLIPSE,
-					 "outline_color_rgba", 0xff000000,
-					 "x1", -2.5, 
-					 "y1", -2.5,
-					 "x2", 2.5,
-					 "y2", 2.5, "width_pixels", 1,
-					 "fill_color_rgba", 0xdd000011, 
-					 NULL);
+  if(! planet_mark_l) {
+/*     planet_mark = gnome_canvas_item_new (starchart_get_grp_root(),  */
+/* 					 GNOME_TYPE_CANVAS_ELLIPSE, */
+/* 					 "outline_color_rgba", 0x00000000, */
+/* 					 "x1", -2.5,  */
+/* 					 "y1", -2.5, */
+/* 					 "x2", 2.5, */
+/* 					 "y2", 2.5, "width_pixels", 1, */
+/* 					 "fill_color_rgba", 0x00000000,  */
+/* 					 NULL); */
     p = gnome_canvas_points_new(2);
     p->coords[0] = -7.5;
     p->coords[1] = 0.0;
@@ -1352,10 +1537,10 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = 0.0;
     planet_mark_l = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color_rgba", 0xff0000ff,
+					   "fill_color", "red",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
 
     p = gnome_canvas_points_new(2);
@@ -1365,10 +1550,10 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = 0.0;
     planet_mark_r = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color_rgba", 0xff0000ff,
+					   "fill_color", "red",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
 
     p = gnome_canvas_points_new(2);
@@ -1378,10 +1563,10 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = -3.5;
     planet_mark_u = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color_rgba", 0xff0000ff,
+					   "fill_color", "red",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
 
     p = gnome_canvas_points_new(2);
@@ -1391,15 +1576,15 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = 7.5;
     planet_mark_d = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color_rgba", 0xff0000ff,
+					   "fill_color", "red",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
   }
   /* Translate the mark! */
   art_affine_translate(matrix, wx, wy);
-  gnome_canvas_item_affine_absolute(planet_mark, matrix);
+  /*  gnome_canvas_item_affine_absolute(planet_mark, matrix); */
   gnome_canvas_item_affine_absolute(planet_mark_l, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_r, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_u, matrix);
@@ -1408,7 +1593,7 @@ void starchart_mark_planet(GwpPlanet *a_planet)
 
 void starchart_mark_ship (gint x, gint y)
 {
-  static GnomeCanvasItem *ship_mark = NULL;
+  /*  static GnomeCanvasItem *ship_mark = NULL; */
   static GnomeCanvasItem *ship_mark_l = NULL;
   static GnomeCanvasItem *ship_mark_r = NULL;
   static GnomeCanvasItem *ship_mark_u = NULL;
@@ -1426,16 +1611,16 @@ void starchart_mark_ship (gint x, gint y)
   wy = (gdouble)y;
 
   /* If item doesn't exist yet, lets create it. */
-  if(! ship_mark) {
-    ship_mark = gnome_canvas_item_new (starchart_get_grp_root(), 
-					 GNOME_TYPE_CANVAS_ELLIPSE,
-					 "outline_color_rgba", 0xff000000,
-					 "x1", -2.5, 
-					 "y1", -2.5,
-					 "x2", 2.5,
-					 "y2", 2.5, "width_pixels", 1,
-					 "fill_color_rgba", 0xdd000011, 
-					 NULL);
+  if(! ship_mark_l) {
+/*     ship_mark = gnome_canvas_item_new (starchart_get_grp_root(),  */
+/* 					 GNOME_TYPE_CANVAS_ELLIPSE, */
+/* 					 "outline_color_rgba", 0x00000000, */
+/* 					 "x1", -2.5,  */
+/* 					 "y1", -2.5, */
+/* 					 "x2", 2.5, */
+/* 					 "y2", 2.5, "width_pixels", 1, */
+/* 					 "fill_color_rgba", 0xdd000011,  */
+/* 					 NULL); */
     p = gnome_canvas_points_new(2);
     p->coords[0] = -6.0;
     p->coords[1] = 6.0;
@@ -1446,7 +1631,7 @@ void starchart_mark_ship (gint x, gint y)
 					   "fill_color", "green",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
 
     p = gnome_canvas_points_new(2);
@@ -1459,7 +1644,7 @@ void starchart_mark_ship (gint x, gint y)
 					   "fill_color", "green",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
 
     p = gnome_canvas_points_new(2);
@@ -1472,7 +1657,7 @@ void starchart_mark_ship (gint x, gint y)
 					   "fill_color", "green",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
 
     p = gnome_canvas_points_new(2);
@@ -1485,12 +1670,12 @@ void starchart_mark_ship (gint x, gint y)
 					   "fill_color", "green",
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
-					   "width_pixels", 1,
+					   "width_pixels", 2,
 					   NULL);
   }
   /* Translate the mark! */
   art_affine_translate(matrix, wx, wy);
-  gnome_canvas_item_affine_absolute(ship_mark, matrix);
+  /*  gnome_canvas_item_affine_absolute(ship_mark, matrix); */
   gnome_canvas_item_affine_absolute(ship_mark_l, matrix);
   gnome_canvas_item_affine_absolute(ship_mark_r, matrix);
   gnome_canvas_item_affine_absolute(ship_mark_u, matrix);

@@ -51,6 +51,9 @@ void on_game_mgr_game_dir_changed (GtkEditable *editable,
 void on_game_mgr_new_game (GtkWidget *widget,
 			   gpointer user_data);
 
+void on_ships_list_cursor_changed (GtkWidget *widget,
+				   gpointer user_data);
+
 void on_game_mgr_edit_game(GtkWidget *widget,
 			   gpointer user_data);
 

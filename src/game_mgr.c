@@ -44,6 +44,7 @@ void game_mgr_init(void)
     gboolean delete = FALSE;
     GtkWidget *warn;
 
+    /* Init race list */
     race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
     store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     renderer = gtk_cell_renderer_text_new();
@@ -633,6 +634,7 @@ void game_mgr_play_game(GameState *state)
   init_data();
   init_starchart(gwp);
   init_starchart_mini();
+  init_ship_panel();
 
   /* Get the widgets ready */
   gtk_label_set_text(race, race_get_name(game_get_race(game_state)));

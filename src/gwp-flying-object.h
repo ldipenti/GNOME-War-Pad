@@ -30,6 +30,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gnome.h>
 
 #include "gwp-object.h"
 
@@ -62,6 +63,11 @@ GType gwp_fo_get_type (void);
  * Public method definitions.
  */
 GwpFlyingObject * gwp_fo_new (void);
+
+/* high-level methods */
+GString *gwp_fo_get_heading_str (GwpFlyingObject *self);
+
+/* get-set methods */
 gint gwp_fo_get_heading (GwpFlyingObject *self);
 void gwp_fo_set_heading (GwpFlyingObject *self, gint heading);
 gint gwp_fo_get_speed (GwpFlyingObject *self);

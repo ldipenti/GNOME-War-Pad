@@ -64,7 +64,9 @@ gint gwp_ship_calculate_heading (GwpShip *self);
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
 gboolean gwp_ship_valid_coords(GwpShip *self);
 gboolean gwp_ship_is_mine(GwpShip *self);
-
+void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y);
+gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self);
+gint gwp_ship_calculate_eta (GwpShip *self);
 
 /****************************/
 /* Get/Set (boring) methods */
