@@ -135,20 +135,20 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 	  gtk_label_set_text (planet_name,
 			      g_strdup_printf ("%s",
 					       planet_get_name (a_planet)));
-	  gtk_label_set_text (mines, "n/a");
-	  gtk_label_set_text (factories, "n/a");
-	  gtk_label_set_text (defenses, "n/a");
+	  gtk_label_set_text (mines, _("n/a"));
+	  gtk_label_set_text (factories, _("n/a"));
+	  gtk_label_set_text (defenses, _("n/a"));
 
-	  gtk_label_set_text (neutronium, "n/a");
-	  gtk_label_set_text (tritanium, "n/a");
-	  gtk_label_set_text (duranium, "n/a");
-	  gtk_label_set_text (molybdenum, "n/a");
-	  gtk_label_set_text (supplies, "n/a");
+	  gtk_label_set_text (neutronium, _("n/a"));
+	  gtk_label_set_text (tritanium, _("n/a"));
+	  gtk_label_set_text (duranium, _("n/a"));
+	  gtk_label_set_text (molybdenum, _("n/a"));
+	  gtk_label_set_text (supplies, _("n/a"));
 
-	  gtk_label_set_text (colonists, "n/a");
-	  gtk_label_set_text (natives, "n/a");
-	  gtk_label_set_text (native_race, "n/a");
-	  gtk_label_set_text (spi, "n/a");
+	  gtk_label_set_text (colonists, _("n/a"));
+	  gtk_label_set_text (natives, _("n/a"));
+	  gtk_label_set_text (native_race, _("n/a"));
+	  gtk_label_set_text (spi, _("n/a"));
 	}
     }
 }
