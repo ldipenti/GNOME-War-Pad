@@ -614,7 +614,7 @@ void game_mgr_play_game(GameState *state)
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_WARNING,
 				   GTK_BUTTONS_CLOSE,
-				   _("No game selected, please select one.\n\nIf you don't have any game on your game manager, you should add one with the \"New Game\" button, adding the necessary game data."));
+				   _("No game selected, please select one.\n\nIf you don't have any game on your game manager, you should add one with the \"New\" button, adding the necessary game data."));
     gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
     return;

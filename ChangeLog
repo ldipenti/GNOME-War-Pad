@@ -4,6 +4,8 @@ Version ?.?.?? (released ??-??-????):
 	* Character conversion from CP437 (DOS) to UTF-8 for object names.
 	* RPM .spec file added  - RPM package generation working
 	* Debian control files added - DEB package generation working
+	* Bug fixed: program crashed when clicking "play" button on empty
+	  game manager.
 
 Version 0.2.12 (released 04-10-2004):
 
