@@ -154,7 +154,8 @@ gboolean gwp_object_valid_coords (GwpObject *self)
  */
 gchar * gwp_object_get_name_trunc (GwpObject *self, gint len)
 {
-  g_return_val_if_fail ((GWP_IS_OBJECT(self) && len > 0), NULL);
+  g_assert (GWP_IS_OBJECT(self)); 
+  g_assert (len > 0);
 
   /* ...truncate object name if it's too long */
   GString *tmp_str = g_string_new(gwp_object_get_name(self));
@@ -230,6 +231,7 @@ void gwp_object_set_name (GwpObject *self, gchar *name)
 {
   g_assert (GWP_IS_OBJECT(self));
   g_assert (name != NULL);
+  g_return_if_fail (strlen(name) > 0);
   g_string_free (self->priv->name, TRUE);
   self->priv->name = g_string_new(name);
 }
