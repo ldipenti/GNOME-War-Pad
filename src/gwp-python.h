@@ -30,7 +30,7 @@
 #ifndef GWP_PYTHON_H
 #define GWP_PYTHON_H
 
-#include "Python.h"
+#include <Python.h>
 
 void gwp_python_init (char *argv0);
 void gwp_python_quit (void);

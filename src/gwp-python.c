@@ -24,6 +24,7 @@
 #ifdef USE_PYTHON
 
 #include "gwp-python.h"
+#include "gwp-ship.h"
 
 /* Forwards */
 void initgwp (void);
@@ -40,6 +41,9 @@ void gwp_python_init (char *argv0)
 
   /* Adding static modules */
   initgwp();
+
+  /* Import module to have GWP's methods available */
+  PyRun_SimpleString ("import gwp");
 }
 
 void gwp_python_quit (void)
@@ -47,17 +51,26 @@ void gwp_python_quit (void)
   Py_Exit (0);
 }
 
-/* A static module */
-static PyObject * gwp_pymod_somemethod (PyObject *self, PyObject *args)
+static PyObject *
+gwp_py_ship_get_name (PyObject *self, PyObject *args)
 {
-  return PyInt_FromLong (42L);
+  gint ship_id;
+  GwpShip *ship;
+
+  if (!PyArg_ParseTuple(args, "i:numargs", &ship_id))
+    return NULL;
+
+  ship = gwp_ship_get(ship_list, ship_id);
+  g_assert (GWP_IS_SHIP(ship));
+  
+  return Py_BuildValue ("s", gwp_object_get_name(GWP_OBJECT(ship))->str);
 }
 
 /* Add methods to module */
 static PyMethodDef gwp_methods[] = {
-  {"somemethod", gwp_pymod_somemethod, METH_NOARGS,
-   "Return the meaning of everything."},
-  {NULL, NULL} /* sentinel */
+  {"ship_get_name", gwp_py_ship_get_name, METH_VARARGS,
+   "Return the ship's name identified by its ID."},
+  {NULL, NULL, 0, NULL} /* sentinel */
 };
 
 void initgwp (void)

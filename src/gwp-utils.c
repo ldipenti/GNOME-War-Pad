@@ -69,21 +69,21 @@ GtkWidget * gwp_warning_dialog_new (GtkWidget *parent,
 /**
  * Return a list of my own ship objects.
  */
-GSList * gwp_lists_get_own_ships (void)
+void gwp_lists_get_own_ships (GSList *ships)
 {
-  GSList *own_ships;
-
+  /* Private func */
   static void insert_my_ships (gpointer key, 
 			       gpointer value, 
-			       gpointer user_data) 
+			       gpointer own_ships)
     {
       GwpShip *ship = GWP_SHIP(value);
+      GSList *list = (GSList *) own_ships;
       if (gwp_ship_is_mine(ship)) {
-	own_ships = g_slist_insert (own_ships, ship, -1);
+	list = g_slist_insert (list, ship, -1);
       }
+      g_message("mis naves: %d", g_slist_length(list));
     }
   
-  g_hash_table_foreach (ship_list, (GHFunc) insert_my_ships, NULL);
-
-  return own_ships;
+  g_hash_table_foreach (ship_list, (GHFunc) insert_my_ships, &ships);
 }
+

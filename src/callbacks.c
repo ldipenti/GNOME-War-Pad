@@ -21,8 +21,10 @@
 #  include <config.h>
 #endif
 
+#ifdef USE_PYTHON
 /* Must be the first!! */
 #include "gwp-python.h"
+#endif
 
 #include <gnome.h>
 
@@ -945,4 +947,49 @@ void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
   g_message( "crew   a: %d", vcr_get( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR ) );
   g_message( "crew   b: %d", vcr_get( widget, user_data, BASE, NMB_CREW, VAL_CUR ) );
 }
+
+/***********************************************************/
+/*************** Python Console Callbacks ******************/
+/***********************************************************/
+void on_console_run_button_clicked (GtkWidget *widget,
+				    gpointer user_data)
+{
+#ifdef USE_PYTHON
+  GtkEntry *command_entry = (GtkEntry *) lookup_widget("console_command_entry");
+  GtkTextView *tv = (GtkTextView *) lookup_widget ("console_output_textview");
+  GtkTextBuffer *buf = gtk_text_view_get_buffer (tv);
+
+  GString *cmd = g_string_new ((gchar *)gtk_entry_get_text (command_entry));
+  gtk_text_buffer_insert_at_cursor (buf, "\n", 1);
+  gtk_text_buffer_insert_at_cursor (buf,
+				    cmd->str,
+				    cmd->len);
+  
+  PyRun_SimpleString (cmd->str);
+#endif
+}
+
+/* Show python console */
+void on_view_python_console_activate (GtkWidget *widget,
+				      gpointer user_data)
+{
+#ifdef USE_PYTHON
+  GtkWidget *console = lookup_widget ("python_console");
+  
+  if (!GTK_WIDGET_VISIBLE(console)) {
+    GtkTextBuffer *buf;
+    GtkTextView *tv = (GtkTextView *) lookup_widget ("console_output_textview");
+    GString *init_str = g_string_new(_("Welcome to GNOME War Pad's Python Console!\n\n"));
+
+    buf = gtk_text_view_get_buffer (tv);
+    gtk_text_buffer_set_text (buf, 
+			      init_str->str, 
+			      init_str->len);
+
+    /* Show console window */
+    gtk_widget_show (console);
+  }
+#endif
+}
+
 

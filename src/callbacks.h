@@ -17,6 +17,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <gnome.h>
 
 gboolean
@@ -173,3 +177,11 @@ void on_vcr_comboboxentry_sel_ext_shp_a_changed( GtkWidget *widget,
 
 
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data );
+
+/***********************************************************/
+/*************** Python Console Callbacks ******************/
+/***********************************************************/
+void on_console_run_button_clicked (GtkWidget *widget,
+				    gpointer user_data);
+void on_view_python_console_activate (GtkWidget *widget,
+				      gpointer user_data);

@@ -49,8 +49,11 @@ int main (int argc, char *argv[]) {
   textdomain (PACKAGE);
 #endif
 
+
+#ifdef USE_PYTHON
   /* Python embedded interpreter initialization */
   gwp_python_init (argv[0]);
+#endif
 
   gwp = NULL;
   game_mgr = NULL;

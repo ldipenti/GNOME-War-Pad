@@ -23,7 +23,7 @@
 #include <gnome.h>
 
 GtkWidget * gwp_warning_dialog_new (GtkWidget *parent, const gchar *short_msg, const gchar *long_msg);
-GSList * gwp_lists_get_own_ships (void);
+void gwp_lists_get_own_ships (GSList *ships);
 
 
 #endif
