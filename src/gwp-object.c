@@ -107,29 +107,31 @@ static void gwp_object_class_init (GwpObjectClass *klass)
  */
 GwpObject * gwp_object_new (void)
 {
-  return g_object_new(gwp_object_get_type(), NULL);
+  return g_object_new (gwp_object_get_type (), NULL);
 }
 
 gint gwp_object_get_x_coord (GwpObject *self)
 {
-  g_assert(self != NULL);
+  g_assert (GWP_IS_OBJECT(self));
   return self->priv->x_coord;
 }
 
 void gwp_object_set_x_coord (GwpObject *self, gint x)
 {
-  g_assert(self != NULL);
+  g_assert (GWP_IS_OBJECT(self));
+  g_assert (x >= 0 && x <= 4000);
   self->priv->x_coord = x;
 }
 
 gint gwp_object_get_y_coord (GwpObject *self)
 {
-  g_assert(self != NULL);
+  g_assert (GWP_IS_OBJECT(self));
   return self->priv->y_coord;
 }
 
 void gwp_object_set_y_coord (GwpObject *self, gint y)
 {
-  g_assert(self != NULL);
+  g_assert (GWP_IS_OBJECT(self));
+  g_assert (y >= 0 && y <= 4000);
   self->priv->y_coord = y;
 }
