@@ -531,10 +531,13 @@ game_mgr_add_icon(GnomeIconList *iconlist,
   /* Setup icon caption */
   gchar *game_name = g_strdup(gwp_game_state_get_name(state));
   game_mgr_game_name_demangle(game_name);
-  game_name = g_strconcat (game_name, "\n", 
-			   "(", _("turn "), 
-			   g_strdup_printf("%d", gwp_game_state_get_turn_number(state)),
-			   ")", NULL);
+
+  if (gwp_game_state_get_turn_number(state) > 0) {
+    game_name = g_strconcat (game_name, "\n", 
+			     "(", _("turn "), 
+			     g_strdup_printf("%d", gwp_game_state_get_turn_number(state)),
+			     ")", NULL);
+  }
 
   /* Add new game icon, with data */
   if (pos < 0) {
