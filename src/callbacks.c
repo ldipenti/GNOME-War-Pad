@@ -528,7 +528,7 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     if(response == GTK_RESPONSE_YES) {
     
       /* Remove it from GConf */
-      game_state_delete(game_name);
+      game_mgr_delete_game(game_name);
       gconf_client_suggest_sync(gwp_gconf, NULL);
 
       /* Free memory from GameState struct */
@@ -545,7 +545,7 @@ void on_game_mgr_delete_game (GtkWidget *widget,
 void gwp_quit(void)
 {
   /* Save game state */
-  game_close(game_state);
+  game_mgr_close_game(game_state);
 
   /* Disconnect from GConf server */
   gconf_client_suggest_sync(gwp_gconf, NULL);
@@ -629,7 +629,7 @@ void on_game_close_activate (GtkWidget *widget,
 			     gpointer user_data)
 {
   gtk_widget_hide(gwp);
-  game_close(game_state);
+  game_mgr_close_game(game_state);
   gtk_widget_show(game_mgr);
 }
 

@@ -30,7 +30,10 @@
 #include "vp_unpack.h"
 #include "gwp-utils.h"
 
-void game_mgr_init_message_history (void);
+static void game_mgr_init_message_history (void);
+static void destroy_gobject (gpointer key, gpointer value, gpointer user_data);
+static gint game_state_get_version(void);
+static void game_state_set_version(gint version);
 
 void game_mgr_init(void)
 {
@@ -87,7 +90,7 @@ void game_mgr_init(void)
       name_tmp++;
 
       if(delete) {
-	game_state_delete(name_tmp);
+	game_mgr_delete_game(name_tmp);
 	game_state_set_version(GAME_STATE_VERSION);
       } else {
 	/*****************/
@@ -303,7 +306,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
     game_mgr_properties_dlg_get_settings(state);
 
     /* Update it on GConf */
-    game_state_delete(old_game_name);
+    game_mgr_delete_game(old_game_name);
     gwp_game_state_save(state);
 
     /* Update icon name */
@@ -688,7 +691,7 @@ gint game_mgr_get_icon_idx_selected(void)
   return icon_idx;
 }
 
-void game_mgr_init_message_history (void)
+static void game_mgr_init_message_history (void)
 {
   GtkWidget *warn;
   GString *filenamedest = 
@@ -768,7 +771,7 @@ void game_mgr_init_message_history (void)
    it really belongs here, fix the function names please! */
 
 /* Deletes GConf Game entry... */
-void game_state_delete(const gchar *name)
+void game_mgr_delete_game(const gchar *name)
 {
   GSList *games, *entries, *p;
   gchar *tmp, *tmp_path;
@@ -803,7 +806,7 @@ void game_state_delete(const gchar *name)
 }
 
 /* Updates all data, call this before quitting or opening another game */
-void game_close(GwpGameState *game_state)
+void game_mgr_close_game(GwpGameState *game_state)
 {
   if(game_state) {
     gint x, y;
@@ -829,13 +832,13 @@ void game_close(GwpGameState *game_state)
 }
 
 /* Internal function to destroy GObjects from a HashTable */
-void destroy_gobject (gpointer key, gpointer value, gpointer user_data)
+static void destroy_gobject (gpointer key, gpointer value, gpointer user_data)
 {
   g_object_unref (G_OBJECT(value));
 }
 
 /* Returns the format version number */
-gint game_state_get_version(void)
+static gint game_state_get_version(void)
 {
   gint ret = 0;
   ret = gconf_client_get_int(gwp_gconf, 
@@ -844,7 +847,7 @@ gint game_state_get_version(void)
   return ret;
 }
 
-void game_state_set_version(gint version)
+static void game_state_set_version(gint version)
 {
   gconf_client_set_int(gwp_gconf, 
 		       g_strconcat(GWP_GCONF_PATH, "version", NULL),

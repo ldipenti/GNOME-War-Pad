@@ -53,13 +53,7 @@ void game_mgr_game_name_demangle(gchar *name);
 
 gint game_mgr_get_icon_idx_selected(void);
 
-/* FIXME: This code below comes from the dead game_state.[ch] files, 
-   it really belongs here, fix the function names please! */
-void game_state_delete(const gchar *name);
-void game_close(GwpGameState *game_state);
-void destroy_gobject (gpointer key, gpointer value, gpointer user_data);
-gint game_state_get_version(void);
-void game_state_set_version(gint version);
-
+void game_mgr_delete_game(const gchar *name);
+void game_mgr_close_game(GwpGameState *game_state);
 
 #endif
