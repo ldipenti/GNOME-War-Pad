@@ -345,10 +345,7 @@ GHashTable * load_sdata (void)
 {
   GString *sdata_dis_file, *sdata_dat_file;
   FILE *sdata = NULL;
-  VpShipReg ship;
   VpShipXYReg *coords = NULL;
-  VpShipReg *tmp = NULL;
-  Ship *ship_reg = NULL;
   GwpShip *s;
   GHashTable *ship_list = NULL;
   VpTargetReg *target_reg;
@@ -532,20 +529,13 @@ GHashTable * load_sdata (void)
       s = gwp_ship_new();
 
       coords = g_list_nth_data (shipxy_list, i);
-/*       ship_reg = g_malloc (sizeof (Ship)); */
-/*       ship_reg->sdata = NULL; */
-/*       ship_reg->x = coords->x; */
-/*       ship_reg->y = coords->y; */
-/*       ship_reg->owner = 0; */
       gwp_object_set_x_coord (GWP_OBJECT(s), coords->x);
       gwp_object_set_y_coord (GWP_OBJECT(s), coords->y);
-      /* gwp_object_set_id (GWP_OBJECT(s), i + 1); */
       
       /* If we have more data on TARGETx.DAT, we add it */
       if ((target_reg =
 	   g_hash_table_lookup (target_list,
 				(gconstpointer) (i + 1))) != NULL) {
-	/* ship_reg->tdata = target_reg; */
 	gwp_object_set_id (GWP_OBJECT(s), target_reg->id);
 	gwp_object_set_name (GWP_OBJECT(s), g_string_new(target_reg->name));
 	gwp_fo_set_speed (GWP_FLYING_OBJECT(s), target_reg->warp_factor);
