@@ -100,11 +100,44 @@ GType gwp_starbase_get_type (void)
 static void gwp_starbase_init (GTypeInstance *instance,
 			       gpointer       g_class)
 {
+  int i;
   GwpStarbase *self = (GwpStarbase *)instance;
   self->priv = g_new0 (GwpStarbasePrivate, 1);
   self->priv->dispose_has_run = FALSE;
 
   /* Private members init */
+  self->priv->planet = NULL;
+  self->priv->defense = 0;
+  self->priv->damage = 0;
+  self->priv->engines_tech = 1;
+  self->priv->hulls_tech = 1;
+  self->priv->beams_tech = 1;
+  self->priv->torps_tech = 1;
+  for (i = 0; i < 9; i++) {
+    self->priv->storage_engines[i] = 0;
+  }
+  for (i = 0; i < 20; i++) {
+    self->priv->storage_hulls[i] = 0;
+  }
+  for (i = 0; i < 10; i++) {
+    self->priv->storage_beams[i] = 0;
+  }
+  for (i = 0; i < 10; i++) {
+    self->priv->storage_torp_launchers[i] = 0;
+  }
+  for (i = 0; i < 10; i++) {
+    self->priv->storage_torps[i] = 0;
+  }
+  self->priv->fighters = 0;
+  self->priv->id_ship = 0;
+  self->priv->ship_action = 0;
+  self->priv->mission = 1;
+  self->priv->build_ship_type = 0;
+  self->priv->build_engine_type = 0;
+  self->priv->build_beam_type = 0;
+  self->priv->build_beam_count = 0;
+  self->priv->build_torp_type = 0;
+  self->priv->build_torp_count = 0;
   g_message("GwpStarbase init");
 }
 
@@ -451,4 +484,18 @@ void gwp_starbase_set_fighter_count (GwpStarbase *self, gint16 count)
   g_assert (GWP_IS_STARBASE(self));
   /* This field should always be zero */
   /* self->priv->fighter_count = 0; */
+}
+
+GwpPlanet * gwp_starbase_get_planet (GwpStarbase *self)
+{
+  g_assert (GWP_IS_STARBASE(self));
+  g_assert (GWP_IS_PLANET(self->priv->planet));
+  return self->priv->planet;
+}
+
+void gwp_starbase_set_planet (GwpStarbase *self, GwpPlanet *p)
+{
+  g_assert (GWP_IS_STARBASE(self));
+  g_assert (GWP_IS_PLANET(p));
+  self->priv->planet = p;
 }
