@@ -21,6 +21,9 @@
 
 #include "gwp-flying-object.h"
 #include "gwp-ship.h"
+#include "race.h"
+#include "mission.h"
+#include "game_state.h"
 
 GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self);
 GwpEngSpec * gwp_ship_get_engspec (GwpShip *self);
@@ -371,6 +374,57 @@ GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
 /* High level methods */
 /**********************/
 
+GString * gwp_ship_get_primary_enemy_name (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  GString *ret = NULL;
+
+  if (gwp_ship_get_primary_enemy(self) == 0) {
+    ret = g_string_new (_("No enemy"));
+  } else {
+    ret = g_string_new (race_get_name(gwp_ship_get_primary_enemy(self)));
+  }
+
+  return ret;
+}
+
+/**
+ * Returns the current mission's name for the current ship.
+ *
+ * This function checks if the ship is doing the special mission, in
+ * that case it looks up and return that.
+ *
+ * @param self a GwpShip.
+ * @return A string with the mission's name.
+ */
+GString * gwp_ship_get_mission_name (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  
+  GString *ret = NULL;
+
+  if (gwp_ship_get_mission(self) != MISSION_SPECIAL) {
+    ret = g_string_new (mission_get_name(gwp_ship_get_mission(self)));
+  } else {
+    ret = g_string_new (mission_special_get_name(game_get_race(game_state)));
+  }
+
+  return ret;
+}
+
+/**
+ * Returns the owner race's name for the current ship.
+ *
+ * @param self a GwpShip.
+ * @return A string with the owner race name.
+ */
+GString * gwp_ship_get_owner_name (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return g_string_new (race_get_name(gwp_ship_get_owner(self)));
+}
+
 /**
  * Returns the ship's hull name truncated.
  *
@@ -411,6 +465,110 @@ gint gwp_ship_get_hull_fuel_tank (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
   return gwp_hullspec_get_fuel_tank (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the maximum crew capacity of the current ship.
+ *
+ * @param self a GwpShip.
+ * @return The ship's maximum crew capacity.
+ * @see gwp_hullspec_get_crew
+ */
+gint gwp_ship_get_hull_crew (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_crew (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the number of engines the current ship uses.
+ *
+ * @param self a GwpShip.
+ * @return The engine's number used.
+ * @see gwp_hullspec_get_engines
+ */
+gint gwp_ship_get_hull_engines (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_engines (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the max number of beam weapons the current ship can carry.
+ *
+ * @param self a GwpShip.
+ * @return The maximum number of beam weapons.
+ * @see gwp_hullspec_get_beam_weapons
+ */
+gint gwp_ship_get_hull_beam_weapons (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_beam_weapons (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the max number of torpedo launchers the current ship can carry.
+ *
+ * @param self a GwpShip.
+ * @return The maximum number of torp launchers.
+ * @see gwp_hullspec_get_torp_launchers
+ */
+gint gwp_ship_get_hull_torp_launchers (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_torp_launchers (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the max number of fighter bays the current ship can carry.
+ *
+ * @param self a GwpShip.
+ * @return The maximum number of fighter bays.
+ * @see gwp_hullspec_get_fighter_bays
+ */
+gint gwp_ship_get_hull_fighter_bays (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return gwp_hullspec_get_fighter_bays (gwp_ship_get_hullspec(self));
+}
+
+/**
+ * Returns the engine's name for the current ship.
+ *
+ * @param self a GwpShip.
+ * @return The engine's name.
+ * @see gwp_engspec_get_name
+ */
+GString * gwp_ship_get_engine_name (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return g_string_new (gwp_engspec_get_name(gwp_ship_get_engspec(self))->str);
+}
+
+/**
+ * Returns the beam weapons' name for the current ship.
+ *
+ * @param self a GwpShip.
+ * @return The beam's name.
+ * @see gwp_beamspec_get_name
+ */
+GString * gwp_ship_get_beams_name (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return g_string_new(gwp_beamspec_get_name(gwp_ship_get_beamspec(self))->str);
+}
+
+/**
+ * Returns the torpedoes' name for the current ship.
+ *
+ * @param self a GwpShip.
+ * @return The torps' name.
+ * @see gwp_torpspec_get_name
+ */
+GString * gwp_ship_get_torps_name (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return g_string_new(gwp_torpspec_get_name(gwp_ship_get_torpspec(self))->str);
 }
 
 /**
@@ -611,7 +769,8 @@ gint gwp_ship_calculate_cargo (GwpShip *self)
 
   return gwp_ship_get_colonists (self) + gwp_ship_get_tritanium (self) + 
     gwp_ship_get_duranium (self) + gwp_ship_get_molybdenum (self) + 
-    gwp_ship_get_supplies (self);
+    gwp_ship_get_supplies (self) + gwp_ship_get_torps(self) +
+    gwp_ship_get_fighters(self);
 }
 
 /**

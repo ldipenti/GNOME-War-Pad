@@ -180,44 +180,156 @@ void update_global_defense_panel(GwpPlanet *planet)
 void update_ship_extra_panel (GwpShip *ship)
 {
   static gboolean loaded = FALSE;
+  static GtkLabel *ship_name = NULL;
+  static GtkLabel *spec_engines = NULL;
+  static GtkLabel *spec_primary = NULL;
+  static GtkLabel *spec_secondary = NULL;
+  static GtkLabel *spec_secondary_extra = NULL;
   static GtkProgressBar *cargo_total = NULL;
-  static GtkProgressBar *cargo_neu = NULL;
+  static GtkProgressBar *status_neu = NULL;
+  static GtkProgressBar *status_damage = NULL;
+  static GtkProgressBar *status_crew = NULL;
   static GtkProgressBar *cargo_tri = NULL;
   static GtkProgressBar *cargo_dur  = NULL;
   static GtkProgressBar *cargo_mol = NULL;
   static GtkProgressBar *cargo_col = NULL;
   static GtkProgressBar *cargo_sup = NULL;
+  static GtkProgressBar *cargo_money = NULL;
   static GtkCombo *ship_fc = NULL;
+  static GtkLabel *mission = NULL;
+  static GtkLabel *enemy = NULL;
   gchar *tmp = NULL;
+  gchar *tmp2 = NULL;
 
   g_assert (GWP_IS_SHIP(ship));
 
   if (!loaded) {
     loaded = TRUE;
 
+    ship_name = (GtkLabel *) lookup_widget("label_ship_extra_panel_name");
+    
+    spec_engines = (GtkLabel *) lookup_widget("label_ship_spec_engines");
+    spec_primary = (GtkLabel *) lookup_widget("label_ship_spec_primary");
+    spec_secondary = (GtkLabel *) lookup_widget("label_ship_spec_secondary");
+    spec_secondary_extra = (GtkLabel *) lookup_widget("label_ship_spec_secondary_extra");
+
+    status_neu = (GtkProgressBar *) lookup_widget("progressbar_ship_status_neu");
+    status_damage = (GtkProgressBar *) lookup_widget("progressbar_ship_status_damage");
+    status_crew = (GtkProgressBar *) lookup_widget("progressbar_ship_status_crew");
+    
     cargo_total = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_total");
-    cargo_neu = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_neu");
     cargo_tri = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_tri");
     cargo_dur = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_dur");
     cargo_mol = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_mol");
     cargo_col = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_col");
     cargo_sup = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_sup");
+    cargo_money = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_money");
 
     ship_fc = (GtkCombo *) lookup_widget("combo_ship_fc");
+
+    mission = (GtkLabel *) lookup_widget("label_ship_other_mission");
+    enemy = (GtkLabel *) lookup_widget("label_ship_other_enemy");
   }
 
+
+  /* Ship data always available... */
+  tmp = g_strdup_printf ("<b>%s</b>", gwp_object_get_name(GWP_OBJECT(ship))->str);
+  gtk_label_set_markup (ship_name, tmp);
+  g_free (tmp);
+
+  /* Only if ship is ours... */
   if (gwp_ship_is_mine(ship)) {
+    /*** Engines ***/
+    tmp = g_strdup_printf("%d <i>%s</i>", gwp_ship_get_hull_engines(ship),
+			  gwp_ship_get_engine_name(ship)->str);
+    gtk_label_set_markup (spec_engines, tmp);
+    g_free (tmp);
+
+    /*** Primary Weapon ***/
+    if (gwp_ship_get_beams(ship) > 0) {
+      tmp = g_strdup_printf("%d <i>%s</i>", 
+			    gwp_ship_get_beams(ship),
+			    gwp_ship_get_beams_name(ship)->str);
+    } else {
+      tmp = _("no weapon");
+    }
+    gtk_label_set_markup (spec_primary, tmp);
+    g_free (tmp);
+
+    /*** Secondary Weapon ***/
+    /* Check for torpedo tubes */
+    if (gwp_ship_get_torps_launchers(ship) > 0) {
+      tmp = g_strdup_printf(_("%d <i>%s</i>"),
+			    gwp_ship_get_torps_launchers(ship),
+			    gwp_ship_get_torps_name(ship)->str);
+      if (gwp_ship_get_torps(ship) == 1) {
+	tmp2 = _("1 torpedo");
+      } else {
+	tmp2 = g_strdup_printf(_("%d torpedoes"), gwp_ship_get_torps(ship));
+      }
+    } 
+    /* Check for fighter bays */
+    else if (gwp_ship_get_fighter_bays(ship) > 0) {
+      if (gwp_ship_get_fighter_bays(ship) == 1) {
+	tmp = g_strdup_printf(_("1 fighter bay"));
+      } else {
+	tmp = g_strdup_printf(_("%d fighter bays"),
+			      gwp_ship_get_fighter_bays(ship));
+      }
+      if (gwp_ship_get_fighters(ship) == 1) {
+	tmp2 = _("1 fighter");
+      } else {
+	tmp2 = g_strdup_printf(_("%d fighters"), gwp_ship_get_fighters(ship));
+      }
+    }
+    /* No fighters, no torpedoes... */
+    else {
+      tmp = g_strdup_printf(_("no weapon"));
+      tmp2 = g_strdup_printf(_("--"));
+    }
+    gtk_label_set_markup (spec_secondary, tmp);
+    gtk_label_set_markup (spec_secondary_extra, tmp2);
+    g_free (tmp);
+    g_free (tmp2);
+
     /*** Neutronium ***/
     if (gwp_ship_get_neutronium(ship) > 0) {
-      gtk_progress_bar_set_fraction (cargo_neu,
+      gtk_progress_bar_set_fraction (status_neu,
 				     gwp_ship_get_neutronium(ship) /
 				     (gdouble)gwp_ship_get_hull_fuel_tank(ship));
     } else {
-      gtk_progress_bar_set_fraction (cargo_neu, 0.0);
+      gtk_progress_bar_set_fraction (status_neu, 0.0);
     }
     tmp = g_strdup_printf(_("%d kT"), gwp_ship_get_neutronium(ship));
-    gtk_progress_bar_set_text(cargo_neu, tmp);
-    g_free(tmp);    
+    gtk_progress_bar_set_text (status_neu, tmp);
+    g_free (tmp);    
+
+    /*** Damage ***/
+    if (gwp_ship_get_damage(ship) > 0) {
+      gtk_progress_bar_set_fraction (status_damage,
+				     gwp_ship_get_damage(ship) / 100.0);
+    } else {
+      gtk_progress_bar_set_fraction (status_damage, 0.0);
+    }
+    tmp = g_strdup_printf("%d%%", gwp_ship_get_damage(ship));
+    gtk_progress_bar_set_text (status_damage, tmp);
+    g_free (tmp);
+
+    /*** Crew ***/
+    if (gwp_ship_get_crew(ship) > 0) {
+      gtk_progress_bar_set_fraction (status_crew,
+				     gwp_ship_get_crew(ship) /
+				     (gdouble)gwp_ship_get_hull_crew(ship));
+    } else {
+      gtk_progress_bar_set_fraction (status_crew, 0.0);
+    }
+    if (gwp_ship_get_crew(ship) == 1) {
+      tmp = g_strdup_printf (_("1 crewman"));
+    } else {
+      tmp = g_strdup_printf (_("%d crewmen"), gwp_ship_get_crew(ship));
+    }
+    gtk_progress_bar_set_text (status_crew, tmp);
+    g_free (tmp);
 
     /*** Total cargo ***/
     if (gwp_ship_calculate_cargo(ship) > 0) {
@@ -288,44 +400,137 @@ void update_ship_extra_panel (GwpShip *ship)
       gtk_progress_bar_set_fraction (cargo_col, 0.0);
     }
     if (gwp_ship_get_colonists(ship) == 1) {
-      tmp = g_strdup_printf(_("%d clan"), gwp_ship_get_colonists(ship));
+      tmp = g_strdup_printf(_("1 clan"));
     } else {
       tmp = g_strdup_printf(_("%d clans"), gwp_ship_get_colonists(ship));
     }
     gtk_progress_bar_set_text(cargo_col, tmp);
     g_free(tmp);    
 
+    /*** Money ***/
+    if (gwp_ship_get_megacredits(ship) > 0) {
+      gtk_progress_bar_set_fraction (cargo_money,
+				     gwp_ship_get_megacredits(ship) /
+				     (gdouble)10000.0);
+    } else {
+      gtk_progress_bar_set_fraction (cargo_money, 0.0);
+    }
+    tmp = g_strdup_printf (_("%d MC"), gwp_ship_get_megacredits(ship));
+    gtk_progress_bar_set_text (cargo_money, tmp);
+    g_free (tmp);
+
     /*** Friendly Code ***/
     tmp = g_strdup_printf ("%s", gwp_ship_get_fcode(ship)->str);
     gtk_entry_set_text (GTK_ENTRY(ship_fc->entry), tmp);
     g_free(tmp);
 
+    /*** Mission ***/
+    tmp = g_strdup_printf ("%s", gwp_ship_get_mission_name(ship)->str);
+    gtk_label_set_text (mission, tmp);
+    g_free (tmp);
+
+    /*** Primary Enemy ***/
+    tmp = g_strdup_printf ("%s", gwp_ship_get_primary_enemy_name(ship)->str);
+    gtk_label_set_text (enemy, tmp);
+    g_free (tmp);
   }
   /* If ship is unknown... */
   else {
+    /* Engines */
+    tmp = g_strdup_printf(_("%d <i>unknown</i>"), 
+			  gwp_ship_get_hull_engines(ship));
+    gtk_label_set_markup (spec_engines, tmp);
+    g_free (tmp);
+
+    /* Primary weapon */
+    if (gwp_ship_get_hull_beam_weapons(ship) > 0) {
+      tmp = g_strdup_printf (_("%d <i>unknown</i>"),
+			     gwp_ship_get_hull_beam_weapons(ship));
+    } else {
+      tmp = _("no weapon");
+    }
+    gtk_label_set_markup (spec_primary, tmp);
+    g_free (tmp);
+
+    /** Secondary Weapon **/
+    /* Check for torpedo tubes */
+    if (gwp_ship_get_hull_torp_launchers(ship) > 0) {
+      if (gwp_ship_get_hull_torp_launchers(ship) == 1) {
+	tmp = g_strdup_printf(_("1 launcher"));
+      } else {
+	tmp = g_strdup_printf(_("%d launchers"),
+			      gwp_ship_get_hull_torp_launchers(ship));
+      }
+      tmp2 = g_strdup_printf(_("unknown"));
+    } 
+    /* Check for fighter bays */
+    else if (gwp_ship_get_hull_fighter_bays(ship) > 0) {
+      if (gwp_ship_get_hull_fighter_bays(ship) == 1) {
+	tmp = g_strdup_printf(_("1 fighter bay"));
+      } else {
+	tmp = g_strdup_printf(_("%d fighter bays"),
+			      gwp_ship_get_hull_fighter_bays(ship));
+      }
+      tmp2 = g_strdup_printf(_("unknown"));
+    }
+    /* No fighters, no torpedoes... */
+    else {
+      tmp = g_strdup_printf(_("no weapon"));
+      tmp2 = g_strdup_printf(_("--"));
+    }
+    gtk_label_set_markup (spec_secondary, tmp);
+    gtk_label_set_markup (spec_secondary_extra, tmp2);
+    g_free (tmp);
+    g_free (tmp2);
+
     /* Neutronium */
-    gtk_progress_bar_set_fraction (cargo_neu, 0.0);
-    gtk_progress_bar_set_text (cargo_neu, _("-- kT"));
+    gtk_progress_bar_set_fraction (status_neu, 0.0);
+    gtk_progress_bar_set_text (status_neu, _("-- kT"));
+
+    /* Damage */
+    gtk_progress_bar_set_fraction (status_damage, 0.0);
+    gtk_progress_bar_set_text (status_damage, _("-- %"));
+
+    /* Crew */
+    gtk_progress_bar_set_fraction (status_crew, 0.0);
+    gtk_progress_bar_set_text (status_crew, _("-- crewmen"));
+
     /* Total Cargo */
     gtk_progress_bar_set_fraction (cargo_total, 0.0);
     gtk_progress_bar_set_text (cargo_total, _("-- kT"));
+
     /* Tritanium */
     gtk_progress_bar_set_fraction (cargo_tri, 0.0);
     gtk_progress_bar_set_text (cargo_tri, _("-- kT"));
+
     /* Duranium */
     gtk_progress_bar_set_fraction (cargo_dur, 0.0);
     gtk_progress_bar_set_text (cargo_dur, _("-- kT"));
+
     /* Molybdenum */
     gtk_progress_bar_set_fraction (cargo_mol, 0.0);
     gtk_progress_bar_set_text (cargo_mol, _("-- kT"));
+
     /* Supplies */
     gtk_progress_bar_set_fraction (cargo_sup, 0.0);
     gtk_progress_bar_set_text (cargo_sup, _("-- kT"));
+
     /* Colonists */
     gtk_progress_bar_set_fraction (cargo_col, 0.0);
     gtk_progress_bar_set_text (cargo_col, _("-- clans"));
+
+    /* Money */
+    gtk_progress_bar_set_fraction (cargo_money, 0.0);
+    gtk_progress_bar_set_text (cargo_money, _("-- MC"));
+
     /* Friendly Code */
     gtk_entry_set_text (GTK_ENTRY(ship_fc->entry), "???");
+
+    /* Mission */
+    gtk_label_set_text (mission, _("--"));
+
+    /* Primary Enemy */
+    gtk_label_set_text (enemy, _("--"));
   }
 }
 
@@ -731,6 +936,7 @@ void update_ship_panel_with (GwpShip *ship)
   static GtkLabel *fuel_usage = NULL;
   static GtkLabel *heading = NULL;
   static GtkLabel *hull = NULL;
+  static GtkLabel *owner = NULL;
   gchar *tmp = NULL;
 
   if (! loaded) {
@@ -744,6 +950,7 @@ void update_ship_panel_with (GwpShip *ship)
     mass = (GtkLabel *) lookup_widget("label_ship_panel_mass");
     fuel_usage = (GtkLabel *) lookup_widget("label_ship_panel_fuel");
     hull = (GtkLabel *) lookup_widget("label_ship_panel_hull_type");
+    owner = (GtkLabel *) lookup_widget("label_ship_panel_owner");
   }
 
   g_assert(GWP_IS_SHIP(ship));
@@ -806,7 +1013,8 @@ void update_ship_panel_with (GwpShip *ship)
   g_free(tmp);
   
   /* Update speed */
-  tmp = g_strdup_printf("%d", gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
+  tmp = g_strdup_printf(_("Warp %d"), 
+			gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
   gtk_label_set_text(speed, tmp);
   g_free(tmp);
   
@@ -816,6 +1024,12 @@ void update_ship_panel_with (GwpShip *ship)
   gtk_label_set_markup (hull, tmp);
   g_free(tmp);
 
+  /* Update owner */
+  tmp = g_strdup_printf ("%s", gwp_ship_get_owner_name(ship)->str);
+  gtk_label_set_text (owner, tmp);
+  g_free (tmp);
+
+  /* Work extra only if necessary */
   if (game_is_extra_panel_open(game_state)) {
     /* Update ship image */
     starchart_mini_set_ship_img(ship);
@@ -1969,7 +2183,7 @@ void starchart_open_extra_planet_panels(void)
   game_set_extra_panel_open (game_state, TRUE);
 }
 
-void starchart_open_extra_ship_panels(void)
+void starchart_open_extra_ship_panels (void)
 {
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;

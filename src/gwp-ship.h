@@ -61,9 +61,24 @@ GwpShip *gwp_ship_new (void);
 /**********************/
 /* High level methods */
 /**********************/
+GString * gwp_ship_get_primary_enemy_name (GwpShip *self);
+GString * gwp_ship_get_mission_name (GwpShip *self);
+GString * gwp_ship_get_owner_name (GwpShip *self);
+
 GString * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len);
 gint gwp_ship_get_hull_cargo (GwpShip *self);
 gint gwp_ship_get_hull_fuel_tank (GwpShip *self);
+gint gwp_ship_get_hull_crew (GwpShip *self);
+gint gwp_ship_get_hull_engines (GwpShip *self);
+gint gwp_ship_get_hull_beam_weapons (GwpShip *self);
+gint gwp_ship_get_hull_torp_launchers (GwpShip *self);
+gint gwp_ship_get_hull_fighter_bays (GwpShip *self);
+
+GString * gwp_ship_get_engine_name (GwpShip *self);
+
+GString * gwp_ship_get_beams_name (GwpShip *self);
+
+GString * gwp_ship_get_torps_name (GwpShip *self);
 
 gint gwp_ship_calculate_heading (GwpShip *self);
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);

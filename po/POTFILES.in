@@ -17,3 +17,10 @@ src/gwp-ship.c
 src/gwp-planet.c
 src/gwp-starbase.c
 src/gwp-location.c
+src/gwp-minefield.c
+src/gwp-ion-storm.c
+src/gwp-engspec.c
+src/gwp-beamspec.c
+src/gwp-torpspec.c
+src/gwp-hullspec.c
+src/mission.c

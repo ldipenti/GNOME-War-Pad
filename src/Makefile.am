@@ -68,6 +68,8 @@ gwp_SOURCES = \
 	vp_unpack.c\
 	tables.c\
 	tables.h\
+	mission.c\
+	mission.h\
 	race.c\
 	race.h
 
