@@ -74,6 +74,7 @@
 #define HIGHLIGHTED_OWNED_SHIP_COLOR "light sky blue"
 
 #define OWNED_PLANET_COLOR "green"
+#define OWNED_STARBASE_COLOR 0x00ff0077 /* RGBA */
 #define PLANET_COLOR "gray60"
 
 #define OWNED_SHIP_COLOR 0x0087ffff

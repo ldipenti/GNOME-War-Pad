@@ -1391,6 +1391,20 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
     if (gwp_planet_is_mine(planet)) {
+
+      /* Is there's a starbase on planet, draw a special mark */
+      if (gwp_planet_has_starbase(planet)) {
+	gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
+			       "outline_color_rgba", OWNED_STARBASE_COLOR,
+			       "x1", xi - (PLANET_RADIUS+1), 
+			       "y1", yi - (PLANET_RADIUS+1), 
+			       "x2", xi + (PLANET_RADIUS+1), 
+			       "y2", yi + (PLANET_RADIUS+1), 
+			       "width_pixels", 2,
+			       "fill_color_rgba", UNIVERSE_COLOR_A,
+			       NULL);
+      }
+      
       item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
 				    "outline_color", OWNED_PLANET_COLOR,
 				    "x1", xi - PLANET_RADIUS, 

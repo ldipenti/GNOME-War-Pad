@@ -6,7 +6,9 @@ Version ?.?.?? (released ??-??-????):
 	* Debian control files added - DEB package generation working
 	* Bug fixed: program crashed when clicking "play" button on empty
 	  game manager.
-	* Bug fixed: KOREx.DAT now checks for uppercase & lowercase file names.
+	* Bug fixed: KOREx.DAT now checks for uppercase & lowercase file
+	  names.
+	* Planets with starbase have a special mark on starchart.
 
 Version 0.2.12 (released 04-10-2004):
 
