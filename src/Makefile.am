@@ -77,6 +77,8 @@ gwp_SOURCES = \
 	race.h\
 	message-reader.c\
 	message-reader.h\
+    vcr.c\
+    vcr.h\
 	gwp-utils.c\
 	gwp-utils.h
 

@@ -158,3 +158,17 @@ void on_ships_list_row_activated (GtkTreeView *ships_list,
 				  GtkTreePath *path,
 				  GtkTreeViewColumn *col,
 				  gpointer user_data);
+void on_vcr_activate( GtkWidget *widget,
+                      gpointer  user_data );
+void on_vcr_delete_event( GtkWidget *widget,
+                          gpointer  user_data );
+void on_vcr_button_start_combat_pressed( GtkWidget *widget,
+                                         gpointer  user_data );
+void on_vcr_checkbutton_base_toggled( GtkWidget *widget,
+                                      gpointer  user_data );
+
+
+
+
+
+void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data );

@@ -34,6 +34,7 @@
 #include "race.h"
 #include "gwp-messages.h"
 #include "message-reader.h"
+#include "vcr.h"
 
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
@@ -849,3 +850,73 @@ void on_ships_list_row_activated (GtkTreeView *ships_l,
     }
   }  
 }
+
+
+void on_vcr_activate (GtkWidget *widget,
+				      gpointer  user_data)
+{
+  vcr_all_init( widget, user_data );
+}
+
+
+void on_vcr_delete_event( GtkWidget *widget,
+                          gpointer  user_data )
+{
+  vcr_delete_event( widget, user_data );
+}
+
+
+void on_vcr_button_start_combat_pressed( GtkWidget *widget,
+                                         gpointer  user_data )
+{
+  vcr_start_combat( widget, user_data );
+}
+
+
+void on_vcr_checkbutton_base_toggled( GtkWidget *widget,
+                                      gpointer  user_data )
+{
+  vcr_toggle_starbase( widget, user_data );
+}
+
+
+
+
+
+void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
+{
+
+  vcr_set( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR, 50 );
+  vcr_set( widget, user_data, SHIP_B, PRC_SHIELD, VAL_CUR, 50 );
+  vcr_set( widget, user_data, PLANET, PRC_SHIELD, VAL_CUR, 50 );
+  vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_CUR, 66 );
+  vcr_set( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR, 66 );
+  vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_MAX, 666 );
+  vcr_set( widget, user_data, SHIP_B, NMB_CREW, VAL_MAX, 666 );
+  vcr_set( widget, user_data, SHIP_A, PRC_DAMAGE, VAL_CUR, 50 );
+  vcr_set( widget, user_data, SHIP_B, PRC_DAMAGE, VAL_CUR, 50 );
+  vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, 6 );
+  vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR, 6 );
+  vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR, 5 );
+  vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_CUR, 5 );
+  vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_CUR, 6 );
+  vcr_set( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_CUR, 6 );
+  vcr_set( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR, 6 );
+  vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_MAX, 66 );
+  vcr_set( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_MAX, 66 );
+  vcr_set( widget, user_data, SHIP_A, LVL_BEAM, VAL_CUR, 3 );
+  vcr_set( widget, user_data, SHIP_B, LVL_BEAM, VAL_CUR, 3 );
+  vcr_set( widget, user_data, BASE, LVL_BEAM, VAL_CUR, 3 );
+  vcr_set( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR, 4 );
+  vcr_set( widget, user_data, SHIP_B, LVL_TORP, VAL_CUR, 4 );
+  vcr_set( widget, user_data, SHIP_A, TYP_RACE, VAL_CUR, 2 );
+  vcr_set( widget, user_data, SHIP_B, TYP_RACE, VAL_CUR, 2 );
+  vcr_set( widget, user_data, PLANET, TYP_RACE, VAL_CUR, 2 );
+  vcr_set( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR, 66 );
+  vcr_set( widget, user_data, SHIP_B, PRC_SHIBON, VAL_CUR, 66 );
+  vcr_set( widget, user_data, SHIP_A, LVL_ENGINE, VAL_CUR, 6 );
+  vcr_set( widget, user_data, SHIP_B, LVL_ENGINE, VAL_CUR, 6 );
+  vcr_set( widget, user_data, PLANET, NMB_DEF, VAL_CUR, 6 );
+  vcr_set( widget, user_data, BASE, NMB_DEF, VAL_CUR, 6 );
+}
+

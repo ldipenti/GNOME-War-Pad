@@ -15,7 +15,7 @@ message-reader:
 
 [  X][B][-] message-counter gets confused when selecting messages
             directly and using the next/prev buttons
-[  X][r][n] always highlight the displayed message
+[  X][r][-] always highlight the displayed message
 [  X][r][-] pre-sort messages to avoid multiple identical message categories
 [   ][r][n] add a message counter to every category
 [   ][r][n] try to create a significant subject for every message
