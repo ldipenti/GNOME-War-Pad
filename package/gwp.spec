@@ -14,7 +14,7 @@ License: GPL
 Group: Games
 BuildRoot: %{_tmppath}/%{name}-buildroot
 Prefix: %{_prefix}
-requires: gnome2
+requires: libgnome2 libglade2.0
 BuildArch: i586
 
 %description
@@ -27,23 +27,23 @@ played with with 11 players simultaneously.
 %setup -q
 
 %build
-./configure --prefix=$RPM_BUILD_ROOT/%{_prefix}
-make
+%configure
+%make
 
 %install
-make install
+make DESTDIR=$RPM_BUILD_ROOT install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%{_prefix}/bin
 %{_prefix}/share/%{name}
 %{_prefix}/share/gnome/help/%{name}
-%{_prefix}/share/pixmaps/%{name}/icons
-%{_prefix}/share/pixmaps/%{name}/images
-%{_prefix}/share/pixmaps/%{name}/planets
-%{_prefix}/share/pixmaps/%{name}/ships
+%{_prefix}/share/gnome/apps/Games
+%{_prefix}/share/pixmaps
+%{_prefix}/share/locale
 %{_prefix}/share/omf/%{name}
 %{_prefix}/doc/%{name}
 
