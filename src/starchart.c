@@ -695,6 +695,7 @@ starchart_select_nearest_planet (GtkWidget * gwp,
   planet_data = g_object_get_data (G_OBJECT (planet), "planet_data");
   if (planet_data != NULL) {
     update_planet_panel (gwp, planet_get_id (planet_data));
+    starchart_mark_planet(planet_data);
   }
 }
 
@@ -889,4 +890,29 @@ void starchart_set_status(gchar *msg)
     GnomeAppBar *appbar = (GnomeAppBar *) lookup_widget("gwp_status_bar");
     gnome_appbar_set_status(appbar, msg);
   }
+}
+
+void starchart_mark_planet(Planet *a_planet)
+{
+  static GnomeCanvasItem *planet_mark = NULL;
+  gdouble wx, wy;
+  gdouble matrix[6];
+
+  vp_coord_v2w(a_planet->x, a_planet->y, &wx, &wy);
+
+  // If item doesn't exist yet, lets create it.
+  if(! planet_mark) {
+    planet_mark = gnome_canvas_item_new (starchart_get_grp_root(), 
+					 GNOME_TYPE_CANVAS_RECT,
+					 "outline_color_rgba", 0xff0000ff,
+					 "x1", -2.5, 
+					 "y1", -2.5,
+					 "x2", 2.5,
+					 "y2", 2.5, "width_units", 1.0,
+					 "fill_color_rgba", 0xdd000011, 
+					 NULL);
+  }
+  // Translate the mark!
+  art_affine_translate(matrix, wx, wy);
+  gnome_canvas_item_affine_absolute(planet_mark, matrix);
 }

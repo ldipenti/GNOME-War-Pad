@@ -90,12 +90,12 @@ starchart_event_button                 (GtkWidget       *widget,
   gnome_canvas_c2w(starchart_get_canvas(), x, y, &wx, &wy);
   q = get_quadrant(wx, wy);
   
-  if(event->button == 1) {
+  if((event->button == 1) && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest planet and select it */
     planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
     starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), 
 				    planets_nearby, wx, wy);
-  } else if(event->button == 3) {
+  } else if((event->button == 3) && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
     starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);
@@ -124,7 +124,8 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   y = (gint) event->y;
 
   /* If we are dragging the starchart to pan... */
-  if(event->state & GDK_BUTTON1_MASK) {
+  if((event->state & (GDK_BUTTON1_MASK | GDK_SHIFT_MASK)) 
+     == (GDK_BUTTON1_MASK | GDK_SHIFT_MASK)) {
     gint offset_x, offset_y;
 
     /* Set hand cursor */

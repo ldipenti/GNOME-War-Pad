@@ -50,6 +50,7 @@ void starchart_unhighlight_planet(GnomeCanvasItem *planet);
 void starchart_unhighlight_ship(GnomeCanvasItem *ship);
 void starchart_zoom_in(GnomeCanvas *starchart);
 void starchart_zoom_out(GnomeCanvas *starchart);
+void starchart_mark_planet(Planet *a_planet);
 
 // Moving functions
 void starchart_scroll (gint scroll_x, gint scroll_y);
