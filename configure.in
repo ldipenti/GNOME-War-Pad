@@ -106,6 +106,15 @@ if test "yes" = "$enable_python"; then
   fi
 fi
 
+if test "$HAVE_PYTHON" != ""; then
+	dnl ====================================
+	dnl = Check for PyGTK
+	dnl ====================================
+	PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 2.0.0,,AC_MSG_ERROR([For full Python support I need pygtk version 2.2.0 or higher]))
+	AC_SUBST(PYGTK_CFLAGS)
+	AC_SUBST(PYGTK_LIBS)
+fi
+
 dnl =================================
 dnl = Check for GtkGlExt support
 dnl =================================

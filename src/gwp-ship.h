@@ -205,6 +205,7 @@ void gwp_ship_set_megacredits (GwpShip *self, gint16 m);
  * Standard defines.
  */
 #define GWP_SHIP_TYPE            (gwp_ship_get_type())
+#define GWP_TYPE_SHIP            (gwp_ship_get_type())
 #define GWP_SHIP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_SHIP_TYPE, GwpShip))
 #define GWP_SHIP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_SHIP_TYPE, GwpShipClass))
 #define GWP_IS_SHIP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_SHIP_TYPE))

@@ -94,7 +94,9 @@ void gwp_torpspec_set_damage_value (GwpTorpSpec *self, gint dv);
  * Standard defines.
  */
 #define GWP_TORPSPEC_TYPE (gwp_torpspec_get_type())
+#define GWP_TYPE_TORP_SPEC (gwp_torpspec_get_type())
 #define GWP_TORPSPEC(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TORPSPEC_TYPE, GwpTorpSpec))
+#define GWP_TORP_SPEC(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TORPSPEC_TYPE, GwpTorpSpec))
 #define GWP_TORPSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TORPSPEC_TYPE, GwpTorpSpecClass))
 #define GWP_IS_TORPSPEC(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TORPSPEC_TYPE))
 #define GWP_IS_TORPSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TORPSPEC_TYPE

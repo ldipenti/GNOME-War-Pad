@@ -29,10 +29,10 @@ struct _GwpFlyingObjectPrivate {
 /*
  * forward definitions.
  */
-static void gwp_fo_init (GTypeInstance *instance, gpointer g_class);
-static void gwp_fo_class_init (GwpFlyingObjectClass *klass);
+static void gwp_flying_object_init (GTypeInstance *instance, gpointer g_class);
+static void gwp_flying_object_class_init (GwpFlyingObjectClass *klass);
 
-GType gwp_fo_get_type (void)
+GType gwp_flying_object_get_type (void)
 {
   static GType type = 0;
   if (type == 0) {
@@ -40,12 +40,12 @@ GType gwp_fo_get_type (void)
       sizeof (GwpFlyingObjectClass),
       NULL, /* base_init */
       NULL, /* base_finalize */
-      (GClassInitFunc) gwp_fo_class_init, /* class_init */
+      (GClassInitFunc) gwp_flying_object_class_init, /* class_init */
       NULL, /* class_finalize */
       NULL, /* class_data */
       sizeof (GwpFlyingObject),
       0, /* n_preallocs */
-      (GInstanceInitFunc) gwp_fo_init /* instance_init */
+      (GInstanceInitFunc) gwp_flying_object_init /* instance_init */
     };
     type = g_type_register_static (GWP_OBJECT_TYPE,
 				   "GwpFlyingObject",
@@ -55,7 +55,7 @@ GType gwp_fo_get_type (void)
 }
 
 /* Instance constructor */
-static void gwp_fo_init (GTypeInstance *instance,
+static void gwp_flying_object_init (GTypeInstance *instance,
 			 gpointer       g_class)
 {
   GwpFlyingObject *self = (GwpFlyingObject *)instance;
@@ -66,7 +66,7 @@ static void gwp_fo_init (GTypeInstance *instance,
   self->priv->speed = 0;
 }
 
-static void gwp_fo_dispose (GwpFlyingObject *self)
+static void gwp_flying_object_dispose (GwpFlyingObject *self)
 {
   if (self->priv->dispose_has_run) {
     return;
@@ -80,7 +80,7 @@ static void gwp_fo_dispose (GwpFlyingObject *self)
   /* NOOP */
 }
 
-static void gwp_fo_finalize (GwpFlyingObject *self)
+static void gwp_flying_object_finalize (GwpFlyingObject *self)
 {
   /*
    * Here, complete object destruction.
@@ -88,32 +88,32 @@ static void gwp_fo_finalize (GwpFlyingObject *self)
   g_free (self->priv);
 }
 
-static void gwp_fo_class_init (GwpFlyingObjectClass *klass)
+static void gwp_flying_object_class_init (GwpFlyingObjectClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   /* Register destructor methods. */
-  gobject_class->dispose = (void *) gwp_fo_dispose;
-  gobject_class->finalize = (void *) gwp_fo_finalize;
+  gobject_class->dispose = (void *) gwp_flying_object_dispose;
+  gobject_class->finalize = (void *) gwp_flying_object_finalize;
 }
 
 /*
  * Public method implementations.
  */
 
-GwpFlyingObject * gwp_fo_new (void)
+GwpFlyingObject * gwp_flying_object_new (void)
 {
-  return g_object_new(gwp_fo_get_type(), NULL);
+  return g_object_new(gwp_flying_object_get_type(), NULL);
 }
 
 /**********************/
 /* High-Level methods */
 /**********************/
-GString *gwp_fo_get_heading_str (GwpFlyingObject *self)
+GString *gwp_flying_object_get_heading_str (GwpFlyingObject *self)
 {
   g_assert (GWP_IS_FLYING_OBJECT(self));
 
-  gint h = gwp_fo_get_heading(self);
+  gint h = gwp_flying_object_get_heading(self);
   GString *hstr = NULL;
 
   if (h == 0 || h == 360) hstr = g_string_new(_("N"));
@@ -131,25 +131,25 @@ GString *gwp_fo_get_heading_str (GwpFlyingObject *self)
 /*******************/
 /* Get/Set methods */
 /*******************/
-gint gwp_fo_get_heading (GwpFlyingObject *self)
+gint gwp_flying_object_get_heading (GwpFlyingObject *self)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
   return self->priv->heading;
 }
 
-void gwp_fo_set_heading (GwpFlyingObject *self, gint heading)
+void gwp_flying_object_set_heading (GwpFlyingObject *self, gint heading)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->heading = heading;
 }
 
-gint gwp_fo_get_speed (GwpFlyingObject *self)
+gint gwp_flying_object_get_speed (GwpFlyingObject *self)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
   return self->priv->speed;
 }
 
-void gwp_fo_set_speed (GwpFlyingObject *self, gint speed)
+void gwp_flying_object_set_speed (GwpFlyingObject *self, gint speed)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->speed = speed;

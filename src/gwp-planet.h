@@ -173,6 +173,7 @@ void gwp_planet_set_build_base (GwpPlanet *self, gint16 bb);
  * Standard defines.
  */
 #define GWP_PLANET_TYPE (gwp_planet_get_type())
+#define GWP_TYPE_PLANET (gwp_planet_get_type())
 #define GWP_PLANET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_PLANET_TYPE, GwpPlanet))
 #define GWP_PLANET_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_PLANET_TYPE, GwpPlanetClass))
 #define GWP_IS_PLANET(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_PLANET_TYPE))

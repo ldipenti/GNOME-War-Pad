@@ -92,7 +92,9 @@ void gwp_engspec_set_fuel_usage (GwpEngSpec *self, gint warp, gint fuel);
  * Standard defines.
  */
 #define GWP_ENGSPEC_TYPE (gwp_engspec_get_type())
+#define GWP_TYPE_ENG_SPEC (gwp_engspec_get_type())
 #define GWP_ENGSPEC(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_ENGSPEC_TYPE, GwpEngSpec))
+#define GWP_ENG_SPEC(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_ENGSPEC_TYPE, GwpEngSpec))
 #define GWP_ENGSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_ENGSPEC_TYPE, GwpEngSpecClass))
 #define GWP_IS_ENGSPEC(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_ENGSPEC_TYPE))
 #define GWP_IS_ENGSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_ENGSPEC_TYPE))

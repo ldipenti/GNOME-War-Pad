@@ -1,0 +1,22 @@
+%%
+headers
+#include <Python.h>
+#include <pygobject.h>
+#include "gwp-engspec.h"
+#include "gwp-hullspec.h"
+#include "gwp-beamspec.h"
+#include "gwp-torpspec.h"
+#include "gwp-object.h"
+#include "gwp-planet.h"
+#include "gwp-flying-object.h"
+#include "gwp-ion-storm.h"
+#include "gwp-ship.h"
+#include "gwp-starbase.h"
+%%
+modulename gwp
+%%
+import gobject.GObject as PyGObject_Type
+%%
+ignore-glob
+  *_get_type
+%%

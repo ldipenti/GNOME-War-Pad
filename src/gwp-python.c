@@ -24,10 +24,12 @@
 #ifdef USE_PYTHON
 
 #include "gwp-python.h"
+#include <pygobject.h>
 #include "gwp-ship.h"
 
 /* Forwards */
 void initgwp (void);
+void gwp_register_classes (PyObject *d);
 
 /**
  * Python embedded interpreter initialization.
@@ -51,32 +53,25 @@ void gwp_python_quit (void)
   Py_Exit (0);
 }
 
-static PyObject *
-gwp_py_ship_get_name (PyObject *self, PyObject *args)
-{
-  gint ship_id;
-  GwpShip *ship;
-
-  if (!PyArg_ParseTuple(args, "i:numargs", &ship_id))
-    return NULL;
-
-  ship = gwp_ship_get(ship_list, ship_id);
-  g_assert (GWP_IS_SHIP(ship));
-  
-  return Py_BuildValue ("s", gwp_object_get_name(GWP_OBJECT(ship))->str);
-}
-
-/* Add methods to module */
-static PyMethodDef gwp_methods[] = {
-  {"ship_get_name", gwp_py_ship_get_name, METH_VARARGS,
-   "Return the ship's name identified by its ID."},
-  {NULL, NULL, 0, NULL} /* sentinel */
-};
+/* Include the generated type mappings */
+#include "gwp-py-mappings.c"
 
 void initgwp (void)
 {
+  PyObject *m, *d;
+
+  init_pygobject ();
+
   PyImport_AddModule ("gwp");
-  Py_InitModule ("gwp", gwp_methods);
+
+  m = Py_InitModule ("gwp", gwp_functions);
+  d = PyModule_GetDict (m);
+
+  gwp_register_classes (d);
+
+  if (PyErr_Occurred ()) {
+    Py_FatalError ("can't initialise module gwp");
+  }
 }
 
 #endif

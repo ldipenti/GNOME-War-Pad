@@ -1,0 +1,2923 @@
+;; -*- scheme -*-
+; object definitions ...
+(define-object BeamSpec
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpBeamSpec")
+  (gtype-id "GWP_TYPE_BEAM_SPEC")
+)
+
+(define-object EngSpec
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpEngSpec")
+  (gtype-id "GWP_TYPE_ENG_SPEC")
+)
+
+(define-object HullSpec
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpHullSpec")
+  (gtype-id "GWP_TYPE_HULL_SPEC")
+)
+
+(define-object Object
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpObject")
+  (gtype-id "GWP_TYPE_OBJECT")
+)
+
+(define-object FlyingObject
+  (in-module "Gwp")
+  (parent "GwpObject")
+  (c-name "GwpFlyingObject")
+  (gtype-id "GWP_TYPE_FLYING_OBJECT")
+)
+
+(define-object IonStorm
+  (in-module "Gwp")
+  (parent "GwpFlyingObject")
+  (c-name "GwpIonStorm")
+  (gtype-id "GWP_TYPE_ION_STORM")
+)
+
+(define-object Planet
+  (in-module "Gwp")
+  (parent "GwpObject")
+  (c-name "GwpPlanet")
+  (gtype-id "GWP_TYPE_PLANET")
+)
+
+(define-object Ship
+  (in-module "Gwp")
+  (parent "GwpFlyingObject")
+  (c-name "GwpShip")
+  (gtype-id "GWP_TYPE_SHIP")
+)
+
+(define-object Starbase
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpStarbase")
+  (gtype-id "GWP_TYPE_STARBASE")
+)
+
+(define-object TorpSpec
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpTorpSpec")
+  (gtype-id "GWP_TYPE_TORP_SPEC")
+)
+
+;; Enumerations and flags ...
+
+
+;; From src/gwp-object.h
+
+(define-function gwp_object_get_type
+  (c-name "gwp_object_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_object_new
+  (c-name "gwp_object_new")
+  (is-constructor-of "GwpObject")
+  (return-type "GwpObject*")
+)
+
+(define-method valid_coords
+  (of-object "GwpObject")
+  (c-name "gwp_object_valid_coords")
+  (return-type "gboolean")
+)
+
+(define-method get_name_trunc
+  (of-object "GwpObject")
+  (c-name "gwp_object_get_name_trunc")
+  (return-type "GString*")
+  (parameters
+    '("gint" "len")
+  )
+)
+
+(define-method get_x_coord
+  (of-object "GwpObject")
+  (c-name "gwp_object_get_x_coord")
+  (return-type "gint")
+)
+
+(define-method set_x_coord
+  (of-object "GwpObject")
+  (c-name "gwp_object_set_x_coord")
+  (return-type "none")
+  (parameters
+    '("gint" "x")
+  )
+)
+
+(define-method get_y_coord
+  (of-object "GwpObject")
+  (c-name "gwp_object_get_y_coord")
+  (return-type "gint")
+)
+
+(define-method set_y_coord
+  (of-object "GwpObject")
+  (c-name "gwp_object_set_y_coord")
+  (return-type "none")
+  (parameters
+    '("gint" "y")
+  )
+)
+
+(define-method get_id
+  (of-object "GwpObject")
+  (c-name "gwp_object_get_id")
+  (return-type "gint")
+)
+
+(define-method set_id
+  (of-object "GwpObject")
+  (c-name "gwp_object_set_id")
+  (return-type "none")
+  (parameters
+    '("gint" "id")
+  )
+)
+
+(define-method get_name
+  (of-object "GwpObject")
+  (c-name "gwp_object_get_name")
+  (return-type "GString*")
+)
+
+(define-method set_name
+  (of-object "GwpObject")
+  (c-name "gwp_object_set_name")
+  (return-type "none")
+  (parameters
+    '("GString*" "name")
+  )
+)
+
+
+
+;; From src/gwp-flying-object.h
+
+(define-function gwp_flying_object_get_type
+  (c-name "gwp_flying_object_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_flying_object_new
+  (c-name "gwp_flying_object_new")
+  (is-constructor-of "GwpFlyingObject")
+  (return-type "GwpFlyingObject*")
+)
+
+(define-method get_heading_str
+  (of-object "GwpFlyingObject")
+  (c-name "gwp_flying_object_get_heading_str")
+  (return-type "GString*")
+)
+
+(define-method get_heading
+  (of-object "GwpFlyingObject")
+  (c-name "gwp_flying_object_get_heading")
+  (return-type "gint")
+)
+
+(define-method set_heading
+  (of-object "GwpFlyingObject")
+  (c-name "gwp_flying_object_set_heading")
+  (return-type "none")
+  (parameters
+    '("gint" "heading")
+  )
+)
+
+(define-method get_speed
+  (of-object "GwpFlyingObject")
+  (c-name "gwp_flying_object_get_speed")
+  (return-type "gint")
+)
+
+(define-method set_speed
+  (of-object "GwpFlyingObject")
+  (c-name "gwp_flying_object_set_speed")
+  (return-type "none")
+  (parameters
+    '("gint" "speed")
+  )
+)
+
+
+
+;; From src/gwp-planet.h
+
+(define-function gwp_planet_get_type
+  (c-name "gwp_planet_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_planet_new
+  (c-name "gwp_planet_new")
+  (is-constructor-of "GwpPlanet")
+  (return-type "GwpPlanet*")
+)
+
+(define-method get_def_sys_beams_type_str
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_def_sys_beams_type_str")
+  (return-type "GString*")
+)
+
+(define-method get_def_sys_beams_type
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_def_sys_beams_type")
+  (return-type "gint")
+)
+
+(define-method get_def_sys_beams_nr
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_def_sys_beams_nr")
+  (return-type "gint")
+)
+
+(define-method get_def_sys_fighters_nr
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_def_sys_fighters_nr")
+  (return-type "gint")
+)
+
+(define-method get_def_sys_fighter_bays
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_def_sys_fighter_bays")
+  (return-type "gint")
+)
+
+(define-method get_def_sys_battle_mass
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_def_sys_battle_mass")
+  (return-type "gint")
+)
+
+(define-method get_col_growth_limit
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_col_growth_limit")
+  (return-type "gint")
+)
+
+(define-method get_nat_growth_limit
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_nat_growth_limit")
+  (return-type "gint")
+)
+
+(define-method copy
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_copy")
+  (return-type "GwpPlanet*")
+)
+
+(define-function gwp_planet_get
+  (c-name "gwp_planet_get")
+  (return-type "GwpPlanet*")
+  (parameters
+    '("GHashTable*" "list")
+    '("gint" "planet_id")
+  )
+)
+
+(define-method is_mine
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_is_mine")
+  (return-type "gboolean")
+)
+
+(define-method what_is
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_what_is")
+  (return-type "gint")
+)
+
+(define-method get_temperature_f
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_temperature_f")
+  (return-type "gint16")
+)
+
+(define-method get_temperature_str
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_temperature_str")
+  (return-type "gchar*")
+)
+
+(define-method get_visibility
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_visibility")
+  (return-type "gint")
+)
+
+(define-method get_happiness_col_change
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_happiness_col_change")
+  (return-type "gint")
+)
+
+(define-method get_happiness_nat_change
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_happiness_nat_change")
+  (return-type "gint")
+)
+
+(define-method get_natives_race_chars
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_natives_race_chars")
+  (return-type "gchar*")
+)
+
+(define-method get_natives_spi_chars
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_natives_spi_chars")
+  (return-type "gchar*")
+)
+
+(define-method has_starbase
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_has_starbase")
+  (return-type "gboolean")
+)
+
+(define-function gwp_planet_get_ground_percent
+  (c-name "gwp_planet_get_ground_percent")
+  (return-type "gdouble")
+  (parameters
+    '("gint" "mineral")
+  )
+)
+
+(define-method neutronium_extraction_rate
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_neutronium_extraction_rate")
+  (return-type "gint")
+)
+
+(define-method neutronium_turns_left
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_neutronium_turns_left")
+  (return-type "gint")
+)
+
+(define-method tritanium_extraction_rate
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_tritanium_extraction_rate")
+  (return-type "gint")
+)
+
+(define-method tritanium_turns_left
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_tritanium_turns_left")
+  (return-type "gint")
+)
+
+(define-method molybdenum_extraction_rate
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_molybdenum_extraction_rate")
+  (return-type "gint")
+)
+
+(define-method molybdenum_turns_left
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_molybdenum_turns_left")
+  (return-type "gint")
+)
+
+(define-method duranium_extraction_rate
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_duranium_extraction_rate")
+  (return-type "gint")
+)
+
+(define-method duranium_turns_left
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_duranium_turns_left")
+  (return-type "gint")
+)
+
+(define-method get_tax_earned_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_earned_colonists")
+  (return-type "gint")
+)
+
+(define-method get_tax_earned_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_earned_natives")
+  (return-type "gint")
+)
+
+(define-method is_known
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_is_known")
+  (return-type "gboolean")
+)
+
+(define-method set_is_known
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_is_known")
+  (return-type "none")
+  (parameters
+    '("gboolean" "is_known")
+  )
+)
+
+(define-method set_starbase
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_starbase")
+  (return-type "none")
+  (parameters
+    '("GwpStarbase*" "sb")
+  )
+)
+
+(define-method get_starbase
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_starbase")
+  (return-type "GwpStarbase*")
+)
+
+(define-method get_owner
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_owner")
+  (return-type "gint16")
+)
+
+(define-method set_owner
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_owner")
+  (return-type "none")
+  (parameters
+    '("gint16" "o")
+  )
+)
+
+(define-method get_fcode
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_fcode")
+  (return-type "GString*")
+)
+
+(define-method set_fcode
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_fcode")
+  (return-type "none")
+  (parameters
+    '("GString*" "fcode")
+  )
+)
+
+(define-method get_mines
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_mines")
+  (return-type "gint16")
+)
+
+(define-method set_mines
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_mines")
+  (return-type "none")
+  (parameters
+    '("gint16" "m")
+  )
+)
+
+(define-method get_factories
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_factories")
+  (return-type "gint16")
+)
+
+(define-method set_factories
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_factories")
+  (return-type "none")
+  (parameters
+    '("gint16" "f")
+  )
+)
+
+(define-method get_defense_posts
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_defense_posts")
+  (return-type "gint16")
+)
+
+(define-method set_defense_posts
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_defense_posts")
+  (return-type "none")
+  (parameters
+    '("gint16" "d")
+  )
+)
+
+(define-method get_mined_neutronium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_mined_neutronium")
+  (return-type "gint32")
+)
+
+(define-method set_mined_neutronium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_mined_neutronium")
+  (return-type "none")
+  (parameters
+    '("gint32" "mn")
+  )
+)
+
+(define-method get_mined_tritanium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_mined_tritanium")
+  (return-type "gint32")
+)
+
+(define-method set_mined_tritanium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_mined_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint32" "mt")
+  )
+)
+
+(define-method get_mined_duranium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_mined_duranium")
+  (return-type "gint32")
+)
+
+(define-method set_mined_duranium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_mined_duranium")
+  (return-type "none")
+  (parameters
+    '("gint32" "md")
+  )
+)
+
+(define-method get_mined_molybdenum
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_mined_molybdenum")
+  (return-type "gint32")
+)
+
+(define-method set_mined_molybdenum
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_mined_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint32" "mm")
+  )
+)
+
+(define-method get_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_colonists")
+  (return-type "gint32")
+)
+
+(define-method set_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_colonists")
+  (return-type "none")
+  (parameters
+    '("gint32" "col")
+  )
+)
+
+(define-method get_supplies
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_supplies")
+  (return-type "gint32")
+)
+
+(define-method set_supplies
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_supplies")
+  (return-type "none")
+  (parameters
+    '("gint32" "sup")
+  )
+)
+
+(define-method get_megacredits
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_megacredits")
+  (return-type "gint32")
+)
+
+(define-method set_megacredits
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_megacredits")
+  (return-type "none")
+  (parameters
+    '("gint32" "mc")
+  )
+)
+
+(define-method get_ground_neutronium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_ground_neutronium")
+  (return-type "gint32")
+)
+
+(define-method set_ground_neutronium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_ground_neutronium")
+  (return-type "none")
+  (parameters
+    '("gint32" "gn")
+  )
+)
+
+(define-method get_ground_tritanium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_ground_tritanium")
+  (return-type "gint32")
+)
+
+(define-method set_ground_tritanium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_ground_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint32" "gt")
+  )
+)
+
+(define-method get_ground_duranium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_ground_duranium")
+  (return-type "gint32")
+)
+
+(define-method set_ground_duranium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_ground_duranium")
+  (return-type "none")
+  (parameters
+    '("gint32" "gd")
+  )
+)
+
+(define-method get_ground_molybdenum
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_ground_molybdenum")
+  (return-type "gint32")
+)
+
+(define-method set_ground_molybdenum
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_ground_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint32" "gm")
+  )
+)
+
+(define-method get_dens_neutronium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_dens_neutronium")
+  (return-type "gint16")
+)
+
+(define-method set_dens_neutronium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_dens_neutronium")
+  (return-type "none")
+  (parameters
+    '("gint16" "dn")
+  )
+)
+
+(define-method get_dens_tritanium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_dens_tritanium")
+  (return-type "gint16")
+)
+
+(define-method set_dens_tritanium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_dens_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint16" "dt")
+  )
+)
+
+(define-method get_dens_duranium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_dens_duranium")
+  (return-type "gint16")
+)
+
+(define-method set_dens_duranium
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_dens_duranium")
+  (return-type "none")
+  (parameters
+    '("gint16" "dd")
+  )
+)
+
+(define-method get_dens_molybdenum
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_dens_molybdenum")
+  (return-type "gint16")
+)
+
+(define-method set_dens_molybdenum
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_dens_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint16" "dm")
+  )
+)
+
+(define-method get_tax_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_colonists")
+  (return-type "gint16")
+)
+
+(define-method set_tax_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_tax_colonists")
+  (return-type "none")
+  (parameters
+    '("gint16" "tc")
+  )
+)
+
+(define-method get_tax_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_natives")
+  (return-type "gint16")
+)
+
+(define-method set_tax_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_tax_natives")
+  (return-type "none")
+  (parameters
+    '("gint16" "tn")
+  )
+)
+
+(define-method get_happiness_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_happiness_colonists")
+  (return-type "gint16")
+)
+
+(define-method set_happiness_colonists
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_happiness_colonists")
+  (return-type "none")
+  (parameters
+    '("gint16" "tc")
+  )
+)
+
+(define-method get_happiness_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_happiness_natives")
+  (return-type "gint16")
+)
+
+(define-method set_happiness_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_happiness_natives")
+  (return-type "none")
+  (parameters
+    '("gint16" "tn")
+  )
+)
+
+(define-method get_natives_spi
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_natives_spi")
+  (return-type "gint16")
+)
+
+(define-method set_natives_spi
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_natives_spi")
+  (return-type "none")
+  (parameters
+    '("gint16" "spi")
+  )
+)
+
+(define-method get_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_natives")
+  (return-type "gint32")
+)
+
+(define-method set_natives
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_natives")
+  (return-type "none")
+  (parameters
+    '("gint32" "nat")
+  )
+)
+
+(define-method get_natives_race
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_natives_race")
+  (return-type "gint16")
+)
+
+(define-method set_natives_race
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_natives_race")
+  (return-type "none")
+  (parameters
+    '("gint16" "nr")
+  )
+)
+
+(define-method get_temperature
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_temperature")
+  (return-type "gint16")
+)
+
+(define-method set_temperature
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_temperature")
+  (return-type "none")
+  (parameters
+    '("gint16" "temp")
+  )
+)
+
+(define-method get_build_base
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_build_base")
+  (return-type "gint16")
+)
+
+(define-method set_build_base
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_set_build_base")
+  (return-type "none")
+  (parameters
+    '("gint16" "bb")
+  )
+)
+
+
+
+;; From src/gwp-ship.h
+
+(define-function gwp_ship_get_type
+  (c-name "gwp_ship_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_ship_new
+  (c-name "gwp_ship_new")
+  (is-constructor-of "GwpShip")
+  (return-type "GwpShip*")
+)
+
+(define-method has_beam_weapons
+  (of-object "GwpShip")
+  (c-name "gwp_ship_has_beam_weapons")
+  (return-type "gboolean")
+)
+
+(define-method has_torp_weapons
+  (of-object "GwpShip")
+  (c-name "gwp_ship_has_torp_weapons")
+  (return-type "gboolean")
+)
+
+(define-method get_primary_enemy_name
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_primary_enemy_name")
+  (return-type "GString*")
+)
+
+(define-method get_mission_name
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_mission_name")
+  (return-type "GString*")
+)
+
+(define-method get_owner_name
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_owner_name")
+  (return-type "GString*")
+)
+
+(define-method get_hull_name_trunc
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_name_trunc")
+  (return-type "GString*")
+  (parameters
+    '("gint" "len")
+  )
+)
+
+(define-method get_hull_cargo
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_cargo")
+  (return-type "gint")
+)
+
+(define-method get_hull_fuel_tank
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_fuel_tank")
+  (return-type "gint")
+)
+
+(define-method get_hull_crew
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_crew")
+  (return-type "gint")
+)
+
+(define-method get_hull_engines
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_engines")
+  (return-type "gint")
+)
+
+(define-method get_hull_beam_weapons
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_beam_weapons")
+  (return-type "gint")
+)
+
+(define-method get_hull_torp_launchers
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_torp_launchers")
+  (return-type "gint")
+)
+
+(define-method get_hull_fighter_bays
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_fighter_bays")
+  (return-type "gint")
+)
+
+(define-method get_hull_picture
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_picture")
+  (return-type "gint")
+)
+
+(define-method get_engine_name
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_engine_name")
+  (return-type "GString*")
+)
+
+(define-method get_beams_name
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_beams_name")
+  (return-type "GString*")
+)
+
+(define-method get_torps_name
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_torps_name")
+  (return-type "GString*")
+)
+
+(define-method calculate_heading
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_heading")
+  (return-type "gint")
+)
+
+(define-function gwp_ship_get
+  (c-name "gwp_ship_get")
+  (return-type "GwpShip*")
+  (parameters
+    '("GHashTable*" "list")
+    '("gint" "ship_id")
+  )
+)
+
+(define-method valid_coords
+  (of-object "GwpShip")
+  (c-name "gwp_ship_valid_coords")
+  (return-type "gboolean")
+)
+
+(define-method is_mine
+  (of-object "GwpShip")
+  (c-name "gwp_ship_is_mine")
+  (return-type "gboolean")
+)
+
+(define-method get_waypoint
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_waypoint")
+  (return-type "none")
+  (parameters
+    '("gint*" "wp_x")
+    '("gint*" "wp_y")
+  )
+)
+
+(define-method calculate_waypoint_distance
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_waypoint_distance")
+  (return-type "gdouble")
+)
+
+(define-method calculate_eta
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_eta")
+  (return-type "gint")
+)
+
+(define-method calculate_fuel_usage
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_fuel_usage")
+  (return-type "gint")
+)
+
+(define-method calculate_cargo
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_cargo")
+  (return-type "gint")
+)
+
+(define-method calculate_mass
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_mass")
+  (return-type "gint")
+)
+
+(define-method calculate_lay_mines_torps
+  (of-object "GwpShip")
+  (c-name "gwp_ship_calculate_lay_mines_torps")
+  (return-type "gint")
+)
+
+(define-method is_known
+  (of-object "GwpShip")
+  (c-name "gwp_ship_is_known")
+  (return-type "gboolean")
+)
+
+(define-method set_known
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_known")
+  (return-type "none")
+  (parameters
+    '("gboolean" "is_known")
+  )
+)
+
+(define-method get_owner
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_owner")
+  (return-type "gint")
+)
+
+(define-method set_owner
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_owner")
+  (return-type "none")
+  (parameters
+    '("gint" "owner")
+  )
+)
+
+(define-method get_mass_if_unknown
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_mass_if_unknown")
+  (return-type "gint")
+)
+
+(define-method set_mass_if_unknown
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_mass_if_unknown")
+  (return-type "none")
+  (parameters
+    '("gint" "mass")
+  )
+)
+
+(define-method get_fcode
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_fcode")
+  (return-type "GString*")
+)
+
+(define-method set_fcode
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_fcode")
+  (return-type "none")
+  (parameters
+    '("GString*" "fcode")
+  )
+)
+
+(define-method get_x_to_waypoint
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_x_to_waypoint")
+  (return-type "gint16")
+)
+
+(define-method set_x_to_waypoint
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_x_to_waypoint")
+  (return-type "none")
+  (parameters
+    '("gint16" "xw")
+  )
+)
+
+(define-method get_y_to_waypoint
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_y_to_waypoint")
+  (return-type "gint16")
+)
+
+(define-method set_y_to_waypoint
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_y_to_waypoint")
+  (return-type "none")
+  (parameters
+    '("gint16" "yw")
+  )
+)
+
+(define-method get_engines_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_engines_type")
+  (return-type "gint16")
+)
+
+(define-method set_engines_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_engines_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "et")
+  )
+)
+
+(define-method get_hull_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_hull_type")
+  (return-type "gint16")
+)
+
+(define-method set_hull_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_hull_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "ht")
+  )
+)
+
+(define-method get_beams_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_beams_type")
+  (return-type "gint16")
+)
+
+(define-method set_beams_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_beams_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "bt")
+  )
+)
+
+(define-method get_beams
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_beams")
+  (return-type "gint16")
+)
+
+(define-method set_beams
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_beams")
+  (return-type "none")
+  (parameters
+    '("gint16" "beams")
+  )
+)
+
+(define-method get_fighter_bays
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_fighter_bays")
+  (return-type "gint16")
+)
+
+(define-method set_fighter_bays
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_fighter_bays")
+  (return-type "none")
+  (parameters
+    '("gint16" "f_bays")
+  )
+)
+
+(define-method get_torps_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_torps_type")
+  (return-type "gint16")
+)
+
+(define-method set_torps_type
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_torps_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "tt")
+  )
+)
+
+(define-method get_torps
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_torps")
+  (return-type "gint16")
+)
+
+(define-method set_torps
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_torps")
+  (return-type "none")
+  (parameters
+    '("gint16" "torps")
+  )
+)
+
+(define-method get_fighters
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_fighters")
+  (return-type "gint16")
+)
+
+(define-method set_fighters
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_fighters")
+  (return-type "none")
+  (parameters
+    '("gint16" "fighters")
+  )
+)
+
+(define-method get_torps_launchers
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_torps_launchers")
+  (return-type "gint16")
+)
+
+(define-method set_torps_launchers
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_torps_launchers")
+  (return-type "none")
+  (parameters
+    '("gint16" "tl")
+  )
+)
+
+(define-method get_mission
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_mission")
+  (return-type "gint16")
+)
+
+(define-method set_mission
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_mission")
+  (return-type "none")
+  (parameters
+    '("gint16" "mission")
+  )
+)
+
+(define-method get_primary_enemy
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_primary_enemy")
+  (return-type "gint16")
+)
+
+(define-method set_primary_enemy
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_primary_enemy")
+  (return-type "none")
+  (parameters
+    '("gint16" "pe")
+  )
+)
+
+(define-method get_tow_ship_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_tow_ship_id")
+  (return-type "gint16")
+)
+
+(define-method set_tow_ship_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_tow_ship_id")
+  (return-type "none")
+  (parameters
+    '("gint16" "id")
+  )
+)
+
+(define-method get_damage
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_damage")
+  (return-type "gint16")
+)
+
+(define-method set_damage
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_damage")
+  (return-type "none")
+  (parameters
+    '("gint16" "dmg")
+  )
+)
+
+(define-method get_crew
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_crew")
+  (return-type "gint16")
+)
+
+(define-method set_crew
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_crew")
+  (return-type "none")
+  (parameters
+    '("gint16" "crew")
+  )
+)
+
+(define-method get_colonists
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_colonists")
+  (return-type "gint16")
+)
+
+(define-method set_colonists
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_colonists")
+  (return-type "none")
+  (parameters
+    '("gint16" "col")
+  )
+)
+
+(define-method get_neutronium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_neutronium")
+  (return-type "gint16")
+)
+
+(define-method set_neutronium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_neutronium")
+  (return-type "none")
+  (parameters
+    '("gint16" "neu")
+  )
+)
+
+(define-method get_tritanium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_tritanium")
+  (return-type "gint16")
+)
+
+(define-method set_tritanium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint16" "tri")
+  )
+)
+
+(define-method get_duranium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_duranium")
+  (return-type "gint16")
+)
+
+(define-method set_duranium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_duranium")
+  (return-type "none")
+  (parameters
+    '("gint16" "dur")
+  )
+)
+
+(define-method get_molybdenum
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_molybdenum")
+  (return-type "gint16")
+)
+
+(define-method set_molybdenum
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint16" "mol")
+  )
+)
+
+(define-method get_supplies
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_supplies")
+  (return-type "gint16")
+)
+
+(define-method set_supplies
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_supplies")
+  (return-type "none")
+  (parameters
+    '("gint16" "sup")
+  )
+)
+
+(define-method get_unload_neutronium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_neutronium")
+  (return-type "gint16")
+)
+
+(define-method set_unload_neutronium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_neutronium")
+  (return-type "none")
+  (parameters
+    '("gint16" "neu")
+  )
+)
+
+(define-method get_unload_tritanium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_tritanium")
+  (return-type "gint16")
+)
+
+(define-method set_unload_tritanium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint16" "tri")
+  )
+)
+
+(define-method get_unload_duranium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_duranium")
+  (return-type "gint16")
+)
+
+(define-method set_unload_duranium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_duranium")
+  (return-type "none")
+  (parameters
+    '("gint16" "dur")
+  )
+)
+
+(define-method get_unload_molybdenum
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_molybdenum")
+  (return-type "gint16")
+)
+
+(define-method set_unload_molybdenum
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint16" "mol")
+  )
+)
+
+(define-method get_unload_supplies
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_supplies")
+  (return-type "gint16")
+)
+
+(define-method set_unload_supplies
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_supplies")
+  (return-type "none")
+  (parameters
+    '("gint16" "sup")
+  )
+)
+
+(define-method set_unload_colonists
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_colonists")
+  (return-type "none")
+  (parameters
+    '("gint16" "col")
+  )
+)
+
+(define-method get_unload_colonists
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_colonists")
+  (return-type "gint16")
+)
+
+(define-method get_unload_planet_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_unload_planet_id")
+  (return-type "gint16")
+)
+
+(define-method set_unload_planet_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_unload_planet_id")
+  (return-type "none")
+  (parameters
+    '("gint16" "pid")
+  )
+)
+
+(define-method get_transfer_neutronium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_neutronium")
+  (return-type "gint16")
+)
+
+(define-method set_transfer_neutronium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_neutronium")
+  (return-type "none")
+  (parameters
+    '("gint16" "neu")
+  )
+)
+
+(define-method get_transfer_tritanium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_tritanium")
+  (return-type "gint16")
+)
+
+(define-method set_transfer_tritanium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint16" "tri")
+  )
+)
+
+(define-method get_transfer_duranium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_duranium")
+  (return-type "gint16")
+)
+
+(define-method set_transfer_duranium
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_duranium")
+  (return-type "none")
+  (parameters
+    '("gint16" "dur")
+  )
+)
+
+(define-method get_transfer_molybdenum
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_molybdenum")
+  (return-type "gint16")
+)
+
+(define-method set_transfer_molybdenum
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint16" "mol")
+  )
+)
+
+(define-method get_transfer_supplies
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_supplies")
+  (return-type "gint16")
+)
+
+(define-method set_transfer_supplies
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_supplies")
+  (return-type "none")
+  (parameters
+    '("gint16" "sup")
+  )
+)
+
+(define-method set_transfer_colonists
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_colonists")
+  (return-type "none")
+  (parameters
+    '("gint16" "col")
+  )
+)
+
+(define-method get_transfer_colonists
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_colonists")
+  (return-type "gint16")
+)
+
+(define-method get_transfer_ship_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_transfer_ship_id")
+  (return-type "gint16")
+)
+
+(define-method set_transfer_ship_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_transfer_ship_id")
+  (return-type "none")
+  (parameters
+    '("gint16" "sid")
+  )
+)
+
+(define-method get_intercept_ship_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_intercept_ship_id")
+  (return-type "gint16")
+)
+
+(define-method set_intercept_ship_id
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_intercept_ship_id")
+  (return-type "none")
+  (parameters
+    '("gint16" "sid")
+  )
+)
+
+(define-method get_megacredits
+  (of-object "GwpShip")
+  (c-name "gwp_ship_get_megacredits")
+  (return-type "gint16")
+)
+
+(define-method set_megacredits
+  (of-object "GwpShip")
+  (c-name "gwp_ship_set_megacredits")
+  (return-type "none")
+  (parameters
+    '("gint16" "m")
+  )
+)
+
+
+
+;; From src/gwp-ion-storm.h
+
+(define-function gwp_ion_storm_get_type
+  (c-name "gwp_ion_storm_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_ion_storm_new
+  (c-name "gwp_ion_storm_new")
+  (is-constructor-of "GwpIonStorm")
+  (return-type "GwpIonStorm*")
+)
+
+(define-method get_class
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_get_class")
+  (return-type "gint")
+)
+
+(define-method get_class_str
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_get_class_str")
+  (return-type "GString*")
+)
+
+(define-method is_valid
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_is_valid")
+  (return-type "gboolean")
+)
+
+(define-method get_radius
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_get_radius")
+  (return-type "gint")
+)
+
+(define-method set_radius
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_set_radius")
+  (return-type "none")
+  (parameters
+    '("gint" "r")
+  )
+)
+
+(define-method get_voltage
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_get_voltage")
+  (return-type "gint")
+)
+
+(define-method set_voltage
+  (of-object "GwpIonStorm")
+  (c-name "gwp_ion_storm_set_voltage")
+  (return-type "none")
+  (parameters
+    '("gint" "v")
+  )
+)
+
+
+
+;; From src/gwp-engspec.h
+
+(define-function gwp_engspec_get_type
+  (c-name "gwp_engspec_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_engspec_new
+  (c-name "gwp_engspec_new")
+  (is-constructor-of "GwpEngspec")
+  (return-type "GwpEngSpec*")
+)
+
+(define-method get_fuel_usage_full
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_fuel_usage_full")
+  (return-type "gint")
+  (parameters
+    '("gdouble" "dist")
+    '("gint" "speed")
+    '("gint" "mass")
+  )
+)
+
+(define-method get_id
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_id")
+  (return-type "gint")
+)
+
+(define-method set_id
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_id")
+  (return-type "none")
+  (parameters
+    '("gint" "id")
+  )
+)
+
+(define-method get_name
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_name")
+  (return-type "GString*")
+)
+
+(define-method set_name
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_name")
+  (return-type "none")
+  (parameters
+    '("GString*" "name")
+  )
+)
+
+(define-method get_cost
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_cost")
+  (return-type "gint")
+)
+
+(define-method set_cost
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_cost")
+  (return-type "none")
+  (parameters
+    '("gint" "cost")
+  )
+)
+
+(define-method get_tritanium
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_tritanium")
+  (return-type "gint")
+)
+
+(define-method set_tritanium
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint" "tri")
+  )
+)
+
+(define-method get_duranium
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_duranium")
+  (return-type "gint")
+)
+
+(define-method set_duranium
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_duranium")
+  (return-type "none")
+  (parameters
+    '("gint" "dur")
+  )
+)
+
+(define-method get_molybdenum
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_molybdenum")
+  (return-type "gint")
+)
+
+(define-method set_molybdenum
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint" "mol")
+  )
+)
+
+(define-method get_tech_level
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_tech_level")
+  (return-type "gint")
+)
+
+(define-method set_tech_level
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_tech_level")
+  (return-type "none")
+  (parameters
+    '("gint" "tl")
+  )
+)
+
+(define-method get_fuel_usage
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_get_fuel_usage")
+  (return-type "gint")
+  (parameters
+    '("gint" "warp")
+  )
+)
+
+(define-method set_fuel_usage
+  (of-object "GwpEngSpec")
+  (c-name "gwp_engspec_set_fuel_usage")
+  (return-type "none")
+  (parameters
+    '("gint" "warp")
+    '("gint" "fuel")
+  )
+)
+
+
+
+;; From src/gwp-torpspec.h
+
+(define-function gwp_torpspec_get_type
+  (c-name "gwp_torpspec_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_torpspec_new
+  (c-name "gwp_torpspec_new")
+  (is-constructor-of "GwpTorpspec")
+  (return-type "GwpTorpSpec*")
+)
+
+(define-method get_id
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_id")
+  (return-type "gint")
+)
+
+(define-method set_id
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_id")
+  (return-type "none")
+  (parameters
+    '("gint" "id")
+  )
+)
+
+(define-method get_name
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_name")
+  (return-type "GString*")
+)
+
+(define-method set_name
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_name")
+  (return-type "none")
+  (parameters
+    '("GString*" "name")
+  )
+)
+
+(define-method get_torpedo_cost
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_torpedo_cost")
+  (return-type "gint")
+)
+
+(define-method set_torpedo_cost
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_torpedo_cost")
+  (return-type "none")
+  (parameters
+    '("gint" "tc")
+  )
+)
+
+(define-method get_launcher_cost
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_launcher_cost")
+  (return-type "gint")
+)
+
+(define-method set_launcher_cost
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_launcher_cost")
+  (return-type "none")
+  (parameters
+    '("gint" "lc")
+  )
+)
+
+(define-method get_tritanium
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_tritanium")
+  (return-type "gint")
+)
+
+(define-method set_tritanium
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint" "tri")
+  )
+)
+
+(define-method get_duranium
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_duranium")
+  (return-type "gint")
+)
+
+(define-method set_duranium
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_duranium")
+  (return-type "none")
+  (parameters
+    '("gint" "dur")
+  )
+)
+
+(define-method get_molybdenum
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_molybdenum")
+  (return-type "gint")
+)
+
+(define-method set_molybdenum
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint" "mol")
+  )
+)
+
+(define-method get_mass
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_mass")
+  (return-type "gint")
+)
+
+(define-method set_mass
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_mass")
+  (return-type "none")
+  (parameters
+    '("gint" "mass")
+  )
+)
+
+(define-method get_tech_level
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_tech_level")
+  (return-type "gint")
+)
+
+(define-method set_tech_level
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_tech_level")
+  (return-type "none")
+  (parameters
+    '("gint" "tl")
+  )
+)
+
+(define-method get_kill_value
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_kill_value")
+  (return-type "gint")
+)
+
+(define-method set_kill_value
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_kill_value")
+  (return-type "none")
+  (parameters
+    '("gint" "kv")
+  )
+)
+
+(define-method get_damage_value
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_get_damage_value")
+  (return-type "gint")
+)
+
+(define-method set_damage_value
+  (of-object "GwpTorpSpec")
+  (c-name "gwp_torpspec_set_damage_value")
+  (return-type "none")
+  (parameters
+    '("gint" "dv")
+  )
+)
+
+
+
+;; From src/gwp-beamspec.h
+
+(define-function gwp_beamspec_get_type
+  (c-name "gwp_beamspec_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_beamspec_new
+  (c-name "gwp_beamspec_new")
+  (is-constructor-of "GwpBeamspec")
+  (return-type "GwpBeamSpec*")
+)
+
+(define-method get_id
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_id")
+  (return-type "gint")
+)
+
+(define-method set_id
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_id")
+  (return-type "none")
+  (parameters
+    '("gint" "id")
+  )
+)
+
+(define-method get_name
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_name")
+  (return-type "GString*")
+)
+
+(define-method set_name
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_name")
+  (return-type "none")
+  (parameters
+    '("GString*" "name")
+  )
+)
+
+(define-method get_cost
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_cost")
+  (return-type "gint")
+)
+
+(define-method set_cost
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_cost")
+  (return-type "none")
+  (parameters
+    '("gint" "cost")
+  )
+)
+
+(define-method get_tritanium
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_tritanium")
+  (return-type "gint")
+)
+
+(define-method set_tritanium
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint" "tri")
+  )
+)
+
+(define-method get_duranium
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_duranium")
+  (return-type "gint")
+)
+
+(define-method set_duranium
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_duranium")
+  (return-type "none")
+  (parameters
+    '("gint" "dur")
+  )
+)
+
+(define-method get_molybdenum
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_molybdenum")
+  (return-type "gint")
+)
+
+(define-method set_molybdenum
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint" "mol")
+  )
+)
+
+(define-method get_mass
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_mass")
+  (return-type "gint")
+)
+
+(define-method set_mass
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_mass")
+  (return-type "none")
+  (parameters
+    '("gint" "mass")
+  )
+)
+
+(define-method get_tech_level
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_tech_level")
+  (return-type "gint")
+)
+
+(define-method set_tech_level
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_tech_level")
+  (return-type "none")
+  (parameters
+    '("gint" "tl")
+  )
+)
+
+(define-method get_kill_value
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_kill_value")
+  (return-type "gint")
+)
+
+(define-method set_kill_value
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_kill_value")
+  (return-type "none")
+  (parameters
+    '("gint" "kv")
+  )
+)
+
+(define-method get_damage_value
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_get_damage_value")
+  (return-type "gint")
+)
+
+(define-method set_damage_value
+  (of-object "GwpBeamSpec")
+  (c-name "gwp_beamspec_set_damage_value")
+  (return-type "none")
+  (parameters
+    '("gint" "dv")
+  )
+)
+
+
+
+;; From src/gwp-hullspec.h
+
+(define-function gwp_hullspec_get_type
+  (c-name "gwp_hullspec_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_hullspec_new
+  (c-name "gwp_hullspec_new")
+  (is-constructor-of "GwpHullspec")
+  (return-type "GwpHullSpec*")
+)
+
+(define-method get_name_trunc
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_name_trunc")
+  (return-type "GString*")
+  (parameters
+    '("gint" "len")
+  )
+)
+
+(define-method get_id
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_id")
+  (return-type "gint")
+)
+
+(define-method set_id
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_id")
+  (return-type "none")
+  (parameters
+    '("gint" "id")
+  )
+)
+
+(define-method get_name
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_name")
+  (return-type "GString*")
+)
+
+(define-method set_name
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_name")
+  (return-type "none")
+  (parameters
+    '("GString*" "name")
+  )
+)
+
+(define-method get_picture
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_picture")
+  (return-type "gint")
+)
+
+(define-method set_picture
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_picture")
+  (return-type "none")
+  (parameters
+    '("gint" "pic")
+  )
+)
+
+(define-method get_tritanium
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_tritanium")
+  (return-type "gint")
+)
+
+(define-method set_tritanium
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_tritanium")
+  (return-type "none")
+  (parameters
+    '("gint" "m")
+  )
+)
+
+(define-method get_duranium
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_duranium")
+  (return-type "gint")
+)
+
+(define-method set_duranium
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_duranium")
+  (return-type "none")
+  (parameters
+    '("gint" "m")
+  )
+)
+
+(define-method get_molybdenum
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_molybdenum")
+  (return-type "gint")
+)
+
+(define-method set_molybdenum
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_molybdenum")
+  (return-type "none")
+  (parameters
+    '("gint" "m")
+  )
+)
+
+(define-method get_fuel_tank
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_fuel_tank")
+  (return-type "gint")
+)
+
+(define-method set_fuel_tank
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_fuel_tank")
+  (return-type "none")
+  (parameters
+    '("gint" "ft")
+  )
+)
+
+(define-method get_crew
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_crew")
+  (return-type "gint")
+)
+
+(define-method set_crew
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_crew")
+  (return-type "none")
+  (parameters
+    '("gint" "crew")
+  )
+)
+
+(define-method get_engines
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_engines")
+  (return-type "gint")
+)
+
+(define-method set_engines
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_engines")
+  (return-type "none")
+  (parameters
+    '("gint" "eng")
+  )
+)
+
+(define-method get_mass
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_mass")
+  (return-type "gint")
+)
+
+(define-method set_mass
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_mass")
+  (return-type "none")
+  (parameters
+    '("gint" "mass")
+  )
+)
+
+(define-method get_tech_level
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_tech_level")
+  (return-type "gint")
+)
+
+(define-method set_tech_level
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_tech_level")
+  (return-type "none")
+  (parameters
+    '("gint" "tl")
+  )
+)
+
+(define-method get_cargo
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_cargo")
+  (return-type "gint")
+)
+
+(define-method set_cargo
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_cargo")
+  (return-type "none")
+  (parameters
+    '("gint" "cargo")
+  )
+)
+
+(define-method get_fighter_bays
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_fighter_bays")
+  (return-type "gint")
+)
+
+(define-method set_fighter_bays
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_fighter_bays")
+  (return-type "none")
+  (parameters
+    '("gint" "fb")
+  )
+)
+
+(define-method get_torp_launchers
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_torp_launchers")
+  (return-type "gint")
+)
+
+(define-method set_torp_launchers
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_torp_launchers")
+  (return-type "none")
+  (parameters
+    '("gint" "tl")
+  )
+)
+
+(define-method get_beam_weapons
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_beam_weapons")
+  (return-type "gint")
+)
+
+(define-method set_beam_weapons
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_beam_weapons")
+  (return-type "none")
+  (parameters
+    '("gint" "bw")
+  )
+)
+
+(define-method get_cost
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_get_cost")
+  (return-type "gint")
+)
+
+(define-method set_cost
+  (of-object "GwpHullSpec")
+  (c-name "gwp_hullspec_set_cost")
+  (return-type "none")
+  (parameters
+    '("gint" "cost")
+  )
+)
+
+
+
+;; From src/gwp-starbase.h
+
+(define-function gwp_starbase_get_type
+  (c-name "gwp_starbase_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_starbase_new
+  (c-name "gwp_starbase_new")
+  (is-constructor-of "GwpStarbase")
+  (return-type "GwpStarbase*")
+)
+
+(define-method copy
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_copy")
+  (return-type "GwpStarbase*")
+)
+
+(define-method get_id
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_id")
+  (return-type "gint16")
+)
+
+(define-method get_defense
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_defense")
+  (return-type "gint16")
+)
+
+(define-method set_defense
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_defense")
+  (return-type "none")
+  (parameters
+    '("gint16" "def")
+  )
+)
+
+(define-method get_damage
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_damage")
+  (return-type "gint16")
+)
+
+(define-method set_damage
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_damage")
+  (return-type "none")
+  (parameters
+    '("gint" "dam")
+  )
+)
+
+(define-method get_engines_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_engines_tech")
+  (return-type "gint16")
+)
+
+(define-method set_engines_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_engines_tech")
+  (return-type "none")
+  (parameters
+    '("gint16" "tech")
+  )
+)
+
+(define-method get_hulls_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_hulls_tech")
+  (return-type "gint16")
+)
+
+(define-method set_hulls_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_hulls_tech")
+  (return-type "none")
+  (parameters
+    '("gint16" "tech")
+  )
+)
+
+(define-method get_beams_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_beams_tech")
+  (return-type "gint16")
+)
+
+(define-method set_beams_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_beams_tech")
+  (return-type "none")
+  (parameters
+    '("gint16" "tech")
+  )
+)
+
+(define-method get_torps_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_torps_tech")
+  (return-type "gint16")
+)
+
+(define-method set_torps_tech
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_torps_tech")
+  (return-type "none")
+  (parameters
+    '("gint16" "tech")
+  )
+)
+
+(define-method get_storage_engines
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_storage_engines")
+  (return-type "gint16")
+  (parameters
+    '("gint" "storage_nr")
+  )
+)
+
+(define-method set_storage_engines
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_storage_engines")
+  (return-type "none")
+  (parameters
+    '("gint" "storage_nr")
+    '("gint16" "engine")
+  )
+)
+
+(define-method get_storage_hulls
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_storage_hulls")
+  (return-type "gint16")
+  (parameters
+    '("gint" "storage_nr")
+  )
+)
+
+(define-method set_storage_hulls
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_storage_hulls")
+  (return-type "none")
+  (parameters
+    '("gint" "storage_nr")
+    '("gint16" "hull")
+  )
+)
+
+(define-method get_storage_beams
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_storage_beams")
+  (return-type "gint16")
+  (parameters
+    '("gint" "storage_nr")
+  )
+)
+
+(define-method set_storage_beams
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_storage_beams")
+  (return-type "none")
+  (parameters
+    '("gint" "storage_nr")
+    '("gint16" "beam")
+  )
+)
+
+(define-method get_storage_torp_launchers
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_storage_torp_launchers")
+  (return-type "gint16")
+  (parameters
+    '("gint" "storage_nr")
+  )
+)
+
+(define-method set_storage_torp_launchers
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_storage_torp_launchers")
+  (return-type "none")
+  (parameters
+    '("gint" "storage_nr")
+    '("gint16" "t_launcher")
+  )
+)
+
+(define-method get_storage_torps
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_storage_torps")
+  (return-type "gint16")
+  (parameters
+    '("gint" "storage_nr")
+  )
+)
+
+(define-method set_storage_torps
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_storage_torps")
+  (return-type "none")
+  (parameters
+    '("gint" "storage_nr")
+    '("gint16" "torp")
+  )
+)
+
+(define-method get_fighters
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_fighters")
+  (return-type "gint16")
+)
+
+(define-method set_fighters
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_fighters")
+  (return-type "none")
+  (parameters
+    '("gint16" "f")
+  )
+)
+
+(define-method get_id_ship
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_id_ship")
+  (return-type "gint16")
+)
+
+(define-method set_id_ship
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_id_ship")
+  (return-type "none")
+  (parameters
+    '("gint16" "id")
+  )
+)
+
+(define-method get_ship_action
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_ship_action")
+  (return-type "gint16")
+)
+
+(define-method set_ship_action
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_ship_action")
+  (return-type "none")
+  (parameters
+    '("gint16" "action")
+  )
+)
+
+(define-method get_mission
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_mission")
+  (return-type "gint16")
+)
+
+(define-method set_mission
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_mission")
+  (return-type "none")
+  (parameters
+    '("gint16" "mission")
+  )
+)
+
+(define-method get_build_ship_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_build_ship_type")
+  (return-type "gint16")
+)
+
+(define-method set_build_ship_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_build_ship_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "type")
+  )
+)
+
+(define-method get_build_engine_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_build_engine_type")
+  (return-type "gint16")
+)
+
+(define-method set_build_engine_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_build_engine_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "type")
+  )
+)
+
+(define-method get_build_beam_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_build_beam_type")
+  (return-type "gint16")
+)
+
+(define-method set_build_beam_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_build_beam_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "type")
+  )
+)
+
+(define-method get_build_beam_count
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_build_beam_count")
+  (return-type "gint16")
+)
+
+(define-method set_build_beam_count
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_build_beam_count")
+  (return-type "none")
+  (parameters
+    '("gint16" "count")
+  )
+)
+
+(define-method get_build_torp_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_build_torp_type")
+  (return-type "gint16")
+)
+
+(define-method set_build_torp_type
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_build_torp_type")
+  (return-type "none")
+  (parameters
+    '("gint16" "type")
+  )
+)
+
+(define-method get_build_torp_count
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_build_torp_count")
+  (return-type "gint16")
+)
+
+(define-method set_build_torp_count
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_build_torp_count")
+  (return-type "none")
+  (parameters
+    '("gint16" "count")
+  )
+)
+
+(define-method get_fighter_count
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_fighter_count")
+  (return-type "gint16")
+)
+
+(define-method set_fighter_count
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_fighter_count")
+  (return-type "none")
+  (parameters
+    '("gint16" "count")
+  )
+)
+
+(define-method set_planet
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_set_planet")
+  (return-type "none")
+  (parameters
+    '("GwpPlanet*" "p")
+  )
+)
+
+(define-method get_planet
+  (of-object "GwpStarbase")
+  (c-name "gwp_starbase_get_planet")
+  (return-type "GwpPlanet*")
+)
+
+

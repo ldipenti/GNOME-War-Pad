@@ -3,7 +3,8 @@
 INCLUDES = \
 	$(GNOME_CFLAGS) \
 	$(PY_CFLAGS) \
-	$(GTKGLEXT_CFLAGS)
+	$(GTKGLEXT_CFLAGS) \
+	$(PYGTK_CFLAGS)
 
 # FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
 
@@ -21,8 +22,8 @@ CFLAGS = \
 
 bin_PROGRAMS = gwp
 
-EXTRA_DIST = \
-	gwp.glade
+EXTRA_DIST =    gwp.glade		\
+		gwp-py-mappings.c
 
 gwp_SOURCES =				\
 	gwp-object.h			\
@@ -86,11 +87,11 @@ gwp_SOURCES =				\
 	gwp-utils.c			\
 	gwp-utils.h
 
-
 gwp_LDADD =  \
 	$(GNOME_LIBS) \
 	$(PY_LIB_LOC) $(PY_EXTRA_LIBS) $(PY_LIBS) \
-	$(GTKGLEXT_LIBS)
+	$(GTKGLEXT_LIBS) \
+	$(PYGTK_LIBS)
 
 gladedir = $(datadir)/gwp
 glade_DATA = gwp.glade

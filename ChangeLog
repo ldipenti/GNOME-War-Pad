@@ -1,3 +1,6 @@
+	* Feature: Added checks for gtkglext and python libs on build system.
+	* Bugfix: GNOME & Glade library version checks fixed on build system.
+	
 Version 0.3.1 (released 06-06-2004):
 
 	* Glade version corrections for UI.

@@ -131,6 +131,7 @@ GwpPlanet * gwp_starbase_get_planet (GwpStarbase *self);
  * Standard defines.
  */
 #define GWP_STARBASE_TYPE (gwp_starbase_get_type())
+#define GWP_TYPE_STARBASE (gwp_starbase_get_type())
 #define GWP_STARBASE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_STARBASE_TYPE, GwpStarbase))
 #define GWP_STARBASE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_STARBASE_TYPE, GwpStarbaseClass))
 #define GWP_IS_STARBASE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_STARBASE_TYPE))

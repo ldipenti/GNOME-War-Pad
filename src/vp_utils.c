@@ -461,7 +461,7 @@ GHashTable * load_sdata (void)
     gwp_ship_set_fcode(s, g_string_new(fc_tmp));
     g_free(fc_tmp);
 
-    gwp_fo_set_speed (GWP_FLYING_OBJECT(s), getWord(buffer + 7));
+    gwp_flying_object_set_speed (GWP_FLYING_OBJECT(s), getWord(buffer + 7));
     gwp_ship_set_x_to_waypoint (s, getWord(buffer + 9));
     gwp_ship_set_y_to_waypoint (s, getWord(buffer + 11));
     gwp_object_set_x_coord (GWP_OBJECT(s), getWord(buffer + 13));
@@ -525,7 +525,7 @@ GHashTable * load_sdata (void)
     gwp_ship_set_megacredits (s, getWord(buffer + 105));
     
     /* Calculate heading from other data */
-    gwp_fo_set_heading(GWP_FLYING_OBJECT(s), gwp_ship_calculate_heading(s));
+    gwp_flying_object_set_heading(GWP_FLYING_OBJECT(s), gwp_ship_calculate_heading(s));
 
     /* Add ship to list */
     g_hash_table_insert (ship_list, 
@@ -546,8 +546,8 @@ GHashTable * load_sdata (void)
 				(gconstpointer) (i + 1))) != NULL) {
 	gwp_object_set_id (GWP_OBJECT(s), target_reg->id);
 	gwp_object_set_name (GWP_OBJECT(s), g_string_new(target_reg->name));
-	gwp_fo_set_speed (GWP_FLYING_OBJECT(s), target_reg->warp_factor);
-	gwp_fo_set_heading (GWP_FLYING_OBJECT(s), target_reg->heading);
+	gwp_flying_object_set_speed (GWP_FLYING_OBJECT(s), target_reg->warp_factor);
+	gwp_flying_object_set_heading (GWP_FLYING_OBJECT(s), target_reg->heading);
 	gwp_ship_set_hull_type (s, target_reg->hull_type);
 	gwp_ship_set_owner (s, target_reg->owner);
       }
@@ -903,8 +903,8 @@ void load_kore_data (void)
     gwp_object_set_y_coord (GWP_OBJECT(storm), getWord(is_buf + 2));
     gwp_ion_storm_set_radius (storm, getWord(is_buf + 4));
     gwp_ion_storm_set_voltage (storm, getWord(is_buf + 6));
-    gwp_fo_set_speed (GWP_FLYING_OBJECT(storm), getWord(is_buf + 8));
-    gwp_fo_set_heading (GWP_FLYING_OBJECT(storm), getWord(is_buf + 10));
+    gwp_flying_object_set_speed (GWP_FLYING_OBJECT(storm), getWord(is_buf + 8));
+    gwp_flying_object_set_heading (GWP_FLYING_OBJECT(storm), getWord(is_buf + 10));
 
     storm_list = g_slist_append (storm_list, storm);
 /*    g_message ("Storm #%d: %d,%d (%d LY) Warp: %d Heading: %d Class: %d",
@@ -912,8 +912,8 @@ void load_kore_data (void)
 	       gwp_object_get_x_coord (GWP_OBJECT(storm)),
 	       gwp_object_get_y_coord (GWP_OBJECT(storm)),
 	       gwp_ion_storm_get_radius (storm),
-	       gwp_fo_get_speed (GWP_FLYING_OBJECT(storm)),
-	       gwp_fo_get_heading (GWP_FLYING_OBJECT(storm)),
+	       gwp_flying_object_get_speed (GWP_FLYING_OBJECT(storm)),
+	       gwp_flying_object_get_heading (GWP_FLYING_OBJECT(storm)),
 	       gwp_ion_storm_get_class (storm));
 */
   }

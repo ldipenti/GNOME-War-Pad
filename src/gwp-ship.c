@@ -774,7 +774,7 @@ gint gwp_ship_calculate_eta (GwpShip *self)
   g_assert(GWP_IS_SHIP(self));
 
   gdouble dist = gwp_ship_calculate_waypoint_distance (self);
-  gdouble speed = gwp_fo_get_speed (GWP_FLYING_OBJECT(self));
+  gdouble speed = gwp_flying_object_get_speed (GWP_FLYING_OBJECT(self));
 
   gint eta = 0;
   if (dist > 0.0) {
@@ -802,7 +802,7 @@ gint gwp_ship_calculate_fuel_usage (GwpShip *self)
   g_assert (GWP_IS_SHIP(self));
 
   /* Calculate only if ship is moving */
-  if (gwp_fo_get_speed(GWP_FLYING_OBJECT(self)) > 0 && 
+  if (gwp_flying_object_get_speed(GWP_FLYING_OBJECT(self)) > 0 && 
       gwp_ship_calculate_waypoint_distance(self) > 0.0) {
 
     /* Get this ship's engines specs */
@@ -811,7 +811,7 @@ gint gwp_ship_calculate_fuel_usage (GwpShip *self)
     
     return gwp_engspec_get_fuel_usage_full (eng, 
 					    gwp_ship_calculate_waypoint_distance(self),
-					    gwp_fo_get_speed(GWP_FLYING_OBJECT(self)),
+					    gwp_flying_object_get_speed(GWP_FLYING_OBJECT(self)),
 					    gwp_ship_calculate_mass(self));
   } else {
     return 0;

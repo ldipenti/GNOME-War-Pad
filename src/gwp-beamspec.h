@@ -92,7 +92,9 @@ void gwp_beamspec_set_damage_value (GwpBeamSpec *self, gint dv);
  * Standard defines.
  */
 #define GWP_BEAMSPEC_TYPE            (gwp_beamspec_get_type())
+#define GWP_TYPE_BEAM_SPEC            (gwp_beamspec_get_type())
 #define GWP_BEAMSPEC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_BEAMSPEC_TYPE, GwpBeamSpec))
+#define GWP_BEAM_SPEC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_BEAMSPEC_TYPE, GwpBeamSpec))
 #define GWP_BEAMSPEC_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_BEAMSPEC_TYPE, GwpBeamSpecClass))
 #define GWP_IS_BEAMSPEC(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_BEAMSPEC_TYPE))
 #define GWP_IS_BEAMSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_BEAMSPEC_TYPE))

@@ -57,26 +57,27 @@ struct _GwpFlyingObjectClass {
 };
 
 /* used by GWP_FLYING_OBJECT_TYPE */
-GType gwp_fo_get_type (void);
+GType gwp_flying_object_get_type (void);
 
 /*
  * Public method definitions.
  */
-GwpFlyingObject * gwp_fo_new (void);
+GwpFlyingObject * gwp_flying_object_new (void);
 
 /* high-level methods */
-GString *gwp_fo_get_heading_str (GwpFlyingObject *self);
+GString *gwp_flying_object_get_heading_str (GwpFlyingObject *self);
 
 /* get-set methods */
-gint gwp_fo_get_heading (GwpFlyingObject *self);
-void gwp_fo_set_heading (GwpFlyingObject *self, gint heading);
-gint gwp_fo_get_speed (GwpFlyingObject *self);
-void gwp_fo_set_speed (GwpFlyingObject *self, gint speed);
+gint gwp_flying_object_get_heading (GwpFlyingObject *self);
+void gwp_flying_object_set_heading (GwpFlyingObject *self, gint heading);
+gint gwp_flying_object_get_speed (GwpFlyingObject *self);
+void gwp_flying_object_set_speed (GwpFlyingObject *self, gint speed);
 
 /*
  * Standard defines.
  */
-#define GWP_FLYING_OBJECT_TYPE            (gwp_fo_get_type())
+#define GWP_FLYING_OBJECT_TYPE            (gwp_flying_object_get_type())
+#define GWP_TYPE_FLYING_OBJECT            (gwp_flying_object_get_type())
 #define GWP_FLYING_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_FLYING_OBJECT_TYPE, GwpFlyingObject))
 #define GWP_FLYING_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_FLYING_OBJECT_TYPE, GwpFlyingObjectClass))
 #define GWP_IS_FLYING_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_FLYING_OBJECT_TYPE))

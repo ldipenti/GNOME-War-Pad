@@ -1131,7 +1131,7 @@ void update_ship_panel_with (GwpShip *ship)
     g_free (tmp);
 
     /* Update ETA */
-    if (gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)) == 0 &&
+    if (gwp_flying_object_get_speed(GWP_FLYING_OBJECT(ship)) == 0 &&
 	gwp_ship_calculate_waypoint_distance(ship) > 0) {
       tmp = _("<span foreground=\"red\">never</span>");
     } else {
@@ -1166,9 +1166,9 @@ void update_ship_panel_with (GwpShip *ship)
    * These are valid for all ships.
    */
   /* Update heading */
-  gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
+  gint h = gwp_flying_object_get_heading(GWP_FLYING_OBJECT(ship));
   if(h != -1) {
-    gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
+    gchar *hstr = gwp_flying_object_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
     tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
   } else {
     tmp = g_strdup_printf(_("not moving"));
@@ -1178,7 +1178,7 @@ void update_ship_panel_with (GwpShip *ship)
   
   /* Update speed */
   tmp = g_strdup_printf(_("Warp %d"), 
-			gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
+			gwp_flying_object_get_speed(GWP_FLYING_OBJECT(ship)));
   gtk_label_set_text(speed, tmp);
   g_free(tmp);
   
@@ -1432,7 +1432,7 @@ void draw_ion_storm (gpointer data, gpointer user_data)
 				  NULL);
 
     points = gnome_canvas_points_new (3);
-    gint storm_speed = gwp_fo_get_speed (GWP_FLYING_OBJECT(storm));
+    gint storm_speed = gwp_flying_object_get_speed (GWP_FLYING_OBJECT(storm));
     g_assert (storm_speed > 0);
 
     /* Draw storm arrow */
@@ -1454,7 +1454,7 @@ void draw_ion_storm (gpointer data, gpointer user_data)
     gdouble r[6], t[6];
 
     art_affine_translate (t, -xi, -yi);
-    art_affine_rotate (r, (gdouble)gwp_fo_get_heading(GWP_FLYING_OBJECT(storm)));
+    art_affine_rotate (r, (gdouble)gwp_flying_object_get_heading(GWP_FLYING_OBJECT(storm)));
     art_affine_multiply (r, t, r);
     art_affine_translate (t, xi, yi);
     art_affine_multiply (r, r, t);
@@ -2504,7 +2504,7 @@ void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)
 		&xi, &yi);
 
   art_affine_translate (t, -xi, -yi);
-  art_affine_rotate (r, (gdouble)gwp_fo_get_heading(GWP_FLYING_OBJECT(ship)));
+  art_affine_rotate (r, (gdouble)gwp_flying_object_get_heading(GWP_FLYING_OBJECT(ship)));
   art_affine_multiply (r, t, r);
   art_affine_translate (t, xi, yi);
   art_affine_multiply (r, r, t);
