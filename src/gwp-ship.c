@@ -22,99 +22,128 @@
 #include "gwp-flying-object.h"
 #include "gwp-ship.h"
 
+/**
+ * Private data structure for the GwpShip type.
+ *
+ * This data should be accesed directly only by the low-level get/set
+ * object's methods, the high-level ones shouldn't touch them.
+ */
 struct _GwpShipPrivate {
-  gboolean dispose_has_run;
+  gboolean dispose_has_run; /**< GType's internal control variable. */
 
-  gboolean known;
-  gint owner; /* range 1..11 */
-  GString *fcode; /* max 3 chars */
+  gboolean known; /**< TRUE if the current ship is owned by the player. */
+  gint owner;     /**< Owner race number. Range 1..11 */
+  GString *fcode; /**< Friendly Code. Max 3 chars */
   
-  gint16 x_to_waypoint; /* distance to x, y waypoints */
-  gint16 y_to_waypoint; /* range -3000..3000          */
+  gint16 x_to_waypoint; /**< Distance left to waypoint's X coordinate.
+			   Range -3000..3000. */
+  gint16 y_to_waypoint; /**< Distance left to waypoint's Y coordinate.
+			   Range -3000..3000. */
 
-  gint16 engines_type;        /* range 1..9, index into ENGSPEC.DAT */
-  gint16 hull_type;           /* range 1..105, index into HULLSPEC.DAT */
-  gint16 beams_type;          /* range 1..10 (0 = none), BEAMSPEC.DAT */
-  gint16 beams;               /* Number of beam weapons */
-  gint16 fighter_bays;        /* Number of fighter bays */
-  gint16 torps_type;          /* range 1..10 (0 = none). TORPSPEC.DAT */
-  gint16 torps_nr;            /* Number of torpedoes */
-  gint16 fighters_nr;         /* Number of fighters */
-  gint16 torps_launchers;     /* Number of torps launchers */
+  gint16 engines_type;     /**< Ship's engine type. Range 1..9, index
+			      into ENGSPEC.DAT. */
+  gint16 hull_type;        /**< Ship's hull type. Range 1..105, index
+			      into HULLSPEC.DAT. */
+  gint16 beams_type;       /**< Ship's beam weapons type. Range 1..10
+			      (0 = none), BEAMSPEC.DAT. */
+  gint16 beams;            /**< Number of beam weapons. */
+  gint16 fighter_bays;     /**< Number of fighter bays. */
+  gint16 torps_type;       /**< Ship's torpedo weapons type. Range
+			      1..10 (0 = none), index into TORPSPEC.DAT. */
+  gint16 torps_nr;         /**< Number of torpedoes. */
+  gint16 fighters_nr;      /**< Number of fighters. */
+  gint16 torps_launchers;  /**< Number of torpedo launchers. */
 
-  /*
-   * Standard Missions:
-   * 0   none
-   * 1   Explore
-   * 2   Mine sweep
-   * 3   Lay mines
-   * 4   Kill
-   * 5   Sensor sweep
-   * 6   Colonize, Land & Disassemble
-   * 7   Tow, tow arg = ship id (must be in the same spot)
-   * 8   Intercept, Intercept arg = ship id (must be visible and within 200 ly)
-   * 9   Race specific missions
-   *       1 = Federation                  Super Refit
-   *       2 = Lizard                      Hissssss!
-   *       3 = Bird Man                    Super Spy
-   *       4 = Fascist                     Pillage Planet
-   *       5 = Privateer                   Rob Ship
-   *       6 = Cyborg                      Self Repair
-   *       7 = Crystal                     Lay Web Mines
-   *       8 = Evil Empire                 Dark Sense
-   *       9 = Robots                      Build Fighters
-   *      10 = Rebel                       Rebel Ground Attack
-   *      11 = Colonies                    Build Fighters
+  /**
+   * Ship's current mission number.
    *
-   * 10  Cloak. Only possible on appropiate ships
-   * 11  Beam up Neutronium
-   * 12  Beam up Duranium
-   * 13  Beam up Tritanium
-   * 14  Beam uo Molybdenum
-   * 15  Beam up Supplies
+   * Standard Missions:
+   *    - 0   none
+   *    - 1   Explore
+   *    - 2   Mine sweep
+   *    - 3   Lay mines
+   *    - 4   Kill
+   *    - 5   Sensor sweep
+   *    - 6   Colonize, Land & Disassemble
+   *    - 7   Tow, tow arg = ship id (must be in the same spot)
+   *    - 8   Intercept, Intercept arg = ship id (must be visible and within 200 ly)
+   *    - 9   Race specific missions
+   *       - 1 = Federation                  Super Refit
+   *       - 2 = Lizard                      Hissssss!
+   *       - 3 = Bird Man                    Super Spy
+   *       - 4 = Fascist                     Pillage Planet
+   *       - 5 = Privateer                   Rob Ship
+   *       - 6 = Cyborg                      Self Repair
+   *       - 7 = Crystal                     Lay Web Mines
+   *       - 8 = Evil Empire                 Dark Sense
+   *       - 9 = Robots                      Build Fighters
+   *       - 10 = Rebel                       Rebel Ground Attack
+   *       - 11 = Colonies                    Build Fighters
+   *
+   *    - 10  Cloak. Only possible on appropiate ships
+   *    - 11  Beam up Neutronium
+   *    - 12  Beam up Duranium
+   *    - 13  Beam up Tritanium
+   *    - 14  Beam uo Molybdenum
+   *    - 15  Beam up Supplies
    * ...
    * ... 37 (check filefmt for PHost extended missions!
    */
   gint16 mission;
 
-  gint16 primary_enemy; /* 0 or race id 1..11 */
-
-  /* Ship to tow (or first mission argument) */
-  gint16 tow_ship_id;
-
-  gint16 damage;                /* % - range 1..149 */
-  gint16 crew;
-  gint16 colonists;             /* Clans (100 people each) */
+  gint16 primary_enemy; /**< Primary enemy race number. Can be 0 or
+			   race id 1..11 */
+  gint16 tow_ship_id; /**< Ship to tow. Ship ID to tow or first
+			 mission argument) */
+  gint16 damage; /**< Ship's damage. In percent - range 0..149 */
+  gint16 crew; /**< Number of crew men on ship. If this number reach
+		  0, the ship can be captured. */
+  gint16 colonists; /**< Colonists on board. Specified in clans (100
+		       people each) */
   
-  /* Cargo */
-  gint16 neutronium;
-  gint16 tritanium;
-  gint16 duranium;
-  gint16 molybdenum;
-  gint16 supplies;
+  gint16 neutronium;  /**< Neutronium on board. Specified in KT. */
+  gint16 tritanium;  /**< Tritanium on board. Specified in KT. */
+  gint16 duranium;  /**< Duranium on board. Specified in KT. */
+  gint16 molybdenum;  /**< Molybdenum on board. Specified in KT. */
+  gint16 supplies;  /**< Supplies on board. Specified in KT. */
 	
-  /* Unload cargo to planet */
-  gint16 unload_neutronium;
-  gint16 unload_tritanium;
-  gint16 unload_duranium;
-  gint16 unload_molybdenum;
-  gint16 unload_colonists;
-  gint16 unload_supplies;
-  gint16 unload_planet_id;      /* 0 = Jettison */
+  gint16 unload_neutronium; /**< Unload neutronium on
+			       planet. Specified in KT. */
+  gint16 unload_tritanium; /**< Unload tritanium on planet. Specified
+			      in KT. */
+  gint16 unload_duranium; /**< Unload duranium on planet. Specified in
+			     KT. */
+  gint16 unload_molybdenum; /**< Unload molybdenum on
+			       planet. Specified in KT. */
+  gint16 unload_colonists; /**< Unload colonists on planet. Specified
+			      in KT. */
+  gint16 unload_supplies; /**< Unload supplies on planet. Specified in
+			     KT. */
+  gint16 unload_planet_id; /**< Planet to unload cargo. Planet's ID,
+			      or 0 to jettison. The ship must be on
+			       planet's orbit. */
 	
-  /* Transfer to enemy ship */
-  gint16 transfer_neutronium;
-  gint16 transfer_tritanium;
-  gint16 transfer_duranium;
-  gint16 transfer_molybdenum;
-  gint16 transfer_colonists;
-  gint16 transfer_supplies;
-  gint16 transfer_ship_id;      /* 0 or ship id */
+
+  gint16 transfer_neutronium; /**< Transfer neutronium to other
+				 ship. Specified in KT. */
+  gint16 transfer_tritanium; /**< Transfer tritanium to other
+				ship. Specified in KT. */
+  gint16 transfer_duranium; /**< Transfer duranium to other
+			       ship. Specified in KT. */
+  gint16 transfer_molybdenum; /**< Transfer molybdenum to other
+				 ship. Specified in KT. */
+  gint16 transfer_colonists; /**< Transfer colonists to other
+				ship. Specified in KT. */
+  gint16 transfer_supplies; /**< Transfer supplies to other
+			       ship. Specified in KT. */
+  gint16 transfer_ship_id; /**< Ship to transfer cargo. Ship's ID or 0
+			      to jettison. Ship must be on the same
+			      spot to transfer. */
 	
-  /* Intercept Mission arg (or second mission arg) */
-  gint16 intercept_ship_id;     /* Valid ship ID or zero. */
+  gint16 intercept_ship_id;  /**< Intercept ship, or second mission
+				argument. Valid ship ID or 0. */
 	
-  gint16 megacredits;           /* range 0..10000 */
+  gint16 megacredits;  /* Amount of cash on board. Range 0..10000 */
 };
 
 /*
@@ -145,7 +174,9 @@ GType gwp_ship_get_type (void)
   return type;
 }
 
-/* Instance constructor */
+/**
+ * Instance constructor (internal)
+ */
 static void gwp_ship_init (GTypeInstance  *instance,
 			   gpointer        g_class)
 {
@@ -233,6 +264,12 @@ static void gwp_ship_class_init (GwpShipClass *klass)
 /*
  * Public method implementations.
  */
+
+/**
+ * Instantiates a new ship.
+ *
+ * @return The new instantiated GwpShip.
+ */
 GwpShip * gwp_ship_new (void)
 {
   return g_object_new (gwp_ship_get_type(), NULL);
@@ -242,10 +279,11 @@ GwpShip * gwp_ship_new (void)
 /* High level methods */
 /**********************/
 
-
 /**
  * Calculates the ship's heading.
+ *
  * Using the ship's own data calculates the heading in degress.
+ *
  * @param self a GwpShip
  * @return The heading in degress, from 0 to 360.
  */
@@ -290,6 +328,7 @@ gint gwp_ship_calculate_heading (GwpShip *self)
 
 /**
  * Search a ship by its ID.
+ *
  * @param list the ship hash table.
  * @param ship_id the ship's ID.
  * @return The GwpShip found, or NULL if not found.
@@ -301,6 +340,7 @@ GwpShip * gwp_ship_get (GHashTable *list, gint ship_id)
 
 /**
  * Checks if the current ship's coordinates are valid.
+ *
  * @param self a GwpShip.
  * @return TRUE if coordinates are valid, FALSE otherwise.
  */
@@ -320,6 +360,7 @@ gboolean gwp_ship_valid_coords(GwpShip *self)
 
 /**
  * Checks if current ship is owned by player.
+ *
  * @param self a GwpShip.
  * @return TRUE if ship's owned by player, FALSE otherwise.
  */
@@ -336,6 +377,7 @@ gboolean gwp_ship_is_mine(GwpShip *self)
 
 /**
  * Returns waypoint coordinates of current ship.
+ *
  * @param self a GwpShip.
  * @param wp_x a reference to assign waypoint's x coordinate.
  * @param wp_y a reference to assign waypoint's y coordinate.
@@ -352,6 +394,7 @@ void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y)
 
 /**
  * Calculates the distance left to reach the waypoint.
+ *
  * @param self a GwpShip
  * @return The distance in light-years.
  */
@@ -369,6 +412,7 @@ gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self)
 
 /**
  * Calculate the Estimated Time of Arrival.
+ *
  * @param self a GwpShip.
  * @return The number of turns (months) needed to arrive to current waypoint.
  */
@@ -389,11 +433,13 @@ gint gwp_ship_calculate_eta (GwpShip *self)
 
 /**
  * Calculate the fuel usage.
+ *
  * Based on the current ship's information, it calculates the fuel
  * needed to arrive to destination depending on the engines type,
  * speed, total mass, and cargo to be loaded, unloaded or
  * transfered. This function is a wrapper to the corresponding
  * function on GwpEngSpec.
+ *
  * @see gwp_engspec_get_fuel_usage_full
  * @param self a GwpShip.
  * @return The number of KT of neutronium needed to travel.
@@ -421,9 +467,11 @@ gint gwp_ship_calculate_fuel_usage (GwpShip *self)
 
 /**
  * Gets the correct hull specs for the ship.
+ *
  * Search on the global hullspec list the correct hull spec for the
  * current ship. Maybe this should be a private method, just for use
  * by the other ship's methods.
+ *
  * @param self a GwpShip.
  * @return The hull spec for the current ship.
  */
@@ -436,8 +484,10 @@ GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self)
 
 /**
  * Gets the correct engine specs for the ship.
+ *
  * Search on the global engspec list the correct engine spec for the
  * current ship. Maybe this should be a private method.
+ *
  * @param self a GwpShip.
  * @return The engine spec for the current ship.
  */
@@ -450,9 +500,11 @@ GwpEngSpec * gwp_ship_get_engspec (GwpShip *self)
 
 /**
  * Gets the beam weapons specs for the ship.
+ *
  * Search on the global beamspec list the correct beam weapon spec for
  * the current ship. Maybe this should be a private method.
  * @param self a GwpShip.
+ *
  * @return The beam weapon spec for the current ship or NULL if it
  * doesn't have.
  */
@@ -471,8 +523,10 @@ GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
 
 /**
  * Gets the torpedoes weapons specs.
+ *
  * Search on the global torpspec list the correct beam weapon spec for
  * the current ship. Maybe this should be a private method.
+ *
  * @param self a GwpShip.
  * @return The torpedoes weapon spec for the current ship or NULL if
  * it doesn't have.
@@ -492,10 +546,12 @@ GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
 
 /**
  * Calculates total mass based on cargo, equipment, etc.
+ *
  * This method take in account all items that the ship has on board,
  * including the hull itself, to calculate the amount of load that the
  * engines have to cope with. It also check if the ship is unloading
  * cargo or transfering it to another ship.
+ *
  * @param self a GwpShip.
  * @return The total ship's mass in KT.
  */
@@ -550,6 +606,12 @@ gint gwp_ship_calculate_mass (GwpShip *self)
 /****************************/
 /* Get/Set (boring) methods */
 /****************************/
+
+/**
+ * Checks if the current ship is owned by the player.
+ *
+ * @return TRUE if it's owned by the player.
+ */
 gboolean gwp_ship_is_known (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
