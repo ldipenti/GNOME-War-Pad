@@ -23,8 +23,10 @@
 
 #ifdef USE_PYTHON
 
-#include "gwp-python.h"
 #include <pygobject.h>
+#include <pygtk/pygtk.h> /* WARNING: this *MUST* be after pygobject.h */
+
+#include "gwp-python.h"
 #include "gwp-ship.h"
 #include "support.h"
 #include "global.h"
@@ -68,26 +70,27 @@ void gwp_python_inittab (void)
   PyRun_SimpleFile (script, "inittab.py");
   fclose (script);
 
-  /* Load and register 'navigator' plugin */
-  script = fopen (GWP_SCRIPTS_DIR"/navigator.py", "r");
-  PyRun_SimpleFile (script, "navigator.py");
-  fclose (script);
-
   /* Configure the plugins menu item and pass it to the PluginManager */
   plugin_menu = gtk_menu_new ();
-  plugin_menu_root = gtk_menu_item_new_with_label (_("Plugins"));
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM(plugin_menu_root), plugin_menu);
+  plugin_menu_root = gtk_menu_item_new_with_mnemonic (_("_Plugins"));
+  gtk_widget_show (plugin_menu_root);
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (plugin_menu_root), plugin_menu);
 
   menubar = lookup_widget ("menubar");
   gtk_menu_bar_append (menubar, plugin_menu_root);
 
-/*   pyobj_menu = Py_BuildValue ("O", plugin_menu); */
-/*   plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state); */
+  pyobj_menu = pygobject_new (plugin_menu);
+  plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
   
-/*   PyObject_CallMethodObjArgs (plugin_mgr, */
-/* 			      PyString_FromString("set_menu"), */
-/* 			      pyobj_menu, NULL); */
-  /*  Py_DECREF (pyobj_menu);  */
+  PyObject_CallMethodObjArgs (plugin_mgr,
+			      PyString_FromString("set_menu"),
+			      pyobj_menu, NULL);
+  Py_DECREF (pyobj_menu);
+
+  /* Load and register 'navigator' plugin */
+  script = fopen (GWP_SCRIPTS_DIR"/navigator.py", "r");
+  PyRun_SimpleFile (script, "navigator.py");
+  fclose (script);
 }
 
 /**
@@ -105,6 +108,7 @@ void initgwp (void)
 {
   PyObject *m, *d;
 
+  init_pygtk ();
   init_pygobject ();
 
   PyImport_AddModule ("gwp");

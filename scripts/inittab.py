@@ -1,6 +1,6 @@
 # Make sure we use pygtk for gtk 2.0
 import pygtk
-pygtk.require("2.0")
+#pygtk.require("2.0")
 
 # Import the rest of the needed modules
 import os
@@ -22,9 +22,10 @@ class PluginManager:
     def __init__ (self):
         # Private attributes
         self.__key_hooks = {}
+        self.__menu_hooks = {}
         self.__plugins_registered = [] # instances
         self.__plugins_available = [] # classes
-        self.__menu = None
+        self.__menu = None # Plugins menu reference
 
     # This method runs only once...it's called from C code to assign
     # a reference to the Plugin's GtkMenu widget.
@@ -60,8 +61,28 @@ class PluginManager:
             print "PluginManager: key event '%s' not found when unregistering plugin." % gtk.gdk.keyval_name(key)
 
     # Creates a plugin menu entry with some action
-    def set_hook_menu (self, menu_label, action):
-        pass
+    def set_hook_menu (self, menu_label, action, data=None):
+        # Add new item to menu
+        menu_item = gtk.MenuItem(menu_label)
+        self.__menu.append(menu_item)
+        # Connect signal
+        menu_item.connect("activate", action, data)
+        menu_item.show()
+        # Save references in case unregistering plugin
+        self.__menu_hooks[action] = menu_item
+
+    # Deletes the menu entry from a particular handler
+    def unset_hook_menu (self, action):
+        try:
+            menu = self.__menu_hooks[action]
+        except KeyError:
+            # Debugging message
+            print "PluginManager: menu hook not found on list"
+        else:
+            # Bye bye, menu entry
+            menu.hide()
+            del (self.__menu_hooks[action])
+            menu.destroy()
         
     def register_plugin (self, plugin_class):
         plugin = plugin_class()
@@ -98,7 +119,7 @@ class PluginManager:
                 raise
             else:
                 plugin.__class__.registered = False
-            # Unregister plugin's remaining events
+            # Unregister plugin's remaining key hooks
             for mod, event in self.__key_hooks.items():
                 for keyval, action in event.items():
                     try:
@@ -107,7 +128,16 @@ class PluginManager:
                     except AttributeError:
                         # Debugging
                         print "PluginManager: '%s' action is not a method!!!" % gtk.gdk.keyval_name(keyval)
-                
+
+            # Unregister plugin's remaining menu hooks
+            for action, menu_item in self.__menu_hooks.items():
+                try:
+                    if action.im_self == plugin:
+                        self.unset_hook_menu (action)
+                except AttributeError:
+                    # Debugging
+                    print "PluginManager: '%s' action is not a method!!!" % gtk.gdk.keyval_name(keyval)
+
     def get_plugins_available(self):
         return self.__plugins_available
 
