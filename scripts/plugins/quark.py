@@ -17,12 +17,14 @@ class Quark(gwp.Plugin):
     desc_short = "Inform deficiences in the resourses management"
     desc_long = ""
     license = "GPL"
+    hotkey = "q"
+    
     
     FILTER_NONE = 1
     
     # Cantidades que definen cuando un planeta es considerado minero y se levantan las 
     # estructuras al maximo. La unidad de medida es la densidad.
-    MINERO_MIN_TRI = 30
+    MINERO_MIN_TRI = 50
     MINERO_MIN_DUR = 30
     MINERO_MIN_MOL = 30
     # Minimo de MC para considerar a un planeta recaudador de guita en vez de minero
@@ -331,8 +333,8 @@ class Quark(gwp.Plugin):
 #####
 # Load code
 #####
-if __name__ == '__main__':
-    # para modo pruebas lo arranco directo
-    quark = Quark()
-    quark.main()
+#if __name__ == '__main__':
+#    # para modo pruebas lo arranco directo
+#    quark = Quark()
+#    quark.main()
     
