@@ -31,12 +31,16 @@
 #define ASCII_SP 32
 
 #define DEBUGOUTPUT 0
+
+int gwp_messages_readWord( FILE *from );
+long gwp_messages_readDWord( FILE *from );
+
 /*
  * Private members.
  */
 struct _GwpMessagesPrivate {
   gboolean dispose_has_run;
-  bool fileRead;
+  gboolean fileRead;
   int numberOfMessages;
   mdataMessages msgs;
   char *tmptxt;
@@ -82,7 +86,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: constructor called" );
   self->pub = g_new0 (GwpMessagesPublic, 1);
 
   /* Private members init */
-  self->priv->fileRead = false;
+  self->priv->fileRead = FALSE;
   self->priv->numberOfMessages = 0;
   self->priv->msgs.n = 0;
   self->priv->msgs.m = NULL;
@@ -152,7 +156,7 @@ GwpMessages * gwp_messages_new (void)
 /* Get-Set methods */
 /*******************/
 
-bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id )
+gboolean gwp_messages_checkValidMessageId( GwpMessages *self, int *id )
 {
   g_assert (GWP_IS_MESSAGES(self));
 
@@ -163,17 +167,17 @@ bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id )
       //        g_message( "# Warning: message id of %d has to be in [0, %d]\n", *id, self->priv->msgs.n );
       *id = 0;
       if( DEBUGOUTPUT ) g_message("DEBUG: valid id finished x" );
-      return( false );
+      return( FALSE );
     }
   if( *id >= (self->priv->msgs.n) )
     {
       //        g_message( "# Warning: message id of %d has to be in [0, %d]\n", *id, self->priv->msgs.n );
       *id = (self->priv->msgs.n)-1;
       if( DEBUGOUTPUT ) g_message("DEBUG: valid id finished x" );
-      return( false );
+      return( FALSE );
     }
   if( DEBUGOUTPUT ) g_message("DEBUG: valid id finished" );
-  return( true );
+  return( TRUE );
 }
 
 
@@ -281,14 +285,14 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
     }
   
   /* read in all message info */
-  self->priv->numberOfMessages = gwp_messages_readWord( self, mdatafile );
+  self->priv->numberOfMessages = gwp_messages_readWord( mdatafile );
   self->priv->msgs.n = self->priv->numberOfMessages;
   
   self->priv->msgs.m = (mdataMessage *)malloc(self->priv->numberOfMessages*sizeof(mdataMessage));
   for( i=0; i<self->priv->numberOfMessages; i++ )
     {
-      adress = gwp_messages_readDWord( self, mdatafile );
-      length = gwp_messages_readWord( self, mdatafile );
+      adress = gwp_messages_readDWord( mdatafile );
+      length = gwp_messages_readWord( mdatafile );
       self->priv->msgs.m[i].a = adress;
       self->priv->msgs.m[i].l = length;
       self->priv->msgs.m[i].t = (char *)malloc((length+1)*sizeof(char));
@@ -310,7 +314,7 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
     }
   
   /* done */
-  self->priv->fileRead = true;
+  self->priv->fileRead = TRUE;
   fclose( mdatafile );
   
   /* sort messages by category */
@@ -930,7 +934,7 @@ gint gwp_messages_getSubjectColour( GwpMessages *self, gint id )
 
 
 
-bool gwp_messages_messageIsOld( GwpMessages *self, int id )
+gboolean gwp_messages_messageIsOld( GwpMessages *self, int id )
 {
   g_assert (GWP_IS_MESSAGES(self));
 
@@ -940,46 +944,27 @@ bool gwp_messages_messageIsOld( GwpMessages *self, int id )
     gwp_messages_readFileAny( self );
   
   char *header;
-  bool retval = false;
+  gboolean retval = FALSE;
   header = (char *)malloc(128*sizeof(char));
   header[0] = '\0';
   strncat( header, gwp_messages_getMessageHeader( self, id ), 127 );
   switch( header[0] )
     {
     case '-':
-      retval = false;
+      retval = FALSE;
       break;
     case 'o':
-      retval = true;
+      retval = TRUE;
       break;
     default:
       g_message( "# Warning: GwpFileMdatax::messageIsOld: unknown message id '%s'", header );
-      retval = true;
+      retval = TRUE;
       break;
     }
   
   /* done */
   free( header );
   if( DEBUGOUTPUT ) g_message("DEBUG: isOld finished" );
-  return( retval );
-}
-
-
-/* FIXME: This two functions below, don't use "self"!! */
-int gwp_messages_readWord( GwpMessages *self, FILE *from )
-{
-  int retval;
-  retval = (int)fgetc( from );
-  retval += 256 * (int)fgetc( from );
-  return( retval );
-}
-long gwp_messages_readDWord( GwpMessages *self, FILE *from )
-{
-  long retval;
-  retval = (int)fgetc( from );
-  retval += 256 * (int)fgetc( from );
-  retval += 256 * 256 * (int)fgetc( from );
-  retval += 256 * 256 * 256 * (int)fgetc( from );
   return( retval );
 }
 
@@ -1231,9 +1216,29 @@ void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path )
 }
 
 
-/* returns true if *message contains *text ... false otherwise */
-bool gwp_messages_grepMessage( gchar *message, gchar *text )
+/* returns TRUE if *message contains *text ... FALSE otherwise */
+gboolean gwp_messages_grepMessage( gchar *message, gchar *text )
 {
   return (strstr (message, text) != NULL);
 }
 
+/*********************/
+/* Private functions */
+/*********************/
+int gwp_messages_readWord( FILE *from )
+{
+  int retval;
+  retval = (int)fgetc( from );
+  retval += 256 * (int)fgetc( from );
+  return( retval );
+}
+
+long gwp_messages_readDWord( FILE *from )
+{
+  long retval;
+  retval = (int)fgetc( from );
+  retval += 256 * (int)fgetc( from );
+  retval += 256 * 256 * (int)fgetc( from );
+  retval += 256 * 256 * 256 * (int)fgetc( from );
+  return( retval );
+}

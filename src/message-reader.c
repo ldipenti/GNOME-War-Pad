@@ -9,7 +9,7 @@
 #include "global.h"
 #include "support.h"
 
-#define DEBUGOUTPUT 1
+#define DEBUGOUTPUT 0
 #define MAXMSGLEN 8192
 
 void message_reader_textview_init( GtkWidget *widget,
@@ -257,14 +257,14 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr combobox init called" );
     msgfile = fopen( tmpname, "rb" );
     if( msgfile )
     {
-       msgexists[i] = true;
+       msgexists[i] = TRUE;
        msgindex[cur] = i;
        cur++;
        fclose( msgfile );
     }
     else
     {
-       msgexists[i] = false;
+       msgexists[i] = FALSE;
     }
   }
 

@@ -30,10 +30,6 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#define bool int
-#define true !0
-#define false 0
-
 enum{
   GWP_MESSAGE_IS_NORMAL,
   GWP_MESSAGE_IS_URGENT,
@@ -95,7 +91,7 @@ GwpMessages *gwp_messages_new (void);
 /*******************/
 /* Get-Set methods */
 /*******************/
-bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id );
+gboolean gwp_messages_checkValidMessageId( GwpMessages *self, int *id );
 int gwp_messages_readFileAny( GwpMessages *self );
 int gwp_messages_readFile( GwpMessages *self, char *filename );
 int gwp_messages_getNumberOfMessages( GwpMessages *self );
@@ -106,9 +102,7 @@ char *gwp_messages_getMessageHeader( GwpMessages *self, int id );
 char *gwp_messages_getMessageHeaderLong( GwpMessages *self, int id );
 char *gwp_messages_getMessageCategory( GwpMessages *self, int id );
 gint gwp_messages_getSubjectColour( GwpMessages *self, gint id );
-bool gwp_messages_messageIsOld( GwpMessages *self, int id );
-int gwp_messages_readWord( GwpMessages *self, FILE *from );
-long gwp_messages_readDWord( GwpMessages *self, FILE *from );
+gboolean gwp_messages_messageIsOld( GwpMessages *self, int id );
 int gwp_messages_getMessageIdFirst( GwpMessages *self );
 int gwp_messages_getMessageIdLast( GwpMessages *self );
 int gwp_messages_getMessageIdNext( GwpMessages *self );
@@ -122,7 +116,7 @@ void gwp_messages_setCurrMsgId( GwpMessages *self, gint id );
 void gwp_messages_sortByCategory( GwpMessages *self );
 char *gwp_messages_getMessagePath( GwpMessages *self, gint id );
 void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path );
-bool gwp_messages_grepMessage( gchar *message, gchar *text );
+gboolean gwp_messages_grepMessage( gchar *message, gchar *text );
 
 /*
  * Standard defines.
