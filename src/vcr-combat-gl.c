@@ -1214,12 +1214,12 @@ void vcrcgl_create_gl_callists( void )
 
 #else
 
+static gboolean vcrcgl_is_initialized = FALSE;
+
 /* show a small help-text if no gtk-GL-extension is available */
 void vcrcgl_init( void )
 {
   /* don't initialize the gtkglext a second time */
-  static gboolean vcrcgl_is_initialized;
-
   if( vcrcgl_is_initialized )
     return;
 
