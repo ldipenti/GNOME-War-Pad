@@ -1,5 +1,5 @@
 import pygtk
-pygtk.require('2.0')
+#pygtk.require('2.0')
 import gtk
 import gobject
 
@@ -189,8 +189,11 @@ class PluginNavigator(gwp.Plugin):
                     pass
                 else:
                     model.set(iter, 0, plugin.registered)
-            
-    
+
+    # Dummy wrapper for menu hook callback
+    def __main_menu_cb (self, widget, data=None):
+        self.__main()
+        
     def __main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
         # and waits for an event to occur (like a key press or mouse event).
@@ -200,9 +203,10 @@ class PluginNavigator(gwp.Plugin):
         gtk.main()
 
     def register(self, pm):
-        pm.set_hook_key(gtk.gdk.CONTROL_MASK,
-                        gtk.gdk.keyval_from_name('p'),
-                        self.__main)
+        pm.set_hook_key (gtk.gdk.CONTROL_MASK,
+                         gtk.gdk.keyval_from_name('p'),
+                         self.__main)
+        pm.set_hook_menu ('Plugin _Navigator', self.__main_menu_cb)
 
 
 #####
