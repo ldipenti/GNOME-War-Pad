@@ -12,12 +12,15 @@
 #define sot             34	/* size of a target */
 #define sog            157	/* size of ``gen.dat'' */
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "vp_maketurn_misc.h"
 #include "vp_maketurn_global.h"
 #include "vp_maketurn_playerio.h"
+
+void PlayerioInit (void);
+void PlayerioDone (void);
 
 char *natname[10] = {
   "NONE", "Humanoids", "Bovinoids", "Reptilians", "Avians", "Amorphous",
