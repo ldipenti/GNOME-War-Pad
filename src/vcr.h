@@ -59,6 +59,7 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data );
 
 
 gint str2int( char *str );
+gchar *str2low( gchar *str );
 
 
 

@@ -911,6 +911,20 @@ void on_vcr_comboboxentry_sel_race_b_changed( GtkWidget *widget,
 }
 
 
+void on_vcr_comboboxentry_sel_type_a_changed( GtkWidget *widget,
+                                              gpointer  user_data )
+{
+  vcr_ship_a_hull_selected( widget, user_data );
+}
+
+
+void on_vcr_comboboxentry_sel_type_b_changed( GtkWidget *widget,
+                                              gpointer  user_data )
+{
+  vcr_ship_b_hull_selected( widget, user_data );
+}
+
+
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
 {
 /*
@@ -947,7 +961,7 @@ void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
   vcr_set( widget, user_data, PLANET, NMB_DEF, VAL_CUR, 6 );
   vcr_set( widget, user_data, BASE, NMB_DEF, VAL_CUR, 6 );
 */
-  g_message( "shield a: %d", vcr_get( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR ) );
+/*  g_message( "shield a: %d", vcr_get( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR ) );
   g_message( "shield b: %d", vcr_get( widget, user_data, SHIP_B, PRC_SHIELD, VAL_CUR ) );
   g_message( "damage a: %d", vcr_get( widget, user_data, SHIP_A, PRC_DAMAGE, VAL_CUR ) );
   g_message( "damage b: %d", vcr_get( widget, user_data, SHIP_B, PRC_DAMAGE, VAL_CUR ) );
@@ -960,6 +974,15 @@ void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
   g_message( "nmbfig p: %d", vcr_get( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR ) );
   g_message( "crew   a: %d", vcr_get( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR ) );
   g_message( "crew   b: %d", vcr_get( widget, user_data, BASE, NMB_CREW, VAL_CUR ) );
+*/
+  vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, 1 );
+  vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_MAX, 3 );
+  vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR, 2 );
+  vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_MAX, 4 );
+  vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR, 3 );
+  vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_MAX, 5 );
+  vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_CUR, 4 );
+  vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_MAX, 6 );
 }
 
 /***********************************************************/

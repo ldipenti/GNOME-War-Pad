@@ -8021,8 +8021,9 @@
 	      <child>
 		<widget class="GtkButton" id="TESTBUTTON">
 		  <property name="visible">True</property>
+		  <property name="sensitive">False</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button8</property>
+		  <property name="label" translatable="yes">TEST</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -8228,8 +8229,10 @@
 
 			  <child>
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_type_a">
+			      <property name="border_width">3</property>
 			      <property name="visible">True</property>
 			      <property name="items" translatable="yes"></property>
+			      <signal name="changed" handler="on_vcr_comboboxentry_sel_type_a_changed" last_modification_time="Sun, 13 Jun 2004 23:51:03 GMT"/>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -8295,65 +8298,6 @@
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
 			      <property name="y_options">fill</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkHSeparator" id="hseparator20">
-			      <property name="visible">True</property>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">3</property>
-			      <property name="right_attach">4</property>
-			      <property name="top_attach">1</property>
-			      <property name="bottom_attach">2</property>
-			      <property name="y_options">fill</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkEntry" id="vcr_entry_sel_beam_a">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="editable">True</property>
-			      <property name="visibility">True</property>
-			      <property name="max_length">2</property>
-			      <property name="text" translatable="yes"></property>
-			      <property name="has_frame">True</property>
-			      <property name="invisible_char" translatable="yes">*</property>
-			      <property name="activates_default">False</property>
-			      <property name="width_chars">2</property>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">3</property>
-			      <property name="right_attach">4</property>
-			      <property name="top_attach">0</property>
-			      <property name="bottom_attach">1</property>
-			      <property name="x_options">expand</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkEntry" id="vcr_entry_sel_torp_a">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="editable">True</property>
-			      <property name="visibility">True</property>
-			      <property name="max_length">2</property>
-			      <property name="text" translatable="yes"></property>
-			      <property name="has_frame">True</property>
-			      <property name="invisible_char" translatable="yes">*</property>
-			      <property name="activates_default">False</property>
-			      <property name="width_chars">2</property>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">3</property>
-			      <property name="right_attach">4</property>
-			      <property name="top_attach">2</property>
-			      <property name="bottom_attach">3</property>
-			      <property name="x_options">expand</property>
-			      <property name="y_options"></property>
 			    </packing>
 			  </child>
 
@@ -8508,6 +8452,64 @@
 			      <property name="y_options">fill</property>
 			    </packing>
 			  </child>
+
+			  <child>
+			    <widget class="GtkSpinButton" id="vcr_spinbutton_sel_beam_a">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="climb_rate">1</property>
+			      <property name="digits">0</property>
+			      <property name="numeric">False</property>
+			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			      <property name="snap_to_ticks">False</property>
+			      <property name="wrap">False</property>
+			      <property name="adjustment">0 0 10 1 10 10</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options"></property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkSpinButton" id="vcr_spinbutton_sel_torp_a">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="climb_rate">1</property>
+			      <property name="digits">0</property>
+			      <property name="numeric">False</property>
+			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			      <property name="snap_to_ticks">False</property>
+			      <property name="wrap">False</property>
+			      <property name="adjustment">0 0 10 1 10 10</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options"></property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkHSeparator" id="hseparator20">
+			      <property name="visible">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
 			</widget>
 		      </child>
 
@@ -8586,7 +8588,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">True</property>
-				  <property name="adjustment">0 0 100 1 0 0</property>
+				  <property name="adjustment">0 0 100 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -8636,7 +8638,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">100 0 100 1 0 0</property>
+				  <property name="adjustment">100 0 100 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -8686,7 +8688,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">1 0 2000 1 0 0</property>
+				  <property name="adjustment">1 0 2000 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -8766,7 +8768,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">0 0 600 1 0 0</property>
+				  <property name="adjustment">0 0 600 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -8816,7 +8818,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">10 1 10 0 0 0</property>
+				  <property name="adjustment">10 1 10 0 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -8866,7 +8868,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">0 0 100 1 0 0</property>
+				  <property name="adjustment">0 0 100 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -9096,6 +9098,7 @@
 			    <widget class="GtkComboBoxEntry" id="vcr_comboboxentry_sel_type_b">
 			      <property name="visible">True</property>
 			      <property name="items" translatable="yes"></property>
+			      <signal name="changed" handler="on_vcr_comboboxentry_sel_type_b_changed" last_modification_time="Sun, 13 Jun 2004 23:51:11 GMT"/>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -9214,52 +9217,6 @@
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
 			      <property name="y_options">fill</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkEntry" id="vcr_entry_sel_beam_b">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="editable">True</property>
-			      <property name="visibility">True</property>
-			      <property name="max_length">2</property>
-			      <property name="text" translatable="yes"></property>
-			      <property name="has_frame">True</property>
-			      <property name="invisible_char" translatable="yes">*</property>
-			      <property name="activates_default">False</property>
-			      <property name="width_chars">2</property>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">3</property>
-			      <property name="right_attach">4</property>
-			      <property name="top_attach">0</property>
-			      <property name="bottom_attach">1</property>
-			      <property name="x_options">expand</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkEntry" id="vcr_entry_sel_torp_b">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="editable">True</property>
-			      <property name="visibility">True</property>
-			      <property name="max_length">2</property>
-			      <property name="text" translatable="yes"></property>
-			      <property name="has_frame">True</property>
-			      <property name="invisible_char" translatable="yes">*</property>
-			      <property name="activates_default">False</property>
-			      <property name="width_chars">2</property>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">3</property>
-			      <property name="right_attach">4</property>
-			      <property name="top_attach">2</property>
-			      <property name="bottom_attach">3</property>
-			      <property name="x_options">expand</property>
-			      <property name="y_options"></property>
 			    </packing>
 			  </child>
 
@@ -9401,6 +9358,50 @@
 			      <property name="y_options">fill</property>
 			    </packing>
 			  </child>
+
+			  <child>
+			    <widget class="GtkSpinButton" id="vcr_spinbutton_sel_beam_b">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="climb_rate">1</property>
+			      <property name="digits">0</property>
+			      <property name="numeric">False</property>
+			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			      <property name="snap_to_ticks">False</property>
+			      <property name="wrap">False</property>
+			      <property name="adjustment">0 0 10 1 10 10</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkSpinButton" id="vcr_spinbutton_sel_torp_b">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="climb_rate">1</property>
+			      <property name="digits">0</property>
+			      <property name="numeric">False</property>
+			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			      <property name="snap_to_ticks">False</property>
+			      <property name="wrap">False</property>
+			      <property name="adjustment">0 0 10 1 10 10</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
 			</widget>
 		      </child>
 
@@ -9479,7 +9480,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">True</property>
-				  <property name="adjustment">0 0 100 1 0 0</property>
+				  <property name="adjustment">0 0 100 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -9529,7 +9530,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">100 0 100 1 0 0</property>
+				  <property name="adjustment">100 0 100 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -9579,7 +9580,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">1 0 2000 1 0 0</property>
+				  <property name="adjustment">1 0 2000 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -9659,7 +9660,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">0 0 600 1 0 0</property>
+				  <property name="adjustment">0 0 600 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -9709,7 +9710,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">10 1 10 0 0 0</property>
+				  <property name="adjustment">10 1 10 0 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -9759,7 +9760,7 @@
 				  <property name="digits">0</property>
 				  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				  <property name="inverted">False</property>
-				  <property name="adjustment">0 0 100 1 0 0</property>
+				  <property name="adjustment">0 0 100 1 1 0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -10044,7 +10045,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">100 0 100 1 0 0</property>
+				      <property name="adjustment">100 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
