@@ -120,6 +120,8 @@ void vcrc_prepare_fighters( combatdata *cdata, battlefield *battle )
   vcrc_log_str( "Preparing Fighters and Bays .... " );
 
   /* combatant A */
+  battle->a.bays.number = cdata->a_nmb_bays;
+  battle->a.fighters.number = cdata->a_nmb_fighter;
   battle->a.fighters.flying = 0;
   if( cdata->a_nmb_bays > 0 )
   {
@@ -145,6 +147,7 @@ void vcrc_prepare_fighters( combatdata *cdata, battlefield *battle )
   }
 
   /* combatant B */
+  battle->b.bays.number = cdata->b_nmb_bays;
   battle->b.fighters.flying = 0;
   if( cdata->g_b_is_ship == 1 )
   {
@@ -201,6 +204,7 @@ void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle )
 
   /* combatant A */
   battle->a.tubes.number = cdata->a_nmb_tubes;
+  battle->a.torps = cdata->a_nmb_torps;
   for( i=0; i<cdata->a_nmb_tubes; i++ )
   {
     battle->a.tubes.tube[i].load   = vcrc_get_reload_time_for_torp(   cdata->a_typ_torps );
@@ -212,6 +216,7 @@ void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle )
 
   /* combatant B */
   battle->b.tubes.number = cdata->b_nmb_tubes;
+  battle->b.torps = cdata->b_nmb_torps;
   for( i=0; i<cdata->b_nmb_tubes; i++ )
   {
     battle->b.tubes.tube[i].load   = vcrc_get_reload_time_for_torp(   cdata->b_typ_torps );
@@ -382,6 +387,7 @@ void vcrc_fight_move_fighters( battlefield *battle, gint side )
   {
     case VCRC_SIDE_A:
       /* SIDE A */
+      if( battle->a.fighters.flying > 0 )
       for( i=0; i<battle->a.fighters.number; i++ )
       {
         if( battle->a.fighters.fighter[i].launched )
@@ -414,6 +420,7 @@ void vcrc_fight_move_fighters( battlefield *battle, gint side )
 
     case VCRC_SIDE_B:
       /* SIDE B */
+      if( battle->b.fighters.flying > 0 )
       for( i=0; i<battle->b.fighters.number; i++ )
       {
         if( battle->b.fighters.fighter[i].launched )
@@ -1177,16 +1184,16 @@ g_message( "VCR-DEBUG: computed battlemasses: %d", mass );
 void vcrc_print_summary( battlefield *battle, combatdata *cdata )
 {
   vcrc_log_str( "--- Summary ---\n" );
-  vcrc_log_str( "Side A: Shield   " ); vcrc_log_intn( cdata->a_shield     , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.shield          , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Hull     " ); vcrc_log_intn( cdata->a_hull       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.hull            , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Crew     " ); vcrc_log_intn( cdata->a_crew       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.crew            , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Fighters " ); vcrc_log_intn( cdata->a_nmb_fighter, 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.fighters.number , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Torpedos " ); vcrc_log_intn( cdata->a_nmb_torps  , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.torps           , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "Side B: Shield   " ); vcrc_log_intn( cdata->b_shield     , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.shield          , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Hull     " ); vcrc_log_intn( cdata->b_hull       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.hull            , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Crew     " ); vcrc_log_intn( cdata->b_crew       , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.crew            , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Fighters " ); vcrc_log_intn( cdata->b_nmb_fighter, 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.fighters.number , 3 ); vcrc_log_str( "\n" );
-  vcrc_log_str( "        Torpedos " ); vcrc_log_intn( cdata->b_nmb_torps  , 3 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.torps           , 3 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "Side A: Shield   " ); vcrc_log_intn( cdata->a_shield     , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.shield          , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Hull     " ); vcrc_log_intn( cdata->a_hull       , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.hull            , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Crew     " ); vcrc_log_intn( cdata->a_crew       , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.crew            , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Fighters " ); vcrc_log_intn( cdata->a_nmb_fighter, 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.fighters.number , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Torpedos " ); vcrc_log_intn( cdata->a_nmb_torps  , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->a.torps           , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "Side B: Shield   " ); vcrc_log_intn( cdata->b_shield     , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.shield          , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Hull     " ); vcrc_log_intn( cdata->b_hull       , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.hull            , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Crew     " ); vcrc_log_intn( cdata->b_crew       , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.crew            , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Fighters " ); vcrc_log_intn( cdata->b_nmb_fighter, 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.fighters.number , 4 ); vcrc_log_str( "\n" );
+  vcrc_log_str( "        Torpedos " ); vcrc_log_intn( cdata->b_nmb_torps  , 4 ); vcrc_log_str( " -> " ); vcrc_log_intn( battle->b.torps           , 4 ); vcrc_log_str( "\n" );
   vcrc_log_str( "Side B Data is incorrect in case of planet/starbase fights\n" );
 }
 
