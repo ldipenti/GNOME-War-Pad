@@ -208,6 +208,7 @@ static void gwp_ship_dispose (GwpShip *self)
   /*
    * Here I have to unref all members on which I own a reference.
    */
+  g_string_free(self->priv->fcode, TRUE);
 }
 
 static void gwp_ship_finalize (GwpShip *self)
