@@ -28,6 +28,7 @@
 #include "starchart.h"
 #include "race.h"
 #include "vp_unpack.h"
+#include "gwp-utils.h"
 
 void game_mgr_init(void)
 {
@@ -65,11 +66,9 @@ void game_mgr_init(void)
       delete = TRUE;
       if(games) {
 	/* Warn the user about its games being deleted */
-	warn = gtk_message_dialog_new((GtkWindow*) game_mgr,
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_INFO,
-				      GTK_BUTTONS_CLOSE,
-				      _("The game state data format have changed. Your game definitions will be deleted because are not compatible with this version, please re-create them. Sorry for the inconvenience."));
+	warn = gwp_warning_dialog_new (game_mgr,
+				       _("Your game definitions will be deleted."),
+				       _("The game state data format have changed. Your game definitions will be deleted because are not compatible with this version, please re-create them. Your game files won't be touched, sorry for the inconvenience."));
 	gtk_dialog_run(GTK_DIALOG(warn));
 	gtk_widget_destroy(warn);
       }
@@ -418,13 +417,10 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     if(show_warnings) {
       GtkWidget *warn;
       
-      warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_MESSAGE_WARNING,
-				    GTK_BUTTONS_CLOSE,
-				    _("Game directory '%s' doesn't exist"), 
-				    gnome_file_entry_get_full_path(game_dir, 
-								   FALSE));
+      warn = gwp_warning_dialog_new (game_mgr_properties,
+				     g_strdup_printf(_("Game directory '%s' doesn't exist"), gnome_file_entry_get_full_path(game_dir, FALSE)),
+				     NULL);
+
       gtk_dialog_run(GTK_DIALOG(warn));
       gtk_widget_destroy(warn);
     }
@@ -437,11 +433,10 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     if(show_warnings) {
       GtkWidget *warn;
       
-      warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_MESSAGE_WARNING,
-				    GTK_BUTTONS_CLOSE,
-				    _("Please provide a name for this game"));
+      warn = gwp_warning_dialog_new (game_mgr_properties,
+				     _("Please provide a name for this game"),
+				     NULL);
+
       gtk_dialog_run(GTK_DIALOG(warn));
       gtk_widget_destroy(warn);
     }
@@ -471,13 +466,12 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 	if(g_ascii_strcasecmp(game_get_name(state), 
 			      game_name_str) == 0) {
 	  GtkWidget *warn;
+
+	  warn = gwp_warning_dialog_new (game_mgr_properties,
+					 g_strdup_printf(_("A game named '%s' already exist, please select another name"),
+							 gtk_entry_get_text(game_name)),
+					 NULL);
 	  
-	  warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_WARNING,
-					GTK_BUTTONS_CLOSE,
-					_("A game named '%s' already exist, please select another name"),
-					gtk_entry_get_text(game_name));
 	  gtk_dialog_run(GTK_DIALOG(warn));
 	  gtk_widget_destroy(warn);
 	  
@@ -493,11 +487,9 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     if(show_warnings) {
       GtkWidget *warn;
       
-      warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_MESSAGE_WARNING,
-				    GTK_BUTTONS_CLOSE,
-				    _("Please select a race"));
+      warn = gwp_warning_dialog_new (game_mgr_properties,
+				     _("Please select a race"),
+				     NULL);
       gtk_dialog_run(GTK_DIALOG(warn));
       gtk_widget_destroy(warn);
     }
@@ -610,11 +602,9 @@ void game_mgr_play_game(GameState *state)
   if (!state) {
     GtkWidget *warn;
 
-    warn = gtk_message_dialog_new ((GtkWindow *) game_mgr_properties,
-				   GTK_DIALOG_DESTROY_WITH_PARENT,
-				   GTK_MESSAGE_WARNING,
-				   GTK_BUTTONS_CLOSE,
-				   _("No game selected, please select one.\n\nIf you don't have any game on your game manager, you should add one with the \"New\" button, adding the necessary game data."));
+    warn = gwp_warning_dialog_new (game_mgr_properties,
+				   _("No game selected, please select one."),
+				   _("If you don't have any game on your game manager, you should add one with the \"New\" button, adding the necessary game data."));
     gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
     return;
