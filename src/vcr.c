@@ -2722,7 +2722,7 @@ void vcr_populate_ship_a_list( GtkWidget *widget, gpointer user_data )
       idlist[curr] = gwp_object_get_id( GWP_OBJECT(ship) );
       idlist[0]++;
       g_sprintf( name, "%03d: ", idlist[curr] );
-      strncat( name, gwp_object_get_name (GWP_OBJECT(ship))->str, 50 );
+      strncat( name, gwp_object_get_name (GWP_OBJECT(ship)), 50 );
       gtk_combo_box_append_text( box, name );
     }
   }
