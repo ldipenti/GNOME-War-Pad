@@ -14,7 +14,8 @@ License: GPL
 Group: Games
 BuildRoot: %{_tmppath}/%{name}-buildroot
 Prefix: %{_prefix}
-requires: libgnome2 libglade2.0
+#requires: libgnome2 libglade2.0
+AutoReqProv: yes
 BuildArch: i586
 
 %description
