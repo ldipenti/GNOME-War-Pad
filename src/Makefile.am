@@ -50,7 +50,17 @@ gwp_SOURCES = \
 	tables.c\
 	tables.h\
 	race.c\
-	race.h
+	race.h\
+	gwp-object.h\
+	gwp-object.c\
+	gwp-flying-object.h\
+	gwp-flying-object.c\
+	gwp-ship.h\
+	gwp-ship.c\
+	gwp-starbase.h\
+	gwp-starbase.c\
+	gwp-planet.h\
+	gwp-planet.c
 
 gwp_LDFLAGS = 
 

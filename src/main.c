@@ -64,10 +64,12 @@ int main (int argc, char *argv[]) {
   glade_xml_signal_autoconnect(xml_interface);
   
   /* Init & show splash screen */
+  /*
   gwp_splash_screen = glade_xml_get_widget(xml_interface, "gwp_splash_screen");
   g_assert(gwp_splash_screen);
   gwp_init_splash();
   gtk_widget_show(gwp_splash_screen);
+  */
 
   /* Now we look where those widgets are... */
   gwp = glade_xml_get_widget(xml_interface, "gwp");
@@ -84,7 +86,7 @@ int main (int argc, char *argv[]) {
   gwp_init();
   
   /* Hide splash screen & show game manager */
-  gtk_widget_hide(gwp_splash_screen);
+  /* gtk_widget_hide(gwp_splash_screen); */
   gtk_widget_show(game_mgr);
 
   /* Enter main loop */

@@ -78,6 +78,7 @@ INTLTOOL_CAVES_RULE = @INTLTOOL_CAVES_RULE@
 INTLTOOL_DESKTOP_RULE = @INTLTOOL_DESKTOP_RULE@
 INTLTOOL_DIRECTORY_RULE = @INTLTOOL_DIRECTORY_RULE@
 INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
+INTLTOOL_KBD_RULE = @INTLTOOL_KBD_RULE@
 INTLTOOL_KEYS_RULE = @INTLTOOL_KEYS_RULE@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_OAF_RULE = @INTLTOOL_OAF_RULE@
@@ -91,6 +92,7 @@ INTLTOOL_SOUNDLIST_RULE = @INTLTOOL_SOUNDLIST_RULE@
 INTLTOOL_THEME_RULE = @INTLTOOL_THEME_RULE@
 INTLTOOL_UI_RULE = @INTLTOOL_UI_RULE@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+INTLTOOL_XAM_RULE = @INTLTOOL_XAM_RULE@
 INTLTOOL_XML_RULE = @INTLTOOL_XML_RULE@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -121,6 +123,8 @@ SK_CONFIG = @SK_CONFIG@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+WARN_CFLAGS = @WARN_CFLAGS@
+WARN_CXXFLAGS = @WARN_CXXFLAGS@
 
 INCLUDES =  	$(FOO_CFLAGS)
 
@@ -133,7 +137,7 @@ bin_PROGRAMS = gwp
 EXTRA_DIST =  	gwp.glade
 
 
-gwp_SOURCES =  	callbacks.c 	callbacks.h 	support.c 	support.h 	main.c 	global.h 	game_state.h 	game_state.c 	planet.c 	planet.h 	base.c 	base.h 	ship.c 	ship.h 	starchart.c 	starchart.h 	gwp_types.c 	gwp_types.h 	vp_types.h 	vp_utils.c 	vp_utils.h 	game_mgr.c 	game_mgr.h 	vp_unpack.h 	vp_unpack.c 	tables.c 	tables.h 	race.c 	race.h
+gwp_SOURCES =  	callbacks.c 	callbacks.h 	support.c 	support.h 	main.c 	global.h 	game_state.h 	game_state.c 	planet.c 	planet.h 	base.c 	base.h 	ship.c 	ship.h 	starchart.c 	starchart.h 	gwp_types.c 	gwp_types.h 	vp_types.h 	vp_utils.c 	vp_utils.h 	game_mgr.c 	game_mgr.h 	vp_unpack.h 	vp_unpack.c 	tables.c 	tables.h 	race.c 	race.h 	gwp-object.h 	gwp-object.c 	gwp-flying-object.h 	gwp-flying-object.c 	gwp-ship.h 	gwp-ship.c 	gwp-starbase.h 	gwp-starbase.c 	gwp-planet.h 	gwp-planet.c
 
 
 gwp_LDFLAGS = 
@@ -157,7 +161,9 @@ LIBS = @LIBS@
 gwp_OBJECTS =  callbacks.$(OBJEXT) support.$(OBJEXT) main.$(OBJEXT) \
 game_state.$(OBJEXT) planet.$(OBJEXT) base.$(OBJEXT) ship.$(OBJEXT) \
 starchart.$(OBJEXT) gwp_types.$(OBJEXT) vp_utils.$(OBJEXT) \
-game_mgr.$(OBJEXT) vp_unpack.$(OBJEXT) tables.$(OBJEXT) race.$(OBJEXT)
+game_mgr.$(OBJEXT) vp_unpack.$(OBJEXT) tables.$(OBJEXT) race.$(OBJEXT) \
+gwp-object.$(OBJEXT) gwp-flying-object.$(OBJEXT) gwp-ship.$(OBJEXT) \
+gwp-starbase.$(OBJEXT) gwp-planet.$(OBJEXT)
 gwp_DEPENDENCIES = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -170,12 +176,14 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/base.P .deps/callbacks.P .deps/game_mgr.P \
-.deps/game_state.P .deps/gwp_types.P .deps/main.P .deps/planet.P \
-.deps/race.P .deps/ship.P .deps/starchart.P .deps/support.P \
-.deps/tables.P .deps/vp_unpack.P .deps/vp_utils.P
+.deps/game_state.P .deps/gwp-flying-object.P .deps/gwp-object.P \
+.deps/gwp-planet.P .deps/gwp-ship.P .deps/gwp-starbase.P \
+.deps/gwp_types.P .deps/main.P .deps/planet.P .deps/race.P .deps/ship.P \
+.deps/starchart.P .deps/support.P .deps/tables.P .deps/vp_unpack.P \
+.deps/vp_utils.P
 SOURCES = $(gwp_SOURCES)
 OBJECTS = $(gwp_OBJECTS)
 
@@ -294,7 +302,7 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags  $$unique $(LISP))
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
 
 mostlyclean-tags:
 
