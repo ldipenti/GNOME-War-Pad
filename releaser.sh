@@ -79,11 +79,11 @@ mv debian/changelog.tmp debian/changelog
 rm $TMPFILE
 
 ###
-# ChangeLog version & date header
-mv ChangeLog ChangeLog.bak
-echo -e "Version $VERSION (released `date +%m-%d-%Y`):\n" > ChangeLog.header
-cat ChangeLog.header ChangeLog.bak > ChangeLog
-rm -f ChangeLog.header ChangeLog.bak
+# CHANGES version & date header
+mv CHANGES CHANGES.bak
+echo -e "Version $VERSION (released `date +%m-%d-%Y`):\n" > CHANGES.header
+cat CHANGES.header CHANGES.bak > CHANGES
+rm -f CHANGES.header CHANGES.bak
 
 ###
 # VERSION file - to direct use by the website
