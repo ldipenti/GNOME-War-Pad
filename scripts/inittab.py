@@ -41,10 +41,10 @@ class PluginManager:
         ###
         # Connect to all needed signals to the event hub
         for ship in gwp.ship_get_list().values():
-            ship.connect ("selected", self.__event_hub, "ship_selected")
+            ship.connect ("selected", self.__event_hub, "ship-selected")
         #
         for planet in gwp.planet_get_list().values():
-            planet.connect ("selected", self.__event_hub, "planet_selected")
+            planet.connect ("selected", self.__event_hub, "planet-selected")
         ###
 
     # Event Hub: This concentrates and propagates all events (except the
