@@ -552,16 +552,7 @@ GHashTable * load_sdata (void)
       
       /* Add ship to list */
       g_hash_table_insert (ship_list, (gpointer)(i + 1), s);
-
-      if (gwp_object_get_id(GWP_OBJECT(s)) == 324) {
-	g_message ("Encontre nave desconocida #324");
-      }
-
-    } else {
-      if (i+1 == 324) {
-	g_message ("#324 No es NULL!!!");
-      }
-    }
+    } 
   }
   fclose (sdata);
   return ship_list;
