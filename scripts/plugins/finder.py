@@ -45,7 +45,7 @@ class Finder(gwp.Plugin):
             self.store.append([key, obj.get_name(), obj.get_neutronium()])
 
         
-    def delete_event(self, widget, event, data=None):
+    def delete_event(self, widget, event, data=None):
         return gtk.FALSE
 
     # Another callback
@@ -120,3 +120,9 @@ class Finder(gwp.Plugin):
     def register(self, pm):
         pm.set_hook_key('f', self.__main)
 
+
+#####
+# Load code
+#####
+if __name__ == '__main__':
+    finder = Finder()

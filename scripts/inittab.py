@@ -3,6 +3,7 @@ import pygtk
 pygtk.require("2.0")
 
 # Import the rest of the needed modules
+import os
 import gtk
 import gwp
 
@@ -15,6 +16,19 @@ class PluginManager:
     __plugins_registered = []
     __plugins_available = []
     
+    def __init__(self):
+        # Load all system plugins
+        plugins_dir = gwp.plugins_get_dir()
+        for plugin in os.listdir(plugins_dir + '/'):
+            execfile (plugins_dir + '/' + plugin)
+        # Check the plugins and add them to the available plugins list
+        for obj in dir():
+            try:
+                if (isinstance(eval(obj), gwp.Plugin)):
+                    self.__plugins_available.append(obj)
+            except AttributeError:
+                pass
+
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
             self.__key_hooks[event["string"]]()
