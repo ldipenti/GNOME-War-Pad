@@ -1038,12 +1038,18 @@ void update_ship_panel_with (GwpShip *ship)
     gtk_label_set_markup (eta, tmp);
     g_free(tmp);
   }
-  /* If it's not a ship, reset all fields */
+  /* If it's not my ship, reset all fields */
   else {
     gtk_label_set_text(waypoint, "--");
     gtk_label_set_text(distance, "--");
     gtk_label_set_text(eta, "--");
-    gtk_label_set_text(mass, "--");
+
+    /* Mass as appears on SHIPXY */
+    tmp = g_strdup_printf ("%d KT", 
+			   gwp_ship_get_mass_if_unknown(ship));
+    gtk_label_set_text(mass, tmp);
+    g_free (tmp);
+
     gtk_label_set_text(fuel_usage, "--");
     gtk_label_set_text(eta, "--");
   }

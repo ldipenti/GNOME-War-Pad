@@ -531,6 +531,7 @@ GHashTable * load_sdata (void)
       coords = g_list_nth_data (shipxy_list, i);
       gwp_object_set_x_coord (GWP_OBJECT(s), coords->x);
       gwp_object_set_y_coord (GWP_OBJECT(s), coords->y);
+      gwp_ship_set_mass_if_unknown (s, coords->mass);
       
       /* If we have more data on TARGETx.DAT, we add it */
       if ((target_reg =

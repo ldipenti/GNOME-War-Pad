@@ -40,6 +40,7 @@ struct _GwpShipPrivate {
   gboolean dispose_has_run; /**< GType's internal control variable. */
 
   gboolean known; /**< TRUE if the current ship is owned by the player. */
+  gint mass_if_unknown; /**< The ship's mass if it's unknown, 0 otherwise. */
   gint owner;     /**< Owner race number. Range 1..11 */
   GString *fcode; /**< Friendly Code. Max 3 chars */
   
@@ -194,6 +195,7 @@ static void gwp_ship_init (GTypeInstance  *instance,
 
   /* Private members init */
   self->priv->owner = 0;
+  self->priv->mass_if_unknown = 0;
   self->priv->known = FALSE;
   self->priv->fcode = g_string_new("GWP");
 
@@ -972,6 +974,19 @@ void gwp_ship_set_owner (GwpShip *self, gint owner)
   g_assert (GWP_IS_SHIP(self));
   g_assert (owner >= 0 && owner <= 12);
   self->priv->owner = owner;
+}
+
+gint gwp_ship_get_mass_if_unknown (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+  return self->priv->mass_if_unknown;
+}
+
+void gwp_ship_set_mass_if_unknown (GwpShip *self, gint mass)
+{
+  g_assert (GWP_IS_SHIP(self));
+  g_assert (mass >= 0);
+  self->priv->mass_if_unknown = mass;
 }
 
 GString *gwp_ship_get_fcode (GwpShip *self)
