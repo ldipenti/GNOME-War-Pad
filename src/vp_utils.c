@@ -757,8 +757,13 @@ GHashTable * load_pdata (void)
     gwp_planet_set_tax_natives (p, getWord(buffer+67));
     gwp_planet_set_happiness_colonists (p, getWord(buffer+69));
     gwp_planet_set_happiness_natives (p, getWord(buffer+71));
-    gwp_planet_set_natives_spi (p, getWord(buffer+73));
     gwp_planet_set_natives (p, getDWord(buffer+75));
+
+    /* Dear Tim, please send me consistent data... */
+    if (gwp_planet_get_natives(p) > 0) 
+      gwp_planet_set_natives_spi (p, getWord(buffer+73));
+    else
+      gwp_planet_set_natives_spi (p, 0);
 
     gwp_planet_set_natives_race (p, getWord(buffer+79));
 
