@@ -63,5 +63,7 @@ gboolean starchart_is_my_ship(GnomeCanvasItem *ship_item);
 gint get_planet_from_coords(gdouble x_wc, gdouble y_wc);
 GSList *get_ships_from_coords(gdouble x_wc, gdouble y_wc);
 void starchart_get_object_center_coord(GnomeCanvasItem *item, gdouble *x, gdouble *y);
+void starchart_set_default_cursor(void);
+void starchart_set_pan_cursor(void);
 
 #endif

@@ -6,7 +6,6 @@
 #define GNOME_DISABLE_DEPRECATED
 
 #include <gnome.h>
-#include <gal/widgets/e-cursors.h>
 
 #include "global.h"
 #include "game_state.h"
@@ -59,8 +58,8 @@ starchart_event_button_release          (GtkWidget       *widget,
                                         GdkEventButton  *event,
                                         gpointer         user_data)
 {
-  e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
-		      E_CURSOR_THIN_CROSS);
+  starchart_set_default_cursor();
+
   return FALSE;
 }
 
@@ -123,8 +122,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
 
     /* Set hand cursor */
     if(!panning) {
-      e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
-			  E_CURSOR_HAND_OPEN);
+      starchart_set_pan_cursor();
       panning = TRUE;
     }
 
@@ -133,8 +131,8 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
 				      &offset_x, 
 				      &offset_y);
       gnome_canvas_scroll_to(starchart_get_canvas(), 
-			     offset_x + (pointer_x - x) * MOUSE_INTERLEAVE, 
-			     offset_y + (pointer_y - y) * MOUSE_INTERLEAVE);
+			     offset_x + (pointer_x - x) * (MOUSE_INTERLEAVE+1), 
+			     offset_y + (pointer_y - y) * (MOUSE_INTERLEAVE+1));
     }
   } 
   /* If not panning... */
@@ -142,8 +140,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
 
     /* Reset cursor */
     if(panning) {
-      e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
-			  E_CURSOR_THIN_CROSS);
+      starchart_set_default_cursor();
       panning = FALSE;
     }
 

@@ -98,8 +98,6 @@ int main (int argc, char *argv[]) {
 
 void gwp_init(void) 
 {
-  e_cursors_init();
-
   /* Gnome Config Init */
   gnome_config_push_prefix("/gwp/");
 
