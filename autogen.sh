@@ -5,6 +5,7 @@ srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
 PKG_NAME="Gnome War Pad."
+export REQUIRED_AUTOMAKE_VERSION="1.7"
 #export ACLOCAL_FLAGS="-I /usr/local/share/aclocal"
 export ACLOCAL_FLAGS="-I ./aclocal-macros"
 

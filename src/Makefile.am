@@ -12,7 +12,7 @@ INCLUDES = \
 
 # FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
 
-CFLAGS = \
+AM_CFLAGS = \
 	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment \
 	 -Wuninitialized -Wparentheses -Wpointer-arith \
 	 -Wmissing-prototypes -export-dynamic \
