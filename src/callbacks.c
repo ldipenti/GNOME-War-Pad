@@ -226,6 +226,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   return FALSE;
 }
 
+/* Deprecated
 void
 select_race_event                      (GtkButton       *button,
                                         gpointer         user_data)
@@ -236,7 +237,8 @@ select_race_event                      (GtkButton       *button,
   gtk_widget_hide(gwp_select_race_dialog);
   gtk_widget_show(gwp);
 }
-
+*/
+/* Deprecated
 void on_vp_game_dir_changed (GtkEditable *editable,
 			     gpointer gwp_select_dlg) 
 {
@@ -246,6 +248,7 @@ void on_vp_game_dir_changed (GtkEditable *editable,
 			  gtk_editable_get_chars(editable, 0, -1));
   update_select_dlg((GtkWidget *) gwp_select_dlg);  
 }
+*/
 
 void on_game_mgr_game_dir_changed (GtkEditable *editable,
 				   gpointer user_data)
@@ -280,18 +283,31 @@ void on_game_mgr_new_game (GtkWidget *widget,
   gtk_widget_show(game_mgr_properties);
 }
 
-// Displays pop-up menu on selected game icon
+// Button events on iconlist
 void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 				       gint icon_idx,
 				       GdkEventButton *event,
 				       gpointer user_data)
 {
+  // Displays a pop-up menu
   if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
     GtkWidget *popup = NULL;
     
     popup = lookup_widget("game_mgr_popup_menu");
     gtk_menu_popup (GTK_MENU(popup), NULL, NULL, NULL, NULL, 1, 
 		    gtk_get_current_event_time());
+    return;
+  }
+
+  // Double-click enters the game
+  if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
+    g_message("Lets play baby, yeah!!!");
+    /* FIXME: Manage play_game callback
+
+       on_game_mgr_play_game()
+
+    */
+    return;
   }
 }
 
@@ -343,6 +359,12 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   // Bind its number (the really important data)
   g_object_set_data(G_OBJECT(race_name_entry),
 		      "race_number", race);
+}
+
+void on_game_mgr_play_game (GtkWidget *widget,
+			    gpointer user_data)
+{
+  // FIXME: Do some stuff here!!
 }
 
 void on_game_mgr_edit_game(GtkWidget *widget,
@@ -425,4 +447,14 @@ void on_game_mgr_delete_game (GtkWidget *widget,
       // FIXME: Remember to remove GConf data!!!
     }
   } 
+}
+
+void gwp_quit(void)
+{
+  // Disconnect from GConf server
+  gconf_client_suggest_sync(gwp_gconf, NULL);
+  g_object_unref(gwp_gconf);
+  
+  // bye bye...
+  gtk_main_quit();
 }

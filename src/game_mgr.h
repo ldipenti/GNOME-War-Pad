@@ -28,6 +28,7 @@
 
 #include "game_types.h"
 
+void game_mgr_init(void);
 GtkWidget *game_mgr_get_properties_dlg(void);
 
 // Specific callbacks
@@ -39,7 +40,10 @@ GameSettings *game_mgr_new_settings(void);
 void game_mgr_settings_free(GameSettings *s);
 void game_mgr_properties_dlg_clean(void);
 gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
-gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings);
+// icon_number < 0 if not editing or adding a game
+gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
+					const gint icon_number);
 void game_mgr_properties_dlg_get_settings(GameSettings *settings);
+void game_mgr_settings_save(const GameSettings *settings);
 
 #endif

@@ -28,6 +28,42 @@
 #include "game_types.h"
 #include "race.h"
 
+void game_mgr_init(void)
+{
+    GtkTreeView *race_list;
+    GtkListStore *store;
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+    GSList *games = NULL;
+    gchar *game_name = NULL;
+    
+    race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
+    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes("Races", 
+						      renderer,
+						      "text", 0,
+						      NULL);
+    gtk_tree_view_set_model(race_list, GTK_TREE_MODEL(store));
+    gtk_tree_view_append_column(race_list, column);
+    // Clear the dialog
+    //game_mgr_properties_dlg_clean();
+
+    // Load the games data
+    gwp_gconf = gconf_client_get_default();
+    games = gconf_client_all_dirs(gwp_gconf, 
+				  g_strconcat(GWP_GCONF_PATH,
+					      "Games",
+					      NULL),
+				  NULL);
+    while(games != NULL) {
+      game_name = g_strrstr (games->data, "/");
+      game_name++;
+      g_message("encontre: %s", game_name);
+      games = games->next;
+    }
+}
+
 void game_mgr_update_race_list(char *dir) 
 {
   GString *pdata, *ship;
@@ -115,7 +151,7 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
   //FIXME: Remember host type!!!
   
   // Do some validations...
-  if(game_mgr_properties_dlg_all_ok(FALSE)) {
+  if(game_mgr_properties_dlg_all_ok(FALSE, -1)) {
     return TRUE;
   } else {
     game_mgr_properties_dlg_clean();
@@ -128,21 +164,21 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
    properties dialog when using it as an edit game dialog */
 void game_mgr_cb_edit_game(GtkWidget *widget, gpointer iconlist)
 {
+  GList *selections = NULL;
+  gint icon_idx;
+
   g_assert(iconlist != NULL);
+
+  selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
+  icon_idx = (gint)g_list_nth_data(selections, 0);
   
   // If validations are ok...
-  if(game_mgr_properties_dlg_all_ok(TRUE)) {
-
+  if(game_mgr_properties_dlg_all_ok(TRUE, icon_idx)) {
     GameSettings *settings = NULL;
-    GList *selections = NULL;
     GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
     GnomeIconTextItem *icon_text = NULL;
     GtkEditable *icon_editable = NULL;
-    gint icon_idx;
 
-    //iconlist = lookup_widget("game_mgr_iconlist");
-    selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
-    icon_idx = (gint)g_list_nth_data(selections, 0);
     settings = (GameSettings *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 				    icon_idx);
@@ -151,7 +187,11 @@ void game_mgr_cb_edit_game(GtkWidget *widget, gpointer iconlist)
     // Assign dialog values to settings structure
     game_mgr_properties_dlg_get_settings(settings);
 
+    // Save it on GConf
+    game_mgr_settings_save(settings);
+
     // Update icon name
+    /* FIXME: doesn't work :-(
     icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
 						   icon_idx);
     g_assert(GNOME_IS_ICON_TEXT_ITEM(icon_text));
@@ -162,7 +202,8 @@ void game_mgr_cb_edit_game(GtkWidget *widget, gpointer iconlist)
 			     settings->game_name,
 			     strlen(settings->game_name),
 			     0);
-  
+    */
+
     // Disconnect signal before releasing dialog
     g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
 					 G_CALLBACK(game_mgr_cb_edit_game),
@@ -178,14 +219,19 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
 {
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
   gint icon_idx;
+  gint icon_q;
 
-
+  icon_q = gnome_icon_list_get_num_icons(iconlist)+1;
   // If validations are ok, we work...
-  if(game_mgr_properties_dlg_all_ok(TRUE)) {    
+  if(game_mgr_properties_dlg_all_ok(TRUE, icon_q)) {
     GameSettings *new_game = game_mgr_new_settings();
 
+    // Get the data from teh dialog
     game_mgr_properties_dlg_get_settings(new_game);
-  
+
+    // Save it on GConf
+    game_mgr_settings_save(new_game);
+
     // Add new game icon, with data
     icon_idx = gnome_icon_list_append(GNOME_ICON_LIST(iconlist),
 				      GWP_ICONS_DIR"/game_icon.png",
@@ -242,7 +288,8 @@ void game_mgr_properties_dlg_get_settings(GameSettings *settings)
 }
 
 // Several dialog validations
-gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings)
+gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
+					const gint icon_number)
 {
   GnomeFileEntry *game_dir = 
     (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
@@ -250,7 +297,10 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings)
     (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
   GtkEntry *race_name =
     (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
-
+  GnomeFileEntry *trn_dir =
+    (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
+  GnomeFileEntry *rst_dir =
+    (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
 
   // check if game dir exists
   if(! g_file_test(gnome_file_entry_get_full_path(game_dir, FALSE), 
@@ -285,6 +335,42 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings)
     }
     return FALSE;
   }
+  // check if game name is not duplicated
+  if(icon_number >= 0) {
+    GnomeIconList *iconlist =
+      (GnomeIconList *) lookup_widget("game_mgr_iconlist");
+    GameSettings *sett;
+    gint i, icon_q;
+
+    // Iterate through all games except the one being edited
+    icon_q = gnome_icon_list_get_num_icons(iconlist);
+    for(i = 0; i < icon_q; i++) {
+      if(i != icon_number) {
+	sett = (GameSettings *) 
+	  gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
+					i);
+	g_assert(sett != NULL);
+
+	// If strings are equal...
+	if(g_ascii_strncasecmp(sett->game_name, 
+			       gtk_entry_get_text(game_name),
+			       strlen(gtk_entry_get_text(game_name))) == 0) {
+	  GtkWidget *warn;
+	  
+	  warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_WARNING,
+					GTK_BUTTONS_CLOSE,
+					_("A game named '%s' already exist, please select another name"),
+					gtk_entry_get_text(game_name));
+	  gtk_dialog_run(GTK_DIALOG(warn));
+	  gtk_widget_destroy(warn);
+	  
+	  return FALSE;
+	}
+      }
+    }
+  }
   // check if user selected a race
   if(strlen(gtk_entry_get_text(race_name)) <= 0) {
     if(show_warnings) {
@@ -301,6 +387,19 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings)
     return FALSE;
   }
 
+  // auto-validations
+  if(! gnome_file_entry_get_full_path(trn_dir, FALSE)) {
+    gnome_file_entry_set_filename(trn_dir,
+				  gnome_file_entry_get_full_path(game_dir,
+								 FALSE));
+  }
+
+  if(! gnome_file_entry_get_full_path(rst_dir, FALSE)) {
+    gnome_file_entry_set_filename(rst_dir,
+				  gnome_file_entry_get_full_path(game_dir,
+								 FALSE));
+  }
+
   // All ok!, lets continue...
   return TRUE;
 }
@@ -314,10 +413,10 @@ GameSettings *game_mgr_new_settings(void)
 
   ret->game_dir = NULL;
   ret->game_name = NULL;
-  ret->trn_dir = NULL;
-  ret->rst_dir = NULL;
-  ret->player_email = NULL;
-  ret->host_email = NULL;
+  ret->trn_dir = "";
+  ret->rst_dir = "";
+  ret->player_email = "";
+  ret->host_email = "";
   ret->host_type = 0;
   ret->race = 0;
 
@@ -369,4 +468,28 @@ void game_mgr_properties_dlg_clean(void)
 
   fentry = (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
   gnome_file_entry_set_filename(fentry, "");
+}
+
+void game_mgr_settings_save(const GameSettings *settings)
+{
+  gchar *path = g_strconcat(GWP_GCONF_PATH"Games/",
+			    settings->game_name,
+			    "/", NULL);
+
+  g_assert(settings != NULL);
+
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"player_email",NULL),
+			  settings->player_email, NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"host_email",NULL),
+			  settings->host_email, NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"game_dir",NULL),
+			  settings->game_dir, NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"trn_dir",NULL),
+			  settings->trn_dir, NULL);
+  gconf_client_set_string(gwp_gconf, g_strconcat(path,"rst_dir",NULL),
+			  settings->rst_dir, NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"host_type",NULL),
+		       settings->host_type, NULL);
+  gconf_client_set_int(gwp_gconf, g_strconcat(path,"race",NULL),
+		       settings->race, NULL);
 }

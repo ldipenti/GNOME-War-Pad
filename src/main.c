@@ -36,8 +36,13 @@
 #include "starchart.h"
 #include "race_select.h"
 #include "game_state.h"
+#include "game_mgr.h"
 
 #define GWP_GLADE_XML_FILE GWP_GLADE_XML_DIR"/gwp.glade"
+
+// Prototypes
+void gwp_init(void);
+void gwp_init_splash(void);
 
 int main (int argc, char *argv[]) {
 
@@ -47,7 +52,6 @@ int main (int argc, char *argv[]) {
 #endif
 
   gwp = NULL;
-  gwp_select_race_dialog = NULL;
   game_mgr = NULL;
   game_mgr_properties = NULL;
 
@@ -63,6 +67,12 @@ int main (int argc, char *argv[]) {
 
   glade_xml_signal_autoconnect(xml_interface);
   
+  // Init & show splash screen
+  gwp_splash_screen = glade_xml_get_widget(xml_interface, "gwp_splash_screen");
+  g_assert(gwp_splash_screen);
+  gwp_init_splash();
+  gtk_widget_show(gwp_splash_screen);
+
   // Now we look where those widgets are...
   gwp = glade_xml_get_widget(xml_interface, "gwp");
   g_assert(gwp != NULL);
@@ -73,43 +83,36 @@ int main (int argc, char *argv[]) {
   game_mgr_properties = glade_xml_get_widget(xml_interface, "game_mgr_properties");
   g_assert(game_mgr_properties != NULL);
 
-  /* Esto lo sacamos para darle lugar al manager mejorado
-  gwp_select_race_dialog = glade_xml_get_widget(xml_interface,
-						"gwp_select_race_dialog");
-  g_assert(gwp_select_race_dialog != NULL);
-  */
-  
   // Initialisations
-  gnome_config_push_prefix("/gwp/");
-  game_init_dir(gnome_config_get_string("General/game_dir=\"\""));
-  //init_select_dlg(gwp_select_race_dialog);
+  gwp_init();
   
-
-  /* Game Properties Dialog Init */
-  {
-    GtkTreeView *race_list;
-    GtkListStore *store;
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
-    
-    race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
-    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("Races", 
-						      renderer,
-						      "text", 0,
-						      NULL);
-    gtk_tree_view_set_model(race_list, GTK_TREE_MODEL(store));
-    gtk_tree_view_append_column(race_list, column);
-    // Clear the dialog
-    //game_mgr_properties_dlg_clean();
-}
-
-  // Show it!
-  //gtk_widget_show(gwp_select_race_dialog);
+  // Hide splash screen & show game manager
+  gtk_widget_hide(gwp_splash_screen);
   gtk_widget_show(game_mgr);
-  
+
+  // Enter main loop  
   gtk_main();
   
   return 0;
+}
+
+void gwp_init(void) 
+{
+  /* Gnome Config Init */
+  gnome_config_push_prefix("/gwp/");
+
+  //game_init_dir(gnome_config_get_string("General/game_dir=\"\""));
+
+  /* Game Properties Dialog Init */
+  game_mgr_init();
+}
+
+void gwp_init_splash(void)
+{
+  GtkImage *splash = (GtkImage *)lookup_widget("gwp_splash_image");
+
+  gtk_image_set_from_file(splash, GWP_IMAGES_DIR"/gwp_splash.png");
+  gtk_window_set_decorated(GTK_WINDOW(gwp_splash_screen), FALSE);
+  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(gwp_splash_screen), TRUE);
+  gtk_window_set_skip_pager_hint(GTK_WINDOW(gwp_splash_screen), TRUE);
 }
