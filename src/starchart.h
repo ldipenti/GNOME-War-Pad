@@ -26,6 +26,7 @@
 #include "gwp-ship.h"
 #include "gwp-location.h"
 #include "gwp-hullspec.h"
+#include "gwp-minefield.h"
 
 /* Starchart init function */
 void init_starchart(GtkWidget *gwp);

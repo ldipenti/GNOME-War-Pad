@@ -773,7 +773,6 @@ GSList * get_ships_from_coords (gdouble x_wc, gdouble y_wc)
   return ship_list;
 }
 
-
 void draw_ship (gpointer key, gpointer value, gpointer user_data)
 {
   GnomeCanvasItem *item = NULL;
@@ -849,6 +848,52 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
     else {
       /* Get location and add the new ship */
       gwp_location_add_object (location, GWP_OBJECT(ship));
+    }
+  }
+}
+
+void draw_minefield (gpointer data, gpointer user_data)
+{
+  GnomeCanvasItem *item = NULL;
+  GtkWidget *starchart = starchart_get_canvas();
+  GnomeCanvasGroup *group = gnome_canvas_root(GNOME_CANVAS(starchart));
+  GwpMinefield *minefield = GWP_MINEFIELD(data);
+  gdouble xi, yi;
+
+  if (gwp_minefield_is_valid(minefield)) {
+    vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(minefield)),
+		  gwp_object_get_y_coord(GWP_OBJECT(minefield)), &xi, &yi);
+
+    if (gwp_minefield_is_web (minefield)) {
+      item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
+				    "outline_color", "dark khaki",
+				    "x1", xi - gwp_minefield_get_radius(minefield),
+				    "y1", yi - gwp_minefield_get_radius(minefield),
+				    "x2", xi + gwp_minefield_get_radius(minefield),
+				    "y2", yi + gwp_minefield_get_radius(minefield),
+				    "width_pixels", 1,
+				    "fill_color_rgba", UNIVERSE_COLOR_A,
+				    NULL);		        
+    } else if (gwp_minefield_is_mine(minefield)) {
+      item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
+				    "outline_color", "dark olive green",
+				    "x1", xi - gwp_minefield_get_radius(minefield),
+				    "y1", yi - gwp_minefield_get_radius(minefield),
+				    "x2", xi + gwp_minefield_get_radius(minefield),
+				    "y2", yi + gwp_minefield_get_radius(minefield),
+				    "width_pixels", 1,
+				    "fill_color_rgba", UNIVERSE_COLOR_A,
+				    NULL);		  
+    } else {
+      item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
+				    "outline_color", "gray50",
+				    "x1", xi - gwp_minefield_get_radius(minefield),
+				    "y1", yi - gwp_minefield_get_radius(minefield),
+				    "x2", xi + gwp_minefield_get_radius(minefield),
+				    "y2", yi + gwp_minefield_get_radius(minefield),
+				    "width_pixels", 1,
+				    "fill_color_rgba", UNIVERSE_COLOR_A,
+				    NULL);		  
     }
   }
 }
@@ -1023,6 +1068,11 @@ void init_starchart (GtkWidget * gwp)
   g_message ("Loading ships...");
   g_hash_table_foreach (ship_list, (GHFunc) draw_ship, NULL);
   g_message ("...ships loaded!");
+
+  /* Loads Minefields on Starchart */
+  g_message ("Loading minefields...");
+  g_slist_foreach (minefield_list, (GFunc) draw_minefield, NULL);
+  g_message ("...minefields loaded!");
 
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));

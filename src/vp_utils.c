@@ -32,6 +32,7 @@
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
+#include "gwp-minefield.h"
 
 #include "gwp-specs.h"
 
@@ -58,6 +59,8 @@ void init_data (void)
   g_message ("SDATA loaded...");
   load_gen_data();
   g_message("GENx loaded...");
+  load_kore_data();
+  g_message("KOREx loaded...");
   base_list = load_bdata();
   g_message("BDATA loaded...");
   hullspec_list = load_hullspec();
@@ -809,6 +812,51 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   }
 
   return ret;
+}
+
+void load_kore_data (void)
+{
+  FILE *kore_dat = NULL;
+  GString *kore_file_name;
+  gchar mf_buf[8]; /* Minefields buffer */
+  gint i;
+
+  kore_file_name = g_string_new (g_strdup_printf("kore%d.dat",
+						 game_get_race(game_state)));
+  kore_dat = fopen (game_get_full_path(game_state, kore_file_name->str), "r");
+ 
+  if (!kore_dat) {
+    g_message ("ERROR trying to open %s file.",
+	       game_get_full_path(game_state, kore_file_name->str));
+    exit(-1);
+  }
+  rewind (kore_dat);
+		    
+  /* Read data from file */
+  /* FIXME: Here we should load various data types...please complete */
+  
+  /* Load Mine fields - 500 records */
+  fseek (kore_dat, 102, SEEK_SET);
+  for (i = 1; i <= 500; i++) {
+    fread (mf_buf, 8, 1, kore_dat);
+    
+    GwpMinefield *minefield = gwp_minefield_new();
+
+    gwp_object_set_id (GWP_OBJECT(minefield), i);
+    gwp_object_set_x_coord (GWP_OBJECT(minefield), getWord(mf_buf));
+    gwp_object_set_y_coord (GWP_OBJECT(minefield), getWord(mf_buf+2));
+    gwp_minefield_set_radius (minefield, getWord(mf_buf+4));
+    gwp_minefield_set_owner (minefield, getWord(mf_buf+6));
+
+    minefield_list = g_slist_append (minefield_list, minefield);
+    g_message ("Minefield #%d: %d,%d (%d LY) - Owner: %d", 
+	       gwp_object_get_id (GWP_OBJECT(minefield)),
+	       gwp_object_get_x_coord (GWP_OBJECT(minefield)),
+	       gwp_object_get_y_coord (GWP_OBJECT(minefield)),
+	       gwp_minefield_get_radius (minefield),
+	       gwp_minefield_get_owner (minefield));
+  }
+  fclose (kore_dat);
 }
 
 void load_gen_data(void)

@@ -5,6 +5,8 @@ Version ?.?.?? (released ??-??-????):
 	* All specs data files are loaded.
 
 	* Developers documentation generated using doxygen.
+
+	* Basic minefield visualization.
 	
 Version 0.2.11 (released 03-15-2004):
 

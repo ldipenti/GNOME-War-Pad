@@ -164,22 +164,19 @@ gint gwp_engspec_get_fuel_usage_full (GwpEngSpec *self, gdouble dist,
   /* Avoid division by zero problem...*/
   if (speed == 0) {
     ret = 0;
-  } else {
-    gint eta = ceil(dist / (speed * speed));
-    
-    /* If is one month journey, do simple calculation */
-    if (eta <= 1) {
-      ret = (mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000;
+  } 
+  /* Calculate fuel usage, turn by turn */
+  else {
+    gdouble eta = dist / (speed * speed);
+
+    gint usage = 0;
+    for (eta; eta >= 1.0; eta--) {
+      usage = (mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000;
+      mass -= usage;
+      ret += usage;
     }
-    /* If the journey is long, recalculate mass */
-    else {
-      gint i;
-      gint usage = 0;
-      for (i = eta; i > 0; i--) {
-	usage = (mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000;
-	mass -= usage;
-	ret += usage;
-      }
+    if (eta > 0.0) {
+      ret += floor(((mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000) * eta);
     }
   }
   return ret;

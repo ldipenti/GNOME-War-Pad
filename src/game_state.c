@@ -430,6 +430,8 @@ void game_close(GameState *game_state)
     g_hash_table_foreach (ship_list, (GHFunc) destroy_gobject, NULL);
     g_hash_table_destroy (ship_list);
     gtk_object_destroy (GTK_OBJECT(starchart_get_grp_ships_allied()));
+
+    /* FIXME!!! cleanup code is buggy! */
   }
 }
 
