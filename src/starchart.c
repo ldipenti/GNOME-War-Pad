@@ -1767,6 +1767,14 @@ void init_starchart (GtkWidget * gwp)
   gtk_check_menu_item_set_active (menu_bool, flag_bool);
   starchart_show_planet_names (flag_bool);
 
+  /* Scanner area view */
+  menu_bool = (GtkCheckMenuItem *) lookup_widget ("view_scanner_area");
+  g_object_get (game_state,
+		"scanner-area", &flag_bool,
+		NULL);
+  gtk_check_menu_item_set_active (menu_bool, flag_bool);
+  starchart_show_scanner_area (flag_bool);
+
   /* Model notifications that starchart view has to respond to. */
   g_signal_connect (game_state,
 		    "property-changed::minefields",
