@@ -89,8 +89,9 @@ void init_data (void)
   g_message("BEAMSPEC.DAT loaded...");
   load_truehull_data();
   g_message("TRUEHULL loaded...");
+  g_message("Scanning Messages...");
   scan_messages();
-  g_message("Messages Scanned...");
+  g_message("Messages Scanned!");
 
 #ifdef USE_PYTHON
   if (! python_loaded)
@@ -1532,7 +1533,7 @@ scan_messages (void)
   gint i;
 
   for (i = 0; i < qty; i++) {
-    gchar *msg_body = g_strdup(gwp_messages_getMessageBody (msg_store, i));
+    gchar *msg_body = g_strdup(gwp_messages_getMessageRaw (msg_store, i));
     gchar *msg_hdr = g_strdup(gwp_messages_getMessageHeader (msg_store, i));
 
     /* Scanner report on planets */
@@ -1544,9 +1545,7 @@ scan_messages (void)
 	pcre *re;
 	const gchar *error;
 	gint erroffset;
-	//	const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
-	const gchar *regexp = "\(-z0(.*)\)<<<.*Temp:.*(\b[0-9]+\b).*(\b\w+\b) race.*(\b\w+\b) enemy clan"; 
-	g_message("REGEXP: %s", regexp);
+	const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
 	re = pcre_compile (regexp, /* the pattern */
 			   PCRE_DOTALL,    /* options */
 			   &error,         /* for error message */
@@ -1568,6 +1567,8 @@ scan_messages (void)
 	  
 	  if (rc > 0) {
 	    const gchar *p_id, *p_temp, *p_race, *p_clans;
+	    GwpPlanet *planet;
+
 	    /* Get the data */
 	    pcre_get_substring (msg_body, /* subject string */
 				ovector,  /* offsets vector */
@@ -1589,7 +1590,12 @@ scan_messages (void)
 				rc,       /* total matches */
 				4,        /* match number */
 				&p_clans);  /* output string */
- 	    g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans); 
+	    g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans);
+	    
+	    planet = (GwpPlanet *)g_hash_table_lookup (planet_list, (gpointer)atoi(p_id));
+	    g_assert (GWP_IS_PLANET(planet));
+	    gwp_planet_set_is_known (planet, TRUE);
+	    gwp_planet_set_temperature (planet, atoi(p_temp));
 	  }
 	}
       }
