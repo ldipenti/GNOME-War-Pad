@@ -24,6 +24,7 @@
 /* TODO - try to eliminate as much hardcoded values as possible */
 #define MAX_SHIPS_PER_RACE 20
 #define NMB_OF_TORPTYPES 10
+#define NMB_OF_BEAMTYPES 10
 
 void vcr_all_init( GtkWidget *widget,
 				      gpointer  user_data )
@@ -2501,6 +2502,11 @@ void vcr_populate_ship_a_list( GtkWidget *widget, gpointer user_data )
   gint *idlist;
   static void foreach_func( gpointer key, gpointer value, gpointer user_data );
 
+  /* test if list is already populated */
+  idlist = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_ext_shp_a")), "shipidlist");
+  if( idlist )
+    return;
+  
   name = (gchar *)g_malloc(64*sizeof(gchar));
   idlist = (gint *)g_malloc(MAXNMBSHIPS*sizeof(gint));
 
@@ -2539,47 +2545,136 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
   gint i, n;
   GwpBeamSpec *beams;
   GtkComboBox *box;
+  gint *idlista, *idlistb, *idlistp;
 
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_a" ) );
-  gtk_combo_box_append_text( box, "none" );
-  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
-  gtk_combo_box_append_text( box, "none" );
-  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
-  n = g_slist_length( beamspec_list );
-  for( i=0; i<n; i++ )
+  /* test if list of ship a is already populated before populating */
+  idlista = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_beam_a")), "beamidlist");
+  if( !idlista )
   {
-	beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
+    /* idlista[0] stores the number of stored values */
+    idlista = (gint *)g_malloc( 1*sizeof(gint) );
+    idlista[0] = 0;
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_a" ) );
-    gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
-    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
-    gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
-    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
-    gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+    g_object_set_data( G_OBJECT( box ), "beamidlist", idlista );
+
+    gtk_combo_box_append_text( box, "none" );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+    idlista[0]++;
+
+    n = g_slist_length( beamspec_list );
+    for( i=0; i<n; i++ )
+    {
+      beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
+      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+      idlista[0]++;
+    }
   }
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
-  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+
+  /* test if list of ship b is already populated before populating */
+  idlistb = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_beam_b")), "beamidlist");
+  if( !idlistb )
+  {
+    /* idlistb[0] stores the number of stored values */
+    idlistb = (gint *)g_malloc( 1*sizeof(gint) );
+    idlistb[0] = 0;
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
+    g_object_set_data( G_OBJECT( box ), "beamidlist", idlistb );
+
+    gtk_combo_box_append_text( box, "none" );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+    idlistb[0]++;
+
+    n = g_slist_length( beamspec_list );
+    for( i=0; i<n; i++ )
+    {
+      beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
+      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+      idlistb[0]++;
+    }
+  }
+
+  /* test if list of planet/base is already populated before populating */
+  idlistp = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_bea_bas")), "beamidlist");
+  if( !idlistp )
+  {
+    /* idlistp[0] stores the number of stored values */
+    idlistp = (gint *)g_malloc( 1*sizeof(gint) );
+    idlistp[0] = 0;
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
+    g_object_set_data( G_OBJECT( box ), "beamidlist", idlistp );
+
+    gtk_combo_box_append_text( box, "none" );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+    idlistp[0]++;
+
+    n = g_slist_length( beamspec_list );
+    for( i=0; i<n; i++ )
+    {
+      beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
+      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+      idlistp[0]++;
+    }
+  }
 }
 
 
 void vcr_populate_race_lists( GtkWidget *widget, gpointer user_data )
 {
-  gint i;
   GtkComboBox *box;
+  gint *idlista, *idlistb, *idlistp;
 
-  i = 0;
-  while( race_get_name( i ) )
+  /* test if list of race a is already populated before populating */
+  idlista = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_race_a")), "raceidlist");
+  if( !idlista )
   {
+    /* idlista[0] stores the number of stored values */
+    idlista = (gint *)g_malloc( 1*sizeof(gint) );
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_a" ) );
-    gtk_combo_box_append_text( box, race_get_name( i ) );
+    g_object_set_data( G_OBJECT( box ), "raceidlist", idlista );
+
+    idlista[0] = 0;
+    while( race_get_name( idlista[0] ) )
+    {
+      gtk_combo_box_append_text( box, race_get_name( idlista[0] ) );
+      idlista[0]++;
+    }
     gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+  }
+
+  /* test if list of race b is already populated before populating */
+  idlistb = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_race_b")), "raceidlist");
+  if( !idlistb )
+  {
+    /* idlistb[0] stores the number of stored values */
+    idlistb = (gint *)g_malloc( 1*sizeof(gint) );
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_b" ) );
-    gtk_combo_box_append_text( box, race_get_name( i ) );
+    g_object_set_data( G_OBJECT( box ), "raceidlist", idlistb );
+
+    idlistb[0] = 0;
+    while( race_get_name( idlistb[0] ) )
+    {
+      gtk_combo_box_append_text( box, race_get_name( idlistb[0] ) );
+      idlistb[0]++;
+    }
     gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+  }
+
+  /* test if list of race on planet is already populated before populating */
+  idlistp = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_race_p")), "raceidlist");
+  if( !idlistp )
+  {
+    /* idlistp[0] stores the number of stored values */
+    idlistp = (gint *)g_malloc( 1*sizeof(gint) );
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_race_p" ) );
-    gtk_combo_box_append_text( box, race_get_name( i ) );
+    g_object_set_data( G_OBJECT( box ), "raceidlist", idlistp );
+
+    idlistp[0] = 0;
+    while( race_get_name( idlistp[0] ) )
+    {
+      gtk_combo_box_append_text( box, race_get_name( idlistp[0] ) );
+      idlistp[0]++;
+    }
     gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
-    i++;
   }
 }
 
@@ -2590,25 +2685,52 @@ void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data )
   GwpTorpSpec *torp;
   GtkComboBox *box;
 
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
-  gtk_combo_box_append_text( box, "none" );
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
-  gtk_combo_box_append_text( box, "none" );
-  n = g_slist_length( torpspec_list );
-  for( i=0; i<n; i++ )
+
+  gint *idlista, *idlistb;
+
+  /* test if list of race a is already populated before populating */
+  idlista = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_torp_a")), "torpidlist");
+  if( !idlista )
   {
-	torp = GWP_TORPSPEC( g_slist_nth_data( torpspec_list, i ) );
+    /* idlista[0] stores the number of stored values */
+    idlista = (gint *)g_malloc( 1*sizeof(gint) );
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
-    gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
-    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
-    gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+    g_object_set_data( G_OBJECT( box ), "torpidlist", idlista );
+
+    idlista[0] = 0;
+    gtk_combo_box_append_text( box, "none" );
+    n = g_slist_length( torpspec_list );
+    for( i=0; i<n; i++ )
+    {
+      torp = GWP_TORPSPEC( g_slist_nth_data( torpspec_list, i ) );
+      gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+      idlista[0]++;
+    }
+    gtk_combo_box_append_text( box, "Fighters" );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
   }
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
-  gtk_combo_box_append_text( box, "Fighters" );
-  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
-  gtk_combo_box_append_text( box, "Fighters" );
-  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+
+  /* test if list of race a is already populated before populating */
+  idlistb = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_torp_b")), "torpidlist");
+  if( !idlistb )
+  {
+    /* idlistb[0] stores the number of stored values */
+    idlistb = (gint *)g_malloc( 1*sizeof(gint) );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
+    g_object_set_data( G_OBJECT( box ), "torpidlist", idlistb );
+
+    idlistb[0] = 0;
+    gtk_combo_box_append_text( box, "none" );
+    n = g_slist_length( torpspec_list );
+    for( i=0; i<n; i++ )
+    {
+      torp = GWP_TORPSPEC( g_slist_nth_data( torpspec_list, i ) );
+      gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+      idlistb[0]++;
+    }
+    gtk_combo_box_append_text( box, "Fighters" );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+  }
 }
 
 
@@ -2645,13 +2767,11 @@ void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
   idlist = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_ext_shp_a")), "shipidlist");
   gint selected = gtk_combo_box_get_active( GTK_COMBO_BOX( entry ) );
 
-//  ship = GWP_SHIP( g_hash_table_lookup( ship_list, (gconstpointer)(selected+1) ) );
   ship = gwp_ship_get(ship_list, idlist[(selected+1)] );
   if( ship==NULL )
     g_message( "## ERROR: gwp_ship_get returned NULL" );
 
 /* TODO 
-  vcr_set( widget, user_data, SHIP_A, TYP_HULL, VAL_CUR, 
   vcr_set( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR, 0 );
  */
   vcr_set( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR, 100 );
