@@ -29,10 +29,16 @@
 #define VIEW_SCALE_MAX 12.0
 #define VIEW_SCALE_MIN 0.5
 
-#define TEST_SHIP       1
-#define PLANET_B        2
-#define TEXTURE_TEST    3
+enum {
+   VCRCGL_TEX_ZERO,
+   VCRCGL_TEX_SHIP_A,
+   VCRCGL_TEX_SHIP_B,
+   VCRCGL_TEX_PLANET_B,
+   VCRCGL_TEX_UNIVERSE,
+   VCRCGL_TEX_COUNT
+};
 
+static GLuint vcrcgl_texture_names[ VCRCGL_TEX_COUNT -1 ];
 
 static guint timeout_id = 0;
 static float begin_x = 0.0;
@@ -42,7 +48,7 @@ static float axis_y[3] = { 0.0, 1.0, 0.0 };
 static float axis_z[3] = { 0.0, 0.0, 1.0 };
 static float view_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
 static float logo_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
-static float view_scale = 1.0;
+static float view_scale = 5.0;
 static int rot_count = DEFAULT_ROT_COUNT;
 static int mode = 0;
 static int counter = 0;
@@ -62,7 +68,7 @@ static void init_view( void )
   view_quat[1] = VIEW_INIT_AXIS_Y * sine;
   view_quat[2] = VIEW_INIT_AXIS_Z * sine;
   view_quat[3] = cos (0.5 * VIEW_INIT_ANGLE * DIG_2_RAD);
-  view_scale = 1.0;
+  view_scale = 1.2;
 }
 
 
@@ -98,6 +104,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
     return;
 
 
+  glGenTextures( (VCRCGL_TEX_COUNT -1), vcrcgl_texture_names );
 
 
   glClearColor (0.8, 0.8, 0.9, 1.0);
@@ -126,9 +133,56 @@ static void realize( GtkWidget *widget, gpointer user_data )
   glPolygonMode( GL_FRONT, GL_FILL );
   glPolygonMode( GL_BACK, GL_FILL );
 
-/* DEBUG : try to read texture */
-vcrcgl_read_texture();
-g_message( "texture read" );
+
+
+
+
+
+
+
+
+
+
+  /* read texture */
+  gint width, height;
+  if( vcrcgl_check_texture_bmp( "planet_earth.bmp", &width, &height ) )
+  {
+    g_message( "## Error: vcrcgl_check_texture_bmp() failed for %s", "planet_earth.bmp" );
+  }
+  
+  GLubyte VCRCGL_TextIma[width][height][4];
+
+  vcrcgl_read_texture_from_bmp( &VCRCGL_TextIma[0][0][0], "planet_earth.bmp" );
+
+
+  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
+  glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0,
+                GL_RGBA, GL_UNSIGNED_BYTE,
+                &VCRCGL_TextIma[0][0][0] );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
+
+  glEnable( GL_TEXTURE );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   /* TEXTURE TEST */
@@ -174,24 +228,38 @@ g_message( "texture read" );
 
 
   /* PLANET B */
-  glNewList( PLANET_B, GL_COMPILE );
+  glNewList( VCRCGL_TEX_PLANET_B, GL_COMPILE );
     glEnable(GL_TEXTURE_2D);
     glEnable( GL_CULL_FACE );
     glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
 
    GLfloat d[3] = {15.0, 0.0, 0.0};
-    vcrcgl_draw_sphere( d, 4.5, 4 );
+    vcrcgl_draw_sphere( d, 1.5, 4 );
     glDisable (GL_CULL_FACE);
     glDisable(GL_TEXTURE_2D);
   glEndList();
 
-  /* SHIP */
-  glNewList (TEST_SHIP, GL_COMPILE);
+  /* UNIVERSE */
+  glNewList( VCRCGL_TEX_UNIVERSE, GL_COMPILE );
+    glEnable(GL_TEXTURE_2D);
+    glCullFace( GL_FRONT );
+    glEnable( GL_CULL_FACE );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
+
+   GLfloat e[3] = {0.0, 0.0, 0.0};
+    vcrcgl_draw_sphere( e, 20.0, 4 );
+    glDisable (GL_CULL_FACE);
+    glCullFace( GL_BACK );
+    glDisable(GL_TEXTURE_2D);
+  glEndList();
+
+  /* SHIP A */
+  glNewList( VCRCGL_TEX_SHIP_A, GL_COMPILE );
     glEnable( GL_CULL_FACE );
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_red);
     GLfloat c[3] = { -15.0, 0.0, 0.0 };
     glDisable (GL_CULL_FACE);
-    vcrcgl_draw_ship( c, 1, 1 );
+    vcrcgl_draw_ship( c, 1, 0.3 );
   glEndList ();
 
   glEnable (GL_NORMALIZE);
@@ -325,8 +393,9 @@ static gboolean expose_event( GtkWidget *widget,
 //    glCallList (LOGO_T_BACKWARD);
 //    glCallList (LOGO_K_FORWARD);
 //    glCallList (LOGO_K_BACKWARD);
-    glCallList( TEST_SHIP );
-    glCallList( PLANET_B );
+    glCallList( VCRCGL_TEX_SHIP_A );
+    glCallList( VCRCGL_TEX_PLANET_B );
+    glCallList( VCRCGL_TEX_UNIVERSE );
 //    glCallList( TEXTURE_TEST );
   glPopMatrix ();
 
@@ -899,10 +968,12 @@ void vcrcgl_read_texture( void )
     {
       k=i%VCRCGL_TextImaX;
       l=j%VCRCGL_TextImaY;
+/*
       VCRCGL_TextIma[i][j][2] = (GLubyte) fgetc( dz );
       VCRCGL_TextIma[i][j][1] = (GLubyte) fgetc( dz );
       VCRCGL_TextIma[i][j][0] = (GLubyte) fgetc( dz );
       VCRCGL_TextIma[i][j][3] = (GLubyte) 255;
+*/
 //      VCRCGL_TextIma[i][j][2] = (GLubyte) k;
 //      VCRCGL_TextIma[i][j][1] = (GLubyte) l;
 //      VCRCGL_TextIma[i][j][0] = (GLubyte) (gint)((k+l)/2);
@@ -911,7 +982,7 @@ void vcrcgl_read_texture( void )
   }
 
   fclose( dz );
-
+/*
   glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
   glTexImage2D( GL_TEXTURE_2D, 0, 4, VCRCGL_TextImaX, VCRCGL_TextImaY, 0,
                 GL_RGBA, GL_UNSIGNED_BYTE, &VCRCGL_TextIma[0][0][0] );
@@ -922,6 +993,177 @@ void vcrcgl_read_texture( void )
   glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
 
   glEnable( GL_TEXTURE );
+*/
+}
+
+
+
+gint vcrcgl_check_texture_bmp( gchar *filename, gint *width, gint *height )
+{
+  /* declarations */
+  FILE *dz;
+  gchar name[256];      // filename to open
+  gboolean valid;       // becomes FALSE if file header is invalid
+  guint offset;         // offset to start of data
+  guint tmpint;         // temporary value
+
+  /* prepare filename with path to open */
+  name[0] = '\0';
+  strcat( name, GWP_VCR_TEXTURES_DIR );
+  strcat( name, "/" );
+  strcat( name, filename );
+
+  /* try to get access to file */
+  dz = fopen( name, "rb" );
+  if( !dz )
+  {
+    g_message( "## ERROR: unable to open texture file '%s'", name );
+    return( EXIT_FAILURE );
+  }
+
+  /* check for valid file header */
+  valid = TRUE;
+  /* signature */
+  if( fgetc( dz ) != 0x42 ) valid = FALSE;
+  if( fgetc( dz ) != 0x4d ) valid = FALSE;
+  /* unreliable file size */
+  fgetc( dz ); fgetc( dz ); fgetc( dz ); fgetc( dz );
+  /* reserved values, must be zero */
+  if( fgetc( dz ) != 0x00 ) valid = FALSE;
+  if( fgetc( dz ) != 0x00 ) valid = FALSE;
+  if( fgetc( dz ) != 0x00 ) valid = FALSE;
+  if( fgetc( dz ) != 0x00 ) valid = FALSE;
+  /* offset to start of data (normally == 54) */
+  offset  = fgetc( dz );
+  offset += fgetc( dz ) * 256;
+  offset += fgetc( dz ) * 256 * 256;
+  offset += fgetc( dz ) * 256 * 256 *256;
+  /* size of BITMAPINFOHEADER structure, must be 40 */
+  tmpint  = fgetc( dz );
+  tmpint += fgetc( dz ) * 256;
+  tmpint += fgetc( dz ) * 256 * 256;
+  tmpint += fgetc( dz ) * 256 * 256 *256;
+  if( tmpint != 40 ) valid = FALSE;
+  /* get width of image in pixels */
+  *width  = fgetc( dz );
+  *width += fgetc( dz ) * 256;
+  *width += fgetc( dz ) * 256 * 256;
+  *width += fgetc( dz ) * 256 * 256 *256;
+  /* get height of image in pixels */
+  *height  = fgetc( dz );
+  *height += fgetc( dz ) * 256;
+  *height += fgetc( dz ) * 256 * 256;
+  *height += fgetc( dz ) * 256 * 256 *256;
+  /* number of planes in the image, must be 1 */
+  tmpint  = fgetc( dz );
+  tmpint += fgetc( dz ) * 256;
+  if( tmpint != 1 ) valid = FALSE;
+  /* number of bits per pixel (1, 4, 8, or 24) */
+  tmpint  = fgetc( dz );
+  tmpint += fgetc( dz ) * 256;
+  if( tmpint != 24 ) valid = FALSE;
+  /* compression type (0=none, 1=RLE-8, 2=RLE-4) */
+  tmpint  = fgetc( dz );
+  tmpint += fgetc( dz ) * 256;
+  tmpint += fgetc( dz ) * 256 * 256;
+  tmpint += fgetc( dz ) * 256 * 256 *256;
+  if( tmpint != 0 ) valid = FALSE;
+  /* size of image data in bytes (including padding) */
+  fgetc( dz ); fgetc( dz ); fgetc( dz ); fgetc( dz );
+  /* horizontal resolution in pixels per meter (unreliable) */
+  fgetc( dz ); fgetc( dz ); fgetc( dz ); fgetc( dz );
+  /* vertical resolution in pixels per meter (unreliable) */
+  fgetc( dz ); fgetc( dz ); fgetc( dz ); fgetc( dz );
+  /* number of colors in image, or zero */
+  fgetc( dz ); fgetc( dz ); fgetc( dz ); fgetc( dz );
+  /* number of important colors, or zero */
+  fgetc( dz ); fgetc( dz ); fgetc( dz ); fgetc( dz );
+
+  if( !valid )
+  {
+    g_message( "## Error: invalid or unusable file-header from '%s'", name );
+    fclose( dz );
+    return( EXIT_FAILURE );
+  }
+
+  /* check if file is big enough */
+  fseek( dz, 0L, SEEK_END );
+  if( ( (*width)*(*height)*3 + offset ) > ftell( dz ) )
+  {
+    g_message( "## Error: file %s seems to have size %d, but should have at least %d",
+                name, ftell( dz ), (*width)*(*height)*3 + offset );
+    fclose( dz );
+    return( EXIT_FAILURE );
+  }
+
+  /* done */
+  fclose( dz );
+  return( EXIT_SUCCESS );
+}
+
+
+
+gint vcrcgl_read_texture_from_bmp( GLubyte *texture_pt, gchar *filename )
+{
+  /* declarations */
+  FILE *dz;
+  gchar name[256];      // filename to open
+  guint offset;         // offset to start of data
+  gint width, height;   // dimensions of data
+  gint i, j;
+
+  /* prepare filename with path to open */
+  name[0] = '\0';
+  strcat( name, GWP_VCR_TEXTURES_DIR );
+  strcat( name, "/" );
+  strcat( name, filename );
+
+  /* try to get access to file */
+  dz = fopen( name, "rb" );
+  if( !dz )
+  {
+    g_message( "## ERROR: unable to open texture file '%s'", name );
+    return( EXIT_FAILURE );
+  }
+
+
+  fseek( dz, 6L, SEEK_SET );
+  /* offset to start of data (normally == 54) */
+  offset  = fgetc( dz );
+  offset += fgetc( dz ) * 256;
+  offset += fgetc( dz ) * 256 * 256;
+  offset += fgetc( dz ) * 256 * 256 *256;
+
+  fseek( dz, 18L, SEEK_SET );  
+  /* get width of image in pixels */
+  width  = fgetc( dz );
+  width += fgetc( dz ) * 256;
+  width += fgetc( dz ) * 256 * 256;
+  width += fgetc( dz ) * 256 * 256 *256;
+  /* get height of image in pixels */
+  height  = fgetc( dz );
+  height += fgetc( dz ) * 256;
+  height += fgetc( dz ) * 256 * 256;
+  height += fgetc( dz ) * 256 * 256 *256;
+
+  /* jump to start of data */
+  fseek( dz, offset, SEEK_SET );
+
+  /* read texture */
+  for( i=0; i<width ; i++ )
+  {
+    for( j=0; j<height ; j++ )
+    {
+      *( texture_pt + (i*height*4) + (j*4) + 2 ) = (GLubyte) fgetc( dz );
+      *( texture_pt + (i*height*4) + (j*4) + 1 ) = (GLubyte) fgetc( dz );
+      *( texture_pt + (i*height*4) + (j*4) + 0 ) = (GLubyte) fgetc( dz );
+      *( texture_pt + (i*height*4) + (j*4) + 3 ) = (GLubyte) 255;
+    }
+  }
+
+  /* done */
+  fclose( dz );
+  return( EXIT_SUCCESS );
 }
 
 
@@ -951,40 +1193,27 @@ static GLint tindices[20][3] = {
 }; 
 
 
-#define pi 3.1415926535898
-float Tx( float v[3], float size )
+
+float Tx( float v[3] )
 {
-/*  float x = v[0] / size;
   float tx;
-  tx = 
-  if( v[2] < 0 )
-  {
-  }
-*/
-	float tx;
-	if ( v[0] != 0 )
-	{ 
-		if ( v[0] > 0 )
-		{
-			tx =( 0.5 + (atan(v[2]/v[0])+ pi/2) / (pi*2) ) *1;
-		}
-		else
-		{
-			tx = ((atan(v[2]/v[0])+ pi/2) / (pi*2) ) *1;
-		}
-	}
-	else
-	{
-		tx = (0.5 + v[2]*(0.5/(size/4.0))) *1; 
-	}
-	return tx;
+
+  if ( v[0] != 0 )
+    if ( v[0] > 0 )
+      tx =( 0.5 + (atan(v[2]/v[0])+ G_PI/2) / (G_PI*2) );
+    else
+      tx = ((atan(v[2]/v[0])+ G_PI/2) / (G_PI*2) );
+  else
+    tx = ( 0.5 + v[2]/2.0 ); 
+
+  return tx;
 }
 
-float Ty( float v[3], float size )
+
+
+float Ty( float v[3] )
 {	
-	float ty;		
-	ty = (0.5 + ( ( asin( v[1] / (size/4.0) ) ) / pi )) *1 ;
-	return ty;
+  return ( 0.5 + asin( v[1] ) / G_PI );
 }
 
 
@@ -1026,8 +1255,8 @@ void polyhedron ( float *v1, float *v2, float *v3,
 
 			normalize( v1 );
 			
-			tx = Tx( v1, diameter );
-			ty = Ty( v1, diameter );			
+			tx = Tx( v1 );
+			ty = Ty( v1 );            
 			
 			glTexCoord2f( tx, ty );
 			glNormal3fv(v1);
@@ -1039,8 +1268,8 @@ void polyhedron ( float *v1, float *v2, float *v3,
 
 			normalize( v2 );
 			
-			tx = Tx( v2, diameter );
-			ty = Ty( v2, diameter );			
+			tx = Tx( v2 );
+			ty = Ty( v2 );            
 			
 			glTexCoord2f( tx, ty );
 			glNormal3fv(v2);
@@ -1052,8 +1281,8 @@ void polyhedron ( float *v1, float *v2, float *v3,
 			
 			normalize( v3 );
 			
-			tx = Tx( v3, diameter );
-			ty = Ty( v3, diameter );
+			tx = Tx( v3 );
+			ty = Ty( v3 );
 			
 			glTexCoord2f( tx, ty );
 			glNormal3fv(v3);
