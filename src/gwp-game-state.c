@@ -23,7 +23,22 @@
 
 enum {
   PROP_0,
+  PROP_GAME_DIR,
+  PROP_GAME_NAME,
+  PROP_TRN_DIR,
+  PROP_RST_DIR,
+  PROP_PLAYER_EMAIL,
+  PROP_HOST_EMAIL,
+  PROP_HOST_TYPE,
+  PROP_RACE,
+  PROP_STARCHART_ZOOM,
+  PROP_TURN_NUMBER,
+  PROP_LAST_X_COORD,
+  PROP_LAST_Y_COORD,
+  PROP_PLANET_NAMES,
+  PROP_SCANNER_AREA,
   PROP_MINEFIELDS,
+  PROP_ION_STORMS,
 };
 
 /*
@@ -45,7 +60,6 @@ struct _GwpGameStatePrivate {
   gint turn_number;
   gint16 last_x_coord;
   gint16 last_y_coord;
-  GList *pnames;
   /* Toggle states */
   gboolean toolbar;
   gboolean extra_panel_open;
@@ -99,14 +113,25 @@ gwp_game_state_set_property (GObject      *object,
   GwpGameState *self = (GwpGameState *) object;
 
   switch (property_id) {
+  case PROP_PLANET_NAMES:
+    self->priv->planet_names = g_value_get_boolean (value);
+    break;
+  case PROP_SCANNER_AREA:
+    self->priv->scanner_area = g_value_get_boolean (value);
+    break;
   case PROP_MINEFIELDS:
     self->priv->minefields = g_value_get_boolean (value);
-    g_message ("SET minefields!!");
+    break;
+  case PROP_ION_STORMS:
+    self->priv->ion_storms = g_value_get_boolean (value);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
+  /* Emit a notify signal with the changed property's name */
+  g_signal_emit_by_name (self, g_strconcat("property-changed::",
+					   pspec->name, NULL));
 }
 
 /**
@@ -121,9 +146,17 @@ gwp_game_state_get_property (GObject    *object,
   GwpGameState *self = (GwpGameState *) object;
 
   switch (property_id) {
+  case PROP_PLANET_NAMES:
+    g_value_set_boolean (value, self->priv->planet_names);
+    break;
+  case PROP_SCANNER_AREA:
+    g_value_set_boolean (value, self->priv->scanner_area);
+    break;
   case PROP_MINEFIELDS:
     g_value_set_boolean (value, self->priv->minefields);
-    g_message ("GET minefields!!");
+    break;
+  case PROP_ION_STORMS:
+    g_value_set_boolean (value, self->priv->ion_storms);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -153,12 +186,9 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->last_x_coord = 0;
   self->priv->last_y_coord = 0;
   self->priv->turn_number = 0;
-  self->priv->pnames = NULL;
   self->priv->toolbar = TRUE;
   self->priv->extra_panel_open = FALSE;
   self->priv->planet_names = TRUE;
-  /*  self->priv->minefields = TRUE; */
-  self->priv->ion_storms = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
@@ -185,7 +215,6 @@ gwp_game_state_dispose (GwpGameState *self)
   g_free (self->priv->rst_dir);
   g_free (self->priv->player_email);
   g_free (self->priv->host_email);
-  g_list_free (self->priv->pnames);
 }
 
 static void 
@@ -206,18 +235,47 @@ gwp_game_state_class_init (GwpGameStateClass *klass)
   gobject_class->dispose = (void *)gwp_game_state_dispose;
   gobject_class->finalize = (void *)gwp_game_state_finalize;
 
+  /* Signals  */
+  g_signal_newv ("property-changed",
+		 G_TYPE_FROM_CLASS (klass),
+		 G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED,
+		 NULL /* class closure */,
+		 NULL /* accumulator */,
+		 NULL /* accu_data */,
+		 g_cclosure_marshal_VOID__VOID,
+		 G_TYPE_NONE /* return_type */,
+		 0     /* n_params */,
+		 NULL  /* param_types */);
+
   /* Property get/set methods */
   gobject_class->set_property = gwp_game_state_set_property;
   gobject_class->get_property = gwp_game_state_get_property;
 
   /* Properties registrations */
+  g_object_class_install_property (gobject_class, PROP_PLANET_NAMES,
+				   g_param_spec_boolean ("planet-names",
+							 "Planet-Names",
+							 "Whether show the planet names or not",
+							 TRUE,
+							 G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_SCANNER_AREA,
+				   g_param_spec_boolean ("scanner-area",
+							 "Scanner-Area",
+							 "Whether show the scanner area or not",
+							 TRUE,
+							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_MINEFIELDS,
 				   g_param_spec_boolean ("minefields", 
 							 "Minefields",
 							 "Whether show minefields or not",
 							 TRUE, 
 							 G_PARAM_READWRITE));
-
+  g_object_class_install_property (gobject_class, PROP_ION_STORMS,
+				   g_param_spec_boolean ("ion-storms",
+							 "Ion-Storms",
+							 "Whether show ion storms or not",
+							 TRUE,
+							 G_PARAM_READWRITE));
 }
 
 /*
@@ -338,18 +396,6 @@ gint16 gwp_game_state_get_last_y_coord (GwpGameState *self)
   return self->priv->last_y_coord;
 }
 
-void gwp_game_state_set_pnames (GwpGameState *self, GList *pnames)
-{
-  g_assert (GWP_IS_GAME_STATE (self));
-  self->priv->pnames = pnames;
-}
-
-GList * gwp_game_state_get_pnames (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE (self));
-  return self->priv->pnames;
-}
-
 void gwp_game_state_set_turn_number (GwpGameState *self, gint turn)
 {
   g_assert (GWP_IS_GAME_STATE (self));
@@ -424,54 +470,54 @@ gint gwp_game_state_get_host_type (GwpGameState *self)
 
 void gwp_game_state_set_planet_names (GwpGameState *self, gboolean show)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  self->priv->planet_names = show;
+  g_object_set (self, "planet-names", show, NULL);
 }
 
 gboolean gwp_game_state_get_planet_names (GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  return self->priv->planet_names;
+  gboolean ret;
+
+  g_object_get (self, "planet-names", &ret, NULL);
+  return ret;
 }
 
 void gwp_game_state_set_scanner_area (GwpGameState *self, gboolean show)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  self->priv->scanner_area = show;
+  g_object_set (self, "scanner-area", show, NULL);
 }
 
 gboolean gwp_game_state_get_scanner_area (GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  return self->priv->scanner_area;
+  gboolean ret;
+
+  g_object_get (self, "scanner-area", &ret, NULL);
+  return ret;
 }
 
 void gwp_game_state_set_minefields (GwpGameState *self, gboolean show)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  /* self->priv->minefields = show; */
-  g_object_set (G_OBJECT(self), "minefields", show, NULL);
+  g_object_set (self, "minefields", show, NULL);
 }
 
 gboolean gwp_game_state_get_minefields (GwpGameState *self)
 {
   gboolean ret;
-  g_assert (GWP_IS_GAME_STATE (self));
-  /*  return self->priv->minefields; */
-  g_object_get (G_OBJECT(self), "minefields", &ret, NULL);
+
+  g_object_get (self, "minefields", &ret, NULL);
   return ret;
 }
 
 void gwp_game_state_set_ion_storms (GwpGameState *self, gboolean show)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  self->priv->ion_storms = show;
+  g_object_set (self, "ion-storms", show, NULL);
 }
 
 gboolean gwp_game_state_get_ion_storms (GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
-  return self->priv->ion_storms;
+  gboolean ret;
+
+  g_object_get (self, "ion-storms", &ret, NULL);
+  return ret;
 }
 
 void gwp_game_state_set_extra_panel_open (GwpGameState *self, gboolean show)

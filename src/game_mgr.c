@@ -709,7 +709,6 @@ static void game_mgr_init_message_history (void)
 /* FIXME: This code below comes from the dead game_state.[ch] files, 
    it really belongs here, fix the function names please! */
 
-
 GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 {
   gchar *tmp = NULL;
@@ -779,6 +778,11 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
   tmp = g_strconcat(games_path, "/", game_name, "/race", NULL);
   gwp_game_state_set_race(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
   g_free(tmp);
+
+  tmp = g_strconcat (games_path, "/", game_name, "/minefields", NULL);
+  gwp_game_state_set_minefields (game, gconf_client_get_bool(gwp_gconf, 
+							     tmp, NULL));
+  g_free (tmp);
 
   return game;
 }

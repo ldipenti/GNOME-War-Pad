@@ -732,7 +732,10 @@ void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
 void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data)
 {
-  starchart_show_minefields (gtk_check_menu_item_get_active(menuitem));
+  /* GameToggleMinefieldsRequest ... or something*/
+  g_object_set (game_state, 
+		"minefields", gtk_check_menu_item_get_active(menuitem),
+		NULL);
 }
 
 /* Hides/Shows the ion storms on starchart */

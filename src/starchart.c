@@ -30,6 +30,33 @@
 #include "tables.h"
 #include "mission.h"
 
+static void
+gstate_notify (GObject state, gpointer data)
+{
+  g_message ("notify signal!!!");
+}
+
+static gboolean
+avisar_emission_hook (GSignalInvocationHint *ihint,
+		      guint n_param_values,
+		      const GValue *param_values,
+		      gpointer data)
+{
+  GwpGameState *state;
+  gboolean flag;
+
+  state = g_value_get_object (param_values);
+
+  if (strcmp(g_quark_to_string(ihint->detail), "minefields") == 0) {
+    g_object_get (state, 
+		  g_quark_to_string(ihint->detail), &flag, 
+		  NULL);
+    starchart_show_minefields (flag);
+  }
+
+  return TRUE;
+}
+
 /*
  * Updates Planet Data on Panel
  */
@@ -1702,6 +1729,15 @@ void init_starchart (GtkWidget * gwp)
 		     "grid_group", starchart_get_grp_grid());
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
 		     "ships_group", starchart_get_grp_ships());
+
+  /* FIXME: This is just a test with emission hooks */
+  g_signal_add_emission_hook (g_signal_lookup ("property-changed", 
+					       GWP_TYPE_GAME_STATE),
+			      0,
+			      avisar_emission_hook,
+			      NULL,
+			      NULL);
+  g_signal_connect (game_state, "notify", (GCallback)gstate_notify, NULL);
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2539,8 +2575,6 @@ void starchart_show_scanner_area (gboolean show)
 
 void starchart_show_minefields (gboolean show)
 {
-  gwp_game_state_set_minefields (game_state, show);
-
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
 			    starchart_get_grp_minefields ());

@@ -41,6 +41,7 @@
 void gwp_init(void);
 void gwp_init_splash(void);
 
+
 int main (int argc, char *argv[]) {
 
 #ifdef ENABLE_NLS
@@ -96,7 +97,7 @@ int main (int argc, char *argv[]) {
   /* Initialisations */
   g_type_init(); /* GLib's type system */
   gwp_init();
-  
+
   /* Hide splash screen & show game manager */
   /* gtk_widget_hide(gwp_splash_screen); */
   gtk_widget_show(game_mgr);
