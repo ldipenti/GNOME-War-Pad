@@ -51,8 +51,6 @@ void init_data (void)
   game_set_starchart_zoom(game_state, 1.0);
   game_set_pnames(game_state, load_pnames_file(PNAMES));
 
-  xyplanet_list = load_xyplan(XYPLAN);
-  g_message ("XYPLAN loaded...");
   shipxy_list = load_shipxy(game_get_race(game_state));
   g_message ("SHIPXY loaded...");
   target_list = load_target(game_get_race(game_state));
@@ -566,6 +564,7 @@ GHashTable * load_sdata (void)
  */
 GHashTable * load_pdata (void)
 {
+  GList *xyplanet_list;
   GString *pdata_dis_file, *pdata_dat_file;
   FILE *pdata = NULL;
   VpXYPlanReg *coords = NULL;
@@ -578,6 +577,10 @@ GHashTable * load_pdata (void)
   struct stat dat_data;
   GwpPlanet *p;
   gchar *fc_tmp;
+
+  /* Load temp planets coord data */
+  xyplanet_list = load_xyplan(XYPLAN);
+  g_message ("XYPLAN loaded...");
 
   pdata_dis_file =
     g_string_new (g_strdup_printf ("PDATA%d.DIS", game_get_race(game_state)));
