@@ -1,9 +1,9 @@
 AC_PREREQ(2.52)
-AC_INIT(GNOME War Pad, 0.3.1, lucas@lunix.com.ar)
+AC_INIT(gwp, 0.3.1, https://bugzilla.lunix.com.ar/cgi-bin/bugzilla/enter_bug.cgi?product=GNOME%20War%20Pad)
 
 AM_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gwp, 0.3.1)
+AM_INIT_AUTOMAKE(AC_PACKAGE_NAME,AC_PACKAGE_VERSION)
 
 AM_MAINTAINER_MODE
 AC_PROG_INTLTOOL
@@ -15,9 +15,24 @@ AC_PROG_LIBTOOL
 
 GNOME_COMPILE_WARNINGS
 
-PKG_CHECK_MODULES(FOO, libgnomeui-2.0 libglade-2.0)
-AC_SUBST(FOO_CFLAGS)
-AC_SUBST(FOO_LIBS)
+dnl ==========================================
+dnl = Check for GNOME libs
+dnl ==========================================
+PKG_CHECK_MODULES(LIBGNOMEUI, libgnomeui-2.0 >= 2.6.0, have_libgnomeui=yes, have_libgnomeui=no)
+if test "$have_libgnomeui" = "yes"; then
+	GNOME_MODULES="$GNOME_MODULES libgnomeui-2.0"
+else
+	AC_MSG_ERROR([Need libgnomeui version 2.6.0 or higher])
+fi
+PKG_CHECK_MODULES(LIBGLADE, libglade-2.0 >= 2.4.0, have_libglade=yes, have_libglade=no)
+if test "$have_libglade" = "yes"; then
+	GNOME_MODULES="$GNOME_MODULES libglade-2.0"
+else
+	AC_MSG_ERROR([Need libglade version 2.4.0 or higher])
+fi
+PKG_CHECK_MODULES(GNOME, $GNOME_MODULES)
+AC_SUBST(GNOME_CFLAGS)
+AC_SUBST(GNOME_LIBS)
 
 SCROLLKEEPER_BUILD_REQUIRED=0.3.5
 AC_SUBST(SCROLLKEEPER_BUILD_REQUIRED)
@@ -89,6 +104,16 @@ if test "yes" = "$enable_python"; then
 		  Continuing build without Python support.])
 	fi
   fi
+fi
+
+dnl =================================
+dnl = Check for GtkGlExt support
+dnl =================================
+PKG_CHECK_MODULES(GTKGLEXT, gtkglext-1.0 >= 1.0.0, have_gtkglext=yes, have_gtkglext=no)
+if test "$have_gtkglext" = "yes" ; then
+	AC_DEFINE(USE_GTKGLEXT, 1, GtkGlExt support)
+       	AC_SUBST(GTKGLEXT_CFLAGS)
+	AC_SUBST(GTKGLEXT_LIBS)
 fi
 
 dnl Languages which your application supports
@@ -182,9 +207,15 @@ echo Build Configuration:
 echo
 
 if test "$HAVE_PYTHON" != ""; then
-  echo - Python version $HAVE_PYTHON.
+  echo - Python scripting support, version $HAVE_PYTHON.
 else
-  echo - No Python support.
+  echo - No Python scripting support. If you want to compile this feature, you should install the Python development package.
+fi
+
+if test "$have_gtkglext" = "yes"; then
+  echo - GtkGlExt supported. VCR player enabled.
+else
+  echo - GtkGlExt not supported. VCR player disabled.
 fi
 
 echo
