@@ -519,7 +519,7 @@ void gwp_quit(void)
   /* Disconnect from GConf server */
   gconf_client_suggest_sync(gwp_gconf, NULL);
   g_object_unref(gwp_gconf);
-  
+
 #ifdef USE_PYTHON
   /* Stop Python interpreter */
   gwp_python_quit();
@@ -761,8 +761,6 @@ void on_message_treeview_row_activated( GtkWidget *widget,
 void on_message_treeview_cursor_changed( GtkWidget *widget,
 				     gpointer user_data)
 {
-  GwpMessages *messages = (GwpMessages *)
-    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
   GtkTreeView *message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
   GtkTreeModel *model = gtk_tree_view_get_model( message_tree );
 
@@ -889,11 +887,16 @@ void on_vcr_checkbutton_base_toggled( GtkWidget *widget,
 
 
 
+void on_vcr_comboboxentry_sel_ext_shp_a_changed( GtkWidget *widget,
+                                                 gpointer  user_data )
+{
+  vcr_ship_a_selected( widget, user_data );
+}
 
 
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
 {
-
+/*
   vcr_set( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR, 50 );
   vcr_set( widget, user_data, SHIP_B, PRC_SHIELD, VAL_CUR, 50 );
   vcr_set( widget, user_data, PLANET, PRC_SHIELD, VAL_CUR, 50 );
@@ -926,5 +929,19 @@ void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
   vcr_set( widget, user_data, SHIP_B, LVL_ENGINE, VAL_CUR, 6 );
   vcr_set( widget, user_data, PLANET, NMB_DEF, VAL_CUR, 6 );
   vcr_set( widget, user_data, BASE, NMB_DEF, VAL_CUR, 6 );
+*/
+  g_message( "shield a: %d", vcr_get( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR ) );
+  g_message( "shield b: %d", vcr_get( widget, user_data, SHIP_B, PRC_SHIELD, VAL_CUR ) );
+  g_message( "damage a: %d", vcr_get( widget, user_data, SHIP_A, PRC_DAMAGE, VAL_CUR ) );
+  g_message( "damage b: %d", vcr_get( widget, user_data, SHIP_B, PRC_DAMAGE, VAL_CUR ) );
+  g_message( "sbonus a: %d", vcr_get( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR ) );
+  g_message( "sbonus b: %d", vcr_get( widget, user_data, SHIP_B, PRC_SHIBON, VAL_CUR ) );
+  g_message( "nmbtub a: %d", vcr_get( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR ) );
+  g_message( "nmbtub b: %d", vcr_get( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR ) );
+  g_message( "nmbfig a: %d", vcr_get( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_CUR ) );
+  g_message( "nmbfig b: %d", vcr_get( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_CUR ) );
+  g_message( "nmbfig p: %d", vcr_get( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR ) );
+  g_message( "crew   a: %d", vcr_get( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR ) );
+  g_message( "crew   b: %d", vcr_get( widget, user_data, BASE, NMB_CREW, VAL_CUR ) );
 }
 

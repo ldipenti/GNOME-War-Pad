@@ -47,7 +47,15 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               gint target, gint value, gint what, gint setthis );
 gint vcr_get( GtkWidget *widget, gpointer user_data,
               gint source, gint value, gint what );
+void vcr_populate_ship_a_list( GtkWidget *widget, gpointer user_data );
+void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data );
+void vcr_populate_race_lists( GtkWidget *widget, gpointer user_data );
+void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data );
 
+void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data );
+
+
+gint str2int( char *str );
 
 
 

@@ -166,7 +166,8 @@ void on_vcr_button_start_combat_pressed( GtkWidget *widget,
                                          gpointer  user_data );
 void on_vcr_checkbutton_base_toggled( GtkWidget *widget,
                                       gpointer  user_data );
-
+void on_vcr_comboboxentry_sel_ext_shp_a_changed( GtkWidget *widget,
+                                                 gpointer  user_data );
 
 
 

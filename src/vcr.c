@@ -7,12 +7,22 @@
 #include "global.h"
 #include "support.h"
 #include "vcr.h"
+#include "gwp-ship.h"
+#include "race.h"
+
+#define ASCII_0 48
+#define MAXNMBSHIPS 512
 
 void vcr_all_init( GtkWidget *widget,
 				      gpointer  user_data )
 {
   /* show window */
   vcr_show_window( widget, user_data, TRUE );
+  /* populate all lists */
+  vcr_populate_ship_a_list( widget, user_data );
+  vcr_populate_beamspec_lists( widget, user_data );
+  vcr_populate_race_lists( widget, user_data );
+  vcr_populate_torps_lists( widget, user_data );
 }
 
 
@@ -65,8 +75,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               gint target, gint value, gint what, gint setthis )
 {
   GtkWidget *scale;
-  GtkWidget *entry;
-  GtkWidget *box;
+  GtkEntry *entry;
+  GtkComboBox *box;
 
   gchar *setthistxt = (gchar *)g_malloc(64*sizeof(gchar));
   setthistxt[0] = '\0';
@@ -320,7 +330,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_sel_torp_a" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_sel_torp_a" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -338,7 +348,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_sel_torp_b" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_sel_torp_b" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -453,7 +463,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_fig_bas" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_fig_bas" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -559,7 +569,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_sel_beam_a" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_sel_beam_a" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -577,7 +587,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_sel_beam_b" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_sel_beam_b" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -747,7 +757,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_def_p" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_def_p" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -765,7 +775,7 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                entry = lookup_widget( "vcr_entry_def_bas" );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_def_bas" ) );
                 gtk_entry_set_text( entry, setthistxt );
               break;
             case VAL_MAX:
@@ -869,8 +879,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_sel_beam_a" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_a" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -887,8 +897,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_sel_beam_b" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -922,8 +932,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_bea_bas" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -948,8 +958,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_sel_torp_a" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
+                gtk_combo_box_set_active( box, setthis );
                 break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -966,8 +976,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_sel_torp_b" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -1026,8 +1036,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_sel_race_a" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_a" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -1044,8 +1054,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_sel_race_b" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_b" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -1062,8 +1072,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-                box = lookup_widget( "vcr_comboboxentry_race_p" );
-                gtk_combo_box_set_active( GTK_COMBO_BOX( box ), setthis );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_race_p" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -1265,6 +1275,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               gint source, gint value, gint what )
 {
   gint retval = 0;
+  GtkRange *range;
+  GtkEntry *entry;
 
   switch( value )
   {
@@ -1278,7 +1290,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_shi_a" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1295,7 +1308,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_shi_b" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1354,7 +1368,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_dam_a" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1371,7 +1386,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_dam_b" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1430,7 +1446,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_sbo_a" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1447,7 +1464,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_sbo_b" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1506,7 +1524,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_sel_torp_a" ) );
+                retval = str2int( gtk_entry_get_text( entry ) );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1523,7 +1542,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_sel_torp_b" ) );
+                retval = str2int( gtk_entry_get_text( entry ) );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1582,7 +1602,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_trp_a" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1599,7 +1620,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_trp_b" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1633,7 +1655,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                entry = GTK_ENTRY( lookup_widget( "vcr_entry_fig_bas" ) );
+                retval = str2int( gtk_entry_get_text( entry ) );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1658,7 +1681,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_cre_a" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -1675,7 +1699,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_cre_b" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -2415,6 +2440,182 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
   return( retval );
 }
 
+
+void vcr_populate_ship_a_list( GtkWidget *widget, gpointer user_data )
+{
+  gchar *name;
+  gint *idlist;
+  static void foreach_func( gpointer key, gpointer value, gpointer user_data );
+
+  name = (gchar *)g_malloc(64*sizeof(gchar));
+  idlist = (gint *)g_malloc(MAXNMBSHIPS*sizeof(gint));
+
+  /* idlist[0] stores the number of stored values */
+  idlist[0] = 0;
+
+  GtkWidget *combox = lookup_widget("vcr_comboboxentry_sel_ext_shp_a");
+  g_object_set_data(G_OBJECT(combox), "shipidlist", idlist );
+
+  void foreach_func( gpointer key, gpointer value, gpointer user_data )
+  {
+    GwpShip *ship = GWP_SHIP( value );
+    GtkComboBox *box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_ext_shp_a" ) );
+    gint *idlist = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_ext_shp_a")), "shipidlist");
+    gint curr = idlist[0];
+
+    if( gwp_ship_is_mine( ship ) )
+    {
+      curr++;
+      idlist[curr] = gwp_object_get_id( GWP_OBJECT(ship) );
+      idlist[0]++;
+      g_sprintf( name, "%03d: ", idlist[curr] );
+      strncat( name, gwp_object_get_name (GWP_OBJECT(ship))->str, 50 );
+      gtk_combo_box_append_text( box, name );
+    }
+  }
+
+  g_hash_table_foreach( ship_list, (GHFunc) foreach_func, user_data );
+
+  g_free( name );
+}
+
+
+void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
+{
+  gint i, n;
+  GwpBeamSpec *beams;
+  GtkComboBox *box;
+
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_a" ) );
+  gtk_combo_box_append_text( box, "none" );
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
+  gtk_combo_box_append_text( box, "none" );
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
+  gtk_combo_box_append_text( box, "none" );
+  n = g_slist_length( beamspec_list );
+  for( i=0; i<n; i++ )
+  {
+	beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_a" ) );
+    gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
+    gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
+    gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+  }
+}
+
+
+void vcr_populate_race_lists( GtkWidget *widget, gpointer user_data )
+{
+  gint i;
+  GtkComboBox *box;
+
+  i = 0;
+  while( race_get_name( i ) )
+  {
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_a" ) );
+    gtk_combo_box_append_text( box, race_get_name( i ) );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_b" ) );
+    gtk_combo_box_append_text( box, race_get_name( i ) );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_race_p" ) );
+    gtk_combo_box_append_text( box, race_get_name( i ) );
+    i++;
+  }
+}
+
+
+void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data )
+{
+  gint i, n;
+  GwpTorpSpec *torp;
+  GtkComboBox *box;
+
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
+  gtk_combo_box_append_text( box, "none" );
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
+  gtk_combo_box_append_text( box, "none" );
+  n = g_slist_length( torpspec_list );
+  for( i=0; i<n; i++ )
+  {
+	torp = GWP_TORPSPEC( g_slist_nth_data( torpspec_list, i ) );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
+    gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+    box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
+    gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+  }
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
+  gtk_combo_box_append_text( box, "Fighters" );
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
+  gtk_combo_box_append_text( box, "Fighters" );
+}
+
+
+
+void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
+{
+  GtkComboBoxEntry *entry;
+  GwpShip *ship;
+  
+  entry = GTK_COMBO_BOX_ENTRY( lookup_widget( "vcr_comboboxentry_sel_ext_shp_a" ) );
+
+  gint *idlist = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_ext_shp_a")), "shipidlist");
+  gint selected = gtk_combo_box_get_active( GTK_COMBO_BOX( entry ) );
+
+//  ship = GWP_SHIP( g_hash_table_lookup( ship_list, (gconstpointer)(selected+1) ) );
+  ship = gwp_ship_get(ship_list, idlist[(selected+1)] );
+  if( ship==NULL )
+    g_message( "## ERROR: gwp_ship_get returned NULL" );
+
+/* TODO 
+  vcr_set( widget, user_data, SHIP_A, TYP_HULL, VAL_CUR, 
+  vcr_set( widget, user_data, SHIP_A, PRC_SHIBON, VAL_CUR, 0 );
+ */
+  vcr_set( widget, user_data, SHIP_A, PRC_SHIELD, VAL_CUR, 100 );
+  vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_MAX, gwp_ship_get_hull_crew( ship ) );
+  vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_CUR, gwp_ship_get_crew( ship )  );
+  vcr_set( widget, user_data, SHIP_A, PRC_DAMAGE, VAL_CUR, gwp_ship_get_damage( ship ) );
+  if( gwp_ship_has_torp_weapons( ship ) )
+  {
+    vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, gwp_ship_get_torps_launchers( ship ) );
+    vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_CUR, gwp_ship_get_torps_launchers( ship ) );
+    vcr_set( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR, gwp_ship_get_torps_type( ship ) );
+  }
+  else
+  {
+    vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, gwp_ship_get_fighter_bays( ship ) );
+    vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_CUR, gwp_ship_get_fighters( ship ) );
+/* TODO: exchange hardcoded values of "fighters" and "none" entries in list */
+    if( gwp_ship_get_fighter_bays( ship ) > 0 )
+      vcr_set( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR, 11 );
+    else
+      vcr_set( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR, 0 );
+  }
+  vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR, gwp_ship_get_beams( ship ) );
+  vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_MAX,gwp_ship_get_hull_cargo( ship )  );
+  vcr_set( widget, user_data, SHIP_A, LVL_BEAM, VAL_CUR, gwp_ship_get_beams_type( ship ) );
+  vcr_set( widget, user_data, SHIP_A, TYP_RACE, VAL_CUR, gwp_ship_get_owner( ship ) );
+  vcr_set( widget, user_data, SHIP_A, LVL_ENGINE, VAL_CUR, gwp_ship_get_engines_type( ship )+1 );
+}
+
+
+
+gint str2int( char *str )
+{
+  gint val = 0;
+  gint sign = 1;
+  gint i = 0;
+
+  if( str[i] == '-' ) {
+    sign = -1;
+    i++; }
+
+  while( str[i]-ASCII_0 >= 0 && str[i]-ASCII_0 <= 9 ) {
+      val = val*10 + (str[i]-ASCII_0);
+      i++; }
+
+  return( val*sign );
+}
 
 
 
