@@ -3,7 +3,7 @@ AC_INIT(GNOME War Pad, 0.2.0, lucas@lunix.com.ar)
 
 AM_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gwp, 0.1.0)
+AM_INIT_AUTOMAKE(gwp, 0.2.0)
 
 AM_MAINTAINER_MODE
 
