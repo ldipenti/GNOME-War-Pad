@@ -38,6 +38,7 @@
 #include "vp_unpack.h"
 #include "race.h"
 #include "gwp-messages.h"
+#include "gwp-utils.h"
 #include "message-reader.h"
 #include "vcr.h"
 
@@ -959,6 +960,15 @@ void on_view_python_console_activate (GtkWidget *widget,
   FILE *console = fopen (GWP_SCRIPTS_DIR"/gtkcons.py", "r");
   PyRun_SimpleFile(console, "gtkcons.py");
   fclose (console);
+
+#else /* No Python support, warn the user */
+
+  GtkWidget *warn = gwp_warning_dialog_new (gwp,
+					    _("No Python support enabled."),
+					    _("If you need the Python scripting feature, you should recompile the program after installing Python development packages on your distribution."));
+  gtk_dialog_run(GTK_DIALOG(warn));
+  gtk_widget_destroy(warn);
+
 #endif
 }
 
