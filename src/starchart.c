@@ -1599,7 +1599,6 @@ void init_starchart (GtkWidget * gwp)
   gint i;
   
   /* Starchart struct initialization */
-  starchart_set_grid(TRUE);
   starchart_set_canvas((GnomeCanvas *) lookup_widget ("starchart"));
   starchart_set_grp_root(gnome_canvas_root (starchart_get_canvas()));
 
@@ -2624,4 +2623,15 @@ GString * starchart_get_location_name (gint x, gint y)
   }
 
   return ret;
+}
+
+/* Shows/hides grid */
+void
+starchart_show_grid (gboolean show)
+{
+  if(show) {
+    gnome_canvas_item_show ((GnomeCanvasItem *) starchart_get_grp_grid());
+  } else {
+    gnome_canvas_item_hide ((GnomeCanvasItem *) starchart_get_grp_grid());
+  }
 }

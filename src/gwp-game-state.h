@@ -115,8 +115,6 @@ void gwp_game_state_set_ion_storms (GwpGameState *self, gboolean show);
 gboolean gwp_game_state_get_ion_storms (GwpGameState *self);
 void gwp_game_state_set_extra_panel_open (GwpGameState *self, gboolean show);
 gboolean gwp_game_state_get_extra_panel_open (GwpGameState *self);
-void gwp_game_state_set_toolbar (GwpGameState *self, gboolean show);
-gboolean gwp_game_state_get_toolbar (GwpGameState *self);
 #ifdef USE_PYTHON
 void gwp_game_state_set_plugin_mgr (GwpGameState *self, void *obj);
 void * gwp_game_state_get_plugin_mgr (GwpGameState *self);

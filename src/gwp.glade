@@ -75,17 +75,6 @@
 		    <widget class="GtkMenu" id="ver1_menu">
 
 		      <child>
-			<widget class="GtkCheckMenuItem" id="toolbar_menu">
-			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">Toggle toolbar</property>
-			  <property name="label" translatable="yes">_Toolbar</property>
-			  <property name="use_underline">True</property>
-			  <property name="active">True</property>
-			  <signal name="activate" handler="on_view_toolbar_activate" last_modification_time="Mon, 23 Jun 2003 02:55:33 GMT"/>
-			</widget>
-		      </child>
-
-		      <child>
 			<widget class="GtkCheckMenuItem" id="view_pnames_menu">
 			  <property name="visible">True</property>
 			  <property name="tooltip" translatable="yes">Toggle planet names</property>
@@ -132,7 +121,68 @@
 		      </child>
 
 		      <child>
+			<widget class="GtkCheckMenuItem" id="grid">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">_Grid</property>
+			  <property name="use_underline">True</property>
+			  <property name="active">True</property>
+			  <signal name="activate" handler="on_view_grid_toggle" last_modification_time="Fri, 08 Oct 2004 03:51:44 GMT"/>
+			  <accelerator key="G" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+			</widget>
+		      </child>
+
+		      <child>
 			<widget class="GtkSeparatorMenuItem" id="separator5">
+			  <property name="visible">True</property>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkImageMenuItem" id="zoom_in1">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Zoom In</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_zoom_in" last_modification_time="Fri, 08 Oct 2004 03:48:37 GMT"/>
+			  <accelerator key="KP_Add" modifiers="0" signal="activate"/>
+
+			  <child internal-child="image">
+			    <widget class="GtkImage" id="image113">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-zoom-in</property>
+			      <property name="icon_size">1</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkImageMenuItem" id="zoom_out1">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Zoom Out</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_zoom_out" last_modification_time="Fri, 08 Oct 2004 03:48:37 GMT"/>
+			  <accelerator key="KP_Subtract" modifiers="0" signal="activate"/>
+
+			  <child internal-child="image">
+			    <widget class="GtkImage" id="image114">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-zoom-out</property>
+			      <property name="icon_size">1</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkSeparatorMenuItem" id="separator6">
 			  <property name="visible">True</property>
 			</widget>
 		      </child>
@@ -187,7 +237,7 @@
 			  <signal name="activate" handler="on_online_help_activate" last_modification_time="Mon, 16 Jun 2003 21:19:21 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image101">
+			    <widget class="GtkImage" id="image115">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-help</property>
 			      <property name="icon_size">1</property>
@@ -220,93 +270,6 @@
 	  <property name="position">0</property>
 	  <property name="offset">0</property>
 	  <property name="behavior">BONOBO_DOCK_ITEM_BEH_EXCLUSIVE|BONOBO_DOCK_ITEM_BEH_NEVER_VERTICAL|BONOBO_DOCK_ITEM_BEH_LOCKED</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="BonoboDockItem" id="bonobodock_btn_bar">
-	  <property name="visible">True</property>
-	  <property name="shadow_type">GTK_SHADOW_ETCHED_OUT</property>
-
-	  <child>
-	    <widget class="GtkToolbar" id="toolbar2">
-	      <property name="visible">True</property>
-	      <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-	      <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
-	      <property name="tooltips">True</property>
-	      <property name="show_arrow">False</property>
-
-	      <child>
-		<widget class="GtkToggleToolButton" id="togglebutton_grid">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Grid</property>
-		  <property name="use_underline">True</property>
-		  <property name="stock_id">gnome-stock-table-fill</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
-		  <property name="active">True</property>
-		  <signal name="toggled" handler="on_togglebutton_grid_toggled" last_modification_time="Mon, 23 Jun 2003 03:14:50 GMT"/>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkSeparatorToolItem" id="separatortoolitem1">
-		  <property name="visible">True</property>
-		  <property name="draw">True</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">False</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkToolButton" id="button_zoom_in">
-		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">Zoom in</property>
-		  <property name="stock_id">gtk-zoom-in</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
-		  <signal name="clicked" handler="on_button_zoom_in_clicked" last_modification_time="Mon, 23 Jun 2003 03:07:27 GMT"/>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkToolButton" id="button_zoom_out">
-		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">Zoom out</property>
-		  <property name="stock_id">gtk-zoom-out</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
-		  <signal name="clicked" handler="on_button_zoom_out_clicked" last_modification_time="Mon, 23 Jun 2003 03:14:24 GMT"/>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
-	      </child>
-	    </widget>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="placement">BONOBO_DOCK_LEFT</property>
-	  <property name="band">0</property>
-	  <property name="position">0</property>
-	  <property name="offset">0</property>
-	  <property name="behavior">BONOBO_DOCK_ITEM_BEH_NEVER_FLOATING|BONOBO_DOCK_ITEM_BEH_NEVER_HORIZONTAL|BONOBO_DOCK_ITEM_BEH_LOCKED</property>
 	</packing>
       </child>
 
@@ -6181,89 +6144,6 @@
 		    <packing>
 		      <property name="type">tab</property>
 		    </packing>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkFrame" id="frame51">
-		  <property name="border_width">2</property>
-		  <property name="visible">True</property>
-		  <property name="label_xalign">0</property>
-		  <property name="label_yalign">0.5</property>
-		  <property name="shadow_type">GTK_SHADOW_IN</property>
-
-		  <child>
-		    <widget class="GtkToolbar" id="toolbar7">
-		      <property name="visible">True</property>
-		      <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
-		      <property name="toolbar_style">GTK_TOOLBAR_BOTH_HORIZ</property>
-		      <property name="tooltips">True</property>
-		      <property name="show_arrow">True</property>
-
-		      <child>
-			<widget class="GtkToolItem" id="toolitem13">
-			  <property name="visible">True</property>
-			  <property name="visible_horizontal">True</property>
-			  <property name="visible_vertical">True</property>
-			  <property name="is_important">False</property>
-
-			  <child>
-			    <widget class="GtkImage" id="image_noti">
-			      <property name="visible">True</property>
-			      <property name="stock">gtk-cdrom</property>
-			      <property name="icon_size">4</property>
-			      <property name="xalign">0.5</property>
-			      <property name="yalign">0.5</property>
-			      <property name="xpad">0</property>
-			      <property name="ypad">0</property>
-			    </widget>
-			  </child>
-			</widget>
-			<packing>
-			  <property name="expand">False</property>
-			  <property name="homogeneous">False</property>
-			</packing>
-		      </child>
-
-		      <child>
-			<widget class="GtkToolItem" id="toolitem14">
-			  <property name="visible">True</property>
-			  <property name="visible_horizontal">True</property>
-			  <property name="visible_vertical">True</property>
-			  <property name="is_important">False</property>
-
-			  <child>
-			    <widget class="GtkButton" id="btn_noti">
-			      <property name="visible">True</property>
-			      <property name="relief">GTK_RELIEF_NONE</property>
-			      <property name="focus_on_click">False</property>
-
-			      <child>
-				<widget class="GtkImage" id="image105">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-justify-center</property>
-				  <property name="icon_size">4</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-			</widget>
-			<packing>
-			  <property name="expand">False</property>
-			  <property name="homogeneous">False</property>
-			</packing>
-		      </child>
-		    </widget>
 		  </child>
 		</widget>
 		<packing>

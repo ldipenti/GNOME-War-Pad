@@ -50,20 +50,9 @@ starchart_event_key                    (GtkWidget       *widget,
                                         gpointer         user_data)
 {	
   gboolean handled = FALSE;
-  GtkToggleButton *grid_button = 
-    (GtkToggleButton *) lookup_widget("togglebutton_grid");
 
   switch(event->keyval)
     {
-      /* Zoom Events */
-    case GDK_KP_Add:
-      starchart_zoom_in(starchart_get_canvas());
-      handled = TRUE;
-      break;
-    case GDK_KP_Subtract:
-      starchart_zoom_out(starchart_get_canvas());
-      handled = TRUE;
-      break;
       /* Scrolling Events */
     case GDK_w:
       if (!gwp_game_state_get_extra_panel_open(game_state))
@@ -83,12 +72,6 @@ starchart_event_key                    (GtkWidget       *widget,
     case GDK_d:
       if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(SCROLL, 0);
-      handled = TRUE;
-      break;
-      /* Activate/Deactivate Grid */
-    case GDK_g:
-      gtk_toggle_button_set_active(grid_button,
-				   !starchart_get_grid());
       handled = TRUE;
       break;
       /* Hide panels */
@@ -712,25 +695,30 @@ void on_button_zoom_out_clicked (GtkWidget *wodget,
   starchart_zoom_out(starchart_get_canvas());
 }
 
-void on_togglebutton_grid_toggled (GtkToggleButton *button,
-				   gpointer user_data)
+/* Zoom in */
+void 
+on_zoom_in (GtkWidget *widget,
+	    gpointer user_data)
 {
-  starchart_toggle_grid();
+  starchart_zoom_in (starchart_get_canvas());
 }
 
-/* Hides/Shows the tool button bar */
-void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
-			       gpointer user_data)
+/* Zoom out */
+void 
+on_zoom_out (GtkWidget *widget,
+	    gpointer user_data)
 {
-  GtkWidget *btn_bar = lookup_widget("bonobodock_btn_bar");
+  starchart_zoom_out (starchart_get_canvas());
+}
 
-  if(gtk_check_menu_item_get_active(menuitem)) {
-    gtk_widget_show(btn_bar);
-    gwp_game_state_set_toolbar(game_state, TRUE);
-  } else {
-    gtk_widget_hide(btn_bar);
-    gwp_game_state_set_toolbar(game_state, FALSE);
-  }
+/**
+ * Toggle grid visualization
+ */
+void
+on_view_grid_toggle (GtkCheckMenuItem *menuitem,
+		     gpointer          user_data)
+{
+  starchart_show_grid (gtk_check_menu_item_get_active(menuitem));
 }
 
 /* Hides/Shows the planet names on starchart */

@@ -59,10 +59,6 @@ void starchart_set_grp_minefields (GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_ion_storms (void);
 void starchart_set_grp_ion_storms (GnomeCanvasGroup * group);
 
-void starchart_set_grid (gboolean state);
-gboolean starchart_get_grid (void);
-gboolean starchart_toggle_grid (void);
-
 typedef struct _Fleet Fleet;
 struct _Fleet {
   gint fleet_num; /* Fleet id */
@@ -73,7 +69,6 @@ struct _Fleet {
 
 typedef struct _Starchart Starchart;
 struct _Starchart {
-  gboolean grid;
   GnomeCanvas *canvas;
   
   GnomeCanvasGroup *grp_root;

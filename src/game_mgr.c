@@ -758,12 +758,7 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
   gwp_game_state_set_last_y_coord(game, 
 				  gconf_client_get_int(gwp_gconf, 
 						       g_strconcat(path, "last_y_coord", NULL),
-						       NULL));
-  gwp_game_state_set_toolbar(game, 
-			     gconf_client_get_bool(gwp_gconf, 
-						   g_strconcat(path, "toolbar", NULL),
-						   NULL));
-  
+						       NULL));  
   /* Game Settings */
   gwp_game_state_set_dir(game, 
 			 gconf_client_get_string(gwp_gconf, 
@@ -856,8 +851,6 @@ void game_mgr_save_game_state (GwpGameState *state)
 		       gwp_game_state_get_host_type(state), NULL);
   gconf_client_set_int(gwp_gconf, g_strconcat(path,"race",NULL),
 		       gwp_game_state_get_race(state), NULL);
-  gconf_client_set_bool(gwp_gconf, g_strconcat(path,"toolbar",NULL),
-			gwp_game_state_get_toolbar(state), NULL);
 
   g_object_get (G_OBJECT(state), "minefields", &tmp_bool, NULL);
   gconf_client_set_bool (gwp_gconf, g_strconcat(path, "minefields", NULL),

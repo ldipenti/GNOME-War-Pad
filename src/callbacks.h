@@ -128,12 +128,11 @@ void on_button_zoom_in_clicked (GtkWidget *widget,
 
 void on_button_zoom_out_clicked (GtkWidget *widget,
 				gpointer user_data);
+void on_zoom_in (GtkWidget *widget, gpointer user_data);
+void on_zoom_out (GtkWidget *widget, gpointer user_data);
 
-void on_togglebutton_grid_toggled (GtkToggleButton *button,
-				   gpointer user_data);
-
-void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
-			       gpointer user_data);
+void on_view_grid_toggle (GtkCheckMenuItem *menuitem,
+			  gpointer          user_data);
 void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
 void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,

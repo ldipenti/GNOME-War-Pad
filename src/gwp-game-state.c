@@ -61,7 +61,6 @@ struct _GwpGameStatePrivate {
   gint16 last_x_coord;
   gint16 last_y_coord;
   /* Toggle states */
-  gboolean toolbar;
   gboolean extra_panel_open;
   gboolean planet_names;
   gboolean scanner_area;
@@ -186,7 +185,6 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->last_x_coord = 0;
   self->priv->last_y_coord = 0;
   self->priv->turn_number = 0;
-  self->priv->toolbar = TRUE;
   self->priv->extra_panel_open = FALSE;
   self->priv->planet_names = TRUE;
 #ifdef USE_PYTHON
@@ -530,18 +528,6 @@ gboolean gwp_game_state_get_extra_panel_open (GwpGameState *self)
 {
   g_assert (GWP_IS_GAME_STATE (self));
   return self->priv->extra_panel_open;
-}
-
-void gwp_game_state_set_toolbar (GwpGameState *self, gboolean show)
-{
-  g_assert (GWP_IS_GAME_STATE (self));
-  self->priv->toolbar = show;
-}
-
-gboolean gwp_game_state_get_toolbar (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE (self));
-  return self->priv->toolbar;
 }
 
 #ifdef USE_PYTHON

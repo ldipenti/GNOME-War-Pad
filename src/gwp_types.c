@@ -150,28 +150,3 @@ void starchart_set_grp_ion_storms (GnomeCanvasGroup * group)
   starchart.grp_ion_storms = group;
 }
 
-void starchart_set_grid(gboolean state)
-{
-  starchart.grid = state;
-}
-
-gboolean starchart_get_grid(void)
-{
-  return starchart.grid;
-}
-
-gboolean starchart_toggle_grid(void)
-{
-  gboolean res;
-  
-  if(starchart_get_grid()) {
-    res = FALSE;
-    starchart_set_grid(res);
-    gnome_canvas_item_hide((GnomeCanvasItem *) starchart_get_grp_grid());
-  } else {
-    res = TRUE;
-    starchart_set_grid(res);
-    gnome_canvas_item_show((GnomeCanvasItem *) starchart_get_grp_grid());
-  }
-  return res;
-}

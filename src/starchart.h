@@ -49,8 +49,6 @@ void update_ship_panel(GtkWidget *gwp, GwpLocation *location);
 void starchart_update_coord_panel(GtkWidget *gwp, gdouble wx, gdouble wy);
 
 /* Show/Hide Functions */
-void starchart_show_grid(GnomeCanvas *starchart);
-void starchart_hide_grid(GnomeCanvas *starchart);
 void starchart_open_extra_planet_panels(void);
 void starchart_open_extra_ship_panels(void);
 void starchart_open_extra_panels (void);
@@ -95,5 +93,7 @@ void starchart_show_minefields (gboolean show);
 void starchart_show_ion_storms (gboolean show);
 
 GString * starchart_get_location_name (gint x, gint y);
+
+void starchart_show_grid (gboolean show);
 
 #endif
