@@ -62,7 +62,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = /u/home/ldipenti/Devel/GWP/gwp/src/
+INPUT                  = src/
 FILE_PATTERNS          = *.h \
                          *.c
 RECURSIVE              = NO
@@ -167,7 +167,7 @@ ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = NO
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = /u/home/ldipenti/Devel/GWP/gwp/src/
+INCLUDE_PATH           = src/
 INCLUDE_FILE_PATTERNS  = 
 PREDEFINED             = 
 EXPAND_AS_DEFINED      = 
