@@ -437,9 +437,15 @@ void update_ship_extra_panel (GwpShip *ship)
       GwpShip *obj_ship = gwp_ship_get (ship_list, 
 					gwp_ship_get_tow_ship_id(ship));
       g_assert (GWP_IS_SHIP(obj_ship));
-      tmp = g_strdup_printf ("<i>(#%d) %s</i>",
-			     gwp_object_get_id(GWP_OBJECT(obj_ship)),
-			     gwp_object_get_name(GWP_OBJECT(obj_ship))->str);
+      
+      /* If towed ship is there, say so... */
+      if (gwp_object_get_id (GWP_OBJECT(obj_ship)) != 0) {
+	tmp = g_strdup_printf ("<i>(#%d) %s</i>",
+			       gwp_object_get_id(GWP_OBJECT(obj_ship)),
+			       gwp_object_get_name(GWP_OBJECT(obj_ship))->str);
+      } else {
+	tmp = _("<i>No ship</i>");
+      }
       gtk_label_set_markup (mission_param, tmp);     
       g_free (tmp);
     } else if (gwp_ship_get_mission(ship) == MISSION_INTERCEPT) {
