@@ -1104,18 +1104,22 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     gtk_label_set_markup (colonists, tmp);
     g_free (tmp);
 	
-    if(gwp_planet_get_happiness_nat_change (a_planet) >= 0) {
-      tmp = g_strdup_printf ("%d (%d%%, +%d)", 
-			     gwp_planet_get_natives (a_planet),
-			     gwp_planet_get_happiness_natives (a_planet),
-			     gwp_planet_get_happiness_nat_change (a_planet));
+    /* Only when natives exists on planet */
+    if (gwp_planet_get_natives(a_planet) > 0) {
+      if(gwp_planet_get_happiness_nat_change (a_planet) >= 0) {
+	tmp = g_strdup_printf ("%d (%d%%, +%d)", 
+			       gwp_planet_get_natives (a_planet),
+			       gwp_planet_get_happiness_natives (a_planet),
+			       gwp_planet_get_happiness_nat_change (a_planet));
+      } else {
+	tmp = g_strdup_printf ("%d (%d%%, <span foreground=\"red\">%d</span>)", 
+			       gwp_planet_get_natives (a_planet),
+			       gwp_planet_get_happiness_natives (a_planet),
+			       gwp_planet_get_happiness_nat_change (a_planet));
+      }
     } else {
-      tmp = g_strdup_printf ("%d (%d%%, <span foreground=\"red\">%d</span>)", 
-			     gwp_planet_get_natives (a_planet),
-			     gwp_planet_get_happiness_natives (a_planet),
-			     gwp_planet_get_happiness_nat_change (a_planet));
+      tmp = g_strdup("0");
     }
-	
     gtk_label_set_markup (natives, tmp);
     g_free (tmp);
 	
