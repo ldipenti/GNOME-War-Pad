@@ -28,7 +28,7 @@ PKG_CHECK_MODULES(LIBGLADE, libglade-2.0 >= 2.3.6, have_libglade=yes, have_libgl
 if test "$have_libglade" = "yes"; then
 	GNOME_MODULES="$GNOME_MODULES libglade-2.0"
 else
-	AC_MSG_ERROR([Need libglade version 2.4.0 or higher])
+	AC_MSG_ERROR([Need libglade version 2.3.6 or higher])
 fi
 PKG_CHECK_MODULES(GNOME, $GNOME_MODULES)
 AC_SUBST(GNOME_CFLAGS)
