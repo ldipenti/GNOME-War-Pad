@@ -250,17 +250,21 @@ void on_vp_game_dir_changed (GtkEditable *editable,
 void on_game_mgr_game_dir_changed (GtkEditable *editable,
 				   gpointer user_data)
 {
+  GtkEntry *race_name_entry;
   char *dir;
 
   dir = gtk_editable_get_chars(editable, 0, -1);
   game_mgr_update_race_list(dir);
+
+  // Clear the race name on the entry
+  race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
+  gtk_entry_set_text(race_name_entry, "");
 }
 
 void on_game_mgr_new_game (GtkWidget *widget,
 			   gpointer user_data)
 {
-  GtkWidget *iconlist;
-  GtkWidget *mgr = lookup_widget("game_mgr");
+  GtkWidget *iconlist = NULL;
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
 
   iconlist = lookup_widget("game_mgr_iconlist");
@@ -270,26 +274,42 @@ void on_game_mgr_new_game (GtkWidget *widget,
 		   "clicked", 
 		   G_CALLBACK(game_mgr_cb_new_game), iconlist);
   gtk_window_set_transient_for(GTK_WINDOW(game_mgr_properties), 
-			       GTK_WINDOW(mgr));
+			       GTK_WINDOW(game_mgr));
   gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
 		       _("New Game Properties"));
   gtk_widget_show(game_mgr_properties);
 }
 
 // Displays pop-up menu on selected game icon
-void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
+void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
+				       gint icon_idx,
+				       GdkEventButton *event,
 				       gpointer user_data)
 {
-  GtkWidget *popup;
-
-  popup = lookup_widget("game_mgr_popup_menu");
-  gtk_menu_popup (GTK_MENU(popup), NULL, NULL, NULL, NULL, 1, 
-		  gtk_get_current_event_time());
+  if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
+    GtkWidget *popup = NULL;
+    
+    popup = lookup_widget("game_mgr_popup_menu");
+    gtk_menu_popup (GTK_MENU(popup), NULL, NULL, NULL, NULL, 1, 
+		    gtk_get_current_event_time());
+  }
 }
 
 void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
 					gpointer user_data)
 {
+  GtkButton *ok_button =
+    (GtkButton *) lookup_widget("game_mgr_button_ok");
+  GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
+
+  // Disconnect signal before releasing dialog
+  g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
+				       G_CALLBACK(game_mgr_cb_new_game),
+				       iconlist);
+  g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
+				       G_CALLBACK(game_mgr_cb_edit_game),
+				       iconlist);
+
   gtk_widget_hide(game_mgr_properties);
   game_mgr_properties_dlg_clean();
 }
@@ -298,30 +318,111 @@ void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
 void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
 						     gpointer user_data)
 {
-  GtkTreeView *race_l;
-  GtkTreeSelection *sel;
-  GtkTreeModel *model;
-  GtkEntry *race_name_entry;
+  GtkTreeView *race_l = NULL;
+  GtkTreeSelection *sel = NULL;
+  GtkTreeModel *model = NULL;
+  GtkEntry *race_name_entry = NULL;
   GtkTreeIter iter;
-  gint race;
+  gint *race = NULL;
 
   race_l = (GtkTreeView *) lookup_widget("game_mgr_properties_race_list");
   model = gtk_tree_view_get_model(race_l);
   sel = gtk_tree_view_get_selection(race_l);
-  race = (gint) gtk_tree_selection_get_user_data(sel);
 
   // get the iterator at the selection
   gtk_tree_selection_get_selected(sel, NULL, &iter);
 
   // get the "hidden" data from the second column
-  gtk_tree_model_get(model, &iter, 
-		     1, &race, -1);
+  race = g_malloc(sizeof(gint));
+  gtk_tree_model_get(model, &iter, 1, race, -1);
 
   // Copy the race name on the entry
   race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
-  gtk_entry_set_text(race_name_entry, race_get_name(race));
+  gtk_entry_set_text(race_name_entry, race_get_name(*race));
 
   // Bind its number (the really important data)
   g_object_set_data(G_OBJECT(race_name_entry),
-		      "race_number", &race);
+		      "race_number", race);
+}
+
+void on_game_mgr_edit_game(GtkWidget *widget,
+			   gpointer user_data)
+{
+  GtkWidget *iconlist = NULL;
+  GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
+  GameSettings *settings = NULL;
+  GList *selections = NULL;
+
+  iconlist = lookup_widget("game_mgr_iconlist");
+  selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
+  if(selections) {
+    settings = (GameSettings *) 
+      gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
+				  (gint)g_list_nth_data(selections, 0));
+    g_assert(settings != NULL);
+
+    if(game_mgr_properties_dlg_fill(settings)) {
+
+      /* Connect callback to OK button, so that works as 
+	 an "edit game" dialog. */
+      g_signal_connect(G_OBJECT(ok_button), 
+		       "clicked", 
+		       G_CALLBACK(game_mgr_cb_edit_game), iconlist);
+      gtk_window_set_transient_for(GTK_WINDOW(game_mgr_properties), 
+				   GTK_WINDOW(game_mgr));
+      gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
+			   _("Edit Game Properties"));
+      gtk_widget_show(game_mgr_properties);
+    } else {
+      GtkWidget *warn;
+      
+      warn = gtk_message_dialog_new((GtkWindow*) game_mgr,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_MESSAGE_WARNING,
+				    GTK_BUTTONS_CLOSE,
+				    _("Oops! there is some problem with this game"));
+      gtk_dialog_run(GTK_DIALOG(warn));
+      gtk_widget_destroy(warn);
+    }
+  }
+}
+
+void on_game_mgr_delete_game (GtkWidget *widget,
+			      gpointer user_data)
+{
+  GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
+  GameSettings *settings = NULL;
+  GList *selections = NULL;
+  
+  selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
+
+  if(selections) {
+    gint icon_idx = (gint)g_list_nth_data(selections, 0);
+    GtkResponseType response;
+    GtkWidget *warn;
+
+    // Are you sureeee?
+    warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
+				  GTK_DIALOG_DESTROY_WITH_PARENT,
+				  GTK_MESSAGE_QUESTION,
+				  GTK_BUTTONS_YES_NO,
+				  _("Are you sure you want to delete this game?"));
+    response = gtk_dialog_run(GTK_DIALOG(warn));
+    gtk_widget_destroy(warn);
+
+    // Oh well...
+    if(response == GTK_RESPONSE_YES) {
+    
+      settings = (GameSettings *) 
+	gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
+				      icon_idx);
+      g_assert(settings != NULL);
+      // Free memory from GameSettings struct
+      game_mgr_settings_free(settings);
+      // Remove icon
+      gnome_icon_list_remove(GNOME_ICON_LIST(iconlist),
+			     icon_idx);
+      // FIXME: Remember to remove GConf data!!!
+    }
+  } 
 }
