@@ -40,24 +40,24 @@ class Plugin:
     __module__ = 'gwp'
 
     # Custom attributes
-    plugin_name__ = ''
-    plugin_version__ = 0
-    plugin_author_name__ = ''
-    plugin_author_email__ = ''
-    plugin_desc_short__ = ''
-    plugin_desc_long__ = ''
-    plugin_license__ = ''
+    plugin_name = ''
+    plugin_version = 0
+    plugin_author_name = ''
+    plugin_author_email = ''
+    plugin_desc_short = ''
+    plugin_desc_long = ''
+    plugin_license = ''
 
     # Constructor
     def __init__ (self, name, version, author_name,
                   author_email, desc_s, desc_l, license):
-        self.plugin_name__ = name
-        self.plugin_version__ = version
-        self.plugin_author_name__ = author_name
-        self.plugin_author_email__ = author_email
-        self.plugin_desc_short__ = desc_s
-        self.plugin_desc_long__ = desc_l
-        self.plugin_license__ = license
+        self.plugin_name = name
+        self.plugin_version = version
+        self.plugin_author_name = author_name
+        self.plugin_author_email = author_email
+        self.plugin_desc_short = desc_s
+        self.plugin_desc_long = desc_l
+        self.plugin_license = license
 
     # Executed at registration time
     def register (self):
