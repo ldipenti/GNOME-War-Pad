@@ -16,11 +16,6 @@
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="icon">gwp.png</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="enable_layout_config">True</property>
   <signal name="delete_event" handler="gwp_quit" last_modification_time="Sat, 10 May 2003 02:39:45 GMT"/>
 
@@ -171,120 +166,71 @@
 	      <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
 	      <property name="toolbar_style">GTK_TOOLBAR_BOTH</property>
 	      <property name="tooltips">True</property>
-	      <property name="show_arrow">True</property>
 
 	      <child>
-		<widget class="GtkToggleToolButton" id="togglebutton_grid">
+		<widget class="toggle" id="togglebutton_grid">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">Grid</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gnome-stock-table-fill</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gnome-stock-table-fill</property>
 		  <property name="active">True</property>
+		  <property name="inconsistent">False</property>
 		  <signal name="toggled" handler="on_togglebutton_grid_toggled" last_modification_time="Mon, 23 Jun 2003 03:14:50 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkSeparatorToolItem" id="separatortoolitem1">
-		  <property name="visible">True</property>
-		  <property name="draw">True</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">False</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkToolButton" id="button_zoom_in">
+		<widget class="button" id="button_zoom_in">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Zoom in</property>
-		  <property name="stock_id">gtk-zoom-in</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="label">gtk-zoom-in</property>
+		  <property name="use_stock">True</property>
+		  <property name="new_group">True</property>
 		  <signal name="clicked" handler="on_button_zoom_in_clicked" last_modification_time="Mon, 23 Jun 2003 03:07:27 GMT"/>
 		</widget>
 		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
+		  <property name="new_group">True</property>
 		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkToolButton" id="button_zoom_out">
+		<widget class="button" id="button_zoom_out">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Zoom out</property>
-		  <property name="stock_id">gtk-zoom-out</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="label">gtk-zoom-out</property>
+		  <property name="use_stock">True</property>
 		  <signal name="clicked" handler="on_button_zoom_out_clicked" last_modification_time="Mon, 23 Jun 2003 03:14:24 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkSeparatorToolItem" id="separatortoolitem2">
-		  <property name="visible">True</property>
-		  <property name="draw">True</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">False</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkToggleToolButton" id="togglebutton_panel_base">
+		<widget class="toggle" id="togglebutton_panel_base">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Show starbase panel</property>
 		  <property name="label" translatable="yes">SB</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gtk-yes</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gtk-yes</property>
 		  <property name="active">False</property>
+		  <property name="inconsistent">False</property>
+		  <property name="new_group">True</property>
 		  <signal name="toggled" handler="on_togglebutton_panel_base_toggled" last_modification_time="Sun, 29 Jun 2003 23:46:53 GMT"/>
 		</widget>
 		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
+		  <property name="new_group">True</property>
 		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkToggleToolButton" id="togglebutton_panel_defense">
+		<widget class="toggle" id="togglebutton_panel_defense">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Toggle 'Global Defense Systems' panel</property>
 		  <property name="label" translatable="yes">GDF</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gtk-yes</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gtk-yes</property>
 		  <property name="active">True</property>
+		  <property name="inconsistent">False</property>
 		  <signal name="toggled" handler="on_togglebutton_panel_defense_toggled" last_modification_time="Sun, 29 Jun 2003 23:46:45 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 	    </widget>
 	  </child>
@@ -1671,7 +1617,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label163">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Mining</property>
+				  <property name="label" translatable="yes">Resources</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1740,7 +1686,7 @@
 				      <property name="max_length">3</property>
 				      <property name="text" translatable="yes"></property>
 				      <property name="has_frame">True</property>
-				      <property name="invisible_char" translatable="yes">*</property>
+				      <property name="invisible_char" translatable="no">*</property>
 				      <property name="activates_default">False</property>
 				    </widget>
 				  </child>
@@ -1783,7 +1729,6 @@
 				  <property name="tooltip" translatable="yes">Generate a random Friendly Code</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 
 				  <child>
 				    <widget class="GtkAlignment" id="alignment5">
@@ -1792,10 +1737,6 @@
 				      <property name="yalign">0.5</property>
 				      <property name="xscale">0</property>
 				      <property name="yscale">0</property>
-				      <property name="top_padding">0</property>
-				      <property name="bottom_padding">0</property>
-				      <property name="left_padding">0</property>
-				      <property name="right_padding">0</property>
 
 				      <child>
 					<widget class="GtkHBox" id="hbox13">
@@ -3091,10 +3032,6 @@
 				      <property name="yalign">0.5</property>
 				      <property name="xscale">1</property>
 				      <property name="yscale">1</property>
-				      <property name="top_padding">0</property>
-				      <property name="bottom_padding">0</property>
-				      <property name="left_padding">0</property>
-				      <property name="right_padding">0</property>
 
 				      <child>
 					<widget class="GtkProgressBar" id="progressbar_ship_cargo_total">
@@ -3477,7 +3414,7 @@
 				      <property name="max_length">3</property>
 				      <property name="text" translatable="yes"></property>
 				      <property name="has_frame">True</property>
-				      <property name="invisible_char" translatable="yes">*</property>
+				      <property name="invisible_char" translatable="no">*</property>
 				      <property name="activates_default">False</property>
 				    </widget>
 				  </child>
@@ -3520,7 +3457,6 @@
 				  <property name="tooltip" translatable="yes">Generate a random Friendly Code</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 
 				  <child>
 				    <widget class="GtkAlignment" id="alignment8">
@@ -3529,10 +3465,6 @@
 				      <property name="yalign">0.5</property>
 				      <property name="xscale">0</property>
 				      <property name="yscale">0</property>
-				      <property name="top_padding">0</property>
-				      <property name="bottom_padding">0</property>
-				      <property name="left_padding">0</property>
-				      <property name="right_padding">0</property>
 
 				      <child>
 					<widget class="GtkHBox" id="hbox23">
@@ -3606,7 +3538,7 @@
 			      <child>
 				<widget class="GtkTable" id="table21">
 				  <property name="visible">True</property>
-				  <property name="n_rows">3</property>
+				  <property name="n_rows">2</property>
 				  <property name="n_columns">2</property>
 				  <property name="homogeneous">False</property>
 				  <property name="row_spacing">1</property>
@@ -3653,8 +3585,8 @@
 				    <packing>
 				      <property name="left_attach">0</property>
 				      <property name="right_attach">1</property>
-				      <property name="top_attach">2</property>
-				      <property name="bottom_attach">3</property>
+				      <property name="top_attach">1</property>
+				      <property name="bottom_attach">2</property>
 				      <property name="x_options">fill</property>
 				      <property name="y_options"></property>
 				    </packing>
@@ -3686,30 +3618,6 @@
 
 				  <child>
 				    <widget class="GtkLabel" id="label_ship_other_enemy">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">--</property>
-				      <property name="use_underline">False</property>
-				      <property name="use_markup">False</property>
-				      <property name="justify">GTK_JUSTIFY_LEFT</property>
-				      <property name="wrap">False</property>
-				      <property name="selectable">False</property>
-				      <property name="xalign">0</property>
-				      <property name="yalign">0.5</property>
-				      <property name="xpad">0</property>
-				      <property name="ypad">0</property>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">1</property>
-				      <property name="right_attach">2</property>
-				      <property name="top_attach">2</property>
-				      <property name="bottom_attach">3</property>
-				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
-				    </packing>
-				  </child>
-
-				  <child>
-				    <widget class="GtkLabel" id="label_ship_other_mission_param">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">--</property>
 				      <property name="use_underline">False</property>
@@ -3884,10 +3792,6 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xscale">1</property>
 		  <property name="yscale">1</property>
-		  <property name="top_padding">0</property>
-		  <property name="bottom_padding">0</property>
-		  <property name="left_padding">0</property>
-		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox5">
@@ -3923,10 +3827,6 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xscale">0.5</property>
 			  <property name="yscale">1</property>
-			  <property name="top_padding">0</property>
-			  <property name="bottom_padding">0</property>
-			  <property name="left_padding">0</property>
-			  <property name="right_padding">0</property>
 
 			  <child>
 			    <widget class="GtkHBox" id="hbox6">
@@ -3937,7 +3837,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label127">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">(</property>
+				  <property name="label" translatable="no">(</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3979,7 +3879,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label129">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">,</property>
+				  <property name="label" translatable="no">,</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4021,7 +3921,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label132">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">)</property>
+				  <property name="label" translatable="no">)</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5843,11 +5743,6 @@
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="icon">gwp.png</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="enable_layout_config">True</property>
   <signal name="destroy" handler="gwp_quit" last_modification_time="Fri, 09 May 2003 03:13:40 GMT"/>
 
@@ -6046,78 +5941,49 @@
 	      <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
 	      <property name="toolbar_style">GTK_TOOLBAR_BOTH_HORIZ</property>
 	      <property name="tooltips">True</property>
-	      <property name="show_arrow">True</property>
 
 	      <child>
-		<widget class="GtkToolButton" id="btn_new_game">
+		<widget class="button" id="btn_new_game">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">New Game</property>
 		  <property name="label" translatable="yes">_New</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gtk-new</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gtk-new</property>
 		  <signal name="clicked" handler="on_game_mgr_new_game" last_modification_time="Wed, 30 Apr 2003 02:24:22 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkToolButton" id="btn_delete_game">
+		<widget class="button" id="btn_delete_game">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Delete Game</property>
 		  <property name="label" translatable="yes">_Delete</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gtk-delete</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gtk-delete</property>
 		  <signal name="clicked" handler="on_game_mgr_delete_game" last_modification_time="Mon, 05 May 2003 02:50:08 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkToolButton" id="btn_edit_game">
+		<widget class="button" id="btn_edit_game">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Edit Game</property>
 		  <property name="label" translatable="yes">_Edit</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gtk-properties</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gtk-properties</property>
 		  <signal name="clicked" handler="on_game_mgr_edit_game" last_modification_time="Fri, 02 May 2003 04:24:19 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkToolButton" id="btn_play_game">
+		<widget class="button" id="btn_play_game">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Play Game</property>
 		  <property name="label" translatable="yes">_Play</property>
 		  <property name="use_underline">True</property>
-		  <property name="stock_id">gtk-execute</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="stock_pixmap">gtk-execute</property>
 		  <signal name="clicked" handler="on_game_mgr_play_game" last_modification_time="Sun, 04 May 2003 20:16:13 GMT"/>
 		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
-		</packing>
 	      </child>
 	    </widget>
 	  </child>
@@ -6174,11 +6040,6 @@
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="icon">gwp.png</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <signal name="delete_event" handler="delete_event" last_modification_time="Sat, 10 May 2003 02:39:00 GMT"/>
 
   <child>
@@ -6203,7 +6064,6 @@
 	      <property name="browse_dialog_title" translatable="yes">Select game directory</property>
 	      <property name="directory_entry">True</property>
 	      <property name="modal">True</property>
-	      <property name="use_filechooser">False</property>
 	      <signal name="changed" handler="on_game_mgr_game_dir_changed" last_modification_time="Mon, 23 Dec 2002 03:55:49 GMT"/>
 
 	      <child internal-child="entry">
@@ -6216,7 +6076,7 @@
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
-		  <property name="invisible_char" translatable="yes">*</property>
+		  <property name="invisible_char" translatable="no">*</property>
 		  <property name="activates_default">False</property>
 		</widget>
 	      </child>
@@ -6341,7 +6201,7 @@
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char" translatable="no">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -6364,7 +6224,7 @@
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char" translatable="no">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -6386,7 +6246,6 @@
 		      <property name="browse_dialog_title" translatable="yes">Select TRN directory</property>
 		      <property name="directory_entry">True</property>
 		      <property name="modal">True</property>
-		      <property name="use_filechooser">False</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">
@@ -6398,7 +6257,7 @@
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char" translatable="no">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 		      </child>
@@ -6422,7 +6281,6 @@
 		      <property name="browse_dialog_title" translatable="yes">Select RST directory</property>
 		      <property name="directory_entry">True</property>
 		      <property name="modal">True</property>
-		      <property name="use_filechooser">False</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry3">
@@ -6434,7 +6292,7 @@
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char" translatable="no">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 		      </child>
@@ -6459,7 +6317,7 @@
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char" translatable="no">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -6482,7 +6340,7 @@
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char" translatable="no">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -6510,7 +6368,6 @@
 			  <property name="label" translatable="yes">THost</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">True</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -6531,7 +6388,6 @@
 			  <property name="label" translatable="yes">PHost</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -6769,10 +6625,6 @@
 	  <property name="yalign">0.5</property>
 	  <property name="xscale">0.15</property>
 	  <property name="yscale">1</property>
-	  <property name="top_padding">0</property>
-	  <property name="bottom_padding">0</property>
-	  <property name="left_padding">0</property>
-	  <property name="right_padding">0</property>
 
 	  <child>
 	    <widget class="GtkHBox" id="hbox4">
@@ -6788,7 +6640,6 @@
 		  <property name="tooltip" translatable="yes">Unpack the new RST file</property>
 		  <property name="can_focus">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		  <signal name="clicked" handler="on_game_mgr_btn_unpack_clicked" last_modification_time="Mon, 12 May 2003 05:08:48 GMT"/>
 
 		  <child>
@@ -6798,10 +6649,6 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xscale">0</property>
 		      <property name="yscale">0</property>
-		      <property name="top_padding">0</property>
-		      <property name="bottom_padding">0</property>
-		      <property name="left_padding">0</property>
-		      <property name="right_padding">0</property>
 
 		      <child>
 			<widget class="GtkHBox" id="hbox7">
@@ -6866,7 +6713,6 @@
 		  <property name="label">gtk-cancel</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		  <signal name="clicked" handler="on_game_mgr_button_cancel_clicked" last_modification_time="Fri, 02 May 2003 23:25:09 GMT"/>
 		</widget>
 		<packing>
@@ -6887,7 +6733,6 @@
 		  <property name="label">gtk-ok</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -6990,11 +6835,6 @@
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
   <property name="icon">gwp.png</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkImage" id="gwp_splash_image">
