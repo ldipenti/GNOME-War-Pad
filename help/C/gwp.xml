@@ -64,16 +64,16 @@
 
       <revhistory>
 	<revision>
-	  <revnumber>&app; Manual V &manrevision;</revnumber>
-	  <date>2003-06-16</date>
+	  <revnumber>&app; Manual V 0.3.0</revnumber>
+	  <date>2004-05-23</date>
 	  <revdescription>
 	    <para role="author">Lucas Di Pentima
 	    <email>lucas@lunix.com.ar</email></para>
 	  </revdescription>
 	</revision>
 	<revision>
-	  <revnumber>&app; Manual V &manrevision;</revnumber>
-	  <date>2004-05-23</date>
+	  <revnumber>&app; Manual V 0.2.6</revnumber>
+	  <date>2003-06-16</date>
 	  <revdescription>
 	    <para role="author">Lucas Di Pentima
 	    <email>lucas@lunix.com.ar</email></para>
