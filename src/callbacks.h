@@ -132,6 +132,8 @@ void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
 			       gpointer user_data);
 void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
+void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
+				    gpointer user_data);
 void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
 void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,

@@ -100,6 +100,16 @@ void starchart_set_grp_planet_names(GnomeCanvasGroup * group)
   starchart.grp_planet_names = group;
 }
 
+GnomeCanvasGroup * starchart_get_grp_scanner_area(void)
+{
+  return starchart.grp_scanner_area;
+}
+
+void starchart_set_grp_scanner_area(GnomeCanvasGroup * group)
+{
+  starchart.grp_scanner_area = group;
+}
+
 GnomeCanvasGroup * starchart_get_grp_planets(void)
 {
   return starchart.grp_planets;

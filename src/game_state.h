@@ -65,6 +65,7 @@ struct _GameState
   gboolean toolbar;
   gboolean extra_panel_open;
   gboolean planet_names;
+  gboolean scanner_area;
   gboolean minefields;
   gboolean ion_storms;
   /* User settings */
@@ -120,6 +121,8 @@ gboolean game_is_extra_panel_open (const GameState *game_state);
 void game_set_extra_panel_open (GameState *game_state, gboolean is_open);
 void game_set_planet_names (GameState *game_state, gboolean show);
 gboolean game_get_planet_names (const GameState *game_state);
+void game_set_scanner_area (GameState *game_state, gboolean show);
+gboolean game_get_scanner_area (const GameState *game_state);
 void game_set_minefields (GameState *game_state, gboolean show);
 gboolean game_get_minefields (const GameState *game_state);
 void game_set_ion_storms (GameState *game_state, gboolean show);

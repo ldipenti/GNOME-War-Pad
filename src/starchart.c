@@ -1361,6 +1361,18 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 				      "width_pixels", 1,
 				      "fill_color_rgba", OWNED_SHIP_COLOR, 
 				      NULL);
+
+	/* Add planet scanner range */
+	gnome_canvas_item_new (starchart_get_grp_scanner_area (),
+			       GNOME_TYPE_CANVAS_ELLIPSE,
+			       "outline_color_rgba", SCANNER_RANGE_COLOR,
+			       "fill_color_rgba", SCANNER_RANGE_COLOR,
+			       "x1", xi - SCANNER_RANGE,
+			       "y1", yi - SCANNER_RANGE,
+			       "x2", xi + SCANNER_RANGE,
+			       "y2", yi + SCANNER_RANGE,
+			       "width_pixels", 1,
+			       NULL);
       } else {
 	item = gnome_canvas_item_new (ships_group, 
 				      GNOME_TYPE_CANVAS_POLYGON,
@@ -1538,6 +1550,18 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 
     if (gwp_planet_is_mine(planet)) {
 
+      /* Add planet scanner range */
+      gnome_canvas_item_new (starchart_get_grp_scanner_area (),
+			     GNOME_TYPE_CANVAS_ELLIPSE,
+			     "outline_color_rgba", SCANNER_RANGE_COLOR,
+			     "fill_color_rgba", SCANNER_RANGE_COLOR,
+			     "x1", xi - SCANNER_RANGE,
+			     "y1", yi - SCANNER_RANGE,
+			     "x2", xi + SCANNER_RANGE,
+			     "y2", yi + SCANNER_RANGE,
+			     "width_pixels", 1,
+			     NULL);
+
       /* Is there's a starbase on planet, draw a special mark */
       if (gwp_planet_has_starbase(planet)) {
 	gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
@@ -1611,6 +1635,12 @@ void init_starchart (GtkWidget * gwp)
 				    (starchart_get_grp_root(), 
 				     GNOME_TYPE_CANVAS_GROUP, NULL)));
 
+  /* Show our scanners reach area on starchart */
+  starchart_set_grp_scanner_area (GNOME_CANVAS_GROUP 
+				  (gnome_canvas_item_new 
+				   (starchart_get_grp_root(), 
+				    GNOME_TYPE_CANVAS_GROUP, NULL)));
+  
   starchart_set_grp_planets (GNOME_CANVAS_GROUP 
 			     (gnome_canvas_item_new 
 			      (starchart_get_grp_root(),
@@ -1703,7 +1733,10 @@ void init_starchart (GtkWidget * gwp)
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_ion_storms()));
   /* Set Planet names on the top */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planet_names()));
-  
+  /* Set scanner range on the top and hide it */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area()));
+  starchart_show_scanner_area (FALSE);
+
   /* Various bindings */
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
 		     "grid_group", starchart_get_grp_grid());
@@ -2522,6 +2555,19 @@ void starchart_show_planet_names (gboolean show)
   } else {
     gnome_canvas_item_hide ((GnomeCanvasItem *) 
 			    starchart_get_grp_planet_names ());
+  }
+}
+
+void starchart_show_scanner_area (gboolean show)
+{
+  game_set_scanner_area (game_state, show);
+    
+  if (show) {
+    gnome_canvas_item_show ((GnomeCanvasItem *) 
+			    starchart_get_grp_scanner_area ());
+  } else {
+    gnome_canvas_item_hide ((GnomeCanvasItem *) 
+			    starchart_get_grp_scanner_area ());
   }
 }
 

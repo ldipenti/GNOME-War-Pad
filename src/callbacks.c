@@ -693,6 +693,13 @@ void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 }
 
 /* Hides/Shows the minefields on starchart */
+void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
+				    gpointer user_data)
+{
+  starchart_show_scanner_area (gtk_check_menu_item_get_active(menuitem));
+}
+
+/* Hides/Shows the minefields on starchart */
 void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data)
 {

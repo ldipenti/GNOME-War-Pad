@@ -337,6 +337,18 @@ void game_set_planet_names (GameState *game_state, gboolean show)
   game_state->planet_names = show;
 }
 
+gboolean game_get_scanner_area (const GameState *game_state)
+{
+  g_assert (game_state != NULL);
+  return game_state->scanner_area;
+}
+
+void game_set_scanner_area (GameState *game_state, gboolean show)
+{
+  g_assert (game_state != NULL);
+  game_state->scanner_area = show;
+}
+
 gboolean game_get_minefields (const GameState *game_state)
 {
   g_assert (game_state != NULL);

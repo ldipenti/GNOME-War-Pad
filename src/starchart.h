@@ -92,6 +92,7 @@ void starchart_mini_set_ship_img(GwpShip *ship);
 
 void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item);
 void starchart_show_planet_names (gboolean show);
+void starchart_show_scanner_area (gboolean show);
 void starchart_show_minefields (gboolean show);
 void starchart_show_ion_storms (gboolean show);
 
