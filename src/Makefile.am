@@ -14,7 +14,6 @@ CFLAGS =\
 	 -DLIBDIR=\""$(libdir)"\" \
 	 -DDATADIR=\""$(datadir)"\" \
 	 -D_GNU_SOURCE \
-	 -DGNOME_DISABLE_DEPRECATED \
 	 -O1 \
 	 -g
 
