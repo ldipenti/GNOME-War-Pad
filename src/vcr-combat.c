@@ -52,13 +52,23 @@ void vcrc_prepare_for_battle( combatdata *cdata, battlefield *battle )
   gettimeofday( &timenow, NULL );
   srandom( (unsigned int)( timenow.tv_sec + timenow.tv_usec ) );
 
-  /* initialize the battlefield */
-  battle->time = 0;
-
+  vcrc_prepare_battlefield( cdata, battle );
   vcrc_prepare_platforms( cdata, battle );
   vcrc_prepare_fighters( cdata, battle );
   vcrc_prepare_torpedos( cdata, battle );
   vcrc_prepare_beams( cdata, battle );
+}
+
+
+
+/*
+ *  sets all global combat values
+ */
+void vcrc_prepare_battlefield( combatdata *cdata, battlefield *battle )
+{
+  battle->time = 0;
+  battle->fighton = TRUE;
+  battle->shieldbonus = cdata->g_shibon;
 }
 
 
@@ -74,7 +84,7 @@ void vcrc_prepare_platforms( combatdata *cdata, battlefield *battle )
   if( cdata->g_a_is_ship == 1 )
   {
     battle->a.position    = 0;                // starting from the 'left'
-    battle->a.direction   = 1;                // moving 'right'
+    battle->a.direction   = VCRC_DIRECTION_A; // moving 'right'
     battle->a.speed       = VCRC_SPEED_SHIPS; // 
     battle->a.shield      = cdata->a_shield;  //
     battle->a.hull        = cdata->a_hull;    //
@@ -89,7 +99,7 @@ void vcrc_prepare_platforms( combatdata *cdata, battlefield *battle )
   if( cdata->g_b_is_ship == 1 )
   {
     battle->b.position    = VCRC_MAX_DISTANCE_SHIPS; // starting from the 'right'
-    battle->b.direction   = -1;                      // moving 'left'
+    battle->b.direction   = VCRC_DIRECTION_B;        // moving 'left'
     battle->b.speed       = VCRC_SPEED_SHIPS;        // 
     battle->b.shield      = cdata->b_shield;         //
     battle->b.hull        = cdata->b_hull;           //
@@ -99,11 +109,11 @@ void vcrc_prepare_platforms( combatdata *cdata, battlefield *battle )
   else
   {
     battle->b.position    = VCRC_MAX_DISTANCE_PLANET; // starting from the 'right'
-    battle->b.direction   = -1;                       // moving 'left'
-    battle->b.speed       = 0;                        // 
+    battle->b.direction   = VCRC_DIRECTION_B;         // moving 'left'
+    battle->b.speed       = VCRC_SPEED_PLANET;        // moving 'not' ;-)
     battle->b.shield      = 100;                      // TODO: not sure if 2nd fight
     battle->b.hull        = 100;                      // TODO: not sure if 2nd fight
-    battle->b.crew        = 100;                      // TODO: no idea
+    battle->b.crew        = 100000;                   // TODO: does not matter at all
     battle->b.mass        = vcrc_get_planets_battlemass( cdata );
   }
   vcrc_log_str( "OK\n" );
@@ -301,8 +311,7 @@ void vcrc_fight( battlefield *battle )
   g_message( "THE FUN BEGINS" );
 
   while( battle->time <= VCRC_COMBAT_TIMEOUT
-      && battle->a.hull > 0
-      && battle->b.hull > 0 )
+      && battle->fighton )
   {
     vcrc_fight_reload_weapons( battle );
     vcrc_fight_move_platforms( battle );
@@ -460,7 +469,6 @@ void vcrc_fight_move_fighters( battlefield *battle, gint side )
 void vcrc_fight_launch_fighters( battlefield *battle )
 {
   gint i;
-//if( vcrc_rand( VCRC_CHANCE_LAUNCH ) ) g_message( "yes" ); else g_message( "no" );
 
   /* SIDE A */
   if( battle->a.fighters.number > battle->a.fighters.flying  && 
@@ -477,7 +485,7 @@ void vcrc_fight_launch_fighters( battlefield *battle )
 //g_print( "VCR-DEBUG: fighter %d - launching at %d (time: %d)\n", i, battle->a.position, battle->time );
       battle->a.fighters.fighter[i].launched  = TRUE;
       battle->a.fighters.fighter[i].position  = battle->a.position;
-      battle->a.fighters.fighter[i].direction = 1;
+      battle->a.fighters.fighter[i].direction = VCRC_DIRECTION_A;
       battle->a.fighters.fighter[i].speed     = VCRC_SPEED_FIGHTER;
       battle->a.fighters.flying++;
     }
@@ -497,7 +505,7 @@ void vcrc_fight_launch_fighters( battlefield *battle )
 //g_print( "VCR-DEBUG: fighter %d - launching at %d (time: %d)\n", i, battle->b.position, battle->time );
       battle->b.fighters.fighter[i].launched  = TRUE;
       battle->b.fighters.fighter[i].position  = battle->b.position;
-      battle->b.fighters.fighter[i].direction = -1;
+      battle->b.fighters.fighter[i].direction = VCRC_DIRECTION_B;
       battle->b.fighters.fighter[i].speed     = VCRC_SPEED_FIGHTER;
       battle->b.fighters.flying++;
     }
@@ -644,11 +652,14 @@ void vcrc_fight_attack_torpedos( battlefield *battle )
   /* side B */
   if( battle->b.torps > 0 )
   {
+//g_print( "VCR-DEBUG: torp fill " );
     for( i=0; i<battle->b.tubes.number; i++ )
     {
+//g_print( "[%3d]", battle->b.tubes.tube[i].load );
       if( battle->b.tubes.tube[i].load >= battle->b.tubes.tube[i].full &&
           abs( battle->b.position - battle->a.position ) <= VCRC_RANGE_TORP_SHIP )
       {
+//g_message( "VCR-DEBUG: FIRING TORPEDO VOLLEY ...." );
           battle->b.tubes.tube[i].load = 0;
           battle->b.torps--;
           if( vcrc_rand( VCRC_CHANCE_TORP_HIT_SHIP ) )
@@ -658,6 +669,7 @@ void vcrc_fight_attack_torpedos( battlefield *battle )
                             battle->b.tubes.tube[i].crew );
       }
     }
+//g_print( "\n" );
   }
 
 }
@@ -703,7 +715,7 @@ void vcrc_fight_attack_beams( battlefield *battle )
       if( battle->a.beams.beam[i].fill >= VCRC_MIN_FILL_BEAM_SHIP )
       {
         if( abs( battle->b.position - battle->a.position )
-            <= VCRC_RANGE_BEAM_FIGHTER )
+            <= VCRC_RANGE_BEAM_SHIP )
         {
           if( vcrc_rand( VCRC_CHANCE_BEAM_FIRE_SHIP ) )
           {
@@ -752,6 +764,7 @@ void vcrc_fight_attack_beams( battlefield *battle )
               if( vcrc_rand( VCRC_CHANCE_BEAM_HIT_FIGHTER ) )
                 vcrc_fight_destroy_fighter( battle, VCRC_SIDE_A, j );
               battle->b.beams.beam[i].fill = 0;
+//g_message( "VCR-DEBUG (%d): beam(%d) fires at fighter", battle->time, i );
             }
             /* beam aims at enemy fighter, but this is the only chance to shoot */
             atfighter = TRUE;
@@ -766,7 +779,7 @@ void vcrc_fight_attack_beams( battlefield *battle )
       if( battle->b.beams.beam[i].fill >= VCRC_MIN_FILL_BEAM_SHIP )
       {
         if( abs( battle->a.position - battle->b.position )
-            <= VCRC_RANGE_BEAM_FIGHTER )
+            <= VCRC_RANGE_BEAM_SHIP )
         {
           if( vcrc_rand( VCRC_CHANCE_BEAM_FIRE_SHIP ) )
           {
@@ -788,6 +801,7 @@ void vcrc_fight_attack_beams( battlefield *battle )
                                 battle->a.mass ) );
             }
             battle->b.beams.beam[i].fill = 0;
+//g_message( "VCR-DEBUG (%d): beam(%d) fires at platform", battle->time, i );
           }
         }
       }
@@ -809,6 +823,7 @@ void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id )
       battle->a.fighters.fighter[id].direction = battle->a.fighters.fighter[n].direction;
       battle->a.fighters.fighter[id].speed     = battle->a.fighters.fighter[n].speed    ;
       battle->a.fighters.number--;
+      battle->a.fighters.flying--;
       break;
     case VCRC_SIDE_B:
       n = battle->b.fighters.number;
@@ -817,6 +832,7 @@ void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id )
       battle->b.fighters.fighter[id].direction = battle->b.fighters.fighter[n].direction;
       battle->b.fighters.fighter[id].speed     = battle->b.fighters.fighter[n].speed    ;
       battle->b.fighters.number--;
+      battle->b.fighters.flying--;
       break;
     default:
       return; // something went wrong
@@ -867,7 +883,7 @@ g_print( "[%d, %d, %d]\n", battle->b.shield, battle->b.hull, battle->b.crew );
       battle->a.crew <= 0  ||
       battle->b.hull <= 0  ||
       battle->b.crew <= 0 )
-      battle->time = VCRC_COMBAT_TIMEOUT;
+      battle->fighton = FALSE;
 }
 
 

@@ -8599,7 +8599,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">True</property>
-				      <property name="adjustment">0 0 100 1 0 0</property>
+				      <property name="adjustment">0 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -8649,7 +8649,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">100 0 100 1 0 0</property>
+				      <property name="adjustment">100 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -8699,7 +8699,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">1 0 2000 1 0 0</property>
+				      <property name="adjustment">1 0 2000 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -8779,7 +8779,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">0 0 600 1 0 0</property>
+				      <property name="adjustment">0 0 600 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -8829,7 +8829,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">10 1 10 0 0 0</property>
+				      <property name="adjustment">10 1 10 0 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -8879,7 +8879,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">0 0 100 1 0 0</property>
+				      <property name="adjustment">0 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -9491,7 +9491,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">True</property>
-				      <property name="adjustment">0 0 100 1 0 0</property>
+				      <property name="adjustment">0 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -9541,7 +9541,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">100 0 100 1 0 0</property>
+				      <property name="adjustment">100 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -9591,7 +9591,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">1 0 2000 1 0 0</property>
+				      <property name="adjustment">1 0 2000 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -9671,7 +9671,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">0 0 600 1 0 0</property>
+				      <property name="adjustment">0 0 600 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -9721,7 +9721,7 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">10 1 10 0 0 0</property>
+				      <property name="adjustment">10 1 10 0 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -9765,13 +9765,14 @@
 				  <child>
 				    <widget class="GtkHScale" id="vcr_hscale_sbo_b">
 				      <property name="visible">True</property>
+				      <property name="sensitive">False</property>
 				      <property name="can_focus">True</property>
 				      <property name="draw_value">True</property>
 				      <property name="value_pos">GTK_POS_TOP</property>
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">0 0 100 1 0 0</property>
+				      <property name="adjustment">0 0 100 1 1 0</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -10054,7 +10055,7 @@
 					  <property name="digits">0</property>
 					  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 					  <property name="inverted">False</property>
-					  <property name="adjustment">100 0 100 1 0 0</property>
+					  <property name="adjustment">100 0 100 1 1 0</property>
 					</widget>
 					<packing>
 					  <property name="padding">0</property>

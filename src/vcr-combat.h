@@ -10,9 +10,12 @@
 /* global defines */
 #define VCRC_SIDE_A                         1
 #define VCRC_SIDE_B                         2
+#define VCRC_DIRECTION_A                    1
+#define VCRC_DIRECTION_B                   -1
 
 /* global fight parameters */
 #define VCRC_SPEED_SHIPS                  100
+#define VCRC_SPEED_PLANET                   0
 #define VCRC_MAX_DISTANCE_SHIPS         58000
 #define VCRC_MAX_DISTANCE_PLANET        54000
 #define VCRC_MIN_DISTANCE_SHIPS          3000
@@ -35,12 +38,12 @@
 #define VCRC_MIN_FILL_BEAM_FIGHTER         40
 #define VCRC_MIN_FILL_BEAM_SHIP            50
 #define VCRC_RANGE_BEAM_SHIP            20000
-#define VCRC_RANGE_BEAM_FIGHTER         20000
+#define VCRC_RANGE_BEAM_FIGHTER         58000   // TODO ... logic?
 #define VCRC_CHANCE_BEAM_HIT_SHIP_INSTEAD 0.5
 
 /* torpedo weapon parameters */
 #define VCRC_RANGE_TORP_SHIP            30000
-#define VCRC_CHANCE_TORP_HIT_SHIP          34
+#define VCRC_CHANCE_TORP_HIT_SHIP          66
 
 /* fighter weapons parameters */
 #define VCRC_SPEED_FIGHTER                400
@@ -114,6 +117,8 @@ typedef struct {
   platform a;
   platform b;
   gint time;
+  gboolean fighton;
+  gint shieldbonus;
 } battlefield;
 
 typedef struct {
@@ -156,6 +161,7 @@ void vcrc_combat_start( combatdata *cdata );
 
 /* private functions */
 void vcrc_prepare_for_battle( combatdata *cdata, battlefield *battle );
+void vcrc_prepare_battlefield( combatdata *cdata, battlefield *battle );
 void vcrc_prepare_platforms( combatdata *cdata, battlefield *battle );
 void vcrc_prepare_fighters( combatdata *cdata, battlefield *battle );
 void vcrc_prepare_torpedos( combatdata *cdata, battlefield *battle );
