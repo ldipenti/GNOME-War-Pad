@@ -17,6 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include "gwp-ship.h"
 #include "gwp-utils.h"
 
 /**
@@ -63,4 +64,26 @@ GtkWidget * gwp_warning_dialog_new (GtkWidget *parent,
     */
   }
   return warn;
+}
+
+/**
+ * Return a list of my own ship objects.
+ */
+GSList * gwp_lists_get_own_ships (void)
+{
+  GSList *own_ships;
+
+  static void insert_my_ships (gpointer key, 
+			       gpointer value, 
+			       gpointer user_data) 
+    {
+      GwpShip *ship = GWP_SHIP(value);
+      if (gwp_ship_is_mine(ship)) {
+	own_ships = g_slist_insert (own_ships, ship, -1);
+      }
+    }
+  
+  g_hash_table_foreach (ship_list, (GHFunc) insert_my_ships, NULL);
+
+  return own_ships;
 }
