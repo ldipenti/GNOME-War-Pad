@@ -529,7 +529,7 @@ gint16 gwp_planet_get_natives_race (GwpPlanet *self)
 void gwp_planet_set_natives_race (GwpPlanet *self, gint16 nr)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (nr >= 0 && nr >= 9);
+  g_assert (nr >= 0 && nr <= 9);
   self->priv->natives_race = nr;
 }
 
