@@ -3056,4 +3056,9 @@
   )
 )
 
+(define-function ship_get_list
+  (c-name "ship_get_list")
+  (return-type "GSList*")
+)
+
 
