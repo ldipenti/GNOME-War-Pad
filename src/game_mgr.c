@@ -984,9 +984,16 @@ game_mgr_update_appbar (void)
   GnomeAppBar *appbar = (GnomeAppBar *)lookup_widget("game_mgr_appbar");
   gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
   GSList *games = gconf_client_all_dirs(gwp_gconf, games_path, NULL);
+  gint games_nr = g_slist_length(games);
 
-  gnome_appbar_set_status (appbar, g_strdup_printf(_("%d games"), 
-						   g_slist_length(games)));
+  if (games_nr == 0) {
+    gnome_appbar_set_status (appbar, _("no games"));    
+  } else if (games_nr == 1) {
+    gnome_appbar_set_status (appbar, _("1 game"));
+  } else {
+    gnome_appbar_set_status (appbar, g_strdup_printf(_("%d games"), 
+						     games_nr));
+  }
   g_slist_free (games);
   g_free (games_path);
 }
