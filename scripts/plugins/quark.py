@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-ruta='/u/home/cristian/devel/quark/01'
+#ruta='/u/home/cristian/devel/quark/01'
 import sys
-##sys.path.append(gwp.get_system_plugins_dir())
-sys.path.append(ruta)
+sys.path.append(gwp.get_system_plugins_dir())
+#sys.path.append(ruta)
 ##import vp_utils
 import pygtk
 import gtk
