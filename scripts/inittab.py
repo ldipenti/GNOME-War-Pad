@@ -95,8 +95,9 @@ class PluginManager:
 #######
 class Plugin:
     """
-    Plugin class, all plugins will need to use this class to register
-    its functions on the plugin manager.
+    GWP's Plugin abstract class: every plugin must be a subclass of this one
+    and should implement register() and unregister() methods as part of the
+    Plugin API.
     """
     __module__ = 'gwp'
 
