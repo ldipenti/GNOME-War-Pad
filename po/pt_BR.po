@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-26 10:18-0300\n"
+"POT-Creation-Date: 2005-01-02 02:33-0300\n"
 "PO-Revision-Date: 2004-10-24 16:18-0300\n"
 "Last-Translator: Carlos Henrique G. Paulino <chgp@minaslivre.org>\n"
 "Language-Team: ONG MinasLivre <www.minaslivre.org>\n"
@@ -384,7 +384,7 @@ msgstr "Raios:"
 msgid "Build ship"
 msgstr "Construir nave"
 
-#: src/gwp.glade.h:88 scripts/plugins/magallanes.py:459
+#: src/gwp.glade.h:88 scripts/plugins/magallanes.py:457
 msgid "Cargo"
 msgstr "Carregamento"
 
@@ -392,7 +392,7 @@ msgstr "Carregamento"
 msgid "Construction"
 msgstr "Construção"
 
-#: src/gwp.glade.h:90 scripts/plugins/magallanes.py:456
+#: src/gwp.glade.h:90 scripts/plugins/magallanes.py:454
 msgid "Crew"
 msgstr "Tripulação"
 
@@ -496,7 +496,7 @@ msgstr "Email do host:"
 msgid "Host Type:"
 msgstr "Tipo do host:"
 
-#: src/gwp.glade.h:116 scripts/plugins/magallanes.py:454
+#: src/gwp.glade.h:116 scripts/plugins/magallanes.py:452
 msgid "Hull"
 msgstr ""
 
@@ -686,7 +686,7 @@ msgid "Ship List"
 msgstr "Lista de naves"
 
 #. Columns Lista Naves
-#: src/gwp.glade.h:162 scripts/plugins/magallanes.py:451
+#: src/gwp.glade.h:162 scripts/plugins/magallanes.py:449
 msgid "Ships"
 msgstr "Naves"
 
@@ -1070,62 +1070,62 @@ msgid "%d <span foreground=\"red\">(%d)</span> MC"
 msgstr "%d <span foreground=\"red\">(%d)</span> MC"
 
 #. Update distance
-#: src/starchart.c:1156
+#: src/starchart.c:1179
 #, c-format
 msgid "%.2f LY"
 msgstr "%.2f AL"
 
 #. Update fuel usage
 #. Update mass
-#: src/starchart.c:1161 src/starchart.c:1166
+#: src/starchart.c:1184 src/starchart.c:1189
 #, c-format
 msgid "%d KT"
 msgstr "%d KT"
 
-#: src/starchart.c:1173
+#: src/starchart.c:1196
 msgid "<span foreground=\"red\">never</span>"
 msgstr "<span foreground=\"red\">nunca</span>"
 
-#: src/starchart.c:1177
+#: src/starchart.c:1200
 #, c-format
 msgid "%d turn"
 msgstr "%d turno"
 
-#: src/starchart.c:1179
+#: src/starchart.c:1202
 #, c-format
 msgid "%d turns"
 msgstr "%d turnos"
 
-#: src/starchart.c:1211
+#: src/starchart.c:1234
 msgid "not moving"
 msgstr "parado"
 
 #. Update speed
-#: src/starchart.c:1217
+#: src/starchart.c:1240
 #, c-format
 msgid "Warp %d"
 msgstr "Warp %d"
 
-#: src/starchart.c:1283
+#: src/starchart.c:1306
 #, c-format
 msgid "%d %s in %s"
 msgstr "%d %s em %s"
 
-#: src/starchart.c:2249
+#: src/starchart.c:2285
 #, c-format
 msgid "Distance: %.2f LY"
 msgstr ""
 
-#: src/starchart.c:2314
+#: src/starchart.c:2350
 msgid "Name"
 msgstr "Nome"
 
-#: src/vp_utils.c:897
+#: src/vp_utils.c:985
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr "Arquivo KORE%d.DAT, não encontrado, alguns dados não serão exibidos."
 
-#: src/vp_utils.c:899
+#: src/vp_utils.c:987
 #, fuzzy
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
@@ -1195,11 +1195,11 @@ msgstr "Um novo arquivo RST foi encontrado. deseja desempacotá-lo?"
 msgid "Turn: %d"
 msgstr "Turno: %d"
 
-#: src/game_mgr.c:705
+#: src/game_mgr.c:707
 msgid "Error creating the message history directory."
 msgstr "Erro criando o diretório de mensagens"
 
-#: src/game_mgr.c:706
+#: src/game_mgr.c:708
 msgid ""
 "A file already exists with the name 'message-history', please remove or "
 "rename this file so that the message history feature can work correctly."
@@ -1207,11 +1207,11 @@ msgstr ""
 "Um arquivo ja existe com o nome 'message-history', por favor remova ou "
 "renomeie este arquivo para que o recurso de historico funcione corretamente"
 
-#: src/game_mgr.c:743
+#: src/game_mgr.c:745
 msgid "Message data file not found."
 msgstr "Arquivos com dados de mensagens nao encontrado"
 
-#: src/game_mgr.c:744
+#: src/game_mgr.c:746
 msgid ""
 "The MDATA file was not found, it's needed to read the game messages, please "
 "check your VGA Planets installation."
@@ -1219,23 +1219,23 @@ msgstr ""
 "O arquivo MDATA não foi encontrado, pode ser necessário ler as mensagens do "
 "jogo,por favor confira sua instalação."
 
-#: src/game_mgr.c:1109
+#: src/game_mgr.c:1113
 #, fuzzy
 msgid "no games"
 msgstr "Nome desconhecido"
 
-#: src/game_mgr.c:1111
+#: src/game_mgr.c:1115
 #, fuzzy
 msgid "1 game"
 msgstr "Nome"
 
-#: src/game_mgr.c:1113
+#: src/game_mgr.c:1117
 #, fuzzy, c-format
 msgid "%d games"
 msgstr "%d caças"
 
 #: src/race.c:28 scripts/plugins/magallanes.glade.h:31
-#: scripts/plugins/vp_utils.py:84
+#: scripts/plugins/vp_utils.py:85
 msgid "None"
 msgstr "Nenhum"
 
@@ -1561,7 +1561,7 @@ msgid "Special"
 msgstr "Especial"
 
 #. Special Function description
-#: src/mission.c:102 scripts/plugins/vp_utils.py:66
+#: src/mission.c:102 scripts/plugins/vp_utils.py:67
 msgid "Cloak"
 msgstr "Invisibilidade"
 
@@ -1646,47 +1646,47 @@ msgid "Utility for viewing the ships characteristics"
 msgstr ""
 
 #. Columns Comparacion
-#: scripts/plugins/magallanes.py:453
+#: scripts/plugins/magallanes.py:451
 #, fuzzy
 msgid "Race"
 msgstr "Raça:"
 
-#: scripts/plugins/magallanes.py:455
+#: scripts/plugins/magallanes.py:453
 msgid "Mass"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:457
+#: scripts/plugins/magallanes.py:455
 msgid "Beam (tech)"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:458
+#: scripts/plugins/magallanes.py:456
 msgid "T/F (tech)"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:460
+#: scripts/plugins/magallanes.py:458
 #, fuzzy
 msgid "Fuel"
 msgstr "Feudal"
 
-#: scripts/plugins/magallanes.py:461
+#: scripts/plugins/magallanes.py:459
 msgid "Eng (wp)"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:462
+#: scripts/plugins/magallanes.py:460
 #, fuzzy
 msgid "MC"
 msgstr "0 MC"
 
-#: scripts/plugins/magallanes.py:463
+#: scripts/plugins/magallanes.py:461
 #, fuzzy
 msgid "Tri"
 msgstr "Tribal"
 
-#: scripts/plugins/magallanes.py:464
+#: scripts/plugins/magallanes.py:462
 msgid "Dur"
 msgstr ""
 
-#: scripts/plugins/magallanes.py:465
+#: scripts/plugins/magallanes.py:463
 msgid "Mol"
 msgstr ""
 
@@ -1849,68 +1849,68 @@ msgstr "Os Robos"
 msgid "Ship & Parts"
 msgstr "Dados da nave"
 
-#: scripts/plugins/vp_utils.py:67
+#: scripts/plugins/vp_utils.py:68
 msgid "Advanced Cloak"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:68
+#: scripts/plugins/vp_utils.py:69
 #, fuzzy
 msgid "Anti-Cloak"
 msgstr "Invisibilidade"
 
-#: scripts/plugins/vp_utils.py:69
+#: scripts/plugins/vp_utils.py:70
 msgid "BioScan"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:70
+#: scripts/plugins/vp_utils.py:71
 msgid "Cools down to 50 degrees"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:71
+#: scripts/plugins/vp_utils.py:72
 msgid "Warms up to 50 degrees"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:72
+#: scripts/plugins/vp_utils.py:73
 msgid "Warms up to 100 degrees"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:73
+#: scripts/plugins/vp_utils.py:74
 msgid "Glory Device High Damage"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:74
+#: scripts/plugins/vp_utils.py:75
 msgid "Glory Device Low Damage"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:75
+#: scripts/plugins/vp_utils.py:76
 msgid "Generate MCs"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:76
+#: scripts/plugins/vp_utils.py:77
 msgid "Cloak and Gravitronic Acelerators"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:77
+#: scripts/plugins/vp_utils.py:78
 msgid "Chunnel"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:78
+#: scripts/plugins/vp_utils.py:79
 msgid "Hyperdrive"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:79
+#: scripts/plugins/vp_utils.py:80
 msgid "Imperial Assault"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:80
+#: scripts/plugins/vp_utils.py:81
 msgid "Ramscoop, Bioscanner"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:81 scripts/plugins/vp_utils.py:82
+#: scripts/plugins/vp_utils.py:82 scripts/plugins/vp_utils.py:83
 msgid "Fuel Alchemy"
 msgstr ""
 
-#: scripts/plugins/vp_utils.py:83
+#: scripts/plugins/vp_utils.py:84
 msgid "Minerals Alchemy"
 msgstr ""
 
