@@ -12,7 +12,8 @@ class PluginManager:
 
     # Private attributes
     __key_hooks = {}
-    __plugins = []
+    __plugins_registered = []
+    __plugins_available = []
     
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
@@ -27,8 +28,10 @@ class PluginManager:
         except NotImplementedError:
             pass
         else:
-            self.__plugins.append (plugin)
+            self.__plugins_registered.append (plugin)
 
+
+# Plugin abstract class
 class Plugin:
     """
     Plugin class, all plugins will need to use this class to register
