@@ -66,7 +66,7 @@ GType gwp_game_state_get_type (void);
  * Public method definitions.
  */
 GwpGameState *gwp_game_state_new (void);
-
+void gwp_game_state_postinit (GwpGameState *self);
 
 /**********************/
 /* High level methods */
@@ -119,6 +119,10 @@ gboolean gwp_game_state_get_extra_panel_open (GwpGameState *self);
 void gwp_game_state_set_plugin_mgr (GwpGameState *self, void *obj);
 void * gwp_game_state_get_plugin_mgr (GwpGameState *self);
 #endif
+gint gwp_game_state_get_selected_planet (GwpGameState *self);
+gint gwp_game_state_get_selected_ship (GwpGameState *self);
+
+/* Host configuration methods */
 gint gwp_game_state_get_host_mining_rate (GwpGameState *self, gint race);
 gint gwp_game_state_get_host_tax_rate (GwpGameState *self, gint race);
 gint gwp_game_state_get_host_ships_visible_range (GwpGameState *self);

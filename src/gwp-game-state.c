@@ -20,6 +20,8 @@
 #include "global.h"
 #include "gwp-game-state.h"
 #include "game_mgr.h"
+#include "gwp-planet.h"
+#include "gwp-ship.h"
 
 enum {
   PROP_0,
@@ -68,8 +70,12 @@ struct _GwpGameStatePrivate {
   gint16 last_y_coord;
   gint16 x_coord;
   gint16 y_coord;
+  gint selected_planet;
+  gint selected_ship;
 
+  /*******************************/
   /* Host configuration settings */
+  /*******************************/
   gint host_recycle_col_ship; /**< The percentage of minerals invested
 				 in a ship's hull that are regained
 				 when a ship is colonised. Default is 75%. */
@@ -275,6 +281,8 @@ struct _GwpGameStatePrivate {
  */
 static void gwp_game_state_init (GTypeInstance *instance, gpointer g_class);
 static void gwp_game_state_class_init (GwpGameStateClass *klass);
+void selected_planet_notification (GObject *planet, gpointer data);
+void selected_ship_notification (GObject *ship, gpointer data);
 
 GType gwp_game_state_get_type (void)
 {
@@ -427,11 +435,16 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->distance_calc = FALSE;
   self->priv->x_coord = 0;
   self->priv->y_coord = 0;
+  self->priv->selected_planet = 0;
+  self->priv->selected_ship = 0;
   self->priv->warn_korefile = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
+
+  /********************************/
   /* Host Configurations Defaults */
+  /********************************/
   self->priv->host_recycle_col_ship = 75;
   self->priv->host_large_meteor_impact = 2;
   self->priv->host_space_mines = TRUE;
@@ -666,6 +679,71 @@ GwpGameState * gwp_game_state_new (void)
 {
   return g_object_new (gwp_game_state_get_type (), NULL);
 }
+
+/**
+ * Post-init tasks.
+ *
+ * The game state object requires a double initialization: first
+ * it set ups several data required to load the game, later on it 
+ * must have all the game data loaded to do extra stuff (like
+ * connectin to planets and ships signals).
+ */
+void
+gwp_game_state_postinit (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  static gboolean already_run = FALSE;
+
+  /* Check if this method already was executed */
+  if (already_run)
+    return;
+
+  /* Make sure that this method is called just once */
+  already_run = TRUE;
+
+  /**********************************/
+  /* Connect to interesting signals */
+  /**********************************/
+  /* Selected planets */
+  static void planet_conn (gpointer key, gpointer value, gpointer self) {
+    g_signal_connect (GWP_PLANET(value),
+		      "selected",
+		      G_CALLBACK(selected_planet_notification),
+		      self);
+  }
+  g_hash_table_foreach (planet_list, (GHFunc) planet_conn, self);
+  /* Selected ships */
+  static void ship_conn (gpointer key, gpointer value, gpointer self) {
+    g_signal_connect (GWP_SHIP(value),
+		      "selected",
+		      G_CALLBACK(selected_ship_notification),
+		      self);
+  }
+  g_hash_table_foreach (ship_list, (GHFunc) ship_conn, self);
+}
+
+/*************************************/
+/* Notifications callbacks (private) */
+/*************************************/
+/**
+ * Callback connected to selected planet signal, update game state data.
+ */
+void
+selected_planet_notification (GObject *planet, gpointer data)
+{
+  GwpGameState *self = GWP_GAME_STATE(data);
+  self->priv->selected_planet = gwp_object_get_id (GWP_OBJECT(planet));
+}
+/**
+ * Callback connected to selected ship signal, updates game state data.
+ */
+void
+selected_ship_notification (GObject *ship, gpointer data)
+{
+  GwpGameState *self = GWP_GAME_STATE(data);
+  self->priv->selected_ship = gwp_object_get_id (GWP_OBJECT(ship));
+}
+
 
 /**********************/
 /* High level methods */
@@ -927,6 +1005,26 @@ void * gwp_game_state_get_plugin_mgr (GwpGameState *self)
   return self->priv->plugin_mgr;
 }
 #endif
+
+/**
+ * Returns the current selected planet ID.
+ */
+gint 
+gwp_game_state_get_selected_planet (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->selected_planet;
+}
+
+/**
+ * Returns the current selected ship ID.
+ */
+gint 
+gwp_game_state_get_selected_ship (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->selected_ship;
+}
 
 /**
  * Return Host's mining rate setting.

@@ -96,6 +96,9 @@ void init_data (void)
   g_message("Scanning Messages...");
   scan_messages();
   g_message("Messages Scanned!");
+  g_message("Running Game State post-initialization");
+  gwp_game_state_postinit(game_state);
+  g_message("Post-init done!");
 
 #ifdef USE_PYTHON
   if (! python_loaded)
