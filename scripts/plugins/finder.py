@@ -1,5 +1,4 @@
 import pygtk
-#pygtk.require('2.0')
 import gtk
 import re
 
@@ -136,9 +135,3 @@ class Finder(gwp.Plugin):
     # Cleaning up
     def unregister(self, pm):
         pass
-
-#####
-# Load code
-#####
-#if __name__ == '__main__':
-#    finder = Finder()
