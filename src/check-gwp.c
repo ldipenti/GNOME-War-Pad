@@ -5,25 +5,6 @@
 #ifdef USE_CHECK
 
 #include <check.h>
-#include "gwp-starchart.h"
-
-START_TEST(object_creation_test)
-{
-  fail_unless (GWP_IS_STARCHART(gwp_starchart_new()),
-	       "create object");
-}
-END_TEST
-
-Suite *suite (void)
-{
-  Suite *s = suite_create ("GWP Starchart");
-  TCase *tc = tcase_create ("Core");
-
-  suite_add_tcase (s, tc);
-
-  tcase_add_test (tc, object_creation_test);
-  return s;
-}
 
 int main (void)
 {
@@ -31,8 +12,12 @@ int main (void)
 
   g_type_init();
 
-  Suite *s = suite ();
+  Suite *s = suite_create ("GWP");
   SRunner *sr = srunner_create (s);
+
+  /* Add module suites */
+  srunner_add_suite (sr, suite_gwp_object());
+
   srunner_run_all (sr, CK_VERBOSE);
   nf = srunner_ntests_failed (sr);
   srunner_free (sr);
