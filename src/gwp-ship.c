@@ -691,6 +691,11 @@ GwpShip * gwp_ship_get (GHashTable *list, gint ship_id)
   return (GwpShip *) g_hash_table_lookup(list, (gconstpointer)ship_id);
 }
 
+GwpShip * gwp_ship_get_by_id (gint ship_id) 
+{
+  return gwp_ship_get(ship_list, ship_id);
+}
+
 /**
  * Checks if the current ship's coordinates are valid.
  *

@@ -83,7 +83,10 @@ GString * gwp_ship_get_beams_name (GwpShip *self);
 GString * gwp_ship_get_torps_name (GwpShip *self);
 
 gint gwp_ship_calculate_heading (GwpShip *self);
+
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
+GwpShip * gwp_ship_get_by_id (gint ship_id);
+
 gboolean gwp_ship_valid_coords(GwpShip *self);
 gboolean gwp_ship_is_mine(GwpShip *self);
 void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y);

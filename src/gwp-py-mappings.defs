@@ -1032,6 +1032,14 @@
   )
 )
 
+(define-function gwp_ship_get_by_id
+  (c-name "gwp_ship_get_by_id")
+  (return-type "GwpShip*")
+  (parameters
+    '("gint" "ship_id")
+  )
+)
+
 (define-method valid_coords
   (of-object "GwpShip")
   (c-name "gwp_ship_valid_coords")
