@@ -530,11 +530,6 @@ GHashTable * load_sdata (void)
 
       s = gwp_ship_new();
 
-      coords = g_list_nth_data (shipxy_list, i);
-      gwp_object_set_x_coord (GWP_OBJECT(s), coords->x);
-      gwp_object_set_y_coord (GWP_OBJECT(s), coords->y);
-      gwp_ship_set_mass_if_unknown (s, coords->mass);
-      
       /* If we have more data on TARGETx.DAT, we add it */
       if ((target_reg =
 	   g_hash_table_lookup (target_list,
@@ -547,6 +542,11 @@ GHashTable * load_sdata (void)
 	gwp_ship_set_owner (s, target_reg->owner);
       }
 
+      coords = g_list_nth_data (shipxy_list, i);
+      gwp_object_set_x_coord (GWP_OBJECT(s), coords->x);
+      gwp_object_set_y_coord (GWP_OBJECT(s), coords->y);
+      gwp_ship_set_mass_if_unknown (s, coords->mass);
+      
       /* Add ship to list */
       g_hash_table_insert (ship_list, (gpointer)(i + 1), s);
     }
