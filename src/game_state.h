@@ -35,6 +35,7 @@ struct _GameState
   GString * dir;
   gint race;
   gchar *name;
+  GList *pnames;
 };
 
 void game_set_dir (gchar * dir);
@@ -54,5 +55,8 @@ void game_set_last_coords(gint16 x, gint16 y);
 
 void game_set_name (const gchar *name);
 const gchar *game_get_name (void);
+
+GList *game_get_pnames(void);
+void game_set_pnames(GList *pnames);
 
 #endif

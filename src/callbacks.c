@@ -78,7 +78,8 @@ starchart_event_button                 (GtkWidget       *widget,
   if(event->button == 1) {
     /* Search for nearest planet and select it */
     planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
-    starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), planets_nearby, wx, wy);
+    starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), 
+				    planets_nearby, wx, wy);
   } else if(event->button == 3) {
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);

@@ -37,7 +37,7 @@ GList *load_shipxy(gint race);
 GHashTable *load_pdata(void);
 GHashTable *load_sdata(void);
 GHashTable *load_target(gint race);
-GList *load_pnames(gchar *pnames_file);
+GList *load_pnames_file(gchar *pnames_file);
 void load_object_per_quad (gpointer obj, GSList * obj_per_quad[TOTAL_QUADS], double wx, gdouble wy);
 //void load_ships_per_quad(GnomeCanvasItem *ship, GSList *ships_per_quad[TOTAL_QUADS]);
 

@@ -40,6 +40,7 @@ void game_mgr_init(void)
     GSList *games = NULL;
     GameSettings *game;
     gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
+    gchar *tmp = NULL;
     GnomeIconList *iconlist =
       (GnomeIconList *) lookup_widget("game_mgr_iconlist");
     
@@ -65,55 +66,35 @@ void game_mgr_init(void)
       /* Get the data! */
       game->game_name = g_strdup(g_strrstr(games->data, "/"));
       game->game_name++;
-      game->game_dir = gconf_client_get_string(gwp_gconf, 
-					       g_strconcat(games_path,
-							   "/",
-							   game->game_name,
-							   "/game_dir",
-							   NULL),
-					       NULL);
-      game->trn_dir = gconf_client_get_string(gwp_gconf, 
-					      g_strconcat(games_path,
-							   "/",
-							   game->game_name,
-							  "/trn_dir",
-							  NULL),
-					      NULL);
-      game->rst_dir = gconf_client_get_string(gwp_gconf, 
-					      g_strconcat(games_path,
-							   "/",
-							   game->game_name,
-							  "/rst_dir",
-							  NULL),
-					      NULL);
-      game->player_email = gconf_client_get_string(gwp_gconf, 
-						   g_strconcat(games_path,
-							       "/",
-							       game->game_name,
-							       "/player_email",
-							       NULL),
-						   NULL);
-      game->host_email = gconf_client_get_string(gwp_gconf, 
-						 g_strconcat(games_path,
-							     "/",
-							     game->game_name,
-							     "/host_email",
-							     NULL),
-						 NULL);
-      game->host_type = gconf_client_get_int(gwp_gconf,
-					     g_strconcat(games_path,
-							 "/",
-							 game->game_name,
-							 "/host_type",
-							 NULL),
-					     NULL);
-      game->race = gconf_client_get_int(gwp_gconf,
-					g_strconcat(games_path,
-						    "/",
-						    game->game_name,
-						    "/race",
-						    NULL),
-					NULL);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, "/game_dir", NULL);
+      game->game_dir = gconf_client_get_string(gwp_gconf, tmp, NULL);
+      g_free(tmp);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, "/trn_dir", NULL);
+      game->trn_dir = gconf_client_get_string(gwp_gconf, tmp, NULL);
+      g_free(tmp);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, "/rst_dir", NULL);
+      game->rst_dir = gconf_client_get_string(gwp_gconf, tmp, NULL);
+      g_free(tmp);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, 
+			"/player_email", NULL);
+      game->player_email = gconf_client_get_string(gwp_gconf, tmp, NULL);
+      g_free(tmp);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, "/host_email", NULL);
+      game->host_email = gconf_client_get_string(gwp_gconf, tmp, NULL);
+      g_free(tmp);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, "/host_type", NULL);
+      game->host_type = gconf_client_get_int(gwp_gconf, tmp, NULL);
+      g_free(tmp);
+
+      tmp = g_strconcat(games_path, "/", game->game_name, "/race", NULL);
+      game->race = gconf_client_get_int(gwp_gconf, tmp, NULL);
+      g_free(tmp);
 
       /* Add icon to iconlist */
       game_mgr_add_icon(iconlist, game);
@@ -121,6 +102,7 @@ void game_mgr_init(void)
       /* Move forward on the list... */
       games = games->next;
     }
+    g_free(games_path);
 }
 
 void game_mgr_update_race_list(char *dir) 
@@ -552,6 +534,7 @@ void game_mgr_add_icon(GnomeIconList *iconlist, GameSettings *sett)
   gnome_icon_list_set_icon_data(GNOME_ICON_LIST(iconlist),
 				icon_idx,
 				sett);
+  g_free(game_name);
 }
 
 // For debugging purposes
@@ -648,6 +631,7 @@ void game_mgr_game_name_demangle(gchar *name)
 
 void game_mgr_play_game(GameSettings *sett)
 {
+  gchar *tmp;
   GtkLabel *race = 
     (GtkLabel *) lookup_widget("label_race_name");
 
@@ -683,10 +667,11 @@ void game_mgr_play_game(GameSettings *sett)
 
   /* Get the widgets ready */
   gtk_label_set_text(race, race_get_name(sett->race));
-  gtk_window_set_title(GTK_WINDOW(gwp), 
-		       g_strconcat(game_get_name(),
-				   " - GNOME War Pad",
-				   NULL));
+
+  tmp = g_strconcat(game_get_name(), " - GNOME War Pad", NULL);
+  gtk_window_set_title(GTK_WINDOW(gwp), tmp);
+  g_free(tmp);
+
   gtk_widget_hide(game_mgr);
   gtk_widget_show(gwp);
 }

@@ -51,10 +51,7 @@ gboolean planet_is_known(Planet *planet) {
  * Planet Data Access Functions
  */
 gchar *planet_get_name(Planet *planet) {
-  gchar *name;
-  name = g_malloc(21);
-  name = g_strdup(planet->name);
-  return name;
+  return planet->name;
 }
  
 gint16 planet_get_id(Planet *planet) {

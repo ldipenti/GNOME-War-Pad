@@ -40,6 +40,10 @@
  */
 void init_data (void)
 {
+  // Game state initializations
+  game_set_starchart_zoom (1.0);
+  game_set_pnames(load_pnames_file(PNAMES));
+
   xyplanet_list = load_xyplan (XYPLAN);
   g_message ("XYPLAN cargado...");
   shipxy_list = load_shipxy (game_get_race ());
@@ -50,9 +54,6 @@ void init_data (void)
   g_message ("PDATA cargado...");
   ship_list = load_sdata ();
   g_message ("SDATA cargado...");
-
-  // Game state initializations
-  game_set_starchart_zoom (1.0);
 }
 
 /*
@@ -74,13 +75,13 @@ gint32 getDWord (guchar * p)
 void vp_coord_v2w (gint16 x1, gint16 y1, gdouble * x2, gdouble * y2)
 {
   if(x1 >= 1000 && x1 <= 3000 && y1 >= 1000 && y1 <= 3000) {
-    // Convert X coordinate
+    /* Convert X coordinate */
     *x2 = (gdouble) x1 - 1000 + CANVAS_OFFSET_INT;
     
-    // Convert Y coordinate
+    /* Convert Y coordinate */
     *y2 = (gdouble) abs (y1 - 3000) + CANVAS_OFFSET_INT;
   } else {      
-    // Assign "dummy" values
+    /* Assign "dummy" values */
     *x2 = (gdouble) 0;
     *y2 = (gdouble) 0;
   }
@@ -99,36 +100,37 @@ void vp_coord_w2v (gdouble x1, gdouble y1, gint16 * x2, gint16 * y2)
 /*
  * Loads planets names into a list
  */
-GList * load_pnames (gchar * pnames_file)
+GList * load_pnames_file (gchar * pnames_file)
 {
-  gchar planet_name[20], *tmp;
+  gchar *tmp = NULL;
   FILE *pname = NULL;
   GList *pname_list = NULL;
   GString *pnames_str;
 
-  // Initialize filename string
+  /* Initialize filename string */
   pnames_str = g_string_new (pnames_file);
   pnames_str = g_string_up (pnames_str);
 
-  // Check file and try to open it
+  /* Check file and try to open it */
   if ((pname = fopen (game_get_full_path (pnames_str)->str, "r")) == NULL) {
     pnames_str = g_string_down (pnames_str);
     if ((pname = fopen (game_get_full_path (pnames_str)->str, "r")) == NULL) {
       g_message ("ERROR trying to open %s file.\n",
 		 game_get_full_path (pnames_str)->str);
+      g_string_free(pnames_str, TRUE);
       exit (-1);
     }
   }
   rewind (pname);
 
-  while (!feof (pname)) {
-    fread (planet_name, sizeof (gchar[20]), 1, pname);
-    tmp = (gchar *) g_malloc (sizeof (gchar[21]));
-    tmp = g_strdup (planet_name);
+  while (!feof(pname)) {
+    tmp = (gchar *) g_malloc(sizeof(gchar[21]));
+    fread (tmp, sizeof(gchar[20]), 1, pname);
     tmp[20] = (gchar) NULL;
-    pname_list = g_list_append (pname_list, g_strchomp (tmp));
+    pname_list = g_list_append(pname_list, g_strchomp(tmp));
   }
   fclose (pname);
+  g_string_free(pnames_str, TRUE);
 
   return pname_list;
 }
@@ -363,7 +365,7 @@ GHashTable * load_sdata (void)
 	  if ((sdata =
 	       fopen (game_get_full_path (sdata_dat_file)->str,
 		      "r")) == NULL) {
-	    g_message ("ERROR trying to open %s file.\n",
+	    g_message ("ERROR trying to open %s file.",
 		       game_get_full_path (sdata_dat_file)->str);
 	    exit (-1);
 	  }
@@ -532,7 +534,7 @@ GHashTable * load_pdata (void)
   planet_list = g_hash_table_new (NULL, NULL);
 
   // Load Additional Data
-  pnames = load_pnames (PNAMES);
+  pnames = game_get_pnames();
 
   // Load Planet Data...
   if (g_file_test (game_get_full_path (pdata_dis_file)->str,
@@ -720,6 +722,7 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   struct stat pdata_file;
   struct stat ship_file;
   GString *pdata, *ship, *rst;
+  gchar *tmp;
   gboolean ret = FALSE;
 
   g_assert(game_dir != NULL);
@@ -728,12 +731,17 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   ship = g_string_new ("ship");
   rst = g_string_new ("player");
   
-  pdata = g_string_append (pdata, 
-			   g_strdup_printf ("%d.dis", race));
-  ship = g_string_append (ship,
-			  g_strdup_printf ("%d.dis", race));
-  rst = g_string_append (rst,
-			 g_strdup_printf ("%d.rst", race));
+  tmp = g_strdup_printf ("%d.dis", race);
+  pdata = g_string_append (pdata, tmp);
+  g_free(tmp);
+
+  tmp = g_strdup_printf ("%d.dis", race);
+  ship = g_string_append (ship, tmp);
+  g_free(tmp);
+
+  tmp = g_strdup_printf ("%d.rst", race);
+  rst = g_string_append (rst, tmp);
+  g_free(tmp);
 
   pdata = g_string_prepend(pdata, game_dir);
   ship = g_string_prepend(ship, game_dir);

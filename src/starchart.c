@@ -42,20 +42,19 @@
  */
 void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 {
-  GList *pnames;
   GtkWidget *planet_page;
   GtkNotebook *panel;
   GtkLabel *planet_name, *mines, *factories, *defenses;
   GtkLabel *neutronium, *tritanium, *duranium, *molybdenum, *supplies;
   GtkLabel *colonists, *natives, *native_race, *spi;
+  gchar *tmp;
   Planet *a_planet;
 
-  // Select the planet page on panel
+  /* Select the planet page on panel */
   panel = (GtkNotebook *) lookup_widget ("info_panel");
   gtk_notebook_set_current_page (panel, PANEL_PLANET_PAGE);
   planet_page = gtk_notebook_get_nth_page (panel, PANEL_PLANET_PAGE);
 
-  pnames = load_pnames (PNAMES);
   planet_name = (GtkLabel *) lookup_widget ("label_planet");
   mines = (GtkLabel *) lookup_widget ("label_mines");
   factories = (GtkLabel *) lookup_widget ("label_factories");
@@ -72,65 +71,64 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
   native_race = (GtkLabel *) lookup_widget ("label_native_race");
   spi = (GtkLabel *) lookup_widget ("label_spi");
 
-  // If we received a valid planet id, we work
+  /* If we received a valid planet id, we work */
   if ((planet_id >= 1) && (planet_id <= MAX_PLANETS))
     {
-      // If we have data on this planet, then work
+      /* If we have data on this planet, then work */
       if ((a_planet = planet_get (planet_list, planet_id)) != NULL &&
 	  planet_is_known (a_planet))
 	{
-	  gtk_label_set_text (planet_name,
-			      g_strdup_printf ("%s",
-					       planet_get_name (a_planet)));
-	  gtk_label_set_text (mines,
-			      g_strdup_printf ("%d",
-					       planet_get_mines (a_planet)));
-	  gtk_label_set_text (factories,
-			      g_strdup_printf ("%d",
-					       planet_get_factories
-					       (a_planet)));
-	  gtk_label_set_text (defenses,
-			      g_strdup_printf ("%d",
-					       planet_get_defense_posts
-					       (a_planet)));
+	  tmp = g_strdup_printf ("%s", planet_get_name (a_planet));
+	  gtk_label_set_text (planet_name, tmp);
+	  g_free(tmp);
 
-	  gtk_label_set_text (neutronium,
-			      g_strdup_printf ("%d",
-					       planet_get_mined_neutronium
-					       (a_planet)));
-	  gtk_label_set_text (tritanium,
-			      g_strdup_printf ("%d",
-					       planet_get_mined_tritanium
-					       (a_planet)));
-	  gtk_label_set_text (duranium,
-			      g_strdup_printf ("%d",
-					       planet_get_mined_duranium
-					       (a_planet)));
-	  gtk_label_set_text (molybdenum,
-			      g_strdup_printf ("%d",
-					       planet_get_mined_molybdenum
-					       (a_planet)));
-	  gtk_label_set_text (supplies,
-			      g_strdup_printf ("%d",
-					       planet_get_supplies
-					       (a_planet)));
+	  tmp = g_strdup_printf ("%d", planet_get_mines (a_planet));
+	  gtk_label_set_text (mines, tmp);
+	  g_free(tmp);
 
-	  gtk_label_set_text (colonists,
-			      g_strdup_printf ("%d",
-					       planet_get_colonists (a_planet)
-					       * 100));
-	  gtk_label_set_text (natives,
-			      g_strdup_printf ("%d",
-					       planet_get_natives (a_planet) *
-					       100));
-	  gtk_label_set_text (native_race,
-			      g_strdup_printf ("%s",
-					       planet_get_native_race
-					       (a_planet)));
-	  gtk_label_set_text (spi,
-			      g_strdup_printf ("%s",
-					       planet_get_native_spi
-					       (a_planet)));
+	  tmp = g_strdup_printf ("%d", planet_get_factories(a_planet));
+	  gtk_label_set_text (factories, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_defense_posts(a_planet));
+	  gtk_label_set_text (defenses, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_mined_neutronium(a_planet));
+	  gtk_label_set_text (neutronium, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_mined_tritanium(a_planet));
+	  gtk_label_set_text (tritanium, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_mined_duranium(a_planet));
+	  gtk_label_set_text (duranium, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_mined_molybdenum(a_planet));
+	  gtk_label_set_text (molybdenum, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_supplies(a_planet));
+	  gtk_label_set_text (supplies, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_colonists (a_planet) * 100);
+	  gtk_label_set_text (colonists, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%d", planet_get_natives (a_planet) * 100);
+	  gtk_label_set_text (natives, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%s", planet_get_native_race(a_planet));
+	  gtk_label_set_text (native_race, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf ("%s", planet_get_native_spi(a_planet));
+	  gtk_label_set_text (spi, tmp);
+	  g_free(tmp);
 	}
       else
 	{
@@ -418,7 +416,6 @@ void init_starchart (GtkWidget * gwp)
     grid_points_h->coords[2] = CANVAS_OFFSET + STARCHART_WIDTH;
     grid_points_h->coords[3] = CANVAS_OFFSET + i * QUAD_WIDTH;
     // Draw Vertical Line
-    grid_line = g_malloc (sizeof (GnomeCanvasItem));
     grid_line = gnome_canvas_item_new (starchart_get_grp_grid(), 
 				       GNOME_TYPE_CANVAS_LINE,
 				       "fill_color", QUADRANT_GRID_COLOR,
@@ -426,7 +423,6 @@ void init_starchart (GtkWidget * gwp)
 				       "width_pixels", 1,
 				       "points", grid_points_v, NULL);
     // Draw Horizontal Line
-    grid_line = g_malloc (sizeof (GnomeCanvasItem));
     grid_line = gnome_canvas_item_new (starchart_get_grp_grid(), 
 				       GNOME_TYPE_CANVAS_LINE,
 				       "fill_color", QUADRANT_GRID_COLOR,
@@ -684,7 +680,6 @@ starchart_select_nearest_planet (GtkWidget * gwp,
   Planet *planet_data;
   
   planet = starchart_find_nearest_object (planets_nearby, wx, wy);
-  //planet_data = gtk_object_get_data (GTK_OBJECT (planet), "planet_data");
   planet_data = g_object_get_data (G_OBJECT (planet), "planet_data");
   if (planet_data != NULL) {
     update_planet_panel (gwp, planet_get_id (planet_data));
@@ -755,6 +750,7 @@ void starchart_update_coord_panel(GtkWidget *gwp,
 				  gdouble wx, gdouble wy)
 {
   GtkLabel *x_coord, *y_coord;
+  gchar *x_tmp, *y_tmp;
   gint16 x, y;
   
   x_coord = (GtkLabel *) lookup_widget("label_x_coord");
@@ -763,7 +759,14 @@ void starchart_update_coord_panel(GtkWidget *gwp,
   /* Get VP coords */
   vp_coord_w2v(wx, wy, &x, &y);
   
+  x_tmp = g_strdup_printf("%d", x);
+  y_tmp = g_strdup_printf("%d", y);
+
   /* Update GUI */
-  gtk_label_set_text(x_coord, g_strdup_printf("%d", x));
-  gtk_label_set_text(y_coord, g_strdup_printf("%d", y));
+  gtk_label_set_text(x_coord, x_tmp);
+  gtk_label_set_text(y_coord, y_tmp);
+
+  /* Free stuff */
+  g_free(x_tmp);
+  g_free(y_tmp);
 }

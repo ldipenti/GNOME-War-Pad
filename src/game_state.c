@@ -62,7 +62,7 @@ GString* game_get_dir(void) {
 GString* game_get_full_path(GString *filename) {
     GString *tmp;
     
-    tmp = g_string_new(g_strdup_printf(game_get_dir()->str));
+    tmp = g_string_new(game_get_dir()->str);
     return g_string_append(tmp, filename->str);
 }
 
@@ -103,3 +103,12 @@ void game_set_last_coords(gint16 x, gint16 y)
     game_state.last_y_coord = y;
 }
 
+void game_set_pnames(GList *pnames)
+{
+  game_state.pnames = pnames;
+}
+
+GList *game_get_pnames(void)
+{
+  return game_state.pnames;
+}
