@@ -1,3 +1,35 @@
+Version 0.3.5 (released 01-02-2005):
+
+	* Bugfix: enemy planets reached by scanners or visualized from
+	  orbiting ships send their data through messages. They now
+	  can be seen on the starchart.
+	* Feature: added some code to scan messages using regular
+	  expressions.
+	* Feature: Started works on a plugin writing tutorial, in
+	  Spanish...but to be translated to English as soon as it's 
+	  finished.
+	* Bugfix: "Close game" menu entry temporarily disabled...that
+	  feature doesn't work very well.
+	* Bugfix: added some compilation checks when compiling without
+	  Python support.
+	* Feature: new data type: GwpRace, to represent the various
+	  forms of calling any race. This was hard coded.
+	* Bugfix: some code clean-ups on messages handling type.
+	* Bugfix: error reading xyplan.dat file, one extra fake planet
+	  was shown in starchart.
+	* Bugfix: Mining rate calculus corrected.
+	* Bugfix: colonist tax rate was badly calculated when using Feds.
+	* Feature: added functions to calculate the max number of
+          factories, mineral mines and defenses that can be
+          constructed on a planet.
+	* Bugfix: native & colonist race chars functions corrected.
+	* Feature: added functions to calculate the max tax possible
+          to be collected on a planet.
+	* Bugfix: tax collection functions corrected.
+	* Bugfix: added race and native corrections to mineral
+          extraction rate.
+	* Feature: added i18n support for official plugins.
+
 Version 0.3.4 (released 11-08-2004):
 
 	* Bugfix: fixed problem with planet names being showed at any

@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = po pixmaps help scripts src tests
+SUBDIRS = po pixmaps help scripts src
 
 gwpdocdir = ${prefix}/doc/gwp
 gwpdoc_DATA = \

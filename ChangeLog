@@ -1,3 +1,221 @@
+2005-01-02 01:43  ldipenti
+
+	* src/: global.h, gwp-planet.c, starchart.c, vp_utils.c: Bugfix:
+	  messages are scanned to extract info about enemy planets
+
+2004-12-30 12:09  cristian
+
+	* scripts/plugins/quark.py: Agregado de unas constantes
+
+2004-12-30 12:08  cristian
+
+	* docs/tutorials/plugins/gwp_plugins_tutorial_es.xml: Un poquito
+	  mas...
+
+2004-12-30 12:07  cristian
+
+	* docs/tutorials/plugins/example1.py: Minimal fix
+
+2004-12-28 18:59  cristian
+
+	* docs/tutorials/plugins/gwp_plugins_tutorial_es.xml: Extensión del
+	  cap 1
+
+2004-12-27 19:37  cristian
+
+	* docs/tutorials/plugins/gwp_plugins_tutorial_es.xml: Explicacion
+	  del codigo del ejemplo 001
+
+2004-12-24 11:05  cristian
+
+	* docs/tutorials/plugins/gwp_plugins_tutorial_es.xml: Correciones
+	  ortográficas y algo de texto 1er cap
+
+2004-12-21 19:25  ldipenti
+
+	* src/vp_utils.c: Regexp working!!!
+
+2004-12-21 18:43  ldipenti
+
+	* src/vp_utils.c: some regexp testing
+
+2004-12-21 13:57  cristian
+
+	* docs/tutorials/plugins/images/: 01-glade-main-thumb.png,
+	  02-glade-new-project-thumb.png, 03-glade-palette-thumb.png,
+	  03-glade-palette.png, 04-glade-new-window1-thumb.png,
+	  05-glade-window1-properties-thumb.png,
+	  05-glade-window1-properties.png, 06-glade-window1-signals.png,
+	  08-glade-window1-vbox1-thumb.png,
+	  09-glade-window1-hbuttonbox1-packing-thumb.png,
+	  09-glade-window1-hbuttonbox1-packing.png,
+	  10-glade-window1-label1-properties-thumb.png,
+	  10-glade-window1-label1-properties.png,
+	  12-glade-window1-final-design-thumb.png: Imagenes utilizadas en
+	  el tutorial de plugins
+
+2004-12-21 13:50  cristian
+
+	* docs/tutorials/plugins/: example1.py, example1_00.py,
+	  gwp_plugins_tutorial_en.xml, gwp_plugins_tutorial_es.xml,
+	  project1.glade: Primer version del tutorial de plugins
+
+2004-12-21 12:27  cristian
+
+	* scripts/plugins/quark.py: Minor fix
+
+2004-12-21 12:10  cristian
+
+	* scripts/plugins/quark.py: Arreglado los paths
+
+2004-12-21 11:59  cristian
+
+	* scripts/plugins/: quark.glade, quark.py, quark_utils.py:
+	  Primer version del plugin quark
+
+2004-12-20 20:27  ldipenti
+
+	* src/: gwp.glade, main.c, starchart.c, vp_utils.c: Bugfix: "Close
+	  Game" menu disabled, this feature does not work 100% ok
+
+2004-12-20 20:05  ldipenti
+
+	* tests/Makefile.am: Added missing thingies to compile the big fat
+	  brick called gwp
+
+2004-12-20 19:55  ldipenti
+
+	* src/game_mgr.c: Bugfix: added some ifdef's to exclude some code
+	  depending on Python support.
+
+2004-12-20 17:14  ldipenti
+
+	* src/: vp_utils.c, gwp-messages.c, gwp-messages.h: initial tests
+	  on message scanning
+
+2004-12-06 00:28  ldipenti
+
+	* configure.in, generate_py_mappings.sh, releaser.sh,
+	  scripts/plugins/Makefile.am, src/Makefile.am, src/global.h,
+	  src/gwp-messages.c, src/gwp-messages.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/vp_utils.c, src/vp_utils.h: Works toward accesing vital data
+	  from message system. Added new dependency: libpcre (for scanning
+	  messages)
+
+2004-12-06 00:26  ldipenti
+
+	* src/: gwp-race.c, gwp-race.h: New GObject: GwpRace represents the
+	  various forms of calling any race, maybe later I'll put the other
+	  race specific configurations here
+
+2004-12-05 16:41  ldipenti
+
+	* src/: gwp-messages.c, gwp-messages.h, message-reader.c: Minor
+	  correction: bool, true and false types changed to gboolean, TRUE
+	  and FALSE
+
+2004-12-04 15:59  ldipenti
+
+	* src/gwp-messages.c: Several minor function fixes, additions,
+	  etc...
+
+2004-12-03 12:22  ldipenti
+
+	* src/: gwp-messages.c, gwp-messages.h: Deleted unnecessary code
+
+2004-12-01 19:20  cristian
+
+	* scripts/plugins/: magallanes.py, vp_utils.py: Coments
+
+2004-11-26 10:25  ldipenti
+
+	* po/Makefile.in.in, po/POTFILES.in, po/de.po, po/es.po, po/fr.po,
+	  po/gwp.pot, po/pt_BR.po, scripts/plugins/magallanes.glade,
+	  scripts/plugins/vp_utils.py, src/vp_utils.c: Updated Magallanes
+	  glade & utility files, to be i18n-able
+
+2004-11-26 09:22  ldipenti
+
+	* help/C/gwp.xml: Corrected simple bug
+
+2004-11-23 16:05  ldipenti
+
+	* src/vp_utils.c: Bugfix: fixed an error reading xyplan.dat file,
+	  one extra fake planet was shown in starchart. Thanks to Cristian
+	  & Nico!!!
+
+2004-11-23 15:13  ldipenti
+
+	* src/game_mgr.c: little silly minor tiny stupid correction, move
+	  along :-)
+
+2004-11-23 11:34  ldipenti
+
+	* src/gwp-planet.c: Bugfix: mining rate calculus corrected, thanks
+	  Cristian!!
+
+2004-11-16 15:54  ldipenti
+
+	* src/: gwp-planet.c, race.c, race.h: Bugfix: colonist tax rate
+	  badly calculated when race==feds
+
+2004-11-16 15:31  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs: New functions on GwpPlanet: calculate the
+	  max number of constructed mines, factories and defense posts on a
+	  given planet
+
+2004-11-16 10:18  ldipenti
+
+	* src/gwp-planet.c: Bugfix: native & colonist race chars function
+	  corrected. Thanks Cristian!
+
+2004-11-15 21:37  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs, starchart.c: Bugfix & API change: corrected
+	  planet functions about tax collections, renamed _earned_ to
+	  _collected_. Two new functions to calculate the max tax that can
+	  collect without taking into account the number of colonists
+
+2004-11-15 19:00  ldipenti
+
+	* src/gwp-planet.c: Bugfix: tax collection functions corrected
+
+2004-11-15 18:39  ldipenti
+
+	* src/gwp-planet.c: Bugfix: added race & native corrections to
+	  mineral extraction rate
+
+2004-11-15 17:53  ldipenti
+
+	* scripts/: inittab.py, plugins/Makefile.am,
+	  plugins/gwp_config.py.in, plugins/magallanes.py: i18n corrected
+	  on plugins
+
+2004-11-15 17:52  ldipenti
+
+	* scripts/plugins/gwp_config.py.in: temp remove
+
+2004-11-09 19:01  ldipenti
+
+	* configure.in, po/POTFILES.in, po/de.po, po/es.po, po/fr.po,
+	  po/gwp.pot, po/pt_BR.po, scripts/inittab.py,
+	  scripts/plugins/gwp_config.py.in, scripts/plugins/magallanes.py,
+	  src/starchart.c: Added i18n support for plugins
+
+2004-11-08 00:31  ldipenti
+
+	* CHANGES, ChangeLog, Doxyfile, README, VERSION, configure.in,
+	  debian/changelog, package/gwp-fedora.spec, package/gwp-mdk.spec,
+	  pixmaps/ships/Makefile.am, pixmaps/ships/vpl30.jpg, po/de.po,
+	  po/es.po, po/fr.po, po/gwp.pot, po/pt_BR.po,
+	  scripts/plugins/Makefile.am, scripts/plugins/magallanes.glade,
+	  scripts/plugins/magallanes.py, scripts/plugins/vp_utils.py,
+	  src/starchart.c: Release 0.3.4 commit, yeah!
+
 2004-11-07 22:31  ldipenti
 
 	* pixmaps/ships/vpl30.jpg: Bugfix: missing ship image -- thanks
