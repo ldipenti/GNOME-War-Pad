@@ -126,8 +126,6 @@ GSList *gwp_planets_per_quad[TOTAL_QUADS];
 GSList *ships_per_quad[TOTAL_QUADS];
 GSList *locations_per_quad[TOTAL_QUADS];
 
-GList *shipxy_list;
-
 gint truehull[11][20]; /**< Race -> Hulls assignments */
 
 /* Various widgets */

@@ -51,8 +51,6 @@ void init_data (void)
   game_set_starchart_zoom(game_state, 1.0);
   game_set_pnames(game_state, load_pnames_file(PNAMES));
 
-  shipxy_list = load_shipxy(game_get_race(game_state));
-  g_message ("SHIPXY loaded...");
   target_list = load_target(game_get_race(game_state));
   g_message ("TARGET loaded...");
   load_kore_data();
@@ -348,6 +346,7 @@ GList * load_shipxy (gint race)
  */
 GHashTable * load_sdata (void)
 {
+  GList *shipxy_list;
   GString *sdata_dis_file, *sdata_dat_file;
   FILE *sdata = NULL;
   VpShipXYReg *coords = NULL;
@@ -361,6 +360,10 @@ GHashTable * load_sdata (void)
   struct stat dis_data;
   struct stat dat_data;
   
+  /* Load temp SHIPXY data */
+  shipxy_list = load_shipxy(game_get_race(game_state));
+  g_message ("SHIPXY loaded...");
+
   sdata_dis_file =
     g_string_new (g_strdup_printf ("SHIP%d.DIS", game_get_race(game_state)));
   sdata_dat_file =
