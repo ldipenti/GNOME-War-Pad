@@ -36,10 +36,6 @@
  */
 struct _GwpMessagesPrivate {
   gboolean dispose_has_run;
-  gint x_coord;
-  gint y_coord;
-  gint id;
-  GString *name;
   bool fileRead;
   int numberOfMessages;
   mdataMessages msgs;
@@ -86,10 +82,6 @@ if( DEBUGOUTPUT ) g_message("DEBUG: constructor called" );
   self->pub = g_new0 (GwpMessagesPublic, 1);
 
   /* Private members init */
-  self->priv->x_coord = 0;
-  self->priv->y_coord = 0;
-  self->priv->id = 0;
-  self->priv->name = g_string_new("");
   self->priv->fileRead = false;
   self->priv->numberOfMessages = 0;
   self->priv->msgs.n = 0;
@@ -114,7 +106,6 @@ static void gwp_messages_dispose (GwpMessages *self)
   /*
    * Here I have to unref all members on which I own a reference.
    */
-  g_string_free (self->priv->name, TRUE);
 }
 
 static void gwp_messages_finalize (GwpMessages *self)
@@ -157,101 +148,9 @@ GwpMessages * gwp_messages_new (void)
   return g_object_new (gwp_messages_get_type (), NULL);
 }
 
-/**********************/
-/* High-level methods */
-/**********************/
-
-/**
- * Check if the given messages has valid coordinates
- *
- * @param self a GwpMessages
- * @return TRUE if the current messages has valid coordinates, FALSE
- * otherwise.
- */
-gboolean gwp_messages_valid_coords (GwpMessages *self) 
-{
-  g_assert(GWP_IS_MESSAGES(self));
-
-  if (gwp_messages_get_x_coord(self) <= STARCHART_X_MAX && 
-      gwp_messages_get_x_coord(self) >= STARCHART_X_MIN &&
-      gwp_messages_get_y_coord(self) <= STARCHART_Y_MAX && 
-      gwp_messages_get_y_coord(self) >= STARCHART_Y_MIN) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
 /*******************/
 /* Get-Set methods */
 /*******************/
-
-gint gwp_messages_get_x_coord (GwpMessages *self)
-{
-  g_assert (GWP_IS_MESSAGES(self));
-  return self->priv->x_coord;
-}
-
-void gwp_messages_set_x_coord (GwpMessages *self, gint x)
-{
-  g_assert (GWP_IS_MESSAGES(self));
-  if (x >= 0 && x <= 4000) {
-    self->priv->x_coord = x;
-  } else {
-    self->priv->x_coord = 0;
-  }
-}
-
-gint gwp_messages_get_y_coord (GwpMessages *self)
-{
-  g_assert (GWP_IS_MESSAGES(self));
-  return self->priv->y_coord;
-}
-
-void gwp_messages_set_y_coord (GwpMessages *self, gint y)
-{
-  g_assert (GWP_IS_MESSAGES(self));
-  if (y >= 0 && y <= 4000) {
-    self->priv->y_coord = y;
-  } else {
-    self->priv->y_coord = 0;
-  }
-}
-
-gint gwp_messages_get_id (GwpMessages *self)
-{
-  g_assert(GWP_IS_MESSAGES(self));
-  return self->priv->id;
-}
-
-void gwp_messages_set_id (GwpMessages *self, gint id)
-{
-  g_assert(GWP_IS_MESSAGES(self));
-  self->priv->id = id;
-}
-
-GString * gwp_messages_get_name (GwpMessages *self)
-{
-  g_assert (GWP_IS_MESSAGES(self));
-  /* CP437 (DOS format) to UTF-8 conversion is done */
-  return g_string_new (g_convert(self->priv->name->str, 
-				 strlen(self->priv->name->str), 
-				 "UTF-8", "CP437", NULL, NULL, NULL));
-}
-
-void gwp_messages_set_name (GwpMessages *self, GString *name)
-{
-  g_assert (GWP_IS_MESSAGES(self));
-  g_assert (name != NULL);
-  g_string_free (self->priv->name, TRUE);
-  self->priv->name = g_string_new(name->str);
-}
-
-
-
-
-
-
 
 bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id )
 {

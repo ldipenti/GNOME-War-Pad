@@ -92,23 +92,9 @@ GType gwp_messages_get_type (void);
  */
 GwpMessages *gwp_messages_new (void);
 
-/**********************/
-/* High-Level methods */
-/**********************/
-gboolean gwp_messages_valid_coords (GwpMessages *self);
-
 /*******************/
 /* Get-Set methods */
 /*******************/
-gint gwp_messages_get_x_coord (GwpMessages *self);
-void gwp_messages_set_x_coord (GwpMessages *self, gint x);
-gint gwp_messages_get_y_coord (GwpMessages *self);
-void gwp_messages_set_y_coord (GwpMessages *self, gint y);
-gint gwp_messages_get_id (GwpMessages *self);
-void gwp_messages_set_id (GwpMessages *self, gint id);
-GString * gwp_messages_get_name (GwpMessages *self);
-void gwp_messages_set_name (GwpMessages *self, GString *name);
-
 bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id );
 int gwp_messages_readFileAny( GwpMessages *self );
 int gwp_messages_readFile( GwpMessages *self, char *filename );
