@@ -69,14 +69,13 @@ struct _GwpStarbasePrivate {
   gint16 mission; 
 	
   /* -- Spaceship Build -- */
-  gint16 build_ship_type;
-  gint16 build_engine_type;
-
-  gint16 build_beam_type;
-  gint16 build_beam_count;
-
-  gint16 build_torp_type;
-  gint16 build_torp_count;
+  gint16 build_ship_type; /**< Type of ship to build. Range 0..20, 0 =
+			     no build. */ 
+  gint16 build_engine_type; /**< Type of engine to build. Range 0..10 */
+  gint16 build_beam_type; /**< Type of beams to build. Range 0..10 */
+  gint16 build_beam_count; /**< Number of beams to build. */
+  gint16 build_torp_type; /**< Type of torpedo tubes to build. Range 0..10 */
+  gint16 build_torp_count; /**< Number of torp tubes to build. */
 	
   /* Fighter count (?) this should always be zero */
   /* gint16 fighter_count; */
