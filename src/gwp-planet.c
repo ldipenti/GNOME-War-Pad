@@ -870,6 +870,20 @@ gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
     ret = 0;
   }
 
+  /* If colonists are too few...we cannot collect all the money */
+  if (gwp_planet_get_colonists(self) < ret) {
+    ret = gwp_planet_get_colonists(self);
+  }
+
+  /* Some modifiers */
+  switch (gwp_game_state_get_race(game_state)) {
+  case RACE_FEDS:
+    ret *= 2;
+    break;
+  default:
+    break;
+  }
+
   return ret;
 }
 
@@ -891,14 +905,26 @@ gint gwp_planet_get_tax_earned_natives(GwpPlanet *self)
   } else {
     ret = 0;
   }
-  /* FIXME: Complete this calculation correctly!! */
 
+  /* If colonists are too few...we cannot collect all the money */
+  if (gwp_planet_get_colonists(self) < ret) {
+    ret = gwp_planet_get_colonists(self);
+  }
+
+  /* Some modifiers */
+  switch (gwp_game_state_get_race(game_state)) {
+  case RACE_FEDS:
+    ret *= 2;
+    break;
+  default:
+    break;
+  }
   switch(gwp_planet_get_natives_race(self)) {
   case NATIVE_INSECTOID:
-    ret = ret * 2;
+    ret *= 2;
     break;
   case NATIVE_AMORPHOUS:
-    ret = ret * 0;
+    ret = 0;
     break;
   default:
     break;
