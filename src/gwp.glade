@@ -7409,13 +7409,9 @@
 		  <property name="rules_hint">False</property>
 		  <property name="reorderable">False</property>
 		  <property name="enable_search">True</property>
-		  <signal name="button_press_event" handler="on_treeview1_button_press_event" last_modification_time="Mon, 24 May 2004 11:16:29 GMT"/>
-		  <signal name="row_activated" handler="on_message_treeview_row_activated" last_modification_time="Thu, 03 Jun 2004 18:46:36 GMT"/>
-		  <signal name="row_collapsed" handler="on_message_treeview_row_collapsed" last_modification_time="Thu, 03 Jun 2004 18:47:16 GMT"/>
-		  <signal name="row_expanded" handler="on_message_treeview_row_expanded" last_modification_time="Thu, 03 Jun 2004 18:47:27 GMT"/>
-		  <signal name="expand_collapse_cursor_row" handler="on_message_treeview_expand_collapse_cursor_row" last_modification_time="Thu, 03 Jun 2004 18:53:15 GMT"/>
-		  <signal name="test_collapse_row" handler="on_message_treeview_test_collapse_row" last_modification_time="Thu, 03 Jun 2004 18:53:28 GMT"/>
-		  <signal name="test_expand_row" handler="on_message_treeview_test_expand_row" last_modification_time="Thu, 03 Jun 2004 18:53:37 GMT"/>
+		  <signal name="select_cursor_row" handler="on_message_treeview_select_cursor_row" last_modification_time="Fri, 04 Jun 2004 11:09:54 GMT"/>
+		  <signal name="row_activated" handler="on_message_treeview_row_activated" last_modification_time="Fri, 04 Jun 2004 11:14:35 GMT"/>
+		  <signal name="cursor_changed" handler="on_message_treeview_cursor_changed" last_modification_time="Fri, 04 Jun 2004 11:17:09 GMT"/>
 		</widget>
 	      </child>
 	    </widget>
