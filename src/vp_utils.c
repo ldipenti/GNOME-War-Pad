@@ -34,6 +34,8 @@
 #include "gwp-ship.h"
 #include "gwp-hullspec.h"
 
+void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
+
 /*
  * Data Loading Init Function
  */
@@ -179,22 +181,54 @@ GList * load_xyplan (gchar * xyplan_file)
   return coords_list;
 }
 
+/* 
+ * Dummy function that loads TARGETx.DAT and TARGETx.EXT on a hash table
+ * FIXME: This could be wrong, but I'm using it for now because I use
+ * PCC and CCUnpack leaves the rest of the targets on *.EXT
+ * NOTE: Make our unpacker do that too!
+ */
 GHashTable * load_target (gint race)
 {
+  GHashTable *target_list = g_hash_table_new (NULL, NULL);
+  GString *target_file = NULL;
+
+  load_target_dat_ext (target_list, race, "DAT");
+
+  /* Initialize file name */
+  target_file = g_string_new ("TARGET");
+  target_file =
+    g_string_append (target_file, g_strdup_printf ("%d.EXT", race));
+
+  /* FIXME: this sucks! */
+  /* Test if targetx.ext exists, and load its data */
+  if (g_file_test (game_get_full_path(game_state, target_file->str), 
+		   G_FILE_TEST_IS_REGULAR) ||
+      g_file_test (game_get_full_path(game_state, 
+				      g_string_down(target_file)->str), 
+		   G_FILE_TEST_IS_REGULAR)) {
+    load_target_dat_ext (target_list, race, "EXT");
+  }
+
+  return target_list;
+}
+
+/* This loads data to passed hash table from targetx.? file */
+void load_target_dat_ext (GHashTable *target_list, gint race, char *e)
+{
   FILE *target;
-  GHashTable *target_list;
+  /* GHashTable *target_list; */
   GString *target_file;
   VpTargetReg target_reg, *tmp;
   gint16 i, target_nr;
   gchar buffer[34];
   
   /* Initialize hash */
-  target_list = g_hash_table_new (NULL, NULL);
+  /* target_list = g_hash_table_new (NULL, NULL); */
   
   /* Initialize file name */
   target_file = g_string_new ("TARGET");
   target_file =
-    g_string_append (target_file, g_strdup_printf ("%d.DAT", race));
+    g_string_append (target_file, g_strdup_printf ("%d.%s", race, e));
   
   if ((target = fopen(game_get_full_path(game_state, target_file->str), "r")) == NULL) {
     target_file = g_string_down (target_file);
@@ -250,7 +284,7 @@ GHashTable * load_target (gint race)
   }
   fclose (target);
 
-  return target_list;
+  /*  return target_list; */
 }
 
 /*
@@ -494,6 +528,7 @@ GHashTable * load_sdata (void)
 /*       ship_reg->owner = 0; */
       gwp_object_set_x_coord (GWP_OBJECT(s), coords->x);
       gwp_object_set_y_coord (GWP_OBJECT(s), coords->y);
+      /* gwp_object_set_id (GWP_OBJECT(s), i + 1); */
       
       /* If we have more data on TARGETx.DAT, we add it */
       if ((target_reg =
@@ -507,6 +542,7 @@ GHashTable * load_sdata (void)
 	gwp_ship_set_hull_type (s, target_reg->hull_type);
 	gwp_ship_set_owner (s, target_reg->owner);
       }
+
       /* Add ship to list */
       g_hash_table_insert (ship_list, (gpointer)(i + 1), s);
     }
@@ -742,9 +778,9 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   rst = g_string_append (rst, tmp);
   g_free(tmp);
 
-  pdata = g_string_prepend(pdata, game_dir);
-  ship = g_string_prepend(ship, game_dir);
-  rst = g_string_prepend(rst, game_dir);
+  pdata = g_string_prepend(pdata, g_strconcat(game_dir, "/", NULL));
+  ship = g_string_prepend(ship, g_strconcat(game_dir, "/", NULL));
+  rst = g_string_prepend(rst, g_strconcat(game_dir, "/", NULL));
 
   /* If playerN.rst exist...well... */
   if(g_file_test(rst->str, G_FILE_TEST_IS_REGULAR)) {

@@ -2,6 +2,14 @@ Version 0.3.0 (released ??-??-2004):
 
 	* Bugs on some ship cargo unload and transfer methods were fixed.
 
+	* Bugs on ship data loading and ship on starchart manipulation
+	  were fixed.
+	
+	* Bug on the game_get_dir() function, didn't added the trailer "/".
+	
+	* Unpack feature enhanced to store additional targets on TARGETx.EXT
+	  file.
+
 Version 0.2.10 (released 02-02-2004):
 
 	* Several code optimizations on GUI updates.

@@ -130,10 +130,6 @@ void game_set_dir(GameState *game_state, gchar *dir) {
   g_assert(game_state != NULL);
 
   game_state->settings->game_dir = g_strdup(dir);
-  /*
-  game_state->settings->game_dir = g_strconcat(game_state->settings->game_dir,
-					       "/", NULL);
-  */
 }
 
 gchar* game_get_dir(const GameState *game_state) 

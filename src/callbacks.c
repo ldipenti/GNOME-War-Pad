@@ -420,7 +420,7 @@ void on_game_mgr_edit_game(GtkWidget *widget,
       gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
 			   _("Edit Game Properties"));
 
-      // Update 'Unpack' button status
+      /* Update 'Unpack' button status */
       if(vp_can_unpack(game_get_dir(state), game_get_race(state))) {
 	GtkWidget *btn_unpack =
 	  lookup_widget("game_mgr_btn_unpack");

@@ -699,18 +699,24 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
     /* Get ship from location */
     ship = gwp_location_get_object(location, i);
 
-    /* Add item to ship list */
-    gtk_list_store_append (store, &iter);
-    gtk_list_store_set (store, &iter,
-			0, gwp_object_get_id (GWP_OBJECT(ship)),
-			1, g_strdup_printf("%s", gwp_object_get_name(GWP_OBJECT(ship))->str),
-			-1);
+    /* Check if we have the ship's ID, this is because if we don't have it,
+     it means that the ship appear on SHIPXY.DAT, but not on TARGETx.DAT 
+     and TARGETx.EXT doesn't exist */
+    if (gwp_object_get_id (GWP_OBJECT(ship)) > 0) {
 
-    /* Select first ship on list */
-    path = gtk_tree_model_get_path (GTK_TREE_MODEL(store), &iter);
-    gtk_tree_view_scroll_to_cell (panel_ship_list, path, NULL, TRUE, 1.0, 0.0);
-    gtk_tree_view_set_cursor (panel_ship_list, path, NULL, FALSE);
-    gtk_tree_path_free (path);
+      /* Add item to ship list */
+      gtk_list_store_append (store, &iter);
+      gtk_list_store_set (store, &iter,
+			  0, gwp_object_get_id (GWP_OBJECT(ship)),
+			  1, g_strdup_printf("%s", gwp_object_get_name(GWP_OBJECT(ship))->str),
+			  -1);
+      
+      /* Select first ship on list */
+      path = gtk_tree_model_get_path (GTK_TREE_MODEL(store), &iter);
+      gtk_tree_view_scroll_to_cell (panel_ship_list, path, NULL, TRUE, 1.0, 0.0);
+      gtk_tree_view_set_cursor (panel_ship_list, path, NULL, FALSE);
+      gtk_tree_path_free (path);
+    }
   }
 }
 

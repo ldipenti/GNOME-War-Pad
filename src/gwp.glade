@@ -73,7 +73,6 @@
 			<widget class="GtkImageMenuItem" id="preferences1">
 			  <property name="visible">True</property>
 			  <property name="stock_item">GNOMEUIINFO_MENU_PREFERENCES_ITEM</property>
-			  <signal name="activate" handler="on_game_preferences_activate" last_modification_time="Sun, 11 May 2003 04:02:57 GMT"/>
 			</widget>
 		      </child>
 		    </widget>

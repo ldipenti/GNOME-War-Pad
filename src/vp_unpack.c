@@ -177,10 +177,25 @@ void UnpackTarget(char *player)
   ReadShort(notargets,buf);
   fprintf(stdout,"%3d targets found\n",notargets);
 
-  target=OpenPlayerFile("target",player,"dat");
-  fwrite(rstremember+place,2+size*notargets,1,target);
-  fwrite(datsig,10,1,target);
-  fclose(target);
+  /* If there're more that 50 targets, lets create targetx.ext file */
+  if (notargets <= 50) {
+    target = OpenPlayerFile("target", player, "dat");
+    fwrite(rstremember + place, 2 + size * notargets, 1, target);
+    fwrite(datsig, 10, 1, target);
+    fclose(target);
+  } else {
+    /* TARGETx.DAT */
+    target = OpenPlayerFile("target", player, "dat");
+    fwrite(rstremember + place, 2 + size * 50, 1, target);
+    fwrite(datsig, 10, 1, target);
+    fclose(target);
+
+    /* TARGETx.EXT */
+    target = OpenPlayerFile("target", player, "ext");
+    fwrite(rstremember + place + 50, 2 + size * (notargets - 50), 1, target);
+    fwrite(datsig, 10, 1, target);
+    fclose(target);
+  }
 } /* UnpackTarget */
 
 void UnpackPData(char *player)
