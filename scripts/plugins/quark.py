@@ -361,6 +361,7 @@ class Quark(gwp.Plugin):
     # Constructor
     #--------------------------------------------------------------------------
     def __init__(self):
+        gwp.Plugin.__init__(self)
         self.ruta = gwp.get_system_plugins_dir()
         self.fname = self.ruta + '/quark.glade'
         self.__initglade(self.fname)

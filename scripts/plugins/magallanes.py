@@ -351,6 +351,7 @@ class Magallanes(gwp.Plugin):
 
     # Constructor
     def __init__(self):
+        gwp.Plugin.__init__(self)
         self.ruta = gwp.get_system_plugins_dir()
         self.fname = self.ruta + '/magallanes.glade'
         self.main_window = gtk.glade.XML(self.fname)
