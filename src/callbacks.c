@@ -54,13 +54,20 @@ starchart_event_key                    (GtkWidget       *widget,
 }
 
 gboolean
-starchart_event_button_release          (GtkWidget       *widget,
+starchart_event_button_release         (GtkWidget       *widget,
                                         GdkEventButton  *event,
                                         gpointer         user_data)
 {
+  gint x, y;
+
   starchart_set_default_cursor();
 
-  return FALSE;
+  x = (gint) event->x;
+  y = (gint) event->y;
+
+  starchart_mini_scroll_zone_to(x, y);
+
+  return TRUE;
 }
 
 gboolean
@@ -130,9 +137,8 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
       gnome_canvas_get_scroll_offsets(starchart_get_canvas(), 
 				      &offset_x, 
 				      &offset_y);
-      gnome_canvas_scroll_to(starchart_get_canvas(), 
-			     offset_x + (pointer_x - x) * (MOUSE_INTERLEAVE+1), 
-			     offset_y + (pointer_y - y) * (MOUSE_INTERLEAVE+1));
+      starchart_scroll_to(offset_x + (pointer_x - x) * (MOUSE_INTERLEAVE+1), 
+			  offset_y + (pointer_y - y) * (MOUSE_INTERLEAVE+1));
     }
   } 
   /* If not panning... */

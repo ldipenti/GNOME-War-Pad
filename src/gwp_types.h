@@ -30,6 +30,13 @@
 
 #include "vp_types.h"
 
+GnomeCanvas * starchart_mini_get_canvas(void);
+void starchart_mini_set_canvas(GnomeCanvas * canvas);
+GnomeCanvasGroup * starchart_mini_get_grp_root(void);
+void starchart_mini_set_grp_root(GnomeCanvasGroup * group);
+GnomeCanvasItem * starchart_mini_get_zone(void);
+void starchart_mini_set_zone(GnomeCanvasItem * zone);
+
 GnomeCanvas * starchart_get_canvas(void);
 void starchart_set_canvas(GnomeCanvas * canvas);
 GnomeCanvasGroup * starchart_get_grp_root(void);
@@ -81,6 +88,13 @@ struct _Starchart {
   GnomeCanvasGroup *grp_ships_mine;
   GnomeCanvasGroup *grp_ships_enemy;
   GnomeCanvasGroup *grp_ships_allied;	
+};
+
+typedef struct _StarchartMini StarchartMini;
+struct _StarchartMini {
+  GnomeCanvas *canvas;
+  GnomeCanvasGroup *grp_root;
+  GnomeCanvasItem *zone;
 };
 
 /*

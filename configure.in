@@ -1,9 +1,9 @@
 AC_PREREQ(2.52)
-AC_INIT(GNOME War Pad, 0.2.1, lucas@lunix.com.ar)
+AC_INIT(GNOME War Pad, 0.2.2, lucas@lunix.com.ar)
 
 AM_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gwp, 0.2.1)
+AM_INIT_AUTOMAKE(gwp, 0.2.2)
 
 AM_MAINTAINER_MODE
 AC_PROG_INTLTOOL
@@ -15,7 +15,7 @@ AC_PROG_LIBTOOL
 
 GNOME_COMPILE_WARNINGS
 
-PKG_CHECK_MODULES(FOO, libgnomeui-2.0 libglade-2.0 gal-2.0)
+PKG_CHECK_MODULES(FOO, libgnomeui-2.0 libglade-2.0)
 AC_SUBST(FOO_CFLAGS)
 AC_SUBST(FOO_LIBS)
 

@@ -664,6 +664,7 @@ void game_mgr_play_game(GameSettings *sett)
   /* Read data files and init starchart */
   init_data();
   init_starchart(gwp);
+  init_starchart_mini();
 
   /* Get the widgets ready */
   gtk_label_set_text(race, race_get_name(sett->race));

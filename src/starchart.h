@@ -24,6 +24,7 @@
 
 // Starchart init function
 void init_starchart(GtkWidget *gwp);
+void init_starchart_mini(void);
 
 // Starchart Object Event Handlers
 gint handle_planet_event(GnomeCanvasItem *item, GdkEvent *event, gpointer data);
@@ -65,5 +66,8 @@ GSList *get_ships_from_coords(gdouble x_wc, gdouble y_wc);
 void starchart_get_object_center_coord(GnomeCanvasItem *item, gdouble *x, gdouble *y);
 void starchart_set_default_cursor(void);
 void starchart_set_pan_cursor(void);
+void starchart_scroll_to(gint cx, gint cy);
+void starchart_mini_scroll_zone_to(gint cx, gint cy);
+void starchart_set_status(gchar *msg);
 
 #endif

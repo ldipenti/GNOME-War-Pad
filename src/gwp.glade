@@ -125,55 +125,27 @@
 	      <property name="show_tabs">True</property>
 	      <property name="show_border">True</property>
 	      <property name="tab_pos">GTK_POS_BOTTOM</property>
-	      <property name="scrollable">False</property>
-	      <property name="enable_popup">False</property>
+	      <property name="scrollable">True</property>
+	      <property name="enable_popup">True</property>
 
 	      <child>
-		<widget class="GtkVBox" id="vbox1">
+		<widget class="GnomeCanvas" id="starchart">
 		  <property name="visible">True</property>
-		  <property name="homogeneous">False</property>
-		  <property name="spacing">0</property>
-
-		  <child>
-		    <widget class="GtkScrolledWindow" id="starchart_window">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-		      <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
-		      <property name="shadow_type">GTK_SHADOW_NONE</property>
-		      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
-
-		      <child>
-			<widget class="GnomeCanvas" id="starchart">
-			  <property name="visible">True</property>
-			  <property name="can_default">True</property>
-			  <property name="has_default">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="has_focus">True</property>
-			  <property name="events">GDK_POINTER_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_KEY_PRESS_MASK</property>
-			  <property name="anti_aliased">False</property>
-			  <property name="scroll_x1">0</property>
-			  <property name="scroll_y1">0</property>
-			  <property name="scroll_x2">3000</property>
-			  <property name="scroll_y2">3000</property>
-			  <property name="pixels_per_unit">1</property>
-			  <signal name="key_press_event" handler="starchart_event_key" last_modification_time="Sat, 03 Aug 2002 19:43:07 GMT"/>
-			  <signal name="button_press_event" handler="starchart_event_button" object="(gpointer)gwp" last_modification_time="Sat, 03 Aug 2002 17:48:54 GMT"/>
-			  <signal name="motion_notify_event" handler="starchart_event_pointer_motion" last_modification_time="Sat, 03 Aug 2002 17:49:30 GMT"/>
-			  <signal name="button_release_event" handler="starchart_event_button_release" last_modification_time="Sat, 24 May 2003 18:03:42 GMT"/>
-			</widget>
-		      </child>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">True</property>
-		      <property name="fill">True</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <placeholder/>
-		  </child>
+		  <property name="can_default">True</property>
+		  <property name="has_default">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="has_focus">True</property>
+		  <property name="events">GDK_POINTER_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_KEY_PRESS_MASK</property>
+		  <property name="anti_aliased">True</property>
+		  <property name="scroll_x1">0</property>
+		  <property name="scroll_y1">0</property>
+		  <property name="scroll_x2">3000</property>
+		  <property name="scroll_y2">3000</property>
+		  <property name="pixels_per_unit">1</property>
+		  <signal name="key_press_event" handler="starchart_event_key" last_modification_time="Sat, 03 Aug 2002 19:43:07 GMT"/>
+		  <signal name="button_press_event" handler="starchart_event_button" object="(gpointer)gwp" last_modification_time="Sat, 03 Aug 2002 17:48:54 GMT"/>
+		  <signal name="motion_notify_event" handler="starchart_event_pointer_motion" last_modification_time="Sat, 03 Aug 2002 17:49:30 GMT"/>
+		  <signal name="button_release_event" handler="starchart_event_button_release" last_modification_time="Sat, 24 May 2003 18:03:42 GMT"/>
 		</widget>
 		<packing>
 		  <property name="tab_expand">False</property>
@@ -260,6 +232,37 @@
 	      <property name="spacing">0</property>
 
 	      <child>
+		<widget class="GtkScrolledWindow" id="scrolledwindow3">
+		  <property name="border_width">3</property>
+		  <property name="height_request">106</property>
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+		  <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
+		  <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+		  <child>
+		    <widget class="GnomeCanvas" id="starchart_mini">
+		      <property name="visible">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="anti_aliased">True</property>
+		      <property name="scroll_x1">0</property>
+		      <property name="scroll_y1">0</property>
+		      <property name="scroll_x2">100</property>
+		      <property name="scroll_y2">100</property>
+		      <property name="pixels_per_unit">1</property>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
 		<widget class="GtkAlignment" id="alignment2">
 		  <property name="visible">True</property>
 		  <property name="xalign">0.5</property>
@@ -311,7 +314,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label127">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">[</property>
+				  <property name="label" translatable="yes">(</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -353,7 +356,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label129">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">;</property>
+				  <property name="label" translatable="yes">,</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -395,7 +398,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label132">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">]</property>
+				  <property name="label" translatable="yes">)</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -493,7 +496,7 @@
 			    <widget class="GtkTable" id="table5">
 			      <property name="border_width">3</property>
 			      <property name="visible">True</property>
-			      <property name="n_rows">3</property>
+			      <property name="n_rows">4</property>
 			      <property name="n_columns">2</property>
 			      <property name="homogeneous">False</property>
 			      <property name="row_spacing">0</property>
@@ -638,6 +641,54 @@
 				  <property name="right_attach">2</property>
 				  <property name="top_attach">0</property>
 				  <property name="bottom_attach">1</property>
+				  <property name="x_options">fill</property>
+				  <property name="y_options"></property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkLabel" id="label134">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Temp:</property>
+				  <property name="use_underline">False</property>
+				  <property name="use_markup">False</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">1</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+				<packing>
+				  <property name="left_attach">0</property>
+				  <property name="right_attach">1</property>
+				  <property name="top_attach">3</property>
+				  <property name="bottom_attach">4</property>
+				  <property name="x_options">fill</property>
+				  <property name="y_options"></property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkLabel" id="label_temperature">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">n/a</property>
+				  <property name="use_underline">False</property>
+				  <property name="use_markup">False</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+				<packing>
+				  <property name="left_attach">1</property>
+				  <property name="right_attach">2</property>
+				  <property name="top_attach">3</property>
+				  <property name="bottom_attach">4</property>
 				  <property name="x_options">fill</property>
 				  <property name="y_options"></property>
 				</packing>
@@ -1385,9 +1436,9 @@
   </child>
 
   <child internal-child="appbar">
-    <widget class="GnomeAppBar" id="appbar1">
+    <widget class="GnomeAppBar" id="gwp_status_bar">
       <property name="visible">True</property>
-      <property name="has_progress">True</property>
+      <property name="has_progress">False</property>
       <property name="has_status">True</property>
     </widget>
     <packing>

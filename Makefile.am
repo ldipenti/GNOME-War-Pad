@@ -11,8 +11,8 @@ gwpdoc_DATA = \
 	README\
 	COPYING\
 	AUTHORS\
-	ChangeLog\
 	INSTALL\
+	ChangeLog\
 	NEWS\
 	TODO\
 	ABOUT-NLS

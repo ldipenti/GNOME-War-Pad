@@ -44,7 +44,7 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 {
   GtkWidget *planet_page;
   GtkNotebook *panel;
-  GtkLabel *planet_name, *mines, *factories, *defenses;
+  GtkLabel *planet_name, *mines, *factories, *defenses, *temperature;
   GtkLabel *neutronium, *tritanium, *duranium, *molybdenum, *supplies;
   GtkLabel *colonists, *natives, *native_race, *spi;
   gchar *tmp;
@@ -65,6 +65,7 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
   duranium = (GtkLabel *) lookup_widget ("label_duranium");
   molybdenum = (GtkLabel *) lookup_widget ("label_molybdenum");
   supplies = (GtkLabel *) lookup_widget ("label_supplies");
+  temperature = (GtkLabel *) lookup_widget("label_temperature");
 
   colonists = (GtkLabel *) lookup_widget ("label_colonists");
   natives = (GtkLabel *) lookup_widget ("label_natives");
@@ -92,6 +93,12 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 
 	  tmp = g_strdup_printf ("%d", planet_get_defense_posts(a_planet));
 	  gtk_label_set_text (defenses, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf("%s (%d)", 
+				planet_get_temperature_str(a_planet),
+				planet_get_temperature_f(a_planet));
+	  gtk_label_set_text(temperature, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf ("%d", planet_get_mined_neutronium(a_planet));
@@ -138,6 +145,7 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 	  gtk_label_set_text (mines, _("n/a"));
 	  gtk_label_set_text (factories, _("n/a"));
 	  gtk_label_set_text (defenses, _("n/a"));
+	  gtk_label_set_text (temperature, _("n/a"));
 
 	  gtk_label_set_text (neutronium, _("n/a"));
 	  gtk_label_set_text (tritanium, _("n/a"));
@@ -270,7 +278,8 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 					yi - SHIP_RADIUS, "x2",
 					xi + SHIP_RADIUS, "y2",
 					yi + SHIP_RADIUS, "width_pixels", 1,
-					"fill_color", UNIVERSE_COLOR, NULL);
+					"fill_color_rgba", UNIVERSE_COLOR_A, 
+					NULL);
 	} else {
 	  item = gnome_canvas_item_new (ships_group, 
 					GNOME_TYPE_CANVAS_ELLIPSE,
@@ -279,7 +288,8 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 					yi - SHIP_RADIUS, "x2",
 					xi + SHIP_RADIUS, "y2",
 					yi + SHIP_RADIUS, "width_pixels", 1,
-					"fill_color", UNIVERSE_COLOR, NULL);
+					"fill_color_rgba", UNIVERSE_COLOR_A,
+					NULL);
 	}
         // Bind canvas item to ship data
         // FIXME!!!
@@ -322,7 +332,8 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 				    yi - PLANET_RADIUS, "x2",
 				    xi + PLANET_RADIUS, "y2",
 				    yi + PLANET_RADIUS, "width_pixels", 1,
-				    "fill_color", UNIVERSE_COLOR, NULL);
+				    "fill_color_rgba", UNIVERSE_COLOR_A,
+				    NULL);
     } else {
       item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
 				    "outline_color", PLANET_COLOR,
@@ -330,7 +341,8 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 				    yi - PLANET_RADIUS, "x2",
 				    xi + PLANET_RADIUS, "y2",
 				    yi + PLANET_RADIUS, "width_pixels", 1,
-				    "fill_color", "black", NULL);
+				    "fill_color_rgba", UNIVERSE_COLOR_A,
+				    NULL);
     }
     
     // Bind canvas item with planet data
@@ -352,7 +364,11 @@ void init_starchart (GtkWidget * gwp)
   starchart_set_grid(TRUE);
   starchart_set_canvas((GnomeCanvas *) lookup_widget ("starchart"));
   starchart_set_grp_root(gnome_canvas_root (starchart_get_canvas()));
-  
+
+  // Set starchart on AA mode
+  starchart_get_canvas()->aa = 1;
+  gnome_canvas_update_now(starchart_get_canvas());
+
   starchart_set_grp_grid(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
 					     (starchart_get_grp_root(), 
 					      GNOME_TYPE_CANVAS_GROUP, NULL)));
@@ -449,7 +465,7 @@ void starchart_scroll (gint scroll_x, gint scroll_y)
   gint x, y;
   
   gnome_canvas_get_scroll_offsets (starchart_get_canvas(), &x, &y);
-  gnome_canvas_scroll_to (starchart_get_canvas(), x + scroll_x, y + scroll_y);
+  starchart_scroll_to (x + scroll_x, y + scroll_y);
 }
 
 
@@ -720,25 +736,31 @@ void starchart_get_object_center_coord (GnomeCanvasItem * item,
 
 void starchart_zoom_in (GnomeCanvas * starchart)
 {
-  gdouble zoom;
-  zoom = game_get_starchart_zoom ();
+  gdouble zoom = game_get_starchart_zoom ();
+  gchar *zoom_status;
   
   if (zoom < 2.0) {
     zoom = zoom + 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
     game_set_starchart_zoom (zoom);
+    zoom_status = g_strdup_printf("Zoom: %.1f", zoom);
+    starchart_set_status(zoom_status);
+    g_free(zoom_status);
   }
 }
 
 void starchart_zoom_out (GnomeCanvas * starchart)
 {
-  gdouble zoom;
-  zoom = game_get_starchart_zoom ();
+  gdouble zoom = game_get_starchart_zoom ();
+  gchar *zoom_status;
   
   if (zoom > 0.6) {
     zoom = zoom - 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
     game_set_starchart_zoom (zoom);
+    zoom_status = g_strdup_printf("Zoom: %.1f", zoom);
+    starchart_set_status(zoom_status);
+    g_free(zoom_status);
   }
 }
 
@@ -783,4 +805,88 @@ void starchart_set_pan_cursor(void)
   gtk_widget_realize ((GtkWidget *) starchart_get_canvas());
   gdk_window_set_cursor (GTK_WIDGET(starchart_get_canvas())->window, cursor);
   gdk_cursor_destroy (cursor);
+}
+
+void init_starchart_mini (void) 
+{
+  GnomeCanvasItem *zone;
+  
+  /* Starchart struct initialization */
+  starchart_mini_set_canvas((GnomeCanvas *) lookup_widget ("starchart_mini"));
+  starchart_mini_set_grp_root(gnome_canvas_root (starchart_mini_get_canvas()));
+
+  /* Set on AA mode */
+  starchart_mini_get_canvas()->aa = 1;
+  gnome_canvas_update_now(starchart_mini_get_canvas());
+
+  /* Sets black background to starchart */
+  gnome_canvas_item_new (starchart_mini_get_grp_root(), 
+			 GNOME_TYPE_CANVAS_RECT,
+			 "outline_color", "grey",
+			 "x1", 0.0, "y1", 0.0, "x2", 100.0,
+			 "y2", 100.0, "width_units", 1.0,
+			 "fill_color", UNIVERSE_COLOR, NULL);
+  
+  zone = gnome_canvas_item_new (starchart_mini_get_grp_root(),
+				GNOME_TYPE_CANVAS_RECT,
+				"outline_color", "grey",
+				"x1", 0.0, "y1", 0.0,
+				"x2", 20.0, "y2", 20.0,
+				"fill_color_rgba", UNIVERSE_COLOR_A, NULL);
+  gnome_canvas_item_raise_to_top(zone);
+
+  starchart_mini_set_zone(zone);
+  /* End struct initialization... */
+}
+
+void starchart_scroll_to(gint cx, gint cy)
+{
+  gnome_canvas_scroll_to(starchart_get_canvas(), cx, cy);
+}
+
+void starchart_mini_scroll_zone_to(gint cx, gint cy)
+{
+  gint x, y, item_x, item_y, final_x, final_y;
+  gint trans_x, trans_y;
+  GnomeCanvasItem * zone = starchart_mini_get_zone();
+  gdouble x1, y1, x2, y2;
+  gdouble zoom = game_get_starchart_zoom();
+
+  /* First we do some convertions */
+  x = ((cx - 500) * 0.05) / zoom; /* 1/20 -> relation of the two starcharts */
+  y = ((cy - 500) * 0.05) / zoom;
+
+  gnome_canvas_item_get_bounds(zone, &x1, &y1, &x2, &y2);
+  item_x = x2 - ((x2 - x1) / 2);
+  item_y = y2 - ((y2 - y1) / 2);
+
+  trans_x = x - item_x;
+  trans_y = y - item_y;
+
+  /* Bounds checks */
+  if(trans_x + item_x < 10) {
+    final_x = 10 - item_x;
+  } else if(trans_x + item_x > 90) {
+    final_x = 90 - item_x;
+  } else {
+    final_x = trans_x;
+  }
+  if(trans_y + item_y < 10) {
+    final_y = 10 - item_y;
+  } else if(trans_y + item_y > 90) {
+    final_y = 90 - item_y;
+  } else {
+    final_y = trans_y;
+  }
+
+  /* Now move the darn item :-) */
+  gnome_canvas_item_move(zone, final_x, final_y);
+}
+
+void starchart_set_status(gchar *msg)
+{
+  if (msg) {
+    GnomeAppBar *appbar = (GnomeAppBar *) lookup_widget("gwp_status_bar");
+    gnome_appbar_set_status(appbar, msg);
+  }
 }

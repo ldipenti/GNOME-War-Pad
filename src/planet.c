@@ -198,13 +198,18 @@ gchar *planet_get_native_race(Planet *planet) {
   return race[planet->pdata->native_race];
 }
 
-gint16 planet_get_temperature(Planet *planet) {
+gint16 planet_get_temperature(Planet *planet) 
+{
   return planet->pdata->temperature;
 }
 
+gint16 planet_get_temperature_f(Planet *planet) 
+{
+  return 100 - planet_get_temperature(planet);
+}
+
 gchar *planet_get_temperature_str(Planet *planet) {
-  gint16 temp;
-  temp = planet_get_temperature(planet);
+  gint16 temp = planet_get_temperature(planet);
 	
   if((temp >= 0) && (temp <= 15)) {
     return _("desert");

@@ -61,6 +61,7 @@ gchar *planet_get_native_spi(Planet *planet);
 gint32 planet_get_natives(Planet *planet);
 gchar *planet_get_native_race(Planet *planet);
 gint16 planet_get_temperature(Planet *planet);
+gint16 planet_get_temperature_f(Planet *planet);
 gchar *planet_get_temperature_str(Planet *planet);
 gint16 planet_get_build_base(Planet *planet);
 

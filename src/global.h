@@ -83,6 +83,7 @@
 #define PLANET_COLOR "gray60"
 #define QUADRANT_GRID_COLOR "gray30"
 #define UNIVERSE_COLOR "black"
+#define UNIVERSE_COLOR_A 0xffffff00 /* RGBA */
 
 #define PANEL_PLANET_PAGE 0
 #define PANEL_SHIP_PAGE 1
@@ -115,6 +116,7 @@ GladeXML *xml_interface;
 
 // GWP structures
 Starchart starchart;
+StarchartMini starchart_mini;
 GameState game_state;
 
 // GConf subsystem
