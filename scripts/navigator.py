@@ -163,7 +163,8 @@ class PluginNavigator(gwp.Plugin):
 
     # Activate/deactivate plugin callback
     def toggle_active(self, renderer, path):
-        model, iter = self.list.get_selection().get_selected()
+        model = self.store
+        iter = model.get_iter(path)
         try:
             plugin = model.get_value(iter, 3)
         except TypeError:
