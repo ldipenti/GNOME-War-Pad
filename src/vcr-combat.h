@@ -160,6 +160,8 @@ typedef struct {
 void vcrc_combat_start( combatdata *cdata );
 
 /* private functions */
+void vcrc_initilize_graphs( battlefield *battle );
+
 void vcrc_prepare_for_battle( combatdata *cdata, battlefield *battle );
 void vcrc_prepare_battlefield( combatdata *cdata, battlefield *battle );
 void vcrc_prepare_platforms( combatdata *cdata, battlefield *battle );

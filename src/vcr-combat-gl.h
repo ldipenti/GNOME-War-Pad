@@ -44,7 +44,7 @@ void vcrcgl_show_shieldlevel( gint side, gint level );
 void vcrcgl_show_hulllevel( gint side, gint level );
 void vcrcgl_show_crewlevel( gint side, gint level );
 void vcrcgl_show_ammulevel( gint side, gint level );
-
+void vcrcgl_show_beams( gint side, gint number );
 
 
 

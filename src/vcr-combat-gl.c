@@ -1293,6 +1293,9 @@ void vcrcgl_show_beamlevel( gint side, gint number, gint level )
 
   pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
   gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+
+  while( gtk_events_pending() )
+    gtk_main_iteration();
 }
 
 
@@ -1344,10 +1347,11 @@ void vcrcgl_show_hulllevel( gint side, gint level )
 
 void vcrcgl_show_crewlevel( gint side, gint level )
 {
-  GtkProgressBar *pbar;
+  GtkLabel *label;
   gchar widget_name[64];
+  gchar text[16];
   widget_name[0] = '\0';
-  strcat( widget_name, "vcr_progressbar_" );
+  strcat( widget_name, "vcr_label_" );
   switch( side )
   {
     case VCRC_SIDE_A:
@@ -1361,12 +1365,40 @@ void vcrcgl_show_crewlevel( gint side, gint level )
   }
   strcat( widget_name, "_cre" );
 
-  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
-  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+  label = GTK_LABEL( lookup_widget( widget_name ) );
+  g_snprintf( text, 8, "%d", level );
+  gtk_label_set_text( label, text );
 }
 
 void vcrcgl_show_ammulevel( gint side, gint level )
 {
+  GtkLabel *label;
+  gchar widget_name[64];
+  gchar text[16];
+  widget_name[0] = '\0';
+  strcat( widget_name, "vcr_label_" );
+  switch( side )
+  {
+    case VCRC_SIDE_A:
+      strcat( widget_name, "a" );
+      break;
+    case VCRC_SIDE_B:
+      strcat( widget_name, "b" );
+      break;
+    default:
+      break;
+  }
+  strcat( widget_name, "_amu" );
+
+  label = GTK_LABEL( lookup_widget( widget_name ) );
+  g_snprintf( text, 8, "%d", level );
+  gtk_label_set_text( label, text );
+}
+
+
+void vcrcgl_show_beams( gint side, gint number )
+{
+  gint i, n;
   GtkProgressBar *pbar;
   gchar widget_name[64];
   widget_name[0] = '\0';
@@ -1382,13 +1414,21 @@ void vcrcgl_show_ammulevel( gint side, gint level )
     default:
       break;
   }
-  strcat( widget_name, "_amu" );
-
-  pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
-  gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
+  strcat( widget_name, "_b" );
+  n = strlen( widget_name );
+  for( i=0; i<10; i++ )
+  {
+    widget_name[ n+1 ] = '\0';
+    widget_name[ n   ] = i + ASCII_0;
+    pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
+    if( i<number )
+      gtk_widget_show( pbar );
+    else
+      gtk_widget_hide( pbar );
+  }
+  while( gtk_events_pending() )
+    gtk_main_iteration();
 }
-
-
 
 
 

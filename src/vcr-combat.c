@@ -7,6 +7,7 @@
 #define FED_CREW_BONUS 0
 
 
+#define VCRCGL_SIMULATION_DELAY 100000
 
 /*
  *  this is the MAIN PUBLIC function.
@@ -33,12 +34,37 @@ void vcrc_combat_start( combatdata *cdata )
 
   /* try to initialize the open-gl simulation area */
   vcrcgl_init();
+  vcrc_initilize_graphs( &battle );
 
   /* Hey Ho ... Let's GO */
   vcrc_fight( &battle );
 
+while( gtk_events_pending() )
+  gtk_main_iteration();
+
   /* print the most important values of each combatant after battle */
   vcrc_print_summary( &battle, cdata );
+}
+
+
+
+void vcrc_initilize_graphs( battlefield *battle )
+{
+  gint i;
+  vcrcgl_show_beams( VCRC_SIDE_A, battle->a.beams.number );
+  vcrcgl_show_beams( VCRC_SIDE_B, battle->b.beams.number );
+  for( i=0; i<battle->a.beams.number; i++ )
+    vcrcgl_show_beamlevel( VCRC_SIDE_A, i, battle->a.beams.beam[i].fill );
+  for( i=0; i<battle->b.beams.number; i++ )
+    vcrcgl_show_beamlevel( VCRC_SIDE_B, i, battle->b.beams.beam[i].fill );
+  vcrcgl_show_ammulevel( VCRC_SIDE_A, battle->a.torps + battle->a.fighters.number );
+  vcrcgl_show_ammulevel( VCRC_SIDE_B, battle->b.torps + battle->b.fighters.number );
+  vcrcgl_show_shieldlevel( VCRC_SIDE_A, battle->a.shield );
+  vcrcgl_show_shieldlevel( VCRC_SIDE_B, battle->b.shield );
+  vcrcgl_show_hulllevel( VCRC_SIDE_A, battle->a.hull );
+  vcrcgl_show_hulllevel( VCRC_SIDE_B, battle->b.hull );
+  vcrcgl_show_crewlevel( VCRC_SIDE_A, battle->a.crew );
+  vcrcgl_show_crewlevel( VCRC_SIDE_B, battle->b.crew );
 }
 
 
@@ -329,6 +355,7 @@ void vcrc_fight( battlefield *battle )
     vcrc_fight_attack_torpedos( battle );
     vcrc_fight_attack_beams( battle );
     battle->time++;
+    usleep( VCRCGL_SIMULATION_DELAY );
   }
 }
 
@@ -648,6 +675,7 @@ void vcrc_fight_attack_torpedos( battlefield *battle )
       {
           battle->a.tubes.tube[i].load = 0;
           battle->a.torps--;
+          vcrcgl_show_ammulevel( VCRC_SIDE_A, battle->a.torps );
           if( vcrc_rand( VCRC_CHANCE_TORP_HIT_SHIP ) )
             vcrc_fight_hit( battle, VCRC_SIDE_B,
                             battle->a.tubes.tube[i].shield,
@@ -670,6 +698,7 @@ void vcrc_fight_attack_torpedos( battlefield *battle )
 //g_message( "VCR-DEBUG: FIRING TORPEDO VOLLEY ...." );
           battle->b.tubes.tube[i].load = 0;
           battle->b.torps--;
+          vcrcgl_show_ammulevel( VCRC_SIDE_B, battle->b.torps );
           if( vcrc_rand( VCRC_CHANCE_TORP_HIT_SHIP ) )
             vcrc_fight_hit( battle, VCRC_SIDE_A,
                             battle->b.tubes.tube[i].shield,
@@ -832,6 +861,7 @@ void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id )
       battle->a.fighters.fighter[id].speed     = battle->a.fighters.fighter[n].speed    ;
       battle->a.fighters.number--;
       battle->a.fighters.flying--;
+      vcrcgl_show_ammulevel( VCRC_SIDE_A, battle->a.fighters.number );
       break;
     case VCRC_SIDE_B:
       n = battle->b.fighters.number;
@@ -841,6 +871,7 @@ void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id )
       battle->b.fighters.fighter[id].speed     = battle->b.fighters.fighter[n].speed    ;
       battle->b.fighters.number--;
       battle->b.fighters.flying--;
+      vcrcgl_show_ammulevel( VCRC_SIDE_B, battle->b.fighters.number );
       break;
     default:
       return; // something went wrong
@@ -855,20 +886,22 @@ void vcrc_fight_destroy_fighter( battlefield *battle, gint side, gint id )
  */
 void vcrc_fight_hit( battlefield *battle, gint side, gint sdam, gint hdam, gint cdam )
 {
-g_print( "VCR-DEBUG (%d): Damage inflicted on %d, [%d, %d, %d] .. ", battle->time, side, sdam, hdam, cdam );
+//g_print( "VCR-DEBUG (%d): Damage inflicted on %d, [%d, %d, %d] .. ", battle->time, side, sdam, hdam, cdam );
   switch( side )
   {
     case VCRC_SIDE_A:
       if( battle->a.shield > 0 )
         battle->a.shield -= sdam;
       else
+      {
         battle->a.hull -= hdam;
-      battle->a.crew -= cdam;
+        battle->a.crew -= cdam;
+      }
       /* clean up */
       if( battle->a.shield < 0 ) battle->a.shield = 0;
       if( battle->a.hull   < 0 ) battle->a.hull   = 0;
       if( battle->a.crew   < 0 ) battle->a.crew   = 0;
-g_print( "[%d, %d, %d]\n", battle->a.shield, battle->a.hull, battle->a.crew );
+//g_print( "[%d, %d, %d]\n", battle->a.shield, battle->a.hull, battle->a.crew );
       /* update the gui */
       vcrcgl_show_shieldlevel( VCRC_SIDE_A, battle->a.shield );
       vcrcgl_show_hulllevel( VCRC_SIDE_A, battle->a.hull   );
@@ -878,13 +911,15 @@ g_print( "[%d, %d, %d]\n", battle->a.shield, battle->a.hull, battle->a.crew );
       if( battle->b.shield > 0 )
         battle->b.shield -= sdam;
       else
+      {
         battle->b.hull -= hdam;
-      battle->b.crew -= cdam;
+        battle->b.crew -= cdam;
+      }
       /* clean up */
       if( battle->b.shield < 0 ) battle->b.shield = 0;
       if( battle->b.hull   < 0 ) battle->b.hull   = 0;
       if( battle->b.crew   < 0 ) battle->b.crew   = 0;
-g_print( "[%d, %d, %d]\n", battle->b.shield, battle->b.hull, battle->b.crew );
+//g_print( "[%d, %d, %d]\n", battle->b.shield, battle->b.hull, battle->b.crew );
       /* update the gui */
       vcrcgl_show_shieldlevel( VCRC_SIDE_B, battle->b.shield );
       vcrcgl_show_hulllevel( VCRC_SIDE_B, battle->b.hull   );
