@@ -27,7 +27,6 @@
 #include <pygobject.h>
 #include "gwp-ship.h"
 #include "global.h"
-/*#include "game_state.h"*/
 
 /* Forwards */
 void initgwp (void);
@@ -45,9 +44,6 @@ void gwp_python_init (char *argv0)
 
   /* Adding static modules */
   initgwp();
-
-  /* Import module to have GWP's methods available */
-  PyRun_SimpleString ("import gwp");
 }
 
 void gwp_python_inittab (void)
@@ -89,25 +85,25 @@ void initgwp (void)
 void gwp_python_event_key (GdkEventKey *event)
 {
   PyObject *plugin_mgr = NULL;
-  PyObject *res;
+  PyObject *evt_data;
 
   g_assert (event != NULL);
 
-  plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
+  evt_data = Py_BuildValue ("{sisisiss}",
+			    "type", (int)event->type,
+			    "state", (int)event->state,
+			    "keyval", (int)event->keyval,
+			    "string", event->string);
 
-  res = PyObject_CallMethod (plugin_mgr, "manage_key_event", 
-			     "({sisisiss})",
-			     PyString_FromString("type"), 
-			     PyInt_FromLong(event->type),
-			     PyString_FromString("state"),
-			     PyInt_FromLong(event->state),
-			     PyString_FromString("keyval"),
-			     PyInt_FromLong(event->keyval),
-			     PyString_FromString("string"),
-			     PyString_FromStringAndSize(event->string,
-							event->length));
-
-  Py_DECREF (res);
+  if (evt_data) {
+    plugin_mgr = (PyObject *)game_get_plugin_mgr (game_state);
+    
+    PyObject_CallMethodObjArgs (plugin_mgr,
+				PyString_FromString("manage_event_key"),
+				evt_data,
+				NULL);
+    Py_DECREF (evt_data);
+  }
 }
 
 #endif /* USE_PYTHON */

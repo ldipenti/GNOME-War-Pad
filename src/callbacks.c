@@ -49,6 +49,7 @@ starchart_event_key                    (GtkWidget       *widget,
                                         GdkEventKey     *event,
                                         gpointer         user_data)
 {	
+  gboolean handled = FALSE;
   GtkToggleButton *grid_button = 
     (GtkToggleButton *) lookup_widget("togglebutton_grid");
 
@@ -57,47 +58,52 @@ starchart_event_key                    (GtkWidget       *widget,
       /* Zoom Events */
     case GDK_KP_Add:
       starchart_zoom_in(starchart_get_canvas());
-      return TRUE;
+      handled = TRUE;
+      break;
     case GDK_KP_Subtract:
       starchart_zoom_out(starchart_get_canvas());
-      return TRUE;
+      handled = TRUE;
+      break;
       /* Scrolling Events */
     case GDK_w:
       if (!game_is_extra_panel_open(game_state))
 	starchart_scroll(0, -SCROLL);
-      return TRUE;
+      handled = TRUE;
+      break;
     case GDK_s:
       if (!game_is_extra_panel_open(game_state))
 	starchart_scroll(0, SCROLL);
-      return TRUE;
+      handled = TRUE;
+      break;
     case GDK_a:
       if (!game_is_extra_panel_open(game_state))
 	starchart_scroll(-SCROLL, 0);
-      return TRUE;
+      handled = TRUE;
+      break;
     case GDK_d:
       if (!game_is_extra_panel_open(game_state))
 	starchart_scroll(SCROLL, 0);
-      return TRUE;
+      handled = TRUE;
+      break;
       /* Activate/Deactivate Grid */
     case GDK_g:
       gtk_toggle_button_set_active(grid_button,
 				   !starchart_get_grid());
-      return TRUE;
+      handled = TRUE;
+      break;
       /* Hide panels */
     case GDK_Escape:
       starchart_close_extra_panels();
-      return TRUE;
-      /* Distance calculator */
-      /*    case GDK_x:
-      starchart_toggle_dist_calc();
-      return TRUE; */
+      handled = TRUE;
+      break;
     }
 
 #ifdef USE_PYTHON
   gwp_python_event_key (event);
+  handled = TRUE;
 #endif
 
-  return FALSE;
+  return handled;
 }
 
 gboolean

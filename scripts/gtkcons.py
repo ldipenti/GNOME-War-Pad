@@ -30,8 +30,8 @@
 import sys, string, traceback
 
 # Make sure we use pygtk for gtk 2.0
-import pygtk
-pygtk.require("2.0")
+#import pygtk
+#pygtk.require("2.0")
 
 import gtk
 import gtk.keysyms

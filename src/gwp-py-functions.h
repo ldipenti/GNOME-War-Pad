@@ -42,7 +42,9 @@ GSList * hullspec_get_list (void);
 GSList * engspec_get_list (void);
 GSList * beamspec_get_list (void);
 GSList * torpspec_get_list (void);
-void register_plugin_mgr(gchar *file);
+
+void set_plugin_mgr(void);
+void get_plugin_mgr(void);
 
 #endif /* USE_PYTHON */
 
