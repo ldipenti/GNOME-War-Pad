@@ -333,19 +333,15 @@ def gtk_console(ns, title='Python', copyright='', menu=None):
 	win.show()
 	cons.init()
 
-# set up as a dia plugin
-#try :
-#	import dia
-#	def open_console(data, flags):
-#		gtk_console({'__builtins__': __builtins__, '__name__': '__main__',
-#			     '__doc__': None, 'dia': dia}, 'Python Dia Console')
-#
-#	dia.register_callback("Python Console",
-#			      "<Display>/Dialogs/Python Console ...",
-#			      open_console)
-#except :
-#	print 'Failed to import Dia ...'
-gtk_console({'__builtins__': __builtins__, '__name__': '__main__',
-	'__doc__': None})
-gtk.main()
+# set up as a gwp plugin
+try :
+	import gwp
+	#def open_console(data, flags):
+	gtk_console({'__builtins__': __builtins__, '__name__': '__main__',
+		     '__doc__': None, 'gwp': gwp}, 'Python GWP Console')
 
+except :
+	print 'Failed to import GWP ...'
+	gtk_console({'__builtins__': __builtins__, '__name__': '__main__',
+		     '__doc__': None})
+	gtk.main()
