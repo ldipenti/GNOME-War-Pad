@@ -2,6 +2,10 @@ Version ?.?.?? (released ??-??-????):
 
 	* Starchart placed on the middle when defining a new game.
 
+	* All specs data files are loaded.
+
+	* Developers documentation generated using doxygen.
+	
 Version 0.2.11 (released 03-15-2004):
 
 	* Bugs on some ship cargo unload and transfer methods were fixed.
