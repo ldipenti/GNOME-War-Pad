@@ -69,7 +69,8 @@ class PluginManager:
                 self.__key_hooks[event["state"] - 16][event["keyval"]]()
             except KeyError:
                 # Debugging message
-                print "PluginManager: key name '%s', mask '%d' not binded" % (gtk.gdk.keyval_name(event["keyval"]), event["state"])
+                # print "PluginManager: key name '%s', mask '%d' not binded" % (gtk.gdk.keyval_name(event["keyval"]), event["state"])
+		pass
             except TypeError:
                 # Debugging msg
                 print "PluginManager: it seems that you've registered an object that isn't callable!"
