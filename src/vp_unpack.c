@@ -361,6 +361,7 @@ void UnpackWinplan(char *player)
   unsigned short nocontacts = 0;
   int i;
   unsigned char *winplan_sig = g_malloc0 (6);
+  unsigned char *sig = g_malloc0 (5);
   gpointer junk = g_malloc0 (90);
 
   buf=rstremember+32; /* seek to check winplan signature */
@@ -375,53 +376,49 @@ void UnpackWinplan(char *player)
 
   /* Check for WinPlan RST */
   if (strncmp(winplan_sig, "VER3.5", sizeof("VER3.5")) == 0) {
-    unsigned char *sig = g_malloc0 (5);
     int i;
     sig[4] = '\0';
     for (i=0; i<4; i++) {
       sig[i] = buf[i+13282]; /* offset to 1211 or 1120 signature */
     }
-    if (!(strncmp(sig, "1211", 4) == 0) || (strncmp(sig, "1120", 4) == 0)) {
-      g_free (sig);
-      g_free (winplan_sig);
-      return;
+    if ((strncmp(sig, "1211", 4) == 0) || (strncmp(sig, "1120", 4) == 0)) {
+      /* Oh yeah! we have a WinPlan RST!!! create KOREx.DAT at once!! */
+      kore = OpenPlayerFile("kore", player, "dat");
+
+      fwrite(&turnnr, 2, 1, kore); /* Turn number */
+      fwrite(junk, 7, 1, kore); /* Junk */
+      fwrite(datsig, 10, 1, kore);  /* Signature 2 */
+      fwrite(junk, 83, 1, kore); /* More junk */
+
+      fwrite(buf, 8, 500, kore); /* Minefields */
+
+      buf += 4000;
+      fwrite(buf, 12, 50, kore); /* Ion Storms */
+
+      buf += 600;
+      fwrite(buf, 4, 50, kore); /* Explosions */
+
+      buf += 200;
+      buf += 682; /* skip race.nm contents */
+      fwrite(buf, 78, 100, kore); /* UFO.HST contents */
+
+      buf += 7800;
+      fwrite(buf, 4, 1, kore); /* Signature "1121" or "1120" */
+
+      buf += 4;
+      ReadLong(nocontacts, buf);
+      buf -= 4;
+      fwrite(buf, 4, 1, kore); /* Nr of contacts */
+      if (nocontacts > 0) {
+	buf += 4;
+	fwrite(buf, 34, nocontacts, kore); /* contacts */
+      }
+
+      fclose(kore);
     }
-    g_free (sig);
   }
-  
-  kore = OpenPlayerFile("kore", player, "dat");
-
-  fwrite(&turnnr, 2, 1, kore); /* Turn number */
-  fwrite(junk, 7, 1, kore); /* Junk */
-  fwrite(datsig, 10, 1, kore);  /* Signature 2 */
-  fwrite(junk, 83, 1, kore); /* More junk */
-
-  fwrite(buf, 8, 500, kore); /* Minefields */
-
-  buf += 4000;
-  fwrite(buf, 12, 50, kore); /* Ion Storms */
-
-  buf += 600;
-  fwrite(buf, 4, 50, kore); /* Explosions */
-
-  buf += 200;
-  buf += 682; /* skip race.nm contents */
-  fwrite(buf, 78, 100, kore); /* UFO.HST contents */
-
-  buf += 7800;
-  fwrite(buf, 4, 1, kore); /* Signature "1121" or "1120" */
-
-  buf += 4;
-  ReadLong(nocontacts, buf);
-  buf -= 4;
-  fwrite(buf, 4, 1, kore); /* Nr of contacts */
-  if (nocontacts > 0) {
-    buf += 4;
-    fwrite(buf, 34, nocontacts, kore); /* contacts */
-  }
-
+  g_free (sig);
   g_free (winplan_sig);
-  fclose(kore);
 } /* UnpackWinplan */
 
 void UnpackShipXY(char *player)
