@@ -54,7 +54,6 @@ static gint32 getDWord(guchar* p);
 void init_data (void)
 {
   /* Game state initializations */
-  gwp_game_state_set_pnames (game_state, load_pnames_file(PNAMES));
 
   target_list = load_target (gwp_game_state_get_race(game_state));
   g_message ("TARGET loaded...");
@@ -611,7 +610,7 @@ GHashTable * load_pdata (void)
   planet_list = g_hash_table_new (NULL, NULL);
 
   /* Load Additional Data */
-  pnames = gwp_game_state_get_pnames(game_state);
+  pnames = load_pnames_file(PNAMES);
 
   /* Load Planet Data... */
   if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dis_file->str),
