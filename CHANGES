@@ -1,3 +1,21 @@
+Version 0.3.4 (released 11-08-2004):
+
+	* Bugfix: fixed problem with planet names being showed at any
+          zoom level.
+	* Minefields, ion storms, planet names, grid  and scanner area are
+          now managed in a MVC way and their status saved.
+	* Bugfix: starchart centering worked badly when zoom != 100%
+	* Bugfix: the game manager used to show a "turn 0" string on
+          newly added games.
+	* Feature: added constellations as seen on VPA.
+	* Feature: Added Brazilian Portugese translation (pt_BR).
+	* Bugfix: KOREx.DAT missing file warning dialog now appears
+	  one time per game to avoid annoying the user.
+	* Feature: added a distance calculator similar to the one in
+          PCC.
+	* Bugfix: added missing ship image.
+	* Feature: new Magallanes version, a much more complete one!
+
 Version 0.3.3 (released 10-18-2004):
 
 	* Feature: message reader uses colored headers according to the

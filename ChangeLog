@@ -1,3 +1,135 @@
+2004-11-07 22:31  ldipenti
+
+	* pixmaps/ships/vpl30.jpg: Bugfix: missing ship image -- thanks
+	  Cristian!
+
+2004-11-07 10:33  ldipenti
+
+	* src/: callbacks.c, gwp-game-state.c, gwp_types.c, gwp_types.h,
+	  starchart.c, starchart.h: Feature: Distance calculator finished.
+	  Some minor bugs are still there though
+
+2004-11-05 20:31  ldipenti
+
+	* src/starchart.c: distance patch
+
+2004-11-04 20:33  ldipenti
+
+	* src/vp_utils.c: Fixed a little logic problem with kore file
+	  warning
+
+2004-11-04 19:39  ldipenti
+
+	* src/: game_mgr.c, gwp-game-state.c, vp_utils.c: Bugfix: missing
+	  kore file warning only shown once per game
+
+2004-11-04 17:35  ldipenti
+
+	* src/: gwp-py-mappings.c, gwp-py-mappings.defs, gwp-torpspec.c,
+	  gwp-torpspec.h, vp_utils.c: API change on GwpTorpSpec
+	  get/set_cost(), get/set_ammo_cost()
+
+2004-11-04 16:01  ldipenti
+
+	* src/starchart.c: Fixed the constellations max distance to 84 LY
+	  because of the warp well
+
+2004-11-04 09:37  ldipenti
+
+	* configure.in, po/de.po, po/es.po, po/fr.po, po/gwp.pot,
+	  po/pt_BR.po: New translation!! pt_BR, thanks to Carlos Paulino
+
+2004-11-04 02:08  ldipenti
+
+	* src/: callbacks.c, callbacks.h, game_mgr.c, gwp-game-state.c,
+	  gwp.glade, gwp_types.c, gwp_types.h, starchart.c, starchart.h:
+	  Feature: added constellations ala VPA :-)
+
+2004-11-03 17:03  ldipenti
+
+	* src/game_mgr.c: Bugfix: when just added, a new game does not have
+	  the turn number data, so it isn't showed on the game manager.
+
+2004-11-03 15:15  ldipenti
+
+	* src/game_mgr.c: Removed useless denug line
+
+2004-11-03 13:57  ldipenti
+
+	* src/starchart.c: Bugfix: starchart centering when double-clicking
+	  on planets/ships worked badly when zoom != 100%. Fixed! (thanks
+	  Cristian for the report!)
+
+2004-11-01 21:06  ldipenti
+
+	* src/gwp.glade: Added slot for starchart manual creation
+
+2004-10-28 11:28  ldipenti
+
+	* debian/files, debian/gwp.substvars, po/de.po, po/es.po, po/fr.po,
+	  po/gwp.pot, src/game_mgr.c, src/global.h, src/starchart.c,
+	  src/vp_utils.c: Work in progress: fixing bug #54, "close game"
+	  feature
+
+2004-10-26 08:56  ldipenti
+
+	* src/vp_utils.c: Some correction to missing KOREx.DAT file dialog
+
+2004-10-21 16:16  ldipenti
+
+	* src/game_mgr.c: migrated some functions to g_object_set(). Should
+	  migrate them all...
+
+2004-10-21 16:13  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, starchart.c: Grid view managed in
+	  a MVC way, saved and restored.
+
+2004-10-21 15:58  ldipenti
+
+	* src/gwp-game-state.c: Grid property added
+
+2004-10-21 15:48  ldipenti
+
+	* src/: game_mgr.c, starchart.c: Scanner area view saved and
+	  restored properly
+
+2004-10-21 15:40  ldipenti
+
+	* src/starchart.c: Bugfix: planets were placed on the wrong canvas
+	  layer: scanner area was on top of them when activated
+
+2004-10-21 15:31  ldipenti
+
+	* src/: callbacks.c, gwp.glade, starchart.c: Scanner area view
+	  managed ina a MVC way
+
+2004-10-21 14:44  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, starchart.c: Planet names view
+	  migrated to MVC. It's saved and restored properly too.
+
+2004-10-21 14:18  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, starchart.c: Ion Storms &
+	  Minefields views are restored and saved properly
+
+2004-10-21 13:35  ldipenti
+
+	* src/starchart.c: Bugfix: on starchart init, planet names were
+	  showed no matter the zoom level...fixed!
+
+2004-10-21 12:44  ldipenti
+
+	* src/starchart.c: planet names disabled during development phase
+
+2004-10-18 00:13  ldipenti
+
+	* CHANGES, ChangeLog, Doxyfile, README, VERSION, configure.in,
+	  debian/changelog, help/C/gwp.xml, package/gwp-fedora.spec,
+	  package/gwp-mdk.spec, po/de.po, po/es.po, src/starchart.c:
+	  Release 0.3.3 commit, yeah!
+
 2004-10-17 23:21  ldipenti
 
 	* configure.in: Added conditional check's unit tests

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GWP 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-04 09:03-0300\n"
+"POT-Creation-Date: 2004-11-08 00:05-0300\n"
 "PO-Revision-Date: 2004-10-11 22:30-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -34,49 +34,49 @@ msgstr ","
 #. Mission
 #. Mission param
 #. Primary Enemy
-#: src/gwp.glade.h:5 src/starchart.c:169 src/starchart.c:173
-#: src/starchart.c:180 src/starchart.c:181 src/starchart.c:210
-#: src/starchart.c:227 src/starchart.c:232 src/starchart.c:233
-#: src/starchart.c:234 src/starchart.c:235 src/starchart.c:241
-#: src/starchart.c:244 src/starchart.c:247 src/starchart.c:250
-#: src/starchart.c:253 src/starchart.c:256 src/starchart.c:259
-#: src/starchart.c:261 src/starchart.c:263 src/starchart.c:264
-#: src/starchart.c:266 src/starchart.c:267 src/starchart.c:268
-#: src/starchart.c:269 src/starchart.c:432 src/starchart.c:602
-#: src/starchart.c:652 src/starchart.c:703 src/starchart.c:706
-#: src/starchart.c:709 src/starchart.c:1083 src/starchart.c:1084
-#: src/starchart.c:1085 src/starchart.c:1086 src/starchart.c:1087
+#: src/gwp.glade.h:5 src/starchart.c:173 src/starchart.c:177
+#: src/starchart.c:184 src/starchart.c:185 src/starchart.c:214
+#: src/starchart.c:231 src/starchart.c:236 src/starchart.c:237
+#: src/starchart.c:238 src/starchart.c:239 src/starchart.c:245
+#: src/starchart.c:248 src/starchart.c:251 src/starchart.c:254
+#: src/starchart.c:257 src/starchart.c:260 src/starchart.c:263
+#: src/starchart.c:265 src/starchart.c:267 src/starchart.c:268
+#: src/starchart.c:270 src/starchart.c:271 src/starchart.c:272
+#: src/starchart.c:273 src/starchart.c:436 src/starchart.c:606
+#: src/starchart.c:656 src/starchart.c:707 src/starchart.c:710
+#: src/starchart.c:713 src/starchart.c:1087 src/starchart.c:1088
 #: src/starchart.c:1089 src/starchart.c:1090 src/starchart.c:1091
-#: src/starchart.c:1092 src/starchart.c:1093 src/starchart.c:1095
-#: src/starchart.c:1096 src/starchart.c:1097 src/starchart.c:1098
-#: src/starchart.c:1099 src/starchart.c:1100
+#: src/starchart.c:1093 src/starchart.c:1094 src/starchart.c:1095
+#: src/starchart.c:1096 src/starchart.c:1097 src/starchart.c:1099
+#: src/starchart.c:1100 src/starchart.c:1101 src/starchart.c:1102
+#: src/starchart.c:1103 src/starchart.c:1104
 msgid "--"
 msgstr "--"
 
-#: src/gwp.glade.h:7 src/starchart.c:665 src/starchart.c:877
-#: src/starchart.c:882 src/starchart.c:887 src/starchart.c:892
+#: src/gwp.glade.h:7 src/starchart.c:669 src/starchart.c:881
+#: src/starchart.c:886 src/starchart.c:891 src/starchart.c:896
 #, no-c-format
 msgid "-- %"
 msgstr "-- %"
 
-#: src/gwp.glade.h:8 src/starchart.c:697 src/starchart.c:902
-#: src/starchart.c:903
+#: src/gwp.glade.h:8 src/starchart.c:701 src/starchart.c:906
+#: src/starchart.c:907
 msgid "-- MC"
 msgstr "-- MC"
 
-#: src/gwp.glade.h:9 src/starchart.c:693
+#: src/gwp.glade.h:9 src/starchart.c:697
 msgid "-- clans"
 msgstr "-- clanes"
 
-#: src/gwp.glade.h:10 src/starchart.c:661 src/starchart.c:673
-#: src/starchart.c:677 src/starchart.c:681 src/starchart.c:685
-#: src/starchart.c:689 src/starchart.c:875 src/starchart.c:880
-#: src/starchart.c:885 src/starchart.c:890
+#: src/gwp.glade.h:10 src/starchart.c:665 src/starchart.c:677
+#: src/starchart.c:681 src/starchart.c:685 src/starchart.c:689
+#: src/starchart.c:693 src/starchart.c:879 src/starchart.c:884
+#: src/starchart.c:889 src/starchart.c:894
 msgid "-- kT"
 msgstr "-- kT"
 
-#: src/gwp.glade.h:11 src/starchart.c:897 src/starchart.c:898
-#: src/starchart.c:899 src/starchart.c:900
+#: src/gwp.glade.h:11 src/starchart.c:901 src/starchart.c:902
+#: src/starchart.c:903 src/starchart.c:904
 msgid "-- kT/turn"
 msgstr "-- kT/turno"
 
@@ -888,24 +888,24 @@ msgstr "n/d kT/turno"
 msgid "n/m"
 msgstr "n/m"
 
-#: src/callbacks.c:303
+#: src/callbacks.c:320
 msgid "New Game Properties"
 msgstr "Propiedades del nuevo juego"
 
-#: src/callbacks.c:472
+#: src/callbacks.c:489
 msgid "Edit Game Properties"
 msgstr "Editar las propiedades del juego"
 
-#: src/callbacks.c:494
+#: src/callbacks.c:511
 msgid "Oops! there is some problem with this game"
 msgstr "Ups! existe algún problema con este juego"
 
-#: src/callbacks.c:528
+#: src/callbacks.c:545
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "¿Está seguro que desea eliminar «%s»?"
 
-#: src/callbacks.c:605
+#: src/callbacks.c:622
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
@@ -913,7 +913,7 @@ msgstr ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "Este software se libera bajo las condiciones de la licencia GNU GPL"
 
-#: src/callbacks.c:606
+#: src/callbacks.c:623
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
@@ -921,11 +921,11 @@ msgstr ""
 "Un cliente VGA Planets para la plataforma GNOME\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
 
-#: src/callbacks.c:1026
+#: src/callbacks.c:1043
 msgid "No Python support enabled."
 msgstr "El soporte de Python está desactivado."
 
-#: src/callbacks.c:1027
+#: src/callbacks.c:1044
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
@@ -939,185 +939,190 @@ msgstr ""
 msgid "Couldn't find pixmap file: %s"
 msgstr "No se encontró el archivo de imagen: %s"
 
-#: src/starchart.c:115 src/starchart.c:121 src/starchart.c:127
-#: src/starchart.c:133
+#: src/starchart.c:119 src/starchart.c:125 src/starchart.c:131
+#: src/starchart.c:137
 #, c-format
 msgid "Tech %d"
 msgstr "Tec"
 
-#: src/starchart.c:139 src/starchart.c:145
+#: src/starchart.c:143 src/starchart.c:149
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: src/starchart.c:151
+#: src/starchart.c:155
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: src/starchart.c:222
+#: src/starchart.c:226
 #, c-format
 msgid "0 (%d fighter bays)"
 msgstr "0 (%d lanzaderas)"
 
-#: src/starchart.c:398 src/starchart.c:431 src/starchart.c:623
-#: src/starchart.c:651
+#: src/starchart.c:402 src/starchart.c:435 src/starchart.c:627
+#: src/starchart.c:655
 msgid "no weapon"
 msgstr "sin arma"
 
-#: src/starchart.c:406
+#: src/starchart.c:410
 #, c-format
 msgid "%d <i>%s</i>"
 msgstr "%d <i>%s</i>"
 
-#: src/starchart.c:410
+#: src/starchart.c:414
 msgid "1 torpedo"
 msgstr "1 torpedo"
 
-#: src/starchart.c:412
+#: src/starchart.c:416
 #, c-format
 msgid "%d torpedoes"
 msgstr "%d torpedos"
 
-#: src/starchart.c:418 src/starchart.c:642
+#: src/starchart.c:422 src/starchart.c:646
 msgid "1 fighter bay"
 msgstr "1 lanzadera"
 
-#: src/starchart.c:420 src/starchart.c:644
+#: src/starchart.c:424 src/starchart.c:648
 #, c-format
 msgid "%d fighter bays"
 msgstr "%d lanzaderas"
 
-#: src/starchart.c:424
+#: src/starchart.c:428
 msgid "1 fighter"
 msgstr "1 caza"
 
-#: src/starchart.c:426
+#: src/starchart.c:430
 #, c-format
 msgid "%d fighters"
 msgstr "%d cazas"
 
-#: src/starchart.c:447 src/starchart.c:486 src/starchart.c:498
-#: src/starchart.c:510 src/starchart.c:522 src/starchart.c:534
-#: src/starchart.c:774 src/starchart.c:793 src/starchart.c:811
-#: src/starchart.c:829
+#: src/starchart.c:451 src/starchart.c:490 src/starchart.c:502
+#: src/starchart.c:514 src/starchart.c:526 src/starchart.c:538
+#: src/starchart.c:778 src/starchart.c:797 src/starchart.c:815
+#: src/starchart.c:833
 #, c-format
 msgid "%d kT"
 msgstr "%d kT"
 
-#: src/starchart.c:471
+#: src/starchart.c:475
 msgid "1 crewman"
 msgstr "1 tripulante"
 
-#: src/starchart.c:473
+#: src/starchart.c:477
 #, c-format
 msgid "%d crewmen"
 msgstr "%d tripulantes"
 
-#: src/starchart.c:547
+#: src/starchart.c:551
 msgid "1 clan"
 msgstr "1 clan"
 
-#: src/starchart.c:549
+#: src/starchart.c:553
 #, c-format
 msgid "%d clans"
 msgstr "%d clanes"
 
-#: src/starchart.c:562 src/starchart.c:854 src/starchart.c:864
+#: src/starchart.c:566 src/starchart.c:858 src/starchart.c:868
 #, c-format
 msgid "%d MC"
 msgstr "%d MC"
 
-#: src/starchart.c:588
+#: src/starchart.c:592
 msgid "<i>No ship</i>"
 msgstr "<i>Ninguna nave</i>"
 
 #. Engines
-#: src/starchart.c:613 src/starchart.c:620
+#: src/starchart.c:617 src/starchart.c:624
 #, c-format
 msgid "%d <i>unknown</i>"
 msgstr "%d <i>desconocido</i>"
 
-#: src/starchart.c:632
+#: src/starchart.c:636
 msgid "1 launcher"
 msgstr "1 tubo"
 
-#: src/starchart.c:634
+#: src/starchart.c:638
 #, c-format
 msgid "%d launchers"
 msgstr "%d tubos"
 
-#: src/starchart.c:637 src/starchart.c:647
+#: src/starchart.c:641 src/starchart.c:651
 msgid "unknown"
 msgstr "desconocido"
 
-#: src/starchart.c:669
+#: src/starchart.c:673
 msgid "-- crewmen"
 msgstr "-- tripulantes"
 
-#: src/starchart.c:785 src/starchart.c:803 src/starchart.c:821
-#: src/starchart.c:839
+#: src/starchart.c:789 src/starchart.c:807 src/starchart.c:825
+#: src/starchart.c:843
 #, c-format
 msgid "%d kT/turn (%d turns)"
 msgstr "%d kT/turno (%d turnos)"
 
-#: src/starchart.c:857
+#: src/starchart.c:861
 #, c-format
 msgid "%d <span foreground=\"red\">(%d)</span> MC"
 msgstr "%d <span foreground=\"red\">(%d)</span> MC"
 
 #. Update distance
-#: src/starchart.c:1152
+#: src/starchart.c:1156
 #, c-format
 msgid "%.2f LY"
 msgstr "%.2f AL"
 
 #. Update fuel usage
 #. Update mass
-#: src/starchart.c:1157 src/starchart.c:1162
+#: src/starchart.c:1161 src/starchart.c:1166
 #, c-format
 msgid "%d KT"
 msgstr "%d KT"
 
-#: src/starchart.c:1169
+#: src/starchart.c:1173
 msgid "<span foreground=\"red\">never</span>"
 msgstr "<span foreground=\"red\">nunca</span>"
 
-#: src/starchart.c:1173
+#: src/starchart.c:1177
 #, c-format
 msgid "%d turn"
 msgstr "%d turno"
 
-#: src/starchart.c:1175
+#: src/starchart.c:1179
 #, c-format
 msgid "%d turns"
 msgstr "%d turnos"
 
-#: src/starchart.c:1207
+#: src/starchart.c:1211
 msgid "not moving"
 msgstr "estacionario"
 
 #. Update speed
-#: src/starchart.c:1213
+#: src/starchart.c:1217
 #, c-format
 msgid "Warp %d"
 msgstr "Warp %d"
 
-#: src/starchart.c:1279
+#: src/starchart.c:1283
 #, c-format
 msgid "%d %s in %s"
 msgstr "%d %s en %s"
 
-#: src/starchart.c:2213
+#: src/starchart.c:2249
+#, c-format
+msgid "Distance: %.2f LY"
+msgstr ""
+
+#: src/starchart.c:2314
 msgid "Name"
 msgstr "Nombre"
 
-#: src/vp_utils.c:882
+#: src/vp_utils.c:890
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr "No se encontró KORE%d.DAT, algunos datos no se mostrarán."
 
-#: src/vp_utils.c:884
+#: src/vp_utils.c:892
 #, fuzzy
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
@@ -1211,15 +1216,15 @@ msgstr ""
 "El archivo MDATA no se encontró, se lo necesita para leer los mensajes del "
 "juego, por favor chequea tu instalación de VGA Planets."
 
-#: src/game_mgr.c:1095
+#: src/game_mgr.c:1109
 msgid "no games"
 msgstr "no hay juegos"
 
-#: src/game_mgr.c:1097
+#: src/game_mgr.c:1111
 msgid "1 game"
 msgstr "1 juego"
 
-#: src/game_mgr.c:1099
+#: src/game_mgr.c:1113
 #, c-format
 msgid "%d games"
 msgstr "%d juegos"

@@ -11,6 +11,8 @@ With this version of GWP, you can do the following:
 [Ctrl+S]: Toggle ion storm view.
 [Ctrl+A]: Toggle scanner area view.
 [Ctrl+N]: Toggle planet names view.
+[Ctrl+C]: Toggle constellations view.
+[D]: Toggle distance calculator.
 
 [Ctrl+M]: Start message reader.
 [Ctrl+Y]: Start Python console.

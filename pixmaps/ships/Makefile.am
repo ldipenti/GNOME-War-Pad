@@ -55,6 +55,7 @@ EXTRA_DIST = \
 	vpl19.jpg \
 	vpl20.jpg \
 	vpl29.jpg \
+	vpl30.jpg \
 	vpl31.jpg \
 	vpl32.jpg \
 	vpl33.jpg \

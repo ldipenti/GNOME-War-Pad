@@ -1,5 +1,5 @@
 %define name gwp
-%define version 0.3.3
+%define version 0.3.4
 %define release 1
 %define _unpackaged_files_terminate_build       0
 %define _missing_doc_files_terminate_build      0
