@@ -317,6 +317,7 @@ gboolean gwp_ship_valid_coords(GwpShip *self)
     return FALSE;
   }
 }
+
 /**
  * Checks if current ship is owned by player.
  * @param self a GwpShip.
@@ -333,6 +334,12 @@ gboolean gwp_ship_is_mine(GwpShip *self)
   }
 }
 
+/**
+ * Returns waypoint coordinates of current ship.
+ * @param self a GwpShip.
+ * @param wp_x a reference to assign waypoint's x coordinate.
+ * @param wp_y a reference to assign waypoint's y coordinate.
+ */
 void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y)
 {
   g_assert(GWP_IS_SHIP(self) && wp_x != NULL && wp_y != NULL);
@@ -412,7 +419,14 @@ gint gwp_ship_calculate_fuel_usage (GwpShip *self)
   }
 }
 
-/* Gets the correct hull specs for the ship */
+/**
+ * Gets the correct hull specs for the ship.
+ * Search on the global hullspec list the correct hull spec for the
+ * current ship. Maybe this should be a private method, just for use
+ * by the other ship's methods.
+ * @param self a GwpShip.
+ * @return The hull spec for the current ship.
+ */
 GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -420,7 +434,13 @@ GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self)
   return (GwpHullSpec *)g_slist_nth_data (hullspec_list, gwp_ship_get_hull_type(self) - 1);
 }
 
-/* Gets  the correct engine specs for the ship */
+/**
+ * Gets the correct engine specs for the ship.
+ * Search on the global engspec list the correct engine spec for the
+ * current ship. Maybe this should be a private method.
+ * @param self a GwpShip.
+ * @return The engine spec for the current ship.
+ */
 GwpEngSpec * gwp_ship_get_engspec (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -428,7 +448,14 @@ GwpEngSpec * gwp_ship_get_engspec (GwpShip *self)
   return (GwpEngSpec *)g_slist_nth_data (engspec_list, gwp_ship_get_engines_type(self) - 1);
 }
 
-/* Gets the beam weapons specs, or NULL if doesn't have */
+/**
+ * Gets the beam weapons specs for the ship.
+ * Search on the global beamspec list the correct beam weapon spec for
+ * the current ship. Maybe this should be a private method.
+ * @param self a GwpShip.
+ * @return The beam weapon spec for the current ship or NULL if it
+ * doesn't have.
+ */
 GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -442,7 +469,14 @@ GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
   }
 }
 
-/* Gets the torpedoes weapons specs, or NULL if doesn't have */
+/**
+ * Gets the torpedoes weapons specs.
+ * Search on the global torpspec list the correct beam weapon spec for
+ * the current ship. Maybe this should be a private method.
+ * @param self a GwpShip.
+ * @return The torpedoes weapon spec for the current ship or NULL if
+ * it doesn't have.
+ */
 GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
@@ -456,7 +490,15 @@ GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
   }
 }
 
-/* Calculates total mass based on cargo, equipment, etc. */
+/**
+ * Calculates total mass based on cargo, equipment, etc.
+ * This method take in account all items that the ship has on board,
+ * including the hull itself, to calculate the amount of load that the
+ * engines have to cope with. It also check if the ship is unloading
+ * cargo or transfering it to another ship.
+ * @param self a GwpShip.
+ * @return The total ship's mass in KT.
+ */
 gint gwp_ship_calculate_mass (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
