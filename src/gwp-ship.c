@@ -255,22 +255,30 @@ gint gwp_ship_calculate_heading (GwpShip *self)
   
   dx = gwp_ship_get_x_to_waypoint(self);
   dy = gwp_ship_get_y_to_waypoint(self);
+  
+  
+  if(dx == 0.0 && dy == 0.0) {
 
-  hyp = rint(sqrt((dx*dx) + (dy*dy)));
-
-  if (hyp != 0) {
-    heading = asin(dy/hyp);
-
-    h = rint(heading * (360 / (2 * 3.14159)));
-    
-    if (dx >= 0) {
-      h = 90 + (h * -1);
-    } else {
-      h = h + 270;
-    }
+    h = -1; /* -1 = ship not moving */
 
   } else {
-    h = 0;
+
+    hyp = rint(sqrt((dx*dx) + (dy*dy)));
+    
+    if (hyp != 0) {
+      heading = asin(dy/hyp);
+      
+      h = rint(heading * (360 / (2 * 3.14159)));
+      
+      if (dx >= 0) {
+	h = 90 + (h * -1);
+      } else {
+	h = h + 270;
+      }
+      
+    } else {
+      h = 0;
+    }
   }
   return h;
 }
