@@ -116,6 +116,7 @@
 GSList *race_list;
 GHashTable *planet_list;
 GHashTable *ship_list;
+GHashTable *starbase_list;
 GSList *minefield_list;
 GSList *storm_list;
 

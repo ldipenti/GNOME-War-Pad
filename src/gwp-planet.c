@@ -1024,7 +1024,9 @@ void gwp_planet_set_is_known (GwpPlanet *self, gboolean is_known)
 GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (GWP_IS_STARBASE(self->priv->starbase));
+  if (self->priv->starbase) {
+    g_return_val_if_fail (GWP_IS_STARBASE(self->priv->starbase), NULL);
+  }
   return self->priv->starbase;
 }
 

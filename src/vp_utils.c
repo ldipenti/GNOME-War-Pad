@@ -53,11 +53,17 @@ void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 void scan_messages (void);
 void scan_messages_planet_orbit (const gchar *msg_body);
 void scan_messages_planet_scanned (const gchar *msg_body);
+static void dump_to_ship_dat_file (void);
+static void dump_to_pdata_dat_file (void);
+static void dump_to_bdata_dat_file (void);
 
 static void ghfunc_dump_ship_data (gpointer key, gpointer value, gpointer user_data);
+static void ghfunc_dump_planet_data (gpointer key, gpointer value, gpointer user_data);
+static void ghfunc_dump_starbase_data (gpointer key, gpointer value, gpointer user_data);
 
 static gint16 getWord(guchar* p);
 static void setWord (gchar * buf, gint16 p);
+static void setDWord (gchar * buf, gint32 p);
 static gint32 getDWord(guchar* p);
 static GHashTable *target_list;
 
@@ -126,6 +132,18 @@ static void setWord (gchar * buf, gint16 p)
   }
 
   buf[1] = (gchar)(p >> 8);
+  buf[0] = (gchar)(p % 256);
+}
+
+static void setDWord (gchar * buf, gint32 p)
+{ 
+  if (p < 0) {
+    p = (16777216 + p);
+  }
+
+  buf[3] = (gchar)(p >> 24) & 0x000000ff;
+  buf[2] = (gchar)(p >> 16) & 0x000000ff;
+  buf[1] = (gchar)(p >> 8) & 0x000000ff;
   buf[0] = (gchar)(p % 256);
 }
 
@@ -680,14 +698,16 @@ GHashTable * load_pdata (void)
     gwp_planet_set_tax_natives (p, getWord(buffer+67));
     gwp_planet_set_happiness_colonists (p, getWord(buffer+69));
     gwp_planet_set_happiness_natives (p, getWord(buffer+71));
+    gwp_planet_set_natives_spi (p, getWord(buffer+73));
     gwp_planet_set_natives (p, getDWord(buffer+75));
 
     /* Dear Tim, please send me consistent data... */
-    if (gwp_planet_get_natives(p) > 0) 
-      gwp_planet_set_natives_spi (p, getWord(buffer+73));
-    else
-      gwp_planet_set_natives_spi (p, 0);
-
+    /* WARNING!!: This was eliminated just in case THOST don't like it */
+    /*     if (gwp_planet_get_natives(p) > 0)  */
+    /*       gwp_planet_set_natives_spi (p, getWord(buffer+73)); */
+    /*     else */
+    /*       gwp_planet_set_natives_spi (p, 0); */
+    
     gwp_planet_set_natives_race (p, getWord(buffer+79));
 
     gwp_planet_set_temperature (p, getWord(buffer+81));
@@ -1076,6 +1096,9 @@ void load_gen_data(void)
 
   rewind(bdata);
 
+  /* Init global hash table */
+  starbase_list = g_hash_table_new (NULL, NULL);
+
   /* How many bases? */
   fread(&bases_nr, sizeof(gint16), 1, bdata);
 
@@ -1136,6 +1159,8 @@ void load_gen_data(void)
     p = gwp_planet_get (planet_list, starbase_id);
     gwp_starbase_set_planet (b, p);
     gwp_planet_set_starbase (p, b);
+    /* Add it to starbases global hash */
+    g_hash_table_insert (starbase_list, (gpointer)(gint)gwp_starbase_get_id(b), b);
   }
   fclose(bdata);
 }
@@ -1439,8 +1464,127 @@ GSList * load_beamspec (void)
  * In order to generate the TRN file, modifications to the objects should
  * be dumped back to the data files.
  */
-void 
+void
 dump_to_dat_files (void)
+{
+  dump_to_ship_dat_file ();
+  dump_to_pdata_dat_file ();
+  dump_to_bdata_dat_file ();
+}
+
+/**
+ * Generate bdataX.dat file
+ */
+static void 
+dump_to_bdata_dat_file (void)
+{
+  GSList *starbases_data = NULL;
+  FILE *starbase_dat_file = NULL;
+  FILE *gen_dat_file = NULL;
+  gint i;
+  gchar c;
+  guchar *reg_nr = g_malloc0 (sizeof(guchar)*2);
+
+  /* dummy value append */
+  starbases_data =  g_slist_append (starbases_data, "delme!");
+
+  g_hash_table_foreach (planet_list, (GHFunc) ghfunc_dump_starbase_data, 
+			(gpointer)starbases_data);
+
+  /* Skip first dummy value */  
+  starbases_data = g_slist_next (starbases_data);
+
+  if ((starbase_dat_file = fopen(gwp_game_state_get_dat_filename(game_state, "bdata", "dat"), "w+")) == NULL) {
+    g_message ("ERROR: Could not open starbase data file for writing");
+    exit(-1);
+  }
+
+  setWord(reg_nr, g_slist_length(starbases_data));
+
+  fwrite (reg_nr, 2, 1, starbase_dat_file);
+
+  for (i = 0; i < g_slist_length(starbases_data); i++) {
+    fwrite ((guchar *)g_slist_nth_data(starbases_data, i), 156, 1, starbase_dat_file);
+  }
+
+  if ((gen_dat_file = fopen(gwp_game_state_get_dat_filename(game_state, "gen", "dat"), "r")) == NULL) {
+    g_message ("ERROR: Could not open GENx.DAT data file: %s",
+	       gwp_game_state_get_dat_filename(game_state, "gen", "dat"));
+    exit(-1);
+  }
+
+  /* Signature 1's offset */
+  fseek (gen_dat_file, 118, SEEK_SET);
+
+  /* Do some signature */
+  for (i = 1; i < 11; i++) {
+    c = fgetc (gen_dat_file);
+    fputc (c+i, starbase_dat_file);
+  }
+
+  fclose (gen_dat_file);
+  fclose (starbase_dat_file);
+}
+
+/**
+ * Generate pdataX.dat file
+ */
+static void 
+dump_to_pdata_dat_file (void)
+{
+  GSList *planets_data = NULL;
+  FILE *planet_dat_file = NULL;
+  FILE *gen_dat_file = NULL;
+  gint i;
+  gchar c;
+  guchar *reg_nr = g_malloc0 (sizeof(guchar)*2);
+
+  /* dummy value append */
+  planets_data =  g_slist_append (planets_data, "delme!");
+
+  g_hash_table_foreach (planet_list, (GHFunc) ghfunc_dump_planet_data, 
+			(gpointer)planets_data);
+
+  /* Skip first dummy value */  
+  planets_data = g_slist_next (planets_data);
+
+  if ((planet_dat_file = fopen(gwp_game_state_get_dat_filename(game_state, "pdata", "dat"), "w+")) == NULL) {
+    g_message ("ERROR: Could not open planet data file for writing");
+    exit(-1);
+  }
+
+  setWord(reg_nr, g_slist_length(planets_data));
+
+  fwrite (reg_nr, 2, 1, planet_dat_file);
+
+  for (i = 0; i < g_slist_length(planets_data); i++) {
+    fwrite ((guchar *)g_slist_nth_data(planets_data, i), 85, 1, planet_dat_file);
+  }
+
+  if ((gen_dat_file = fopen(gwp_game_state_get_dat_filename(game_state, "gen", "dat"), "r")) == NULL) {
+    g_message ("ERROR: Could not open GENx.DAT data file: %s",
+	       gwp_game_state_get_dat_filename(game_state, "gen", "dat"));
+    exit(-1);
+  }
+
+  /* Signature 1's offset */
+  fseek (gen_dat_file, 118, SEEK_SET);
+
+  /* Do some signature */
+  for (i = 1; i < 11; i++) {
+    c = fgetc (gen_dat_file);
+    fputc (c+i, planet_dat_file);
+  }
+
+  fclose (gen_dat_file);
+  fclose (planet_dat_file);
+}
+
+/**
+ * Generate shipX.dat file
+ */
+static void 
+dump_to_ship_dat_file (void)
 {
   GSList *ships_data = NULL;
   FILE *ship_dat_file = NULL;
@@ -1488,6 +1632,105 @@ dump_to_dat_files (void)
 
   fclose (gen_dat_file);
   fclose (ship_dat_file);
+}
+
+static void
+ghfunc_dump_starbase_data (gpointer key, gpointer value, gpointer user_data)
+{
+  GwpPlanet *planet = GWP_PLANET(value);
+  GwpStarbase *starbase = gwp_planet_get_starbase (planet);
+  GSList *starbases_data = (GSList *)user_data;
+  gint i;
+  guchar *starbase_reg = g_malloc0 (sizeof(guchar)*156);
+
+  if (!starbase) return;
+
+  /* Fill the 156 byte record */
+  setWord (starbase_reg+0, gwp_starbase_get_id(starbase));
+  setWord (starbase_reg+2, gwp_game_state_get_race_nr(game_state));
+  setWord (starbase_reg+4, gwp_starbase_get_defense(starbase));
+  setWord (starbase_reg+6, gwp_starbase_get_damage(starbase));
+  setWord (starbase_reg+8, gwp_starbase_get_engines_tech(starbase));
+  setWord (starbase_reg+10, gwp_starbase_get_hulls_tech(starbase));
+  setWord (starbase_reg+12, gwp_starbase_get_beams_tech(starbase));
+  setWord (starbase_reg+14, gwp_starbase_get_torps_tech(starbase));
+  for (i = 0; i < 9; i++) {
+    setWord (starbase_reg+i*2+16, 
+	     gwp_starbase_get_storage_engines(starbase, i));
+  }
+  for (i = 0; i < 20; i++) {
+    setWord (starbase_reg+i*2+34, 
+	     gwp_starbase_get_storage_hulls(starbase, i));
+  }
+  for (i = 0; i < 10; i++) {
+    setWord (starbase_reg+i*2+74, 
+	     gwp_starbase_get_storage_beams(starbase, i));
+  }
+  for (i = 0; i < 10; i++) {
+    setWord (starbase_reg+i*2+94, 
+	     gwp_starbase_get_storage_torp_launchers(starbase, i));
+  }
+  for (i = 0; i < 10; i++) {
+    setWord (starbase_reg+i*2+114, 
+	     gwp_starbase_get_storage_torps(starbase, i));
+  }
+  setWord (starbase_reg+134, gwp_starbase_get_fighters(starbase));
+  setWord (starbase_reg+136, gwp_starbase_get_id_ship(starbase));
+  setWord (starbase_reg+138, gwp_starbase_get_ship_action(starbase));
+  setWord (starbase_reg+140, gwp_starbase_get_mission(starbase));
+  setWord (starbase_reg+142, gwp_starbase_get_build_ship_type(starbase));
+  setWord (starbase_reg+144, gwp_starbase_get_build_engine_type(starbase));
+  setWord (starbase_reg+146, gwp_starbase_get_build_beam_type(starbase));
+  setWord (starbase_reg+148, gwp_starbase_get_build_beam_count(starbase));
+  setWord (starbase_reg+150, gwp_starbase_get_build_torp_type(starbase));
+  setWord (starbase_reg+152, gwp_starbase_get_build_torp_count(starbase));
+  setWord (starbase_reg+154, 0); /* Loser... ;-) */
+
+  starbases_data = g_slist_append (starbases_data, (gpointer)starbase_reg);
+}
+
+static void
+ghfunc_dump_planet_data (gpointer key, gpointer value, gpointer user_data)
+{
+  GwpPlanet *planet = GWP_PLANET(value);
+  GSList *planets_data = (GSList *)user_data;
+  guchar *planet_reg = g_malloc0 (sizeof(guchar)*85);
+
+  if (gwp_planet_is_mine(planet)) {
+    /* Fill the 85 byte record */
+    setWord (planet_reg+0, gwp_game_state_get_race_nr(game_state));
+    setWord (planet_reg+2, gwp_object_get_id(GWP_OBJECT(planet)));
+    memcpy (planet_reg+4, gwp_planet_get_fcode(planet), 3);
+    setWord (planet_reg+7, gwp_planet_get_mines(planet));
+    setWord (planet_reg+9, gwp_planet_get_factories(planet));
+    setWord (planet_reg+11, gwp_planet_get_defense_posts(planet));
+    setDWord (planet_reg+13, gwp_planet_get_mined_neutronium(planet));
+    setDWord (planet_reg+17, gwp_planet_get_mined_tritanium(planet));
+    setDWord (planet_reg+21, gwp_planet_get_mined_duranium(planet));
+    setDWord (planet_reg+25, gwp_planet_get_mined_molybdenum(planet));
+    setDWord (planet_reg+29, gwp_planet_get_colonists(planet));
+    setDWord (planet_reg+33, gwp_planet_get_supplies(planet));
+    setDWord (planet_reg+37, gwp_planet_get_megacredits(planet));
+    setDWord (planet_reg+41, gwp_planet_get_ground_neutronium(planet));
+    setDWord (planet_reg+45, gwp_planet_get_ground_tritanium(planet));
+    setDWord (planet_reg+49, gwp_planet_get_ground_duranium(planet));
+    setDWord (planet_reg+53, gwp_planet_get_ground_molybdenum(planet));
+    setWord (planet_reg+57, gwp_planet_get_dens_neutronium(planet));
+    setWord (planet_reg+59, gwp_planet_get_dens_tritanium(planet));
+    setWord (planet_reg+61, gwp_planet_get_dens_duranium(planet));
+    setWord (planet_reg+63, gwp_planet_get_dens_molybdenum(planet));
+    setWord (planet_reg+65, gwp_planet_get_tax_colonists(planet));
+    setWord (planet_reg+67, gwp_planet_get_tax_natives(planet));
+    setWord (planet_reg+69, gwp_planet_get_happiness_colonists(planet));
+    setWord (planet_reg+71, gwp_planet_get_happiness_natives(planet));
+    setWord (planet_reg+73, gwp_planet_get_natives_spi(planet));
+    setDWord (planet_reg+75, gwp_planet_get_natives(planet));
+    setWord (planet_reg+79, gwp_planet_get_natives_race(planet));
+    setWord (planet_reg+81, gwp_planet_get_temperature(planet));
+    setWord (planet_reg+83, gwp_planet_get_build_base(planet));
+
+    planets_data = g_slist_append (planets_data, (gpointer)planet_reg);
+  }
 }
 
 static void

@@ -1127,7 +1127,16 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     gtk_label_set_text (natives_race, tmp);
     g_free(tmp);
 	
-    tmp = g_strdup_printf("%s", gwp_planet_get_natives_spi_chars (a_planet));
+    /* 
+     * WARNING: This is not corrected on the object itself because we
+     * need to generate the DAT file as we receive it... Tim, you
+     * rock!
+     */
+    if (gwp_planet_get_natives(a_planet) > 0) {
+      tmp = g_strdup_printf("%s", gwp_planet_get_natives_spi_chars (a_planet));
+    } else {
+      tmp = g_strdup_printf(_("none"));
+    }
     gtk_label_set_text (spi, tmp);
     g_free(tmp);
 	

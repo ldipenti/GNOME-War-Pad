@@ -3553,6 +3553,16 @@
   )
 )
 
+(define-method get_dat_filename
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_dat_filename")
+  (return-type "gchar*")
+  (parameters
+    '("gchar*" "prefix")
+    '("gchar*" "suffix")
+  )
+)
+
 (define-method set_name
   (of-object "GwpGameState")
   (c-name "gwp_game_state_set_name")
