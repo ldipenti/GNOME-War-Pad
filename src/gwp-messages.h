@@ -34,6 +34,14 @@
 #define true !0
 #define false 0
 
+enum{
+  GWP_MESSAGE_IS_NORMAL,
+  GWP_MESSAGE_IS_URGENT,
+  GWP_MESSAGE_IS_INTERESTING,
+  GWP_MESSAGE_IS_POSITIVE,
+  GWP_MESSAGE_IS_NEGATIVE
+};
+
 typedef struct
 {
     long a;
@@ -111,6 +119,7 @@ char *gwp_messages_getMessageSubject( GwpMessages *self, int id );
 char *gwp_messages_getMessageHeader( GwpMessages *self, int id );
 char *gwp_messages_getMessageHeaderLong( GwpMessages *self, int id );
 char *gwp_messages_getMessageCategory( GwpMessages *self, int id );
+gint gwp_messages_getSubjectColour( GwpMessages *self, gint id );
 bool gwp_messages_messageIsOld( GwpMessages *self, int id );
 int gwp_messages_readWord( GwpMessages *self, FILE *from );
 long gwp_messages_readDWord( GwpMessages *self, FILE *from );

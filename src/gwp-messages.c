@@ -968,6 +968,69 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory finished" );
 }
 
 
+
+gint gwp_messages_getSubjectColour( GwpMessages *self, gint id )
+{
+  gint retval;
+  gchar msgbody[1024];
+  gint msglen;
+  gint i;
+  retval = GWP_MESSAGE_IS_NORMAL;
+
+  /* checking for special cases */
+  msgbody[0] = '\0';
+  strncat( msgbody, gwp_messages_getMessageRaw( self, id ), 1023 );
+  msglen = strlen( msgbody );
+  /* distinguish between enemy and own minefields */
+  if( msgbody[2] == 'm' )
+  {
+    retval = GWP_MESSAGE_IS_POSITIVE;
+    i = 0;
+    while( i < msglen-9 )
+    {
+      if( msgbody[i] == 'f' )
+        if( strncmp( msgbody+i, "for mines", 9 ) == 0 )
+        {
+          retval = GWP_MESSAGE_IS_NEGATIVE;
+          i = msglen; /* break */
+        }
+      i++;
+    }
+  }
+  /* distinguish between sensor scans with good and bad news */
+  if( msgbody[2] == 'z' )
+  {
+    i = 0;
+    while( i < msglen-11 )
+    {
+      if( msgbody[i] == 'a' )
+        if( strncmp( msgbody+i, "are enemy", 9 ) == 0 )
+        {
+          retval = GWP_MESSAGE_IS_NEGATIVE;
+          i = msglen; /* break */
+        }
+      if( msgbody[i] == 't' )
+        if( strncmp( msgbody+i, "there to be", 11 ) == 0 )
+        {
+          retval = GWP_MESSAGE_IS_NEGATIVE;
+          i = msglen; /* break */
+        }
+      if( msgbody[i] == 'c' )
+        if( strncmp( msgbody+i, "clear to co", 11 ) == 0 )
+          retval = GWP_MESSAGE_IS_POSITIVE;
+      if( msgbody[i] == 'l' )
+        if( strncmp( msgbody+i, "lifeforms", 9 ) == 0 )
+          retval = GWP_MESSAGE_IS_POSITIVE;
+      i++;
+    }
+  }
+
+  /* done */
+  return( retval );
+}
+
+
+
 bool gwp_messages_messageIsOld( GwpMessages *self, int id )
 {
 if( DEBUGOUTPUT ) g_message("DEBUG: isOld called" );

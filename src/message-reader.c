@@ -207,7 +207,25 @@ void subject_cell_data_func (GtkTreeViewColumn *col,
     /* row is child */
     buf[0]='\0';
     strcat( buf, gwp_messages_getMessageSubject( messages, ident-1 ) );
-    g_object_set( renderer, "foreground", "Black", "foreground-set", TRUE, NULL );
+    switch( gwp_messages_getSubjectColour( messages, ident-1 ) )
+    {
+      case GWP_MESSAGE_IS_URGENT:
+        g_object_set( renderer, "foreground", "Red", "foreground-set", TRUE, NULL );
+        break;
+      case GWP_MESSAGE_IS_INTERESTING:
+        g_object_set( renderer, "foreground", "Blue", "foreground-set", TRUE, NULL );
+        break;
+      case GWP_MESSAGE_IS_POSITIVE:
+        g_object_set( renderer, "foreground", "DarkGreen", "foreground-set", TRUE, NULL );
+        break;
+      case GWP_MESSAGE_IS_NEGATIVE:
+        g_object_set( renderer, "foreground", "DarkRed", "foreground-set", TRUE, NULL );
+        break;
+      case GWP_MESSAGE_IS_NORMAL:
+      default:
+        g_object_set( renderer, "foreground", "Black", "foreground-set", TRUE, NULL );
+        break;
+    }
     g_object_set( renderer, "weight", PANGO_WEIGHT_BOLD, "weight-set", FALSE, NULL );
   }
 

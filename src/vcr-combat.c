@@ -358,6 +358,8 @@ void vcrc_fight( battlefield *battle )
       gtk_main_iteration();
     /* slow down */
     usleep( VCRCGL_SIMULATION_DELAY );
+/* show the user that something happens :-) */
+g_message( "Time: %4d Microns, Distance %5d Kellicams", battle->time, abs( battle->a.position - battle->b.position ) );
   }
 }
 
