@@ -143,6 +143,21 @@ void gwp_torpspec_set_id (GwpTorpSpec *self, gint id)
   self->priv->id = id;
 }
 
+GString * gwp_torpspec_get_name (GwpTorpSpec *self)
+{
+  g_assert (GWP_IS_TORPSPEC(self));
+
+  return g_string_new (self->priv->name->str);
+}
+
+void gwp_torpspec_set_name (GwpTorpSpec *self, GString *name)
+{
+  g_assert (GWP_IS_TORPSPEC(self));
+  g_assert (name != NULL && name->len <= 20);
+
+  self->priv->name = g_string_assign (self->priv->name, name->str);
+}
+
 gint gwp_torpspec_get_torpedo_cost (GwpTorpSpec *self)
 {
   g_assert (GWP_IS_TORPSPEC(self));
@@ -150,7 +165,7 @@ gint gwp_torpspec_get_torpedo_cost (GwpTorpSpec *self)
   return self->priv->torpedo_cost;
 }
 
-void gwp_tospspec_set_torpedo_cost (GwpTorpSpec *self, gint tc)
+void gwp_torpspec_set_torpedo_cost (GwpTorpSpec *self, gint tc)
 {
   g_assert (GWP_IS_TORPSPEC(self));
   g_assert (tc >= 0);
@@ -268,4 +283,12 @@ gint gwp_torpspec_get_damage_value (GwpTorpSpec *self)
   g_assert (GWP_IS_TORPSPEC(self));
 
   return self->priv->damage_value;
+}
+
+void gwp_torpspec_set_damage_value (GwpTorpSpec *self, gint dv)
+{
+  g_assert (GWP_IS_TORPSPEC(self));
+  g_assert (dv >= 0);
+
+  self->priv->damage_value = dv;
 }
