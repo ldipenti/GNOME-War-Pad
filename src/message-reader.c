@@ -23,7 +23,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr textview init called" );
   g_object_set_data(G_OBJECT(reader), "message_instance", messages);
 
   /* set a monospace font for the message display */
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
+  GtkWidget *textview = lookup_widget( "reader_textview" );
   PangoFontDescription *pfontdesc = pango_font_description_from_string( "Monospace 10" );
   gtk_widget_modify_font( textview, pfontdesc );
 
@@ -385,7 +385,7 @@ void message_reader_change_messagefile( GtkWidget *widget,
   message_reader_get_msgfilename( widget, user_data, tmpname, msgindex[gtk_combo_box_get_active( turnnmb )+1] );
   gwp_messages_readFile( messages, tmpname );
 
-  /* refresh all gui stuff*
+  /* refresh all gui stuff */
   /* TODO */
 GtkWidget *reader = lookup_widget("reader");
 /* display the first message */
