@@ -23,6 +23,7 @@
  */
  
 #include <gnome.h>
+#include <string.h>
 
 #include "global.h"
 #include "vp_types.h"
