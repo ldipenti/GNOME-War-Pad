@@ -87,7 +87,6 @@
 #define PANEL_PLANET_PAGE 0
 #define PANEL_SHIP_PAGE 1
 #define PANEL_MISC_PAGE 2
-#define MOUSE_INTERLEAVE 5
 #define SCROLL 20
 
 #define MINI_SC_PAGE 0
