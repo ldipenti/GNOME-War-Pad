@@ -503,9 +503,11 @@ void destroy_gobject (gpointer key, gpointer value, gpointer user_data)
 /* Returns the format version number */
 gint game_state_get_version(void)
 {
-  return gconf_client_get_int(gwp_gconf, 
-			      g_strconcat(GWP_GCONF_PATH, "version", NULL),
-			      NULL); 
+  gint ret = 0;
+  ret = gconf_client_get_int(gwp_gconf, 
+			     g_strconcat(GWP_GCONF_PATH, "version", NULL),
+			     NULL);
+  return ret;
 }
 
 void game_state_set_version(gint version)

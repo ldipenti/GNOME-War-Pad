@@ -62,7 +62,10 @@ void game_mgr_init(void)
     games = gconf_client_all_dirs(gwp_gconf, games_path, NULL);
     
     /* Check for format version */
-    if(game_state_get_version() != GAME_STATE_VERSION) {
+    if (game_state_get_version() == 0) {
+      /* Set current version for first GWP execution users */
+      game_state_set_version (GAME_STATE_VERSION);
+    } else if (game_state_get_version() < GAME_STATE_VERSION) {
       delete = TRUE;
       if(games) {
 	/* Warn the user about its games being deleted */

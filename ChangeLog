@@ -1,3 +1,6 @@
+	* Bugfix: new users were having problems with gconf format version
+	  checks.
+
 Version 0.3.0 (released 05-23-2004):
 
 	* New ship pictures.
