@@ -108,14 +108,23 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
   if( vcr_planet_selected( widget, user_data ) == 1 )
   {
     /* side b is a planet with or without starbase */
+g_message( "DEBUG: 1" );
     cdata.g_b_is_ship = 0;
+g_message( "DEBUG: 2" );
     cdata.p_has_base = vcr_base_selected( widget, user_data ) ? 1 : 0;
+g_message( "DEBUG: 3" );
     cdata.p_typ_beams = vcr_get( widget, user_data, BASE, LVL_BEAM, VAL_CUR );
+g_message( "DEBUG: 4" );
     cdata.p_nmb_pdefense = vcr_get( widget, user_data, PLANET, NMB_DEF, VAL_CUR );
+g_message( "DEBUG: 5" );
     cdata.p_nmb_bdefense = vcr_get( widget, user_data, BASE, NMB_DEF, VAL_CUR );
+g_message( "DEBUG: 6" );
     cdata.p_nmb_fighter = vcr_get( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR );
+g_message( "DEBUG: 7" );
     cdata.b_shield = 0;
+g_message( "DEBUG: 8" );
     cdata.b_hull = 0;
+g_message( "DEBUG: 9" );
     cdata.b_crew = 0;
     cdata.b_typ_hull = 0;
     cdata.b_nmb_beams = 0;
@@ -125,6 +134,7 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
     cdata.b_nmb_torps = 0;
     cdata.b_nmb_tubes = 0;
     cdata.b_typ_torps = 0;
+g_message( "DEBUG: 0" );
   } else {
     /* side b is a ship */
     cdata.g_b_is_ship = 1;
@@ -3003,12 +3013,10 @@ void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
       if( type == idlist[i] )
         vcr_set( widget, user_data, SHIP_A, TYP_HULL, VAL_CUR, i-1 );
   }
-g_message( "DEBUG: 3" );
   vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR, gwp_ship_get_beams( ship ) );
   vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_MAX,gwp_ship_get_hull_cargo( ship )  );
   vcr_set( widget, user_data, SHIP_A, LVL_BEAM, VAL_CUR, gwp_ship_get_beams_type( ship ) );
   vcr_set( widget, user_data, SHIP_A, LVL_ENGINE, VAL_CUR, gwp_ship_get_engines_type( ship )+1 );
-g_message( "DEBUG: vcr_ship_a_selected OUT" );
 }
 
 
@@ -3170,12 +3178,14 @@ void vcr_ship_a_hull_selected( GtkWidget *widget, gpointer user_data )
     }
     else {
       vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_MAX, gwp_hullspec_get_torp_launchers( hull ) );
+      vcr_set( widget, user_data, SHIP_A, NMB_TUBEBAY, VAL_CUR, gwp_hullspec_get_torp_launchers( hull ) );
     }
     vcr_set( widget, user_data, SHIP_A, NMB_TORPFIG, VAL_MAX, gwp_hullspec_get_cargo( hull ) );
     vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_MAX, gwp_hullspec_get_crew( hull ) );
     vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_MAX, gwp_hullspec_get_beam_weapons( hull ) );
-    /* assume crew members are complete */
+    /* assume a ship in 'good' shape */
     vcr_set( widget, user_data, SHIP_A, NMB_CREW, VAL_CUR, gwp_hullspec_get_crew( hull ) );
+    vcr_set( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR, gwp_hullspec_get_beam_weapons( hull ) );
   }
 }
 
@@ -3218,12 +3228,14 @@ void vcr_ship_b_hull_selected( GtkWidget *widget, gpointer user_data )
     }
     else {
       vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_MAX, gwp_hullspec_get_torp_launchers( hull ) );
+      vcr_set( widget, user_data, SHIP_B, NMB_TUBEBAY, VAL_CUR, gwp_hullspec_get_torp_launchers( hull ) );
     }
     vcr_set( widget, user_data, SHIP_B, NMB_TORPFIG, VAL_MAX, gwp_hullspec_get_cargo( hull ) );
     vcr_set( widget, user_data, SHIP_B, NMB_CREW, VAL_MAX, gwp_hullspec_get_crew( hull ) );
     vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_MAX, gwp_hullspec_get_beam_weapons( hull ) );
-    /* assume crew members are complete */
+    /* assume a ship in 'good' shape */
     vcr_set( widget, user_data, SHIP_B, NMB_CREW, VAL_CUR, gwp_hullspec_get_crew( hull ) );
+    vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_CUR, gwp_hullspec_get_beam_weapons( hull ) );
   }
 }
 
