@@ -67,7 +67,7 @@ class Quark(gwp.Plugin):
             self.report_verify_happyness(p, 'c') # Colonists
             self.report_verify_happyness(p, 'n') # Natives
         self.report_verify_colonists(p)
-        #self.report_verify_temperature(p) # Ve si conviene Terraformar
+        self.report_verify_temperature(p) # Ve si conviene Terraformar
         
     #--------------------------------------------------------------------------
     def calculate_future_happyness_natives(self, p):
@@ -272,24 +272,28 @@ class Quark(gwp.Plugin):
 
                 limit = p.get_col_growth_limit()
                 tax, max_i = self.calculate_max_income_from_natives(p)
-                print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
                 if (max_i < limit) or (max_i == 0):
                     # No interesa la temp, cobro poco
-                    print "Cobro poco"
                     return 0
                 else:
                     # La $$ cobrada es limitada por la temperatura
                     terraformado = p.copy()
-                    print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
-                    while max_i > limit:
+                    while max_i >= limit:
                         if (terraformado.get_temperature_f() < 50):
                             terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
                         else:
                             terraformado.set_temperature(100 - (terraformado.get_temperature_f() - 1))
                         limit = terraformado.get_col_growth_limit()
                         tax, max_i = self.calculate_max_income_from_natives(terraformado)
-                        print "Max: " + str(max_i) + " Limite: " + str(limit)
-                        print "A " + str(terraformado.get_temperature_f()) + " grados"
+                        #print "Max: " + str(max_i) + " Limite: " + str(limit)
+                        #print "A " + str(terraformado.get_temperature_f()) + " grados"
+
+                    factor_impuestos = (p.get_tax_rate_colonists() / 100) * (p.get_tax_rate_natives()/100)
+                    self.natt = self.natt +  _("TERRAFORMING to ") + str(terraformado.get_temperature_f()) + _(" degrees\n")
+                    self.natt = self.natt + _("You can collect ") + str(max_i) + _("MC with ") + str(max_i / factor_impuestos) + _(" colonists")
+
+                    if self.natt:
+                        self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_MEDIO, self.natt)
 
 
     #--------------------------------------------------------------------------
