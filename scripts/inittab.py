@@ -28,7 +28,8 @@ class PluginManager:
         if (event["type"] == gtk.gdk.KEY_PRESS):
             try:
                 # Call registered method
-                self.__key_hooks[event["state"]][event["keyval"]]()
+                # FIXME: why substract 16?
+                self.__key_hooks[event["state"] - 16][event["keyval"]]()
             except KeyError:
                 # Debugging message
                 print "PluginManager: key name '%s', mask '%d' not binded" % (gtk.gdk.keyval_name(event["keyval"]), event["state"])
