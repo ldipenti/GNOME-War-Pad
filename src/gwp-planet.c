@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002, 2003 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -100,6 +100,7 @@ static void gwp_planet_init (GTypeInstance *instance,
   GwpPlanet *self = (GwpPlanet *)instance;
   self->priv = g_new0 (GwpPlanetPrivate, 1);
   self->priv->dispose_has_run = FALSE;
+
   /* private attributes init */
   self->priv->is_known = FALSE;
   self->priv->starbase = NULL;
@@ -132,7 +133,6 @@ static void gwp_planet_init (GTypeInstance *instance,
   self->priv->natives_race = 0;
   self->priv->temperature = 0;
   self->priv->build_base = 0;
-  /* g_message("GwpPlanet init"); */
 }
 
 static void gwp_planet_dispose (GwpPlanet *self)
@@ -156,14 +156,12 @@ static void gwp_planet_finalize (GwpPlanet *self)
   /*
    * Here, complete object destruction.
    */
-  /* g_message ("GwpPlanet finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_planet_class_init (GwpPlanetClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  /* g_message ("GwpPlanetClass init"); */
   /*
    * Register destructor methods.
    */
@@ -710,7 +708,7 @@ void gwp_planet_set_mined_tritanium (GwpPlanet *self, gint32 mt)
 {
   g_assert (GWP_IS_PLANET(self));
   g_assert (mt >= 0);
-  self->priv->mined_neutronium = mt;
+  self->priv->mined_tritanium = mt;
 }
 
 gint32 gwp_planet_get_mined_duranium (GwpPlanet *self)
