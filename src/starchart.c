@@ -853,20 +853,33 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 }
 
 void draw_ion_storm (gpointer data, gpointer user_data)
-{
+{ 
   GnomeCanvasItem *item = NULL;
+  GnomeCanvasItem *item_arrow = NULL;
   GtkWidget *starchart = (GtkWidget *)starchart_get_canvas();
   GnomeCanvasGroup *group = gnome_canvas_root(GNOME_CANVAS(starchart));
   GwpIonStorm *storm = GWP_ION_STORM(data);
   gdouble xi, yi;
+  GnomeCanvasPoints *points;
 
   if (gwp_ion_storm_is_valid (storm)) {
+
+    gchar * storm_colors[] = {
+      "invalid color",
+      "green",        /* Class 1 */
+      "light green",  /* Class 2 */
+      "yellow",       /* Class 3 */
+      "indian red",          /* Class 4 */
+      "red"    /* Class 5 */
+    };
+
+    /* FIXME: make a canvas group for storms!!! */
     vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(storm)),
 		  gwp_object_get_y_coord(GWP_OBJECT(storm)), &xi, &yi);
 
     gint radius = gwp_ion_storm_get_radius (storm);
     item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
-				  "outline_color", "red",
+				  "outline_color", storm_colors[gwp_ion_storm_get_class(storm)],
 				  "x1", xi - radius,
 				  "y1", yi - radius,
 				  "x2", xi + radius,
@@ -874,6 +887,36 @@ void draw_ion_storm (gpointer data, gpointer user_data)
 				  "width_pixels", 1,
 				  "fill_color_rgba", UNIVERSE_COLOR_A,
 				  NULL);
+
+    points = gnome_canvas_points_new (3);
+    gint storm_speed = gwp_fo_get_speed (GWP_FLYING_OBJECT(storm));
+    g_assert (storm_speed > 0);
+
+    /* Draw storm arrow */
+    points->coords[0] = xi - (storm_speed*storm_speed / 4 / 2); /* 1st point */
+    points->coords[1] = yi - radius;
+    points->coords[2] = xi + (storm_speed*storm_speed / 4 / 2); /* 2nd point */
+    points->coords[3] = yi - radius;
+    points->coords[4] = xi;                          /* 3rd point */
+    points->coords[5] = yi - radius - storm_speed*storm_speed;
+
+    item_arrow = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_POLYGON,
+					"outline_color", storm_colors[gwp_ion_storm_get_class(storm)],
+					"points", points,
+					"width_pixels", 1,
+					NULL);
+    gnome_canvas_points_free (points);
+
+    /* Rotate arrow */
+    gdouble r[6], t[6];
+
+    art_affine_translate (t, -xi, -yi);
+    art_affine_rotate (r, (gdouble)gwp_fo_get_heading(GWP_FLYING_OBJECT(storm)));
+    art_affine_multiply (r, t, r);
+    art_affine_translate (t, xi, yi);
+    art_affine_multiply (r, r, t);
+    
+    gnome_canvas_item_affine_absolute (item_arrow, r);
   }
 }
 
@@ -889,6 +932,7 @@ void draw_minefield (gpointer data, gpointer user_data)
     vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(minefield)),
 		  gwp_object_get_y_coord(GWP_OBJECT(minefield)), &xi, &yi);
 
+    /* FIXME: Make a canvas group form minefields!!! */
     if (gwp_minefield_is_web (minefield)) {
       item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
 				    "outline_color", "dark khaki",
