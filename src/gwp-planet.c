@@ -333,7 +333,13 @@ gint gwp_planet_get_def_sys_battle_mass(GwpPlanet *self)
   return ret;
 }
 
-/* Calculates the colonists population limit */
+/**
+ * Calculates the colonists population limit.
+ *
+ * @param self a GwpPlanet
+ * @return The maximum number of colonist clans that can live without
+ * dying on the planet.
+ */
 gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
 {
   gint ret = 0;
@@ -362,7 +368,13 @@ gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
   return ret; 
 }
 
-/* Calculates the native population limit */
+/**
+ * Calculates the native population limit.
+ *
+ * @param self a GwpPlanet
+ * @return The maximum number of native clans that can live on the
+ * planet.
+ */
 gint gwp_planet_get_nat_growth_limit(GwpPlanet *self)
 {
   gint ret = 0;
@@ -385,6 +397,12 @@ gint gwp_planet_get_nat_growth_limit(GwpPlanet *self)
   return ret;
 }
 
+/**
+ * Copies the planet object.
+ *
+ * @param self the GwpPlanet to be copied.
+ * @return An exact copy of the original GwpPlanet.
+ */
 GwpPlanet * gwp_planet_copy (GwpPlanet *self)
 {
   GwpPlanet *p_copy;
@@ -407,11 +425,25 @@ GwpPlanet * gwp_planet_copy (GwpPlanet *self)
   return p_copy;
 }
 
+/**
+ * Search and retrieve a planet.
+ *
+ * @param list a hast table with all the planets on the game.
+ * @param planet_id the planet ID.
+ * @return The GwpPlanet or NULL if doesn't exist.
+ */
 GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id)
 {
   return (GwpPlanet *) g_hash_table_lookup(list, (gconstpointer)planet_id);
 }
 
+/**
+ * Check if the given planet has valid coordinates
+ *
+ * @param self a GwpPlanet
+ * @return TRUE if the current planet has valid coordinates, FALSE
+ * otherwise.
+ */
 gboolean gwp_planet_valid_coords (GwpPlanet *self) 
 {
   g_assert(GWP_IS_PLANET(self));
@@ -446,13 +478,25 @@ gint gwp_planet_what_is (GwpPlanet *self)
   }
 }
 
-/* Returns temp in ºF */
+/**
+ * Returns planet's temperature in ºF.
+ *
+ * @param self a GwpPlanet.
+ * @return the temperature value.
+ */
 gint16 gwp_planet_get_temperature_f (GwpPlanet *self) 
 {
   return 100 - gwp_planet_get_temperature(self);
 }
 
-/* Returns temp in string */
+/**
+ * Returns planet's temperature label in a string.
+ *
+ * @param self a GwpPlanet.
+ * @return The character string representing the planet's
+ * temperature.
+ * @see _GwpPlanetPrivate::temperature
+ */
 gchar * gwp_planet_get_temperature_str(GwpPlanet *self)
 {
   gint16 temp;
@@ -474,6 +518,16 @@ gchar * gwp_planet_get_temperature_str(GwpPlanet *self)
   }
 }
 
+/**
+ * Calculates the planet visibility.
+ *
+ * Based on the amount of mineral mines, supplies factories and
+ * defense posts, calculate the percentaje of being spotted as an
+ * habited planet.
+ *
+ * @param self a GwpPlanet.
+ * @return The % of being spotted.
+ */
 gint gwp_planet_get_visibility(GwpPlanet *self)
 {
   gint ret;
@@ -489,6 +543,15 @@ gint gwp_planet_get_visibility(GwpPlanet *self)
   return ret;
 }
 
+/**
+ * Calculates the happiness change on colonists.
+ *
+ * Based on several planet's characteristics and taxes, calculates how
+ * much more or less happy will be the colonists next turn.
+ *
+ * @param self a GwpPlanet.
+ * @return The happiness change.
+ */
 gint gwp_planet_get_happiness_col_change (GwpPlanet *self)
 {
   gint ret;
@@ -511,6 +574,15 @@ gint gwp_planet_get_happiness_col_change (GwpPlanet *self)
   return ret;
 }
 
+/**
+ * Calculates the happiness change on natives.
+ *
+ * Based on several planet's characteristics and taxes, calculates how
+ * much more or less happy will be the natives next turn.
+ *
+ * @param self a GwpPlanet.
+ * @return The happiness change.
+ */
 gint gwp_planet_get_happiness_nat_change (GwpPlanet *self)
 {
   gint ret = 0;
@@ -527,10 +599,16 @@ gint gwp_planet_get_happiness_nat_change (GwpPlanet *self)
   if(gwp_planet_get_natives_race (self) == NATIVE_AVIAN) {
     ret += 10;
   }
-
   return ret;
 }
 
+/**
+ * Returns the name of the native race that live on the planet.
+ *
+ * @param self a GwpPlanet.
+ * @return The native race's name.
+ * @see _GwpPlanetPrivate::natives
+ */
 gchar * gwp_planet_get_natives_race_chars (GwpPlanet *self)
 {
   gchar * race[] = {
@@ -549,6 +627,13 @@ gchar * gwp_planet_get_natives_race_chars (GwpPlanet *self)
   return race[gwp_planet_get_natives_race (self)];
 }
 
+/**
+ * Returns the native's government type on the current planet.
+ *
+ * @param self a GwpPlanet.
+ * @return The native government type name.
+ * @see _GwpPlanetPrivate::spi
+ */
 gchar * gwp_planet_get_natives_spi_chars (GwpPlanet *self)
 {
   gchar * spi[] = {
@@ -567,6 +652,12 @@ gchar * gwp_planet_get_natives_spi_chars (GwpPlanet *self)
   return spi[gwp_planet_get_natives_spi (self)];
 }
 
+/**
+ * TRUE if the current planet has an orbiting starbase.
+ *
+ * @param self a GwpPlanet.
+ * @return TRUE if planet has a starbase.
+ */
 gboolean gwp_planet_has_starbase (GwpPlanet *self)
 {
   gboolean ret = FALSE;
@@ -579,8 +670,10 @@ gboolean gwp_planet_has_starbase (GwpPlanet *self)
   return ret;
 }
 
-/* This function returns a number between 0.0 and 1.0, to be
-   fed on a progress bar */
+/**
+ * This function returns a number between 0.0 and 1.0, to be
+ * fed on a progress bar.
+ */
 gdouble gwp_planet_get_ground_percent(gint mineral)
 {
   gdouble ret = mineral / 10000.0;
@@ -644,7 +737,12 @@ gint gwp_planet_duranium_turns_left(GwpPlanet *self)
 				       gwp_planet_duranium_extraction_rate(self));
 }
 
-/* Calculates how many MC will collect a planet from colonists taxes */
+/**
+ * Calculates how many MC will collect a planet from colonists taxes.
+ *
+ * @param self a GwpPlanet.
+ * @return The amount of MC collected from colonists.
+ */
 gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
 {
   gint ret;
@@ -659,7 +757,12 @@ gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
 }
 
 
-/* Calculates how many MC will collect a planet from native taxes */
+/**
+ * Calculates how many MC will collect a planet from native taxes.
+ *
+ * @param self a GwpPlanet.
+ * @return The amount of MC collected from natives.
+ */
 gint gwp_planet_get_tax_earned_natives(GwpPlanet *self)
 {
   gint ret;
