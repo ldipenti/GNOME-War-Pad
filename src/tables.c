@@ -27,7 +27,6 @@
 
 #include "tables.h"
 #include "global.h"
-#include "planet.h"
 #include "support.h"
 
 void table_all_init(void)
@@ -110,9 +109,9 @@ void table_population_init(void)
 
 /* Updates estimation table */
 /* FIXME: Checks for mine & factory decay rates aren't being done!!! */
-void table_population_update(Planet *a_planet)
+void table_population_update(GwpPlanet *a_planet)
 {
-  Planet *planet;
+  GwpPlanet *planet;
   GtkTreeView *table_pop;
   GtkListStore *store;
   GtkTreeIter iter;
@@ -132,10 +131,10 @@ void table_population_update(Planet *a_planet)
     N_COLUMNS
   };
 
-  g_assert(a_planet != NULL);
+  g_assert(GWP_IS_PLANET(a_planet));
 
   /* Copy planet struct to fake future planet's state */
-  planet = planet_copy(a_planet);
+  planet = gwp_planet_copy(a_planet);
 
   table_pop = (GtkTreeView *) lookup_widget("treeview_population");
   store = (GtkListStore *) gtk_tree_view_get_model(table_pop);
@@ -143,12 +142,12 @@ void table_population_update(Planet *a_planet)
   gtk_list_store_clear(store);
 
   /* Do math if planet is well known */
-  if(planet_is_known(planet) && planet_is_mine(planet)) {
-    natives_before = planet_get_natives(planet);
-    colonists_before = planet_get_colonists(planet);
+  if(gwp_planet_is_known(planet) && gwp_planet_is_mine(planet)) {
+    natives_before = gwp_planet_get_natives(planet);
+    colonists_before = gwp_planet_get_colonists(planet);
 
-    nat_growth_limit = planet_get_nat_growth_limit(planet);
-    col_growth_limit = planet_get_col_growth_limit(planet);
+    nat_growth_limit = gwp_planet_get_nat_growth_limit(planet);
+    col_growth_limit = gwp_planet_get_col_growth_limit(planet);
 
     for(turn = game_get_turn_number(game_state)+1; 
 	turn <= game_get_turn_number(game_state)+11; turn++) {
@@ -156,16 +155,16 @@ void table_population_update(Planet *a_planet)
       /****************************/
       /* Calculate natives growth */
       /****************************/
-      if(planet_get_native_race(planet) != NATIVE_NONE) {
+      if(gwp_planet_get_natives_race(planet) != NATIVE_NONE) {
 	/* If they are not siliconoid... */
-	if(planet_get_native_race(planet) != NATIVE_SILICONOID) {
+	if(gwp_planet_get_natives_race(planet) != NATIVE_SILICONOID) {
 
-	  if((planet_get_natives(planet) < nat_growth_limit) &&
-	     (planet_get_happiness_natives(planet) >= 70)) {
+	  if((gwp_planet_get_natives(planet) < nat_growth_limit) &&
+	     (gwp_planet_get_happiness_natives(planet) >= 70)) {
 
-	    natives_growth = round(sin(3.14 * (gdouble)((100 - (gdouble)planet_get_temperature(planet)) / 100))
+	    natives_growth = round(sin(3.14 * (gdouble)((100 - (gdouble)gwp_planet_get_temperature(planet)) / 100))
 				   * ((gdouble)natives_before / 25)
-				   * (5.0/(planet_get_tax_natives(planet) 
+				   * (5.0/(gwp_planet_get_tax_natives(planet) 
 					   + 5)));
 	    /* Check if next turn will pass the limit */
 	    if((natives_before + natives_growth) > nat_growth_limit) {
@@ -178,11 +177,11 @@ void table_population_update(Planet *a_planet)
 
 	} /* If they are Siliconoid, treat them specially */
 	else {
-	  if(planet_get_natives(planet) < nat_growth_limit) {
-	    natives_growth = round(((gdouble)planet_get_temperature(planet)
+	  if(gwp_planet_get_natives(planet) < nat_growth_limit) {
+	    natives_growth = round(((gdouble)gwp_planet_get_temperature(planet)
 				    / 100)
 				   * ((gdouble)natives_before / 25)
-				   * (5.0/(planet_get_tax_natives(planet) 
+				   * (5.0/(gwp_planet_get_tax_natives(planet) 
 					   + 5)));
 	    /* Check if next turn will pass the limit */
 	    if((natives_before + natives_growth) > nat_growth_limit) {
@@ -203,12 +202,12 @@ void table_population_update(Planet *a_planet)
       /**********************************/
       if(game_get_race(game_state) != RACE_CRYSTALLINE) {
 
-	if((planet_get_colonists(planet) < col_growth_limit) &&
-	   (planet_get_happiness_colonists(planet) >= 70)) {
+	if((gwp_planet_get_colonists(planet) < col_growth_limit) &&
+	   (gwp_planet_get_happiness_colonists(planet) >= 70)) {
 
-	  colonists_growth = round(sin(3.14 * (gdouble)((100 - (gdouble)planet_get_temperature(planet)) / 100))
+	  colonists_growth = round(sin(3.14 * (gdouble)((100 - (gdouble)gwp_planet_get_temperature(planet)) / 100))
 				   * ((gdouble)colonists_before / 20)
-				   * (5.0/(planet_get_tax_colonists(planet)+5)));
+				   * (5.0/(gwp_planet_get_tax_colonists(planet)+5)));
 	  /* Check if next turn will pass the limit */
 	  if((colonists_before + colonists_growth) > col_growth_limit) {
 	    colonists_growth = col_growth_limit - colonists_before;
@@ -219,10 +218,10 @@ void table_population_update(Planet *a_planet)
 	}
       } /* Cystalline calculations */
       else {
-	if(planet_get_colonists(planet) < col_growth_limit) {
-	  colonists_growth = round(((gdouble)planet_get_temperature(planet)/100)
+	if(gwp_planet_get_colonists(planet) < col_growth_limit) {
+	  colonists_growth = round(((gdouble)gwp_planet_get_temperature(planet)/100)
 				   * ((gdouble)natives_before / 25)
-				   * (5.0/(planet_get_tax_natives(planet) + 5)));
+				   * (5.0/(gwp_planet_get_tax_natives(planet) + 5)));
 	  /* Check if next turn will pass the limit */
 	  if((colonists_before + colonists_growth) > col_growth_limit) {
 	    colonists_growth = col_growth_limit - colonists_before;
@@ -237,21 +236,21 @@ void table_population_update(Planet *a_planet)
       gtk_list_store_set(store, &iter,
 			 TURN_COLUMN, turn,
 			 COLONISTS_COLUMN, (colonists_before+colonists_growth),
-			 COL_HAPP_COLUMN, planet_get_happiness_colonists(planet) + planet_get_happiness_col_change(planet),
+			 COL_HAPP_COLUMN, gwp_planet_get_happiness_colonists(planet) + gwp_planet_get_happiness_col_change(planet),
 			 COL_GROWTH_COLUMN, colonists_growth,
 			 NATIVES_COLUMN, (natives_before + natives_growth),
-			 NAT_HAPP_COLUMN, planet_get_happiness_natives(planet) + planet_get_happiness_nat_change(planet),
+			 NAT_HAPP_COLUMN, gwp_planet_get_happiness_natives(planet) + gwp_planet_get_happiness_nat_change(planet),
 			 NAT_GROWTH_COLUMN, natives_growth,
 			 -1);
 
       natives_before += natives_growth;
       colonists_before += colonists_growth;
-      planet_set_happiness_natives(planet, 
-				   planet_get_happiness_natives(planet) 
-				   + planet_get_happiness_nat_change(planet));
-      planet_set_happiness_colonists(planet, 
-				     planet_get_happiness_colonists(planet) 
-				     + planet_get_happiness_col_change(planet));
+      gwp_planet_set_happiness_natives(planet, 
+				   gwp_planet_get_happiness_natives(planet) 
+				   + gwp_planet_get_happiness_nat_change(planet));
+      gwp_planet_set_happiness_colonists(planet, 
+				     gwp_planet_get_happiness_colonists(planet) 
+				     + gwp_planet_get_happiness_col_change(planet));
     }
   }
   g_free(planet);

@@ -66,6 +66,14 @@ GwpPlanet * gwp_planet_new (void);
 /**********************/
 /* High-level methods */
 /**********************/
+gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self);
+gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self);
+gint gwp_planet_get_def_sys_fighter_bays(GwpPlanet *self);
+gint gwp_planet_get_def_sys_battle_mass(GwpPlanet *self);
+
+gint gwp_planet_get_col_growth_limit(GwpPlanet *self);
+gint gwp_planet_get_nat_growth_limit(GwpPlanet *self);
+GwpPlanet * gwp_planet_copy (GwpPlanet *self);
 GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id);
 gboolean gwp_planet_valid_coords (GwpPlanet *self);
 gboolean gwp_planet_is_mine (GwpPlanet *self);

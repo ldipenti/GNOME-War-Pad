@@ -20,10 +20,10 @@
 #ifndef TABLES_H
 #define TABLES_H
 
-#include "planet.h"
+#include "gwp-planet.h"
 
 void table_all_init(void);
 void table_population_init(void);
-void table_population_update(Planet *planet);
+void table_population_update(GwpPlanet *planet);
 
 #endif

@@ -20,6 +20,8 @@
 #include <math.h>
 
 #include "gwp-planet.h"
+#include "gwp-starbase.h"
+#include "race.h"
 #include "global.h"
 #include "game_state.h"
 
@@ -180,6 +182,128 @@ GwpPlanet * gwp_planet_new (void)
 /**********************/
 /* High-level methods */
 /**********************/
+
+/* Global Defense Systems calculations */
+gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self)
+{
+  gint ret;
+
+  if(gwp_planet_has_starbase(self)) {
+    ret = round(sqrt(((gdouble)gwp_planet_get_defense_posts(self) +
+		      (gdouble)gwp_starbase_get_defense(gwp_planet_get_starbase(self)))
+		     / 3));
+  } else {
+    ret = round(sqrt((gdouble)gwp_planet_get_defense_posts(self) / 3));
+  }
+
+  return ret;
+}
+
+/* Global Defense Systems calculations */
+gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self)
+{
+  gint ret;
+
+  if(gwp_planet_get_defense_posts(self) >= 1) {
+    ret = round(sqrt((gdouble)gwp_planet_get_defense_posts(self) - 0.75));
+  } else {
+    /* Avoid a negative square root */
+    ret = 0;
+  }
+
+  /* Add starbase fighters */
+  if(gwp_planet_has_starbase(self)) {
+    ret += gwp_starbase_get_fighters(gwp_planet_get_starbase(self));
+  }
+
+  return ret;
+}
+
+/* Global Defense Systems calculations */
+gint gwp_planet_get_def_sys_fighter_bays(GwpPlanet *self)
+{
+  return trunc(sqrt(gwp_planet_get_defense_posts(self)));
+}
+
+/* Global Defense Systems calculations */
+gint gwp_planet_get_def_sys_battle_mass(GwpPlanet *self)
+{
+  gint ret;
+
+  if(gwp_planet_has_starbase(self)) {
+    ret = (100 + gwp_planet_get_defense_posts(self) 
+	   + gwp_starbase_get_defense(gwp_planet_get_starbase(self)));
+  } else {
+    ret = (100 + gwp_planet_get_defense_posts(self));
+  }
+
+  return ret;
+}
+
+/* Calculates the colonists population limit */
+gint gwp_planet_get_col_growth_limit(GwpPlanet *self)
+{
+  gint ret = 0;
+
+  g_assert(GWP_IS_PLANET(self));
+
+  if(gwp_planet_is_known(self) && gwp_planet_is_mine(self)) {
+
+    /* If planet conditions are good for life... */
+    if((gwp_planet_get_temperature(self) <= 84) &&
+       (gwp_planet_get_temperature(self) >= 15)) {
+      if(game_get_race(game_state) != RACE_CRYSTALLINE) {
+	ret = sin(3.14 * ((100.0 - (gdouble)gwp_planet_get_temperature(self))
+			  / 100.0)) * 100000;
+      } else {
+	/* If we are Crystalline... */
+	ret = gwp_planet_get_temperature(self) * 1000;
+      }
+    } else {
+      /* If planet conditions are extreme... */
+
+      /* FIXME!!!: We need to know host configuration for this... */
+    }
+  } 
+
+  return ret; 
+}
+
+/* Calculates the native population limit */
+gint gwp_planet_get_nat_growth_limit(GwpPlanet *self)
+{
+  gint ret = 0;
+
+  g_assert(GWP_IS_PLANET(self));
+
+  if(gwp_planet_is_known(self) && gwp_planet_is_mine(self)) {
+    if(gwp_planet_get_natives_race(self) != NATIVE_NONE) {
+      /* If the planet is ours and the natives aren't Siliconoid */
+      if(gwp_planet_get_natives_race(self) != NATIVE_SILICONOID) {
+	ret = sin(3.14 * ((100.0 - (gdouble)gwp_planet_get_temperature(self))
+			  / 100.0)) * 150000;
+      } else {
+	/* If they are Siliconoid, it's easier */
+	ret = gwp_planet_get_temperature(self) * 1000;
+      }
+    }
+  }
+  
+  return ret;
+}
+
+GwpPlanet * gwp_planet_copy (GwpPlanet *self)
+{
+  GwpPlanet *p_copy;
+
+  g_assert (GWP_IS_PLANET(self));
+
+  p_copy  = gwp_planet_new();
+  g_free (p_copy->priv);
+  p_copy->priv = g_malloc (sizeof(GwpPlanetPrivate));
+  p_copy->priv = memcpy (p_copy->priv, self->priv, sizeof(GwpPlanetPrivate));
+  return p_copy;
+}
 
 GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id)
 {
@@ -784,7 +908,11 @@ gint16 gwp_planet_get_happiness_colonists (GwpPlanet *self)
 void gwp_planet_set_happiness_colonists (GwpPlanet *self, gint16 tc)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (tc >= 0 && tc <= 100);
+
+  /* Boundary checks */
+  if (tc > 100) tc = 100;
+  if (tc < 0) tc = 0;
+
   self->priv->happiness_colonists = tc;
 }
 
@@ -797,7 +925,11 @@ gint16 gwp_planet_get_happiness_natives (GwpPlanet *self)
 void gwp_planet_set_happiness_natives (GwpPlanet *self, gint16 tn)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (tn >= 0 && tn <= 100);
+
+  /* Boundary checks */
+  if (tn > 100) tn = 100;
+  if (tn < 0) tn = 0;
+
   self->priv->happiness_natives = tn;
 }
 

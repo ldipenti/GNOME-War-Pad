@@ -33,7 +33,6 @@
 #include "planet.h"
 #include "ship.h"
 #include "tables.h"
-#include "planet.h"
 #include "base.h"
 
 /*
@@ -128,12 +127,11 @@ void update_starbase_panel(gint16 planet_id)
   }
 }
 
-void update_global_defense_panel(gint16 planet_id)
+void update_global_defense_panel(GwpPlanet *planet)
 {
   GtkLabel *beams, *beams_type;
   GtkLabel *fighters, *fighter_bays;
   GtkLabel *battle_mass;
-  Planet *planet;
   gchar *tmp;
 
   beams = (GtkLabel *)lookup_widget("label_def_sys_beams");
@@ -142,23 +140,22 @@ void update_global_defense_panel(gint16 planet_id)
   fighter_bays = (GtkLabel *)lookup_widget("label_def_sys_fighter_bays");
   battle_mass = (GtkLabel *)lookup_widget("label_def_sys_battle_mass");
 
-  planet = gwp_planet_get(planet_list, planet_id);
-  if(planet_is_known(planet)) {
-    tmp = g_strdup_printf("%d", planet_get_def_sys_beams_nr(planet));
+  if(gwp_planet_is_known(planet)) {
+    tmp = g_strdup_printf("%d", gwp_planet_get_def_sys_beams_nr(planet));
     gtk_label_set_label(beams, tmp);
     g_free(tmp);
 
     gtk_label_set_label(beams_type, "FIXME!!");
 
-    tmp = g_strdup_printf("%d", planet_get_def_sys_fighters_nr(planet));
+    tmp = g_strdup_printf("%d", gwp_planet_get_def_sys_fighters_nr(planet));
     gtk_label_set_label(fighters, tmp);
     g_free(tmp);
 
-    tmp = g_strdup_printf("%d", planet_get_def_sys_fighter_bays(planet));
+    tmp = g_strdup_printf("%d", gwp_planet_get_def_sys_fighter_bays(planet));
     gtk_label_set_label(fighter_bays, tmp);
     g_free(tmp);
 
-    tmp = g_strdup_printf("%d", planet_get_def_sys_battle_mass(planet));
+    tmp = g_strdup_printf("%d", gwp_planet_get_def_sys_battle_mass(planet));
     gtk_label_set_label(battle_mass, tmp);
     g_free(tmp);
   } else {
@@ -1085,12 +1082,12 @@ starchart_select_nearest_planet (GtkWidget * gwp,
     starchart_mark_planet(planet_data);
     update_planet_panel (gwp, planet_data);
     update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet_data)));
+    starchart_mini_set_planet_img(planet_data);
+    table_population_update(planet_data);
+    update_global_defense_panel(planet_data);
 
     /*
-    update_global_defense_panel(planet_get_id(planet_data));
     update_starbase_panel(planet_get_id(planet_data));
-    table_population_update(planet_data);
-    starchart_mini_set_planet_img(planet_data);
     */
     return planet;
   } else {
@@ -1406,7 +1403,7 @@ void starchart_close_extra_panels(void)
 }
 
 /* Sets the planet image acording to the planet's temp */
-void starchart_mini_set_planet_img(Planet *planet) 
+void starchart_mini_set_planet_img(GwpPlanet *planet) 
 {
   GtkImage *p_img = (GtkImage *) lookup_widget("image_planet");
   GtkImage *sb, *img;
@@ -1414,38 +1411,38 @@ void starchart_mini_set_planet_img(Planet *planet)
   GdkPixmap *pixmap;
   gchar *img_name = DATADIR"/pixmaps/gwp/planets/planet";
 
-  if(!planet_is_known(planet)) {
+  if(!gwp_planet_is_known(planet)) {
     img_name = g_strconcat(img_name, "-unknown.png", NULL);
   } else {
-    if((planet_get_temperature_f(planet) >= 0) && 
-       (planet_get_temperature_f(planet) <= 9)) {
+    if((gwp_planet_get_temperature_f(planet) >= 0) && 
+       (gwp_planet_get_temperature_f(planet) <= 9)) {
       img_name = g_strconcat(img_name, "0-9.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 10) && 
-	      (planet_get_temperature_f(planet) <= 19)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 10) && 
+	      (gwp_planet_get_temperature_f(planet) <= 19)) {
       img_name = g_strconcat(img_name, "10-19.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 20) && 
-	      (planet_get_temperature_f(planet) <= 29)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 20) && 
+	      (gwp_planet_get_temperature_f(planet) <= 29)) {
       img_name = g_strconcat(img_name, "20-29.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 30) && 
-	      (planet_get_temperature_f(planet) <= 39)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 30) && 
+	      (gwp_planet_get_temperature_f(planet) <= 39)) {
       img_name = g_strconcat(img_name, "30-39.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 40) && 
-	      (planet_get_temperature_f(planet) <= 49)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 40) && 
+	      (gwp_planet_get_temperature_f(planet) <= 49)) {
       img_name = g_strconcat(img_name, "40-49.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 50) && 
-	      (planet_get_temperature_f(planet) <= 59)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 50) && 
+	      (gwp_planet_get_temperature_f(planet) <= 59)) {
       img_name = g_strconcat(img_name, "50-59.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 60) && 
-	      (planet_get_temperature_f(planet) <= 69)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 60) && 
+	      (gwp_planet_get_temperature_f(planet) <= 69)) {
       img_name = g_strconcat(img_name, "60-69.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 70) && 
-	      (planet_get_temperature_f(planet) <= 79)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 70) && 
+	      (gwp_planet_get_temperature_f(planet) <= 79)) {
       img_name = g_strconcat(img_name, "70-79.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 80) && 
-	      (planet_get_temperature_f(planet) <= 89)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 80) && 
+	      (gwp_planet_get_temperature_f(planet) <= 89)) {
       img_name = g_strconcat(img_name, "80-89.png", NULL);
-    } else if((planet_get_temperature_f(planet) >= 90) && 
-	      (planet_get_temperature_f(planet) <= 100)) {
+    } else if((gwp_planet_get_temperature_f(planet) >= 90) && 
+	      (gwp_planet_get_temperature_f(planet) <= 100)) {
       img_name = g_strconcat(img_name, "90-100.png", NULL);
     }
   }
@@ -1461,7 +1458,7 @@ void starchart_mini_set_planet_img(Planet *planet)
 		  0,0);
     
   /* Add starbase image if one exists on planet */
-  if(planet_has_starbase(planet)) {
+  if(gwp_planet_has_starbase(planet)) {
     sb = (GtkImage *) gtk_image_new_from_file(DATADIR"/pixmaps/gwp/planets/sbase1.png");
     pixbuf2 = gtk_image_get_pixbuf(sb);
     
