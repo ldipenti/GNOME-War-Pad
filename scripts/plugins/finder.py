@@ -119,11 +119,13 @@ class Finder(gwp.Plugin):
         gtk.main()
 
     def register(self, pm):
-        pm.set_hook_key('f', self.__main)
+        pm.set_hook_key(0, # No modifier
+                        gtk.gdk.keyval_from_name('f'),
+                        self.__main)
 
     # Cleaning up
     def unregister(self, pm):
-        pm.unset_hook_key('f')
+        pass
 
 #####
 # Load code
