@@ -5,7 +5,7 @@ import re
 
 class Finder(gwp.Plugin):
 
-    name = 'Ship Finder'
+    name = 'Finder'
     version = '0.2'
     author_name = 'Lucas Di Pentima, Nicolas Cesar'
     author_email = 'lucas@lunix.com.ar'

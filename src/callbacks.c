@@ -604,6 +604,7 @@ void on_about_activate(GtkWidget *widget)
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       "Sven Wergandt <summ@gmx.de>",
       "Cristian Abalos <abalosc@yahoo.com.ar>",
+      "Nicolas Cesar <ncesar@lunix.com.ar>",
       NULL
     };
     const gchar *documenters[] = {
