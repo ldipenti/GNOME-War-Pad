@@ -55,11 +55,12 @@ class Finder(gwp.Plugin):
 
     # Constructor
     def __init__(self):
+        long_desc = "Finder is the very first plugin written for GWP. Its main objective is to allow the player to quickly search objects using boolean operators. This plugin can be used as a base to write other plugins by novice GWP contributors, have fun!"
         gwp.Plugin.__init__(self,
                             "Ship Finder", "0.1",
                             "Lucas Di Pentima", "lucas@lunix.com.ar",
                             "A very simple plugin to search ships by several criteria",
-                            "", "GPL")
+                            long_desc, "GPL")
         self.__create_gui()
 
     def __create_gui(self):
