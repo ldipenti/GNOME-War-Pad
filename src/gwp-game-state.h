@@ -37,6 +37,8 @@
 #include <glib-object.h>
 
 #include "race.h"
+#include "gwp-planet.h"
+#include "gwp-ship.h"
 
 /*
  * Type macros.
@@ -119,8 +121,8 @@ gboolean gwp_game_state_get_extra_panel_open (GwpGameState *self);
 void gwp_game_state_set_plugin_mgr (GwpGameState *self, void *obj);
 void * gwp_game_state_get_plugin_mgr (GwpGameState *self);
 #endif
-gint gwp_game_state_get_selected_planet (GwpGameState *self);
-gint gwp_game_state_get_selected_ship (GwpGameState *self);
+GwpShip * gwp_game_state_get_selected_ship (GwpGameState *self);
+GwpPlanet * gwp_game_state_get_selected_planet (GwpGameState *self);
 
 /* Host configuration methods */
 gint gwp_game_state_get_host_mining_rate (GwpGameState *self, gint race);

@@ -20,8 +20,6 @@
 #include "global.h"
 #include "gwp-game-state.h"
 #include "game_mgr.h"
-#include "gwp-planet.h"
-#include "gwp-ship.h"
 
 enum {
   PROP_0,
@@ -70,8 +68,8 @@ struct _GwpGameStatePrivate {
   gint16 last_y_coord;
   gint16 x_coord;
   gint16 y_coord;
-  gint selected_planet;
-  gint selected_ship;
+  GwpPlanet *selected_planet;
+  GwpShip *selected_ship;
 
   /*******************************/
   /* Host configuration settings */
@@ -435,8 +433,8 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->distance_calc = FALSE;
   self->priv->x_coord = 0;
   self->priv->y_coord = 0;
-  self->priv->selected_planet = 0;
-  self->priv->selected_ship = 0;
+  self->priv->selected_planet = NULL;
+  self->priv->selected_ship = NULL;
   self->priv->warn_korefile = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
@@ -732,7 +730,7 @@ void
 selected_planet_notification (GObject *planet, gpointer data)
 {
   GwpGameState *self = GWP_GAME_STATE(data);
-  self->priv->selected_planet = gwp_object_get_id (GWP_OBJECT(planet));
+  self->priv->selected_planet = GWP_PLANET(planet);
 }
 /**
  * Callback connected to selected ship signal, updates game state data.
@@ -741,7 +739,7 @@ void
 selected_ship_notification (GObject *ship, gpointer data)
 {
   GwpGameState *self = GWP_GAME_STATE(data);
-  self->priv->selected_ship = gwp_object_get_id (GWP_OBJECT(ship));
+  self->priv->selected_ship = GWP_SHIP(ship);
 }
 
 
@@ -1007,9 +1005,9 @@ void * gwp_game_state_get_plugin_mgr (GwpGameState *self)
 #endif
 
 /**
- * Returns the current selected planet ID.
+ * Returns the current selected planet
  */
-gint 
+GwpPlanet *
 gwp_game_state_get_selected_planet (GwpGameState *self)
 {
   g_assert (GWP_IS_GAME_STATE(self));
@@ -1017,9 +1015,9 @@ gwp_game_state_get_selected_planet (GwpGameState *self)
 }
 
 /**
- * Returns the current selected ship ID.
+ * Returns the current selected ship
  */
-gint 
+GwpShip *
 gwp_game_state_get_selected_ship (GwpGameState *self)
 {
   g_assert (GWP_IS_GAME_STATE(self));
