@@ -67,5 +67,6 @@ enum races {
 
 gchar *race_get_name(enum races racenum);
 gdouble race_get_tax_rate_colonists(GwpPlanet *planet);
+gdouble race_get_tax_rate_natives (GwpPlanet *planet);
 
 #endif
