@@ -3125,4 +3125,9 @@
   )
 )
 
+(define-function get_system_plugins_dir
+  (c-name "get_system_plugins_dir")
+  (return-type "gchar*")
+)
+
 

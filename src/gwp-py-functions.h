@@ -52,6 +52,7 @@ gchar * get_path_pic_hull(gint nr);
 /* FIXME: Does really need to return a void pointer??? */
 void * get_truehull(void);
 gchar * get_race_name(gint nr);
+gchar * get_system_plugins_dir(void);
 
 
 #endif /* USE_PYTHON */

@@ -229,3 +229,11 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
 			  DATADIR"/pixmaps/gwp/ships", ship_nr);
   return PyString_FromString (path);
 }
+%%
+override get_system_plugins_dir noargs
+static PyObject *
+_wrap_get_system_plugins_dir (PyObject *self)
+{
+  return PyString_FromString (GWP_SCRIPTS_DIR);
+}
+
