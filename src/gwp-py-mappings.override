@@ -23,3 +23,13 @@ import gobject.GObject as PyGObject_Type
 ignore-glob
   *_get_type
 %%
+override gwp_ship_get_waypoint noargs
+static PyObject *
+_wrap_gwp_ship_get_waypoint (PyGObject *self)
+{
+  int wp_x, wp_y;
+  
+  gwp_ship_get_waypoint (GWP_SHIP (self->obj), &wp_x, &wp_y);
+  
+  return Py_BuildValue("(ii)", wp_x, wp_y); 
+}
