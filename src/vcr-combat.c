@@ -7,7 +7,7 @@
 #define FED_CREW_BONUS 0
 
 
-#define VCRCGL_SIMULATION_DELAY 100000
+#define VCRCGL_SIMULATION_DELAY 50000
 
 /*
  *  this is the MAIN PUBLIC function.
@@ -38,9 +38,6 @@ void vcrc_combat_start( combatdata *cdata )
 
   /* Hey Ho ... Let's GO */
   vcrc_fight( &battle );
-
-while( gtk_events_pending() )
-  gtk_main_iteration();
 
   /* print the most important values of each combatant after battle */
   vcrc_print_summary( &battle, cdata );
@@ -207,7 +204,7 @@ void vcrc_prepare_fighters( combatdata *cdata, battlefield *battle )
       battle->b.fighters.number += cdata->p_nmb_fighter;
       battle->b.bays.number += 5;
     }
-g_message( "VCR-DEBUG: fighters %d, bays %d", battle->b.fighters.number, battle->b.bays.number );
+//g_message( "VCR-DEBUG: fighters %d, bays %d", battle->b.fighters.number, battle->b.bays.number );
   }
 
   if( cdata->a_nmb_bays > 0 )
@@ -345,6 +342,7 @@ void vcrc_fight( battlefield *battle )
   while( battle->time <= VCRC_COMBAT_TIMEOUT
       && battle->fighton )
   {
+    /* compute the next micron */
     vcrc_fight_reload_weapons( battle );
     vcrc_fight_move_platforms( battle );
     vcrc_fight_launch_fighters( battle );
@@ -355,6 +353,10 @@ void vcrc_fight( battlefield *battle )
     vcrc_fight_attack_torpedos( battle );
     vcrc_fight_attack_beams( battle );
     battle->time++;
+    /* cause gui to be up to date */
+    while( gtk_events_pending() )
+      gtk_main_iteration();
+    /* slow down */
     usleep( VCRCGL_SIMULATION_DELAY );
   }
 }

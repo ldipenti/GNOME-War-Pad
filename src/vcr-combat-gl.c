@@ -1233,15 +1233,15 @@ void vcrcgl_init( void )
   table = gtk_text_tag_table_new();
   buffer = gtk_text_buffer_new( table );
 
-  gtk_text_buffer_insert_at_cursor( buffer, "Welcome to the Visual Combat Simulator\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "If you can read this message your GWP is not able to show\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "any 3D-animated combat simulations - which is quite a pity :-).\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "The required gnome-extension should be available at:\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "http://gtkglext.sourceforge.net/\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "\n", -1 );
-  gtk_text_buffer_insert_at_cursor( buffer, "Good luck ...\n", -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("Welcome to the Visual Combat Simulator\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("If you can read this message your GWP is not able to show\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("any 3D-animated combat simulations - which is quite a pity :-).\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("The required gnome-extension should be available at:\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("http://gtkglext.sourceforge.net/\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("\n"), -1 );
+  gtk_text_buffer_insert_at_cursor( buffer, _("Good luck ...\n"), -1 );
 
   view = gtk_text_view_new_with_buffer( buffer );
   vbox = GTK_VBOX( lookup_widget( "vcr_vbox_simulation" ) );
@@ -1293,9 +1293,6 @@ void vcrcgl_show_beamlevel( gint side, gint number, gint level )
 
   pbar = GTK_PROGRESS_BAR( lookup_widget( widget_name ) );
   gtk_progress_set_percentage( GTK_PROGRESS( pbar ), level/100.0 );
-
-  while( gtk_events_pending() )
-    gtk_main_iteration();
 }
 
 
@@ -1426,8 +1423,6 @@ void vcrcgl_show_beams( gint side, gint number )
     else
       gtk_widget_hide( pbar );
   }
-  while( gtk_events_pending() )
-    gtk_main_iteration();
 }
 
 
