@@ -213,7 +213,20 @@ override get_race_name
 static PyObject *
 _wrap_get_race_name (PyObject *self, PyObject *args)
 {
-  int race;
+  gint race;
   PyArg_ParseTuple (args, "i", &race);
   return PyString_FromString (race_get_name(race));
+}
+%%
+override get_path_pic_hull
+static PyObject *
+_wrap_get_path_pic_hull (PyObject *self, PyObject *args)
+{
+  gint ship_nr;
+  gchar *path = NULL;
+
+  PyArg_ParseTuple (args, "i", &ship_nr);
+  path = g_strdup_printf ("%s/vpl%d.jpg",
+			  DATADIR"/pixmaps/gwp/ships", ship_nr);
+  return PyString_FromString (path);
 }

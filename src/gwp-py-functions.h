@@ -47,10 +47,12 @@ GSList * plugins_get_dir (void);
 
 void set_plugin_mgr(void *);
 void * get_plugin_mgr(void);
+gchar * get_path_pic_hull(gint nr);
 
 /* FIXME: Does really need to return a void pointer??? */
 void * get_truehull(void);
-void * get_race_name(void);
+gchar * get_race_name(gint nr);
+
 
 #endif /* USE_PYTHON */
 

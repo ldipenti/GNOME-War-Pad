@@ -3111,6 +3111,14 @@
   (return-type "void*")
 )
 
+(define-function get_path_pic_hull
+  (c-name "get_path_pic_hull")
+  (return-type "gchar*")
+  (parameters
+    '("gint" "nr")
+  )
+)
+
 (define-function get_truehull
   (c-name "get_truehull")
   (return-type "void*")
@@ -3118,7 +3126,10 @@
 
 (define-function get_race_name
   (c-name "get_race_name")
-  (return-type "void*")
+  (return-type "gchar*")
+  (parameters
+    '("gint" "nr")
+  )
 )
 
 
