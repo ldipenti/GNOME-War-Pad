@@ -170,9 +170,6 @@ starchart_event_button                 (GtkWidget       *widget,
     ps_ship = s_ship;
     s_ship = starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr),
 					   ships_nearby, wx, wy);
-
-    /* When a ship is selected, emit the corresponding signal */
-    g_signal_emit_by_name (s_ship, "selected");
   }
   /* Open Ship panel (double-click) */
   else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 3)) {
@@ -425,6 +422,7 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   }
 }
 
+/* Ship selection from list */
 void on_ships_list_cursor_changed (GtkWidget *widget,
 				   gpointer user_data)
 {
@@ -433,6 +431,7 @@ void on_ships_list_cursor_changed (GtkWidget *widget,
   GtkTreeModel *model = NULL;
   GtkTreeIter iter;
   gint ship_id;
+  GwpShip *ship = NULL;
   
   ship_l = (GtkTreeView *) lookup_widget ("ships_list");
   model = gtk_tree_view_get_model (ship_l);
@@ -445,7 +444,11 @@ void on_ships_list_cursor_changed (GtkWidget *widget,
   gtk_tree_model_get (model, &iter, 0, &ship_id, -1);
 
   /* Update panel with new data */
-  update_ship_panel_with (gwp_ship_get(ship_list, ship_id));
+  ship = gwp_ship_get(ship_list, ship_id);
+  update_ship_panel_with (ship);
+
+  /* When a ship is selected, emit the corresponding signal */
+  g_signal_emit_by_name (ship, "selected");
 }
 
 void on_game_mgr_edit_game(GtkWidget *widget,
