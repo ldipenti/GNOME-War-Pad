@@ -33,6 +33,7 @@
 #include "planet.h"
 #include "ship.h"
 #include "tables.h"
+#include "planet.h"
 
 /*
  * Updates Planet Data on Panel
@@ -911,6 +912,7 @@ starchart_select_nearest_planet (GtkWidget * gwp,
     update_planet_extra_panel(planet_get_id(planet_data));
     table_population_update(planet_data);
     starchart_mark_planet(planet_data);
+    starchart_mini_set_planet_img(planet_data);
     return planet;
   } else {
     return NULL;
@@ -1197,12 +1199,70 @@ void starchart_mark_planet(Planet *a_planet)
 
 void starchart_open_extra_panels(void)
 {
+  GtkNotebook *mini =
+    (GtkNotebook *) lookup_widget("notebook_mini");
+
   gtk_widget_show(lookup_widget("extra_info_panel"));
   gtk_widget_show(lookup_widget("calc_panel"));
+  /* Switch to planet image view */
+  gtk_notebook_set_current_page(mini, 1);
 }
 
 void starchart_close_extra_panels(void)
 {
+  GtkNotebook *mini =
+    (GtkNotebook *) lookup_widget("notebook_mini");
+
   gtk_widget_hide(lookup_widget("extra_info_panel"));
-  gtk_widget_hide(lookup_widget("calc_panel"));  
+  gtk_widget_hide(lookup_widget("calc_panel"));
+  /* Show the mini-map again */
+  gtk_notebook_set_current_page(mini, 0);
+}
+
+/* Sets the planet image acording to the planet's temp */
+void starchart_mini_set_planet_img(Planet *planet) 
+{
+  GtkImage *p_img = (GtkImage *) lookup_widget("image_planet");
+  gchar *img_name = DATADIR"/pixmaps/gwp/planets/planet";
+
+  if(!planet_is_known(planet)) {
+    img_name = g_strconcat(img_name, "-unknown.png", NULL);
+  } else {
+    if((planet_get_temperature_f(planet) >= 0) && 
+       (planet_get_temperature_f(planet) <= 9)) {
+      img_name = g_strconcat(img_name, "0-9.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 10) && 
+	      (planet_get_temperature_f(planet) <= 19)) {
+      img_name = g_strconcat(img_name, "10-19.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 20) && 
+	      (planet_get_temperature_f(planet) <= 29)) {
+      img_name = g_strconcat(img_name, "20-29.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 30) && 
+	      (planet_get_temperature_f(planet) <= 39)) {
+      img_name = g_strconcat(img_name, "30-39.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 40) && 
+	      (planet_get_temperature_f(planet) <= 49)) {
+      img_name = g_strconcat(img_name, "40-49.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 50) && 
+	      (planet_get_temperature_f(planet) <= 59)) {
+      img_name = g_strconcat(img_name, "50-59.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 60) && 
+	      (planet_get_temperature_f(planet) <= 69)) {
+      img_name = g_strconcat(img_name, "60-69.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 70) && 
+	      (planet_get_temperature_f(planet) <= 79)) {
+      img_name = g_strconcat(img_name, "70-79.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 80) && 
+	      (planet_get_temperature_f(planet) <= 89)) {
+      img_name = g_strconcat(img_name, "80-89.png", NULL);
+    } else if((planet_get_temperature_f(planet) >= 90) && 
+	      (planet_get_temperature_f(planet) <= 100)) {
+      img_name = g_strconcat(img_name, "90-100.png", NULL);
+    }
+  }
+
+  gtk_image_set_from_file(p_img, img_name);
+
+  /* Free stuff */
+  g_free(img_name);
 }

@@ -1,9 +1,9 @@
 AC_PREREQ(2.52)
-AC_INIT(GNOME War Pad, 0.2.6, lucas@lunix.com.ar)
+AC_INIT(GNOME War Pad, 0.2.7, lucas@lunix.com.ar)
 
 AM_CONFIG_HEADER(config.h)
 
-AM_INIT_AUTOMAKE(gwp, 0.2.6)
+AM_INIT_AUTOMAKE(gwp, 0.2.7)
 
 AM_MAINTAINER_MODE
 AC_PROG_INTLTOOL
@@ -130,6 +130,7 @@ help/Makefile
 help/C/Makefile
 po/Makefile.in
 pixmaps/Makefile
+pixmaps/planets/Makefile
 gwp.desktop
 ])
 

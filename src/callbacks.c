@@ -20,6 +20,9 @@ starchart_event_key                    (GtkWidget       *widget,
                                         GdkEventKey     *event,
                                         gpointer         user_data)
 {	
+  GtkToggleButton *grid_button = 
+    (GtkToggleButton *) lookup_widget("togglebutton_grid");
+
   switch(event->keyval)
     {
       /* Zoom Events */
@@ -44,7 +47,8 @@ starchart_event_key                    (GtkWidget       *widget,
       return TRUE;
       /* Activate/Deactivate Grid */
     case GDK_g:
-      starchart_toggle_grid();
+      gtk_toggle_button_set_active(grid_button,
+				   !starchart_get_grid());
       return TRUE;
       /* Hide panels */
     case GDK_Escape:
@@ -565,5 +569,36 @@ void on_online_help_activate (GtkWidget *widget,
   if (!gnome_help_display ("gwp.xml", NULL, &error)) {
     // report error
     g_error_free (error);
+  }
+}
+
+void on_button_zoom_in_clicked (GtkWidget *widget,
+				gpointer user_data)
+{
+  starchart_zoom_in(starchart_get_canvas());
+}
+
+void on_button_zoom_out_clicked (GtkWidget *wodget,
+				 gpointer user_data)
+{
+  starchart_zoom_out(starchart_get_canvas());
+}
+
+void on_togglebutton_grid_toggled (GtkToggleButton *button,
+				   gpointer user_data)
+{
+  starchart_toggle_grid();
+}
+
+/* Hides/Shows the tool button bar */
+void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
+			       gpointer user_data)
+{
+  GtkWidget *btn_bar = lookup_widget("bonobodock_btn_bar");
+
+  if(gtk_check_menu_item_get_active(menuitem)) {
+    gtk_widget_show(btn_bar);
+  } else {
+    gtk_widget_hide(btn_bar);
   }
 }

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-10 14:25-0300\n"
+"POT-Creation-Date: 2003-06-18 15:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,288 +140,307 @@ msgid "ATT"
 msgstr ""
 
 #: src/gwp.glade.h:32
-msgid "Construction"
+msgid "Available Races"
 msgstr ""
 
 #: src/gwp.glade.h:33
-msgid "Data"
+msgid "Construction"
 msgstr ""
 
 #: src/gwp.glade.h:34
-msgid "Delete Game"
+msgid "Data"
 msgstr ""
 
 #: src/gwp.glade.h:35
-msgid "Delete this game configuration"
+msgid "Delete Game"
 msgstr ""
 
 #: src/gwp.glade.h:36
-msgid "Density:"
+msgid "Delete this game configuration"
 msgstr ""
 
 #: src/gwp.glade.h:37
-msgid "Edit Game"
+msgid "Density:"
 msgstr ""
 
 #: src/gwp.glade.h:38
-msgid "Edit Game Preferences"
+msgid "Edit Game"
 msgstr ""
 
 #: src/gwp.glade.h:39
-msgid "Estimated Growth"
+msgid "Edit Game Preferences"
 msgstr ""
 
 #: src/gwp.glade.h:40
-msgid "GNOME War Pad"
+msgid "Estimated Growth"
 msgstr ""
 
 #: src/gwp.glade.h:41
-msgid "GWP Game Manager"
+msgid "GNOME War Pad"
 msgstr ""
 
 #: src/gwp.glade.h:42
-msgid "Game Directory"
+msgid "GWP Game Manager"
 msgstr ""
 
 #: src/gwp.glade.h:43
-msgid "Game Name: "
+msgid "Game Directory"
 msgstr ""
 
 #: src/gwp.glade.h:44
-msgid "Game Properties"
+msgid "Game Name: "
 msgstr ""
 
 #: src/gwp.glade.h:45
-msgid "Generate a random Friendly Code"
+msgid "Game Properties"
 msgstr ""
 
 #: src/gwp.glade.h:46
-msgid "Ground:"
+msgid "Generate a random Friendly Code"
 msgstr ""
 
 #: src/gwp.glade.h:47
-msgid "Host Email: "
+msgid "Grid"
 msgstr ""
 
 #: src/gwp.glade.h:48
-msgid "Host Type: "
+msgid "Ground:"
 msgstr ""
 
 #: src/gwp.glade.h:49
-msgid "Misc"
+msgid "Host Email: "
 msgstr ""
 
 #: src/gwp.glade.h:50
-msgid "NUK"
+msgid "Host Type: "
 msgstr ""
 
 #: src/gwp.glade.h:51
-msgid "New Game"
+msgid "Misc"
 msgstr ""
 
 #: src/gwp.glade.h:52
-msgid "PHost"
+msgid "NUK"
 msgstr ""
 
 #: src/gwp.glade.h:53
-msgid "Planet"
+msgid "New Game"
 msgstr ""
 
 #: src/gwp.glade.h:54
-msgid "Planet Detail"
+msgid "Online Help"
 msgstr ""
 
 #: src/gwp.glade.h:55
-msgid "Play Game"
+msgid "PHost"
 msgstr ""
 
 #: src/gwp.glade.h:56
-msgid "Play Selected Game"
+msgid "Planet"
 msgstr ""
 
 #: src/gwp.glade.h:57
-msgid "Player Email: "
+msgid "Planet Detail"
 msgstr ""
 
 #: src/gwp.glade.h:58
-msgid "Population"
+msgid "Play Game"
 msgstr ""
 
 #: src/gwp.glade.h:59
-msgid "RST Dir: "
+msgid "Play Selected Game"
 msgstr ""
 
 #: src/gwp.glade.h:60
-msgid "Race Name: "
+msgid "Player Email: "
 msgstr ""
 
 #: src/gwp.glade.h:61
-msgid "Race selected"
+msgid "Population"
 msgstr ""
 
 #: src/gwp.glade.h:62
-msgid "Races Available"
+msgid "RST Dir: "
 msgstr ""
 
 #: src/gwp.glade.h:63
-msgid ""
-"Races available at this particular game directory, pick one by double-"
-"clicking on it"
+msgid "Race Name: "
 msgstr ""
 
 #: src/gwp.glade.h:64
-msgid "Resources"
+msgid "Race selected"
 msgstr ""
 
 #: src/gwp.glade.h:65
-msgid "Resources (kT)"
+msgid ""
+"Races available at this particular game directory, pick one by clicking on it"
 msgstr ""
 
 #: src/gwp.glade.h:66
-msgid "Select RST directory"
+msgid "Resources"
 msgstr ""
 
 #: src/gwp.glade.h:67
-msgid "Select TRN directory"
+msgid "Resources (kT)"
 msgstr ""
 
 #: src/gwp.glade.h:68
-msgid "Select game directory"
+msgid "Select RST directory"
 msgstr ""
 
 #: src/gwp.glade.h:69
-msgid "Select if you want to edit this game's properties"
+msgid "Select TRN directory"
 msgstr ""
 
 #: src/gwp.glade.h:70
-msgid "Select if you want to play this game"
+msgid "Select game directory"
 msgstr ""
 
 #: src/gwp.glade.h:71
-msgid "Select this if the game is hosted by a PHost (alternative) host type"
+msgid "Select if you want to edit this game's properties"
 msgstr ""
 
 #: src/gwp.glade.h:72
-msgid "Select this if the game is hosted by a THost (classic) host type"
+msgid "Select if you want to play this game"
 msgstr ""
 
 #: src/gwp.glade.h:73
-msgid "Setup a new game"
+msgid "Select this if the game is hosted by a PHost (alternative) host type"
 msgstr ""
 
 #: src/gwp.glade.h:74
-msgid "Ship Data"
+msgid "Select this if the game is hosted by a THost (classic) host type"
 msgstr ""
 
 #: src/gwp.glade.h:75
-msgid "Ships"
+msgid "Setup a new game"
 msgstr ""
 
 #: src/gwp.glade.h:76
-msgid "Starbase"
+msgid "Ship Data"
 msgstr ""
 
 #: src/gwp.glade.h:77
-msgid "Starbase Detail"
+msgid "Ships"
 msgstr ""
 
 #: src/gwp.glade.h:78
-msgid "Starchart"
+msgid "Starbase"
 msgstr ""
 
 #: src/gwp.glade.h:79
-msgid "Starship"
+msgid "Starbase Detail"
 msgstr ""
 
 #: src/gwp.glade.h:80
-msgid "THost"
+msgid "Starchart"
 msgstr ""
 
 #: src/gwp.glade.h:81
-msgid "TRN Dir: "
+msgid "Starship"
 msgstr ""
 
 #: src/gwp.glade.h:82
-msgid "Taxes"
+msgid "THost"
 msgstr ""
 
 #: src/gwp.glade.h:83
-msgid "The directory where GWP will save its turns"
+msgid "TRN Dir: "
 msgstr ""
 
 #: src/gwp.glade.h:84
-msgid "The directory where GWP will search for host results"
+msgid "Taxes"
 msgstr ""
 
 #: src/gwp.glade.h:85
-msgid "The host's email address, to send your turns"
+msgid "The directory where GWP will save its turns"
 msgstr ""
 
 #: src/gwp.glade.h:86
-msgid "The label this game will have in the game manager"
+msgid "The directory where GWP will search for host results"
 msgstr ""
 
 #: src/gwp.glade.h:87
-msgid "Unpack the new RST file"
+msgid "The host's email address, to send your turns"
 msgstr ""
 
 #: src/gwp.glade.h:88
-msgid "Where the game data files reside"
+msgid "The label this game will have in the game manager"
 msgstr ""
 
 #: src/gwp.glade.h:89
-msgid "X"
+msgid "Unpack the new RST file"
 msgstr ""
 
 #: src/gwp.glade.h:90
-msgid "Y"
+msgid "Where the game data files reside"
 msgstr ""
 
 #: src/gwp.glade.h:91
-msgid "Your email address, to send your turns to the host"
+msgid "X"
 msgstr ""
 
 #: src/gwp.glade.h:92
-msgid "_Delete"
+msgid "Y"
 msgstr ""
 
 #: src/gwp.glade.h:93
-msgid "_Delete Game"
+msgid "Your email address, to send your turns to the host"
 msgstr ""
 
 #: src/gwp.glade.h:94
-msgid "_Edit"
+msgid "Zoom in"
 msgstr ""
 
 #: src/gwp.glade.h:95
-msgid "_Edit Game"
+msgid "Zoom out"
 msgstr ""
 
 #: src/gwp.glade.h:96
-msgid "_New"
+msgid "_Delete"
 msgstr ""
 
 #: src/gwp.glade.h:97
-msgid "_New Game"
+msgid "_Delete Game"
 msgstr ""
 
 #: src/gwp.glade.h:98
-msgid "_Play"
+msgid "_Edit"
 msgstr ""
 
 #: src/gwp.glade.h:99
-msgid "_Play Game"
+msgid "_Edit Game"
 msgstr ""
 
 #: src/gwp.glade.h:100
-msgid "_Random"
+msgid "_New"
 msgstr ""
 
 #: src/gwp.glade.h:101
+msgid "_New Game"
+msgstr ""
+
+#: src/gwp.glade.h:102
+msgid "_Online Help"
+msgstr ""
+
+#: src/gwp.glade.h:103
+msgid "_Play"
+msgstr ""
+
+#: src/gwp.glade.h:104
+msgid "_Play Game"
+msgstr ""
+
+#: src/gwp.glade.h:105
+msgid "_Random"
+msgstr ""
+
+#: src/gwp.glade.h:106
 msgid "_Unpack"
 msgstr ""
 
-#: src/gwp.glade.h:102 src/planet.c:296 src/ship.c:141 src/starchart.c:356
+#: src/gwp.glade.h:107 src/planet.c:296 src/ship.c:141 src/starchart.c:356
 #: src/starchart.c:357 src/starchart.c:358 src/starchart.c:359
 #: src/starchart.c:361 src/starchart.c:362 src/starchart.c:363
 #: src/starchart.c:364 src/starchart.c:365 src/starchart.c:367
@@ -430,22 +449,22 @@ msgstr ""
 msgid "n/a"
 msgstr ""
 
-#: src/gwp.glade.h:104 src/starchart.c:184 src/starchart.c:189
+#: src/gwp.glade.h:109 src/starchart.c:184 src/starchart.c:189
 #: src/starchart.c:194 src/starchart.c:199
 #, no-c-format
 msgid "n/a %"
 msgstr ""
 
-#: src/gwp.glade.h:105 src/starchart.c:209 src/starchart.c:210
+#: src/gwp.glade.h:110 src/starchart.c:209 src/starchart.c:210
 msgid "n/a MC"
 msgstr ""
 
-#: src/gwp.glade.h:106 src/starchart.c:182 src/starchart.c:187
+#: src/gwp.glade.h:111 src/starchart.c:182 src/starchart.c:187
 #: src/starchart.c:192 src/starchart.c:197
 msgid "n/a kT"
 msgstr ""
 
-#: src/gwp.glade.h:107 src/starchart.c:204 src/starchart.c:205
+#: src/gwp.glade.h:112 src/starchart.c:204 src/starchart.c:205
 #: src/starchart.c:206 src/starchart.c:207
 msgid "n/a kT/turn"
 msgstr ""
@@ -586,29 +605,29 @@ msgstr ""
 msgid "%d kT/turn"
 msgstr ""
 
-#: src/game_mgr.c:363
+#: src/game_mgr.c:368
 #, c-format
 msgid "Game directory '%s' doesn't exist"
 msgstr ""
 
-#: src/game_mgr.c:382
+#: src/game_mgr.c:387
 msgid "Please provide a name for this game"
 msgstr ""
 
-#: src/game_mgr.c:417
+#: src/game_mgr.c:422
 #, c-format
 msgid "A game named '%s' already exist, please select another name"
 msgstr ""
 
-#: src/game_mgr.c:438
+#: src/game_mgr.c:443
 msgid "Please select a race"
 msgstr ""
 
-#: src/game_mgr.c:651
+#: src/game_mgr.c:656
 msgid "A new RST file was found. Do you want me to unpack it?"
 msgstr ""
 
-#: src/game_mgr.c:670
+#: src/game_mgr.c:675
 #, c-format
 msgid "Turn: %d"
 msgstr ""

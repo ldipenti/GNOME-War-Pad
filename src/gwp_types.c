@@ -170,7 +170,7 @@ gboolean starchart_toggle_grid(void)
 {
   gboolean res;
   
-  if(starchart_get_grid() == TRUE) {
+  if(starchart_get_grid()) {
     res = FALSE;
     starchart_set_grid(res);
     gnome_canvas_item_hide((GnomeCanvasItem *) starchart_get_grp_grid());

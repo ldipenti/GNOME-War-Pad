@@ -10,6 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+#SUBDIRS = po pixmaps src help
+
 
 SHELL = @SHELL@
 
@@ -121,10 +123,8 @@ SK_CONFIG = @SK_CONFIG@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
-WARN_CFLAGS = @WARN_CFLAGS@
-cxxflags_set = @cxxflags_set@
 
-SUBDIRS = po pixmaps src help
+SUBDIRS = po pixmaps src
 
 gwpdocdir = ${prefix}/doc/gwp
 gwpdoc_DATA =  	README 	COPYING 	COPYING-DOCS 	AUTHORS 	INSTALL 	ChangeLog 	NEWS 	TODO 	ABOUT-NLS

@@ -108,6 +108,10 @@ void gwp_init(void)
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
 			     FALSE);
 
+  notebk = lookup_widget("notebook_mini");
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
+			     FALSE);  
+
   /* Hide panels */
   starchart_close_extra_panels();
 

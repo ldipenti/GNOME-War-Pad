@@ -92,3 +92,15 @@ gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value);
 
 void on_online_help_activate (GtkWidget *widget,
 			      gpointer user_data);
+
+void on_button_zoom_in_clicked (GtkWidget *widget,
+				gpointer user_data);
+
+void on_button_zoom_out_clicked (GtkWidget *widget,
+				gpointer user_data);
+
+void on_togglebutton_grid_toggled (GtkToggleButton *button,
+				   gpointer user_data);
+
+void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
+			       gpointer user_data);

@@ -1,4 +1,4 @@
-#SUBDIRS =
+SUBDIRS = planets
 
 EXTRA_DIST = \
 		game_icon.png\
