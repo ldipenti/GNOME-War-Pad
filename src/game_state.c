@@ -405,21 +405,22 @@ void game_set_toolbar(GameState *game_state, gboolean tb)
   game_state->toolbar = tb;
 }
 
-/* FIXME: delete this */
-void game_set_f_key (GameState *self, void *fun)
+#ifdef USE_PYTHON
+/* Python plugin manager */
+void game_set_plugin_mgr (GameState *self, void *obj)
 {
   g_assert(self != NULL);
-  g_assert(fun != NULL);
+  g_assert(obj != NULL);
 
-  self->f_key = fun;
+  self->plugin_mgr = obj;
 }
-void *game_get_f_key (GameState *self)
+void *game_get_plugin_mgr (GameState *self)
 {
   g_assert(self);
 
-  return self->f_key;
+  return self->plugin_mgr;
 }
-/*******delete!!!******/
+#endif
 
 /* Save game state on GConf */
 void game_state_save(const GameState *state)

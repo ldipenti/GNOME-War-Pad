@@ -34,9 +34,7 @@
 
 void gwp_python_init (char *argv0);
 void gwp_python_quit (void);
-
-
-
+void gwp_python_event_key (char *event);
 
 #endif
 

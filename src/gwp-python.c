@@ -26,6 +26,7 @@
 #include "gwp-python.h"
 #include <pygobject.h>
 #include "gwp-ship.h"
+#include "global.h"
 /*#include "game_state.h"*/
 
 /* Forwards */
@@ -39,6 +40,8 @@ void gwp_register_classes (PyObject *d);
  */
 void gwp_python_init (char *argv0)
 {
+  FILE *script;
+
   Py_SetProgramName (argv0);
   Py_Initialize ();
 
@@ -47,6 +50,11 @@ void gwp_python_init (char *argv0)
 
   /* Import module to have GWP's methods available */
   PyRun_SimpleString ("import gwp");
+
+  /* Load 'inittab' script */
+  script = fopen (GWP_SCRIPTS_DIR"/inittab.py", "r");
+  PyRun_SimpleFile (script, "inittab.py");
+  fclose (script);
 }
 
 void gwp_python_quit (void)
@@ -73,6 +81,14 @@ void initgwp (void)
   if (PyErr_Occurred ()) {
     Py_FatalError ("can't initialise module gwp");
   }
+}
+
+void gwp_python_event_key (char *event)
+{
+  g_assert (event != NULL);
+
+  PyObject *plugin_mgr = game_get_plugin_mgr (game_state);
+  PyObject_CallMethod (plugin_mgr, "manage_key_event", "(s)", event);
 }
 
 #endif

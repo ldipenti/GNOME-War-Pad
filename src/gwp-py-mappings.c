@@ -5513,7 +5513,7 @@ _wrap_planet_get_list (PyObject *self)
 #line 5514 "src/gwp-py-mappings.c"
 
 
-#line 103 "src/gwp-py-mappings.override"
+#line 93 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_hullspec_get_list (PyObject *self)
 {
@@ -5535,7 +5535,7 @@ _wrap_hullspec_get_list (PyObject *self)
 #line 5536 "src/gwp-py-mappings.c"
 
 
-#line 123 "src/gwp-py-mappings.override"
+#line 113 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_engspec_get_list (PyObject *self)
 {
@@ -5557,7 +5557,7 @@ _wrap_engspec_get_list (PyObject *self)
 #line 5558 "src/gwp-py-mappings.c"
 
 
-#line 143 "src/gwp-py-mappings.override"
+#line 133 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_beamspec_get_list (PyObject *self)
 {
@@ -5579,7 +5579,7 @@ _wrap_beamspec_get_list (PyObject *self)
 #line 5580 "src/gwp-py-mappings.c"
 
 
-#line 163 "src/gwp-py-mappings.override"
+#line 153 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_torpspec_get_list (PyObject *self)
 {
@@ -5603,27 +5603,17 @@ _wrap_torpspec_get_list (PyObject *self)
 
 #line 80 "src/gwp-py-mappings.override"
 PyObject *
-_wrap_plugin_reg_key_f (PyObject *self, PyObject *args)
+_wrap_register_plugin_mgr (PyObject *self, PyObject *args)
 {
-  /*
-  gchar *file;
-
-  PyArg_ParseTuple (args, "s", &file);
-  g_assert (file != NULL);
-  g_message ("uepa!! -> %s", file);
-  game_set_f_key(game_state, file);
-
-  */
-
   PyObject *obj = NULL;  
   PyArg_ParseTuple (args, "O", &obj);
 
-  game_set_f_key (game_state, obj);
+  game_set_plugin_mgr (game_state, obj);
 
   Py_INCREF(Py_None);
   return Py_None;
 }
-#line 5627 "src/gwp-py-mappings.c"
+#line 5617 "src/gwp-py-mappings.c"
 
 
 PyMethodDef gwp_functions[] = {
@@ -5636,7 +5626,7 @@ PyMethodDef gwp_functions[] = {
     { "engspec_get_list", (PyCFunction)_wrap_engspec_get_list, METH_NOARGS },
     { "beamspec_get_list", (PyCFunction)_wrap_beamspec_get_list, METH_NOARGS },
     { "torpspec_get_list", (PyCFunction)_wrap_torpspec_get_list, METH_NOARGS },
-    { "plugin_reg_key_f", (PyCFunction)_wrap_plugin_reg_key_f, METH_VARARGS },
+    { "register_plugin_mgr", (PyCFunction)_wrap_register_plugin_mgr, METH_VARARGS },
     { NULL, NULL, 0 }
 };
 
@@ -5662,7 +5652,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5666 "src/gwp-py-mappings.c"
+#line 5656 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));

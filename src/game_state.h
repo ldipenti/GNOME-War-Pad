@@ -73,8 +73,10 @@ struct _GameState
   gboolean ion_storms;
   /* User settings */
   GameSettings *settings;
-  /* FIXME: delete this!! */
-  void *f_key;
+#ifdef USE_PYTHON
+  /* Pointer to Python object*/
+  void *plugin_mgr;
+#endif
 };
 
 GameState *game_state_new(void);
@@ -107,10 +109,10 @@ void game_set_pnames(GameState *game_state, GList *pnames);
 void game_set_turn_number(GameState *game_state, gint turn);
 gint game_get_turn_number(const GameState *game_state);
 
-/* delete!! */
-void game_set_f_key (GameState *self, void *fun);
-void *game_get_f_key (GameState *self);
-
+#ifdef USE_PYTHON
+void game_set_plugin_mgr (GameState *self, void *obj);
+void *game_get_plugin_mgr (GameState *self);
+#endif
 
 void game_state_save(const GameState *state);
 void game_state_delete(const gchar *name);

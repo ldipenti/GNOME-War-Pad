@@ -3093,8 +3093,8 @@
   (return-type "GSList*")
 )
 
-(define-function plugin_reg_key_f
-  (c-name "plugin_reg_key_f")
+(define-function register_plugin_mgr
+  (c-name "register_plugin_mgr")
   (return-type "none")
   (parameters
     '("gchar*" "file")

@@ -76,24 +76,14 @@ _wrap_planet_get_list (PyObject *self)
   return ret;
 }
 %%
-override plugin_reg_key_f
+override register_plugin_mgr
 PyObject *
-_wrap_plugin_reg_key_f (PyObject *self, PyObject *args)
+_wrap_register_plugin_mgr (PyObject *self, PyObject *args)
 {
-  /*
-  gchar *file;
-
-  PyArg_ParseTuple (args, "s", &file);
-  g_assert (file != NULL);
-  g_message ("uepa!! -> %s", file);
-  game_set_f_key(game_state, file);
-
-  */
-
   PyObject *obj = NULL;  
   PyArg_ParseTuple (args, "O", &obj);
 
-  game_set_f_key (game_state, obj);
+  game_set_plugin_mgr (game_state, obj);
 
   Py_INCREF(Py_None);
   return Py_None;
