@@ -17,6 +17,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+/*
+ * GwpPlanet:
+ * ---------
+ *
+ * This class represents the different planets on the game.
+ */
+
 #ifndef GWP_PLANET_H
 #define GWP_PLANET_H
 
@@ -24,6 +31,7 @@
 #include <glib-object.h>
 
 #include "gwp-object.h"
+#include "gwp-starbase.h"
 
 /*
  * Type macros.
@@ -56,6 +64,12 @@ GType gwp_planet_get_type (void);
 GwpPlanet * gwp_planet_new (void);
 
 /* Get/Set methods */
+/* FIXME: If I include this headers, I get parser errors from gcc (?)
+GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self);
+void gwp_planet_set_starbase (GwpPlanet *self, GwpStarbase *sb);
+*/
+gint16 gwp_planet_get_owner (GwpPlanet *self);
+void gwp_planet_set_owner (GwpPlanet *self, gint16 o);
 GString * gwp_planet_get_fcode (GwpPlanet *self);
 void gwp_planet_set_fcode (GwpPlanet *self, GString *fcode);
 gint16 gwp_planet_get_mines (GwpPlanet *self);

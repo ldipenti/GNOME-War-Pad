@@ -17,12 +17,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "gwp-object.h"
 #include "gwp-planet.h"
 
 struct _GwpPlanetPrivate {
   gboolean dispose_has_run;
   /* private attributes */
+  GwpStarbase *starbase;
+  gint16 owner;
   GString *fcode;
   gint16 mines;
   gint16 factories;
@@ -89,6 +90,8 @@ static void gwp_planet_init (GTypeInstance *instance,
   self->priv = g_new0 (GwpPlanetPrivate, 1);
   self->priv->dispose_has_run = FALSE;
   /* private attributes init */
+  self->priv->starbase = NULL;
+  self->priv->owner = 0;
   self->priv->fcode = g_string_new ("GWP");
   self->priv->mines = 0;
   self->priv->factories = 0;
@@ -131,6 +134,9 @@ static void gwp_planet_dispose (GwpPlanet *self)
   /*
    * Here, I have to unref all members on which I own a reference.
    */
+  if (GWP_IS_STARBASE(self->priv->starbase)) {
+    g_object_unref(self->priv->starbase);
+  }
 }
 
 static void gwp_planet_finalize (GwpPlanet *self)
@@ -162,6 +168,33 @@ GwpPlanet * gwp_planet_new (void)
 }
 
 /* Get/Set method implementations */
+GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+  g_assert (GWP_IS_STARBASE(self->priv->starbase));
+  return self->priv->starbase;
+}
+
+void gwp_planet_set_starbase (GwpPlanet *self, GwpStarbase *sb)
+{
+  g_assert (GWP_IS_PLANET(self));
+  g_assert (GWP_IS_STARBASE(sb));
+  self->priv->starbase = sb;
+}
+
+gint16 gwp_planet_get_owner (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+  return self->priv->owner;
+}
+
+void gwp_planet_set_owner (GwpPlanet *self, gint16 o)
+{
+  g_assert (GWP_IS_PLANET(self));
+  g_assert (o >= 0 && o <= 11);
+  self->priv->owner = o;
+}
+
 GString * gwp_planet_get_fcode (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
