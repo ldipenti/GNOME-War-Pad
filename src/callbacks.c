@@ -163,8 +163,13 @@ starchart_event_button                 (GtkWidget       *widget,
     /* If the d-click was on the same planet, show the panels! */
     if(ps_ship == s_ship) {
       starchart_open_extra_ship_panels();
+
       /* Switch to ship image view */
       gtk_notebook_set_current_page(mini, MINI_SHIP_PAGE);
+
+      /* Re-select ship to update extra panels */
+      ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
+      starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);
     }
   } 
   return TRUE;
