@@ -179,6 +179,7 @@ GList * load_xyplan (gchar * xyplan_file)
   GList *coords_list = NULL;
   VpXYPlanReg coords, *tmp;
   GString *xyplan_str;
+  size_t result;
   
   xyplan_str = g_string_new (xyplan_file);
   xyplan_str = g_string_up (xyplan_str);
@@ -195,14 +196,19 @@ GList * load_xyplan (gchar * xyplan_file)
   
   rewind (xyplan);
   while (!feof (xyplan)) {
-    fread (&coords, sizeof (VpXYPlanReg), 1, xyplan);
-    
-    /* Copy planet to tmp variable to assign it in GList */
-    tmp = g_malloc (sizeof (VpXYPlanReg));
-    *tmp = coords;
+    result = fread (&coords, sizeof (VpXYPlanReg), 1, xyplan);
+    if (result == 1) {
 
-    /* Append object to list */
-    coords_list = g_list_append (coords_list, tmp);
+      /* Copy planet to tmp variable to assign it in GList */
+      tmp = g_malloc (sizeof (VpXYPlanReg));
+      *tmp = coords;
+      
+      /* Append object to list */
+      coords_list = g_list_append (coords_list, tmp);
+    } else {
+      if (result != 0)
+	g_message ("WARNING: Maybe XYPLAN.DAT file is corrupted? Some unknown trailing data was found. Number of registers read: %d", result);
+    }
   }
   fclose (xyplan);
 
@@ -750,7 +756,6 @@ GHashTable * load_pdata (void)
 
     /* Add planet to list */
     g_hash_table_insert (planet_list, (gpointer)(gint)gwp_object_get_id(GWP_OBJECT(p)), p);
-
   }
 
   /* Now add the rest unknown planets */
@@ -770,6 +775,7 @@ GHashTable * load_pdata (void)
 
       /* Add planet to list */
       g_hash_table_insert (planet_list, (gpointer)(i+1), p);
+      /*    g_message ("Planet ID: %d", gwp_object_get_id(GWP_OBJECT(p)));*/
     }
   }
   fclose (pdata);
