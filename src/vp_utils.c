@@ -29,8 +29,8 @@
 #include "vp_utils.h"
 #include "vp_types.h"
 /* #include "ship.h" */
-#include "planet.h"
-#include "base.h"
+/* #include "planet.h" */
+/* #include "base.h" */
 #include "starchart.h"
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
@@ -929,7 +929,6 @@ GHashTable *load_bdata(void)
 {
   GString *bdata_dis_file, *bdata_dat_file;
   FILE *bdata = NULL;
-  Base *base;
   GwpStarbase *b;
   GwpPlanet *p;
   GHashTable *base_list = NULL;
@@ -989,7 +988,6 @@ GHashTable *load_bdata(void)
     fread(buffer, 156, 1, bdata);
 
     /* Load Base data on struct */
-    base = base_new();
     b = gwp_starbase_new();
 
     starbase_id = getWord (buffer);

@@ -1352,7 +1352,7 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = 0.0;
     planet_mark_l = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color", "red",
+					   "fill_color_rgba", 0xff0000ff,
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
 					   "width_pixels", 1,
@@ -1365,7 +1365,7 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = 0.0;
     planet_mark_r = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color", "red",
+					   "fill_color_rgba", 0xff0000ff,
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
 					   "width_pixels", 1,
@@ -1378,7 +1378,7 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = -3.5;
     planet_mark_u = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color", "red",
+					   "fill_color_rgba", 0xff0000ff,
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
 					   "width_pixels", 1,
@@ -1391,7 +1391,7 @@ void starchart_mark_planet(GwpPlanet *a_planet)
     p->coords[3] = 7.5;
     planet_mark_d = gnome_canvas_item_new (starchart_get_grp_root(), 
 					   GNOME_TYPE_CANVAS_LINE,
-					   "fill_color", "red",
+					   "fill_color_rgba", 0xff0000ff,
 					   "points", p,
 					   "line_style", GDK_LINE_SOLID,
 					   "width_pixels", 1,

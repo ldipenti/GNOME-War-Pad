@@ -40,10 +40,6 @@ gwp_SOURCES = \
 	global.h\
 	game_state.h\
 	game_state.c\
-	planet.c\
-	planet.h\
-	base.c\
-	base.h\
 	starchart.c\
 	starchart.h\
 	gwp_types.c\
