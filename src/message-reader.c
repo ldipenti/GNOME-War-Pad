@@ -202,16 +202,16 @@ void subject_cell_data_func (GtkTreeViewColumn *col,
   {
     /* row is parent */
     buf[0]='\0';
-    strcat( buf, gwp_messages_getMessageCategory( messages, -(ident-1) ) );
+    strcat( buf, gwp_messages_getMessageCategory( messages, -ident-1 ) );
     g_object_set( renderer, "foreground-set", FALSE, NULL );
-    g_object_set( renderer, "weight", PANGO_WEIGHT_BOLD, "weight-set", FALSE, NULL );
+    g_object_set( renderer, "weight", PANGO_WEIGHT_BOLD, "weight-set", TRUE, NULL );
   }
   else
   {
     /* row is child */
     buf[0]='\0';
-    strcat( buf, gwp_messages_getMessageSubject( messages, (ident-1) ) );
-    g_object_set( renderer, "foreground", "Blue", "foreground-set", TRUE, NULL );
+    strcat( buf, gwp_messages_getMessageSubject( messages, ident-1 ) );
+    g_object_set( renderer, "foreground", "Black", "foreground-set", TRUE, NULL );
     g_object_set( renderer, "weight", PANGO_WEIGHT_BOLD, "weight-set", FALSE, NULL );
   }
 

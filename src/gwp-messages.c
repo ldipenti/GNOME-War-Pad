@@ -944,7 +944,6 @@ if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory called" );
     }
 
 
-
 if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory finished" );
     return( self->priv->tmptxt );
 }
