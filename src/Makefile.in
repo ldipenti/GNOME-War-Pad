@@ -121,8 +121,6 @@ SK_CONFIG = @SK_CONFIG@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
-WARN_CFLAGS = @WARN_CFLAGS@
-cxxflags_set = @cxxflags_set@
 
 INCLUDES =  	$(FOO_CFLAGS)
 
@@ -135,7 +133,7 @@ bin_PROGRAMS = gwp
 EXTRA_DIST =  	gwp.glade
 
 
-gwp_SOURCES =  	callbacks.c 	callbacks.h 	support.c 	support.h 	main.c 	global.h 	game_state.h 	game_state.c 	planet.c 	planet.h 	ship.c 	ship.h 	starchart.c 	starchart.h 	gwp_types.c 	gwp_types.h 	vp_types.h 	vp_utils.c 	vp_utils.h 	game_mgr.c 	game_mgr.h 	vp_unpack.h 	vp_unpack.c 	tables.c 	tables.h 	race.c 	race.h
+gwp_SOURCES =  	callbacks.c 	callbacks.h 	support.c 	support.h 	main.c 	global.h 	game_state.h 	game_state.c 	planet.c 	planet.h 	base.c 	base.h 	ship.c 	ship.h 	starchart.c 	starchart.h 	gwp_types.c 	gwp_types.h 	vp_types.h 	vp_utils.c 	vp_utils.h 	game_mgr.c 	game_mgr.h 	vp_unpack.h 	vp_unpack.c 	tables.c 	tables.h 	race.c 	race.h
 
 
 gwp_LDFLAGS = 
@@ -157,7 +155,7 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 gwp_OBJECTS =  callbacks.$(OBJEXT) support.$(OBJEXT) main.$(OBJEXT) \
-game_state.$(OBJEXT) planet.$(OBJEXT) ship.$(OBJEXT) \
+game_state.$(OBJEXT) planet.$(OBJEXT) base.$(OBJEXT) ship.$(OBJEXT) \
 starchart.$(OBJEXT) gwp_types.$(OBJEXT) vp_utils.$(OBJEXT) \
 game_mgr.$(OBJEXT) vp_unpack.$(OBJEXT) tables.$(OBJEXT) race.$(OBJEXT)
 gwp_DEPENDENCIES = 
@@ -174,10 +172,10 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/callbacks.P .deps/game_mgr.P .deps/game_state.P \
-.deps/gwp_types.P .deps/main.P .deps/planet.P .deps/race.P .deps/ship.P \
-.deps/starchart.P .deps/support.P .deps/tables.P .deps/vp_unpack.P \
-.deps/vp_utils.P
+DEP_FILES =  .deps/base.P .deps/callbacks.P .deps/game_mgr.P \
+.deps/game_state.P .deps/gwp_types.P .deps/main.P .deps/planet.P \
+.deps/race.P .deps/ship.P .deps/starchart.P .deps/support.P \
+.deps/tables.P .deps/vp_unpack.P .deps/vp_utils.P
 SOURCES = $(gwp_SOURCES)
 OBJECTS = $(gwp_OBJECTS)
 

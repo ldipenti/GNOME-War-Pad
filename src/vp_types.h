@@ -208,16 +208,23 @@ typedef struct _VpStarbaseReg VpStarbaseReg;
 struct _VpStarbaseReg {
   gint16 id;
   gint16 owner;
-  gint16 defense, damage;
-  gint16 engines_tech, hulls_tech, weapons_tech, torpedoes_tech;
+  gint16 defense; /* 0..200 */
+  gint16 damage;  /* 0..100 */
+
+  gint16 engines_tech;   /* 1..10 */
+  gint16 hulls_tech;     /* 1..10 */
+  gint16 beams_tech;     /* 1..10 */
+  gint16 torps_tech; /* 1..10 */
 	
-  gint16 storage_engines[9], storage_hulls[20];
-  gint16 storage_weapons[10], storage_torpedoes_launchers[10];
-  gint16 storage_torpedoes[10];
+  gint16 storage_engines[9];
+  gint16 storage_hulls[20];
+  gint16 storage_beams[10];
+  gint16 storage_torp_launchers[10];
+  gint16 storage_torps[10];
 	
-  gint16 fighters;
+  gint16 fighters; /* 0..60 */
 	
-  gint16 id_ship;
+  gint16 id_ship; /* ship to be recycled or repaired */
   gint16 ship_action; /*	0 - Nothing
 				1 - Fix
 				2 - Recycle */
@@ -230,10 +237,15 @@ struct _VpStarbaseReg {
 			6 - Force a surrender */
 	
   /* -- Spaceship Build -- */
-  gint16 build_ship_type;
+  gint16 build_ship_type; /* 0: no build order
+			     1..20: index into above array */
   gint16 build_engine_type;
-  gint16 build_beam_type, build_beam_count;
-  gint16 build_torp_type, build_torp_count;
+
+  gint16 build_beam_type;
+  gint16 build_beam_count;
+
+  gint16 build_torp_type;
+  gint16 build_torp_count;
 	
   /* Fighter count (?) this should always be zero */
   gint16 fighter_count;
@@ -250,6 +262,11 @@ struct _Planet {
   gint16 id;
   VpPlanetReg *pdata;	/* PDATA */
   gchar name[21];
+};
+
+typedef struct _Base Base;
+struct _Base {
+  VpStarbaseReg *bdata; /* BDATA */
 };
 
 typedef struct _Ship Ship;

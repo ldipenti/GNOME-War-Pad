@@ -35,10 +35,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist);
 void game_mgr_update_race_list(char *dir);
 
 // Game settings functions
-void game_mgr_settings_save(const GameSettings *settings);
-void game_mgr_settings_delete(const gchar *name);
 void game_mgr_properties_dlg_clean(void);
-void game_mgr_settings_print_data (GameSettings *s);
 
 // icon_number < 0 if not editing or adding a game
 gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
@@ -46,8 +43,8 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 void game_mgr_properties_dlg_get_settings(GameSettings *settings);
 gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
 
-void game_mgr_add_icon(GnomeIconList *iconlist, GameSettings *sett);
-void game_mgr_play_game(GameSettings *sett);
+void game_mgr_add_icon(GnomeIconList *iconlist, GameState *state);
+void game_mgr_play_game(GameState *state);
 
 // Game name translators
 void game_mgr_game_name_mangle(gchar *name);

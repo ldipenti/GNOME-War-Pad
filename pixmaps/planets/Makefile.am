@@ -1,6 +1,7 @@
 #SUBDIRS =
 
 EXTRA_DIST = \
+	sbase1.png \
 	planet-unknown.png \
 	planet0-9.png \
 	planet10-19.png \

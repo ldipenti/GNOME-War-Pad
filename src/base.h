@@ -56,4 +56,7 @@ gint16 base_get_build_beam_count(Base *base);
 gint16 base_get_build_torp_type(Base *base);
 gint16 base_get_build_torp_count(Base *base);
 
+Base *base_copy(Base *base);
+Base *base_new(void);
+
 #endif

@@ -35,12 +35,15 @@ void game_mgr_init(void)
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
     GSList *games = NULL;
-    GameSettings *game;
+    GameState *game;
     gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
     gchar *tmp = NULL;
+    gchar *name_tmp = NULL;
     GnomeIconList *iconlist =
       (GnomeIconList *) lookup_widget("game_mgr_iconlist");
-    
+    gboolean delete = FALSE;
+    GtkWidget *warn;
+
     race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
     store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     renderer = gtk_cell_renderer_text_new();
@@ -53,49 +56,98 @@ void game_mgr_init(void)
 
     /* Load the games data */
     gwp_gconf = gconf_client_get_default();
-    games = gconf_client_all_dirs(gwp_gconf, 
-				  games_path,
-				  NULL);
-    /* Load the games */
+    games = gconf_client_all_dirs(gwp_gconf, games_path, NULL);
+    
+    /* Check for format version */
+    if(game_state_get_version() != GAME_STATE_VERSION) {
+      delete = TRUE;
+      if(games) {
+	/* Warn the user about its games being deleted */
+	warn = gtk_message_dialog_new((GtkWindow*) game_mgr,
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_INFO,
+				      GTK_BUTTONS_CLOSE,
+				      _("The game state data format have changed. Your game definitions will be deleted because are not compatible with this version, please re-create them. Sorry for the inconvenience."));
+	gtk_dialog_run(GTK_DIALOG(warn));
+	gtk_widget_destroy(warn);
+      }
+    }
+
+    /* Load (or delete) the games */
     while(games != NULL) {
-      game = game_mgr_settings_new();
+      game = game_state_new();
 
-      /* Get the data! */
-      game->game_name = g_strdup(g_strrstr(games->data, "/"));
-      game->game_name++;
+      name_tmp = g_strdup(g_strrstr(games->data, "/"));
+      name_tmp++;
 
-      tmp = g_strconcat(games_path, "/", game->game_name, "/game_dir", NULL);
-      game->game_dir = gconf_client_get_string(gwp_gconf, tmp, NULL);
-      g_free(tmp);
+      if(delete) {
+	game_state_delete(name_tmp);
+	game_state_set_version(GAME_STATE_VERSION);
+      } else {
+	/*****************/
+	/* Get the data! */
+	/*****************/
 
-      tmp = g_strconcat(games_path, "/", game->game_name, "/trn_dir", NULL);
-      game->trn_dir = gconf_client_get_string(gwp_gconf, tmp, NULL);
-      g_free(tmp);
+	game_set_name(game, name_tmp);
+	
+	/* GameState */
+	tmp = g_strconcat(games_path, "/", name_tmp, "/starchart_zoom", NULL);
+	game_set_starchart_zoom(game, 
+				gconf_client_get_float(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/turn_number", NULL);
+	game_set_turn_number(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/last_x_coord", NULL);
+	game_set_last_x_coord(game, 
+			      gconf_client_get_int(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/last_y_coord", NULL);
+	game_set_last_y_coord(game, 
+			      gconf_client_get_int(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/toolbar", NULL);
+	game_set_toolbar(game, 
+			 gconf_client_get_bool(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	/* GameSettings */
+	tmp = g_strconcat(games_path, "/", name_tmp, "/game_dir", NULL);
+	game_set_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/trn_dir", NULL);
+	game_set_trn_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/rst_dir", NULL);
+	game_set_rst_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/player_email", NULL);
+	game_set_player_email(game, 
+			      gconf_client_get_string(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/host_email", NULL);
+	game_set_host_email(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/host_type", NULL);
+	game_set_host_type(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
+	g_free(tmp);
+	
+	tmp = g_strconcat(games_path, "/", name_tmp, "/race", NULL);
+	game_set_race(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
+	g_free(tmp);
 
-      tmp = g_strconcat(games_path, "/", game->game_name, "/rst_dir", NULL);
-      game->rst_dir = gconf_client_get_string(gwp_gconf, tmp, NULL);
-      g_free(tmp);
-
-      tmp = g_strconcat(games_path, "/", game->game_name, 
-			"/player_email", NULL);
-      game->player_email = gconf_client_get_string(gwp_gconf, tmp, NULL);
-      g_free(tmp);
-
-      tmp = g_strconcat(games_path, "/", game->game_name, "/host_email", NULL);
-      game->host_email = gconf_client_get_string(gwp_gconf, tmp, NULL);
-      g_free(tmp);
-
-      tmp = g_strconcat(games_path, "/", game->game_name, "/host_type", NULL);
-      game->host_type = gconf_client_get_int(gwp_gconf, tmp, NULL);
-      g_free(tmp);
-
-      tmp = g_strconcat(games_path, "/", game->game_name, "/race", NULL);
-      game->race = gconf_client_get_int(gwp_gconf, tmp, NULL);
-      g_free(tmp);
-
-      /* Add icon to iconlist */
-      game_mgr_add_icon(iconlist, game);
-      
+	/* Add icon to iconlist */
+	game_mgr_add_icon(iconlist, game);
+      }
       /* Move forward on the list... */
       games = games->next;
     }
@@ -228,28 +280,28 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
   
   /* If validations are ok... */
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_idx)) {
-    GameSettings *settings = NULL;
+    GameState *state = NULL;
     GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
     GnomeIconTextItem *icon_text = NULL;
 
-    settings = (GameSettings *) 
+    state = (GameState *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 				    icon_idx);
-    g_assert(settings != NULL);
+    g_assert(state != NULL);
   
-    /* Assign dialog values to settings structure */
-    game_mgr_properties_dlg_get_settings(settings);
+    /* Assign dialog values to state structure */
+    game_mgr_properties_dlg_get_settings(state->settings);
 
     /* Update it on GConf */
-    game_mgr_settings_delete(old_game_name);
-    game_mgr_settings_save(settings);
+    game_state_delete(old_game_name);
+    game_state_save(state);
 
     /* Update icon name */
     icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
 						   icon_idx);
     g_assert(GNOME_IS_ICON_TEXT_ITEM(icon_text));
     gnome_icon_text_item_start_editing(icon_text);
-    icon_text->text = g_strdup_printf("%s", settings->game_name);
+    icon_text->text = g_strdup(game_get_name(state));
     game_mgr_game_name_demangle(icon_text->text);
     gnome_icon_text_item_stop_editing(icon_text, TRUE);
 
@@ -274,13 +326,13 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
   icon_q = gnome_icon_list_get_num_icons(iconlist)+1;
   /* If validations are ok, we work... */
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_q)) {
-    GameSettings *new_game = game_mgr_settings_new();
+    GameState *new_game = game_state_new();
 
     /* Get the data from the dialog */
-    game_mgr_properties_dlg_get_settings(new_game);
+    game_mgr_properties_dlg_get_settings(new_game->settings);
 
     /* Save it on GConf */
-    game_mgr_settings_save(new_game);
+    game_state_save(new_game);
 
     /* Add icon with data */
     game_mgr_add_icon(iconlist, new_game);
@@ -398,20 +450,20 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
   if(icon_number >= 0) {
     GnomeIconList *iconlist =
       (GnomeIconList *) lookup_widget("game_mgr_iconlist");
-    GameSettings *sett;
+    GameState *state;
     gint i, icon_q;
 
     /* Iterate through all games except the one being edited */
     icon_q = gnome_icon_list_get_num_icons(iconlist);
     for(i = 0; i < icon_q; i++) {
       if(i != icon_number) {
-	sett = (GameSettings *) 
+	state = (GameState *) 
 	  gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 					i);
-	g_assert(sett != NULL);
+	g_assert(state != NULL);
 
 	/* If strings are equal... */
-	if(g_ascii_strcasecmp(sett->game_name, 
+	if(g_ascii_strcasecmp(game_get_name(state), 
 			      game_name_str) == 0) {
 	  GtkWidget *warn;
 	  
@@ -498,35 +550,11 @@ void game_mgr_properties_dlg_clean(void)
   gnome_file_entry_set_filename(fentry, "");
 }
 
-void game_mgr_settings_save(const GameSettings *settings)
-{
-  gchar *path = g_strconcat(GWP_GCONF_PATH"Games/",
-			    settings->game_name,
-			    "/", NULL);
-
-  g_assert(settings != NULL);
-
-  gconf_client_set_string(gwp_gconf, g_strconcat(path,"player_email",NULL),
-			  settings->player_email, NULL);
-  gconf_client_set_string(gwp_gconf, g_strconcat(path,"host_email",NULL),
-			  settings->host_email, NULL);
-  gconf_client_set_string(gwp_gconf, g_strconcat(path,"game_dir",NULL),
-			  settings->game_dir, NULL);
-  gconf_client_set_string(gwp_gconf, g_strconcat(path,"trn_dir",NULL),
-			  settings->trn_dir, NULL);
-  gconf_client_set_string(gwp_gconf, g_strconcat(path,"rst_dir",NULL),
-			  settings->rst_dir, NULL);
-  gconf_client_set_int(gwp_gconf, g_strconcat(path,"host_type",NULL),
-		       settings->host_type, NULL);
-  gconf_client_set_int(gwp_gconf, g_strconcat(path,"race",NULL),
-		       settings->race, NULL);
-}
-
-void game_mgr_add_icon(GnomeIconList *iconlist, GameSettings *sett)
+void game_mgr_add_icon(GnomeIconList *iconlist, GameState *state)
 {
   gint icon_idx;
-  gchar *game_name = g_strdup_printf("%s", sett->game_name);
 
+  gchar *game_name = g_strdup(game_get_name(state));
   game_mgr_game_name_demangle(game_name);
 
   // Add new game icon, with data
@@ -535,72 +563,8 @@ void game_mgr_add_icon(GnomeIconList *iconlist, GameSettings *sett)
 				    game_name);
   gnome_icon_list_set_icon_data(GNOME_ICON_LIST(iconlist),
 				icon_idx,
-				sett);
+				state);
   g_free(game_name);
-}
-
-// For debugging purposes
-void game_mgr_settings_print_data (GameSettings *s)
-{
-  g_assert(s != NULL);
-
-  g_message("Game Name: '%s'", s->game_name);
-  g_message("Game Dir: '%s'", s->game_dir);
-  g_message("TRN Dir: '%s'", s->trn_dir);
-  g_message("RST DIR: '%s'", s->rst_dir);
-  g_message("Player Email: '%s'", s->player_email);
-  g_message("Host Email: '%s'", s->host_email);
-  g_message("Host Type: '%d' - Race: '%d'", s->host_type, s->race);
-}
-
-// Deletes GConf Game entry...
-void game_mgr_settings_delete(const gchar *name)
-{
-  GSList *games;
-  gchar *tmp, *tmp_path;
-  gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
- 
-  games = gconf_client_all_dirs(gwp_gconf, 
-				games_path,
-				NULL);
-  // Search within the games
-  while(games != NULL) {
-    tmp = g_strdup(g_strrstr(games->data, "/"));
-    tmp++;
-
-    // If this is the entry we are looking for...
-    if(g_ascii_strncasecmp(tmp, name,strlen(name)) == 0) {
-      tmp_path = g_strconcat(games_path, "/", tmp, "/", NULL);
-
-      // bye bye entries!
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "game_name", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "game_dir", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "trn_dir", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "rst_dir", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "player_email", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "host_email", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "host_type", NULL),
-			 NULL);
-      gconf_client_unset(gwp_gconf, 
-			 g_strconcat(tmp_path, "race", NULL),
-			 NULL);
-      return;
-    }
-    games = games->next;
-  }
 }
 
 // Translates ' ' to '_'
@@ -631,21 +595,23 @@ void game_mgr_game_name_demangle(gchar *name)
   }
 }
 
-void game_mgr_play_game(GameSettings *sett)
+void game_mgr_play_game(GameState *state)
 {
   gchar *tmp;
   GtkLabel *race = 
     (GtkLabel *) lookup_widget("label_race_name");
 
-  g_assert(sett != NULL);
+  g_assert(state != NULL);
 
-  /* Init basic data */
-  game_init_dir(sett->game_dir);
+  /* Init basic data 
+  game_set_dir(sett->game_dir);
   game_set_race(sett->race);
   game_set_name(sett->game_name);
+  */
+  game_state = state;
 
   /* Check for new RST */
-  if (vp_can_unpack(sett->game_dir, sett->race)) {
+  if (vp_can_unpack(game_get_dir(game_state), game_get_race(game_state))) {
     GtkResponseType response;
     GtkWidget *warn;
 
@@ -659,7 +625,7 @@ void game_mgr_play_game(GameSettings *sett)
     gtk_widget_destroy(warn);
 
     if(response == GTK_RESPONSE_YES) {
-      vp_unpack(sett->game_dir, sett->race);
+      vp_unpack(game_get_dir(game_state), game_get_race(game_state));
     }
   }
 
@@ -669,10 +635,11 @@ void game_mgr_play_game(GameSettings *sett)
   init_starchart_mini();
 
   /* Get the widgets ready */
-  gtk_label_set_text(race, race_get_name(sett->race));
+  gtk_label_set_text(race, race_get_name(game_get_race(game_state)));
 
-  tmp = g_strconcat(game_get_name(), " | ",
-		    g_strdup_printf(_("Turn: %d"), game_get_turn_number()),
+  tmp = g_strconcat(game_get_name(game_state), " | ",
+		    g_strdup_printf(_("Turn: %d"), 
+				    game_get_turn_number(game_state)),
 		    " - GNOME War Pad", NULL);
   gtk_window_set_title(GTK_WINDOW(gwp), tmp);
   g_free(tmp);

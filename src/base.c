@@ -171,3 +171,36 @@ gint16 base_get_build_torp_count(Base *base)
   g_assert(base != NULL);
   return base->bdata->build_torp_count;
 }
+
+/****************/
+/* Others funcs */
+/****************/
+
+
+/* Copies base struct */
+Base *base_copy(Base *base)
+{
+  Base *base_copy;
+
+  g_assert(base != NULL);
+
+  base_copy = g_malloc(sizeof(Base));
+  base_copy = memcpy(base_copy, base, sizeof(Base));
+
+  base_copy->bdata = g_malloc(sizeof(VpStarbaseReg));
+  base_copy->bdata = memcpy(base_copy->bdata, base->bdata,
+			    sizeof(VpStarbaseReg));
+
+  return base_copy;
+}
+
+/* Creates a new base object */
+Base *base_new(void)
+{
+  Base *base;
+
+  base = g_malloc(sizeof(Base));
+  base->bdata = g_malloc(sizeof(VpStarbaseReg));
+
+  return base;
+}

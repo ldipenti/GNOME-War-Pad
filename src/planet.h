@@ -17,7 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-// Planet utility functions
+/* Planet utility functions */
 
 #ifndef PLANET_H
 #define PLANET_H
@@ -26,11 +26,17 @@
 #include "race.h"
 
 Planet *planet_get(GHashTable *list, gint planet_id);
+Planet *planet_copy(Planet *planet);
+Base *planet_get_base(Planet *planet);
 
-// Planet check functions
+/* Planet check functions */
+gboolean planet_has_starbase(Planet *planet);
 gint planet_is_known(Planet *planet);
+gboolean planet_is_mine(Planet *planet);
+gboolean planet_valid_coords(Planet *planet);
+gint planet_what_is(Planet *planet);
 
-// Planet "GET" functions
+/* Planet "GET" functions */
 gint16 planet_get_id(Planet *planet);
 gchar *planet_get_name(Planet *planet);
 enum races planet_get_owner(Planet *planet);
@@ -70,15 +76,16 @@ gchar *planet_get_temperature_str(Planet *planet);
 gint16 planet_get_build_base(Planet *planet);
 gint planet_get_visibility(Planet *planet);
 
-gboolean planet_is_mine(Planet *planet);
-gboolean planet_valid_coords(Planet *planet);
-gint planet_what_is(Planet *planet);
-
 gint planet_neutronium_extraction_rate(Planet *planet);
+gint planet_neutronium_turns_left(Planet *planet);
 gint planet_molybdenum_extraction_rate(Planet *planet);
+gint planet_molybdenum_turns_left(Planet *planet);
 gint planet_tritanium_extraction_rate(Planet *planet);
+gint planet_tritanium_turns_left(Planet *planet);
 gint planet_duranium_extraction_rate(Planet *planet);
+gint planet_duranium_turns_left(Planet *planet);
 gint planet_mineral_extraction_rate(gint mines, gint density, gint mineral);
+gint planet_mineral_turns_left(gint mineral, gint extraction_rate);
 gdouble planet_get_ground_percent(gint mineral);
 
 gint planet_get_tax_earned_natives(Planet *planet);
@@ -89,6 +96,10 @@ gint planet_get_happiness_nat_change(Planet *planet);
 gint planet_get_nat_growth_limit(Planet *planet);
 gint planet_get_col_growth_limit(Planet *planet);
 
-Planet *planet_copy(Planet *planet);
+/* Planet Defense Systems funcs */
+gint planet_get_def_sys_beams_nr(Planet *planet);
+gint planet_get_def_sys_fighters_nr(Planet *planet);
+gint planet_get_def_sys_fighter_bays(Planet *planet);
+gint planet_get_def_sys_battle_mass(Planet *planet);
 
 #endif

@@ -24,6 +24,31 @@
 
 #include "race.h"
 
+/*******************************************/
+/************** GAME SETTINGS **************/
+/*******************************************/
+
+/*
+ * This structure is for the game manager to store
+ * every game's information that later will save on
+ * GConf.
+ */
+typedef struct _GameSettings GameSettings;
+struct _GameSettings {
+  gchar *game_dir, *game_name, *trn_dir, *rst_dir;
+  gchar *player_email, *host_email;
+  gint host_type; // 1=THost ; 2=PHost
+  gint race;
+};
+
+GameSettings *game_settings_new(void);
+void game_settings_free(GameSettings *s);
+void game_settings_save(const GameSettings *settings);
+
+/*******************************************/
+/**************** GAME STATE ***************/
+/*******************************************/
+
 /*
  * Game state data type, this will be used to store all 
  * the global info that will be needed during the game.
@@ -32,37 +57,61 @@ typedef struct _GameState GameState;
 struct _GameState
 {
   gdouble starchart_zoom;
+  gint turn_number;
   gint16 last_x_coord;
   gint16 last_y_coord;
-  GString * dir;
-  gint turn_number;
-  gint race;
-  gchar *name;
   GList *pnames;
+  gboolean toolbar;
+  GameSettings *settings;
 };
 
-void game_set_dir (gchar * dir);
-GString *game_get_dir (void);
-GString *game_get_full_path (GString * filename);
-void game_init_dir (gchar * dir);
+GameState *game_state_new(void);
+void game_state_free(GameState *gstate);
 
-void game_set_starchart_zoom (gdouble zoom);
-gdouble game_get_starchart_zoom (void);
+/* Accesors */
+void game_set_dir (GameState *game_state, gchar * dir);
+gchar *game_get_dir(const GameState *game_state);
+gchar *game_get_full_path(const GameState *game_state, gchar *filename);
 
-void game_set_race (gint race_num);
-enum races game_get_race (void);
+void game_set_starchart_zoom (GameState *game_state, gdouble zoom);
+gdouble game_get_starchart_zoom (const GameState *game_state);
 
-gint16 game_get_last_x_coord(void);
-gint16 game_get_last_y_coord(void);
-void game_set_last_coords(gint16 x, gint16 y);
+void game_set_race (GameState *game_state, gint race_num);
+enum races game_get_race (const GameState *game_state);
 
-void game_set_name (const gchar *name);
-const gchar *game_get_name (void);
+gint16 game_get_last_x_coord(const GameState *game_state);
+void game_set_last_x_coord(GameState *game_state, gint y);
+gint16 game_get_last_y_coord(const GameState *game_state);
+void game_set_last_y_coord(GameState *game_state, gint y);
+void game_set_last_coords(GameState *game_state, gint16 x, gint16 y);
 
-GList *game_get_pnames(void);
-void game_set_pnames(GList *pnames);
+void game_set_name (GameState *game_state, const gchar *name);
+const gchar *game_get_name (const GameState *game_state);
 
-void game_set_turn_number(gint turn);
-gint game_get_turn_number(void);
+GList *game_get_pnames(GameState *game_state);
+void game_set_pnames(GameState *game_state, GList *pnames);
+
+void game_set_turn_number(GameState *game_state, gint turn);
+gint game_get_turn_number(const GameState *game_state);
+
+void game_state_save(const GameState *state);
+void game_state_delete(const gchar *name);
+
+void game_set_player_email(GameState *game_state, gchar *pe);
+gchar *game_get_player_email(const GameState *game_state);
+void game_set_host_email(GameState *game_state, gchar *he);
+gchar *game_get_host_email(const GameState *game_state);
+void game_set_trn_dir(GameState *game_state, gchar *td);
+gchar *game_get_trn_dir(const GameState *game_state);
+void game_set_rst_dir(GameState *game_state, gchar *rt);
+gchar *game_get_rst_dir(const GameState *game_state);
+gint game_get_host_type(const GameState *game_state);
+void game_set_host_type(GameState *game_state, gint ht);
+gboolean game_get_toolbar(const GameState *game_state);
+void game_set_toolbar(GameState *game_state, gboolean tb);
+
+void game_close(GameState *game_state);
+gint game_state_get_version(void);
+void game_state_set_version(gint version);
 
 #endif

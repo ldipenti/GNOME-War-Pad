@@ -228,10 +228,10 @@ void on_game_mgr_play_game (GtkWidget *widget,
 {
   GnomeIconList *iconlist =
     (GnomeIconList *)lookup_widget("game_mgr_iconlist");
-  GameSettings *settings = (GameSettings *) 
+  GameState *state = (GameState *) 
     gnome_icon_list_get_icon_data(iconlist,
 				  game_mgr_get_icon_idx_selected());
-  game_mgr_play_game(settings);
+  game_mgr_play_game(state);
 }
 
 void on_game_mgr_new_game (GtkWidget *widget,
@@ -271,7 +271,7 @@ void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 
   /* Double-click enters the game */
   if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
-    game_mgr_play_game((GameSettings *)
+    game_mgr_play_game((GameState *)
 		       gnome_icon_list_get_icon_data(iconlist, 
 						     icon_idx));
     return;
@@ -348,18 +348,18 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 {
   GtkWidget *iconlist = NULL;
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
-  GameSettings *settings = NULL;
+  GameState *state = NULL;
   GList *selections = NULL;
 
   iconlist = lookup_widget("game_mgr_iconlist");
   selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
   if(selections) {
-    settings = (GameSettings *) 
+    state = (GameState *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 				  (gint)g_list_nth_data(selections, 0));
-    g_assert(settings != NULL);
+    g_assert(state != NULL);
 
-    if(game_mgr_properties_dlg_fill(settings)) {
+    if(game_mgr_properties_dlg_fill(state->settings)) {
 
       /* 
 	 Connect callback to OK button, so that works as 
@@ -375,7 +375,7 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 			   _("Edit Game Properties"));
 
       // Update 'Unpack' button status
-      if(vp_can_unpack(settings->game_dir, settings->race)) {
+      if(vp_can_unpack(game_get_dir(state), game_get_race(state))) {
 	GtkWidget *btn_unpack =
 	  lookup_widget("game_mgr_btn_unpack");
 	gtk_widget_set_sensitive(btn_unpack, TRUE);
@@ -404,7 +404,7 @@ void on_game_mgr_delete_game (GtkWidget *widget,
 			      gpointer user_data)
 {
   GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
-  GameSettings *settings = NULL;
+  GameState *state = NULL;
   GList *selections = NULL;
   
   selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
@@ -415,12 +415,12 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     GtkWidget *warn;
     gchar *game_name;
 
-    settings = (GameSettings *) 
+    state = (GameState *) 
       gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
 				    icon_idx);
-    g_assert(settings != NULL);
-    game_name = g_strdup_printf("%s", settings->game_name);
-    game_mgr_game_name_demangle(game_name);
+    g_assert(state != NULL);
+    game_name = g_strdup(game_get_name(state));
+    game_mgr_game_name_mangle(game_name);
 
     /* Are you sureeee? */
     warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
@@ -436,11 +436,11 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     if(response == GTK_RESPONSE_YES) {
     
       /* Remove it from GConf */
-      game_mgr_settings_delete(settings->game_name);
+      game_state_delete(game_name);
       gconf_client_suggest_sync(gwp_gconf, NULL);
 
-      /* Free memory from GameSettings struct */
-      game_mgr_settings_free(settings);
+      /* Free memory from GameState struct */
+      game_state_free(state);
       /* Remove icon */
       gnome_icon_list_remove(GNOME_ICON_LIST(iconlist),
 			     icon_idx);
@@ -450,6 +450,9 @@ void on_game_mgr_delete_game (GtkWidget *widget,
 
 void gwp_quit(void)
 {
+  /* Save game state */
+  game_close(game_state);
+
   /* Disconnect from GConf server */
   gconf_client_suggest_sync(gwp_gconf, NULL);
   g_object_unref(gwp_gconf);
@@ -525,6 +528,7 @@ void on_game_close_activate (GtkWidget *widget,
 			     gpointer user_data)
 {
   gtk_widget_hide(gwp);
+  game_close(game_state);
   gtk_widget_show(game_mgr);
 }
 
@@ -598,7 +602,21 @@ void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
 
   if(gtk_check_menu_item_get_active(menuitem)) {
     gtk_widget_show(btn_bar);
+    game_set_toolbar(game_state, TRUE);
   } else {
     gtk_widget_hide(btn_bar);
+    game_set_toolbar(game_state, FALSE);
   }
+}
+
+void on_togglebutton_panel_defense_toggled(GtkToggleButton *button,
+					   gpointer user_data)
+{
+  toggle_global_defense_panel(gtk_toggle_button_get_active(button));
+}
+
+void on_togglebutton_panel_base_toggled(GtkToggleButton *button,
+					gpointer user_data)
+{
+  toggle_starbase_panel(gtk_toggle_button_get_active(button));
 }

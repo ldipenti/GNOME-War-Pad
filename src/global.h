@@ -87,8 +87,11 @@
 #define MOUSE_INTERLEAVE 5
 #define SCROLL 20
 
+#define GAME_STATE_VERSION 2
+
 // Global vars
 GHashTable *planet_list;
+GHashTable *base_list;
 GHashTable *ship_list;
 GHashTable *target_list;
 GHashTable *fleet_list;
@@ -113,7 +116,7 @@ GladeXML *xml_interface;
 // GWP structures
 Starchart starchart;
 StarchartMini starchart_mini;
-GameState game_state;
+GameState *game_state;
 
 // GConf subsystem
 #define GWP_GCONF_PATH "/apps/gwp/"

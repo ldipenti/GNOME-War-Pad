@@ -104,3 +104,7 @@ void on_togglebutton_grid_toggled (GtkToggleButton *button,
 
 void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
 			       gpointer user_data);
+void on_togglebutton_panel_defense_toggled(GtkToggleButton *button,
+					   gpointer user_data);
+void on_togglebutton_panel_base_toggled(GtkToggleButton *button,
+					gpointer user_data);

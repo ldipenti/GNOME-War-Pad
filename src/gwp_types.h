@@ -97,20 +97,4 @@ struct _StarchartMini {
   GnomeCanvasItem *zone;
 };
 
-/*
- * This structure is for the game manager to store
- * every game's information that later will save on
- * GConf.
- */
-typedef struct _GameSettings GameSettings;
-struct _GameSettings {
-  gchar *game_dir, *game_name, *trn_dir, *rst_dir;
-  gchar *player_email, *host_email;
-  gint host_type; // 1=THost ; 2=PHost
-  gint race;
-};
-
-GameSettings *game_mgr_settings_new(void);
-void game_mgr_settings_free(GameSettings *s);
-
 #endif

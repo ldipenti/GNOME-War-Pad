@@ -31,6 +31,8 @@ gint handle_planet_event(GnomeCanvasItem *item, GdkEvent *event, gpointer data);
 gint handle_starchart_event(GnomeCanvas *item, GdkEvent *event, gpointer data);
 
 // Updates Planet Data on Panel
+void update_starbase_panel(gint16 planet_id);
+void update_global_defense_panel(gint16 planet_id);
 void update_planet_panel(GtkWidget *gwp, gint16 planet_id);
 void update_planet_extra_panel (gint16 planet_id);
 void update_ship_panel(GtkWidget *gwp, GSList *ship_list);
@@ -74,5 +76,8 @@ void starchart_scroll_to(gint cx, gint cy);
 void starchart_mini_scroll_zone_to(gint cx, gint cy);
 void starchart_set_status(gchar *msg);
 void starchart_mini_set_planet_img(Planet *planet);
+
+void toggle_global_defense_panel(gboolean show);
+void toggle_starbase_panel(gboolean show);
 
 #endif

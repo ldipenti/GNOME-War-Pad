@@ -27,18 +27,44 @@
 #include "global.h"
 #include "game_state.h"
 #include "race.h"
+#include "base.h"
 
 /*
  * Returns the planet with id
  */
-Planet *planet_get(GHashTable *list, gint planet_id) {
+Planet *planet_get(GHashTable *list, gint planet_id)
+{
   return (Planet *) g_hash_table_lookup(list, (gconstpointer)planet_id);
+}
+
+/* Returns the planet's corresponding base (if exists) */
+Base *planet_get_base(Planet *planet)
+{
+  g_assert(planet != NULL);
+  if(planet_has_starbase(planet)) {
+    return base_get(base_list, planet_get_id(planet));
+  } else {
+    return NULL;
+  }
 }
 
 /*
  * Planet check functions
  */
-gboolean planet_is_known(Planet *planet) {
+gboolean planet_has_starbase(Planet *planet)
+{
+  g_assert(planet != NULL);
+
+  if(g_hash_table_lookup(base_list, 
+			 (gconstpointer)(gint)planet_get_id(planet))) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+gboolean planet_is_known(Planet *planet) 
+{
   g_assert(planet != NULL);
 
   if(planet->pdata != NULL) {
@@ -326,7 +352,7 @@ gboolean planet_valid_coords(Planet *planet)
 gint planet_what_is(Planet *planet)
 {
   g_assert(planet != NULL);
-  if(planet_get_owner(planet) == game_get_race())
+  if(planet_get_owner(planet) == game_get_race(game_state))
     {
       return IS_MINE;
     } else {
@@ -358,12 +384,26 @@ gint planet_neutronium_extraction_rate(Planet *planet)
 					planet_get_ground_neutronium(planet));
 }
 
+gint planet_neutronium_turns_left(Planet *planet)
+{
+  g_assert(planet != NULL);
+  return planet_mineral_turns_left(planet_get_ground_neutronium(planet),
+				   planet_neutronium_extraction_rate(planet));
+}
+
 gint planet_tritanium_extraction_rate(Planet *planet)
 {
   g_assert(planet != NULL);
   return planet_mineral_extraction_rate(planet_get_mines(planet), 
 					planet_get_dens_tritanium(planet),
 					planet_get_ground_tritanium(planet));
+}
+
+gint planet_tritanium_turns_left(Planet *planet)
+{
+  g_assert(planet != NULL);
+  return planet_mineral_turns_left(planet_get_ground_tritanium(planet),
+				   planet_tritanium_extraction_rate(planet));
 }
 
 gint planet_molybdenum_extraction_rate(Planet *planet)
@@ -374,12 +414,26 @@ gint planet_molybdenum_extraction_rate(Planet *planet)
 					planet_get_ground_molybdenum(planet));
 }
 
+gint planet_molybdenum_turns_left(Planet *planet)
+{
+  g_assert(planet != NULL);
+  return planet_mineral_turns_left(planet_get_ground_molybdenum(planet),
+				   planet_molybdenum_extraction_rate(planet));
+}
+
 gint planet_duranium_extraction_rate(Planet *planet)
 {
   g_assert(planet != NULL);
   return planet_mineral_extraction_rate(planet_get_mines(planet), 
 					planet_get_dens_duranium(planet),
 					planet_get_ground_duranium(planet));
+}
+
+gint planet_duranium_turns_left(Planet *planet)
+{
+  g_assert(planet != NULL);
+  return planet_mineral_turns_left(planet_get_ground_duranium(planet),
+				   planet_duranium_extraction_rate(planet));
 }
 
 gint planet_mineral_extraction_rate(gint mines, gint density, gint mineral)
@@ -404,6 +458,19 @@ gint planet_mineral_extraction_rate(gint mines, gint density, gint mineral)
   } else {
     return mineral;
   }
+}
+
+gint planet_mineral_turns_left(gint mineral, gint extraction_rate)
+{
+  gint ret;
+
+  if(extraction_rate > 0) {
+    ret = mineral / extraction_rate;
+  } else {
+    ret = 0;
+  }
+
+  return ret;
 }
 
 /* This function returns a number between 0.0 and 1.0, to be
@@ -470,7 +537,7 @@ gint planet_get_happiness_col_change(Planet *planet)
 
   g_assert(planet != NULL);
   
-  if(game_get_race() != RACE_CRYSTALLINE) {
+  if(game_get_race(game_state) != RACE_CRYSTALLINE) {
     ret = trunc((1000 - sqrt(planet_get_colonists(planet)) -
 		 80 * planet_get_tax_colonists(planet) -
 		 abs(50 - planet_get_temperature(planet)) * 3 -
@@ -539,7 +606,7 @@ gint planet_get_col_growth_limit(Planet *planet)
     /* If planet conditions are good for life... */
     if((planet_get_temperature(planet) <= 84) &&
        (planet_get_temperature(planet) >= 15)) {
-      if(game_get_race() != RACE_CRYSTALLINE) {
+      if(game_get_race(game_state) != RACE_CRYSTALLINE) {
 	ret = sin(3.14 * ((100.0 - (gdouble)planet_get_temperature(planet))
 			  / 100.0)) * 100000;
       } else {
@@ -574,4 +641,65 @@ Planet *planet_copy(Planet *planet)
   }
 
   return planet_copy;
+}
+
+/***************************************/
+/* Global Defense Systems calculations */
+/***************************************/
+gint planet_get_def_sys_beams_nr(Planet *planet)
+{
+  gint ret;
+  g_assert(planet != NULL);
+
+  if(planet_has_starbase(planet)) {
+    ret = round(sqrt(((gdouble)planet_get_defense_posts(planet) +
+		      (gdouble)base_get_defense(planet_get_base(planet)))
+		     / 3));
+  } else {
+    ret = round(sqrt((gdouble)planet_get_defense_posts(planet) / 3));
+  }
+
+  return ret;
+}
+
+gint planet_get_def_sys_fighters_nr(Planet *planet)
+{
+  gint ret;
+  g_assert(planet != NULL);
+
+  if(planet_get_defense_posts(planet) >= 1) {
+    ret = round(sqrt((gdouble)planet_get_defense_posts(planet) - 0.75));
+  } else {
+    /* Avoid a negative square root */
+    ret = 0;
+  }
+
+  /* Add starbase fighters */
+  if(planet_has_starbase(planet)) {
+    ret += base_get_fighters(planet_get_base(planet));
+  }
+
+  return ret;
+}
+
+gint planet_get_def_sys_fighter_bays(Planet *planet)
+{
+  g_assert(planet != NULL);
+
+  return trunc(sqrt(planet_get_defense_posts(planet)));
+}
+
+gint planet_get_def_sys_battle_mass(Planet *planet)
+{
+  gint ret;
+  g_assert(planet != NULL);
+
+  if(planet_has_starbase(planet)) {
+    ret = (100 + planet_get_defense_posts(planet) 
+	   + base_get_defense(planet_get_base(planet)));
+  } else {
+    ret = (100 + planet_get_defense_posts(planet));
+  }
+
+  return ret;
 }

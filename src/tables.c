@@ -150,8 +150,8 @@ void table_population_update(Planet *a_planet)
     nat_growth_limit = planet_get_nat_growth_limit(planet);
     col_growth_limit = planet_get_col_growth_limit(planet);
 
-    for(turn = game_get_turn_number()+1; 
-	turn <= game_get_turn_number()+11; turn++) {
+    for(turn = game_get_turn_number(game_state)+1; 
+	turn <= game_get_turn_number(game_state)+11; turn++) {
 
       /****************************/
       /* Calculate natives growth */
@@ -201,7 +201,7 @@ void table_population_update(Planet *a_planet)
       /**********************************/
       /*** Calculate colonists growth ***/
       /**********************************/
-      if(game_get_race() != RACE_CRYSTALLINE) {
+      if(game_get_race(game_state) != RACE_CRYSTALLINE) {
 
 	if((planet_get_colonists(planet) < col_growth_limit) &&
 	   (planet_get_happiness_colonists(planet) >= 70)) {

@@ -34,11 +34,143 @@
 #include "ship.h"
 #include "tables.h"
 #include "planet.h"
+#include "base.h"
 
 /*
  * Updates Planet Data on Panel
  */
-void update_planet_extra_panel (gint16 planet_id)
+void update_starbase_panel(gint16 planet_id)
+{
+  GtkProgressBar *tech_engines, *tech_hulls, *tech_beams, *tech_torps;
+  GtkProgressBar *base_defenses, *base_fighters, *base_damage;
+  Planet *planet;
+  gchar *tmp;
+  
+  tech_engines = (GtkProgressBar *) lookup_widget("progressbar_tech_engines");
+  tech_hulls = (GtkProgressBar *) lookup_widget("progressbar_tech_hulls");
+  tech_beams = (GtkProgressBar *) lookup_widget("progressbar_tech_beams");
+  tech_torps = (GtkProgressBar *) lookup_widget("progressbar_tech_torps");
+
+  base_defenses = (GtkProgressBar *) 
+    lookup_widget("progressbar_base_defenses");
+  base_fighters = (GtkProgressBar *) 
+    lookup_widget("progressbar_base_fighters");
+  base_damage = (GtkProgressBar *) 
+    lookup_widget("progressbar_base_damage");
+
+  planet = planet_get(planet_list, planet_id);
+  if(planet_has_starbase(planet)) {
+    Base *base = planet_get_base(planet);
+
+    gtk_progress_bar_set_fraction(tech_engines, 
+				  (gdouble)base_get_engines_tech(base)/10);
+    tmp = g_strdup_printf(_("Engines: %d"), base_get_engines_tech(base));
+    gtk_progress_bar_set_text(tech_engines, tmp);
+    g_free(tmp);
+
+    gtk_progress_bar_set_fraction(tech_hulls, 
+				  (gdouble)base_get_hulls_tech(base)/10);
+    tmp = g_strdup_printf(_("Hulls: %d"), base_get_hulls_tech(base));
+    gtk_progress_bar_set_text(tech_hulls, tmp);
+    g_free(tmp);
+
+    gtk_progress_bar_set_fraction(tech_beams, 
+				  (gdouble)base_get_beams_tech(base)/10);
+    tmp = g_strdup_printf(_("Beams: %d"), base_get_beams_tech(base));
+    gtk_progress_bar_set_text(tech_beams, tmp);
+    g_free(tmp);
+
+    gtk_progress_bar_set_fraction(tech_torps, 
+				  (gdouble)base_get_torps_tech(base)/10);
+    tmp = g_strdup_printf(_("Torpedoes: %d"), base_get_torps_tech(base));
+    gtk_progress_bar_set_text(tech_torps, tmp);
+    g_free(tmp);
+
+    gtk_progress_bar_set_fraction(base_defenses,
+				  (gdouble)base_get_defense(base)/200);
+    tmp = g_strdup_printf(_("Defenses: %d"), base_get_defense(base));
+    gtk_progress_bar_set_text(base_defenses, tmp);
+    g_free(tmp);
+
+    gtk_progress_bar_set_fraction(base_fighters, 
+				  (gdouble)base_get_fighters(base)/60);
+    tmp = g_strdup_printf(_("Fighters: %d"), base_get_fighters(base));
+    gtk_progress_bar_set_text(base_fighters, tmp);
+    g_free(tmp);
+
+    gtk_progress_bar_set_fraction(base_damage, 
+				  (gdouble)base_get_damage(base)/100);
+    tmp = g_strdup_printf(_("Damage: %d%%"), base_get_damage(base));
+    gtk_progress_bar_set_text(base_damage, tmp);
+    g_free(tmp);
+
+  } else {
+    gtk_progress_bar_set_fraction(tech_engines, 0.0);
+    gtk_progress_bar_set_text(tech_engines, _("Engines: n/a"));
+
+    gtk_progress_bar_set_fraction(tech_hulls, 0.0);
+    gtk_progress_bar_set_text(tech_hulls, _("Hulls: n/a"));
+
+    gtk_progress_bar_set_fraction(tech_beams, 0.0);
+    gtk_progress_bar_set_text(tech_beams, _("Beams: n/a"));
+
+    gtk_progress_bar_set_fraction(tech_torps, 0.0);
+    gtk_progress_bar_set_text(tech_torps, _("Torpedoes: n/a"));
+
+    gtk_progress_bar_set_fraction(base_defenses, 0.0);
+    gtk_progress_bar_set_text(base_defenses, _("Defenses: n/a"));
+
+    gtk_progress_bar_set_fraction(base_fighters, 0.0);
+    gtk_progress_bar_set_text(base_fighters, _("Fighters: n/a"));
+
+    gtk_progress_bar_set_fraction(base_damage, 0.0);
+    gtk_progress_bar_set_text(base_damage, _("Damage: n/a"));
+  }
+}
+
+void update_global_defense_panel(gint16 planet_id)
+{
+  GtkLabel *beams, *beams_type;
+  GtkLabel *fighters, *fighter_bays;
+  GtkLabel *battle_mass;
+  Planet *planet;
+  gchar *tmp;
+
+  beams = (GtkLabel *)lookup_widget("label_def_sys_beams");
+  beams_type = (GtkLabel *)lookup_widget("label_def_sys_beams_type");
+  fighters = (GtkLabel *)lookup_widget("label_def_sys_fighters");
+  fighter_bays = (GtkLabel *)lookup_widget("label_def_sys_fighter_bays");
+  battle_mass = (GtkLabel *)lookup_widget("label_def_sys_battle_mass");
+
+  planet = planet_get(planet_list, planet_id);
+  if(planet_is_known(planet)) {
+    tmp = g_strdup_printf("%d", planet_get_def_sys_beams_nr(planet));
+    gtk_label_set_label(beams, tmp);
+    g_free(tmp);
+
+    gtk_label_set_label(beams_type, "FIXME!!");
+
+    tmp = g_strdup_printf("%d", planet_get_def_sys_fighters_nr(planet));
+    gtk_label_set_label(fighters, tmp);
+    g_free(tmp);
+
+    tmp = g_strdup_printf("%d", planet_get_def_sys_fighter_bays(planet));
+    gtk_label_set_label(fighter_bays, tmp);
+    g_free(tmp);
+
+    tmp = g_strdup_printf("%d", planet_get_def_sys_battle_mass(planet));
+    gtk_label_set_label(battle_mass, tmp);
+    g_free(tmp);
+  } else {
+    gtk_label_set_label(beams, _("n/a"));
+    gtk_label_set_label(beams_type, _("n/a"));
+    gtk_label_set_label(fighters, _("n/a"));
+    gtk_label_set_label(fighter_bays, _("n/a"));
+    gtk_label_set_label(battle_mass, _("n/a"));
+  }
+}
+
+void update_planet_extra_panel(gint16 planet_id)
 {
   GtkCombo *planet_fc;
   GtkProgressBar *neu_ground, *neu_density;
@@ -98,7 +230,9 @@ void update_planet_extra_panel (gint16 planet_id)
 	  gtk_progress_bar_set_text(neu_density, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf(_("%d kT/turn"), planet_neutronium_extraction_rate(a_planet));
+	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
+				planet_neutronium_extraction_rate(a_planet),
+				planet_neutronium_turns_left(a_planet));
 	  gtk_label_set_text(neu_rate, tmp);
 	  g_free(tmp);
 
@@ -114,7 +248,9 @@ void update_planet_extra_panel (gint16 planet_id)
 	  gtk_progress_bar_set_text(dur_density, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf(_("%d kT/turn"), planet_duranium_extraction_rate(a_planet));
+	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
+				planet_duranium_extraction_rate(a_planet),
+				planet_duranium_turns_left(a_planet));
 	  gtk_label_set_text(dur_rate, tmp);
 	  g_free(tmp);
 
@@ -130,7 +266,9 @@ void update_planet_extra_panel (gint16 planet_id)
 	  gtk_progress_bar_set_text(mol_density, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf(_("%d kT/turn"), planet_molybdenum_extraction_rate(a_planet));
+	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
+				planet_molybdenum_extraction_rate(a_planet),
+				planet_molybdenum_turns_left(a_planet));
 	  gtk_label_set_text(mol_rate, tmp);
 	  g_free(tmp);
 
@@ -146,7 +284,9 @@ void update_planet_extra_panel (gint16 planet_id)
 	  gtk_progress_bar_set_text(tri_density, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf(_("%d kT/turn"), planet_tritanium_extraction_rate(a_planet));
+	  tmp = g_strdup_printf(_("%d kT/turn (%d turns)"), 
+				planet_tritanium_extraction_rate(a_planet),
+				planet_tritanium_turns_left(a_planet));
 	  gtk_label_set_text(tri_rate, tmp);
 	  g_free(tmp);
 
@@ -583,6 +723,25 @@ void init_starchart (GtkWidget * gwp)
   starchart_get_canvas()->aa = 1;
   gnome_canvas_update_now(starchart_get_canvas());
 
+  /* Scroll to last coordinates */
+  gnome_canvas_scroll_to(starchart_get_canvas(),
+			 game_get_last_x_coord(game_state),
+			 game_get_last_y_coord(game_state));
+
+  /* Set up toolbar view & menu entry */
+  /* FIXME: Does not work toolbar hiding...why??
+  if(game_get_toolbar(game_state)) {
+    gtk_check_menu_item_set_active((GtkCheckMenuItem*)
+				   lookup_widget("toolbar_menu"),
+				   TRUE);
+    gtk_widget_show(lookup_widget("bonobodock_btn_bar"));
+  } else {
+    gtk_check_menu_item_set_active((GtkCheckMenuItem*)
+				   lookup_widget("toolbar_menu"),
+				   FALSE);
+    gtk_widget_hide(lookup_widget("bonobodock_btn_bar"));
+    }*/
+
   starchart_set_grp_grid(GNOME_CANVAS_GROUP (gnome_canvas_item_new 
 					     (starchart_get_grp_root(), 
 					      GNOME_TYPE_CANVAS_GROUP, NULL)));
@@ -910,6 +1069,8 @@ starchart_select_nearest_planet (GtkWidget * gwp,
   if (planet_data != NULL) {
     update_planet_panel (gwp, planet_get_id(planet_data));
     update_planet_extra_panel(planet_get_id(planet_data));
+    update_global_defense_panel(planet_get_id(planet_data));
+    update_starbase_panel(planet_get_id(planet_data));
     table_population_update(planet_data);
     starchart_mark_planet(planet_data);
     starchart_mini_set_planet_img(planet_data);
@@ -957,13 +1118,13 @@ void starchart_get_object_center_coord (GnomeCanvasItem * item,
 
 void starchart_zoom_in (GnomeCanvas * starchart)
 {
-  gdouble zoom = game_get_starchart_zoom ();
+  gdouble zoom = game_get_starchart_zoom(game_state);
   gchar *zoom_status;
   
   if (zoom < 2.0) {
     zoom = zoom + 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
-    game_set_starchart_zoom (zoom);
+    game_set_starchart_zoom(game_state, zoom);
     zoom_status = g_strdup_printf("Zoom: %.1f", zoom);
     starchart_set_status(zoom_status);
     g_free(zoom_status);
@@ -972,13 +1133,13 @@ void starchart_zoom_in (GnomeCanvas * starchart)
 
 void starchart_zoom_out (GnomeCanvas * starchart)
 {
-  gdouble zoom = game_get_starchart_zoom ();
+  gdouble zoom = game_get_starchart_zoom(game_state);
   gchar *zoom_status;
   
   if (zoom > 0.6) {
     zoom = zoom - 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
-    game_set_starchart_zoom (zoom);
+    game_set_starchart_zoom(game_state, zoom);
     zoom_status = g_strdup_printf("Zoom: %.1f", zoom);
     starchart_set_status(zoom_status);
     g_free(zoom_status);
@@ -1058,6 +1219,10 @@ void init_starchart_mini (void)
 
   starchart_mini_set_zone(zone);
   /* End struct initialization... */
+
+  /* Scroll to last known coords */
+  starchart_mini_scroll_zone_to(game_get_last_x_coord(game_state),
+				game_get_last_y_coord(game_state));
 }
 
 void starchart_scroll_to(gint cx, gint cy)
@@ -1071,7 +1236,7 @@ void starchart_mini_scroll_zone_to(gint cx, gint cy)
   gint trans_x, trans_y;
   GnomeCanvasItem * zone = starchart_mini_get_zone();
   gdouble x1, y1, x2, y2;
-  gdouble zoom = game_get_starchart_zoom();
+  gdouble zoom = game_get_starchart_zoom(game_state);
 
   /* First we do some convertions */
   x = ((cx - 500) * 0.05) / zoom; /* 1/20 -> relation of the two starcharts */
@@ -1204,6 +1369,7 @@ void starchart_open_extra_panels(void)
 
   gtk_widget_show(lookup_widget("extra_info_panel"));
   gtk_widget_show(lookup_widget("calc_panel"));
+  gtk_widget_show(lookup_widget("global_defense_panel"));
   /* Switch to planet image view */
   gtk_notebook_set_current_page(mini, 1);
 }
@@ -1215,6 +1381,7 @@ void starchart_close_extra_panels(void)
 
   gtk_widget_hide(lookup_widget("extra_info_panel"));
   gtk_widget_hide(lookup_widget("calc_panel"));
+  gtk_widget_hide(lookup_widget("global_defense_panel"));
   /* Show the mini-map again */
   gtk_notebook_set_current_page(mini, 0);
 }
@@ -1223,6 +1390,9 @@ void starchart_close_extra_panels(void)
 void starchart_mini_set_planet_img(Planet *planet) 
 {
   GtkImage *p_img = (GtkImage *) lookup_widget("image_planet");
+  GtkImage *sb, *img;
+  GdkPixbuf *pixbuf1, *pixbuf2;
+  GdkPixmap *pixmap;
   gchar *img_name = DATADIR"/pixmaps/gwp/planets/planet";
 
   if(!planet_is_known(planet)) {
@@ -1261,8 +1431,53 @@ void starchart_mini_set_planet_img(Planet *planet)
     }
   }
 
-  gtk_image_set_from_file(p_img, img_name);
+  img = (GtkImage *) gtk_image_new_from_file(img_name);
+  pixbuf1 = gtk_image_get_pixbuf(img);
+  pixmap = gdk_pixmap_new(gwp->window, 100, 100, -1);
+  gdk_draw_pixbuf(pixmap, NULL, pixbuf1,
+		  0,0,
+		  0,0,
+		  -1, -1,
+		  GDK_RGB_DITHER_NONE,
+		  0,0);
+    
+  /* Add starbase image if one exists on planet */
+  if(planet_has_starbase(planet)) {
+    sb = (GtkImage *) gtk_image_new_from_file(DATADIR"/pixmaps/gwp/planets/sbase1.png");
+    pixbuf2 = gtk_image_get_pixbuf(sb);
+    
+    gdk_draw_pixbuf(pixmap, NULL, pixbuf2,
+		    0,0,
+		    0,0,
+		    -1,-1,
+		    GDK_RGB_DITHER_NONE,
+		    0,0);    
+  }
+  gtk_image_set_from_pixmap(p_img, pixmap, NULL);
 
   /* Free stuff */
   g_free(img_name);
+}
+
+void toggle_global_defense_panel(gboolean show)
+{
+  GtkWidget *def_panel = lookup_widget("global_defense_panel");
+
+  if(show) {
+    gtk_widget_show(def_panel);
+  } else {
+    gtk_widget_hide(def_panel);
+  }
+}
+
+void toggle_starbase_panel(gboolean show)
+{
+  GtkNotebook *base_panel = 
+    (GtkNotebook *) lookup_widget("extra_info_panel");
+
+  if(show) {
+    gtk_notebook_set_current_page(base_panel, 1);
+  } else {
+    gtk_notebook_set_current_page(base_panel, 0);
+  }
 }

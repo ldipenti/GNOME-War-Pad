@@ -32,6 +32,8 @@ gwp_SOURCES = \
 	game_state.c\
 	planet.c\
 	planet.h\
+	base.c\
+	base.h\
 	ship.c\
 	ship.h\
 	starchart.c\

@@ -238,7 +238,7 @@ gboolean ship_is_known(Ship *ship) {
 
 gboolean ship_is_mine(Ship *ship)
 {
-    if(ship->owner == game_get_race()) {
+    if(ship->owner == game_get_race(game_state)) {
         return TRUE;
     } else {
         return FALSE;
@@ -257,7 +257,7 @@ gboolean ship_valid_coords(Ship *ship)
 
 gint ship_what_is(Ship *ship)
 {
-	if(ship_get_owner(ship) == game_get_race()) {
+	if(ship_get_owner(ship) == game_get_race(game_state)) {
 		return IS_MINE;
 	} else {
 		return IS_ENEMY; // FIXME: Check for allied ships!!!
