@@ -1,0 +1,156 @@
+# File of tips for the Quark plugin.
+# Lines than begin with "#" are not considered.
+#
+# *****************************************
+#	Ferengi Rules of Acquisition
+# *****************************************
+#
+#Rule 001 : Once you have their money, you never give it back.
+Rule 002 : The best deal is the one that brings the most profit.
+#Rule 003 : Never spend more for an acquisition than you have to.
+#Rule 004 : A woman wearing clothes is like a man in the kitchen.
+#Rule 006 : Never allow family to stand in the way of opportunity.
+Rule 007 : Keep your ears open.
+#Rule 008 : Small print leads to large risk.
+#Rule 009 : Opportunity plus instinct equals profit.
+Rule 010 : Greed is eternal.
+Rule 011 : Even if it's free, you can always buy it cheaper.
+#Rule 012 : Anything worth doing is worth doing for money.
+#Rule 013 : Anything worth doing is worth doing twice.
+#Rule 014 : Keep your family close, keep your Latinum closer.
+Rule 016 : A deal is a deal. (until a better one comes along).
+#Rule 017 : A contract is a contract is a contract - but only between Ferengi.
+#Rule 018 : A Ferengi without profit is no Ferengi at all.
+Rule 019 : Satisfaction is not guaranteed.
+#Rule 020 : Only give money to people you know you can steal from.
+Rule 021 : Never place friendship before profit.
+Rule 022 : A wise man can hear profit in the wind.
+#Rule 024 : Latinum can't buy happiness, but you can sure have a blast renting it.
+#Rule 025 : There's always a way out.
+Rule 026 : As the customers go, so goes the wise profiteer.
+#Rule 027 : There's nothing more dangerous than an honest businessman.
+#Rule 028 : Whisper your way to success.
+Rule 029 : What's in it for me?
+#Rule 031 : Never make fun of a Ferengi's mother. (insult something he cares about, instead).
+#Rule 033 : It never hurts to suck up to the boss.
+#Rule 034 : War is good for business.
+#Rule 035 : Peace is good for business.
+Rule 037 : If it's free, take it and worry about hidden costs later.
+Rule 039 : Friendship is temporary; profit is forever.
+#Rule 040 : She can touch your lobes, but never your Latinum.
+#Rule 041 : Profit is its own reward.
+Rule 042 : What's mine is mine, and what's yours is mine too.
+Rule 044 : Never confuse wisdom with luck.
+#Rule 045 : Ambition knows no family.
+#Rule 046 : Make your shop easy to find.
+#Rule 047 : Don't trust a man wearing a better suit than your own.
+#Rule 048 : The bigger the smile, the sharper the knife.
+#Rule 049 : Everything is worth something to somebody.
+Rule 050 : Gratitude can bring on generosity.
+Rule 051 : Reward anyone who adds to your profits so they will continue to do so.
+Rule 052 : Never ask when you can take.
+#Rule 057 : Good customers are as rare as Latinum, Treasure them.
+Rule 058 : There is no substitute for success.
+Rule 059 : Free advice is seldom cheap.
+Rule 060 : Keep your lies consistent.
+#Rule 062 : The riskier the road, the greater the profit.
+#Rule 065 : Win or lose, there's always Huyperian beetle snuff.
+#Rule 068 : Ear stroking will get you anything.
+Rule 069 : Ferengi are not responsible for the stupidity of other races.
+#Rule 072 : Never trust your customers.
+#Rule 073 : If it gets you profit, sell your own mother.
+Rule 075 : Home is where the heart is, but the stars are made of Latinum.
+Rule 076 : Every once in a while, declare peace. "It confuses the hell out of your enemies".
+#Rule 077 : It's better to swallow your pride than to lose your profit.
+Rule 078 : When the going gets tough, the tough change the Rules.
+#Rule 079 : Beware of the Vulcan greed for knowledge.
+Rule 082 : The flimsier the product, the higher the price.
+Rule 084 : A friend is not a friend if he asks for a discount.
+Rule 085 : Never let the competition know what you're thinking.
+Rule 087 : A friend in need means three times the profit.
+#Rule 089 : Ask not what your profits can do for you, ask what you can do for your profits.
+Rule 092 : There are many paths to profit.
+#Rule 093 : Act without delay! The sharp knife cuts quickly.
+#Rule 094 : Females and finances don't mix.
+Rule 095 : Expand or die.
+Rule 096 : For every Rule, there is an equal and opposite Rule, (except when there's not).
+Rule 097 : Enough... is never enough.
+Rule 098 : Every man has his price.
+#Rule 099 : Trust is the biggest liability of all.
+Rule 100 : If they take your first offer, you either asked too little or offered too much.
+#Rule 101 : The only value of a collectible is what you can get somebody else to pay for it.
+#Rule 102 : Nature decays, but Latinum lasts forever.
+#Rule 103 : Sleep can interfere with...
+#Rule 104 : Faith moves mountains... (of inventory).
+Rule 105 : Don't trust anyone who trusts you.
+Rule 106 : There is no honor in poverty.
+#Rule 107 : A warranty is valid only if they can find you.
+#Rule 109 : Dignity and an empty sack is worth the sack.
+#Rule 111 : Treat people in your debt like family, exploit them [ruthlessly].
+#Rule 112 : Never have sex with the boss' sister.
+#Rule 113 : Always have sex with the boss.
+#Rule 115 : The best contract always has a lot of fine print.
+#Rule 116 : There's always a catch.
+Rule 117 : Everything is for sale, including friendship.
+#Rule 119 : Never judge a customer by the size of his wallet, (...sometimes, good things come in small packages).
+Rule 121 : Everything is for sale, including friendship.
+#Rule 123 : Even a blind man can recognize the glow of Latinum.
+Rule 125 : You can't make a deal if you're dead.
+#Rule 126 : Count it.
+Rule 127 : Stay neutral in conflict so that you can sell supplies to both sides.
+#Rule 135 : Never trust a beneficiary.
+#Rule 139 : Wives serve, brothers inherit.
+#Rule 141 : Only fools pay retail.
+#Rule 142 : There's no such thing as an unfair advantage.
+Rule 143 : Risk is part of the game... play it for all it's worth.
+#Rule 144 : There's nothing wrong with charity...as long as it winds up in your pocket.
+#Rule 146 : Necessity, n. The mother of invention. Profit is the father.
+#Rule 152 : A lie is a way to tell the truth to someone who doesn't know.
+#Rule 153 : Sell the sizzle, not the steak.
+Rule 162 : Even in the worst of times, someone turns a profit.
+#Rule 169 : Competition and fair play are mutually exclusive.
+#Rule 171 : Blood is thicker than water, and Latinum is thicker than both.
+#Rule 172 : Chances aren't what they used to be.
+#Rule 177 : Know your enemies... but do business with them always.
+Rule 181 : Not even dishonesty can tarnish the shine of profit.
+Rule 188 : A fool and his money is the best customer.
+Rule 189 : Let others keep their reputation. You keep their money.
+Rule 190 : Hear all, trust nothing.
+Rule 191 : A Ferengi waits to bid until his opponents have exhausted themselves.
+#Rule 192 : Never cheat a Klingon... unless you're sure you can get away with it.
+#Rule 194 : It's always good business to know about new customers before they walk in your door.
+#Rule 200 : If you're going to have to endure, make yourself comfortable.
+#Rule 202 : The justification of profit is profit.
+#Rule 203 : New customers are like razor-backed Gree worms... They can be succulent, but sometimes they bite back!
+#Rule 204 : It takes a Ferengi to cheat a Ferengi.
+#Rule 208 : Sometimes the only thing more dangerous than a question is an answer.
+#Rule 211 : Employees are the rungs on the ladder of success... don't hesitate to step on them.
+#Rule 214 : Never begin a business negotiation on an empty stomach.
+#Rule 216 : Never gamble with an empath.
+#Rule 217 : You can't free a fish from water.
+#Rule 218 : Always know what you're buying
+#Rule 219 : Possession is 11/10 of the law.
+#Rule 223 : Beware the man who doesn't make time for oo-mox.
+#Rule 229 : Latinum lasts longer than lust.
+#Rule 231 : There's a sucker born every minute; be sure you're the first to find each one.
+Rule 236 : You can't buy fate.
+Rule 239 : Never be afraid to mislabel a product.
+#Rule 241 : Never trust a hardworking employee.
+Rule 242 : More is good... all is better.
+#Rule 253 : Synthehol is the lubricant of choice for a customer's stuck purse.
+#Rule 255 : A wife is a luxury... a smart accountant, a necessity.
+#Rule 256 : Accountants do not play the game; they only keep the score.
+#Rule 260 : Life's not fair. How else would you turn a profit?
+#Rule 261 : A wealthy man can afford anything except a conscience.
+#Rule 262 : A verbal contract isn't worth the paper it's written on.
+#Rule 263 : Never allow doubt to tarnish your lust for Latinum.
+Rule 265 : The customer is always right, (...until you get their cash).
+Rule 266 : When in doubt, lie.
+Rule 267 : If you believe it, they believe it.
+Rule 270 : In business deals, a disruptor can be almost as important as a calculator.
+#Rule 277 : Anything worth fighting for is worth hiding from.
+#Rule 284 : Deep down, everyone's a Ferengi.
+#Rule 285 : No good deed ever goes unpunished.
+#Rule 286 : When Morn leaves, it's all over. (Quark made this rule up)
+#Rule 299 : Whenever you exploit someone, it never hurts to thank them. That way, it's easier to exploit them the next time. (Neelix made this rule up)
+The Unwritten Rule : When no appropriate Rule applies, make one up!
