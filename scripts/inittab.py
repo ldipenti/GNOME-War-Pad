@@ -7,7 +7,12 @@ import os
 import gtk
 import gwp
 
+#######
 # Plugin manager class
+#######
+# To-Do:
+# -----
+# * Check for user' plugin directory
 class PluginManager:
     __module__ = 'gwp'
 
@@ -17,7 +22,6 @@ class PluginManager:
     __plugins_available = []
     
     def __init__(self):
-        # Load all system plugins
         plugins_dir = gwp.plugins_get_dir()
         for plugin in os.listdir(plugins_dir + '/'):
             execfile (plugins_dir + '/' + plugin)
@@ -27,6 +31,7 @@ class PluginManager:
                 if (isinstance(eval(obj), gwp.Plugin)):
                     self.__plugins_available.append(obj)
             except AttributeError:
+                # Ignore if 'obj' is not an instance
                 pass
 
     def manage_event_key (self, event):
@@ -43,9 +48,23 @@ class PluginManager:
             pass
         else:
             self.__plugins_registered.append (plugin)
+            
+    def unregister_plugin (self, plugin):
+        # Try removing the plugin from registered list
+        try:
+            self.__plugins_registered.remove(plugin)
+        except ValueError:
+            pass
+        else:
+            # Try calling plugin's unregister() method
+            try:
+                plugin.unregister(self)
+            except NotImplementedError:
+                pass
 
-
+#######
 # Plugin abstract class
+#######
 class Plugin:
     """
     Plugin class, all plugins will need to use this class to register
@@ -80,6 +99,11 @@ class Plugin:
     # Executed at elimination time
     def unregister (self):
         raise NotImplementedError
+
+########
+# 
+########
+
 
 ##############
 # Main code execute at load
