@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002,2003 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 #include "support.h"
 #include "game_mgr.h"
 #include "game_state.h"
-#include "game_types.h"
 #include "vp_utils.h"
 #include "starchart.h"
 #include "race.h"
@@ -468,41 +467,6 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
   return TRUE;
 }
 
-/* Returns a GameSettings pointer with initializated data */
-GameSettings *game_mgr_settings_new(void)
-{
-  GameSettings *ret;
-
-  ret = g_malloc(sizeof(GameSettings));
-
-  ret->game_dir = NULL;
-  ret->game_name = NULL;
-  ret->trn_dir = "";
-  ret->rst_dir = "";
-  ret->player_email = "";
-  ret->host_email = "";
-  ret->host_type = 0;
-  ret->race = 0;
-
-  return ret;
-}
-
-void game_mgr_settings_free(GameSettings *s) 
-{
-  g_assert(s != NULL);
-
-  g_free(s->game_dir);
-  /* FIXME: When this is tried to be freed, the app hangs 
-     (when deleting loaded icons from gconf)
-     g_free(s->game_name);
-  */
-  g_free(s->trn_dir);
-  g_free(s->rst_dir);
-  g_free(s->player_email);
-  g_free(s->host_email);
-  g_free(s);
-}
-
 void game_mgr_properties_dlg_clean(void)
 {
   GtkEntry *entry;
@@ -655,7 +619,7 @@ void game_mgr_game_name_mangle(gchar *name)
   }
 }
 
-// Translates '_' to ' '
+/* Translates '_' to ' ' */
 void game_mgr_game_name_demangle(gchar *name)
 {
   gchar *ptr;
@@ -671,11 +635,24 @@ void game_mgr_game_name_demangle(gchar *name)
 
 void game_mgr_play_game(GameSettings *sett)
 {
-  // Init data and lets start!
+  GtkLabel *race = 
+    (GtkLabel *) lookup_widget("label_race_name");
+
+  g_assert(sett != NULL);
+
+  /* Init data and lets start! */
   game_init_dir(sett->game_dir);
   game_set_race(sett->race);
+  game_set_name(sett->game_name);
   init_data();
   init_starchart(gwp);
+
+  /* Get the widgets ready */
+  gtk_label_set_text(race, race_get_name(sett->race));
+  gtk_window_set_title(GTK_WINDOW(gwp), 
+		       g_strconcat(game_get_name(),
+				   " - GNOME War Pad",
+				   NULL));
   gtk_widget_hide(game_mgr);
   gtk_widget_show(gwp);
 }
