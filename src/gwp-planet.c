@@ -855,7 +855,7 @@ gint gwp_planet_get_tax_collected_colonists_max (GwpPlanet *self)
   gint ret;
 
   if(gwp_planet_get_happiness_colonists(self) > 30) {
-    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * race_get_tax_rate_colonists(self);
+    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * (gwp_planet_get_tax_rate(self)/100);
   } else {
     ret = 0;
   }
@@ -879,7 +879,8 @@ gint gwp_planet_get_tax_collected_colonists(GwpPlanet *self)
 
   /* If colonists are too few...we cannot collect all the money */
   if (gwp_planet_get_colonists(self) < ret) {
-    ret = gwp_planet_get_colonists(self) * race_get_tax_rate_colonists(self);
+    ret = gwp_planet_get_colonists(self) * 
+      (gwp_planet_get_tax_rate(self)/100);
   }
 
   return ret;
@@ -900,8 +901,7 @@ gint gwp_planet_get_tax_collected_natives_max (GwpPlanet *self)
     ret = ((gdouble)gwp_planet_get_natives(self)/100) * 
       ((gdouble)gwp_planet_get_tax_natives(self)/10) * 
       ((gdouble)gwp_planet_get_natives_spi(self)/5) * 
-      race_get_tax_rate_colonists (self) *
-      race_get_tax_rate_natives (self);
+      (gwp_planet_get_tax_rate(self)/100);
   } else {
     ret = 0;
   }
@@ -924,9 +924,8 @@ gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
 
   /* If colonists are too few...we cannot collect all the money */
   if (gwp_planet_get_colonists(self) < ret) {
-    ret = gwp_planet_get_colonists(self) *
-      race_get_tax_rate_colonists (self) *
-      race_get_tax_rate_natives (self);      
+    ret = gwp_planet_get_colonists(self) * 
+      (gwp_planet_get_tax_rate(self) / 100);
   }
   return ret;
 }
@@ -1429,6 +1428,8 @@ gwp_planet_get_mining_rate (GwpPlanet *self)
 
 /**
  * Returns the planet's tax rate depending on its owner and natives.
+ *
+ * @return the planet's tax rate in percentage.
  */
 gint
 gwp_planet_get_tax_rate (GwpPlanet *self)

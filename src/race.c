@@ -64,39 +64,3 @@ gchar *race_get_name(enum races racenum)
     return NULL;
   }
 }
-
-/* FIXME: Must obtain this values from host config */
-gdouble 
-race_get_tax_rate_colonists(GwpPlanet *planet)
-{
-  gdouble ret;
-
-  switch(gwp_planet_get_owner(planet)) {
-  case RACE_FEDS:
-    ret = 2.0;
-    break;
-  default:
-    ret = 1.0;
-    break;
-  }
-  return ret;
-}
-/* FIXME: Must obtain this values from host config */
-gdouble 
-race_get_tax_rate_natives (GwpPlanet *planet)
-{
-  gdouble ret;
-
-  switch(gwp_planet_get_natives_race(planet)) {
-  case NATIVE_INSECTOID:
-    ret = 2.0;
-    break;
-  case NATIVE_AMORPHOUS:
-    ret = 0.0;
-    break;
-  default:
-    ret = 1.0;
-    break;
-  }
-  return ret;
-}
