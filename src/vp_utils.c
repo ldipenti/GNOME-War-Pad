@@ -983,6 +983,7 @@ void load_kore_data (void)
       gtk_dialog_run(GTK_DIALOG(warn));
       gtk_widget_destroy(warn);
       
+      /* Do not bother the user with this message anymore */
       g_object_set (game_state, 
 		    "warn-korefile", FALSE,
 		    NULL);
@@ -1577,6 +1578,7 @@ scan_messages (void)
 /* 				2,        /\* match number *\/ */
 /* 				&match2);  /\* output string *\/ */
 /* 	    g_message ("MATCH: %s - %s clans", match1, match2); */
+ 	    g_message ("MATCH: %s", match1); 
 	  }
 	}
       }

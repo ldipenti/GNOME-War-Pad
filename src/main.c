@@ -143,7 +143,7 @@ void gwp_init_splash(void)
   gtk_image_set_from_file(splash, GWP_IMAGES_DIR"/gwp_splash.png");
   gtk_window_set_decorated(GTK_WINDOW(gwp_splash_screen), FALSE);
 
-  /* NOTE: This is for GTK+ 2.2, we won't use it until is necessary
+  /* FIXME: This is for GTK+ 2.2, we won't use it until is necessary
 
   gtk_window_set_skip_taskbar_hint(GTK_WINDOW(gwp_splash_screen), TRUE);
   gtk_window_set_skip_pager_hint(GTK_WINDOW(gwp_splash_screen), TRUE);

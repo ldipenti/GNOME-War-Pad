@@ -1615,6 +1615,9 @@ void init_starchart (GtkWidget * gwp)
   GnomeCanvasItem *grid_line;
   GnomeCanvasPoints *grid_points_v, *grid_points_h;
   gint i;
+  GtkWidget *close_mnu = (GtkWidget *)lookup_widget("game_close_menu");
+  /* FIXME: this is temporal until closing games work ok */
+  gtk_widget_set_sensitive (close_mnu, FALSE);
   
   /* Starchart struct initialization */
   starchart_set_canvas((GnomeCanvas *) lookup_widget ("starchart"));
