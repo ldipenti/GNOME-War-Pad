@@ -236,13 +236,15 @@ if __name__ == "__main__":
     # PluginManager's constructor, but I have some problem with scopes
     # that I have to solve.
     
+    p = re.compile('^.*\.py$', re.IGNORECASE)
+
     # Load system plugins
-    plugins_dir = gwp.plugins_get_dir()
+    plugins_dir = gwp.get_system_plugins_dir()
     for plugin in os.listdir(plugins_dir + '/'):
-        execfile (plugins_dir + '/' + plugin)
+        if not p.match(plugin) == None:
+            execfile (plugins_dir + '/' + plugin)
 
     # Load user plugins
-    p = re.compile('^.*\.py$', re.IGNORECASE)
     user_dir = os.path.expanduser('~/.gwp/plugins')
     if (os.path.exists(user_dir)):
         for plugin in os.listdir(user_dir + '/'):

@@ -76,9 +76,9 @@ _wrap_planet_get_list (PyObject *self)
   return ret;
 }
 %%
-override plugins_get_dir noargs
+override get_system_plugins_dir noargs
 static PyObject *
-_wrap_plugins_get_dir (PyObject *self)
+_wrap_get_system_plugins_dir (PyObject *self)
 {
   return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
 }
@@ -228,12 +228,5 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
   path = g_strdup_printf ("%s/vpl%d.jpg",
 			  DATADIR"/pixmaps/gwp/ships", ship_nr);
   return PyString_FromString (path);
-}
-%%
-override get_system_plugins_dir noargs
-static PyObject *
-_wrap_get_system_plugins_dir (PyObject *self)
-{
-  return PyString_FromString (GWP_SCRIPTS_DIR);
 }
 
