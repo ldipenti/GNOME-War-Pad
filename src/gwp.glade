@@ -7447,6 +7447,7 @@
 			<widget class="GtkComboBox" id="combox_turnnmb">
 			  <property name="visible">True</property>
 			  <property name="items" translatable="yes"></property>
+			  <signal name="changed" handler="on_combox_turnnmb_changed" last_modification_time="Thu, 03 Jun 2004 14:34:12 GMT"/>
 			</widget>
 		      </child>
 
