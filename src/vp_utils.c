@@ -267,14 +267,10 @@ GHashTable * load_target (gint race)
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e)
 {
   FILE *target;
-  /* GHashTable *target_list; */
   GString *target_file;
   VpTargetReg target_reg, *tmp;
   gint16 i, target_nr;
   gchar buffer[34];
-  
-  /* Initialize hash */
-  /* target_list = g_hash_table_new (NULL, NULL); */
   
   /* Initialize file name */
   target_file = g_string_new ("TARGET");
@@ -334,8 +330,6 @@ void load_target_dat_ext (GHashTable *target_list, gint race, char *e)
     g_hash_table_insert (target_list, (gpointer)(gint)tmp->id, tmp);
   }
   fclose (target);
-
-  /*  return target_list; */
 }
 
 /*
@@ -386,7 +380,7 @@ GList * load_shipxy (gint race)
 GHashTable * load_sdata (void)
 {
   GList *shipxy_list;
-  GString *sdata_dis_file, *sdata_dat_file;
+  GString *sdata_dat_file;
   FILE *sdata = NULL;
   VpShipXYReg *coords = NULL;
   GwpShip *s;
@@ -396,16 +390,11 @@ GHashTable * load_sdata (void)
   gint16 ships_nr;
   gchar buffer[107];
   gchar *fc_tmp, *name_tmp;
-  struct stat dis_data;
-  struct stat dat_data;
   
   /* Load temp SHIPXY data */
   shipxy_list = load_shipxy (gwp_game_state_get_race(game_state));
   g_message ("SHIPXY loaded...");
 
-  sdata_dis_file =
-    g_string_new (g_strdup_printf ("SHIP%d.DIS", 
-				   gwp_game_state_get_race(game_state)));
   sdata_dat_file =
     g_string_new (g_strdup_printf ("SHIP%d.DAT", 
 				   gwp_game_state_get_race(game_state)));
@@ -415,69 +404,29 @@ GHashTable * load_sdata (void)
   
   /* Load Ship Data */
   if (g_file_test (gwp_game_state_get_full_path(game_state, 
-						sdata_dis_file->str),
+						sdata_dat_file->str),
 		   G_FILE_TEST_EXISTS)) {
-    if (g_file_test (gwp_game_state_get_full_path(game_state, 
-						  sdata_dat_file->str),
-		     G_FILE_TEST_EXISTS)) {
-      stat (gwp_game_state_get_full_path(game_state, sdata_dis_file->str), 
-	    &dis_data);
-      stat (gwp_game_state_get_full_path(game_state, sdata_dat_file->str), 
-	    &dat_data);
-      
-      /* Check what file to use */
-      if (dis_data.st_mtime > dat_data.st_mtime) {
-	if ((sdata =
-	     fopen (gwp_game_state_get_full_path(game_state, 
-						 sdata_dis_file->str),
-		    "r")) == NULL) {
-	  g_message ("ERROR trying to open %s file.\n",
-		     gwp_game_state_get_full_path(game_state, 
-						  sdata_dis_file->str));
-	  exit (-1);
-	}
-      } else {
-	if ((sdata =
-	     fopen (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
-		    "r")) == NULL) {
-	  g_message ("ERROR trying to open %s file.\n",
-		     gwp_game_state_get_full_path(game_state, sdata_dat_file->str));
-	  exit (-1);
-	}
-      }
+    if ((sdata =
+	 fopen (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
+		"r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 gwp_game_state_get_full_path(game_state, sdata_dat_file->str));
+      exit (-1);
     }
   } else {
-    sdata_dis_file = g_string_down (sdata_dis_file);
-    if (g_file_test (gwp_game_state_get_full_path(game_state, sdata_dis_file->str),
+    sdata_dat_file = g_string_down (sdata_dat_file);
+    if (g_file_test (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
 		     G_FILE_TEST_EXISTS)) {
-      sdata_dat_file = g_string_down (sdata_dat_file);
-      if (g_file_test (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
-		       G_FILE_TEST_EXISTS)) {
-	stat (gwp_game_state_get_full_path(game_state, sdata_dis_file->str), &dis_data);
-	stat (gwp_game_state_get_full_path(game_state, sdata_dat_file->str), &dat_data);
-	
-	/* Check what file to use */
-	if (dis_data.st_mtime > dat_data.st_mtime) {
-	  if ((sdata =
-	       fopen (gwp_game_state_get_full_path(game_state, sdata_dis_file->str),
-		      "r")) == NULL) {
-	    g_message ("ERROR trying to open %s file.\n",
-		       gwp_game_state_get_full_path(game_state, sdata_dis_file->str));
-	    exit (-1);
-	  }
-	} else {
-	  if ((sdata =
-	       fopen (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
-		      "r")) == NULL) {
-	    g_message ("ERROR trying to open %s file.",
-		       gwp_game_state_get_full_path(game_state, sdata_dat_file->str));
-	    exit (-1);
-	  }
-	}
+      if ((sdata =
+	   fopen (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
+		  "r")) == NULL) {
+	g_message ("ERROR trying to open %s file.",
+		   gwp_game_state_get_full_path(game_state, sdata_dat_file->str));
+	exit (-1);
       }
     } else {
       g_message ("ERROR: %s file not found.\n",
-		 gwp_game_state_get_full_path(game_state, sdata_dis_file->str));
+		 gwp_game_state_get_full_path(game_state, sdata_dat_file->str));
       exit (-1);
     }
   }
@@ -615,7 +564,7 @@ GHashTable * load_sdata (void)
 GHashTable * load_pdata (void)
 {
   GList *xyplanet_list;
-  GString *pdata_dis_file, *pdata_dat_file;
+  GString *pdata_dat_file;
   FILE *pdata = NULL;
   VpXYPlanReg *coords = NULL;
   GHashTable *planet_list = NULL;
@@ -623,8 +572,6 @@ GHashTable * load_pdata (void)
   gint16 planets_nr;
   gint i;
   gchar buffer[85];
-  struct stat dis_data;
-  struct stat dat_data;
   GwpPlanet *p;
   gchar *fc_tmp;
 
@@ -632,8 +579,6 @@ GHashTable * load_pdata (void)
   xyplanet_list = load_xyplan(XYPLAN);
   g_message ("XYPLAN loaded...");
 
-  pdata_dis_file =
-    g_string_new (g_strdup_printf ("PDATA%d.DIS", gwp_game_state_get_race(game_state)));
   pdata_dat_file =
     g_string_new (g_strdup_printf ("PDATA%d.DAT", gwp_game_state_get_race(game_state)));
 
@@ -644,64 +589,29 @@ GHashTable * load_pdata (void)
   pnames = load_pnames_file(PNAMES);
 
   /* Load Planet Data... */
-  if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dis_file->str),
+  if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
 		   G_FILE_TEST_EXISTS)) {
-    if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
-		     G_FILE_TEST_EXISTS)) {
-      stat (gwp_game_state_get_full_path(game_state, pdata_dis_file->str), &dis_data);
-      stat (gwp_game_state_get_full_path(game_state, pdata_dat_file->str), &dat_data);
-      
-      /* Check what file to use */
-      if (dis_data.st_mtime > dat_data.st_mtime) {
-	if ((pdata =
-	     fopen (gwp_game_state_get_full_path(game_state, pdata_dis_file->str),
-		    "r")) == NULL) {
-	  g_message ("ERROR trying to open %s file.\n",
-		     gwp_game_state_get_full_path(game_state, pdata_dis_file->str));
-	  exit (-1);
-	}
-      } else {
-	if ((pdata =
-	     fopen (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
-		    "r")) == NULL) {
-	  g_message ("ERROR trying to open %s file.\n",
-		     gwp_game_state_get_full_path(game_state, pdata_dat_file->str));
-	  exit (-1);
-	}
-      }
+    if ((pdata =
+	 fopen (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
+		"r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 gwp_game_state_get_full_path(game_state, pdata_dat_file->str));
+      exit (-1);
     }
   } else {
-    pdata_dis_file = g_string_down (pdata_dis_file);
-    if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dis_file->str),
+    pdata_dat_file = g_string_down (pdata_dat_file);
+    if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
 		     G_FILE_TEST_EXISTS)) {
-      pdata_dat_file = g_string_down (pdata_dat_file);
-      if (g_file_test (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
-		       G_FILE_TEST_EXISTS)) {
-	stat (gwp_game_state_get_full_path(game_state, pdata_dis_file->str), &dis_data);
-	stat (gwp_game_state_get_full_path(game_state, pdata_dat_file->str), &dat_data);
-	
-	/* Check what file to use */
-	if (dis_data.st_mtime > dat_data.st_mtime) {
-	  if ((pdata =
-	       fopen (gwp_game_state_get_full_path(game_state, pdata_dis_file->str),
-		      "r")) == NULL) {
-	    g_message ("ERROR trying to open %s file.\n",
-		       gwp_game_state_get_full_path(game_state, pdata_dis_file->str));
-	    exit (-1);
-	  }
-	} else {
-	  if ((pdata =
-	       fopen (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
-		      "r")) == NULL) {
-	    g_message ("ERROR trying to open %s file.\n",
-		       gwp_game_state_get_full_path(game_state, pdata_dat_file->str));
-	    exit (-1);
-	  }
-	}
+      if ((pdata =
+	   fopen (gwp_game_state_get_full_path(game_state, pdata_dat_file->str),
+		  "r")) == NULL) {
+	g_message ("ERROR trying to open %s file.\n",
+		   gwp_game_state_get_full_path(game_state, pdata_dat_file->str));
+	exit (-1);
       }
     } else {
       g_message ("ERROR: %s file not found.\n",
-		 gwp_game_state_get_full_path(game_state, pdata_dis_file->str));
+		 gwp_game_state_get_full_path(game_state, pdata_dat_file->str));
       exit (-1);
     }
   }
@@ -835,11 +745,11 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   ship = g_string_new ("ship");
   rst = g_string_new ("player");
   
-  tmp = g_strdup_printf ("%d.dis", race);
+  tmp = g_strdup_printf ("%d.dat", race);
   pdata = g_string_append (pdata, tmp);
   g_free(tmp);
 
-  tmp = g_strdup_printf ("%d.dis", race);
+  tmp = g_strdup_printf ("%d.dat", race);
   ship = g_string_append (ship, tmp);
   g_free(tmp);
 
@@ -1127,50 +1037,27 @@ void load_gen_data(void)
 
  void load_bdata(void)
 {
-  GString *bdata_dis_file, *bdata_dat_file;
+  GString *bdata_dat_file;
   FILE *bdata = NULL;
   GwpStarbase *b;
   GwpPlanet *p;
-  struct stat dis_data;
-  struct stat dat_data;
   gint16 bases_nr;
   gint i, idx;
   gchar buffer[156];
 
-  bdata_dis_file = 
-    g_string_new(g_strdup_printf("bdata%d.dis", 
-				 gwp_game_state_get_race(game_state)));
   bdata_dat_file =
     g_string_new(g_strdup_printf("bdata%d.dat", 
 				 gwp_game_state_get_race(game_state)));
 
   /* Load Base Data...*/
-  if(g_file_test(gwp_game_state_get_full_path(game_state, bdata_dis_file->str),
+  if(g_file_test(gwp_game_state_get_full_path(game_state, bdata_dat_file->str),
 		 G_FILE_TEST_EXISTS)) {
-    if(g_file_test(gwp_game_state_get_full_path(game_state, bdata_dat_file->str),
-		   G_FILE_TEST_EXISTS)) {
-      /* Both files exist... */
-      stat(gwp_game_state_get_full_path(game_state, bdata_dis_file->str), &dis_data);
-      stat(gwp_game_state_get_full_path(game_state, bdata_dat_file->str), &dat_data);
-
-      /* Check which file to use */
-      if(dis_data.st_mtime > dat_data.st_mtime) {
-	if((bdata =
-	    fopen(gwp_game_state_get_full_path(game_state, bdata_dis_file->str),
-		  "r")) == NULL) {
-	  g_message("ERROR trying to open %s file.",
-		    gwp_game_state_get_full_path(game_state, bdata_dis_file->str));
-	  exit(-1);
-	}
-      } else {
-	if((bdata =
-	    fopen(gwp_game_state_get_full_path(game_state, bdata_dat_file->str),
-		  "r")) == NULL) {
-	  g_message("ERROR trying to open %s file.",
-		    gwp_game_state_get_full_path(game_state, bdata_dat_file->str));
-	  exit(-1);
-	}
-      }
+    if((bdata =
+	fopen(gwp_game_state_get_full_path(game_state, bdata_dat_file->str),
+	      "r")) == NULL) {
+      g_message("ERROR trying to open %s file.",
+		gwp_game_state_get_full_path(game_state, bdata_dat_file->str));
+      exit(-1);
     }
   }
 
