@@ -33,10 +33,7 @@
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
 
-#include "gwp-hullspec.h"
-#include "gwp-engspec.h"
-#include "gwp-torpspec.h"
-#include "gwp-beamspec.h"
+#include "gwp-specs.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 
@@ -1085,7 +1082,7 @@ GSList * load_engspec (void)
     gwp_engspec_set_tech_level (es, getWord(buffer + 28));
 
     for (idx = 1; idx <= 9; idx++) {
-      gwp_engspec_set_fuel_usage (es, idx, getDWord(buffer + 30 + (4*idx)));
+      gwp_engspec_set_fuel_usage (es, idx, getDWord(buffer + 30 + (4*(idx-1))));
     }
     
     /* Add new engine */

@@ -180,9 +180,9 @@ GString * gwp_hullspec_get_name (GwpHullSpec *self)
 void gwp_hullspec_set_name (GwpHullSpec *self, GString *name)
 {
   g_assert (GWP_IS_HULLSPEC(self));
-  g_assert (name != NULL);
-  g_string_free (self->priv->name, TRUE);
-  self->priv->name = g_string_new (name->str);
+  g_assert (name != NULL && name->len <= 30);
+
+  self->priv->name = g_string_assign (self->priv->name, name->str);
 }
 
 gint gwp_hullspec_get_picture (GwpHullSpec *self)

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 22:45-0300\n"
+"POT-Creation-Date: 2004-03-15 23:27-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Stefan Reuther <Streu@gmx.de>\n"
 "Language-Team: German\n"
@@ -660,7 +660,7 @@ msgstr "Oops! there is some problem with this game"
 msgid "Are you sure you want to delete '%s'?"
 msgstr "Möchtest du '%s' wirklich löschen?"
 
-#: src/callbacks.c:541
+#: src/callbacks.c:542
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
@@ -668,7 +668,7 @@ msgstr ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "Diese Software steht unter der GNU GPL."
 
-#: src/callbacks.c:542
+#: src/callbacks.c:543
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"

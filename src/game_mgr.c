@@ -607,11 +607,6 @@ void game_mgr_play_game(GameState *state)
 
   g_assert(state != NULL);
 
-  /* Init basic data 
-  game_set_dir(sett->game_dir);
-  game_set_race(sett->race);
-  game_set_name(sett->game_name);
-  */
   game_state = state;
 
   /* Check for new RST */

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GWP 0.2.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 22:45-0300\n"
+"POT-Creation-Date: 2004-03-15 23:27-0300\n"
 "PO-Revision-Date: 2004-02-02 01:39-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -656,7 +656,7 @@ msgstr "Ups! existe algún problema con este juego"
 msgid "Are you sure you want to delete '%s'?"
 msgstr "¿Está seguro que desea eliminar «%s»?"
 
-#: src/callbacks.c:541
+#: src/callbacks.c:542
 #, fuzzy
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
@@ -665,7 +665,7 @@ msgstr ""
 "(c) 2002,2003 Lucas Di Pentima\n"
 "Este software se libera bajo las condiciones de la licencia GNU GPL"
 
-#: src/callbacks.c:542
+#: src/callbacks.c:543
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"

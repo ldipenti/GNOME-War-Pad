@@ -359,7 +359,114 @@ gint gwp_ship_calculate_fuel_usage (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
 
-  /* FIXME!!!!!!!!!!!! */
+  /* Calculate only if ship is moving */
+  if (gwp_fo_get_speed(GWP_FLYING_OBJECT(self)) > 0 && 
+      gwp_ship_calculate_waypoint_distance(self) > 0.0) {
+
+    /* Get this ship's engines specs */
+    GwpEngSpec *eng = gwp_ship_get_engspec (self);
+    g_assert (GWP_IS_ENGSPEC(eng));
+    
+    return gwp_engspec_get_fuel_usage_full (eng, 
+					    gwp_ship_calculate_waypoint_distance(self),
+					    gwp_fo_get_speed(GWP_FLYING_OBJECT(self)),
+					    gwp_ship_calculate_mass(self));
+  } else {
+    return 0;
+  }
+}
+
+/* Gets the correct hull specs for the ship */
+GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  return (GwpHullSpec *)g_slist_nth_data (hullspec_list, gwp_ship_get_hull_type(self) - 1);
+}
+
+/* Gets  the correct engine specs for the ship */
+GwpEngSpec * gwp_ship_get_engspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  return (GwpEngSpec *)g_slist_nth_data (engspec_list, gwp_ship_get_engines_type(self) - 1);
+}
+
+/* Gets the beam weapons specs, or NULL if doesn't have */
+GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  gint beams_type = gwp_ship_get_beams_type (self);
+
+  if (beams_type != 0 && gwp_ship_get_beams(self) != 0) {
+    return (GwpBeamSpec *)g_slist_nth_data (beamspec_list, beams_type - 1);
+  } else {
+    return NULL;
+  }
+}
+
+/* Gets the torpedoes weapons specs, or NULL if doesn't have */
+GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  gint torps_type = gwp_ship_get_torps_type (self);
+
+  if (torps_type != 0 && gwp_ship_get_torps(self) != 0) {
+    return (GwpTorpSpec *)g_slist_nth_data (torpspec_list, torps_type - 1);
+  } else {
+    return NULL;
+  }
+}
+
+/* Calculates total mass based on cargo, equipment, etc. */
+gint gwp_ship_calculate_mass (GwpShip *self)
+{
+  g_assert (GWP_IS_SHIP(self));
+
+  GwpBeamSpec *beam = gwp_ship_get_beamspec (self);
+  GwpTorpSpec *torp = gwp_ship_get_torpspec (self);
+  GwpHullSpec *hull = gwp_ship_get_hullspec (self);
+
+  gint total_mass = 0;
+
+  total_mass += gwp_ship_get_colonists (self) +
+    gwp_ship_get_neutronium (self) + gwp_ship_get_tritanium (self) +
+    gwp_ship_get_duranium (self) + gwp_ship_get_molybdenum (self) +
+    gwp_ship_get_supplies (self);
+  
+  if (gwp_ship_get_unload_planet_id(self) != 0) {
+    total_mass -= gwp_ship_get_unload_colonists (self) +
+      gwp_ship_get_unload_neutronium (self) + 
+      gwp_ship_get_unload_tritanium (self) +
+      gwp_ship_get_unload_duranium (self) + 
+      gwp_ship_get_unload_molybdenum (self) +
+      gwp_ship_get_unload_supplies (self);
+  }
+  
+  if (gwp_ship_get_transfer_ship_id(self) != 0) {
+    total_mass -= gwp_ship_get_transfer_colonists (self) +
+      gwp_ship_get_transfer_neutronium (self) +
+      gwp_ship_get_transfer_tritanium (self) +
+      gwp_ship_get_transfer_duranium (self) +
+      gwp_ship_get_transfer_molybdenum (self) +
+      gwp_ship_get_transfer_supplies (self);
+  }
+  
+  total_mass += gwp_hullspec_get_mass (hull);
+  
+  if (GWP_IS_TORPSPEC(torp)) {
+    total_mass += gwp_torpspec_get_mass (torp) * 
+      gwp_ship_get_torps_launchers (self);
+    total_mass += gwp_ship_get_torps (self);
+  }
+  
+  if (GWP_IS_BEAMSPEC(beam)) {
+    total_mass += gwp_beamspec_get_mass (beam) * gwp_ship_get_beams (self);
+  }
+
+  return total_mass;
 }
 
 /****************************/

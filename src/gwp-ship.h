@@ -25,6 +25,7 @@
 
 #include "global.h"
 #include "gwp-flying-object.h"
+#include "gwp-specs.h"
 
 /*
  * Type macros.
@@ -67,6 +68,14 @@ gboolean gwp_ship_is_mine(GwpShip *self);
 void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y);
 gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self);
 gint gwp_ship_calculate_eta (GwpShip *self);
+
+gint gwp_ship_calculate_fuel_usage (GwpShip *self);
+GwpHullSpec * gwp_ship_get_hullspec (GwpShip *self);
+GwpEngSpec * gwp_ship_get_engspec (GwpShip *self);
+GwpBeamSpec * gwp_ship_get_beamspec (GwpShip *self);
+GwpTorpSpec * gwp_ship_get_torpspec (GwpShip *self);
+gint gwp_ship_calculate_mass (GwpShip *self);
+
 
 /****************************/
 /* Get/Set (boring) methods */

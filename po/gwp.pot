@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 22:45-0300\n"
+"POT-Creation-Date: 2004-03-15 23:27-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -635,13 +635,13 @@ msgstr ""
 msgid "Are you sure you want to delete '%s'?"
 msgstr ""
 
-#: src/callbacks.c:541
+#: src/callbacks.c:542
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
 msgstr ""
 
-#: src/callbacks.c:542
+#: src/callbacks.c:543
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"

@@ -595,6 +595,16 @@ void update_ship_panel_with (GwpShip *ship)
     gtk_label_set_text(distance, tmp);
     g_free(tmp);
 
+    /* Update fuel usage */
+    tmp = g_strdup_printf (_("%d KT"), gwp_ship_calculate_fuel_usage(ship));
+    gtk_label_set_text (fuel_usage, tmp);
+    g_free (tmp);
+
+    /* Update mass */
+    tmp = g_strdup_printf (_("%d KT"), gwp_ship_calculate_mass(ship));
+    gtk_label_set_text (mass, tmp);
+    g_free (tmp);
+
     /* Update ETA */
     gint e = gwp_ship_calculate_eta (ship);
     if (e == 1) {
@@ -635,7 +645,7 @@ void update_ship_panel_with (GwpShip *ship)
   g_free(tmp);
   
   /* Update Hull Type */
-  GwpHullSpec *hspec = (GwpHullSpec *)g_slist_nth_data (hullspec_list, gwp_ship_get_hull_type(ship));
+  GwpHullSpec *hspec = gwp_ship_get_hullspec (ship);
   tmp = g_strdup_printf ("<i>%s</i>", 
 			 gwp_hullspec_get_name_trunc(hspec, 20)->str);
   gtk_label_set_markup (hull, tmp);
