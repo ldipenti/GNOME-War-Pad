@@ -344,6 +344,29 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   }
 }
 
+void on_ships_list_cursor_changed (GtkWidget *widget,
+				   gpointer user_data)
+{
+  GtkTreeView *ship_l = NULL;
+  GtkTreeSelection *sel = NULL;
+  GtkTreeModel *model = NULL;
+  GtkTreeIter iter;
+  gint ship_id;
+  
+  ship_l = (GtkTreeView *) lookup_widget ("ships_list");
+  model = gtk_tree_view_get_model (ship_l);
+  sel = gtk_tree_view_get_selection (ship_l);
+
+  /* get the iterator at the selection */
+  gtk_tree_selection_get_selected (sel, NULL, &iter);
+
+  /* get the ship ID from the first column */
+  gtk_tree_model_get (model, &iter, 0, &ship_id, -1);
+
+  /* Update panel with new data */
+  update_ship_panel_with (gwp_ship_get(ship_list, ship_id));
+}
+
 void on_game_mgr_edit_game(GtkWidget *widget,
 			   gpointer user_data)
 {
@@ -493,7 +516,7 @@ void on_about_activate(GtkWidget *widget)
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
-				_("(c) 2002,2003 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
+				_("\302\251 2002-2004 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
 				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
 				(const gchar **)authors,
 				(const gchar **)documenters,
