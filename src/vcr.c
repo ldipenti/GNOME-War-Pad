@@ -101,7 +101,6 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
     cdata.a_typ_torps = vcr_get( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR );
   }
 
-
   /*
    *     SIDE B
    */

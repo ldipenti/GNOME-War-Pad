@@ -132,6 +132,12 @@ void vcrc_prepare_beams( combatdata *cdata );
 void vcrc_fight( combatdata *cdata );
 
 
+
+GtkTextBuffer *vcr_logging_textview_buffer;
+void vcr_log_str( gchar *str );
+void vcr_log_strn( gchar *str, gint len );
+void vcr_log_int( gint val );
+void vcr_log_intn( gint val, gint len );
 #endif
 
 
