@@ -82,6 +82,8 @@ gwp_SOURCES =				\
 	message-reader.h		\
 	vcr.c				\
 	vcr.h				\
+	vcr-combat.c			\
+	vcr-combat.h			\
 	gwp-python.h			\
 	gwp-python.c			\
 	gwp-utils.c			\
