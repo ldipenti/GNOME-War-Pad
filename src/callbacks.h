@@ -184,10 +184,5 @@ void on_vcr_comboboxentry_sel_type_b_changed( GtkWidget *widget,
 
 void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data );
 
-/***********************************************************/
-/*************** Python Console Callbacks ******************/
-/***********************************************************/
-void on_console_run_button_clicked (GtkWidget *widget,
-				    gpointer user_data);
 void on_view_python_console_activate (GtkWidget *widget,
 				      gpointer user_data);

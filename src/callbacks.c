@@ -985,27 +985,6 @@ void on_TESTBUTTON_pressed( GtkWidget *widget, gpointer user_data )
   vcr_set( widget, user_data, SHIP_B, NMB_BEAMS, VAL_MAX, 6 );
 }
 
-/***********************************************************/
-/*************** Python Console Callbacks ******************/
-/***********************************************************/
-void on_console_run_button_clicked (GtkWidget *widget,
-				    gpointer user_data)
-{
-#ifdef USE_PYTHON
-  GtkEntry *command_entry = (GtkEntry *) lookup_widget("console_command_entry");
-  GtkTextView *tv = (GtkTextView *) lookup_widget ("console_output_textview");
-  GtkTextBuffer *buf = gtk_text_view_get_buffer (tv);
-
-  GString *cmd = g_string_new ((gchar *)gtk_entry_get_text (command_entry));
-  gtk_text_buffer_insert_at_cursor (buf, "\n", 1);
-  gtk_text_buffer_insert_at_cursor (buf,
-				    cmd->str,
-				    cmd->len);
-  
-  PyRun_SimpleString (cmd->str);
-#endif
-}
-
 /* Show python console */
 void on_view_python_console_activate (GtkWidget *widget,
 				      gpointer user_data)
