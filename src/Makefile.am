@@ -66,7 +66,12 @@ gwp_SOURCES =						\
 	vcr-combat-gl.h		vcr-combat-gl.c		\
 	trackball.h		trackball.c		\
 	gwp-python.h		gwp-python.c		\
-	gwp-utils.h		gwp-utils.c
+	gwp-utils.h		gwp-utils.c		\
+	vp_maketurn.c		vp_maketurn.h		\
+	vp_maketurn_global.c	vp_maketurn_global.h	\
+	vp_maketurn_kmkturn.c	vp_maketurn_kmkturn.h	\
+	vp_maketurn_misc.c	vp_maketurn_misc.h	\
+	vp_maketurn_playerio.c	vp_maketurn_playerio.h
 
 
 gwp_LDADD =  \
