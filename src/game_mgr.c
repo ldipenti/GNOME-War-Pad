@@ -30,6 +30,8 @@
 #include "vp_unpack.h"
 #include "gwp-utils.h"
 
+void game_mgr_init_message_history (void);
+
 void game_mgr_init(void)
 {
     GtkTreeView *race_list;
@@ -645,6 +647,7 @@ void game_mgr_play_game(GameState *state)
     gtk_main_iteration();
 
   /* Read data files and init starchart */
+  game_mgr_init_message_history();
   init_data();
   init_starchart(gwp);
   init_starchart_mini();
@@ -674,4 +677,77 @@ gint game_mgr_get_icon_idx_selected(void)
   icon_idx = (gint)g_list_nth_data(selections, 0);
   
   return icon_idx;
+}
+
+void game_mgr_init_message_history (void)
+{
+  GtkWidget *warn;
+  GString *filenamedest = 
+    g_string_new (g_strdup_printf("mdata%d_%d.dat", 
+				  game_get_race_nr(game_state),
+				  game_get_turn_number(game_state)));
+  GString *filenameorig =
+    g_string_new (g_strdup_printf("mdata%d.dat", 
+				  game_get_race_nr(game_state)));
+  gchar *dir = game_get_full_path (game_state, "message-history");
+  gchar *filedest = game_get_full_path (game_state, 
+					g_strdup_printf("message-history/%s",
+							filenamedest->str));
+  gchar *fileorig = NULL;
+  FILE *dest;
+
+  /*** Directory check & creation ***/
+  if (!g_file_test(dir, G_FILE_TEST_EXISTS)) {
+    mkdir (dir, S_IRWXU);
+  } else if (g_file_test(dir, G_FILE_TEST_IS_REGULAR)) {
+    warn = gwp_warning_dialog_new (game_mgr,
+				   _("Error creating the message history directory."),
+				   _("A file already exists with the name 'message-history', please remove or rename this file so that the message history feature can work correctly."));
+    gtk_dialog_run(GTK_DIALOG(warn));
+    gtk_widget_destroy(warn);
+    return;
+  }
+
+  /*** File check & copy ***/
+  if (!g_file_test(filedest, G_FILE_TEST_EXISTS)) {
+    /* ... lowercase ... */
+    if (g_file_test(game_get_full_path(game_state, filenameorig->str), 
+		    G_FILE_TEST_EXISTS)) {
+      fileorig = game_get_full_path(game_state, filenameorig->str);
+    }
+    /* ... uppercase ... */
+    else if (g_file_test(game_get_full_path(game_state, 
+					    g_string_up(filenameorig)->str),
+			 G_FILE_TEST_EXISTS)) {
+      fileorig = game_get_full_path(game_state, 
+				    g_string_up(filenameorig)->str);
+    }
+
+    /* Copy file */
+    if (fileorig) {
+      gchar *contents = NULL;
+      gsize length;
+      GError *err = NULL;
+
+      g_file_get_contents (fileorig, &contents, &length, &err);
+      dest = fopen (filedest, "w");
+      fwrite (contents, 1, (size_t)length, dest);
+      fclose (dest);
+
+      g_free (contents);
+    } else {
+      warn = gwp_warning_dialog_new (game_mgr,
+				     _("Message data file not found."),
+				     _("The MDATA file was not found, it's needed to read the game messages, please check your VGA Planets installation."));
+      gtk_dialog_run(GTK_DIALOG(warn));
+      gtk_widget_destroy(warn);
+    }
+  }
+
+  /* Free Stuff!! */
+  g_free (dir);
+  g_free (filedest);
+  g_free (fileorig);
+  g_string_free (filenameorig, TRUE);
+  g_string_free (filenamedest, TRUE);
 }
