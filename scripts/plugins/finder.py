@@ -44,9 +44,10 @@ class Finder(gwp.Plugin):
         for (key,obj) in result:
             self.store.append([key, obj.get_name(), obj.get_neutronium()])
 
-        
+    # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
-        return gtk.FALSE
+        self.window.hide()
+        return gtk.TRUE
 
     # Another callback
     def destroy(self, widget, data=None):
@@ -77,7 +78,7 @@ class Finder(gwp.Plugin):
         self.vbox = gtk.VBox()
         self.hbox = gtk.HBox()
         self.vbox.set_homogeneous(gtk.FALSE)
-        self.search = gtk.Entry(30)
+        self.search = gtk.Entry(1024)
         self.list_scroll = gtk.ScrolledWindow()
         self.list_scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.list = gtk.TreeView()
