@@ -1,6 +1,7 @@
 # Make sure we use pygtk for gtk 2.0
 import pygtk
 #pygtk.require("2.0")
+import gobject
 
 # Import the rest of the needed modules
 import os
@@ -242,7 +243,7 @@ class PluginManager:
 #######
 # Plugin abstract class
 #######
-class Plugin:
+class Plugin(gobject.GObject):
     """
     GWP's Plugin abstract class: every plugin must be a subclass of this one
     and should implement register() and unregister() methods as part of the
@@ -262,19 +263,28 @@ class Plugin:
 
     # Constructor
     def __init__ (self):
-        pass
+        # Superclass constructor
+        gobject.GObject.__init__(self)
     
+    __gsignals__ = {
+        'unregistered' : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+                          ())
+        }
+
     # Executed at registration time
     def register (self, pm):
         raise NotImplementedError
 
-    # Executed at elimination time
+    # Executed at elimination time, this should be executed from subclasses
     def unregister (self, pm):
-        raise NotImplementedError
+        self.emit('unregistered')
 
     # Every system event is passed to each plugin
     def notify (self, object, event):
         raise NotImplementedError
+
+# Register new gobject types
+gobject.type_register(Plugin)
 
 ##############
 # Main code execute at load

@@ -66,5 +66,6 @@ class NotificationArea(gwp.Plugin):
 
     # cleaning up...
     def unregister(self, pm):
+        gwp.Plugin.unregister(self, pm)
         pm.remove_plugin_slot('panel', self.__toolbar)
         
