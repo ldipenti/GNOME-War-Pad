@@ -55,6 +55,98 @@ GType gwp_ship_get_type (void);
  */
 GwpShip *gwp_ship_new (void);
 
+gboolean gwp_ship_is_known (GwpShip *self);
+void gwp_ship_set_known (GwpShip *self, gboolean is_known);
+
+GString *gwp_ship_get_fcode (GwpShip *self);
+void gwp_ship_set_fcode (GwpShip *self, GString *fcode);
+
+gint16 gwp_ship_get_x_to_waypoint (GwpShip *self);
+void gwp_ship_set_x_to_waypoint (GwpShip *self, gint16 xw);
+gint16 gwp_ship_get_y_to_waypoint (GwpShip *self);
+void gwp_ship_set_y_to_waypoint (GwpShip *self, gint16 yw);
+
+gint16 gwp_ship_get_engines_type (GwpShip *self);
+void gwp_ship_set_engines_type (GwpShip *self, gint16 et);
+gint16 gwp_ship_get_hull_type (GwpShip *self);
+void gwp_ship_set_hull_type (GwpShip *self, gint16 ht);
+gint16 gwp_ship_get_beams_type (GwpShip *self);
+void gwp_ship_set_beams_type (GwpShip *self, gint16 bt);
+gint16 gwp_ship_get_beams (GwpShip *self);
+void gwp_ship_set_beams (GwpShip *self, gint16 beams);
+gint16 gwp_ship_get_fighter_bays (GwpShip *self);
+void gwp_ship_set_fighter_bays (GwpShip *self, gint16 f_bays);
+gint16 gwp_ship_get_torps_type (GwpShip *self);
+void gwp_ship_set_torps_type (GwpShip *self, gint16 tt);
+gint16 gwp_ship_get_torps (GwpShip *self);
+void gwp_ship_set_torps (GwpShip *self, gint16 torps);
+gint16 gwp_ship_get_fighters (GwpShip *self);
+void gwp_ship_set_fighters (GwpShip *self, gint16 fighters);
+gint16 gwp_ship_get_torps_launchers (GwpShip *self);
+void gwp_ship_set_torps_launchers (GwpShip *self, gint16 tl);
+
+gint16 gwp_ship_get_mission (GwpShip *self);
+void gwp_ship_set_mission (GwpShip *self, gint16 mission);
+
+gint16 gwp_ship_get_primary_enemy (GwpShip *self);
+void gwp_ship_set_primary_enemy (GwpShip *self, gint16 pe);
+
+gint16 gwp_ship_get_tow_ship_id (GwpShip *self);
+void gwp_ship_set_tow_ship_id (GwpShip *self, gint16 id);
+
+gint16 gwp_ship_get_damage (GwpShip *self);
+void gwp_ship_set_damage (GwpShip *self, gint16 dmg);
+gint16 gwp_ship_get_crew (GwpShip *self);
+void gwp_ship_set_crew (GwpShip *self, gint16 crew);
+gint16 gwp_ship_get_colonists (GwpShip *self);
+void gwp_ship_set_colonists (GwpShip *self, gint16 col);
+
+gint16 gwp_ship_get_neutronium (GwpShip *self);
+void gwp_ship_set_neutronium (GwpShip *self, gint16 neu);
+gint16 gwp_ship_get_tritanium (GwpShip *self);
+void gwp_ship_set_tritanium (GwpShip *self, gint16 tri);
+gint16 gwp_ship_get_duranium (GwpShip *self);
+void gwp_ship_set_duranium (GwpShip *self, gint16 dur);
+gint16 gwp_ship_get_molybdenum (GwpShip *self);
+void gwp_ship_set_molybdenum (GwpShip *self, gint16 mol);
+gint16 gwp_ship_get_supplies (GwpShip *self);
+void gwp_ship_set_supplies (GwpShip *self, gint16 sup);
+
+/* Unload cargo to planet */
+gint16 gwp_ship_get_unload_neutronium (GwpShip *self);
+void gwp_ship_set_unload_neutronium (GwpShip *self, gint16 neu);
+gint16 gwp_ship_get_unload_tritanium (GwpShip *self);
+void gwp_ship_set_unload_tritanium (GwpShip *self, gint16 tri);
+gint16 gwp_ship_get_unload_duranium (GwpShip *self);
+void gwp_ship_set_unload_duranium (GwpShip *self, gint16 dur);
+gint16 gwp_ship_get_unload_molybdenum (GwpShip *self);
+void gwp_ship_set_unload_molybdenum (GwpShip *self, gint16 mol);
+gint16 gwp_ship_get_unload_supplies (GwpShip *self);
+void gwp_ship_set_unload_supplies (GwpShip *self, gint16 sup);
+gint16 gwp_ship_get_unload_planet_id (GwpShip *self);
+void gwp_ship_set_unload_planet_id (GwpShip *self, gint16 pid);
+
+/* Transfer cargo to ship */
+gint16 gwp_ship_get_transfer_neutronium (GwpShip *self);
+void gwp_ship_set_transfer_neutronium (GwpShip *self, gint16 neu);
+gint16 gwp_ship_get_transfer_tritanium (GwpShip *self);
+void gwp_ship_set_transfer_tritanium (GwpShip *self, gint16 tri);
+gint16 gwp_ship_get_transfer_duranium (GwpShip *self);
+void gwp_ship_set_transfer_duranium (GwpShip *self, gint16 dur);
+gint16 gwp_ship_get_transfer_molybdenum (GwpShip *self);
+void gwp_ship_set_transfer_molybdenum (GwpShip *self, gint16 mol);
+gint16 gwp_ship_get_transfer_supplies (GwpShip *self);
+void gwp_ship_set_transfer_supplies (GwpShip *self, gint16 sup);
+gint16 gwp_ship_get_transfer_ship_id (GwpShip *self);
+void gwp_ship_set_transfer_ship_id (GwpShip *self, gint16 sid);
+
+gint16 gwp_ship_get_intercept_ship_id (GwpShip *self);
+void gwp_ship_set_intercept_ship_id (GwpShip *self, gint16 sid);
+
+gint16 gwp_ship_get_megacredits (GwpShip *self);
+void gwp_ship_set_megacredits (GwpShip *self, gint16 m);
+
+
 /*
  * Standard defines.
  */
