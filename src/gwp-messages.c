@@ -96,6 +96,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: constructor called" );
   self->priv->currMsg = 0;
   self->pub->msgindex = (gint *)malloc(game_get_turn_number(game_state)*sizeof(gint));
   self->pub->msgexists = (gboolean *)malloc(game_get_turn_number(game_state)*sizeof(gboolean));
+  self->pub->msgnmb = 0;
 if( DEBUGOUTPUT ) g_message("DEBUG: constructor finished" );
   /* g_message("GwpMessages init"); */
 }

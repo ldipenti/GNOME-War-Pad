@@ -154,17 +154,21 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr combobox init called" );
   }
   else
   {
-    /* fill combobox with valid turns and select current */
+    /* clean-fill combobox with valid turns and select current */
+    while( messages->pub->msgnmb > 0 )
+    {
+      gtk_combo_box_remove_text( turnnmb, 0 );
+      messages->pub->msgnmb--;
+    }
     for( i=1; i<cur; i++ )
     {
       gtk_combo_box_insert_text( turnnmb, i, g_strdup_printf( "%d", msgindex[i] ) );
+      messages->pub->msgnmb++;
     }
     gtk_combo_box_set_active( turnnmb, cur-2 );
   }
 
   /* cleanup */
-//  free( msgindex );
-//  free( msgexists );
   free( tmpname );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr combobox init finished" );
 }

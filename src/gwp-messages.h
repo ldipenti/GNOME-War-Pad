@@ -57,6 +57,7 @@ typedef struct _GwpMessagesPrivate GwpMessagesPrivate;
 typedef struct _GwpMessagesPublic {
   gint *msgindex;
   gboolean *msgexists;
+  gint *msgnmb;
 } GwpMessagesPublic;
 
 struct _GwpMessages {
