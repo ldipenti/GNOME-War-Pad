@@ -161,6 +161,7 @@ class Quark(gwp.Plugin):
         self.na_verify_happyness(p, 'c') # Colonists
         self.na_verify_happyness(p, 'n') # Natives
         self.na_verify_colonists(p)
+
         
     #--------------------------------------------------------------------------
     def na_verify_happyness(self, p, people): # FIXME NOTIFICATION AREA
@@ -273,6 +274,11 @@ class Quark(gwp.Plugin):
         devuelve (% de impuesto, cantidad de MC) """
         if p.get_natives(): # SI no hay nativos no tiene sentido esto 
             future_p = p.copy()
+
+            gs = gwp.get_game_state()
+            nro_raza = gs.get_race_nr()
+            future_p.set_owner(nro_raza)
+            
             future_p.set_colonists(1000) # suficientemente grande para evitar problemas
             tax = 1
             while tax:
@@ -318,7 +324,7 @@ class Quark(gwp.Plugin):
                 self.signals_id = { planeta.get_id() : cod }
             else:
                 self.signals_id [ planeta.get_id() ] = cod
-        for planeta in self.pl_otros: # Planetas orbitados sin dueño
+        for planeta in self.pl_otros: # Planetas orbitados sin duenio
             cod = planeta.connect("selected", self.na_generar)
             if self.signals_id == []:
                 self.signals_id = { planeta.get_id() : cod }
