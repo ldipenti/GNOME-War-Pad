@@ -1398,6 +1398,14 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet)), 
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
+    /* Add planet name */
+    gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_TEXT,
+			   "text", gwp_object_get_name(GWP_OBJECT(planet))->str,
+			   "x", xi,
+			   "y", yi + 10,
+			   "fill_color", "white",
+			   NULL);
+
     if (gwp_planet_is_mine(planet)) {
 
       /* Is there's a starbase on planet, draw a special mark */
@@ -1870,7 +1878,7 @@ void starchart_zoom_in (GnomeCanvas * starchart)
     zoom = zoom + 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
     game_set_starchart_zoom(game_state, zoom);
-    zoom_status = g_strdup_printf("Zoom: %.1f", zoom);
+    zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
     starchart_set_status(zoom_status);
     g_free(zoom_status);
   }
@@ -1885,7 +1893,7 @@ void starchart_zoom_out (GnomeCanvas * starchart)
     zoom = zoom - 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
     game_set_starchart_zoom(game_state, zoom);
-    zoom_status = g_strdup_printf("Zoom: %.1f", zoom);
+    zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
     starchart_set_status(zoom_status);
     g_free(zoom_status);
   }
