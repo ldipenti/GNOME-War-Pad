@@ -24,7 +24,6 @@ struct _GwpFlyingObjectPrivate {
   gboolean dispose_has_run;
   gint heading; /* range 0..360 */
   gint speed; /* range 0..9, sometimes can be negative (set by the host) */
-  GString *name;
 };
 
 /*
@@ -65,7 +64,6 @@ static void gwp_fo_init (GTypeInstance *instance,
   /* Attributes initialization */
   self->priv->heading = 0;
   self->priv->speed = 0;
-  self->priv->name = g_string_new("");
   g_message("GwpFlyingObject initialized");
 }
 
@@ -80,7 +78,7 @@ static void gwp_fo_dispose (GwpFlyingObject *self)
   /*
    * Here I have to unref all members on which I own a referece.
    */
-  g_string_free (self->priv->name, TRUE);
+  /* NOOP */
 }
 
 static void gwp_fo_finalize (GwpFlyingObject *self)
@@ -132,17 +130,4 @@ void gwp_fo_set_speed (GwpFlyingObject *self, gint speed)
 {
   g_assert(GWP_IS_FLYING_OBJECT(self));
   self->priv->speed = speed;
-}
-
-GString * gwp_fo_get_name (GwpFlyingObject *self)
-{
-  g_assert(GWP_IS_FLYING_OBJECT(self));
-  return g_string_new(self->priv->name->str);
-}
-
-void gwp_fo_set_name (GwpFlyingObject *self, GString *name)
-{
-  g_assert(GWP_IS_FLYING_OBJECT(self));
-  g_string_free(self->priv->name, TRUE);
-  self->priv->name = g_string_new(name->str);
 }

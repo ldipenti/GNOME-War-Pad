@@ -27,6 +27,7 @@ struct _GwpObjectPrivate {
   gint x_coord;
   gint y_coord;
   gint id;
+  GString *name;
 };
 
 /*
@@ -69,6 +70,7 @@ static void gwp_object_init (GTypeInstance *instance,
   self->priv->x_coord = 0;
   self->priv->y_coord = 0;
   self->priv->id = 0;
+  self->priv->name = g_string_new("");
   g_message("GwpObject init");
 }
 
@@ -83,7 +85,7 @@ static void gwp_object_dispose (GwpObject *self)
   /*
    * Here I have to unref all members on which I own a reference.
    */
-  /* NOOP */
+  g_string_free (self->priv->name, TRUE);
 }
 
 static void gwp_object_finalize (GwpObject *self)
@@ -148,4 +150,18 @@ void gwp_object_set_id (GwpObject *self, gint id)
 {
   g_assert(GWP_IS_OBJECT(self));
   self->priv->id = id;
+}
+
+GString * gwp_object_get_name (GwpObject *self)
+{
+  g_assert (GWP_IS_OBJECT(self));
+  return g_string_new (self->priv->name->str);
+}
+
+void gwp_object_set_name (GwpObject *self, GString *name)
+{
+  g_assert (GWP_IS_OBJECT(self));
+  g_assert (name != NULL);
+  g_string_free (self->priv->name, TRUE);
+  self->priv->name = g_string_new(name->str);
 }
