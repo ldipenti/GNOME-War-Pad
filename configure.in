@@ -131,6 +131,7 @@ help/C/Makefile
 po/Makefile.in
 pixmaps/Makefile
 pixmaps/planets/Makefile
+pixmaps/ships/Makefile
 gwp.desktop
 ])
 

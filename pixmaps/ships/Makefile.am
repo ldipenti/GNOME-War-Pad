@@ -105,8 +105,8 @@ EXTRA_DIST = \
 	ship96.jpg \
 	ship97.jpg \
 	ship98.jpg \
-	ship99.jpg \
+	ship99.jpg
 
-gwpplanetspixdir = $(datadir)/pixmaps/gwp/ships
-gwpplanetspix_DATA = $(EXTRA_DIST)
+gwpshipspixdir = $(datadir)/pixmaps/gwp/ships
+gwpshipspix_DATA = $(EXTRA_DIST)
 

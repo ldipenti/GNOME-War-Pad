@@ -34,6 +34,8 @@ gwp_SOURCES = \
 	gwp-planet.c\
 	gwp-location.h\
 	gwp-location.c\
+	gwp-hullspec.h\
+	gwp-hullspec.c\
 	callbacks.c\
 	callbacks.h\
 	support.c\

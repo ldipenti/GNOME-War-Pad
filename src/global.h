@@ -90,6 +90,14 @@
 #define MOUSE_INTERLEAVE 5
 #define SCROLL 20
 
+#define MINI_SC_PAGE 0
+#define MINI_PLANET_PAGE 1
+#define MINI_SHIP_PAGE 2
+
+#define EXTRA_PANEL_PLANET_PAGE 0
+#define EXTRA_PANEL_BASE_PAGE 1
+#define EXTRA_PANEL_SHIP_PAGE 2
+
 #define GAME_STATE_VERSION 2
 
 /* Global vars */
@@ -98,6 +106,7 @@ GHashTable *base_list;
 GHashTable *ship_list;
 GHashTable *target_list;
 GHashTable *fleet_list;
+GHashTable *hullspec_list;
 
 /* Canvas items */
 GSList *planets_per_quad[TOTAL_QUADS];

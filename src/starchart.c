@@ -361,7 +361,6 @@ void update_planet_extra_panel(gint16 planet_id)
 void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 {
   static gboolean loaded = FALSE;
-  static GtkWidget *planet_page = NULL;
   static GtkNotebook *panel = NULL;
   static GtkLabel *planet_name = NULL;
   static GtkLabel *mines = NULL;
@@ -384,13 +383,10 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 
   g_assert (GWP_IS_PLANET(a_planet));
 
-  /* Select the planet page on panel */
-  panel = (GtkNotebook *) lookup_widget ("info_panel");
-  gtk_notebook_set_current_page (panel, PANEL_PLANET_PAGE);
-  planet_page = gtk_notebook_get_nth_page (panel, PANEL_PLANET_PAGE);
-
   if (!loaded) {
     loaded = TRUE;
+
+    panel = (GtkNotebook *) lookup_widget ("info_panel");
 
     planet_name = (GtkLabel *) lookup_widget ("label_planet");
     mines = (GtkLabel *) lookup_widget ("label_mines");
@@ -412,6 +408,9 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     megacredits = (GtkLabel *) lookup_widget("label_mc");
     visibility = (GtkLabel *) lookup_widget("label_visibility");
   }
+
+  /* Select the planet page on panel */
+  gtk_notebook_set_current_page (panel, PANEL_PLANET_PAGE);
 
   /* If we have data on this planet, then work */
   if (gwp_planet_is_known (a_planet)) {
@@ -565,6 +564,7 @@ void update_ship_panel_with (GwpShip *ship)
   static GtkLabel *mass = NULL;
   static GtkLabel *fuel_usage = NULL;
   static GtkLabel *heading = NULL;
+  static GtkLabel *hull = NULL;
   gchar *tmp = NULL;
 
   if (! loaded) {
@@ -577,6 +577,7 @@ void update_ship_panel_with (GwpShip *ship)
     eta = (GtkLabel *) lookup_widget("label_ship_panel_eta");
     mass = (GtkLabel *) lookup_widget("label_ship_panel_mass");
     fuel_usage = (GtkLabel *) lookup_widget("label_ship_panel_fuel");
+    hull = (GtkLabel *) lookup_widget("label_ship_panel_hull_type");
   }
 
   g_assert(GWP_IS_SHIP(ship));
@@ -594,22 +595,6 @@ void update_ship_panel_with (GwpShip *ship)
     gtk_label_set_text(distance, tmp);
     g_free(tmp);
 
-    /* Update heading */
-    gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
-    if(h != -1) {
-      gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
-      tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
-    } else {
-      tmp = g_strdup_printf(_("not moving"));
-    }
-    gtk_label_set_text(heading, tmp);
-    g_free(tmp);
-
-    /* Update speed */
-    tmp = g_strdup_printf("%d", gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
-    gtk_label_set_text(speed, tmp);
-    g_free(tmp);
-
     /* Update ETA */
     gint e = gwp_ship_calculate_eta (ship);
     if (e == 1) {
@@ -624,36 +609,46 @@ void update_ship_panel_with (GwpShip *ship)
   else {
     gtk_label_set_text(waypoint, "--");
     gtk_label_set_text(distance, "--");
-
-    /* Update heading */
-    gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
-    if(h != -1) {
-      gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
-      tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
-    } else {
-      tmp = g_strdup_printf(_("not moving"));
-    }
-    gtk_label_set_text(heading, tmp);
-    g_free(tmp);
-
-    /* Update speed */
-    tmp = g_strdup_printf("%d", gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
-    gtk_label_set_text(speed, tmp);
-    g_free(tmp);
-
     gtk_label_set_text(eta, "--");
     gtk_label_set_text(mass, "--");
     gtk_label_set_text(fuel_usage, "--");
     gtk_label_set_text(eta, "--");
   }
+
+  /* 
+   * These are valid for all ships.
+   */
+  /* Update heading */
+  gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
+  if(h != -1) {
+    gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
+    tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
+  } else {
+    tmp = g_strdup_printf(_("not moving"));
+  }
+  gtk_label_set_text(heading, tmp);
+  g_free(tmp);
+  
+  /* Update speed */
+  tmp = g_strdup_printf("%d", gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
+  gtk_label_set_text(speed, tmp);
+  g_free(tmp);
+  
+  /* Update Hull Type */
+  GwpHullSpec *hspec = (GwpHullSpec *)g_hash_table_lookup(hullspec_list, (gconstpointer)(gint)gwp_ship_get_hull_type(ship));
+  tmp = g_strdup_printf ("<i>%s</i>", 
+			 gwp_hullspec_get_name_trunc(hspec, 20)->str);
+  gtk_label_set_markup (hull, tmp);
+  g_free(tmp);
+
+  /* Update ship image */
+  starchart_mini_set_ship_img(ship);
 }
 
 /* Given a GwpLocation, is shows how many ships are available */
 void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
 {
-  GtkWidget *ship_page;
-  GtkNotebook *panel;
-  GtkLabel *summary;
+  GtkLabel *summary = NULL;
   GwpShip *ship;
   gchar *tmp;
   guint ships_nr = 0;
@@ -663,10 +658,13 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
   GtkTreeIter iter;
   GtkTreePath *path;
   
-  /* Select the planet page on panel */
-  panel = (GtkNotebook *) lookup_widget ("info_panel");
-  gtk_notebook_set_current_page (panel, PANEL_SHIP_PAGE);
-  ship_page = gtk_notebook_get_nth_page (panel, PANEL_SHIP_PAGE);
+  /* Select the ship page on panel */
+  gtk_notebook_set_current_page (lookup_widget ("info_panel"),
+				 PANEL_SHIP_PAGE);
+
+  /* Select the ship page on mini panel */
+  gtk_notebook_set_current_page (lookup_widget ("extra_info_panel"), 
+				 EXTRA_PANEL_SHIP_PAGE);
 
   /* Retrieve all info widgets */
   summary = (GtkLabel *) lookup_widget ("label_ship_panel_summary");
@@ -1262,10 +1260,9 @@ gboolean starchart_is_my_ship (GnomeCanvasItem * ship_item)
   return TRUE;
 }
 
-GnomeCanvasItem*
-starchart_select_nearest_planet (GtkWidget * gwp, 
-				 GSList * planets_nearby,
-				 gdouble wx, gdouble wy)
+GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp, 
+						  GSList * planets_nearby,
+						  gdouble wx, gdouble wy)
 {
   GnomeCanvasItem *planet;
   GwpPlanet *planet_data;
@@ -1288,9 +1285,9 @@ starchart_select_nearest_planet (GtkWidget * gwp,
   }
 }
 
-void starchart_select_nearest_ship (GtkWidget * gwp, 
-				    GSList * ships_nearby,
-				    gdouble wx, gdouble wy)
+GnomeCanvasItem *starchart_select_nearest_ship (GtkWidget * gwp, 
+						GSList * ships_nearby,
+						gdouble wx, gdouble wy)
 {
   GnomeCanvasItem *ship;
   gdouble x, y;
@@ -1306,11 +1303,12 @@ void starchart_select_nearest_ship (GtkWidget * gwp,
 		  gwp_object_get_y_coord(GWP_OBJECT(location)),
 		  &x, &y);
 
-    starchart_close_extra_panels(); /* FIXME: this is temporary, I shouldn't
-				       close the extra panels when I have
-				       it finished */
     starchart_mark_ship (x, y);
     update_ship_panel (gwp, location);
+
+    return ship;
+  } else {
+    return NULL;
   }
 }
 
@@ -1702,14 +1700,9 @@ void starchart_mark_ship (gint x, gint y)
 
 void starchart_open_extra_panels(void)
 {
-  GtkNotebook *mini =
-    (GtkNotebook *) lookup_widget("notebook_mini");
-
   gtk_widget_show(lookup_widget("extra_info_panel"));
   gtk_widget_show(lookup_widget("calc_panel"));
   gtk_widget_show(lookup_widget("global_defense_panel"));
-  /* Switch to planet image view */
-  gtk_notebook_set_current_page(mini, 1);
 }
 
 void starchart_close_extra_panels(void)
@@ -1721,7 +1714,7 @@ void starchart_close_extra_panels(void)
   gtk_widget_hide(lookup_widget("calc_panel"));
   gtk_widget_hide(lookup_widget("global_defense_panel"));
   /* Show the mini-map again */
-  gtk_notebook_set_current_page(mini, 0);
+  gtk_notebook_set_current_page(mini, MINI_SC_PAGE);
 }
 
 /* Sets the planet image acording to the planet's temp */
@@ -1797,6 +1790,25 @@ void starchart_mini_set_planet_img(GwpPlanet *planet)
   g_free(img_name);
 }
 
+/* Sets the ship image */
+void starchart_mini_set_ship_img(GwpShip *ship) 
+{
+  g_assert (GWP_IS_SHIP(ship));
+
+  GtkImage *s_img = (GtkImage *) lookup_widget("image_ship");
+  GString *img_name = g_string_new(DATADIR"/pixmaps/gwp/ships/ship");
+  gchar *ship_nr;
+
+  /* Assemble file name and load image */
+  ship_nr = g_strdup_printf ("%d.jpg", gwp_ship_get_hull_type(ship));
+  img_name = g_string_append (img_name, ship_nr);
+  gtk_image_set_from_file(s_img, g_strdup(img_name->str));
+
+  /* Free stuff */
+  g_free (ship_nr);
+  g_string_free(img_name, TRUE);
+}
+
 void toggle_global_defense_panel(gboolean show)
 {
   GtkWidget *def_panel = lookup_widget("global_defense_panel");
@@ -1814,9 +1826,9 @@ void toggle_starbase_panel(gboolean show)
     (GtkNotebook *) lookup_widget("extra_info_panel");
 
   if(show) {
-    gtk_notebook_set_current_page(base_panel, 1);
+    gtk_notebook_set_current_page(base_panel, EXTRA_PANEL_BASE_PAGE);
   } else {
-    gtk_notebook_set_current_page(base_panel, 0);
+    gtk_notebook_set_current_page(base_panel, EXTRA_PANEL_PLANET_PAGE);
   }
 }
 

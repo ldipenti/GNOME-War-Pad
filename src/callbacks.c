@@ -83,6 +83,12 @@ starchart_event_button                 (GtkWidget       *widget,
   gdouble wx, wy;
   GSList *planets_nearby, *ships_nearby;
   static GnomeCanvasItem *ps_planet = NULL, *s_planet = NULL;
+  static GnomeCanvasItem *ps_ship = NULL, *s_ship = NULL;
+  static GtkNotebook *mini = NULL;
+
+  if (!mini) {
+    mini = (GtkNotebook *) lookup_widget("notebook_mini");
+  }
   
   /* Get focus on starchart */
   gtk_widget_grab_focus(GTK_WIDGET(starchart_get_canvas()));
@@ -112,15 +118,31 @@ starchart_event_button                 (GtkWidget       *widget,
     /* If the d-click was on the same planet, show the panels! */
     if(ps_planet == s_planet) {
       starchart_open_extra_panels();
+      /* Switch to planet image view */
+      gtk_notebook_set_current_page(mini, MINI_PLANET_PAGE);
     }
   } 
   /* Select a ship */
-  else if((event->button == 3) && (!(event->state & GDK_SHIFT_MASK))) {
-
+  else if((event->type == GDK_BUTTON_PRESS) && (event->button == 3) 
+	  && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
-    starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);
+
+    /* Keep record of previously selected ship */
+    ps_ship = s_ship;
+    s_ship = starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr),
+					   ships_nearby, wx, wy);
   }
+  /* Open Ship panel (double-click) */
+  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 3)
+	  && (!(event->state & GDK_SHIFT_MASK))) {
+    /* If the d-click was on the same planet, show the panels! */
+    if(ps_ship == s_ship) {
+      starchart_open_extra_panels();
+      /* Switch to ship image view */
+      gtk_notebook_set_current_page(mini, MINI_SHIP_PAGE);
+    }
+  } 
   return TRUE;
 }
 

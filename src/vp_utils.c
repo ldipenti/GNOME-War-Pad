@@ -32,6 +32,7 @@
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
+#include "gwp-hullspec.h"
 
 /*
  * Data Loading Init Function
@@ -56,6 +57,8 @@ void init_data (void)
   g_message("GENx loaded...");
   base_list = load_bdata();
   g_message("BDATA loaded...");
+  hullspec_list = load_hullspec();
+  g_message("HULLSPEC.DAT loaded...");
 }
 
 /*
@@ -912,4 +915,77 @@ GHashTable *load_bdata(void)
   fclose(bdata);
 
   return base_list;
+}
+
+GHashTable * load_hullspec (void)
+{
+  FILE *hullspec;
+  GHashTable *hullspec_list;
+  GString *hullspec_file;
+  GwpHullSpec *hs;
+  gint16 i, idx, hullspec_nr;
+  gchar buffer[60];
+  gchar *name_tmp;
+  
+  /* Initialize hash */
+  hullspec_list = g_hash_table_new (NULL, NULL);
+  
+  /* Initialize file name */
+  hullspec_file = g_string_new ("HULLSPEC.DAT");
+  
+  if ((hullspec = fopen(game_get_full_path(game_state, hullspec_file->str), "r")) == NULL) {
+    hullspec_file = g_string_down (hullspec_file);
+    if ((hullspec =
+	 fopen (game_get_full_path(game_state, hullspec_file->str), "r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 game_get_full_path(game_state, hullspec_file->str));
+      exit (-1);
+    }
+  }
+  
+  rewind (hullspec);
+
+  hullspec_nr = 105;
+
+  /* read registers */
+  for (i = 1; i <= hullspec_nr; i++) {
+    fread (buffer, 60, 1, hullspec);
+    
+    /* Instantiate new object */
+    hs = gwp_hullspec_new ();
+
+    /* Load data */
+    gwp_hullspec_set_id (hs, i);
+
+    name_tmp = g_malloc (sizeof(gchar)*30);
+    for (idx = 0; idx < 30; idx++) {
+      name_tmp[idx] = getWord(buffer + idx);
+    }
+    name_tmp[30] = '\0';
+    gwp_hullspec_set_name (hs, g_string_new(g_strchomp(name_tmp)));
+    g_free(name_tmp);
+
+    gwp_hullspec_set_picture (hs, getWord(buffer + 30));
+    gwp_hullspec_set_tritanium (hs, getWord(buffer + 34));
+    gwp_hullspec_set_duranium (hs, getWord(buffer + 36));
+    gwp_hullspec_set_molybdenum (hs, getWord(buffer + 38));
+    
+    gwp_hullspec_set_fuel_tank (hs, getWord(buffer + 40));
+    gwp_hullspec_set_crew (hs, getWord(buffer + 42));
+    gwp_hullspec_set_engines (hs, getWord(buffer + 44));
+    gwp_hullspec_set_mass (hs, getWord(buffer + 46));
+    gwp_hullspec_set_tech_level (hs, getWord(buffer + 48));
+    gwp_hullspec_set_cargo (hs, getWord(buffer + 50));
+    gwp_hullspec_set_fighter_bays (hs, getWord(buffer + 52));
+    gwp_hullspec_set_torp_launchers (hs, getWord(buffer + 54));
+    gwp_hullspec_set_beam_weapons (hs, getWord(buffer + 56));
+    gwp_hullspec_set_cost (hs, getWord(buffer + 58));
+    
+    /* Add new target */
+    g_hash_table_insert (hullspec_list, 
+			 (gpointer)gwp_hullspec_get_id (hs), hs);
+  }
+  fclose (hullspec);
+
+  return hullspec_list;
 }
