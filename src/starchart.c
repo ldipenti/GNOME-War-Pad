@@ -2792,7 +2792,9 @@ init_starchart_constellations (void)
       dist = sqrt (((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)));
 
       /* When distance is 1 or less LY at Warp 9... */
-      if (dist <= 81.0) {
+      /* FIXME: 84 LY because of the warp well, we should
+	 read this configuration from the host */
+      if (dist <= 84.0) {
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
 	zoom = gwp_game_state_get_starchart_zoom (game_state);
 
