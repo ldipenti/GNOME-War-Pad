@@ -142,6 +142,8 @@ starchart_event_button                 (GtkWidget       *widget,
     /* If the d-click was on the same planet, show the panels! */
     if(ps_planet == s_planet) {
       starchart_open_extra_planet_panels();
+      while (gtk_events_pending())
+	gtk_main_iteration();
 
       /* Re-select planet to update extra panels */
       planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
@@ -163,6 +165,8 @@ starchart_event_button                 (GtkWidget       *widget,
     /* If the d-click was on the same planet, show the panels! */
     if(ps_ship == s_ship) {
       starchart_open_extra_ship_panels();
+      while (gtk_events_pending())
+	gtk_main_iteration();
 
       /* Re-select ship to update extra panels */
       ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
@@ -260,7 +264,8 @@ void on_game_mgr_play_game (GtkWidget *widget,
   GameState *state = (GameState *) 
     gnome_icon_list_get_icon_data(iconlist,
 				  game_mgr_get_icon_idx_selected());
-  game_mgr_play_game(state);
+
+  game_mgr_play_game (state);
 }
 
 void on_game_mgr_new_game (GtkWidget *widget,
@@ -687,8 +692,8 @@ void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
   starchart_show_ion_storms (gtk_check_menu_item_get_active(menuitem));
 }
 
-void on_togglebutton_panel_base_toggled(GtkToggleButton *button,
-					gpointer user_data)
+void on_view_message_reader_activate (GtkWidget *widget,
+				      gpointer  user_data)
 {
-  toggle_starbase_panel(gtk_toggle_button_get_active(button));
+  /* FIXME: Noop */
 }

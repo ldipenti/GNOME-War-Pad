@@ -120,3 +120,32 @@ gchar * mission_get_name (enum missions mission)
     return NULL;
   }
 }
+
+gchar * mission_sb_get_name (enum sb_missions mission)
+{
+  switch (mission) {
+  case SB_MISSION_NONE:
+    return _("No mission");
+    break;
+  case SB_MISSION_REFUEL:
+    return _("Refuel ships");
+    break;
+  case SB_MISSION_MAX_DEFENSE:
+    return _("Maximize defense");
+    break;
+  case SB_MISSION_LOAD_TORPS:
+    return _("Load torpedoes on ships");
+    break;
+  case SB_MISSION_UNLOAD_SHIPS:
+    return _("Unload ships");
+    break;
+  case SB_MISSION_REPAIR_BASE:
+    return _("Repair starbase");
+    break;
+  case SB_MISSION_FORCE_SURRENDER:
+    return _("Force a surrender");
+    break;
+  default:
+    return NULL;
+  }
+}

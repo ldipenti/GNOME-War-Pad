@@ -132,5 +132,5 @@ void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
 void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
-void on_togglebutton_panel_base_toggled(GtkToggleButton *button,
-					gpointer user_data);
+void on_view_message_reader_activate (GtkWidget *widget,
+				      gpointer  user_data);

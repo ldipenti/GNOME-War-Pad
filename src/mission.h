@@ -56,7 +56,18 @@ enum specials {
   SPECIAL_COLONIES_BUILD_FIGHTERS
 };
 
+enum sb_missions {
+  SB_MISSION_NONE,
+  SB_MISSION_REFUEL,
+  SB_MISSION_MAX_DEFENSE,
+  SB_MISSION_LOAD_TORPS,
+  SB_MISSION_UNLOAD_SHIPS,
+  SB_MISSION_REPAIR_BASE,
+  SB_MISSION_FORCE_SURRENDER
+};
+
 gchar * mission_special_get_name (enum specials mission);
 gchar * mission_get_name (enum missions mission);
+gchar * mission_sb_get_name (enum sb_missions mission);
 
 #endif

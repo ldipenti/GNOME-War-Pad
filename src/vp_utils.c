@@ -72,6 +72,8 @@ void init_data (void)
   g_message("TORPSPEC.DAT loaded...");
   beamspec_list = load_beamspec();
   g_message("BEAMSPEC.DAT loaded...");
+  load_truehull_data();
+  g_message("TRUEHULL loaded...");
 }
 
 /*
@@ -1248,6 +1250,37 @@ GSList * load_torpspec (void)
   fclose (torpspec);
 
   return torpspec_list;
+}
+
+void load_truehull_data (void)
+{
+  FILE *fd;
+  GString *truehull_file;
+  gint i;
+  gchar buffer[40];
+
+  /* Init file name */
+  truehull_file = g_string_new ("TRUEHULL.DAT");
+
+  if ((fd = fopen(game_get_full_path(game_state, truehull_file->str), "r")) == NULL) {
+    truehull_file = g_string_down (truehull_file);
+    if ((fd = fopen(game_get_full_path(game_state, truehull_file->str), "r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 game_get_full_path(game_state, truehull_file->str));
+      exit (-1);
+    }
+  }
+
+  /* Search my registers */
+  fseek (fd, 40*(game_get_race(game_state)-1), SEEK_SET);
+
+  /* read registers */
+  fread (buffer, 40, 1, fd);
+
+  /* Load data on global array */
+  for (i = 0; i < 20; i++) {
+    truehull[i] = getWord (buffer + (i*2));
+  }
 }
 
 GSList * load_beamspec (void)

@@ -635,6 +635,12 @@ void game_mgr_play_game(GameState *state)
     }
   }
 
+  /* Show the wait notice */
+  gtk_widget_show (wait_notice);
+  gtk_widget_realize (wait_notice);
+  while (gtk_events_pending())
+    gtk_main_iteration();
+
   /* Read data files and init starchart */
   init_data();
   init_starchart(gwp);
@@ -650,6 +656,7 @@ void game_mgr_play_game(GameState *state)
   gtk_window_set_title(GTK_WINDOW(gwp), tmp);
   g_free(tmp);
 
+  gtk_widget_hide (wait_notice);
   gtk_widget_hide(game_mgr);
   gtk_widget_show(gwp);
 }

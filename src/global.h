@@ -96,8 +96,10 @@
 #define MINI_SHIP_PAGE 2
 
 #define EXTRA_PANEL_PLANET_PAGE 0
-#define EXTRA_PANEL_BASE_PAGE 1
-#define EXTRA_PANEL_SHIP_PAGE 2
+#define EXTRA_PANEL_SHIP_PAGE 1
+
+#define EXTRA_PANEL_PLANET_INNER_PLANET_PAGE 0
+#define EXTRA_PANEL_PLANET_INNER_STARBASE_PAGE 1
 
 #define GAME_STATE_VERSION 2
 
@@ -125,9 +127,11 @@ GSList *locations_per_quad[TOTAL_QUADS];
 GList *xyplanet_list;
 GList *shipxy_list;
 
+gint truehull[20]; /**< Our race hulls */
+
 /* Various widgets */
 GtkWidget *gwp, *game_mgr, *game_mgr_properties;
-GtkWidget *gwp_splash_screen;
+GtkWidget *gwp_splash_screen, *wait_notice;
 
 /* Is needed by both main.c & support.c */
 GladeXML *xml_interface; 

@@ -55,5 +55,6 @@ void init_data(void);
 gboolean vp_can_unpack(gchar *game_dir, gint race);
 void load_gen_data(void);
 void load_kore_data (void);
+void load_truehull_data (void);
 
 #endif

@@ -43,6 +43,13 @@ void update_starbase_panel(GwpPlanet *planet)
   static GtkProgressBar *base_defenses = NULL;
   static GtkProgressBar *base_fighters = NULL;
   static GtkProgressBar *base_damage = NULL;
+  static GtkLabel *base_mission = NULL;
+  static GtkLabel *base_repair = NULL;
+  static GtkLabel *base_recycle = NULL;
+  static GtkLabel *build_hull = NULL;
+  static GtkLabel *build_engines = NULL;
+  static GtkLabel *build_beams = NULL;
+  static GtkLabel *build_torps = NULL;
   gchar *tmp;
 
   g_assert (GWP_IS_PLANET(planet));
@@ -58,6 +65,13 @@ void update_starbase_panel(GwpPlanet *planet)
     base_defenses = (GtkProgressBar *) lookup_widget("progressbar_base_defenses");
     base_fighters = (GtkProgressBar *) lookup_widget("progressbar_base_fighters");
     base_damage = (GtkProgressBar *) lookup_widget("progressbar_base_damage");
+    base_mission = (GtkLabel *) lookup_widget("label_base_mission");
+    base_repair = (GtkLabel *) lookup_widget("label_base_repair");
+    base_recycle = (GtkLabel *) lookup_widget("label_base_recycle");
+    build_hull = (GtkLabel *) lookup_widget("sb_ship_build_hull");
+    build_engines = (GtkLabel *) lookup_widget("sb_ship_build_engines");
+    build_beams = (GtkLabel *) lookup_widget("sb_ship_build_beams");
+    build_torps = (GtkLabel *) lookup_widget("sb_ship_build_torps");
   }
 
   if(gwp_planet_has_starbase(planet)) {
@@ -65,67 +79,161 @@ void update_starbase_panel(GwpPlanet *planet)
 
     gtk_progress_bar_set_fraction(tech_engines, 
 				  (gdouble)gwp_starbase_get_engines_tech(base)/10);
-    tmp = g_strdup_printf(_("Engines: %d"), gwp_starbase_get_engines_tech(base));
+    tmp = g_strdup_printf(_("Tech %d"), gwp_starbase_get_engines_tech(base));
     gtk_progress_bar_set_text(tech_engines, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(tech_hulls, 
 				  (gdouble)gwp_starbase_get_hulls_tech(base)/10);
-    tmp = g_strdup_printf(_("Hulls: %d"), gwp_starbase_get_hulls_tech(base));
+    tmp = g_strdup_printf(_("Tech %d"), gwp_starbase_get_hulls_tech(base));
     gtk_progress_bar_set_text(tech_hulls, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(tech_beams, 
 				  (gdouble)gwp_starbase_get_beams_tech(base)/10);
-    tmp = g_strdup_printf(_("Beams: %d"), gwp_starbase_get_beams_tech(base));
+    tmp = g_strdup_printf(_("Tech %d"), gwp_starbase_get_beams_tech(base));
     gtk_progress_bar_set_text(tech_beams, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(tech_torps, 
 				  (gdouble)gwp_starbase_get_torps_tech(base)/10);
-    tmp = g_strdup_printf(_("Torpedoes: %d"), gwp_starbase_get_torps_tech(base));
+    tmp = g_strdup_printf(_("Tech %d"), gwp_starbase_get_torps_tech(base));
     gtk_progress_bar_set_text(tech_torps, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(base_defenses,
 				  (gdouble)gwp_starbase_get_defense(base)/200);
-    tmp = g_strdup_printf(_("Defenses: %d"), gwp_starbase_get_defense(base));
+    tmp = g_strdup_printf(_("%d"), gwp_starbase_get_defense(base));
     gtk_progress_bar_set_text(base_defenses, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(base_fighters, 
 				  (gdouble)gwp_starbase_get_fighters(base)/60);
-    tmp = g_strdup_printf(_("Fighters: %d"), gwp_starbase_get_fighters(base));
+    tmp = g_strdup_printf(_("%d"), gwp_starbase_get_fighters(base));
     gtk_progress_bar_set_text(base_fighters, tmp);
     g_free(tmp);
 
     gtk_progress_bar_set_fraction(base_damage, 
 				  (gdouble)gwp_starbase_get_damage(base)/100);
-    tmp = g_strdup_printf(_("Damage: %d%%"), gwp_starbase_get_damage(base));
+    tmp = g_strdup_printf(_("%d%%"), gwp_starbase_get_damage(base));
     gtk_progress_bar_set_text(base_damage, tmp);
     g_free(tmp);
 
-  } else {
+    /*** Mission ***/
+    tmp = g_strdup_printf ("%s", mission_sb_get_name(gwp_starbase_get_mission(base)));
+    gtk_label_set_text (base_mission, tmp);
+    g_free (tmp);
+
+    /*** Repair / Recycle Ship ***/
+    if (gwp_starbase_get_ship_action(base) != 0) {
+      GwpShip *ship = gwp_ship_get(ship_list, gwp_starbase_get_id_ship(base));
+      tmp = g_strdup_printf ("(#%d) %s",
+			     gwp_object_get_id(GWP_OBJECT(ship)),
+			     gwp_object_get_name(GWP_OBJECT(ship))->str);
+      switch (gwp_starbase_get_ship_action(base)) {
+      case 1:
+	gtk_label_set_text (base_repair, tmp);
+	gtk_label_set_text (base_recycle, _("--"));
+	break;
+      case 2:
+	gtk_label_set_text (base_recycle, tmp);
+	gtk_label_set_text (base_repair, _("--"));
+	break;
+      }      
+	g_free (tmp);
+    }
+    /* No recycle nor repair */
+    else {
+      gtk_label_set_text (base_repair, _("--"));
+      gtk_label_set_text (base_recycle, _("--"));
+    }
+
+    /*** Ship build ***/
+    if (gwp_starbase_get_build_ship_type(base) != 0) {
+      /* Hull */
+      GwpHullSpec *hull = GWP_HULLSPEC(g_slist_nth_data(hullspec_list, truehull[gwp_starbase_get_build_ship_type(base)-1] - 1));
+
+      tmp = g_strdup_printf("%s", gwp_hullspec_get_name_trunc(hull, 18)->str);
+      gtk_label_set_text (build_hull, tmp);
+      g_free (tmp);
+
+      /* Engines */
+      GwpEngSpec *engines = GWP_ENGSPEC(g_slist_nth_data(engspec_list, gwp_starbase_get_build_engine_type(base) - 1));
+      tmp = g_strdup_printf("%d %s", 
+			    gwp_hullspec_get_engines(hull),
+			    gwp_engspec_get_name(engines)->str);
+      gtk_label_set_text (build_engines, tmp);
+      g_free (tmp);
+
+      /* Beams */
+      if (gwp_starbase_get_build_beam_count(base) > 0) {
+	GwpBeamSpec *beams = GWP_BEAMSPEC(g_slist_nth_data(beamspec_list, gwp_starbase_get_build_beam_type(base) - 1));
+	tmp = g_strdup_printf("%d %s",
+			      gwp_starbase_get_build_beam_count(base),
+			      gwp_beamspec_get_name(beams)->str);
+	gtk_label_set_text (build_beams, tmp);
+	g_free (tmp);
+      } else {
+	gtk_label_set_text (build_beams, _("--"));
+      }
+
+      /* Torps */
+      if (gwp_starbase_get_build_torp_count(base) > 0) {
+	GwpTorpSpec *torps = GWP_TORPSPEC(g_slist_nth_data(torpspec_list, gwp_starbase_get_build_torp_type(base) - 1));
+	tmp = g_strdup_printf("%d %s",
+			      gwp_starbase_get_build_torp_count(base),
+			      gwp_torpspec_get_name(torps)->str);
+	gtk_label_set_text (build_torps, tmp);
+	g_free (tmp);
+      } else if (gwp_hullspec_get_fighter_bays(hull) > 0) {
+	tmp = g_strdup_printf(_("0 (%d fighter bays)"),
+			      gwp_hullspec_get_fighter_bays(hull));
+	gtk_label_set_text (build_torps, tmp);
+	g_free (tmp);
+      } else {
+	gtk_label_set_text (build_torps, _("--"));
+      }
+    }
+    /* no build */
+    else {
+      gtk_label_set_text (build_hull, _("--"));
+      gtk_label_set_text (build_engines, _("--"));
+      gtk_label_set_text (build_beams, _("--"));
+      gtk_label_set_text (build_torps, _("--"));
+    }
+  } 
+  /* Planet without starbase or unknown */
+  else {
     gtk_progress_bar_set_fraction(tech_engines, 0.0);
-    gtk_progress_bar_set_text(tech_engines, _("Engines: --"));
+    gtk_progress_bar_set_text(tech_engines, _("--"));
 
     gtk_progress_bar_set_fraction(tech_hulls, 0.0);
-    gtk_progress_bar_set_text(tech_hulls, _("Hulls: --"));
+    gtk_progress_bar_set_text(tech_hulls, _("--"));
 
     gtk_progress_bar_set_fraction(tech_beams, 0.0);
-    gtk_progress_bar_set_text(tech_beams, _("Beams: --"));
+    gtk_progress_bar_set_text(tech_beams, _("--"));
 
     gtk_progress_bar_set_fraction(tech_torps, 0.0);
-    gtk_progress_bar_set_text(tech_torps, _("Torpedoes: --"));
+    gtk_progress_bar_set_text(tech_torps, _("--"));
 
     gtk_progress_bar_set_fraction(base_defenses, 0.0);
-    gtk_progress_bar_set_text(base_defenses, _("Defenses: --"));
+    gtk_progress_bar_set_text(base_defenses, _("--"));
 
     gtk_progress_bar_set_fraction(base_fighters, 0.0);
-    gtk_progress_bar_set_text(base_fighters, _("Fighters: --"));
+    gtk_progress_bar_set_text(base_fighters, _("--"));
 
     gtk_progress_bar_set_fraction(base_damage, 0.0);
-    gtk_progress_bar_set_text(base_damage, _("Damage: --"));
+    gtk_progress_bar_set_text(base_damage, _("--"));
+
+    gtk_label_set_text (base_mission, _("--"));
+
+    gtk_label_set_text (base_repair, _("--"));
+    gtk_label_set_text (base_recycle, _("--"));
+    
+    gtk_label_set_text (build_hull, _("--"));
+    gtk_label_set_text (build_engines, _("--"));
+    gtk_label_set_text (build_beams, _("--"));
+    gtk_label_set_text (build_torps, _("--"));
   }
 }
 
@@ -1733,12 +1841,14 @@ GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp,
   GwpPlanet *planet_data;
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
+  static GtkNotebook *extra_info_panel_planet = NULL;
   static GtkNotebook *mini = NULL;
 
   if (!loaded) {
     loaded = TRUE;
 
     extra_info_panel = (GtkNotebook *) lookup_widget("extra_info_panel");
+    extra_info_panel_planet = (GtkNotebook *) lookup_widget("extra_info_panel_planet");
     mini = (GtkNotebook *) lookup_widget("notebook_mini");
   }
   
@@ -1756,9 +1866,16 @@ GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp,
       update_global_defense_panel(planet_data);
       update_starbase_panel(planet_data);
       gtk_notebook_set_current_page(extra_info_panel, EXTRA_PANEL_PLANET_PAGE);
+      /* If planet has not starbase, select planet tab */
+      if (! gwp_planet_has_starbase(planet_data)) {
+	gtk_notebook_set_current_page(extra_info_panel_planet, EXTRA_PANEL_PLANET_INNER_PLANET_PAGE);
+      }
       update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet_data)));
       gtk_notebook_set_current_page (mini, MINI_PLANET_PAGE);
       starchart_center_around(GWP_OBJECT(planet_data));
+    } else {
+      /* If extra panel isn't open, reset the inner notebook to planet view */
+      gtk_notebook_set_current_page(extra_info_panel_planet, EXTRA_PANEL_PLANET_INNER_PLANET_PAGE);
     }
 
     return planet;
@@ -2375,18 +2492,6 @@ void starchart_mini_set_ship_img(GwpShip *ship)
   /* Free stuff */
   g_free (ship_nr);
   g_string_free(img_name, TRUE);
-}
-
-void toggle_starbase_panel(gboolean show)
-{
-  GtkNotebook *base_panel = 
-    (GtkNotebook *) lookup_widget("extra_info_panel");
-
-  if(show) {
-    gtk_notebook_set_current_page(base_panel, EXTRA_PANEL_BASE_PAGE);
-  } else {
-    gtk_notebook_set_current_page(base_panel, EXTRA_PANEL_PLANET_PAGE);
-  }
 }
 
 void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)

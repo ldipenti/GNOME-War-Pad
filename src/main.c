@@ -82,6 +82,9 @@ int main (int argc, char *argv[]) {
 					     "game_mgr_properties");
   g_assert(game_mgr_properties != NULL);
 
+  wait_notice = glade_xml_get_widget(xml_interface, "wait_notice");
+  g_assert (wait_notice != NULL);
+
   /* Initialisations */
   g_type_init(); /* GLib's type system */
   gwp_init();
@@ -102,18 +105,13 @@ void gwp_init(void)
 
   /* Hide all tabs on notebooks */
   notebk = lookup_widget("extra_info_panel");
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
-			     FALSE);
-  notebk = lookup_widget("main_screen");
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
-			     FALSE);
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk), FALSE);
   notebk = lookup_widget("info_panel");
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
-			     FALSE);
-
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk), FALSE);
   notebk = lookup_widget("notebook_mini");
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
-			     FALSE);  
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk), FALSE);
+  notebk = lookup_widget("calc_panel");
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk), FALSE);
 
   /* Hide panels */
   starchart_close_extra_panels();
