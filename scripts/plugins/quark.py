@@ -24,6 +24,7 @@ class Quark(gwp.Plugin):
     
     # Cantidades que definen cuando un planeta es considerado minero y se levantan las 
     # estructuras al maximo. La unidad de medida es la densidad.
+    MINERO_MIN_NEU = 50
     MINERO_MIN_TRI = 50
     MINERO_MIN_DUR = 30
     MINERO_MIN_MOL = 30
