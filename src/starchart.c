@@ -28,6 +28,7 @@
 #include "vp_utils.h"
 #include "starchart.h"
 #include "tables.h"
+#include "mission.h"
 
 /*
  * Updates Planet Data on Panel
@@ -197,6 +198,7 @@ void update_ship_extra_panel (GwpShip *ship)
   static GtkProgressBar *cargo_money = NULL;
   static GtkCombo *ship_fc = NULL;
   static GtkLabel *mission = NULL;
+  static GtkLabel *mission_param = NULL;
   static GtkLabel *enemy = NULL;
   gchar *tmp = NULL;
   gchar *tmp2 = NULL;
@@ -228,6 +230,7 @@ void update_ship_extra_panel (GwpShip *ship)
     ship_fc = (GtkCombo *) lookup_widget("combo_ship_fc");
 
     mission = (GtkLabel *) lookup_widget("label_ship_other_mission");
+    mission_param = (GtkLabel *) lookup_widget("label_ship_other_mission_param");
     enemy = (GtkLabel *) lookup_widget("label_ship_other_enemy");
   }
 
@@ -246,7 +249,7 @@ void update_ship_extra_panel (GwpShip *ship)
     g_free (tmp);
 
     /*** Primary Weapon ***/
-    if (gwp_ship_get_beams(ship) > 0) {
+    if (gwp_ship_has_beam_weapons(ship)) {
       tmp = g_strdup_printf("%d <i>%s</i>", 
 			    gwp_ship_get_beams(ship),
 			    gwp_ship_get_beams_name(ship)->str);
@@ -258,7 +261,7 @@ void update_ship_extra_panel (GwpShip *ship)
 
     /*** Secondary Weapon ***/
     /* Check for torpedo tubes */
-    if (gwp_ship_get_torps_launchers(ship) > 0) {
+    if (gwp_ship_has_torp_weapons(ship)) {
       tmp = g_strdup_printf(_("%d <i>%s</i>"),
 			    gwp_ship_get_torps_launchers(ship),
 			    gwp_ship_get_torps_name(ship)->str);
@@ -429,6 +432,21 @@ void update_ship_extra_panel (GwpShip *ship)
     gtk_label_set_text (mission, tmp);
     g_free (tmp);
 
+    /*** Mission parameter (if necessary) ***/
+    if (gwp_ship_get_mission(ship) == MISSION_TOW ||
+	gwp_ship_get_mission(ship) == MISSION_INTERCEPT) {
+
+      GwpShip *obj_ship = gwp_ship_get (ship_list, 
+					gwp_ship_get_tow_ship_id(ship));
+      tmp = g_strdup_printf ("<i>(#%d) %s</i>",
+			     gwp_object_get_id(GWP_OBJECT(obj_ship)),
+			     gwp_object_get_name(GWP_OBJECT(obj_ship))->str);
+      gtk_label_set_markup (mission_param, tmp);     
+      g_free (tmp);
+    } else {
+      gtk_label_set_text (mission_param, _("--"));
+    }
+
     /*** Primary Enemy ***/
     tmp = g_strdup_printf ("%s", gwp_ship_get_primary_enemy_name(ship)->str);
     gtk_label_set_text (enemy, tmp);
@@ -528,6 +546,9 @@ void update_ship_extra_panel (GwpShip *ship)
 
     /* Mission */
     gtk_label_set_text (mission, _("--"));
+
+    /* Mission param */
+    gtk_label_set_text (mission_param, _("--"));
 
     /* Primary Enemy */
     gtk_label_set_text (enemy, _("--"));
