@@ -54,22 +54,22 @@ starchart_event_key                    (GtkWidget       *widget,
   switch(event->keyval)
     {
       /* Scrolling Events */
-    case GDK_w:
+    case GDK_Up:
       if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(0, -SCROLL);
       handled = TRUE;
       break;
-    case GDK_s:
+    case GDK_Down:
       if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(0, SCROLL);
       handled = TRUE;
       break;
-    case GDK_a:
+    case GDK_Left:
       if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(-SCROLL, 0);
       handled = TRUE;
       break;
-    case GDK_d:
+    case GDK_Right:
       if (!gwp_game_state_get_extra_panel_open(game_state))
 	starchart_scroll(SCROLL, 0);
       handled = TRUE;
