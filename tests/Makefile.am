@@ -46,9 +46,7 @@ sources =								\
 	../src/gwp-ion-storm.h		../src/gwp-ion-storm.c		\
 	../src/gwp-starchart.h		../src/gwp-starchart.c		\
 	../src/gwp-ui.h			../src/gwp-ui.c			\
-	../src/gwp-messages.h		../src/gwp-messages.c		\
 	../src/gwp-py-functions.h	../src/gwp-py-functions.c	\
-	../src/callbacks.h		../src/callbacks.c		\
 	../src/support.h		../src/support.c		\
 	../src/game_state.h		../src/game_state.c		\
 	../src/starchart.h		../src/starchart.c		\
@@ -59,11 +57,6 @@ sources =								\
 	../src/tables.h			../src/tables.c			\
 	../src/mission.h		../src/mission.c		\
 	../src/race.h			../src/race.c			\
-	../src/message-reader.h		../src/message-reader.c		\
-	../src/vcr.h			../src/vcr.c			\
-	../src/vcr-combat.h		../src/vcr-combat.c		\
-	../src/vcr-combat-gl.h		../src/vcr-combat-gl.c		\
-	../src/trackball.h		../src/trackball.c		\
 	../src/gwp-python.h		../src/gwp-python.c		\
 	../src/gwp-utils.h		../src/gwp-utils.c
 
