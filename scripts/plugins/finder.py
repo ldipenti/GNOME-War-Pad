@@ -1,5 +1,5 @@
 import pygtk
-pygtk.require('2.0')
+#pygtk.require('2.0')
 import gtk
 import re
 
@@ -116,6 +116,10 @@ class Finder(gwp.Plugin):
         self.list.append_column(col_neu)
         self.list.set_model(self.store)
 
+    # Dummy wrapper to real method
+    def __main_menu_cb (self, widget, data=None):
+        self.__main()
+
     def __main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
         # and waits for an event to occur (like a key press or mouse event).
@@ -123,9 +127,11 @@ class Finder(gwp.Plugin):
         gtk.main()
 
     def register(self, pm):
-        pm.set_hook_key(0, # No modifier
-                        gtk.gdk.keyval_from_name('f'),
-                        self.__main)
+        pm.set_hook_key (0, # No modifier
+                         gtk.gdk.keyval_from_name('f'),
+                         self.__main)
+        pm.set_hook_menu ('_Finder',
+                          self.__main_menu_cb)
 
     # Cleaning up
     def unregister(self, pm):
