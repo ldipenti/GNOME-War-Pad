@@ -138,6 +138,16 @@ GwpEngSpec * gwp_engspec_new (void)
    When travelling more that 1 month, the fuel usage must be recalculated for
    every month because as the fuel runs out, the total ship's mass changes.
 */
+
+/** 
+ * Calculates the fuel used by engines depending of certain data.
+ * This function is intended to be used by the GwpShip class, all data
+ * needed must come from an existing or theoretical ship.
+ * @param dist the distance needed to travel.
+ * @param speed the warp factor set on the current engine.
+ * @param mass the total mass the engine must move.
+ * @return The amount of neutronium needed for the travel.
+ */
 gint gwp_engspec_get_fuel_usage_full (GwpEngSpec *self, gdouble dist,
 				      gint speed, gint mass)
 {

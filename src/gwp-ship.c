@@ -243,7 +243,12 @@ GwpShip * gwp_ship_new (void)
 /**********************/
 
 
-/* Using own data, calculates heading */
+/**
+ * Calculates the ship's heading.
+ * Using the ship's own data calculates the heading in degress.
+ * @param self a GwpShip
+ * @return The heading in degress, from 0 to 360.
+ */
 gint gwp_ship_calculate_heading (GwpShip *self)
 {
   gdouble dx, dy;
@@ -283,13 +288,22 @@ gint gwp_ship_calculate_heading (GwpShip *self)
   return h;
 }
 
-/* Returns the ship with id */
+/**
+ * Search a ship by its ID.
+ * @param list the ship hash table.
+ * @param ship_id the ship's ID.
+ * @return The GwpShip found, or NULL if not found.
+ */
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id) 
 {
   return (GwpShip *) g_hash_table_lookup(list, (gconstpointer)ship_id);
 }
 
-/* Returns TRUE if the ship's coordinates are valid */
+/**
+ * Checks if the current ship's coordinates are valid.
+ * @param self a GwpShip.
+ * @return TRUE if coordinates are valid, FALSE otherwise.
+ */
 gboolean gwp_ship_valid_coords(GwpShip *self)
 {
   g_assert(GWP_IS_SHIP(self));
@@ -303,7 +317,11 @@ gboolean gwp_ship_valid_coords(GwpShip *self)
     return FALSE;
   }
 }
-
+/**
+ * Checks if current ship is owned by player.
+ * @param self a GwpShip.
+ * @return TRUE if ship's owned by player, FALSE otherwise.
+ */
 gboolean gwp_ship_is_mine(GwpShip *self)
 {
   g_assert(GWP_IS_SHIP(self));
@@ -325,7 +343,11 @@ void gwp_ship_get_waypoint(GwpShip *self, gint *wp_x, gint *wp_y)
     gwp_ship_get_y_to_waypoint (self);
 }
 
-/* Calculates the distance left to reach the waypoint */
+/**
+ * Calculates the distance left to reach the waypoint.
+ * @param self a GwpShip
+ * @return The distance in light-years.
+ */
 gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self)
 {
   g_assert(GWP_IS_SHIP(self));
@@ -338,7 +360,11 @@ gdouble gwp_ship_calculate_waypoint_distance (GwpShip *self)
   return sqrt((x*x) + (y*y));  
 }
 
-/* Calculate the Estimated Time of Arrival */
+/**
+ * Calculate the Estimated Time of Arrival.
+ * @param self a GwpShip.
+ * @return The number of turns (months) needed to arrive to current waypoint.
+ */
 gint gwp_ship_calculate_eta (GwpShip *self)
 {
   g_assert(GWP_IS_SHIP(self));
@@ -354,7 +380,17 @@ gint gwp_ship_calculate_eta (GwpShip *self)
   return eta;
 }
 
-/* Calculate the fuel usage - it uses the engspec data type */
+/**
+ * Calculate the fuel usage.
+ * Based on the current ship's information, it calculates the fuel
+ * needed to arrive to destination depending on the engines type,
+ * speed, total mass, and cargo to be loaded, unloaded or
+ * transfered. This function is a wrapper to the corresponding
+ * function on GwpEngSpec.
+ * @see gwp_engspec_get_fuel_usage_full
+ * @param self a GwpShip.
+ * @return The number of KT of neutronium needed to travel.
+ */
 gint gwp_ship_calculate_fuel_usage (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
