@@ -84,6 +84,13 @@
   (gtype-id "GWP_TYPE_STARBASE")
 )
 
+(define-object Starchart
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpStarchart")
+  (gtype-id "GWP_TYPE_STARCHART")
+)
+
 (define-object TorpSpec
   (in-module "Gwp")
   (parent "GObject")
@@ -3238,6 +3245,251 @@
   (of-object "GwpRace")
   (c-name "gwp_race_get_adjective")
   (return-type "gchar*")
+)
+
+
+
+;; From src/gwp-starchart.h
+
+(define-function gwp_starchart_get_type
+  (c-name "gwp_starchart_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_starchart_new
+  (c-name "gwp_starchart_new")
+  (is-constructor-of "GwpStarchart")
+  (return-type "GwpStarchart*")
+)
+
+(define-method calculate_width
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_calculate_width")
+  (return-type "gint")
+)
+
+(define-method calculate_canvas_width
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_calculate_canvas_width")
+  (return-type "gint")
+)
+
+(define-method calculate_quads_per_line
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_calculate_quads_per_line")
+  (return-type "gint")
+)
+
+(define-method calculate_total_quads
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_calculate_total_quads")
+  (return-type "gint")
+)
+
+(define-method has_valid_coords
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_has_valid_coords")
+  (return-type "gboolean")
+  (parameters
+    '("GwpObject*" "obj")
+  )
+)
+
+(define-method calculate_obj_quadrant
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_calculate_obj_quadrant")
+  (return-type "gint")
+  (parameters
+    '("GwpObject*" "obj")
+  )
+)
+
+(define-method calculate_quadrant
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_calculate_quadrant")
+  (return-type "gint")
+  (parameters
+    '("gdouble" "x")
+    '("gdouble" "y")
+  )
+)
+
+(define-method get_x_max
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_x_max")
+  (return-type "gint")
+)
+
+(define-method set_x_max
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_x_max")
+  (return-type "none")
+  (parameters
+    '("gint" "x")
+  )
+)
+
+(define-method get_x_min
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_x_min")
+  (return-type "gint")
+)
+
+(define-method set_x_min
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_x_min")
+  (return-type "none")
+  (parameters
+    '("gint" "x")
+  )
+)
+
+(define-method get_y_max
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_y_max")
+  (return-type "gint")
+)
+
+(define-method set_y_max
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_y_max")
+  (return-type "none")
+  (parameters
+    '("gint" "y")
+  )
+)
+
+(define-method get_y_min
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_y_min")
+  (return-type "gint")
+)
+
+(define-method set_y_min
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_y_min")
+  (return-type "none")
+  (parameters
+    '("gint" "y")
+  )
+)
+
+(define-method get_valid_margin
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_valid_margin")
+  (return-type "gint")
+)
+
+(define-method set_valid_margin
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_valid_margin")
+  (return-type "none")
+  (parameters
+    '("gint" "margin")
+  )
+)
+
+(define-method get_canvas_margin
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_canvas_margin")
+  (return-type "gint")
+)
+
+(define-method set_canvas_margin
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_canvas_margin")
+  (return-type "none")
+  (parameters
+    '("gint" "margin")
+  )
+)
+
+(define-method get_quad_width
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_quad_width")
+  (return-type "gint")
+)
+
+(define-method set_quad_width
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_quad_width")
+  (return-type "none")
+  (parameters
+    '("gint" "width")
+  )
+)
+
+(define-method get_planets_per_quad
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_planets_per_quad")
+  (return-type "GSList*")
+  (parameters
+    '("gint" "quad")
+  )
+)
+
+(define-method set_planets_per_quad
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_planets_per_quad")
+  (return-type "none")
+  (parameters
+    '("GwpPlanet*" "planet")
+  )
+)
+
+(define-method get_ships_per_quad
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_ships_per_quad")
+  (return-type "GSList*")
+  (parameters
+    '("gint" "quad")
+  )
+)
+
+(define-method set_ships_per_quad
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_ships_per_quad")
+  (return-type "none")
+  (parameters
+    '("GwpShip*" "ship")
+  )
+)
+
+(define-method get_locations_per_quad
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_get_locations_per_quad")
+  (return-type "GSList*")
+  (parameters
+    '("gint" "quad")
+  )
+)
+
+(define-method set_locations_per_quad
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_set_locations_per_quad")
+  (return-type "none")
+  (parameters
+    '("GwpLocation*" "loc")
+  )
+)
+
+(define-method select_nearest_planet
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_select_nearest_planet")
+  (return-type "GwpPlanet*")
+  (parameters
+    '("gint" "x")
+    '("gint" "y")
+  )
+)
+
+(define-method center_around
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_center_around")
+  (return-type "none")
+  (parameters
+    '("GwpObject*" "obj")
+  )
 )
 
 

@@ -28,7 +28,9 @@
  */
 
 #include <math.h>
+#include "global.h"
 #include "gwp-starchart.h"
+#include "starchart.h"
 #include "vp_utils.h"
 
 
@@ -476,4 +478,34 @@ static void gwp_starchart_set_object_per_quad (GwpStarchart *self,
     obj_list = g_slist_append (obj_list, obj);
     g_hash_table_insert (list, (gpointer)quad, obj_list);
   } 
+}
+
+/**************************************************************/
+/* Wrapper functions to be used until this object is complete */
+/**************************************************************/
+void
+gwp_starchart_center_around (GwpStarchart *self, GwpObject *obj)
+{
+  starchart_center_around (obj);
+}
+
+GwpPlanet *
+gwp_starchart_select_nearest_planet (GwpStarchart *self,
+				     gint x, gint y)
+{
+  gdouble wx, wy;
+  gint q;
+  GSList *planets_nearby;
+  GwpPlanet *s_planet;
+
+  /* Translate coords to World system */
+  vp_coord_v2w (x, y, &wx, &wy);
+  q = get_quadrant(wx, wy);
+
+  /* Search for nearest planet and select it */
+  planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
+
+  s_planet = starchart_select_nearest_planet(gwp, planets_nearby, wx, wy);
+
+  return s_planet;
 }

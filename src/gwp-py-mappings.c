@@ -23,7 +23,8 @@
 #include "gwp-minefield.h"
 #include "gwp-py-functions.h"
 #include "gwp-race.h"
-#line 27 "src/gwp-py-mappings.c"
+#include "gwp-starchart.h"
+#line 28 "src/gwp-py-mappings.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -44,6 +45,7 @@ PyTypeObject PyGwpPlanet_Type;
 PyTypeObject PyGwpRace_Type;
 PyTypeObject PyGwpShip_Type;
 PyTypeObject PyGwpStarbase_Type;
+PyTypeObject PyGwpStarchart_Type;
 PyTypeObject PyGwpTorpSpec_Type;
 
 
@@ -3460,7 +3462,7 @@ _wrap_gwp_ship_is_mine(PyGObject *self)
 
 }
 
-#line 30 "src/gwp-py-mappings.override"
+#line 31 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_gwp_ship_get_waypoint (PyGObject *self)
 {
@@ -3470,7 +3472,7 @@ _wrap_gwp_ship_get_waypoint (PyGObject *self)
   
   return Py_BuildValue("(ii)", wp_x, wp_y); 
 }
-#line 3474 "src/gwp-py-mappings.c"
+#line 3476 "src/gwp-py-mappings.c"
 
 
 static PyObject *
@@ -5278,6 +5280,397 @@ PyTypeObject PyGwpStarbase_Type = {
 
 
 
+/* ----------- GwpStarchart ----------- */
+
+static int
+_wrap_gwp_starchart_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    GType obj_type = pyg_type_from_object((PyObject *) self);
+
+    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError, "could not create %(typename)s object");
+        return -1;
+    }
+
+    pygobject_register_wrapper((PyObject *)self);
+    return 0;
+}
+
+
+static PyObject *
+_wrap_gwp_starchart_calculate_width(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_calculate_width(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_calculate_canvas_width(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_calculate_canvas_width(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_calculate_quads_per_line(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_calculate_quads_per_line(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_calculate_total_quads(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_calculate_total_quads(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_has_valid_coords(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "obj", NULL };
+    PyGObject *obj;
+    int ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:GwpStarchart.has_valid_coords", kwlist, &PyGwpObject_Type, &obj))
+        return NULL;
+    ret = gwp_starchart_has_valid_coords(GWP_STARCHART(self->obj), GWP_OBJECT(obj->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_starchart_calculate_obj_quadrant(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "obj", NULL };
+    PyGObject *obj;
+    int ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:GwpStarchart.calculate_obj_quadrant", kwlist, &PyGwpObject_Type, &obj))
+        return NULL;
+    ret = gwp_starchart_calculate_obj_quadrant(GWP_STARCHART(self->obj), GWP_OBJECT(obj->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_calculate_quadrant(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", "y", NULL };
+    int ret;
+    double x, y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "dd:GwpStarchart.calculate_quadrant", kwlist, &x, &y))
+        return NULL;
+    ret = gwp_starchart_calculate_quadrant(GWP_STARCHART(self->obj), x, y);
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_x_max(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_x_max(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_x_max(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", NULL };
+    int x;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_x_max", kwlist, &x))
+        return NULL;
+    gwp_starchart_set_x_max(GWP_STARCHART(self->obj), x);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_x_min(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_x_min(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_x_min(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", NULL };
+    int x;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_x_min", kwlist, &x))
+        return NULL;
+    gwp_starchart_set_x_min(GWP_STARCHART(self->obj), x);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_y_max(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_y_max(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_y_max(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "y", NULL };
+    int y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_y_max", kwlist, &y))
+        return NULL;
+    gwp_starchart_set_y_max(GWP_STARCHART(self->obj), y);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_y_min(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_y_min(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_y_min(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "y", NULL };
+    int y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_y_min", kwlist, &y))
+        return NULL;
+    gwp_starchart_set_y_min(GWP_STARCHART(self->obj), y);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_valid_margin(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_valid_margin(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_valid_margin(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "margin", NULL };
+    int margin;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_valid_margin", kwlist, &margin))
+        return NULL;
+    gwp_starchart_set_valid_margin(GWP_STARCHART(self->obj), margin);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_canvas_margin(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_canvas_margin(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_canvas_margin(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "margin", NULL };
+    int margin;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_canvas_margin", kwlist, &margin))
+        return NULL;
+    gwp_starchart_set_canvas_margin(GWP_STARCHART(self->obj), margin);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_get_quad_width(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_starchart_get_quad_width(GWP_STARCHART(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_quad_width(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "width", NULL };
+    int width;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpStarchart.set_quad_width", kwlist, &width))
+        return NULL;
+    gwp_starchart_set_quad_width(GWP_STARCHART(self->obj), width);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_planets_per_quad(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "planet", NULL };
+    PyGObject *planet;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:GwpStarchart.set_planets_per_quad", kwlist, &PyGwpPlanet_Type, &planet))
+        return NULL;
+    gwp_starchart_set_planets_per_quad(GWP_STARCHART(self->obj), GWP_PLANET(planet->obj));
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_ships_per_quad(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "ship", NULL };
+    PyGObject *ship;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:GwpStarchart.set_ships_per_quad", kwlist, &PyGwpShip_Type, &ship))
+        return NULL;
+    gwp_starchart_set_ships_per_quad(GWP_STARCHART(self->obj), GWP_SHIP(ship->obj));
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_set_locations_per_quad(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "loc", NULL };
+    PyGObject *loc;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:GwpStarchart.set_locations_per_quad", kwlist, &PyGwpLocation_Type, &loc))
+        return NULL;
+    gwp_starchart_set_locations_per_quad(GWP_STARCHART(self->obj), GWP_LOCATION(loc->obj));
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_starchart_select_nearest_planet(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", "y", NULL };
+    int x, y;
+    GwpPlanet *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ii:GwpStarchart.select_nearest_planet", kwlist, &x, &y))
+        return NULL;
+    ret = gwp_starchart_select_nearest_planet(GWP_STARCHART(self->obj), x, y);
+    /* pygobject_new handles NULL checking */
+    return pygobject_new((GObject *)ret);
+}
+
+static PyObject *
+_wrap_gwp_starchart_center_around(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "obj", NULL };
+    PyGObject *obj;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:GwpStarchart.center_around", kwlist, &PyGwpObject_Type, &obj))
+        return NULL;
+    gwp_starchart_center_around(GWP_STARCHART(self->obj), GWP_OBJECT(obj->obj));
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyMethodDef _PyGwpStarchart_methods[] = {
+    { "calculate_width", (PyCFunction)_wrap_gwp_starchart_calculate_width, METH_NOARGS },
+    { "calculate_canvas_width", (PyCFunction)_wrap_gwp_starchart_calculate_canvas_width, METH_NOARGS },
+    { "calculate_quads_per_line", (PyCFunction)_wrap_gwp_starchart_calculate_quads_per_line, METH_NOARGS },
+    { "calculate_total_quads", (PyCFunction)_wrap_gwp_starchart_calculate_total_quads, METH_NOARGS },
+    { "has_valid_coords", (PyCFunction)_wrap_gwp_starchart_has_valid_coords, METH_VARARGS|METH_KEYWORDS },
+    { "calculate_obj_quadrant", (PyCFunction)_wrap_gwp_starchart_calculate_obj_quadrant, METH_VARARGS|METH_KEYWORDS },
+    { "calculate_quadrant", (PyCFunction)_wrap_gwp_starchart_calculate_quadrant, METH_VARARGS|METH_KEYWORDS },
+    { "get_x_max", (PyCFunction)_wrap_gwp_starchart_get_x_max, METH_NOARGS },
+    { "set_x_max", (PyCFunction)_wrap_gwp_starchart_set_x_max, METH_VARARGS|METH_KEYWORDS },
+    { "get_x_min", (PyCFunction)_wrap_gwp_starchart_get_x_min, METH_NOARGS },
+    { "set_x_min", (PyCFunction)_wrap_gwp_starchart_set_x_min, METH_VARARGS|METH_KEYWORDS },
+    { "get_y_max", (PyCFunction)_wrap_gwp_starchart_get_y_max, METH_NOARGS },
+    { "set_y_max", (PyCFunction)_wrap_gwp_starchart_set_y_max, METH_VARARGS|METH_KEYWORDS },
+    { "get_y_min", (PyCFunction)_wrap_gwp_starchart_get_y_min, METH_NOARGS },
+    { "set_y_min", (PyCFunction)_wrap_gwp_starchart_set_y_min, METH_VARARGS|METH_KEYWORDS },
+    { "get_valid_margin", (PyCFunction)_wrap_gwp_starchart_get_valid_margin, METH_NOARGS },
+    { "set_valid_margin", (PyCFunction)_wrap_gwp_starchart_set_valid_margin, METH_VARARGS|METH_KEYWORDS },
+    { "get_canvas_margin", (PyCFunction)_wrap_gwp_starchart_get_canvas_margin, METH_NOARGS },
+    { "set_canvas_margin", (PyCFunction)_wrap_gwp_starchart_set_canvas_margin, METH_VARARGS|METH_KEYWORDS },
+    { "get_quad_width", (PyCFunction)_wrap_gwp_starchart_get_quad_width, METH_NOARGS },
+    { "set_quad_width", (PyCFunction)_wrap_gwp_starchart_set_quad_width, METH_VARARGS|METH_KEYWORDS },
+    { "set_planets_per_quad", (PyCFunction)_wrap_gwp_starchart_set_planets_per_quad, METH_VARARGS|METH_KEYWORDS },
+    { "set_ships_per_quad", (PyCFunction)_wrap_gwp_starchart_set_ships_per_quad, METH_VARARGS|METH_KEYWORDS },
+    { "set_locations_per_quad", (PyCFunction)_wrap_gwp_starchart_set_locations_per_quad, METH_VARARGS|METH_KEYWORDS },
+    { "select_nearest_planet", (PyCFunction)_wrap_gwp_starchart_select_nearest_planet, METH_VARARGS|METH_KEYWORDS },
+    { "center_around", (PyCFunction)_wrap_gwp_starchart_center_around, METH_VARARGS|METH_KEYWORDS },
+    { NULL, NULL, 0 }
+};
+
+PyTypeObject PyGwpStarchart_Type = {
+    PyObject_HEAD_INIT(NULL)
+    0,					/* ob_size */
+    "gwp.Starchart",			/* tp_name */
+    sizeof(PyGObject),	        /* tp_basicsize */
+    0,					/* tp_itemsize */
+    /* methods */
+    (destructor)0,	/* tp_dealloc */
+    (printfunc)0,			/* tp_print */
+    (getattrfunc)0,	/* tp_getattr */
+    (setattrfunc)0,	/* tp_setattr */
+    (cmpfunc)0,		/* tp_compare */
+    (reprfunc)0,		/* tp_repr */
+    (PyNumberMethods*)0,     /* tp_as_number */
+    (PySequenceMethods*)0, /* tp_as_sequence */
+    (PyMappingMethods*)0,   /* tp_as_mapping */
+    (hashfunc)0,		/* tp_hash */
+    (ternaryfunc)0,		/* tp_call */
+    (reprfunc)0,		/* tp_str */
+    (getattrofunc)0,			/* tp_getattro */
+    (setattrofunc)0,			/* tp_setattro */
+    (PyBufferProcs*)0,	/* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                      /* tp_flags */
+    NULL, 				/* Documentation string */
+    (traverseproc)0,	/* tp_traverse */
+    (inquiry)0,		/* tp_clear */
+    (richcmpfunc)0,	/* tp_richcompare */
+    offsetof(PyGObject, weakreflist),             /* tp_weaklistoffset */
+    (getiterfunc)0,		/* tp_iter */
+    (iternextfunc)0,	/* tp_iternext */
+    _PyGwpStarchart_methods,			/* tp_methods */
+    0,					/* tp_members */
+    0,		       	/* tp_getset */
+    NULL,				/* tp_base */
+    NULL,				/* tp_dict */
+    (descrgetfunc)0,	/* tp_descr_get */
+    (descrsetfunc)0,	/* tp_descr_set */
+    offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
+    (initproc)_wrap_gwp_starchart_new,		/* tp_init */
+    (allocfunc)0,           /* tp_alloc */
+    (newfunc)0,               /* tp_new */
+    (freefunc)0,             /* tp_free */
+    (inquiry)0              /* tp_is_gc */
+};
+
+
+
 /* ----------- GwpTorpSpec ----------- */
 
 static PyObject *
@@ -5644,7 +6037,7 @@ _wrap_planet_get_by_id(PyObject *self, PyObject *args, PyObject *kwargs)
     return pygobject_new((GObject *)ret);
 }
 
-#line 41 "src/gwp-py-mappings.override"
+#line 42 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_ship_get_list (PyObject *self)
 {
@@ -5663,10 +6056,10 @@ _wrap_ship_get_list (PyObject *self)
 
   return ret;
 }
-#line 5667 "src/gwp-py-mappings.c"
+#line 6060 "src/gwp-py-mappings.c"
 
 
-#line 61 "src/gwp-py-mappings.override"
+#line 62 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_planet_get_list (PyObject *self)
 {
@@ -5685,10 +6078,10 @@ _wrap_planet_get_list (PyObject *self)
 
   return ret;
 }
-#line 5689 "src/gwp-py-mappings.c"
+#line 6082 "src/gwp-py-mappings.c"
 
 
-#line 109 "src/gwp-py-mappings.override"
+#line 110 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_hullspec_get_list (PyObject *self)
 {
@@ -5707,10 +6100,10 @@ _wrap_hullspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5711 "src/gwp-py-mappings.c"
+#line 6104 "src/gwp-py-mappings.c"
 
 
-#line 129 "src/gwp-py-mappings.override"
+#line 130 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_engspec_get_list (PyObject *self)
 {
@@ -5729,10 +6122,10 @@ _wrap_engspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5733 "src/gwp-py-mappings.c"
+#line 6126 "src/gwp-py-mappings.c"
 
 
-#line 149 "src/gwp-py-mappings.override"
+#line 150 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_beamspec_get_list (PyObject *self)
 {
@@ -5751,10 +6144,10 @@ _wrap_beamspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5755 "src/gwp-py-mappings.c"
+#line 6148 "src/gwp-py-mappings.c"
 
 
-#line 169 "src/gwp-py-mappings.override"
+#line 170 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_torpspec_get_list (PyObject *self)
 {
@@ -5773,10 +6166,10 @@ _wrap_torpspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5777 "src/gwp-py-mappings.c"
+#line 6170 "src/gwp-py-mappings.c"
 
 
-#line 88 "src/gwp-py-mappings.override"
+#line 89 "src/gwp-py-mappings.override"
 PyObject *
 _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
 {
@@ -5789,19 +6182,19 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
   Py_INCREF (Py_None);
   return Py_None;
 }
-#line 5793 "src/gwp-py-mappings.c"
+#line 6186 "src/gwp-py-mappings.c"
 
 
-#line 102 "src/gwp-py-mappings.override"
+#line 103 "src/gwp-py-mappings.override"
 PyObject *
 _wrap_get_plugin_mgr (PyObject *self)
 {
   return (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
 }
-#line 5802 "src/gwp-py-mappings.c"
+#line 6195 "src/gwp-py-mappings.c"
 
 
-#line 222 "src/gwp-py-mappings.override"
+#line 223 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
 {
@@ -5814,10 +6207,10 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
   return PyString_FromString (path);
 }
 
-#line 5818 "src/gwp-py-mappings.c"
+#line 6211 "src/gwp-py-mappings.c"
 
 
-#line 189 "src/gwp-py-mappings.override"
+#line 190 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_truehull (PyObject *self)
 {
@@ -5840,10 +6233,10 @@ _wrap_get_truehull (PyObject *self)
   Py_INCREF(th);
   return th;
 }
-#line 5844 "src/gwp-py-mappings.c"
+#line 6237 "src/gwp-py-mappings.c"
 
 
-#line 213 "src/gwp-py-mappings.override"
+#line 214 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_race_name (PyObject *self, PyObject *args)
 {
@@ -5851,16 +6244,16 @@ _wrap_get_race_name (PyObject *self, PyObject *args)
   PyArg_ParseTuple (args, "i", &race);
   return PyString_FromString (race_get_name(race));
 }
-#line 5855 "src/gwp-py-mappings.c"
+#line 6248 "src/gwp-py-mappings.c"
 
 
-#line 81 "src/gwp-py-mappings.override"
+#line 82 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_system_plugins_dir (PyObject *self)
 {
   return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
 }
-#line 5864 "src/gwp-py-mappings.c"
+#line 6257 "src/gwp-py-mappings.c"
 
 
 PyMethodDef gwp_functions[] = {
@@ -5904,7 +6297,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5908 "src/gwp-py-mappings.c"
+#line 6301 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
@@ -5917,5 +6310,6 @@ gwp_register_classes(PyObject *d)
     pygobject_register_class(d, "GwpRace", GWP_TYPE_RACE, &PyGwpRace_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpShip", GWP_TYPE_SHIP, &PyGwpShip_Type, Py_BuildValue("(O)", &PyGwpFlyingObject_Type));
     pygobject_register_class(d, "GwpStarbase", GWP_TYPE_STARBASE, &PyGwpStarbase_Type, Py_BuildValue("(O)", &PyGObject_Type));
+    pygobject_register_class(d, "GwpStarchart", GWP_TYPE_STARCHART, &PyGwpStarchart_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpTorpSpec", GWP_TYPE_TORP_SPEC, &PyGwpTorpSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
 }

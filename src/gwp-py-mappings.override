@@ -18,6 +18,7 @@ headers
 #include "gwp-minefield.h"
 #include "gwp-py-functions.h"
 #include "gwp-race.h"
+#include "gwp-starchart.h"
 %%
 modulename gwp
 %%
