@@ -1663,7 +1663,6 @@ void init_starchart (GtkWidget * gwp)
 			 "x1", 0.0, "y1", 0.0, "x2", CANVAS_WIDTH,
 			 "y2", CANVAS_WIDTH, "width_units", 1.0,
 			 "fill_color", UNIVERSE_COLOR, NULL);
-  g_message ("GUACAAAAAA");  
   
   /* Sets starchart grid */
   grid_points_v = gnome_canvas_points_new (2);
@@ -2037,7 +2036,7 @@ GwpShip *starchart_select_nearest_ship (GtkWidget * gwp,
  */
 void starchart_center_around (GwpObject *obj)
 {
-  gint ax, ay;
+  gint ax, ay, x, y;
   gdouble obj_x, obj_y;
 
   g_assert (GWP_IS_OBJECT(obj));
@@ -2049,9 +2048,13 @@ void starchart_center_around (GwpObject *obj)
   ax = GTK_WIDGET (starchart_get_canvas())->allocation.width;
   ay = GTK_WIDGET (starchart_get_canvas())->allocation.height;
 
+  gnome_canvas_w2c (starchart_get_canvas(),
+		    obj_x, obj_y,
+		    &x, &y);
+
   gnome_canvas_scroll_to (starchart_get_canvas(), 
-			  ((gint)obj_x) - (ax / 2), 
-			  ((gint)obj_y) - (ay / 2));
+			  (x - (ax / 2)), 
+			  (y - (ay / 2)));
 }
 
 /* (x, y) in world coords */
