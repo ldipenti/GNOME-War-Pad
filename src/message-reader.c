@@ -10,8 +10,7 @@
 #include "support.h"
 
 #define DEBUGOUTPUT 1
-
-
+#define MAXMSGLEN 8192
 
 void message_reader_textview_init( GtkWidget *widget,
 				      gpointer  user_data )
@@ -334,15 +333,20 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr show last finished" );
 void message_reader_show_body( GtkWidget *widget,
                       gpointer user_data, gint id )
 {
+  gchar *tmp = (gchar *)g_malloc( MAXMSGLEN*sizeof(gchar) );
   GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
   GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, id ), -1 );
+  tmp[0] = '\0';
+  strncat( tmp, gwp_messages_getMessageRaw( messages, id ), MAXMSGLEN-1 );
+  g_convert( tmp, strlen(tmp), "UTF-8", "CP437", NULL, NULL, NULL );
+  gtk_text_buffer_set_text( buffer, g_convert( tmp, strlen(tmp), "UTF-8", "CP437", NULL, NULL, NULL ), -1 );
   message_reader_set_current_message_id( widget, user_data, id );
   gtk_text_view_set_buffer( textview, buffer );
   GtkLabel *counter = (GtkLabel *)lookup_widget( "currmsg_label" );
   gtk_label_set_text( counter, g_strdup_printf("%d/%d", gwp_messages_getMessageIdCurrent( messages )+1, gwp_messages_getNumberOfMessages( messages ) ) );
+  g_free( tmp );
 }
 
 void message_reader_all_init( GtkWidget *widget,
