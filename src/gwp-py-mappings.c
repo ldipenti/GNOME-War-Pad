@@ -1188,6 +1188,144 @@ _wrap_gwp_game_state_get_host_colonists_eat_supplies(PyGObject *self)
 
 }
 
+static PyObject *
+_wrap_gwp_game_state_get_host_recycle_col_ship(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_recycle_col_ship(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_large_meteor_impact(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_large_meteor_impact(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_space_mines(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_space_mines(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_alchemy_ships(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_alchemy_ships(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_delete_old_msgs(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_delete_old_msgs(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_disable_pwd(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_disable_pwd(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_rebel_build_fighters(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_rebel_build_fighters(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_colonial_build_fighters(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_colonial_build_fighters(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_robots_build_fighters(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_robots_build_fighters(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_cloak_failure(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_cloak_failure(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_priv_rob_cloak(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_priv_rob_cloak(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_dark_sense_range(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_dark_sense_range(GWP_GAME_STATE(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_ground_attack_ratio(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "race", NULL };
+    int race, ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpGameState.get_host_ground_attack_ratio", kwlist, &race))
+        return NULL;
+    ret = gwp_game_state_get_host_ground_attack_ratio(GWP_GAME_STATE(self->obj), race);
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_game_state_get_host_lizard_hiss_mission(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_game_state_get_host_lizard_hiss_mission(GWP_GAME_STATE(self->obj));
+    return PyBool_FromLong(ret);
+
+}
+
 static PyMethodDef _PyGwpGameState_methods[] = {
     { "postinit", (PyCFunction)_wrap_gwp_game_state_postinit, METH_NOARGS },
     { "get_full_path", (PyCFunction)_wrap_gwp_game_state_get_full_path, METH_VARARGS|METH_KEYWORDS },
@@ -1235,6 +1373,20 @@ static PyMethodDef _PyGwpGameState_methods[] = {
     { "get_host_climate_death_rate", (PyCFunction)_wrap_gwp_game_state_get_host_climate_death_rate, METH_NOARGS },
     { "get_host_crystal_desert_adv", (PyCFunction)_wrap_gwp_game_state_get_host_crystal_desert_adv, METH_NOARGS },
     { "get_host_colonists_eat_supplies", (PyCFunction)_wrap_gwp_game_state_get_host_colonists_eat_supplies, METH_NOARGS },
+    { "get_host_recycle_col_ship", (PyCFunction)_wrap_gwp_game_state_get_host_recycle_col_ship, METH_NOARGS },
+    { "get_host_large_meteor_impact", (PyCFunction)_wrap_gwp_game_state_get_host_large_meteor_impact, METH_NOARGS },
+    { "get_host_space_mines", (PyCFunction)_wrap_gwp_game_state_get_host_space_mines, METH_NOARGS },
+    { "get_host_alchemy_ships", (PyCFunction)_wrap_gwp_game_state_get_host_alchemy_ships, METH_NOARGS },
+    { "get_host_delete_old_msgs", (PyCFunction)_wrap_gwp_game_state_get_host_delete_old_msgs, METH_NOARGS },
+    { "get_host_disable_pwd", (PyCFunction)_wrap_gwp_game_state_get_host_disable_pwd, METH_NOARGS },
+    { "get_host_rebel_build_fighters", (PyCFunction)_wrap_gwp_game_state_get_host_rebel_build_fighters, METH_NOARGS },
+    { "get_host_colonial_build_fighters", (PyCFunction)_wrap_gwp_game_state_get_host_colonial_build_fighters, METH_NOARGS },
+    { "get_host_robots_build_fighters", (PyCFunction)_wrap_gwp_game_state_get_host_robots_build_fighters, METH_NOARGS },
+    { "get_host_cloak_failure", (PyCFunction)_wrap_gwp_game_state_get_host_cloak_failure, METH_NOARGS },
+    { "get_host_priv_rob_cloak", (PyCFunction)_wrap_gwp_game_state_get_host_priv_rob_cloak, METH_NOARGS },
+    { "get_host_dark_sense_range", (PyCFunction)_wrap_gwp_game_state_get_host_dark_sense_range, METH_NOARGS },
+    { "get_host_ground_attack_ratio", (PyCFunction)_wrap_gwp_game_state_get_host_ground_attack_ratio, METH_VARARGS|METH_KEYWORDS },
+    { "get_host_lizard_hiss_mission", (PyCFunction)_wrap_gwp_game_state_get_host_lizard_hiss_mission, METH_NOARGS },
     { NULL, NULL, 0 }
 };
 
@@ -4131,7 +4283,7 @@ _wrap_gwp_ship_get_waypoint (PyGObject *self)
   
   return Py_BuildValue("(ii)", wp_x, wp_y); 
 }
-#line 4135 "src/gwp-py-mappings.c"
+#line 4287 "src/gwp-py-mappings.c"
 
 
 static PyObject *
@@ -6725,7 +6877,7 @@ _wrap_ship_get_list (PyObject *self)
 
   return ret;
 }
-#line 6729 "src/gwp-py-mappings.c"
+#line 6881 "src/gwp-py-mappings.c"
 
 
 #line 62 "src/gwp-py-mappings.override"
@@ -6747,7 +6899,7 @@ _wrap_planet_get_list (PyObject *self)
 
   return ret;
 }
-#line 6751 "src/gwp-py-mappings.c"
+#line 6903 "src/gwp-py-mappings.c"
 
 
 #line 110 "src/gwp-py-mappings.override"
@@ -6769,7 +6921,7 @@ _wrap_hullspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6773 "src/gwp-py-mappings.c"
+#line 6925 "src/gwp-py-mappings.c"
 
 
 #line 130 "src/gwp-py-mappings.override"
@@ -6791,7 +6943,7 @@ _wrap_engspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6795 "src/gwp-py-mappings.c"
+#line 6947 "src/gwp-py-mappings.c"
 
 
 #line 150 "src/gwp-py-mappings.override"
@@ -6813,7 +6965,7 @@ _wrap_beamspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6817 "src/gwp-py-mappings.c"
+#line 6969 "src/gwp-py-mappings.c"
 
 
 #line 170 "src/gwp-py-mappings.override"
@@ -6835,7 +6987,7 @@ _wrap_torpspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 6839 "src/gwp-py-mappings.c"
+#line 6991 "src/gwp-py-mappings.c"
 
 
 #line 89 "src/gwp-py-mappings.override"
@@ -6851,7 +7003,7 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
   Py_INCREF (Py_None);
   return Py_None;
 }
-#line 6855 "src/gwp-py-mappings.c"
+#line 7007 "src/gwp-py-mappings.c"
 
 
 #line 103 "src/gwp-py-mappings.override"
@@ -6860,7 +7012,7 @@ _wrap_get_plugin_mgr (PyObject *self)
 {
   return (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
 }
-#line 6864 "src/gwp-py-mappings.c"
+#line 7016 "src/gwp-py-mappings.c"
 
 
 #line 223 "src/gwp-py-mappings.override"
@@ -6876,7 +7028,7 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
   return PyString_FromString (path);
 }
 
-#line 6880 "src/gwp-py-mappings.c"
+#line 7032 "src/gwp-py-mappings.c"
 
 
 #line 190 "src/gwp-py-mappings.override"
@@ -6902,7 +7054,7 @@ _wrap_get_truehull (PyObject *self)
   Py_INCREF(th);
   return th;
 }
-#line 6906 "src/gwp-py-mappings.c"
+#line 7058 "src/gwp-py-mappings.c"
 
 
 #line 214 "src/gwp-py-mappings.override"
@@ -6913,7 +7065,7 @@ _wrap_get_race_name (PyObject *self, PyObject *args)
   PyArg_ParseTuple (args, "i", &race);
   return PyString_FromString (race_get_name(race));
 }
-#line 6917 "src/gwp-py-mappings.c"
+#line 7069 "src/gwp-py-mappings.c"
 
 
 #line 82 "src/gwp-py-mappings.override"
@@ -6922,7 +7074,7 @@ _wrap_get_system_plugins_dir (PyObject *self)
 {
   return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
 }
-#line 6926 "src/gwp-py-mappings.c"
+#line 7078 "src/gwp-py-mappings.c"
 
 
 PyMethodDef gwp_functions[] = {
@@ -6967,7 +7119,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 6971 "src/gwp-py-mappings.c"
+#line 7123 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpGameState", GWP_TYPE_GAME_STATE, &PyGwpGameState_Type, Py_BuildValue("(O)", &PyGObject_Type));

@@ -1024,6 +1024,10 @@ gwp_game_state_get_selected_ship (GwpGameState *self)
   return self->priv->selected_ship;
 }
 
+/*************************************/
+/******* Host Settings Methods *******/
+/*************************************/
+
 /**
  * Return Host's mining rate setting.
  *
@@ -1103,3 +1107,103 @@ gwp_game_state_get_host_colonists_eat_supplies (GwpGameState *self)
   g_assert (GWP_IS_GAME_STATE(self));
   return self->priv->host_colonists_eat_supplies;
 }
+
+gint
+gwp_game_state_get_host_recycle_col_ship (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_recycle_col_ship;
+}
+
+gint
+gwp_game_state_get_host_large_meteor_impact (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_large_meteor_impact;
+}
+
+gboolean
+gwp_game_state_get_host_space_mines (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_space_mines;
+}
+
+gboolean
+gwp_game_state_get_host_alchemy_ships (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_alchemy_ships;
+}
+
+gboolean
+gwp_game_state_get_host_delete_old_msgs (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_delete_old_msgs;
+}
+
+gboolean
+gwp_game_state_get_host_disable_pwd (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_disable_pwd;
+}
+
+gboolean
+gwp_game_state_get_host_rebel_build_fighters (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_rebel_build_fighters;
+}
+
+gboolean
+gwp_game_state_get_host_colonial_build_fighters (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_colonial_build_fighters;
+}
+
+gboolean
+gwp_game_state_get_host_robots_build_fighters (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_robots_build_fighters;
+}
+
+gint
+gwp_game_state_get_host_cloak_failure (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_cloak_failure;
+}
+
+gboolean
+gwp_game_state_get_host_priv_rob_cloak (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_priv_rob_cloak;
+}
+
+gint
+gwp_game_state_get_host_dark_sense_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_dark_sense_range;
+}
+
+gint
+gwp_game_state_get_host_ground_attack_ratio (GwpGameState *self, gint race)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  g_assert (race >= 1 && race <= 11);
+  return self->priv->host_ground_attack_ratio[race-1];
+}
+
+gboolean
+gwp_game_state_get_host_lizard_hiss_mission (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_lizard_hiss_mission;
+}
+

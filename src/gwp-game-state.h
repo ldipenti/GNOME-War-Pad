@@ -132,6 +132,21 @@ gint gwp_game_state_get_host_sensors_range (GwpGameState *self);
 gint gwp_game_state_get_host_climate_death_rate (GwpGameState *self);
 gboolean gwp_game_state_get_host_crystal_desert_adv (GwpGameState *self);
 gboolean gwp_game_state_get_host_colonists_eat_supplies (GwpGameState *self);
+gint gwp_game_state_get_host_recycle_col_ship (GwpGameState *self);
+gint gwp_game_state_get_host_large_meteor_impact (GwpGameState *self);
+gboolean gwp_game_state_get_host_space_mines (GwpGameState *self);
+gboolean gwp_game_state_get_host_alchemy_ships (GwpGameState *self);
+gboolean gwp_game_state_get_host_delete_old_msgs (GwpGameState *self);
+gboolean gwp_game_state_get_host_disable_pwd (GwpGameState *self);
+gboolean gwp_game_state_get_host_rebel_build_fighters (GwpGameState *self);
+gboolean gwp_game_state_get_host_colonial_build_fighters (GwpGameState *self);
+gboolean gwp_game_state_get_host_robots_build_fighters (GwpGameState *self);
+gint gwp_game_state_get_host_cloak_failure (GwpGameState *self);
+gboolean gwp_game_state_get_host_priv_rob_cloak (GwpGameState *self);
+gint gwp_game_state_get_host_dark_sense_range (GwpGameState *self);
+gint gwp_game_state_get_host_ground_attack_ratio (GwpGameState *self, gint race);
+gboolean gwp_game_state_get_host_lizard_hiss_mission (GwpGameState *self);
+
 
 /*
  * Standard defines.

@@ -3889,4 +3889,91 @@
   (return-type "gboolean")
 )
 
+(define-method get_host_recycle_col_ship
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_recycle_col_ship")
+  (return-type "gint")
+)
+
+(define-method get_host_large_meteor_impact
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_large_meteor_impact")
+  (return-type "gint")
+)
+
+(define-method get_host_space_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_space_mines")
+  (return-type "gboolean")
+)
+
+(define-method get_host_alchemy_ships
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_alchemy_ships")
+  (return-type "gboolean")
+)
+
+(define-method get_host_delete_old_msgs
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_delete_old_msgs")
+  (return-type "gboolean")
+)
+
+(define-method get_host_disable_pwd
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_disable_pwd")
+  (return-type "gboolean")
+)
+
+(define-method get_host_rebel_build_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_rebel_build_fighters")
+  (return-type "gboolean")
+)
+
+(define-method get_host_colonial_build_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_colonial_build_fighters")
+  (return-type "gboolean")
+)
+
+(define-method get_host_robots_build_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_robots_build_fighters")
+  (return-type "gboolean")
+)
+
+(define-method get_host_cloak_failure
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_cloak_failure")
+  (return-type "gint")
+)
+
+(define-method get_host_priv_rob_cloak
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_priv_rob_cloak")
+  (return-type "gboolean")
+)
+
+(define-method get_host_dark_sense_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_dark_sense_range")
+  (return-type "gint")
+)
+
+(define-method get_host_ground_attack_ratio
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ground_attack_ratio")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method get_host_lizard_hiss_mission
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_lizard_hiss_mission")
+  (return-type "gboolean")
+)
+
 
