@@ -1,19 +1,40 @@
 <?xml version="1.0"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY legal SYSTEM "legal.xml">
   <!ENTITY GFDL SYSTEM "fdl-appendix.xml">
+  <!ENTITY aboutgwp SYSTEM "aboutgwp.xml">
+  <!ENTITY whatisvp SYSTEM "whatisvp.xml">
+  <!ENTITY vpmechanics SYSTEM "vpmechanics.xml">
+  <!ENTITY games_internet SYSTEM "games_internet.xml">
+  <!ENTITY learnmore SYSTEM "learnmore.xml">
+  <!ENTITY starchart-ops SYSTEM "starchart-ops.xml">
+  <!ENTITY planet-ops SYSTEM "planet-ops.xml">
+  <!ENTITY starbase-ops SYSTEM "starbase-ops.xml">
+  <!ENTITY ship-ops SYSTEM "ship-ops.xml">
+  <!ENTITY plugins-intro SYSTEM "plugins-intro.xml">
+  <!ENTITY plugins-using SYSTEM "plugins-using.xml">
+  <!ENTITY plugins-console SYSTEM "plugins-console.xml">
   <!ENTITY app "<application>GNOME War Pad</application>">
+  <!ENTITY gwp "<abbrev>GWP</abbrev>">
+  <!ENTITY vgap "<emphasis>VGA Planets</emphasis>">
+  <!ENTITY appname "GNOME War Pad">
   <!ENTITY appversion "0.3.0">
   <!ENTITY manrevision "0.3.0">
   <!ENTITY date "May 23, 2004">
-  <!-- Information about the entities
-       The legal.xml file contains legal information, there is no need to edit the file.
-       Use the appversion entity to specify the version of the application.
-       Use the manrevision entity to specify the revision number of this manual.
-       Use the date entity to specify the release date of this manual.
-       Use the app entity to specify the name of the application. -->
 ]>
+
+<!-- 
+Information about the entities: 
+
+* The legal.xml file contains legal information, there is no need to
+  edit the file.  
+* Use the appversion entity to specify the version of the application.
+* Use the manrevision entity to specify the revision number of this
+  manual.  
+* Use the date entity to specify the release date of this manual.  
+* Use the app entity to specify the name of the application. 
+-->
 
 <!--
       (Do not remove this comment block.)
@@ -30,441 +51,157 @@
 
 <!-- =============Document Header ============================= -->
 
-  <article id="index" lang="en">
-    <!-- please do not change the id; for translations, change lang -->
+  <book id="index" lang="en">
+  <!-- please do not change the id; for translations, change lang -->
+  
+  <bookinfo>
+    <title>&app; Manual V&manrevision;</title>
     
-    <articleinfo>
-      <title>&app; Manual v&manrevision;</title>
-      <copyright>
-	<year>2003, 2004</year>
-	<holder>Lucas Di Pentima</holder>
-      </copyright>
-      
-      <!-- translators: uncomment this:
-      
-      <copyright>
-      <year>2001-2002</year>
-      <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    <copyright>
+      <year>2003, 2004</year>
+      <holder>Lucas Di Pentima</holder>
     </copyright>
-      
-      -->
-      
-      &legal;
-      
-      <authorgroup>
-	<author>
-	  <firstname>Lucas</firstname>
-	  <surname>Di Pentima</surname>
-	  <affiliation>
-	    <orgname>LUNIX Soluciones en GNU/Linux</orgname>
-	    <address><email>lucas@lunix.com.ar</email></address>
-	  </affiliation>
-	</author>
-      </authorgroup>
-
-      <revhistory>
-	<revision>
-	  <revnumber>&app; Manual V 0.3.0</revnumber>
-	  <date>2004-05-23</date>
-	  <revdescription>
-	    <para role="author">Lucas Di Pentima
-	    <email>lucas@lunix.com.ar</email></para>
-	  </revdescription>
-	</revision>
-	<revision>
-	  <revnumber>&app; Manual V 0.2.6</revnumber>
-	  <date>2003-06-16</date>
-	  <revdescription>
-	    <para role="author">Lucas Di Pentima
-	    <email>lucas@lunix.com.ar</email></para>
-	  </revdescription>
-	</revision>
-      </revhistory>
-
-    </articleinfo>
     
-    <!-- ============= Document Body ============================= -->
+    <!-- translators: uncomment this:
     
-    <!-- ============= Introduction ============================== -->
-    <sect1 id="sec:intro">
-      <title>Introduction</title>
+    <copyright>
+    <year>2001-2002</year>
+    <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+    -->
+
+    <publisher>
+      <publishername>GWP Team</publishername>
+    </publisher>
+
+    &legal;
+    
+    <authorgroup>
+      <author>
+	<firstname>Lucas</firstname>
+	<surname>Di Pentima</surname>
+	<affiliation>
+	  <orgname>LUNIX Soluciones en GNU/Linux</orgname>
+	  <address><email>lucas@lunix.com.ar</email></address>
+	</affiliation>
+      </author>
+    </authorgroup>
+    
+    <revhistory>
+      <revision>
+	<revnumber>&appname; Manual V 0.3.0</revnumber>
+	<date>2004-05-23</date>
+	<revdescription>
+	  <para role="author">Lucas Di Pentima
+	    <email>lucas@lunix.com.ar</email></para>
+	</revdescription>
+      </revision>
+      <revision>
+	<revnumber>&appname; Manual V 0.2.6</revnumber>
+	<date>2003-06-16</date>
+	<revdescription>
+	  <para role="author">Lucas Di Pentima
+	    <email>lucas@lunix.com.ar</email></para>
+	</revdescription>
+      </revision>
+    </revhistory>
+
+    <releaseinfo>
+      This manual describes version &appversion; of &appname;.
+    </releaseinfo>
+
+    <legalnotice>
+      <title>Feedback</title>
+      <para>To report a bug or make a suggestion regarding the &app;
+      application or this manual, send an email to <ulink
+      url="mailto://lucas@lunix.com.ar">Lucas Di Pentima</ulink>.</para>
+    </legalnotice>
+
+    <indexterm zone="index">
+      <primary>GNOME War Pad</primary>
+    </indexterm>
+  </bookinfo>
+  
+  
+  <!-- ============= Document Body ============================= -->
+  <!-- ============= Introduction ============================== -->
+
+  <chapter id="intro">
+    <title>Introduction to &app;</title>
+    &aboutgwp;
+    &whatisvp;
+    &vpmechanics;
+    &games_internet;
+    &learnmore;
+  </chapter>    
+  
+  <chapter id="game_mgr">
+    <title>The Game Manager</title>
       
-      <sect2 id="sec:aboutgwp">
-	<title>About <abbrev>&app;</abbrev></title>
-	
-	<graphic fileref="figures/logo.png" align="center" scale="50%"/>
-	
-	<para>&app; is a <emphasis>VGA Planets</emphasis> client
-	  for the GNOME platform. This project's objectives are to produce
-	  a full-featured client, easy to use by new players but powerful
-	  enough for experienced VGA Planets emperors.</para>
-	
-	<para>The final version of this program should include the basic
-	  gaming capability, plus a good pack of statistical charts,
-	  estimation tables and graphs and calculus dialogs. Also it'll
-	  have scripting support using (maybe) the Python interpreter
-	  embebbed, to allow easy and fast addition of features such as
-	  estrategical resource administration, etc.</para>
-	
-	<para><abbrev>GWP</abbrev>'s user interface is being designed so
-	  that most activities are centered around the
-	  <emphasis>starchart</emphasis>, this way the player can keep a
-	  global vision of the territory. For the UI design I took ideas
-	  from various VGA Planets clients, such as Informer, VPA and
-	  PCC, nevertheless GWP has its own unique style, as a result of
-	  the blending of the best characteristics of such clients plus
-	  some of my own ideas (and some of my friends ideas
-	  too!).</para>
-      </sect2>
-      
-      <sect2 id="sec:whatisvp">
-	<title>What is <emphasis>VGA Planets</emphasis>?</title>
-	
-	<para>For this section, I'll extract a piece of the introduction
-	  made by its creator, Tim Wisseman. You can read the whole
-	  version at <ulink
-	    url="http://www.vgaplanets.com/intro2.htm">http://www.vgaplanets.com/intro2.htm</ulink>.</para>
-	
-	<para><citation>VGA Planets is a graphical, multi-player, play by
-	    electronic mail, space war game. This game simulates combat in
-	    space between galactic scale empires. The game emphasizes
-	    colonization of space and the development of the planets that
-	    you will find, colonize and/or conquer. How well you develop
-	    these resources will determine what kind of starships
-	    (freighters and capital ships) you will be able to produce and
-	    how well you will be able to defend your space and attack your
-	    neighbors.</citation></para>
-	
-	<para><citation> This game is designed to be a strategic and
-	    tactical game of warfare, but you will also need to be able to
-	    build an economy and service your empire. With a well-developed
-	    economic base you will have a greater potential for winning the
-	    game.</citation></para>
-	
-	<para><citation>As the leader of your empire you are responsible
-	    for all of the decisions that affect your growth and production
-	    (except, of course, being attacked by your neighbor). You will
-	    decide how to best develop your planets with the resources
-	    available to you. You will decide what type of starship(s) to be
-	    built at your starbase(s). You are the mastermind behind your
-	    race and you are in a race to see which empire can first
-	    conqueror the universe.</citation></para>
-	
-	<para><citation>At the start of the game you are left with a
-	    homeworld, a low tech starbase, and two low tech
-	    starships. These are the only things left of your former empire
-	    since the nastiest Ion Storm ever recorded hit the Echo
-	    Cluster. You will need to manage your planet's population,
-	    money, minerals and other resources wisely, for these are your
-	    only sources of production early in the game. If you manage them
-	    well you will be able to quickly expand and broaden your
-	    economic and mineral base, while still keeping a wary eye on
-	    your potentially dangerous neighbors. Remember, while you are
-	    growing and becoming stronger, so are your
-	    neighbors.</citation></para>
-	
-	<para><citation>VGA Planets is designed to be able to handle from
-	    two to eleven players in a play by mail (electronic mail) game
-	    format. The game is designed to be played as a Net or Bulletin
-	    Board System (BBS) game (as long as file transfers are permitted
-	    and available), although it can be played solely on one
-	    computer. Many of the Net players are playing using E-mail and
-	    UUENCODE.</citation></para>
-      </sect2>
-
-      <sect2 id="sec:vpmechanics">
-	<title>Game Mechanics</title>
-
-	<para>The fact that VGA Planets is a
-	<emphasis>play-by-email</emphasis> game means that is an
-	offline kind of game, this is why the players have to follow
-	certain steps when joining a game:</para>
-
-	<orderedlist>
-	  <listitem>
-	    <para>The host generates RST (result) files, one for each
-	    player.</para>
-	  </listitem>
-	  <listitem>
-	    <para>The host send the RST files to the players (via
-	    e-mail, or any other form).</para>
-	  </listitem>
-	  <listitem>
-	    <para>Each player receives their RST file and unpacks it
-	      with some <abbrev>VP</abbrev> client.</para>
-	  </listitem>
-	  <listitem>
-	    <para>Each player make their actions and generate the TRN
-	      with some <abbrev>VP</abbrev> client.</para>
-	  </listitem>
-	  <listitem>
-	    <para>The players send their TRN files to the host.</para>
-	  </listitem>
-	  <listitem>
-	    <para>The host receives the TRN files and proccess them,
-	    check if some player is trying to cheat, and so on. Then,
-	    go back to the first step.</para>
-	  </listitem>
-	</orderedlist>
-
-      </sect2>
-      
-      <sect2 id="sec:games_internet">
-	<title><abbrev>VP</abbrev> Games on the Internet</title>
-	
-	<para>Maybe you've never played this great game and would like
-	  to give it a try, but you don't have any friends that know VGA
-	  Planets, so...how to start?</para>
-	
-	<para>Fortunately, there are several websites dedicated to
-	  host <abbrev>VP</abbrev> games, so that you can sign up to
-	  any game and play with people all over the world. Some
-	  interesting <abbrev>VP</abbrev> hosting sites are:</para>
-	
-	<itemizedlist>
-	  <listitem>
-	    <para><ulink
-		url="http://www.thelastdomain.com/vgaplanets.asp">The
-		Last Domain VGA Planets</ulink></para>
-	  </listitem>
-	  <listitem>
-	    <para><ulink
-		url="http://www.home.aone.net.au/neilgrigg/navgap.html">NAVGAP
-		'VGA Planets' Hosting Service</ulink></para>
-	  </listitem>
-	  <listitem>
-	    <para><ulink
-		url="http://vgaplanets.fontventa.com/home.htm">Sorcermon
-		- VGA Planets Hosting</ulink></para>
-	  </listitem>
-	  <listitem>
-	    <para><ulink
-		url="http://www.uk-gamerz.com/vgap/gamelist.htm">UK
-		Gamers - VGA Planets Server</ulink></para>
-	  </listitem>
-	  <listitem>
-	    <para><ulink
-		url="http://www.thedeepsouth.org/vgaindex.htm">The
-		Deep South</ulink></para>
-	  </listitem>
-	  <listitem>
-	    <para><ulink
-	    url="http://planetsserver.com/">Planetsserver.com</ulink></para>
-	  </listitem>
-	</itemizedlist>
-      </sect2>
-      
-      <sect2 id="sec:learnmore">
-	<title>Learn more about VGA Planets</title>
-
-	<para>&app; is just a client, so this documentation is
-	made to teach you how to use it, but it won't teach you how to
-	play VGA Planets, that's a little more complicated.</para>
-
-	<para>If you don't know how to play <abbrev>VP</abbrev>, then
-	  you should visit <ulink
-	    url="http://www.xs4all.nl/~donovan/">Donovan's Site</ulink>,
-	  the best and more complete VGA Planets information site on
-	  the Internet. There you'll have all the necessary to become
-	  a great space conqueror.</para>
-      </sect2>
-    </sect1>
-
-    <sect1 id="sec:game_mgr">
-      <title>The Game Manager</title>
-      
-      <para>The game manager is an utility that &app; provides to
+    <para>The game manager is an utility that &app; provides to
       store several game settings on a centralized fashion. As you can
-	see on <xref linkend="fig:game_mgr"/>, it consists of an icon
+	see on <xref linkend="fig_game_mgr"/>, it consists of an icon
       list, each icon representing a configured game.</para>
 
-      <figure id="fig:game_mgr">
-	<title>&app;'s Game Manager</title>
-	<graphic fileref="figures/game-mgr.png"/>
-      </figure>
+    <figure id="fig_game_mgr">
+      <title>&app;'s Game Manager</title>
+      <graphic fileref="figures/game-mgr.png"/>
+    </figure>
 
-      <para>You can add a new game, delete or edit an existing game's
-      preferences, with no danger of modifying the real data
+    <para>You can add a new game, delete or edit an existing game's
+      preferences, with no risk of modifying the real data
       files. The game manager only register game data on the GNOME
       registry subsystem.</para>
 
-      <para>When you press the <guibutton>New</guibutton> button or
+    <para>When you press the <guibutton>New</guibutton> button or
       edit an existing game, you'll see a dialog like the one shown at
-	<xref linkend="fig:game_mgr_edit_game"/>, you have to select
+	<xref linkend="fig_game_mgr_edit_game"/>, you have to select
       the game directory where your game data files reside, then the
       program will detect the available races and will show them on
       the list at the left.</para>
 
-      <figure id="fig:game_mgr_edit_game">
-	<title><quote>New/Edit Game</quote> dialog</title>
-	<graphic fileref="figures/game-mgr-edit-game.png"/>
-      </figure>
-
-      <para>When the available races are listed, you have to click on
+    <figure id="fig_game_mgr_edit_game">
+      <title><quote>New/Edit Game</quote> dialog</title>
+      <graphic fileref="figures/game-mgr-edit-game.png"/>
+    </figure>
+    
+    <para>When the available races are listed, you have to click on
       the one you will use to play (this allows you to have many races
       within the same directory, and be able to play them all), and
       also type the game name, that will be used on the icon list
       previously shown.</para>
 
-      <para>If the program detects that exists a RST file to be
+    <para>If the program detects that exists a RST file to be
 	unpacked, the <guibutton>Unpack</guibutton> button will be
 	activated so that you can execute that operation
 	instantly.</para>
-
-      <para>The other fields, as of version &appversion; are not being
+    
+    <para>The other fields, as of version &appversion; are not being
 	used for anything, you can leave them blank.</para>
-    </sect1>
-
-    <sect1 id="sec:basic_usage">
-      <title>&app; Basic Usage</title>
-
-      <para>This client is very <emphasis>starchart
+  </chapter>
+  
+  <chapter id="basic_usage">
+    <title>Basic Usage</title>
+    
+    <para>This client is very <emphasis>starchart
       centric</emphasis>, almost all the operations can be done from
       some kind of starchart view, so that the player can maintain a
       global view at the game.</para>
-
-      <sect2 id="sec:starchart_keys">
-	<title>Starchart keystrokes</title>
-
-	<para>The Echo Cluster is a square of 2000 by 2000
-	  light-years, the starchart provides the player an extra
-	  view, a margin around the Echo Cluster of 500 LY wide. It
-	  has grid, with 100 LY between lines.</para>
-
-	<para>The keystrokes to scroll the starchart are:</para>
-
-	<itemizedlist>
-	  <listitem>
-	    <para><keycap>A</keycap>: Scroll left</para>
-	  </listitem>
-	  <listitem>
-	    <para><keycap>D</keycap>: Scroll right</para>
-	  </listitem>
-	  <listitem>
-	    <para><keycap>W</keycap>: Scroll up</para>
-	  </listitem>
-	  <listitem>
-	    <para><keycap>S</keycap>: Scroll down</para>
-	  </listitem>
-	</itemizedlist>
-
-	<para>You can also scroll the starchart using the mouse, by
-	  dragging it. Also, you can toggle the grid by pressing
-	  <keycap>G</keycap> and zoom in and zoom out with
-	  <keycap>+</keycap> and <keycap>-</keycap> from the
-	  keypad.</para>
-
-      <para>The planet names are automatically hidden when you zoom
-      out below 100%, but if you want you can turn them off using the
-      <guimenuitem>Planet names</guimenuitem> entry on the
-      <guimenu>View</guimenu> menu. Similar actions you can make with
-      minefields and ion storms.</para>
-
-      </sect2>
-
-      <sect2 id="sec:planet_ops">
-	<title>Planet operations</title>
-
-	<para>Each planet is represented by a tiny circle, if it's
-	grey the planet is unknown, if it's green, the planet is
-	ours. Planets with a green <emphasis>halo</emphasis>, are
-	planets that have starbases orbiting, so that you can identify
-	them quickly.</para>
-
-	<figure id="fig:starchart">
-	  <title>&app;'s StarChart</title>
-	  <graphic fileref="figures/starchart.png"/>
-	</figure>
-
-	<para>As you can see on <xref linkend="fig:starchart"/>, when
-	you click on a planet, a little red mark is placed around the
-	selected planet and the most important data about that planet
-	appears on the bar at the right. The idea of this is that you
-	have only the important data with a fast, single-click on each
-	planet. If you want more detailed information about the
-	planet, just double-click on one, and two extra panels will
-	appear, like the ones on <xref
-	linkend="fig:starchart-planet"/></para>
-
-	<para>At this mode, you can see all the data about the
-	selected planet, and the starchart centers around the selected
-	planet so you can see it sorroundings. You should note that
-	the starchart scrolling functions are disabled in this view
-	mode, you can return to full starchart view hitting the
-	<keycap>Esc</keycap> key, or double-clicking on the planet
-	again.</para>
-
-	<para>On the lower left panel, there's a table with planet's
-	future information, based on its actual state, this is very
-	useful to establish long term strategies, this panel is
-	intended to contain more and more of this type of charts,
-	graphs, etc.</para>
-
-	<figure id="fig:starchart-planet">
-	  <title>Detailed information about a planet</title>
-	  <graphic fileref="figures/starchart-planet.png"/>
-	</figure>
-
-      </sect2>
-
-    <sect2 id="sec:starbase_ops">
-      <title>Starbase operations</title>
-
-      <para>Inside the planet extended view, you have on the upper
-      right corner the possibility to change to starbase view, there
-      you'll have all the needed information about the actual
-      starbase, asi you can see on the picture below.</para>
-
-      <figure id="fig:starchart-starbase">
-	<title>Information about a starbase</title>
-	<graphic fileref="figures/starchart-starbase.png"/>
-      </figure>
-
-      <para>On future releases, the lower left panel will have several
-      charts about the starbase providing you lots of valuable
-      information.</para>
-
-      <para>If the planet has no starbase, the corresponding
-      information fields are obviously erased.</para>
-    </sect2>
-
-    <sect2 id="sec:starship_ops">
-      <title>Starship operations</title>
-
-      <para>Ships on starchart are shown as little triangles, they're
-      blue if the ships are our own, and red if not. This triangles
-      are oriented specially to show the actual ship's heading, so you
-      can be aware of that even without the need of selecting every
-      ship.</para>
-
-      <para>To select a ship you should right-click near it, the right
-      panel switches to <emphasis>ship list mode</emphasis>, and show
-      a complete list of every visible ship on the same spot,
-      similarly to <xref linkend="fig:starchart-ship-simple"/>,
-      drawing a green mark around the selected location.</para>
-
-      <figure id="fig:starchart-ship-simple">
-	<title>Ship list view</title>
-	<graphic fileref="figures/starchart-ship-simple.png"/>
-      </figure>
-
-      <para>On the list you'll see the ship's ID and name, and
-      selecting any of this list items will update the information
-      below, showing a limited but vital set of ship data. If you
-      double-right-click on the starchart, or double-click on the ship
-      list, the extra panels will appear showing the rest of the
-      ship's data and the corresponding ship image, just like <xref
-      linkend="fig:starchart-ship-complete"/>.</para>
-
-      <figure id="fig:starchart-ship-complete">
-	<title>Complete ship info visualization</title>
-	<graphic fileref="figures/starchart-ship-complete.png"/>
-      </figure>
-    </sect2>
-
-  </sect1>
     
+    &starchart-ops;
+    &planet-ops;
+    &starbase-ops;
+    &ship-ops;
+  </chapter>    
+
+  <chapter id="plugins">
+    <title>The Plugin System</title>
+    &plugins-intro;
+    &plugins-using;
+    &plugins-console;
+  </chapter>
+  
   <!-- APPENDIX: License -->
   &GFDL;
   
-  </article>
+  </book>

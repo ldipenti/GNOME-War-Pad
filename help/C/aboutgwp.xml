@@ -1,0 +1,31 @@
+    <section id="aboutgwp">
+      <title>About the program</title>
+
+      <para>&app; is a <emphasis>VGA Planets</emphasis> client for the
+	  GNOME platform. This project's objectives are to produce a
+	  full-featured client, easy to use by new players but
+	  powerful enough for experienced VGA Planets emperors.</para>
+      
+      <para>Since version 0.3.3, it features the capacity to run small
+      Python programs as plug-ins of the main application, this will
+      enable the users to customize their own functionality without
+      having to wait for those features to come on the program
+      itself. A &gwp; Plugin Programming Manual will be available as
+      soon as the API stabilize a little, in the meanwhile is you are
+      interested in writing your own plugins, you can look at the
+      existing ones.</para>
+
+      <para>The final version of this program should include the basic
+	  gaming capability, plus a good pack of statistical charts,
+	  estimation tables and graphs and calculus dialogs.</para>
+    
+      <para>&gwp;'s user interface is being designed so
+	  that most activities are centered around the
+	  <emphasis>starchart</emphasis>, this way the player can keep a
+	  global vision of the territory. For the UI design I took ideas
+	  from various VGA Planets clients, such as Informer, VPA and
+	  PCC, nevertheless GWP has its own unique style, as a result of
+	  the blending of the best characteristics of such clients plus
+	  some of my own ideas (and some of my friends ideas
+	  too!).</para>
+    </section>

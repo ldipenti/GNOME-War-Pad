@@ -1,0 +1,33 @@
+    <sect1 id="ship-ops">
+      <title>Starship operations</title>
+      
+      <para>Ships on starchart are shown as little triangles, they're
+      blue if the ships are our own, and red if not. This triangles
+      are oriented specially to show the actual ship's heading, so you
+      can be aware of that even without the need of selecting every
+      ship.</para>
+      
+      <para>To select a ship you should right-click near it, the right
+      panel switches to <emphasis>ship list mode</emphasis>, and show
+      a complete list of every visible ship on the same spot,
+      similarly to <xref linkend="fig_starchart-ship-simple"/>,
+      drawing a green mark around the selected location.</para>
+      
+      <figure id="fig_starchart-ship-simple">
+	<title>Ship list view</title>
+	<graphic fileref="figures/starchart-ship-simple.png"/>
+      </figure>
+      
+      <para>On the list you'll see the ship's ID and name, and
+      selecting any of this list items will update the information
+      below, showing a limited but vital set of ship data. If you
+      double-right-click on the starchart, or double-click on the ship
+      list, the extra panels will appear showing the rest of the
+      ship's data and the corresponding ship image, just like <xref
+	  linkend="fig_starchart-ship-complete"/>.</para>
+      
+      <figure id="fig_starchart-ship-complete">
+	<title>Complete ship info visualization</title>
+	<graphic fileref="figures/starchart-ship-complete.png"/>
+      </figure>
+    </sect1>

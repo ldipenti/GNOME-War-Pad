@@ -1,0 +1,29 @@
+    <sect1 id="starchart-ops">
+      <title>Starchart operations</title>
+      
+      <para>The Echo Cluster is a square of 2000 by 2000
+	  light-years, the starchart provides the player an extra
+	  view, a margin around the Echo Cluster of 500 LY wide. It
+	  has a grid, with 100 LY between lines.</para>
+      
+      <para>To scroll the starchart you can use the arrow keys, or
+      drag it with the mouse. Also, you can toggle the grid by
+      pressing <keycombo> <keycap>Ctrl</keycap> <keycap>G</keycap>
+      </keycombo> and zoom in and zoom out with <keycap>+</keycap> and
+      <keycap>-</keycap> from the keypad.</para>
+      
+      <para>The planet names are automatically hidden when you zoom
+      out below 100%, but if you want you can turn them off using the
+      <guimenuitem>Planet names</guimenuitem> entry on the
+      <guimenu>View</guimenu> menu. Similar actions you can make with
+      minefields and ion storms.</para>
+
+      <para>On the <guimenu>View</guimenu> menu, you also have the
+      <guimenuitem>Scanner area</guimenuitem> option, when activated
+      will paint a shaded area on the starchart showing the sensors
+      range that is covered from your ship and planets. You can use
+      this feature with the
+      <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>
+      keystroke too. This feature is disabled by default.</para>
+
+    </sect1>

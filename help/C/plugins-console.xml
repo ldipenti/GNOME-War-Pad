@@ -1,0 +1,28 @@
+<!-- <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"> -->
+
+<sect1 id="plugins-console">
+  <title>The Python Console</title>
+
+  <para>In order to do tests about plugins, or whatever concept that
+  we can try, we need a way to enter Python statements on a live &app;
+  environment. This is why &gwp; has a Python, you can access it by
+  selecting <guimenuitem>Python console</guimenuitem> on the
+  <guimenu>View</guimenu> menu, or pressing <keycombo>
+  <keycap>Ctrl</keycap> <keycap>Y</keycap> </keycombo>.</para>
+
+  <figure id="fig_python-console">
+    <title>The Python Console</title>
+    <graphic fileref="figures/python-console.png"/>
+  </figure>
+
+  <para>As you see on <xref linkend="fig_python-console"/>, you have
+  available the <emphasis>gwp</emphasis> module, where you have listed
+  all the classes and functions to write your plugins. As the plugin
+  support is a work-in-progress feature, the plugin API will surely
+  change, nevertheless it's in a semi-stable state.</para>
+
+  <para>It's necessary to say that the python console is not an
+  original work from &gwp;'s development team, it was copied from the
+  Dia Project and adapted to our environment.</para>
+</sect1>

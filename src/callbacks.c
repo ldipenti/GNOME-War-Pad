@@ -682,6 +682,7 @@ void on_online_help_activate (GtkWidget *widget,
   
   if (!gnome_help_display ("gwp.xml", NULL, &error)) {
     /* report error */
+    g_message ("HELP ERROR: %s", error->message);
     g_error_free (error);
   }
 }

@@ -1,0 +1,44 @@
+    <sect1 id="planet-ops">
+      <title>Planet operations</title>
+      
+      <para>Each planet is represented by a tiny circle, if it's
+	grey the planet is unknown, if it's green, the planet is
+	ours. Planets with a green <emphasis>halo</emphasis>, are
+	planets that have starbases orbiting, so that you can identify
+	them quickly.</para>
+      
+      <figure id="fig_starchart">
+	<title>&app;'s StarChart</title>
+	<graphic fileref="figures/starchart.png"/>
+      </figure>
+      
+      <para>As you can see on <xref linkend="fig_starchart"/>, when
+	you click on a planet, a little red mark is placed around the
+	selected planet and the most important data about that planet
+	appears on the bar at the right. The idea of this is that you
+	have only the important data with a fast, single-click on each
+	planet. If you want more detailed information about the
+	planet, just double-click on one, and two extra panels will
+	appear, like the ones on <xref
+	linkend="fig_starchart-planet"/></para>
+      
+      <para>At this mode, you can see all the data about the
+	selected planet, and the starchart centers around the selected
+	planet so you can see it sorroundings. You should note that
+	the starchart scrolling functions are disabled in this view
+	mode, you can return to full starchart view hitting the
+	<keycap>Esc</keycap> key, or double-clicking on the planet
+	again.</para>
+      
+      <para>On the lower left panel, there's a table with planet's
+	future information, based on its actual state, this is very
+	useful to establish long term strategies, this panel is
+	intended to contain more and more of this type of charts,
+	graphs, etc.</para>
+      
+      <figure id="fig_starchart-planet">
+	<title>Detailed information about a planet</title>
+	<graphic fileref="figures/starchart-planet.png"/>
+      </figure>
+
+    </sect1>

@@ -1,0 +1,20 @@
+    <sect1 id="starbase-ops">
+      <title>Starbase operations</title>
+      
+      <para>Inside the planet extended view, you have on the upper
+      right corner the possibility to change to starbase view, there
+      you'll have all the needed information about the actual
+      starbase, asi you can see on the picture below.</para>
+      
+      <figure id="fig_starchart-starbase">
+	<title>Information about a starbase</title>
+	<graphic fileref="figures/starchart-starbase.png"/>
+      </figure>
+      
+      <para>On future releases, the lower left panel will have several
+      charts about the starbase providing you lots of valuable
+      information.</para>
+      
+      <para>If the planet has no starbase, the corresponding
+      information fields are obviously erased.</para>
+    </sect1>

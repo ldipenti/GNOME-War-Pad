@@ -1,0 +1,38 @@
+    <sect1 id="vpmechanics">
+      <title>Game Mechanics</title>
+
+      <para>
+        The fact that VGA Planets is a
+	<emphasis>play-by-email</emphasis> game means that is an
+	offline kind of game, this is why the players have to follow
+	certain steps when joining a game:
+      </para>
+      
+      <orderedlist>
+	<listitem>
+	  <para>The host generates RST (result) files, one for each
+	    player.</para>
+	</listitem>
+	<listitem>
+	  <para>The host send the RST files to the players (via
+	    e-mail, or any other form).</para>
+	</listitem>
+	<listitem>
+	  <para>Each player receives their RST file and unpacks it
+	      with some <abbrev>VP</abbrev> client.</para>
+	</listitem>
+	<listitem>
+	  <para>Each player make their actions and generate the TRN
+	      with some <abbrev>VP</abbrev> client.</para>
+	</listitem>
+	<listitem>
+	  <para>The players send their TRN files to the host.</para>
+	</listitem>
+	<listitem>
+	  <para>The host receives the TRN files and proccess them,
+	    check if some player is trying to cheat, and so on. Then,
+	    go back to the first step.</para>
+	</listitem>
+      </orderedlist>
+      
+    </sect1>

@@ -1,0 +1,29 @@
+<sect1 id="plugins-intro">
+  <title>Introduction</title>
+
+  <para>Every player has its own tastes about what a good &vgap;
+  client should have as a feature, so it's impossible to write a
+  good client for all of us. From the beginning, &gwp; was started to
+  be client that will provide basic functionality in a friendly way to
+  novice &vgap; players, and will provide customization capabilities
+  to veteran ones.</para>
+
+  <para>The plugin system enable any player with programming skills to
+  write his or her own piece of functionality and add it to the whole
+  &gwp; in a very integrated way. For this to happen, the Python
+  interpreter was embedded on &appname;, Python is a well known
+  interpreted and object oriented, programming languaje, used and
+  supported by a huge community on the Internet.</para>
+
+  <para>&appname;'s planets, ships, starchart, user interface, etc. is
+  accessible by the plugin interpreter so the plugin writer will
+  manipulate those entities as objects, in a very natural way. Also,
+  game and key events are forwarded to the plugins so that they can
+  take action if neccesary.</para>
+
+  <para>In short, the plugin system is made for you to customize your
+  own &appname;, and to share those customizations with your
+  friends. If you make a cool plugin, you can <ulink
+  url="mailto:lucas@lunix.com.ar">send it to me</ulink>, and I'll
+  check if it can be added to the default distribution.</para>
+</sect1>

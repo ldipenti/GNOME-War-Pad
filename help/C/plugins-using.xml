@@ -1,0 +1,38 @@
+<!-- <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"> -->
+
+<sect1 id="plugins-using">
+  <title>Using plugins</title>
+
+  <para>&app; has a special menu for plugins, where the active plugins
+  can make accessible its features. When a game is first created, only
+  the Plugin Navigator will be active, you can then activate the rest
+  with it.</para>
+
+  <para>The <emphasis>Plugin Navigator</emphasis> is the graphical
+  frontend of the plugin manager, a piece of software that manages all
+  available plugins for &gwp;. As you can see on <xref
+  linkend="fig_plugin-navigator"/>, the Plugin Navigator shows the
+  list of available plugins so that you can click on the toggle button
+  on the left to activate or deactivate as necessary.</para>
+
+  <figure id="fig_plugin-navigator">
+    <title>The Plugin Navigator, used to activate and deactivate
+    plugins</title>
+    <graphic fileref="figures/plugin-navigator.png"/>
+  </figure>
+
+  <para>When activated, a plugin can register its actions in various
+  forms, for example: it can register some action to be done when you
+  press some keystroke, or when a specific event is received, or even
+  when you select the action from the Plugins menu. Each plugin will
+  have its own kind of behaviour.</para>
+
+  <para>When closed, &app; will remember the list of active plugins
+  and will activate them at game load, so you don't have to.</para>
+
+  <para>If you want to add some plugin to &app;, you simply have to
+  create the <filename class="directory">~/.gwp/plugins/</filename>
+  directory, and place it there, it'll added to the Navigator on the
+  next execution.</para>
+</sect1>
