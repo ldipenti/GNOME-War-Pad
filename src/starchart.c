@@ -1131,6 +1131,65 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
 	gtk_label_set_markup (colonists, tmp);
 	g_free (tmp);
       }
+    } 
+    /* If we are orbiting the planet and is unowned ... */
+    else if (gwp_planet_is_unowned(a_planet)) {
+      tmp = g_strdup_printf ("%d", gwp_planet_get_mines (a_planet));
+      gtk_label_set_text (mines, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_factories (a_planet));
+      gtk_label_set_text (factories, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_defense_posts (a_planet));
+      gtk_label_set_text (defenses, tmp);
+      g_free(tmp);
+	
+      tmp = g_strdup_printf("%s (%d)", 
+			    gwp_planet_get_temperature_str (a_planet),
+			    gwp_planet_get_temperature_f (a_planet));
+      gtk_label_set_text(temperature, tmp);
+      g_free(tmp);
+	
+      tmp = g_strdup_printf ("%d", gwp_planet_get_mined_neutronium (a_planet));
+      gtk_label_set_text (neutronium, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_mined_tritanium (a_planet));
+      gtk_label_set_text (tritanium, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_mined_duranium (a_planet));
+      gtk_label_set_text (duranium, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_mined_molybdenum (a_planet));
+      gtk_label_set_text (molybdenum, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_supplies (a_planet));
+      gtk_label_set_text (supplies, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d", gwp_planet_get_megacredits (a_planet));
+      gtk_label_set_text (megacredits, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf ("%d (%d%%)", 
+			     gwp_planet_get_natives (a_planet),
+			     gwp_planet_get_happiness_natives (a_planet));
+      gtk_label_set_markup (natives, tmp);
+      g_free (tmp);
+      
+      tmp = g_strdup_printf("%s", 
+			    gwp_planet_get_natives_race_chars (a_planet));
+      gtk_label_set_text (natives_race, tmp);
+      g_free(tmp);
+      
+      tmp = g_strdup_printf("%s", gwp_planet_get_natives_spi_chars (a_planet));
+      gtk_label_set_text (spi, tmp);
+      g_free(tmp);
     }
   }
 }

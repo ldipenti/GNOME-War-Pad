@@ -317,6 +317,12 @@
   (return-type "gboolean")
 )
 
+(define-method is_unowned
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_is_unowned")
+  (return-type "gboolean")
+)
+
 (define-method what_is
   (of-object "GwpPlanet")
   (c-name "gwp_planet_what_is")

@@ -43,7 +43,7 @@ struct _GwpPlanetPrivate {
   gboolean is_known; /**< TRUE if we know the planet in any way. */
   GwpStarbase *starbase; /**< Pointer to a starbase orbiting the
 			    planet. NULL if the planet doesn't have one. */
-  gint16 owner; /**< Owner's race number. Range 1..11. */
+  gint16 owner; /**< Owner's race number. Range 1..11. 0 = unowned */
   GString *fcode; /**< Planet's friendly Code. Max 3 chars. */
   gint16 mines; /**< Mineral mines on planet. */
   gint16 factories; /**< Supplies factories on planet. */
@@ -166,7 +166,7 @@ static void gwp_planet_init (GTypeInstance *instance,
   /* private attributes init */
   self->priv->is_known = FALSE;
   self->priv->starbase = NULL;
-  self->priv->owner = 0;
+  self->priv->owner = -1;
   self->priv->fcode = g_string_new ("GWP");
   self->priv->mines = 0;
   self->priv->factories = 0;
@@ -537,11 +537,18 @@ gboolean gwp_planet_is_mine (GwpPlanet *self)
 {
   g_assert(GWP_IS_PLANET(self));
 
-  if(gwp_planet_what_is(self) == IS_MINE) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  return (gwp_planet_what_is(self) == IS_MINE);
+}
+
+/**
+ * Returns TRUE if planet is unowned.
+ */
+gboolean
+gwp_planet_is_unowned (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  return (gwp_planet_what_is(self) == IS_UNOWNED);
 }
 
 gint gwp_planet_what_is (GwpPlanet *self)
@@ -550,6 +557,8 @@ gint gwp_planet_what_is (GwpPlanet *self)
 
   if(gwp_planet_get_owner(self) == gwp_game_state_get_race(game_state)) {
     return IS_MINE;
+  } else if (gwp_planet_get_owner(self) == 0) {
+    return IS_UNOWNED;
   } else {
     return IS_ENEMY; // FIXME: Check for allied planets!!!
   }

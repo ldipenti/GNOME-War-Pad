@@ -80,6 +80,7 @@ gint gwp_planet_get_nat_growth_limit(GwpPlanet *self);
 GwpPlanet * gwp_planet_copy (GwpPlanet *self);
 GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id);
 gboolean gwp_planet_is_mine (GwpPlanet *self);
+gboolean gwp_planet_is_unowned (GwpPlanet *self);
 gint gwp_planet_what_is (GwpPlanet *self);
 gint16 gwp_planet_get_temperature_f (GwpPlanet *self);
 gchar * gwp_planet_get_temperature_str(GwpPlanet *self);
