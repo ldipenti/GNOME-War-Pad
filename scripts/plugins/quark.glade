@@ -15,8 +15,7 @@
   <property name="skip_pager_hint">False</property>
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <signal name="destroy" handler="gtk_main_quit" last_modification_time="Sun, 14 Nov 2004 21:50:19 GMT"/>
-  <signal name="delete_event" handler="on_window1_delete_event" last_modification_time="Sun, 14 Nov 2004 21:45:23 GMT"/>
+  <signal name="delete_event" handler="delete_event" last_modification_time="Wed, 26 Jan 2005 21:20:11 GMT"/>
 
   <child>
     <widget class="GtkHBox" id="hbox1">
@@ -32,7 +31,7 @@
 
 	  <child>
 	    <widget class="GtkCombo" id="cmb_filter">
-	      <property name="visible">True</property>
+	      <property name="sensitive">False</property>
 	      <property name="value_in_list">False</property>
 	      <property name="allow_empty">True</property>
 	      <property name="case_sensitive">False</property>

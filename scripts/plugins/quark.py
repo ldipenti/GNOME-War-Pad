@@ -9,7 +9,7 @@ import gtk.glade
 class Quark(gwp.Plugin):
     import quark_utils
     name = "Quark"
-    version = "0.1"
+    version = "0.15"
     author_name = "Cristian Abalos"
     author_email = "abalosc@gmail.com"
     desc_short = _("Help in the resources management")
@@ -19,7 +19,7 @@ class Quark(gwp.Plugin):
 
     FILTER_NONE = 1
     RUTA_QUARK_FILES = gwp.get_system_plugins_dir() + 'quark_files/'
-    natt = 'El latinio lo es todo!'
+    natt = ''
     prioridad_aviso = quark_utils.PRIORIDAD_AVISO_NINGUNO
     
     #--------------------------------------------------------------------------     
@@ -134,15 +134,15 @@ class Quark(gwp.Plugin):
 
                 limit = p.get_col_growth_limit()
                 tax, max_i = self.calculate_max_income_from_natives(p)
-                print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
+                #print "ANTES: Max: " + str(max_i) + " Limite: " + str(limit)
                 if (max_i < limit) or (max_i == 0):
                     # No interesa la temp, cobro poco
-                    print "Cobro poco"
+                    #print "Cobro poco"
                     return 0
                 else:
                     # La $$ cobrada es limitada por la temperatura
                     terraformado = p.copy()
-                    print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
+                    #print "ANTES : Max" + str(max_i) + " Limite: " + str(limit)
                     while max_i > limit:
                         if (terraformado.get_temperature_f() < 50):
                             terraformado.set_temperature(100 - (terraformado.get_temperature_f() + 1))
@@ -162,7 +162,6 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------
     def na_generar(self, p):
         """Genera los avisos que van al area de notificacion."""
-        print "Planeta elegido: " + p.get_name()
         self.natt = ''
         self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_NINGUNO,
                             self.natt)        
@@ -184,18 +183,15 @@ class Quark(gwp.Plugin):
             people = "Natives "        
             future_happ = self.calculate_future_happyness_natives(p)
         if future_happ < 1: # CIVIL WAR!
-            self.natt = people + "will be in CIVIL WAR the next turn\n\n"
+            self.natt = people + "will be in CIVIL WAR the next turn"
         elif future_happ < 30: # NO PAGAN
-            self.natt = people + "will not pay taxes the next turn\n\n"
+            self.natt = people + "will not pay taxes the next turn"
         elif future_happ < 40: # en 39 empieza el quilombo
-            self.natt = people + "will be RIOTING the next turn\n\n"
+            self.natt = people + "will be RIOTING the next turn"
         elif future_happ < 70: # en 69 dejan de crecer
-                self.natt = people + "will be UNHAPPY the next turn\n\n"
+                self.natt = people + "will be UNHAPPY the next turn"
         if self.natt:
             self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_ALTO, self.natt)
-            print self.natt
-        #else:
-        #    print people + "happyness dentro de los parametros en el planeta " + p.get_name()
         
     #--------------------------------------------------------------------------
     def na_verify_colonists(self, p_orig): # FIXME NOTIFICATION AREA
@@ -254,7 +250,6 @@ class Quark(gwp.Plugin):
         # Se imprime!
         if self.natt:
             self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_MEDIO, self.natt)
-            print self.natt
 
     #--------------------------------------------------------------------------
     
@@ -400,7 +395,8 @@ class Quark(gwp.Plugin):
         self.lst_minerals.set_model(self.store_minerals)
 
         # callbacks
-        self.cmb_filter.entry.connect("changed", self.filter_selected, None)
+        ## FIXME : USO DEL FILTER
+        #self.cmb_filter.entry.connect("changed", self.filter_selected, None)
         self.treeselection_planets.connect("changed", self.quark_planet_selected, None)
         #Comienzo la cascada de inicializaciones
         self.filter_load_data()
@@ -412,6 +408,7 @@ class Quark(gwp.Plugin):
         self.na = self.pm.get_plugin('NotificationArea')
         if self.na:
             self.quark_icon = gtk.Button()
+            self.quark_icon.connect("clicked", self.main_cb, None)
             self.i = gtk.Image()
             
             self.quark_icon.add(self.i) #agregado para que tenga alguna imagen (x el remove)
@@ -463,7 +460,6 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def notify(self, objeto, event):
-        print event
         if (event == 'plugin-registered') and (objeto.name == 'Notification Area'):
             #self.inicializar_interfaces() # Enlaza el notification area
             pass
@@ -486,13 +482,17 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------            
     def filter_load_data(self):
         # Cargo el filtro con un arreglo que tiene los tipos de filtro.
-        self.cmb_filter.set_popdown_strings(self.quark_utils.filter_list)
+        #self.cmb_filter.set_popdown_strings(self.quark_utils.filter_list)
+        ## FIXME : USO DEL FILTER
+        pass
 
     #--------------------------------------------------------------------------    
     def filter_init_selection(self):
         """ Seteo el filtro por defecto, cargo la lista con los planetas
         correspondientes y llamo al inicializador de la lista de planetas."""
-        filter = self.get_filter(self.cmb_filter.entry.get_text())
+        ## filter = self.get_filter(self.cmb_filter.entry.get_text())
+        ## FIXME : USO DEL FILTER
+        filter = None
         self.planets_load_list(filter)
         self.planets_init_selection()
         
@@ -623,7 +623,8 @@ class Quark(gwp.Plugin):
         
     #--------------------------------------------------------------------------
     def main(self):
-        """Muestra la ventana del plugin y moienza el loop de eventos"""
+        """Muestra la ventana del plugin y comienza el loop de eventos"""
+        self.planets_init_selection()
         self.window.show_all()
         gtk.main()
 

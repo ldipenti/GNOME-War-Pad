@@ -31,7 +31,8 @@ RECAUDADOR_MIN_MC = 500
 
 def widgets_make_link(self):
     self.window = self.main_window.get_widget('window1')
-    self.cmb_filter =  self.main_window.get_widget('cmb_filter')
+    ## FIXME : USO DEL FILTER
+    #self.cmb_filter =  self.main_window.get_widget('cmb_filter')
     self.lst_planets =  self.main_window.get_widget('lst_planets')
     self.lst_minerals =  self.main_window.get_widget('lst_minerals')
     #TextView
