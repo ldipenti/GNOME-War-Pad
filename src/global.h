@@ -43,8 +43,8 @@
 #define MOUSE_INTERLEAVE 5
 #define MAX_PLANETS 500
 #define MAX_SHIPS 500
-#define SCANNER_RANGE 300 /* FIXME: this is the default value */
-#define SCANNER_RANGE_COLOR 0x303b66ff
+#define SHIP_VISIBLE_RANGE_COLOR 0x303b66ff
+#define SCANNER_RANGE_COLOR 0x4f5c82ff
 #define XYPLAN "xyplan.dat"
 #define PNAMES "PLANET.NM"
 #define STARCHART_X_MIN 1000

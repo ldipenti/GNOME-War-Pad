@@ -957,3 +957,23 @@ gwp_game_state_get_host_tax_rate (GwpGameState *self, gint race)
   g_return_val_if_fail (race > 0 && race <= 11, 0);
   return self->priv->host_tax_rate[race-1];
 }
+
+/**
+ * Return Host's ships visible range setting in LY.
+ */
+gint
+gwp_game_state_get_host_ships_visible_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_ships_visible_range;
+}
+
+/**
+ * Return Host's ships sensors range setting in LY.
+ */
+gint 
+gwp_game_state_get_host_sensors_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_sensors_range;  
+}

@@ -1379,17 +1379,34 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 				      "fill_color_rgba", OWNED_SHIP_COLOR, 
 				      NULL);
 
-	/* Add ship scanner range */
+	/* Add ship visible range */
+	gint scanner_range = gwp_game_state_get_host_ships_visible_range (game_state);
 	gnome_canvas_item_new (starchart_get_grp_scanner_area (),
 			       GNOME_TYPE_CANVAS_ELLIPSE,
-			       "outline_color_rgba", SCANNER_RANGE_COLOR,
-			       "fill_color_rgba", SCANNER_RANGE_COLOR,
-			       "x1", xi - SCANNER_RANGE,
-			       "y1", yi - SCANNER_RANGE,
-			       "x2", xi + SCANNER_RANGE,
-			       "y2", yi + SCANNER_RANGE,
+			       "outline_color_rgba", SHIP_VISIBLE_RANGE_COLOR,
+			       "fill_color_rgba", SHIP_VISIBLE_RANGE_COLOR,
+			       "x1", xi - scanner_range,
+			       "y1", yi - scanner_range,
+			       "x2", xi + scanner_range,
+			       "y2", yi + scanner_range,
 			       "width_pixels", 1,
 			       NULL);
+
+	/* Add sensor sweep range (if active) */
+	if (gwp_ship_get_mission(ship) == MISSION_SENSOR_SWEEP) {
+	  gint sensor_range = gwp_game_state_get_host_sensors_range (game_state);
+	  gnome_canvas_item_new (starchart_get_grp_scanner_area (),
+				 GNOME_TYPE_CANVAS_ELLIPSE,
+				 "outline_color_rgba", SCANNER_RANGE_COLOR,
+				 "fill_color_rgba", SCANNER_RANGE_COLOR,
+				 "x1", xi - sensor_range,
+				 "y1", yi - sensor_range,
+				 "x2", xi + sensor_range,
+				 "y2", yi + sensor_range,
+				 "width_pixels", 1,
+				 NULL);
+	}
+
       } else {
 	item = gnome_canvas_item_new (ships_group, 
 				      GNOME_TYPE_CANVAS_POLYGON,
@@ -1580,14 +1597,15 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     if (gwp_planet_is_mine(planet)) {
 
       /* Add planet scanner range */
+      gint scanner_range = gwp_game_state_get_host_ships_visible_range (game_state);
       gnome_canvas_item_new (starchart_get_grp_scanner_area (),
 			     GNOME_TYPE_CANVAS_ELLIPSE,
-			     "outline_color_rgba", SCANNER_RANGE_COLOR,
-			     "fill_color_rgba", SCANNER_RANGE_COLOR,
-			     "x1", xi - SCANNER_RANGE,
-			     "y1", yi - SCANNER_RANGE,
-			     "x2", xi + SCANNER_RANGE,
-			     "y2", yi + SCANNER_RANGE,
+			     "outline_color_rgba", SHIP_VISIBLE_RANGE_COLOR,
+			     "fill_color_rgba", SHIP_VISIBLE_RANGE_COLOR,
+			     "x1", xi - scanner_range,
+			     "y1", yi - scanner_range,
+			     "x2", xi + scanner_range,
+			     "y2", yi + scanner_range,
 			     "width_pixels", 1,
 			     NULL);
 
