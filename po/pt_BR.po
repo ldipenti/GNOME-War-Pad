@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-09 10:35-0300\n"
+"POT-Creation-Date: 2005-04-05 16:12-0300\n"
 "PO-Revision-Date: 2005-03-09 10:38-0300\n"
 "Last-Translator: Carlos Henrique G. Paulino <chgp@minaslivre.org>\n"
 "Language-Team: ONG MinasLivre <www.minaslivre.org>\n"
@@ -44,12 +44,12 @@ msgstr ","
 #: ../src/starchart.c:270 ../src/starchart.c:271 ../src/starchart.c:272
 #: ../src/starchart.c:273 ../src/starchart.c:436 ../src/starchart.c:606
 #: ../src/starchart.c:656 ../src/starchart.c:707 ../src/starchart.c:710
-#: ../src/starchart.c:713 ../src/starchart.c:1143 ../src/starchart.c:1144
-#: ../src/starchart.c:1145 ../src/starchart.c:1146 ../src/starchart.c:1147
-#: ../src/starchart.c:1149 ../src/starchart.c:1150 ../src/starchart.c:1151
-#: ../src/starchart.c:1152 ../src/starchart.c:1153 ../src/starchart.c:1155
-#: ../src/starchart.c:1156 ../src/starchart.c:1157 ../src/starchart.c:1158
-#: ../src/starchart.c:1159 ../src/starchart.c:1160
+#: ../src/starchart.c:713 ../src/starchart.c:1152 ../src/starchart.c:1153
+#: ../src/starchart.c:1154 ../src/starchart.c:1155 ../src/starchart.c:1156
+#: ../src/starchart.c:1158 ../src/starchart.c:1159 ../src/starchart.c:1160
+#: ../src/starchart.c:1161 ../src/starchart.c:1162 ../src/starchart.c:1164
+#: ../src/starchart.c:1165 ../src/starchart.c:1166 ../src/starchart.c:1167
+#: ../src/starchart.c:1168 ../src/starchart.c:1169
 msgid "--"
 msgstr "--"
 
@@ -384,7 +384,7 @@ msgstr "Raios:"
 msgid "Build ship"
 msgstr "Construir nave"
 
-#: ../src/gwp.glade.h:88 ../scripts/plugins/magallanes.py:458
+#: ../src/gwp.glade.h:88 ../scripts/plugins/magallanes.py:456
 msgid "Cargo"
 msgstr "Carregamento"
 
@@ -392,7 +392,7 @@ msgstr "Carregamento"
 msgid "Construction"
 msgstr "Construção"
 
-#: ../src/gwp.glade.h:90 ../scripts/plugins/magallanes.py:455
+#: ../src/gwp.glade.h:90 ../scripts/plugins/magallanes.py:453
 msgid "Crew"
 msgstr "Tripulação"
 
@@ -496,7 +496,7 @@ msgstr "Email do host:"
 msgid "Host Type:"
 msgstr "Tipo do host:"
 
-#: ../src/gwp.glade.h:116 ../scripts/plugins/magallanes.py:453
+#: ../src/gwp.glade.h:116 ../scripts/plugins/magallanes.py:451
 msgid "Hull"
 msgstr "Casco"
 
@@ -686,7 +686,7 @@ msgid "Ship List"
 msgstr "Lista de naves"
 
 #. Columns Lista Naves
-#: ../src/gwp.glade.h:162 ../scripts/plugins/magallanes.py:450
+#: ../src/gwp.glade.h:162 ../scripts/plugins/magallanes.py:448
 msgid "Ships"
 msgstr "Naves"
 
@@ -843,50 +843,54 @@ msgid "_Ion storms"
 msgstr "Tempestade iônica"
 
 #: ../src/gwp.glade.h:201
+msgid "_Make turn"
+msgstr ""
+
+#: ../src/gwp.glade.h:202
 msgid "_Mine fields"
 msgstr "Campos _minados"
 
-#: ../src/gwp.glade.h:202
+#: ../src/gwp.glade.h:203
 msgid "_New"
 msgstr "_Novo"
 
-#: ../src/gwp.glade.h:203
+#: ../src/gwp.glade.h:204
 msgid "_New Game"
 msgstr "_Novo Jogo"
 
-#: ../src/gwp.glade.h:204
+#: ../src/gwp.glade.h:205
 msgid "_Online Help"
 msgstr "_Ajuda online"
 
-#: ../src/gwp.glade.h:205
+#: ../src/gwp.glade.h:206
 msgid "_Planet names"
 msgstr "Nomes de planetas"
 
-#: ../src/gwp.glade.h:206
+#: ../src/gwp.glade.h:207
 msgid "_Play"
 msgstr "_Jogar"
 
-#: ../src/gwp.glade.h:207
+#: ../src/gwp.glade.h:208
 msgid "_Play Game"
 msgstr "Jogar _partida"
 
-#: ../src/gwp.glade.h:208
+#: ../src/gwp.glade.h:209
 msgid "_Random"
 msgstr "_Aleatório"
 
-#: ../src/gwp.glade.h:209
+#: ../src/gwp.glade.h:210
 msgid "_Scanner area"
 msgstr "Area do _Scanner"
 
-#: ../src/gwp.glade.h:210
+#: ../src/gwp.glade.h:211
 msgid "_Unpack"
 msgstr "Desempaco_tar"
 
-#: ../src/gwp.glade.h:211
+#: ../src/gwp.glade.h:212
 msgid "n/a kT/turn"
 msgstr "n/d kT/turno"
 
-#: ../src/gwp.glade.h:212
+#: ../src/gwp.glade.h:213
 msgid "n/m"
 msgstr "n/d"
 
@@ -924,11 +928,18 @@ msgstr ""
 "Um cliente VGA Planets para a plataforma GNOME\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
 
-#: ../src/callbacks.c:1051
+#: ../src/callbacks.c:664
+#, c-format
+msgid ""
+"Turn ready!\n"
+"%d commands done."
+msgstr ""
+
+#: ../src/callbacks.c:1075
 msgid "No Python support enabled."
 msgstr "O suporte a Python esta desligado "
 
-#: ../src/callbacks.c:1052
+#: ../src/callbacks.c:1076
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
@@ -1070,67 +1081,71 @@ msgstr "%d kT/turno (%d turnos)"
 msgid "%d <span foreground=\"red\">(%d)</span> MC"
 msgstr "%d <span foreground=\"red\">(%d)</span> MC"
 
-#: ../src/starchart.c:1193
+#: ../src/starchart.c:1138 ../src/gwp-planet.c:737 ../src/gwp-planet.c:764
+msgid "none"
+msgstr "nenhum"
+
+#: ../src/starchart.c:1202
 msgid "Nobody"
 msgstr ""
 
 #. Update distance
-#: ../src/starchart.c:1296
+#: ../src/starchart.c:1305
 #, c-format
 msgid "%.2f LY"
 msgstr "%.2f AL"
 
 #. Update fuel usage
 #. Update mass
-#: ../src/starchart.c:1301 ../src/starchart.c:1306
+#: ../src/starchart.c:1310 ../src/starchart.c:1315
 #, c-format
 msgid "%d KT"
 msgstr "%d KT"
 
-#: ../src/starchart.c:1313
+#: ../src/starchart.c:1322
 msgid "<span foreground=\"red\">never</span>"
 msgstr "<span foreground=\"red\">nunca</span>"
 
-#: ../src/starchart.c:1317
+#: ../src/starchart.c:1326
 #, c-format
 msgid "%d turn"
 msgstr "%d turno"
 
-#: ../src/starchart.c:1319
+#: ../src/starchart.c:1328
 #, c-format
 msgid "%d turns"
 msgstr "%d turnos"
 
-#: ../src/starchart.c:1351
+#: ../src/starchart.c:1360
 msgid "not moving"
 msgstr "parado"
 
 #. Update speed
-#: ../src/starchart.c:1357
+#: ../src/starchart.c:1366
 #, c-format
 msgid "Warp %d"
 msgstr "Warp %d"
 
-#: ../src/starchart.c:1423
+#: ../src/starchart.c:1432
 #, c-format
 msgid "%d %s in %s"
 msgstr "%d %s em %s"
 
-#: ../src/starchart.c:2425
+#: ../src/starchart.c:2434
 #, c-format
 msgid "Distance: %.2f LY"
 msgstr "Distância: %.2f AL"
 
-#: ../src/starchart.c:2490
+#: ../src/starchart.c:2499
 msgid "Name"
 msgstr "Nome"
 
-#: ../src/vp_utils.c:996
+#: ../src/vp_utils.c:939
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr "Arquivo KORE%d.DAT, não encontrado, alguns dados não serão exibidos."
 
-#: ../src/vp_utils.c:998
+#: ../src/vp_utils.c:941
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
 "about ion storms and minefields, but couldn't be found in this case. This is "
@@ -1223,15 +1238,15 @@ msgstr ""
 "O arquivo MDATA não foi encontrado, pode ser necessário ler as mensagens do "
 "jogo,por favor confira sua instalação."
 
-#: ../src/game_mgr.c:1116
+#: ../src/game_mgr.c:1118
 msgid "no games"
 msgstr "sem jogos"
 
-#: ../src/game_mgr.c:1118
+#: ../src/game_mgr.c:1120
 msgid "1 game"
 msgstr "1 game"
 
-#: ../src/game_mgr.c:1120
+#: ../src/game_mgr.c:1122
 #, c-format
 msgid "%d games"
 msgstr "%d jogos"
@@ -1380,10 +1395,6 @@ msgstr "Ártico"
 #: ../src/gwp-planet.c:631 ../scripts/plugins/magallanes.glade.h:37
 msgid "n/a"
 msgstr "n/d"
-
-#: ../src/gwp-planet.c:737 ../src/gwp-planet.c:764
-msgid "none"
-msgstr "nenhum"
 
 #: ../src/gwp-planet.c:738
 msgid "Humanoid"
@@ -1643,48 +1654,48 @@ msgstr "Boa Sorte ...\n"
 msgid "_Plugins"
 msgstr "_Plugins"
 
-#: ../scripts/plugins/magallanes.py:14
+#: ../scripts/plugins/magallanes.py:12
 msgid "Utility for viewing the ships characteristics"
 msgstr "Utilitário para ver as características das naves"
 
 #. Columns Comparacion
-#: ../scripts/plugins/magallanes.py:452
+#: ../scripts/plugins/magallanes.py:450
 msgid "Race"
 msgstr "Raça:"
 
-#: ../scripts/plugins/magallanes.py:454
+#: ../scripts/plugins/magallanes.py:452
 msgid "Mass"
 msgstr "Massa"
 
-#: ../scripts/plugins/magallanes.py:456
+#: ../scripts/plugins/magallanes.py:454
 msgid "Beam (tech)"
 msgstr "Raio (tec.)"
 
-#: ../scripts/plugins/magallanes.py:457
+#: ../scripts/plugins/magallanes.py:455
 msgid "T/F (tech)"
 msgstr "T/F (tec.)"
 
-#: ../scripts/plugins/magallanes.py:459
+#: ../scripts/plugins/magallanes.py:457
 msgid "Fuel"
 msgstr "Combustível"
 
-#: ../scripts/plugins/magallanes.py:460
+#: ../scripts/plugins/magallanes.py:458
 msgid "Eng (wp)"
 msgstr "Eng (wp)"
 
-#: ../scripts/plugins/magallanes.py:461
+#: ../scripts/plugins/magallanes.py:459
 msgid "MC"
 msgstr "MC"
 
-#: ../scripts/plugins/magallanes.py:462
+#: ../scripts/plugins/magallanes.py:460
 msgid "Tri"
 msgstr "Tri"
 
-#: ../scripts/plugins/magallanes.py:463
+#: ../scripts/plugins/magallanes.py:461
 msgid "Dur"
 msgstr "Dur"
 
-#: ../scripts/plugins/magallanes.py:464
+#: ../scripts/plugins/magallanes.py:462
 msgid "Mol"
 msgstr "Mol"
 
