@@ -116,7 +116,9 @@ class PluginNavigator(gwp.Plugin):
         gtk.main()
 
     def register(self, pm):
-        pm.set_hook_key('.', self.__main)
+        pm.set_hook_key(gtk.gdk.CONTROL_MASK,
+                        gtk.gdk.keyval_from_name('p'),
+                        self.__main)
 
 
 #####

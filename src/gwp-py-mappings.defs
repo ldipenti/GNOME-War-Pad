@@ -3111,6 +3111,16 @@
   (return-type "void*")
 )
 
+(define-function get_truehull
+  (c-name "get_truehull")
+  (return-type "void*")
+)
+
+(define-function get_race_name
+  (c-name "get_race_name")
+  (return-type "void*")
+)
+
 
 
 ;; From src/gwp-ui.h
