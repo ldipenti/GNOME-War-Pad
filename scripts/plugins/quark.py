@@ -52,8 +52,12 @@ class Quark(gwp.Plugin):
     def quark_planet_selected(self, treeselection, data=None):
         (model, iter) = treeselection.get_selected()
         try:
-            id = self.store_planets.get_value(iter,0)
-            self.planet_load_data(id)
+            pid = self.store_planets.get_value(iter,0)
+            p = gwp.planet_get_by_id(pid)
+            s = gwp.Starchart()
+            s.select_nearest_planet(p.get_x_coord(), p.get_y_coord())
+            s.center_around(p)
+            self.planet_load_data(pid)
             pass
         except TypeError:
             #print "Type Error al elegir planeta" 
@@ -155,13 +159,9 @@ class Quark(gwp.Plugin):
         if p.get_natives(): # SI no hay nativos no tiene sentido esto  
             #Hago todos los calculos
             col_faltan_tax = self.calculate_missing_colonists_tax_natives(p)
-            print "tax ", col_faltan_tax
             col_faltan_sup = self.calculate_missing_colonists_supplies(p)
-            print "sup ", col_faltan_sup
             tax, max_i = self.calculate_max_income_from_natives(p)
-            print "tax ", tax, "max ", max_i
             dif = max_i - p.get_tax_collected_natives()
-            print dif
             if dif < 0:
                 dif = 0
             
@@ -209,7 +209,7 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------    
     def calculate_max_income_from_natives(self, p):
         """ Determino el maximo que se puede cobrar (con una copia del planeta)
-        devuelve (impuesto, cantidad_MC) """
+        devuelve (% de impuesto, cantidad de MC) """
         future_p = p.copy()
         future_p.set_colonists(1000) # suficientemente grande para evitar problemas
         tax = 1
