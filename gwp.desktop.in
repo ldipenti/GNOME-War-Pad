@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Name=gwp Version 0.1
+Comment=No comment
+Exec=gwp
+Icon=@PACKAGE_PIXMAPS_DIR@/ 
+Terminal=false
+MultipleArgs=false
+Type=Application
+

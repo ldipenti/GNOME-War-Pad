@@ -1,0 +1,111 @@
+/*
+ *  Gnome War Pad: A VGA Planets Client for Gnome
+ *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Library General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#define GTK_DISABLE_DEPRECATED
+#define GNOME_DISABLE_DEPRECATED
+
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
+#include <gnome.h>
+#include <glade/glade.h>
+
+#include "game_state.h"
+#include "gwp_types.h"
+
+/* 
+ * Defines
+ */
+#define MAX_PLANETS 500
+#define MAX_SHIPS 500
+#define XYPLAN "xyplan.dat"
+#define PNAMES "PLANET.NM"
+#define STARCHART_X_MIN 1000
+#define STARCHART_X_MAX 3000
+#define STARCHART_Y_MIN 1000
+#define STARCHART_Y_MAX 3000
+#define STARCHART_WIDTH_INT (STARCHART_X_MAX - STARCHART_X_MIN)
+#define STARCHART_WIDTH ((gdouble) STARCHART_WIDTH_INT)
+#define CANVAS_WIDTH 3000.0
+#define CANVAS_WIDTH_INT 3000
+#define CANVAS_OFFSET ((CANVAS_WIDTH - STARCHART_WIDTH) / 2.0)
+#define CANVAS_OFFSET_INT ((CANVAS_WIDTH_INT - STARCHART_WIDTH_INT) / 2)
+#define QUAD_WIDTH 100.0
+#define QUAD_WIDTH_INT 100
+#define QUAD_PER_LINE (CANVAS_WIDTH_INT / QUAD_WIDTH_INT)
+#define TOTAL_QUADS (QUAD_PER_LINE * QUAD_PER_LINE)
+
+#define SHIP_VALID_COORD_MARGIN 150
+#define SHIP_VALID_X_MAX (3000 + SHIP_VALID_COORD_MARGIN)
+#define SHIP_VALID_X_MIN (1000 - SHIP_VALID_COORD_MARGIN)
+#define SHIP_VALID_Y_MAX (3000 + SHIP_VALID_COORD_MARGIN)
+#define SHIP_VALID_Y_MIN (1000 - SHIP_VALID_COORD_MARGIN)
+
+#define IS_MINE 1
+#define IS_ENEMY 2
+#define IS_ALLIED 3
+#define IS_UNOWNED 4
+
+#define PLANET_RADIUS 1.0
+#define SHIP_RADIUS 1.0
+#define HIGHLIGHTED_PLANET_RADIUS 4.0
+#define HIGHLIGHTED_SHIP_RADIUS 1.0
+
+#define HIGHLIGHTED_OWNED_PLANET_COLOR "yellow"
+#define HIGHLIGHTED_OWNED_SHIP_COLOR "light sky blue"
+#define OWNED_PLANET_COLOR "green"
+#define OWNED_SHIP_COLOR "slate blue"
+#define HIGHLIGHTED_PLANET_COLOR "white"
+#define HIGHLIGHTED_SHIP_COLOR "light pink"
+#define SHIP_COLOR "red"
+#define PLANET_COLOR "gray60"
+#define QUADRANT_GRID_COLOR "gray30"
+#define UNIVERSE_COLOR "black"
+
+#define PANEL_PLANET_PAGE 0
+#define PANEL_SHIP_PAGE 1
+#define PANEL_MISC_PAGE 2
+#define MOUSE_INTERLEAVE 5
+#define SCROLL 20
+
+// Global vars
+GHashTable *planet_list;
+GHashTable *ship_list;
+GHashTable *target_list;
+GHashTable *fleet_list;
+
+// Canvas items
+GSList *planets_per_quad[TOTAL_QUADS];
+GSList *ships_per_quad[TOTAL_QUADS];
+// Real data
+GSList *planets_data_per_quad[TOTAL_QUADS];
+GSList *ships_data_per_quad[TOTAL_QUADS];
+
+GList *xyplanet_list;
+GList *shipxy_list;
+
+// Various widgets
+GtkWidget *gwp, *gwp_select_race_dialog;
+GladeXML *xml_interface;
+
+// GWP structures
+Starchart starchart;
+GameState game_state;
+
+#endif

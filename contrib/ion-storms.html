@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>Ion Storm Physics</title>
+ </head>
+ <body bgcolor="#000000" text="#FFFFFF" link="#FFFF80" vlink="#FFAA55" background="images/stars2.gif">
+
+  <table align=right width=320>
+   <tr><td width=320><img src="images/ion.gif" align=right alt="[Fancy image of a Lady Royale inside a storm]">
+   <tr><td width=320><small>"If it was a good idea to show our tourists a storm from the inside?"</small>
+  </table>
+  <h1>Ion Storm Physics</h1>
+
+  <p>Ion storm formulas are probably among the least known in the
+   Planets community. So, like others sat down to reveal the exact
+   population growth rules, I did my best to find out the Storm
+   formulas. And because many people until now requested them, I
+   decided to write them down here. Enjoy!</p>
+
+  <h2>General</h2>
+
+  <p>Ion storms are circular subspace disturbances that move rather
+   randomly through the Cluster and affect ships. They are
+   characterized by a <em>position</em>, <em>heading</em> (specified
+   in degrees, like ship headings), <em>voltage</em> (strength of the
+   storm, measured in MeV), and a <em>radius</em> (size of the
+   disturbance in light years); and a storm can be either
+   <em>growing</em> or <em>weakening</em>.</p>
+
+  <p>Growing storms always have odd voltages, weakening ones have even 
+   voltages. This means that adding one to the voltage changes the
+   storm's status.</p>
+
+  <p>Ion storms are grouped in classes, depending on their strength
+   (voltage):
+  <center>
+   <table border>
+    <tr><th>Voltage<th>Class<th>De-cloak?<th>Damage
+    <tr><td align=right>0 .. 49 MeV<td>Class 1 (harmless)<td
+      rowspan=3>Yes<td rowspan=3>No
+    <tr><td align=right>50 .. 99 MeV<td>Class 2 (moderate)
+    <tr><td align=right>100 .. 149 MeV<td>Class 3 (strong)
+    <tr><td align=right>150 .. 199 MeV<td>Class 4 (dangerous)<td
+      rowspan=2>Yes<td rowspan=2>Yes
+    <tr><td align=right>more than 200 MeV<td>Class 5 (very dangerous)
+   </table>
+  </center>
+ </p>
+
+  <h2>Movement of Ion Storms</h2>
+
+  <p>The speed of the storm is determined using the first matching
+   rule of the following:</p>
+  <ul>
+   <li>In Host 3.22.003 and later, storms with more than 250 MeV
+    always move at Warp 8.</li>
+   <li>Storms smaller than 200 ly move at Warp 6.</li>
+   <li>For other storms, a dice is rolled. The storm moves at Warp 2
+    with a 20% chance, Warp 3 with 48%, and Warp 4 32% of all
+    times.</li>
+  </ul>
+
+  <p>The storm now moves, using the heading reported in the Ion
+   Advisory messages, and the usual movement rules (travelled way =
+   square of Warp).<p>
+
+  <p>The heading for the storm to take next turn is random, between
+   +10 and -10 degrees from the current heading. The new heading is
+   reported to players. The reported Warp speed is worthless, at least 
+   for the third category above: it will change until the storm moves
+   next time.</p>
+
+  <h2>Growing Storms</h2>
+
+  <p>All storms start as growing storms, with an odd voltage. Each
+   turn, the voltage increases by a random amount between 0 and 10
+   MeV (in steps of 2). The radius decreases by 0..3 ly.  If a storm's 
+   radius gets negative, the storm gets weakening by receiving one extra
+   MeV; the new radius is then <code>1&nbsp;-&nbsp;Radius</code>.</p>
+
+  <p>Growing storms may turn in to weakening ones. This is done by
+   increasing their voltage by one. The chances for doing so are, in
+   each turn</p>
+  <ul>
+   <li>1% (for all storms)</li>
+   <li>2.5% if the voltage is more than 320 MeV</li>
+   <li>10% if the voltage is more than 500 MeV</li>
+  </ul>
+  <p>Note that each storm gets <em>all</em> applying chances in
+   series, so it can happen that a 400 MeV storm increases by 2 MeV
+   because it ``won'' both the 1% and the 2.5% chance.</p>
+
+  <h2>Weakening Storms</h2>
+
+  <p>Each turn, the voltage is reduced by 4 to 14 MeV, in steps of
+   2. Should the voltage drop to zero or less, the storm
+   disappears.</p>
+
+  <p>The documentation describes the <em>pancaking effect</em>. This
+   happens at a chance of 3.33% per turn: pancaking storms have their
+   radius doubled, and their new voltage is the square root of the
+   original voltage.</p>
+
+  <p>The storm size increases by a random amount between 0 and 10 ly
+   each turn, after the above effects happened.</p>
+
+  <h2>Ion Storms Merging</h2>
+
+  <p>If two storms come close enough, they merge into one. If two
+   storms are close enough for this is determined by the following
+   formula:<br>
+   &nbsp;&nbsp;<tt>(x1 - x2)<sup>2</sup> + (y1 - y2)<sup>2</sup> &lt;
+    (radius1)<sup>2</sup> + (radius2)<sup>2</sup></tt><br>
+   Note that there is no real geometric interpretation for this
+   formula. While the left side is the squared distance of the ion
+   storm centers, the right side doesn't make sense. If we'd like to
+   express that the storms just touch (like enemy minefields which can 
+   touch, but not overlap), the right side had to read <tt>(radius1 +
+    radius2)<sup>2</sup></tt>; if we'd want to express that one center 
+   were inside the other storm, we'd compare to
+   <tt>(radius1)<sup>2</sup></tt> and <tt>(radius2)<sup>2</sup></tt>
+   in two equations. To cut a long story short, storms have to overlap 
+   somewhat to merge, but they need not cover each other completely.</p>
+
+  <p>In addition, one of the storms must be stronger than the other
+   (greater voltage); two storms of equal power do not merge.</p>
+
+  <p>Once we know that two storms merge, we have to compute the new
+   position and size of the storm. It will keep the same Id number,
+   warp factor and heading like the stronger of the two storms.
+   The new center lies on the line between the two original centers,
+   where<br>
+   &nbsp;&nbsp;<tt>(new x) = x1 + (x2 - x1) * (voltage1) / (voltage1 + 
+    voltage2)</tt><br>
+   or, simplified,<br>
+   &nbsp;&nbsp;<tt>(new x) = ((x1*voltage2) + (x2*voltage1)) / (voltage1 
+    + voltage2)</tt><br>
+   The formula for the Y coordinates is the same with Y instead of
+   X. You may have noticed that this pulls the new center towards the
+   weaker(!) storm, not towards the stronger one like one could
+   guess.</p>
+
+  <p>The new voltage of the storm is <tt>(voltage of stronger storm) +
+    sqrt(voltage of weaker storm)</tt> (with <tt>sqrt</tt> = square
+   root), likewise for the new radius <tt>(radius of stronger storm) +
+    sqrt(voltage of weaker storm)</tt>. From these equations, it
+   follows implicitly whether the new storm grows or weakens.</p>
+
+  <p>Merging of storms happens after movement, but before the ship
+   effects and before generation of new storms.</p>
+
+  <h2>Ship Effects</h2>
+
+  <p>Ion storms affect ships. All ion storms, no matter how
+   weak, de-cloak ships. Only the advanced cloakers are safe from
+   this.</p>
+
+  <p>Storms with 150 MeV or more affect uncloaked ships.
+   That is, only advanced cloakers can safely travel through such an
+   ion storm -- cloaked.</p>
+
+  <p>Ships are affected if they're inside the
+   storm <em>after</em> the storm moved, but before they moved
+   themselves (all Ion storm related things are quite early in the
+   host order).</p>
+  
+  <ul>
+   <li>Ships are pulled 75% if the way the storm travels. That is, a
+    Warp 4 storm pulls ships 12 ly. This can be used for <em>ion storm
+     surfing</em>: if your ship is heavy and/or experienced, or the
+    storm is weak enough (but has at least 150 MeV!), you can move
+    into the storm and have your ship pushed by it. This way, you can
+    manage to travel more than 81 ly a turn. Ships move their 75% even
+    when they're outside the storm afterwards.<br>
+    Because ships are affected after storm movement, ships are pulled
+    along the new heading, although the storm may have moved into a
+    different direction.</li>
+   <li>Ships are damaged: The damage taken is
+    <tt>Storm_Voltage&nbsp;-&nbsp;Ship_Mass&nbsp;-&nbsp;Ship_Experience&nbsp;+&nbsp;20*(10-Ship_Engine)</tt>
+    (in damage points, i.e., percent). This value increases by 50 if
+    the ship doesn't have fuel.</li>
+   <li>If the above causes the ship to take damage, it also loses crew:
+    <tt>Storm_Voltage&nbsp;-&nbsp;Ship_Mass&nbsp;-&nbsp;2*Ship_Experience&nbsp;+&nbsp;0.3*Ship_Crew</tt></li>
+  </ul>
+
+  <p>Note that the <tt>Ship_Mass</tt> seems to be the mass of the
+   ship <em>at the beginning of the turn</em>, that is, the same
+   as it was in your last RST. So load your ships with cargo
+   early, not in the same turn you enter the storm.</p>
+
+  <p>Ships in an ion storm get experience. You get one experience
+   point for every 20 MeV the storm has more than 140 MeV, that is
+   storms with 160 to 179 MeV yield 1 experience point, 180 to 199
+   gives two, and so on.</p>
+
+  <h2>Other Effects</h2>
+  
+  <p>Storms outside the range (0,0)-(4000,4000) disappear the turn
+   after they moved there. It is possible (though not very likely) to
+   have storms at coordinates usually considered invalid: I already
+   had a storm with a negative X.</p>
+
+  <p>If there are more storms than the Host Configuration allows, the
+   weakest ones disappear.</p>
+
+  <p>Newly generated storms may have different warp factors reported
+   (Warp 5 and Warp 7 are not possible according to the above
+   rules). However, reported warp factors are worthless anyway as Host 
+   re-computes them before actual storm movement. Up to three new
+   storms can be born per turn.</p>
+
+  <p>When I say <cite>random value between A and B</cite>, the border
+   cases are less likely than the others due to rounding effects.</p>
+
+  <h2>Other Resources</h2>
+
+  <p>Manuel Fernandes Alonso has a
+   <a href="http://www.arrakis.es/~alfema/vgaplanets/ion_storms.htm">Spanish translation</a>
+   of this page in the <a href="http://www.arrakis.es/~alfema/vgaplanets/">Spanish
+   VGA planets FAQ</a>.</p>
+
+  <p><a href="http://www.xs4all.nl/~donovan/help/index.htm">Donovan's
+   help pages</a> contain a
+   <a href="http://www.xs4all.nl/~donovan/help/ionstorms.htm">section
+   on ion storms</a>.</p>
+      
+  <h2>Disclaimer</h2>
+
+  <p>This information is by no means official. It is believed to be
+   mostly correct, but may still contain off-by-one errors or worse.
+   I have not run extensive test games to verify it.</p>
+
+  <p><a href="pcc.html">PCC</a> implements an Ion Storm Forecast
+   showing basic usage of this information. I've been told that
+   EchoView will also support Ion Storm Forecast.</p>
+
+  <hr width="20%">
+
+  <center>Thanks to Akseli M&auml;ki and Stefan Glasauer for pushing me
+   further again and again in this analysis.</center>
+
+  <hr>
+  <center>
+   Go to<br>
+   [ <a href="vgapage.html">My VGA Planets Page</a>
+   | <a href="playutil.html">My player utilities</a>
+   | <a href="index.html">My Home Page</a> ]
+  </center>
+  
+  <hr>
+  <address>
+   Mail comments, bug reports, questions to
+   <a href="mailto:Streu@gmx.de">Streu@gmx.de</a>
+  </address>
+<!-- hhmts start -->
+Last modified: Wed Sep 12 17:56:22 CEST 2001
+<!-- hhmts end -->
+</body>
+</html>

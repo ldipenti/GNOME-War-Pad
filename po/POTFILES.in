@@ -1,0 +1,32 @@
+# List of source files containing translatable strings.
+
+## Created by Anjuta - will be overwritten
+## If you don't want it to overwrite it,
+## 	Please disable it in the Anjuta project configuration
+
+# Source files
+src/callbacks.c
+src/callbacks.h
+src/interface.c
+src/interface.h
+src/support.c
+src/support.h
+src/main.c
+src/global.h
+src/race_select.c
+src/race_select.h
+src/game_state.h
+src/game_state.c
+src/planet.c
+src/planet.h
+src/ship.c
+src/ship.h
+src/starchart.c
+src/starchart.h
+src/gwp_types.c
+src/gwp_types.h
+src/vp_types.h
+src/vp_utils.c
+src/vp_utils.h
+
+
