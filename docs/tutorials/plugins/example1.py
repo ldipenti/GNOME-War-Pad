@@ -1,19 +1,16 @@
 #!/usr/bin/env python
-#ruta='/u/home/cristian/devel/magallanes'
-#import sys
-#sys.path.append(ruta)
 import pygtk
 import gtk
 import gtk.glade
 
 class Example1:
 
-    # Hide window but not terminate plugin
+    # Hide window but not terminate
     def delete_event(self, widget, data=None):
         print "delete event raised"
         return gtk.FALSE
 
-    # Another callback
+    # Terminate the aplication
     def destroy(self, widget, data=None):
         print "destroy event raised"
         gtk.main_quit()
@@ -33,12 +30,11 @@ class Example1:
         self.lbl_label1 =  self.main_window.get_widget('label1')
         #Textbox
         self.tb_entry1 =  self.main_window.get_widget('entry1')
-        #botones de posesion/raza
+        #botones
         self.btn_button1 = self.main_window.get_widget('button1')
         self.btn_button2 = self.main_window.get_widget('button2')
 
     def __create_gui(self):
-        #self.lst_razas.entry.connect("changed", self.eligio_raza, None)
         self.btn_button1.connect("clicked", self.aplicar, None)
         self.btn_button2.connect("clicked", self.salir, None)
         pass
@@ -60,5 +56,5 @@ class Example1:
 #####
 if __name__ == '__main__':
     example1 = Example1()
-    # para modo pruebas lo arranco directo
+    # para pruebas lo arranco directo
     example1.main()
