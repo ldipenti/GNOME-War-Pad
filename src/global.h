@@ -106,7 +106,12 @@ GHashTable *base_list;
 GHashTable *ship_list;
 GHashTable *target_list;
 GHashTable *fleet_list;
-GHashTable *hullspec_list;
+
+/* Specs */
+GSList *hullspec_list;
+GSList *torpspec_list;
+GSList *beamspec_list;
+GSList *engspec_list;
 
 /* Canvas items */
 GSList *planets_per_quad[TOTAL_QUADS];
