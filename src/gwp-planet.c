@@ -1446,7 +1446,7 @@ gwp_planet_get_tax_rate_natives (GwpPlanet *self)
   g_assert (GWP_IS_PLANET(self));
 
   enum natives natives = gwp_planet_get_natives_race (self);
-  gint taxrate = gwp_planet_get_tax_rate_colonists (self);
+  gint taxrate = 100;
   
   if (natives == NATIVE_INSECTOID)
     taxrate *= 2;
