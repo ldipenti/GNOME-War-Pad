@@ -953,18 +953,15 @@ GHashTable *load_bdata(void)
   return base_list;
 }
 
-GHashTable * load_hullspec (void)
+GSList * load_hullspec (void)
 {
   FILE *hullspec;
-  GHashTable *hullspec_list;
+  GSList *hullspec_list = NULL;
   GString *hullspec_file;
   GwpHullSpec *hs;
   gint16 i, idx, hullspec_nr;
   gchar buffer[60];
   gchar *name_tmp;
-  
-  /* Initialize hash */
-  hullspec_list = g_hash_table_new (NULL, NULL);
   
   /* Initialize file name */
   hullspec_file = g_string_new ("HULLSPEC.DAT");
@@ -1018,8 +1015,7 @@ GHashTable * load_hullspec (void)
     gwp_hullspec_set_cost (hs, getWord(buffer + 58));
     
     /* Add new target */
-    g_hash_table_insert (hullspec_list, 
-			 (gpointer)gwp_hullspec_get_id (hs), hs);
+    hullspec_list = g_slist_append (hullspec_list, hs);
   }
   fclose (hullspec);
 

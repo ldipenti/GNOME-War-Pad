@@ -635,7 +635,7 @@ void update_ship_panel_with (GwpShip *ship)
   g_free(tmp);
   
   /* Update Hull Type */
-  GwpHullSpec *hspec = (GwpHullSpec *)g_hash_table_lookup(hullspec_list, (gconstpointer)(gint)gwp_ship_get_hull_type(ship));
+  GwpHullSpec *hspec = (GwpHullSpec *)g_slist_nth_data (hullspec_list, gwp_ship_get_hull_type(ship));
   tmp = g_strdup_printf ("<i>%s</i>", 
 			 gwp_hullspec_get_name_trunc(hspec, 20)->str);
   gtk_label_set_markup (hull, tmp);
