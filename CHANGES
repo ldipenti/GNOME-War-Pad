@@ -1,3 +1,8 @@
+Version 0.3.2 (released 07-07-2004):
+
+	* Minor bugfixes.
+	* Bugfix: Warning dialogs according to HIG.
+	* Feature: Initial battle simulation and GUI for VCR using OpenGL.
 	* Feature: Added checks for gtkglext and python libs on build
 	  system.
 	* Bugfix: GNOME & Glade library version checks fixed on build

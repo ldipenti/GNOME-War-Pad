@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GWP 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-13 13:07-0300\n"
+"POT-Creation-Date: 2004-07-07 00:32-0300\n"
 "PO-Revision-Date: 2004-05-23 22:08-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -524,393 +524,424 @@ msgid "Host Type:"
 msgstr "Tipo de host:"
 
 #: src/gwp.glade.h:118
+msgid "Hull"
+msgstr ""
+
+#: src/gwp.glade.h:119
 msgid "Last message"
 msgstr "Último mensaje"
 
-#: src/gwp.glade.h:119
+#: src/gwp.glade.h:120
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: src/gwp.glade.h:120
+#: src/gwp.glade.h:121
+msgid "Log"
+msgstr ""
+
+#: src/gwp.glade.h:122
 #, fuzzy
 msgid "Message"
 msgstr "Lector de mensajes"
 
-#: src/gwp.glade.h:121
+#: src/gwp.glade.h:123
 msgid "Message Reader"
 msgstr "Lector de mensajes"
 
-#: src/gwp.glade.h:122
+#: src/gwp.glade.h:124
 msgid "Message _reader"
 msgstr "Lecto_r de mensajes"
 
-#: src/gwp.glade.h:123
+#: src/gwp.glade.h:125
 msgid "Mini SC"
 msgstr "Mini SC"
 
-#: src/gwp.glade.h:124
+#: src/gwp.glade.h:126
 msgid "Mining"
 msgstr "Minería"
 
-#: src/gwp.glade.h:125
+#: src/gwp.glade.h:127
 msgid "Misc"
 msgstr "Misc"
 
-#: src/gwp.glade.h:126
+#: src/gwp.glade.h:128
 msgid "NUK"
 msgstr "NUK"
 
-#: src/gwp.glade.h:127
+#: src/gwp.glade.h:129
 msgid "New Game"
 msgstr "Juego nuevo"
 
-#: src/gwp.glade.h:128
+#: src/gwp.glade.h:130
 msgid "Next message"
 msgstr "Mensaje siguiente"
 
-#: src/gwp.glade.h:129
+#: src/gwp.glade.h:131
 msgid "Online Help"
 msgstr "Ayuda en línea"
 
-#: src/gwp.glade.h:130
+#: src/gwp.glade.h:132
 msgid "Orders"
 msgstr "Órdenes"
 
-#: src/gwp.glade.h:131
+#: src/gwp.glade.h:133
 msgid "Other Settings"
 msgstr "Otros valores"
 
-#: src/gwp.glade.h:132
+#: src/gwp.glade.h:134
 msgid "PHost"
 msgstr "PHost"
 
-#: src/gwp.glade.h:133
-msgid "P_ython console"
-msgstr ""
-
-#: src/gwp.glade.h:134
+#: src/gwp.glade.h:135
 msgid "Planet"
 msgstr "Planeta"
 
-#: src/gwp.glade.h:135
+#: src/gwp.glade.h:136
 msgid "Planet/SB"
 msgstr "Planeta/BE"
 
-#: src/gwp.glade.h:136
+#: src/gwp.glade.h:137
 msgid "Play Game"
 msgstr "Jugar la partida"
 
-#: src/gwp.glade.h:137
+#: src/gwp.glade.h:138
 msgid "Play Selected Game"
 msgstr "Jugar el juego seleccionado"
 
-#: src/gwp.glade.h:138
+#: src/gwp.glade.h:139
 msgid "Player Email:"
 msgstr "Email del jugador:"
 
-#: src/gwp.glade.h:139
+#: src/gwp.glade.h:140
 msgid "Population"
 msgstr "Población"
 
-#: src/gwp.glade.h:140
+#: src/gwp.glade.h:141
 msgid "Previous message"
 msgstr "Mensaje anterior"
 
-#: src/gwp.glade.h:141
+#: src/gwp.glade.h:142
 msgid "Python Console"
 msgstr ""
 
-#: src/gwp.glade.h:142
+#: src/gwp.glade.h:143
+msgid "Python console"
+msgstr ""
+
+#: src/gwp.glade.h:144
 msgid "RST Dir:"
 msgstr "Directorio RST:"
 
-#: src/gwp.glade.h:143
+#: src/gwp.glade.h:145
 msgid "Race Name:"
 msgstr "Nombre de la raza:"
 
-#: src/gwp.glade.h:144
+#: src/gwp.glade.h:146
 msgid "Race selected"
 msgstr "Raza seleccionada"
 
-#: src/gwp.glade.h:145
+#: src/gwp.glade.h:147
 #, fuzzy
 msgid "Race: "
 msgstr "Nombre de la raza:"
 
-#: src/gwp.glade.h:146
+#: src/gwp.glade.h:148
 msgid ""
 "Races available at this particular game directory, pick one by clicking on it"
 msgstr ""
 "Razas disponibles en este directorio de juego en \n"
 "particular, elige una haciendo clic en ella"
 
-#: src/gwp.glade.h:147
+#: src/gwp.glade.h:149
 msgid "Resources (KT)"
 msgstr "Recursos (KT)"
 
-#: src/gwp.glade.h:148
+#: src/gwp.glade.h:150
+#, fuzzy
+msgid "Select"
+msgstr "E_liminar"
+
+#: src/gwp.glade.h:151
 msgid "Select RST directory"
 msgstr "Selecciona el directorio RST"
 
-#: src/gwp.glade.h:149
+#: src/gwp.glade.h:152
 msgid "Select TRN directory"
 msgstr "Selecciona el directorio TRN"
 
-#: src/gwp.glade.h:150
+#: src/gwp.glade.h:153
 msgid "Select game directory"
 msgstr "Selecciona el directorio de juego"
 
-#: src/gwp.glade.h:151
+#: src/gwp.glade.h:154
 msgid "Select if you want to edit this game's properties"
 msgstr "Selecciona si quieres editar las propiedades de este juego"
 
-#: src/gwp.glade.h:152
+#: src/gwp.glade.h:155
 msgid "Select if you want to play this game"
 msgstr "Selecciona si quieres jugar a este juego"
 
-#: src/gwp.glade.h:153
+#: src/gwp.glade.h:156
 msgid "Select this if the game is hosted by a PHost (alternative) host type"
 msgstr "Selecciona si el juego es manejado por un host PHost (alternativo)"
 
-#: src/gwp.glade.h:154
+#: src/gwp.glade.h:157
 msgid "Select this if the game is hosted by a THost (classic) host type"
 msgstr "Selecciona si el juego es manejado por un host THost (clásico)"
 
-#: src/gwp.glade.h:155
+#: src/gwp.glade.h:158
 msgid "Setup a new game"
 msgstr "Configura un juego nuevo"
 
-#: src/gwp.glade.h:156
+#: src/gwp.glade.h:159
 #, fuzzy
 msgid "Shield"
 msgstr "Nave"
 
-#: src/gwp.glade.h:157
+#: src/gwp.glade.h:160
 msgid "Shield Bonus"
 msgstr ""
 
-#: src/gwp.glade.h:158
+#: src/gwp.glade.h:161
 msgid "Ship"
 msgstr "Nave"
 
-#: src/gwp.glade.h:159
+#: src/gwp.glade.h:162
 msgid "Ship Data"
 msgstr "Datos de la nave"
 
-#: src/gwp.glade.h:160
+#: src/gwp.glade.h:163
 msgid "Ship List"
 msgstr "Lista de naves"
 
-#: src/gwp.glade.h:161
+#: src/gwp.glade.h:164
 msgid "Ships"
 msgstr "Naves"
 
-#: src/gwp.glade.h:162
+#: src/gwp.glade.h:165
+#, fuzzy
+msgid "Simulation"
+msgstr "Población"
+
+#: src/gwp.glade.h:166
 msgid "Specifications"
 msgstr "Especificaciones"
 
-#: src/gwp.glade.h:163
+#: src/gwp.glade.h:167
 msgid "Starbase"
 msgstr "Base Estelar"
 
-#: src/gwp.glade.h:164
+#: src/gwp.glade.h:168
 msgid "Starbase Defense Systems"
 msgstr "Sistemas defensivos de la base"
 
-#: src/gwp.glade.h:165
+#: src/gwp.glade.h:169
 msgid "Starship"
 msgstr "Nave Estelar"
 
-#: src/gwp.glade.h:166
+#: src/gwp.glade.h:170
 #, fuzzy
 msgid "Start"
 msgstr "Estado"
 
-#: src/gwp.glade.h:167
+#: src/gwp.glade.h:171
 msgid "Status"
 msgstr "Estado"
 
-#: src/gwp.glade.h:168
+#: src/gwp.glade.h:172
 msgid "THost"
 msgstr "THost"
 
-#: src/gwp.glade.h:169
+#: src/gwp.glade.h:173
 msgid "TRN Dir:"
 msgstr "Directorio TRN:"
 
-#: src/gwp.glade.h:170
+#: src/gwp.glade.h:174
 msgid "Taxes"
 msgstr "Impuestos"
 
-#: src/gwp.glade.h:171
+#: src/gwp.glade.h:175
 msgid "Technology Levels"
 msgstr "Niveles de tecnología"
 
-#: src/gwp.glade.h:172
+#: src/gwp.glade.h:176
+#, fuzzy
+msgid "Test"
+msgstr "Impuestos"
+
+#: src/gwp.glade.h:177
 msgid "The directory where GWP will save its turns"
 msgstr "El directorio donde GWP grabará los turnos"
 
-#: src/gwp.glade.h:173
+#: src/gwp.glade.h:178
 msgid "The directory where GWP will search for host results"
 msgstr "El directorio donde GWP buscará los resultados del host"
 
-#: src/gwp.glade.h:174
+#: src/gwp.glade.h:179
 msgid "The host's email address, to send your turns"
 msgstr "La dirección de correo-e, para enviar los turnos"
 
-#: src/gwp.glade.h:175
+#: src/gwp.glade.h:180
 msgid "The label this game will have in the game manager"
 msgstr "La etiqueta que este juego tendrá en el administrador de juegos"
 
-#: src/gwp.glade.h:176
+#: src/gwp.glade.h:181
 msgid "Toggle mine fields"
 msgstr "Alternar campos minados"
 
-#: src/gwp.glade.h:177
+#: src/gwp.glade.h:182
 msgid "Toggle planet names"
 msgstr "Alternar nombre de planetas"
 
-#: src/gwp.glade.h:178
+#: src/gwp.glade.h:183
 msgid "Toggle toolbar"
 msgstr "Mostrar/Esconder barra de herramientas"
 
-#: src/gwp.glade.h:179
+#: src/gwp.glade.h:184
+msgid "Torp/Fight"
+msgstr ""
+
+#: src/gwp.glade.h:185
 #, fuzzy
 msgid "Torps: "
 msgstr "<b>Torps:</b>"
 
-#: src/gwp.glade.h:180
+#: src/gwp.glade.h:186
 msgid "Total cargo capacity"
 msgstr "Capacidad de cargamento"
 
-#: src/gwp.glade.h:181
+#: src/gwp.glade.h:187
 #, fuzzy
 msgid "Type: "
 msgstr "Tipo de host:"
 
-#: src/gwp.glade.h:182
+#: src/gwp.glade.h:188
 msgid "Unpack the new RST file"
 msgstr "Desempaquetar el nuevo archivo RST"
 
-#: src/gwp.glade.h:183
+#: src/gwp.glade.h:189
 msgid "Visual Combat Recorder"
 msgstr ""
 
-#: src/gwp.glade.h:184
+#: src/gwp.glade.h:190
+msgid "Visual combat recorder"
+msgstr ""
+
+#: src/gwp.glade.h:191
 msgid "Where the game data files reside"
 msgstr "Lugar donde residen los archivos de datos"
 
-#: src/gwp.glade.h:185
+#: src/gwp.glade.h:192
 msgid "X"
 msgstr "X"
 
-#: src/gwp.glade.h:186
+#: src/gwp.glade.h:193
 msgid "Y"
 msgstr "Y"
 
-#: src/gwp.glade.h:187
+#: src/gwp.glade.h:194
 msgid "Your email address, to send your turns to the host"
 msgstr "Tu dirección de correo-e, para enviar tus turnos al host"
 
-#: src/gwp.glade.h:188
+#: src/gwp.glade.h:195
 msgid "Zoom in"
 msgstr "Acercar"
 
-#: src/gwp.glade.h:189
+#: src/gwp.glade.h:196
 msgid "Zoom out"
 msgstr "Alejar"
 
-#: src/gwp.glade.h:190
+#: src/gwp.glade.h:197
 msgid "_Delete"
 msgstr "E_liminar"
 
-#: src/gwp.glade.h:191
+#: src/gwp.glade.h:198
 msgid "_Delete Game"
 msgstr "E_liminar el juego"
 
-#: src/gwp.glade.h:192
+#: src/gwp.glade.h:199
 msgid "_Edit"
 msgstr "_Editar"
 
-#: src/gwp.glade.h:193
+#: src/gwp.glade.h:200
 msgid "_Edit Game"
 msgstr "_Editar el juego"
 
-#: src/gwp.glade.h:194
+#: src/gwp.glade.h:201
 msgid "_Ion storms"
 msgstr "Tormentas de _iones"
 
-#: src/gwp.glade.h:195
+#: src/gwp.glade.h:202
 msgid "_Mine fields"
 msgstr "Campos _minados"
 
-#: src/gwp.glade.h:196
+#: src/gwp.glade.h:203
 msgid "_New"
 msgstr "_Nuevo"
 
-#: src/gwp.glade.h:197
+#: src/gwp.glade.h:204
 msgid "_New Game"
 msgstr "Juego _nuevo"
 
-#: src/gwp.glade.h:198
+#: src/gwp.glade.h:205
 msgid "_Online Help"
 msgstr "_Ayuda en línea"
 
-#: src/gwp.glade.h:199
+#: src/gwp.glade.h:206
 msgid "_Planet names"
 msgstr "Nombres de _planeta"
 
-#: src/gwp.glade.h:200
+#: src/gwp.glade.h:207
 msgid "_Play"
 msgstr "_Jugar"
 
-#: src/gwp.glade.h:201
+#: src/gwp.glade.h:208
 msgid "_Play Game"
 msgstr "Jugar _partida"
 
-#: src/gwp.glade.h:202
+#: src/gwp.glade.h:209
 msgid "_Random"
 msgstr "Al aza_r"
 
-#: src/gwp.glade.h:203
+#: src/gwp.glade.h:210
+msgid "_Scanner area"
+msgstr ""
+
+#: src/gwp.glade.h:211
 msgid "_Toolbar"
 msgstr "Barra de herramien_tas"
 
-#: src/gwp.glade.h:204
+#: src/gwp.glade.h:212
 msgid "_Unpack"
 msgstr "Desempaque_tar"
 
-#: src/gwp.glade.h:205
-msgid "button8"
-msgstr ""
-
-#: src/gwp.glade.h:206
+#: src/gwp.glade.h:213
 msgid "n/a kT/turn"
 msgstr "n/d kT/turno"
 
-#: src/gwp.glade.h:207
+#: src/gwp.glade.h:214
 #, fuzzy
 msgid "n/m"
 msgstr "n/d"
 
-#: src/callbacks.c:294
+#: src/callbacks.c:301
 msgid "New Game Properties"
 msgstr "Propiedades del nuevo juego"
 
-#: src/callbacks.c:440
+#: src/callbacks.c:447
 msgid "Edit Game Properties"
 msgstr "Editar las propiedades del juego"
 
-#: src/callbacks.c:461
+#: src/callbacks.c:468
 msgid "Oops! there is some problem with this game"
 msgstr "Ups! existe algún problema con este juego"
 
-#: src/callbacks.c:495
+#: src/callbacks.c:502
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "¿Está seguro que desea eliminar «%s»?"
 
-#: src/callbacks.c:567
+#: src/callbacks.c:574
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
@@ -918,7 +949,7 @@ msgstr ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "Este software se libera bajo las condiciones de la licencia GNU GPL"
 
-#: src/callbacks.c:568
+#: src/callbacks.c:575
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
@@ -926,10 +957,14 @@ msgstr ""
 "Un cliente VGA Planets para la plataforma GNOME\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
 
-#: src/callbacks.c:982
+#: src/callbacks.c:967
+msgid "No Python support enabled."
+msgstr ""
+
+#: src/callbacks.c:968
 msgid ""
-"Welcome to GNOME War Pad's Python Console!\n"
-"\n"
+"If you need the Python scripting feature, you should recompile the program "
+"after installing Python development packages on your distribution."
 msgstr ""
 
 #: src/support.c:63 src/support.c:88
@@ -1106,16 +1141,16 @@ msgstr "Warp %d"
 msgid "%d %s in %s"
 msgstr "%d %s en %s"
 
-#: src/starchart.c:2082
+#: src/starchart.c:2079
 msgid "Name"
 msgstr "Nombre"
 
-#: src/vp_utils.c:856
+#: src/vp_utils.c:858
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr "No se encontró KORE%d.DAT, algunos datos no se mostrarán."
 
-#: src/vp_utils.c:858
+#: src/vp_utils.c:860
 msgid ""
 "This file provides the data about ion storms and minefields, but couldn't be "
 "found in this case. This is not a fatal error, GWP will continue loading but "
@@ -1419,27 +1454,27 @@ msgstr "Participatorio"
 msgid "Unity"
 msgstr "Unidad"
 
-#: src/gwp-ion-storm.c:167
+#: src/gwp-ion-storm.c:169
 msgid "Inexistent Disturbance"
 msgstr "Disturbio inexistente"
 
-#: src/gwp-ion-storm.c:168
+#: src/gwp-ion-storm.c:170
 msgid "Harmless Disturbance"
 msgstr "Disturbio inofensivo"
 
-#: src/gwp-ion-storm.c:169
+#: src/gwp-ion-storm.c:171
 msgid "Moderate Disturbance"
 msgstr "Disturbio moderado"
 
-#: src/gwp-ion-storm.c:170
+#: src/gwp-ion-storm.c:172
 msgid "Strong Disturbance"
 msgstr "Disturbio fuerte"
 
-#: src/gwp-ion-storm.c:171
+#: src/gwp-ion-storm.c:173
 msgid "Dangerous Storm"
 msgstr "Tormenta peligrosa"
 
-#: src/gwp-ion-storm.c:172
+#: src/gwp-ion-storm.c:174
 msgid "Very Dangerous Storm"
 msgstr "Tormenta muy peligrosa"
 
@@ -1570,6 +1605,34 @@ msgstr "Reparar base"
 #: src/mission.c:146
 msgid "Force a surrender"
 msgstr "Forzar rendición"
+
+#: src/vcr-combat-gl.c:1236
+msgid "Welcome to the Visual Combat Simulator\n"
+msgstr ""
+
+#: src/vcr-combat-gl.c:1237 src/vcr-combat-gl.c:1240 src/vcr-combat-gl.c:1243
+msgid "\n"
+msgstr ""
+
+#: src/vcr-combat-gl.c:1238
+msgid "If you can read this message your GWP is not able to show\n"
+msgstr ""
+
+#: src/vcr-combat-gl.c:1239
+msgid "any 3D-animated combat simulations - which is quite a pity :-).\n"
+msgstr ""
+
+#: src/vcr-combat-gl.c:1241
+msgid "The required gnome-extension should be available at:\n"
+msgstr ""
+
+#: src/vcr-combat-gl.c:1242
+msgid "http://gtkglext.sourceforge.net/\n"
+msgstr ""
+
+#: src/vcr-combat-gl.c:1244
+msgid "Good luck ...\n"
+msgstr ""
 
 #, fuzzy
 #~ msgid "The Solar Federation"

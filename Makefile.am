@@ -11,7 +11,7 @@ gwpdoc_DATA = \
 	BUGS\
 	AUTHORS\
 	INSTALL\
-	ChangeLog\
+	CHANGES\
 	NEWS\
 	TODO\
 	ABOUT-NLS
