@@ -853,7 +853,7 @@ void update_planet_extra_panel(gint16 planet_id)
 			  (gdouble)gwp_planet_get_tax_natives(a_planet));
       
       /* Tax earned */
-      if(gwp_planet_get_tax_collected_natives(a_planet) <=
+      if(gwp_planet_get_tax_collected_natives(a_planet) <
 	 gwp_planet_get_tax_collected_colonists(a_planet)) {
 	tmp = g_strdup_printf(_("%d MC"), 
 			      gwp_planet_get_tax_collected_natives(a_planet));
