@@ -333,7 +333,7 @@ on_game_mgr_iconlist_select_icon_keyboard (GnomeIconList *iconlist,
   if ((event->type == GDK_KEY_PRESS) && (event->keyval == GDK_Return)) {
     GList *selection = gnome_icon_list_get_selection (iconlist);
     /* First icon on the selection, we don't support multiple selection */
-    gint icon_selected = g_list_nth_data (selection, 0);
+    gint icon_selected = (gint)g_list_nth_data (selection, 0);
     /* Play game! */
     game_mgr_play_game((GwpGameState *)
 		       gnome_icon_list_get_icon_data(iconlist, 
