@@ -25,3 +25,4 @@ src/gwp-torpspec.c
 src/gwp-hullspec.c
 src/mission.c
 src/vcr-combat-gl.c
+src/gwp-python.c
