@@ -143,7 +143,8 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
 
 
-  /* read texture */
+  /* read planet texture */
+  glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
   gint width, height;
   if( vcrcgl_check_texture_bmp( "planet_earth.bmp", &width, &height ) )
   {
@@ -167,6 +168,31 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
   glEnable( GL_TEXTURE );
 
+
+
+  /* read universe texture */
+  glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
+  if( vcrcgl_check_texture_bmp( "planet_universe.bmp", &width, &height ) )
+  {
+    g_message( "## Error: vcrcgl_check_texture_bmp() failed for %s", "planet_universe.bmp" );
+  }
+  
+  GLubyte VCRCGL_TextIma_2[width][height][4];
+
+  vcrcgl_read_texture_from_bmp( &VCRCGL_TextIma_2[0][0][0], "planet_universe.bmp" );
+
+
+  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
+  glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0,
+                GL_RGBA, GL_UNSIGNED_BYTE,
+                &VCRCGL_TextIma_2[0][0][0] );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
+
+  glEnable( GL_TEXTURE );
 
 
 
@@ -229,6 +255,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
   /* PLANET B */
   glNewList( VCRCGL_TEX_PLANET_B, GL_COMPILE );
+    glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
     glEnable(GL_TEXTURE_2D);
     glEnable( GL_CULL_FACE );
     glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
@@ -241,6 +268,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
   /* UNIVERSE */
   glNewList( VCRCGL_TEX_UNIVERSE, GL_COMPILE );
+    glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
     glEnable(GL_TEXTURE_2D);
     glCullFace( GL_FRONT );
     glEnable( GL_CULL_FACE );
