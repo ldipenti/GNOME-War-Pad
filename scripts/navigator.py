@@ -74,7 +74,7 @@ class PluginNavigator(gwp.Plugin):
     # Reload list callback
     def reload(self, widget=None, data=None):
         self.store.clear()
-        for plugin in self.__pm.plugins_available:
+        for plugin in self.__pm.get_plugins_available():
             self.store.append([plugin.registered, plugin.name,
                                plugin.desc_short, plugin])
 

@@ -13,7 +13,6 @@ import gwp
 #######
 # To-Do:
 # -----
-# * Check for user' plugin directory
 ##
 class PluginManager:
     __module__ = 'gwp'
@@ -21,7 +20,7 @@ class PluginManager:
     # Private attributes
     __key_hooks = {}
     __plugins_registered = []
-    plugins_available = []
+    __plugins_available = []
     
     def __init__(self):
         pass
@@ -67,6 +66,12 @@ class PluginManager:
                 raise
             else:
                 plugin.registered = False
+                
+    def get_plugins_available(self):
+        return self.__plugins_available
+
+    def add_plugin_available(self, plugin):
+        self.__plugins_available.append(plugin)
 
 #######
 # Plugin abstract class
@@ -131,7 +136,7 @@ if __name__ == "__main__":
     for obj in dir():
         try:
             if (isinstance(eval(obj), gwp.Plugin)):
-                pm.plugins_available.append(eval(obj))
+                pm.add_plugin_available(eval(obj))
         except AttributeError:
             # Ignore if 'obj' is not an instance
             pass
@@ -145,7 +150,7 @@ if __name__ == "__main__":
         for obj in dir():
             try:
                 if (isinstance(eval(obj), gwp.Plugin)):
-                    pm.plugins_available.append(eval(obj))
+                    pm.add_plugin_available(eval(obj))
             except AttributeError:
                 # Ignore if 'obj' is not an instance
                 pass
