@@ -1,0 +1,1936 @@
+2004-07-07 00:45  ldipenti
+
+	* releaser.sh: Changes because of the name change of the changelog
+
+2004-07-07 00:39  ldipenti
+
+	* CHANGES, ChangeLog: ChangeLog file renamed, because 'ChangeLog'
+	  will be used with cvs2cl utility
+
+2004-07-07 00:33  ldipenti
+
+	* po/POTFILES.in: Typo fixed
+
+2004-07-06 12:14  ldipenti
+
+	* src/gwp-utils.c: oops, some FIXME messages eliminated
+
+2004-07-06 12:13  ldipenti
+
+	* src/gwp-utils.c: HIGified warning dialog
+
+2004-07-06 12:12  ldipenti
+
+	* src/callbacks.c: warning message added when python support is
+	  disabled and the python console menuitem is selected
+
+2004-07-06 11:39  cvs-sven
+
+	* po/POTFILES.in, src/vcr-combat-gl.c, src/vcr-combat.c: small
+	  change, allowing non-gtkglext information text to be translated
+
+2004-07-05 19:16  cvs-sven
+
+	* src/: gwp.glade, vcr-combat-gl.c, vcr-combat-gl.h, vcr-combat.c,
+	  vcr-combat.h, vcr.c, vcr.h: battle calculation becomes alpha :-)
+
+2004-07-05 17:14  cvs-sven
+
+	* src/: vcr-combat-gl.c, vcr-combat-gl.h, vcr-combat.c, vcr.c,
+	  vcr.h: one small step for man, one big step for ... someone else
+
+2004-07-05 12:53  cvs-sven
+
+	* src/vcr-combat-gl.c: bugfix: --enable-gtkglext=no works now
+
+2004-07-05 12:33  cvs-sven
+
+	* src/: vcr-combat-gl.c, vcr-combat.c, vcr.c: small bug-fix for
+	  not-gtkglext-users
+
+2004-07-05 11:08  ldipenti
+
+	* configure.in: Added option --enable-gtkglext=[yes|no] to
+	  configure script
+
+2004-07-05 07:26  cvs-sven
+
+	* src/callbacks.c: just a tiny cleanup
+
+2004-07-05 07:23  cvs-sven
+
+	* src/: gwp.glade, vcr-combat.c, vcr-combat.h: many calculation
+	  bug-fixes, the biggest ones: 1) torpedo chance to hit was wrong
+	  2) beam-weapon range against fighters was wrong 3) destroyed
+	  fighters were not replaced
+
+2004-07-04 23:01  ldipenti
+
+	* src/: gwp-starchart.c, gwp-starchart.h: planets, ships and
+	  locations per quad hashes implemented on the new starchart data
+	  model
+
+2004-07-04 22:48  ldipenti
+
+	* src/Makefile.am: New files added
+
+2004-07-04 22:41  ldipenti
+
+	* src/: global.h, callbacks.c, starchart.c, starchart.h: More code
+	  cleaning: old planets_per_quad hash table eliminated,
+	  gwp_planets_per_quad hash replaces it now, no hash table
+	  *_per_quad is a GnomeCanvasItem anymore, we're getting rid of the
+	  graphic engine dependency.
+
+2004-07-04 20:40  cvs-sven
+
+	* src/vcr-combat.c: bug-fixes in fighter preparation
+
+2004-07-04 18:48  cvs-sven
+
+	* src/: vcr-combat.c, vcr-combat.h: battle calculation is in alpha
+
+2004-07-03 20:31  ldipenti
+
+	* src/: global.h, vp_utils.c: shipxy_list global variable went bye
+	  bye
+
+2004-07-03 20:21  ldipenti
+
+	* src/: starchart.h, starchart.c: get_ships_from_coords()
+	  eliminated, cleaning the code...
+
+2004-07-03 18:43  ldipenti
+
+	* src/: vp_utils.c, global.h: XYPLAN global variable... gone!
+
+2004-07-03 18:33  ldipenti
+
+	* src/: starchart.c, starchart.h: Unnecessary function eliminated,
+	  keeping the code clean! :-)
+
+2004-07-03 16:55  ldipenti
+
+	* src/: vp_utils.h, vp_utils.c, global.h: base_list global variable
+	  eliminated, it wasn't needed
+
+2004-07-03 12:19  cvs-sven
+
+	* src/: vcr-combat.c, vcr-combat.h: again nothing visible, but
+	  fighters launch, fight, fire and land
+
+2004-07-01 19:50  cvs-sven
+
+	* src/: vcr-combat-gl.c, vcr-combat-gl.h, vcr-combat.c,
+	  vcr-combat.h, vcr.c: something moves beneath the hood ...  (many
+	  changes, nothing to be seen)
+
+2004-07-01 01:40  ldipenti
+
+	* src/: gwp-starchart.c, gwp-starchart.h: Initial works on object
+	  starchart
+
+2004-06-29 11:32  cvs-sven
+
+	* pixmaps/vcr-textures/planet_earth.bmp,
+	  pixmaps/vcr-textures/planet_universe.bmp, src/vcr-combat-gl.c,
+	  src/vcr-combat-gl.h: slow but steady ... many changes under the
+	  hood
+
+2004-06-25 23:33  ldipenti
+
+	* src/: global.h, starchart.c: changed ship scanner area color and
+	  transparency
+
+2004-06-24 10:57  ldipenti
+
+	* src/vcr-combat-gl.c: Textures activated on combat simulator
+
+2004-06-24 06:33  cvs-sven
+
+	* pixmaps/vcr-textures/planet_universe.bmp, src/vcr-combat-gl.c:
+	  use of textures is disabled by default, to enable set #undef
+	  USE_TEXTURES to #define USE_TEXTURES in src/vcr-combat-gl.c
+
+2004-06-23 14:05  cvs-sven
+
+	* pixmaps/vcr-textures/Makefile.am, src/vcr-combat-gl.c: a small
+	  step for me, ... that's it
+
+2004-06-23 14:03  cvs-sven
+
+	* pixmaps/vcr-textures/planet_universe.bmp: picture of a star
+	  filled sky, mapped to the combat background
+
+2004-06-23 11:12  cvs-sven
+
+	* src/: vcr-combat-gl.c, vcr-combat-gl.h: vcr-combat-gl: improved
+	  .bmp file loading and texture generation
+
+2004-06-22 10:58  cvs-sven
+
+	* src/vcr-combat-gl.c: another version with small changes in
+	  approach to alpha-state
+
+2004-06-22 10:49  ldipenti
+
+	* configure.in, pixmaps/Makefile.am,
+	  pixmaps/vcr-textures/Makefile.am,
+	  pixmaps/vcr-textures/planet_earth.bmp, src/global.h: Added VCR
+	  textures directory
+
+2004-06-22 10:39  cvs-sven
+
+	* src/: vcr-combat-gl.c, vcr-combat-gl.h: first pre-alpha shot of
+	  texture-support in open-gl graphics ...
+
+2004-06-21 22:25  ldipenti
+
+	* src/: gwp-py-functions.c, gwp-py-functions.h, gwp-py-mappings.c:
+	  Some minor fixes, I don't remember :-)
+
+2004-06-21 22:23  ldipenti
+
+	* src/gwp.glade: Ship detection area added to starchart
+
+2004-06-21 22:18  ldipenti
+
+	* src/: starchart.c, global.h, game_state.h, callbacks.h,
+	  callbacks.c, game_state.c, starchart.h, gwp_types.c, gwp_types.h:
+	  Ship detection area added to starchart
+
+2004-06-21 22:17  ldipenti
+
+	* ChangeLog: ..
+
+2004-06-21 22:17  ldipenti
+
+	* ChangeLog: added some changes to the log
+
+2004-06-21 22:02  ldipenti
+
+	* src/gwp-py-mappings.override: fixed minor error
+
+2004-06-21 17:17  cvs-sven
+
+	* src/: vcr-combat-gl.c, vcr-combat-gl.h: if you can read this you
+	  have too much time :-)
+
+2004-06-21 09:09  cvs-sven
+
+	* src/: trackball.c, trackball.h, vcr-combat-gl.c, vcr-combat-gl.h:
+	  lots of changes, but still an incredible construction site far
+	  from usable ...
+
+2004-06-21 09:08  cvs-sven
+
+	* TODO, src/Makefile.am, src/gwp.glade, src/vcr-combat.c,
+	  src/vcr.c, src/vcr.h: lots of changes, but still an incredible
+	  construction site far from usable...
+
+2004-06-21 00:54  ldipenti
+
+	* gwp.desktop.in: Corrected category
+
+2004-06-20 20:44  ldipenti
+
+	* src/: gwp-py-functions.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs, gwp-py-mappings.override: Added
+	  planet_get_list() python module function. Minimal Python
+	  finished.
+
+2004-06-20 20:34  ldipenti
+
+	* src/vp_utils.c: removed python include
+
+2004-06-19 22:00  ldipenti
+
+	* src/gwp-py-mappings.defs: New python method: ship_get_list()
+
+2004-06-19 21:58  ldipenti
+
+	* src/: gwp-py-mappings.override, gwp-py-mappings.c,
+	  gwp-py-functions.c, gwp-py-functions.h: New method:
+	  ship_get_list() for python
+
+2004-06-19 00:52  ldipenti
+
+	* src/gwp-py-mappings.override: Override method to be python
+	  firendly
+
+2004-06-18 20:58  ldipenti
+
+	* src/: gwp-py-functions.c, gwp-py-functions.h: new file: generic
+	  gwp python module funcs
+
+2004-06-18 18:52  ldipenti
+
+	* generate_py_mappings.sh, src/Makefile.am, src/gwp-beamspec.c,
+	  src/gwp-beamspec.h, src/gwp-engspec.c, src/gwp-engspec.h,
+	  src/gwp-flying-object.c, src/gwp-flying-object.h,
+	  src/gwp-hullspec.c, src/gwp-hullspec.h, src/gwp-ion-storm.c,
+	  src/gwp-ion-storm.h, src/gwp-object.c, src/gwp-object.h,
+	  src/gwp-planet.c, src/gwp-planet.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/gwp-ship.c, src/gwp-ship.h, src/gwp-torpspec.c,
+	  src/gwp-torpspec.h, src/starchart.c, src/vcr.c, src/vp_utils.c:
+	  Big API change: all functions that returned or received GString*
+	  were changed to manipulate just gchar*
+
+2004-06-18 17:03  ldipenti
+
+	* src/vcr.c: Changing GObject API: functions won't return/receipt
+	  GString* anymore!
+
+2004-06-18 12:00  ldipenti
+
+	* src/: gwp-py-mappings.c, gwp-py-mappings.defs,
+	  gwp-py-mappings.override, gwp-ship.c, gwp-ship.h: Proof of
+	  concept: getting live objects from C to Python, it works :-)
+
+2004-06-18 09:03  cvs-sven
+
+	* src/: gwp.glade, message-reader.c, vcr-combat.c, vcr-combat.h,
+	  vcr.c, vcr.h: minor bugfixes
+
+2004-06-17 17:42  cvs-sven
+
+	* src/: gwp.glade, vcr-combat.c, vcr-combat.h, vcr.c: vcr has
+	  simulation and logging tabs
+
+2004-06-17 13:56  ldipenti
+
+	* src/gwp.glade: Python console menu item was missing
+
+2004-06-17 09:05  cvs-sven
+
+	* src/vcr.c: tiny tiny changes ... but: release early, release
+	  often
+
+2004-06-17 09:03  cvs-sven
+
+	* src/: gwp.glade, vcr.c: vcr: small bugfixes in gui
+
+2004-06-17 08:46  cvs-sven
+
+	* src/vcr-combat.c: vcr combat simulator
+
+2004-06-17 08:46  cvs-sven
+
+	* src/vcr-combat.h: header file for vcr combat simulator
+
+2004-06-17 08:41  cvs-sven
+
+	* src/: Makefile.am, gwp.glade, vcr.c, vcr.h: vcr passes combat
+	  relevant data to vcr-combat
+
+2004-06-16 01:09  ldipenti
+
+	* generate_py_mappings.sh, src/gwp-beamspec.h, src/gwp-engspec.h,
+	  src/gwp-flying-object.c, src/gwp-flying-object.h,
+	  src/gwp-hullspec.h, src/gwp-ion-storm.c, src/gwp-ion-storm.h,
+	  src/gwp-location.c, src/gwp-location.h, src/gwp-minefield.c,
+	  src/gwp-minefield.h, src/gwp-object.h, src/gwp-planet.c,
+	  src/gwp-planet.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/gwp-ship.c, src/gwp-ship.h, src/gwp-starbase.h,
+	  src/gwp-torpspec.h: Added GwpLocation and GwpMinefield types to
+	  Python mapping. Corrected all type definition macros on other GWP
+	  types
+
+2004-06-15 14:45  ldipenti
+
+	* Makefile.am, src/global.h, src/gwp.glade: new gtkcons.py -
+	  eliminated old console
+
+2004-06-15 14:08  ldipenti
+
+	* scripts/gtkcons.py: gwp module automatic import
+
+2004-06-15 13:50  ldipenti
+
+	* src/: callbacks.h, callbacks.c: eliminated unnecessary console
+	  callbacks
+
+2004-06-15 13:26  ldipenti
+
+	* scripts/: Makefile.am, gtkcons.py: Added gtkcons.py :-D
+
+2004-06-15 13:25  ldipenti
+
+	* configure.in, src/callbacks.c: Added gtkcons.py!! :-D
+
+2004-06-15 07:36  cvs-sven
+
+	* src/vcr.c: vcr: bug-fix: preventing several lists from being
+	  filled several times
+
+2004-06-15 01:39  ldipenti
+
+	* ChangeLog, configure.in, generate_py_mappings.sh, po/de.po,
+	  po/es.po, po/gwp.pot, src/Makefile.am, src/gwp-beamspec.h,
+	  src/gwp-engspec.h, src/gwp-flying-object.c,
+	  src/gwp-flying-object.h, src/gwp-hullspec.h, src/gwp-ion-storm.h,
+	  src/gwp-object.h, src/gwp-planet.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/gwp-python.c, src/gwp-ship.c, src/gwp-ship.h,
+	  src/gwp-starbase.h, src/gwp-torpspec.h, src/starchart.c,
+	  src/vp_utils.c: GObject -> Python classes mapping started, I
+	  changed a little the API on gwp-flying-object.[ch] because the
+	  codegen parser required it. Added pygtk-2.0 checks on autoconf,
+	  and several macros to GObjects needed by the mapping.
+
+2004-06-14 15:11  cvs-sven
+
+	* src/: callbacks.c, callbacks.h, gwp.glade, vcr.c, vcr.h: vcr:
+	  selecting all ships/races/hulls/values is in beta
+
+2004-06-14 10:28  ldipenti
+
+	* src/: gwp-utils.h, gwp-utils.c: Removed unnecessary function
+
+2004-06-13 21:38  ldipenti
+
+	* releaser.sh: reomved unnecesary line change
+
+2004-06-13 21:30  ldipenti
+
+	* configure.in: lowering the libglade minimum version requirement
+
+2004-06-13 21:25  ldipenti
+
+	* configure.in, src/Makefile.am, releaser.sh: Corrected libgnomeui
+	  and libglade requirement checks, added GtkGlExt check for VCR
+	  player
+
+2004-06-13 21:21  ldipenti
+
+	* configure.in: Corrected libgnomeui and libglade requirement
+	  checks, added GtkGlExt check for VCR player
+
+2004-06-13 20:49  cvs-sven
+
+	* src/: callbacks.c, callbacks.h, gwp.glade, vcr.c, vcr.h: vcr:
+	  selecting the race changes the hull-choices (race a, too)
+
+2004-06-13 20:41  cvs-sven
+
+	* src/: callbacks.c, callbacks.h, gwp.glade, vcr.c, vcr.h: vcr:
+	  selecting the race fills the hulls-list
+
+2004-06-13 12:24  ldipenti
+
+	* VERSION, releaser.sh: VERSION file will have the last version
+	  number, from where the website will take the info to show it on
+	  the main page. The releaser script was updated to manage this
+	  file.
+
+2004-06-13 01:17  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp-python.c, gwp-python.h,
+	  gwp-utils.c, gwp-utils.h, gwp.glade, main.c, vp_utils.c: Some
+	  advance on python console
+
+2004-06-12 20:29  ldipenti
+
+	* src/: vp_utils.c, global.h, starchart.c: truehull global var now
+	  has all race->hulls assignments
+
+2004-06-12 19:56  ldipenti
+
+	* src/callbacks.c: Added Sven on the authors list!!
+
+2004-06-12 13:15  cvs-sven
+
+	* src/gwp.glade: no hardcoded spec-lists in vcr
+
+2004-06-12 13:12  cvs-sven
+
+	* src/: callbacks.c, callbacks.h, vcr.c, vcr.h: vcr is able to get
+	  ships values for all own ships
+
+2004-06-10 09:27  ldipenti
+
+	* configure.in, po/de.po, po/es.po, po/fr.po, po/gwp.pot: French
+	  translation initiated
+
+2004-06-10 00:31  ldipenti
+
+	* configure.in, debian/files, debian/gwp.substvars, po/de.po,
+	  po/es.po, po/gwp.pot, src/Makefile.am, src/callbacks.c,
+	  src/gwp-python.c, src/gwp-python.h, src/gwp-ship.h,
+	  src/gwp.glade, src/main.c: Various mods. The main one: change the
+	  build system to check for Python and add python support to the
+	  build.
+
+2004-06-09 11:47  ldipenti
+
+	* src/: gwp-utils.c, gwp-utils.h: new function
+
+2004-06-09 11:34  cvs-sven
+
+	* src/: vcr.c, vcr.h: prototype of the visual combat recorder VCR
+
+2004-06-09 10:16  cvs-sven
+
+	* TODO, src/Makefile.am, src/callbacks.c, src/callbacks.h,
+	  src/gwp.glade: added a visual combat recorder prototype
+
+2004-06-08 17:25  ldipenti
+
+	* src/gwp.glade: New python console UI defined
+
+2004-06-07 14:24  cvs-sven
+
+	* src/: callbacks.c, gwp-messages.c, gwp-messages.h,
+	  message-reader.c: treeview: message is highlighted when using
+	  next/prev buttons
+
+2004-06-07 10:52  cvs-sven
+
+	* src/message-reader.c: bug-fix: message-reader, converting to
+	  UTF-8
+
+2004-06-06 18:58  ldipenti
+
+	* ChangeLog, Doxyfile, TODO, configure.in, releaser.sh,
+	  debian/changelog, package/gwp-fedora.spec, package/gwp-mdk.spec:
+	  Release 0.3.1 commit, yeah!
+
+2004-06-06 04:45  ldipenti
+
+	* src/: gwp-object.c, gwp.glade, vp_unpack.c: Some misc changes....
+
+2004-06-06 04:30  ldipenti
+
+	* src/vp_utils.c: removed some check messages to console
+
+2004-06-06 04:28  ldipenti
+
+	* TODO, src/vp_utils.c: Bugfix: visual contacts from KOREx.DAT were
+	  not loaded, corrected!
+
+2004-06-05 17:55  ldipenti
+
+	* TODO: Some new TODOs
+
+2004-06-05 15:13  cvs-sven
+
+	* TODO, src/callbacks.c, src/gwp-messages.c, src/gwp-messages.h,
+	  src/message-reader.c, src/message-reader.h: message reader
+	  improvements
+
+2004-06-04 16:21  cvs-sven
+
+	* src/: callbacks.c, gwp-messages.c, message-reader.c,
+	  message-reader.h: new message-reader
+
+2004-06-04 12:18  cvs-sven
+
+	* src/: gwp-messages.c, message-reader.c: new message reader
+	  treeview
+
+2004-06-04 12:07  ldipenti
+
+	* src/gwp.glade: Reader: Added a string to label to allow selecting
+	  it from glade-2
+
+2004-06-04 12:05  ldipenti
+
+	* src/gwp.glade: Layout re-styling
+
+2004-06-04 11:53  cvs-sven
+
+	* src/: callbacks.c, callbacks.h, gwp-messages.c, gwp-messages.h,
+	  message-reader.c, message-reader.h: new version of message-reader
+	  with expandable/collapsable rows
+
+2004-06-04 11:26  cvs-sven
+
+	* src/gwp.glade: bug-fix: rows could get
+	  selected/expanded/collapsed
+
+2004-06-04 11:25  ldipenti
+
+	* src/game_mgr.c: Minor bugfix: When unpacking, the new turn number
+	  wasn't loaded on time to copy the new mdata file to the history
+	  directory
+
+2004-06-03 19:35  ldipenti
+
+	* src/gwp.glade: Some minor corrections because of the glade
+	  version change
+
+2004-06-03 18:53  cvs-sven
+
+	* src/: callbacks.c, callbacks.h, gwp-ship.c, gwp.glade,
+	  message-reader.c, vp_utils.c: [no log message]
+
+2004-06-03 18:41  ldipenti
+
+	* src/message-reader.c: a couple of minor fixes
+
+2004-06-03 17:39  ldipenti
+
+	* src/game_mgr.c: Message files are copied to the 'message-history'
+	  directory.
+
+2004-06-03 15:37  cvs-sven
+
+	* src/message-reader.c: changed the treeview in message-reader to
+	  display the messages in categories
+
+2004-06-03 12:02  cvs-sven
+
+	* src/: gwp-messages.c, gwp-messages.h, message-reader.c: small bug
+	  fix: message-turn-combobox increased constantly
+
+2004-06-03 11:41  cvs-sven
+
+	* src/gwp.glade: added change-event to the message-turn-GtkComboBox
+
+2004-06-03 07:47  ldipenti
+
+	* src/: Makefile.am, callbacks.c, callbacks.h, gwp-messages.c,
+	  gwp-messages.h, gwp.glade, message-reader.c, message-reader.h:
+	  New merge from Sven's work on the message reader: new improved UI
+	  and message history.
+
+2004-05-30 19:32  ldipenti
+
+	* src/game_mgr.c, src/game_state.c, ChangeLog: Bug fixed: new gwp
+	  users was having problems with gwp format version checks
+
+2004-05-25 02:21  ldipenti
+
+	* package/gwp-mdk.spec: Autodetect dependencies on mdk spec
+
+2004-05-25 00:29  ldipenti
+
+	* package/: gwp-fedora.spec, gwp-mdk.spec, gwp.spec: Now two spec
+	  files: fedora & mandrake
+
+2004-05-24 01:23  ldipenti
+
+	* ChangeLog: date to changelog
+
+2004-05-24 01:02  ldipenti
+
+	* ChangeLog, Doxyfile, configure.in, releaser.sh, debian/changelog,
+	  debian/gwp.substvars, help/C/gwp.xml,
+	  help/C/figures/game-mgr-edit-game.png,
+	  help/C/figures/game-mgr.png, help/C/figures/starchart-planet.png,
+	  help/C/figures/starchart-ship-complete.png,
+	  help/C/figures/starchart-ship-simple.png,
+	  help/C/figures/starchart-starbase.png,
+	  help/C/figures/starchart.png, package/gwp.spec, po/de.po,
+	  po/es.po, po/gwp.pot, src/Makefile.am, src/callbacks.c,
+	  src/callbacks.h, src/gwp-object.c, src/gwp-object.h,
+	  src/gwp.glade, src/starchart.c: Release 0.3.0 commit, yeah!
+
+2004-05-24 00:15  ldipenti
+
+	* src/: gwp-messages.c, gwp-messages.h: Initial message reader for
+	  GWP, contribution from Sven!
+
+2004-05-23 13:19  ldipenti
+
+	* src/vp_utils.c: More bugfixing
+
+2004-05-23 12:52  ldipenti
+
+	* src/vp_utils.c: debugging
+
+2004-05-23 04:51  ldipenti
+
+	* src/: callbacks.c, callbacks.h, game_mgr.c, global.h, gwp.glade,
+	  main.c, mission.c, mission.h, starchart.c, starchart.h,
+	  vp_utils.c, vp_utils.h: UI bugfixes, Starbase UI finished,
+	  release 0.3.0 is very close.
+
+2004-05-22 21:08  ldipenti
+
+	* src/: starchart.c, gwp-ship.c, gwp-ship.h, vp_utils.c: Added
+	  unknown ships mass
+
+2004-05-22 17:32  ldipenti
+
+	* src/starchart.c: ETA calculation fixed for ships with waypoint
+	  set but warp 0 speed
+
+2004-05-22 00:20  ldipenti
+
+	* src/gwp.glade: Message reader UI completion
+
+2004-05-21 20:08  ldipenti
+
+	* src/starchart.c: If ship is towing nothing, say so.
+
+2004-05-21 20:03  ldipenti
+
+	* ChangeLog: calculate_mass method now checks if ship is laying
+	  mines
+
+2004-05-21 19:59  ldipenti
+
+	* src/: gwp-ship.h, gwp-ship.c: calculate_mass method now checks if
+	  ship is laying mines
+
+2004-05-21 03:06  ldipenti
+
+	* src/gwp.glade: Initial simple message reader UI
+
+2004-05-20 01:32  ldipenti
+
+	* src/starchart.c: Ship's waypoint changed to location name
+
+2004-05-19 10:04  ldipenti
+
+	* src/gwp-engspec.c: Bugfix: Fuel usage calculation fixed, thanks
+	  to summ!
+
+2004-05-18 01:34  ldipenti
+
+	* src/gwp.glade: Several bugfixes
+
+2004-05-18 01:32  ldipenti
+
+	* src/starchart.c: Ship list performance improvement
+
+2004-05-18 00:59  ldipenti
+
+	* src/: starchart.c, starchart.h, global.h: First implementation of
+	  location name function, used by anyone who wants to print the
+	  name of any location
+
+2004-05-17 23:26  ldipenti
+
+	* src/: race.c, starchart.c: Add owner field to planet panel
+
+2004-05-16 02:44  ldipenti
+
+	* ChangeLog, Makefile.am, configure.in, pixmaps/Makefile.am,
+	  pixmaps/races/Makefile.am, src/callbacks.c, src/callbacks.h,
+	  src/game_state.c, src/game_state.h, src/gwp.glade,
+	  src/gwp_types.c, src/gwp_types.h, src/starchart.c,
+	  src/starchart.h: Several fixes & additions (too late to remember)
+
+2004-05-16 01:01  ldipenti
+
+	* ChangeLog, src/game_mgr.c, src/global.h: new race icons!!
+
+2004-05-16 00:28  ldipenti
+
+	* pixmaps/races/: race-logo1.png, race-logo10.png, race-logo11.png,
+	  race-logo2.png, race-logo3.png, race-logo4.png, race-logo5.png,
+	  race-logo6.png, race-logo7.png, race-logo8.png, race-logo9.png:
+	  Race logos for game manager
+
+2004-05-16 00:27  ldipenti
+
+	* contrib/scripts/: parsekore.pl, plcat.pl: Some utility scripts
+	  from Stefan Reuther!
+
+2004-05-15 05:58  ldipenti
+
+	* Doxyfile, configure.in: Some version number error fixed
+
+2004-05-14 21:05  ldipenti
+
+	* src/: callbacks.c, game_state.c, game_state.h, gwp.glade,
+	  gwp_types.c, gwp_types.h, starchart.c, starchart.h: Planet names
+	  are hide/shown using menu
+
+2004-05-13 17:09  ldipenti
+
+	* ChangeLog, src/starchart.c: Zoom label fixed.
+
+	  Planet names showed
+
+2004-05-12 01:45  ldipenti
+
+	* src/: callbacks.c, global.h, main.c, starchart.c, starchart.h:
+	  Lots of UI optimizations and enhancements, thanks Nico!!!!
+
+2004-05-11 22:59  ldipenti
+
+	* src/callbacks.c: Simple drag starchart -- thanks Nico & Legui!!!!
+
+2004-05-11 18:24  ldipenti
+
+	* ChangeLog: New change
+
+2004-05-11 18:22  ldipenti
+
+	* Doxyfile, configure.in, pixmaps/ships/Makefile.am,
+	  pixmaps/ships/ship1.jpg, pixmaps/ships/ship10.jpg,
+	  pixmaps/ships/ship100.jpg, pixmaps/ships/ship101.jpg,
+	  pixmaps/ships/ship102.jpg, pixmaps/ships/ship103.jpg,
+	  pixmaps/ships/ship104.jpg, pixmaps/ships/ship105.jpg,
+	  pixmaps/ships/ship11.jpg, pixmaps/ships/ship12.jpg,
+	  pixmaps/ships/ship13.jpg, pixmaps/ships/ship14.jpg,
+	  pixmaps/ships/ship15.jpg, pixmaps/ships/ship16.jpg,
+	  pixmaps/ships/ship17.jpg, pixmaps/ships/ship18.jpg,
+	  pixmaps/ships/ship19.jpg, pixmaps/ships/ship2.jpg,
+	  pixmaps/ships/ship20.jpg, pixmaps/ships/ship21.jpg,
+	  pixmaps/ships/ship22.jpg, pixmaps/ships/ship23.jpg,
+	  pixmaps/ships/ship24.jpg, pixmaps/ships/ship25.jpg,
+	  pixmaps/ships/ship26.jpg, pixmaps/ships/ship27.jpg,
+	  pixmaps/ships/ship28.jpg, pixmaps/ships/ship29.jpg,
+	  pixmaps/ships/ship3.jpg, pixmaps/ships/ship30.jpg,
+	  pixmaps/ships/ship31.jpg, pixmaps/ships/ship32.jpg,
+	  pixmaps/ships/ship33.jpg, pixmaps/ships/ship34.jpg,
+	  pixmaps/ships/ship35.jpg, pixmaps/ships/ship36.jpg,
+	  pixmaps/ships/ship37.jpg, pixmaps/ships/ship38.jpg,
+	  pixmaps/ships/ship39.jpg, pixmaps/ships/ship4.jpg,
+	  pixmaps/ships/ship40.jpg, pixmaps/ships/ship41.jpg,
+	  pixmaps/ships/ship42.jpg, pixmaps/ships/ship43.jpg,
+	  pixmaps/ships/ship44.jpg, pixmaps/ships/ship45.jpg,
+	  pixmaps/ships/ship46.jpg, pixmaps/ships/ship47.jpg,
+	  pixmaps/ships/ship48.jpg, pixmaps/ships/ship49.jpg,
+	  pixmaps/ships/ship5.jpg, pixmaps/ships/ship50.jpg,
+	  pixmaps/ships/ship51.jpg, pixmaps/ships/ship52.jpg,
+	  pixmaps/ships/ship53.jpg, pixmaps/ships/ship54.jpg,
+	  pixmaps/ships/ship55.jpg, pixmaps/ships/ship56.jpg,
+	  pixmaps/ships/ship57.jpg, pixmaps/ships/ship58.jpg,
+	  pixmaps/ships/ship59.jpg, pixmaps/ships/ship6.jpg,
+	  pixmaps/ships/ship60.jpg, pixmaps/ships/ship61.jpg,
+	  pixmaps/ships/ship62.jpg, pixmaps/ships/ship63.jpg,
+	  pixmaps/ships/ship64.jpg, pixmaps/ships/ship65.jpg,
+	  pixmaps/ships/ship66.jpg, pixmaps/ships/ship67.jpg,
+	  pixmaps/ships/ship68.jpg, pixmaps/ships/ship69.jpg,
+	  pixmaps/ships/ship7.jpg, pixmaps/ships/ship70.jpg,
+	  pixmaps/ships/ship71.jpg, pixmaps/ships/ship72.jpg,
+	  pixmaps/ships/ship73.jpg, pixmaps/ships/ship74.jpg,
+	  pixmaps/ships/ship75.jpg, pixmaps/ships/ship76.jpg,
+	  pixmaps/ships/ship77.jpg, pixmaps/ships/ship78.jpg,
+	  pixmaps/ships/ship79.jpg, pixmaps/ships/ship8.jpg,
+	  pixmaps/ships/ship80.jpg, pixmaps/ships/ship81.jpg,
+	  pixmaps/ships/ship82.jpg, pixmaps/ships/ship83.jpg,
+	  pixmaps/ships/ship84.jpg, pixmaps/ships/ship85.jpg,
+	  pixmaps/ships/ship86.jpg, pixmaps/ships/ship87.jpg,
+	  pixmaps/ships/ship88.jpg, pixmaps/ships/ship89.jpg,
+	  pixmaps/ships/ship9.jpg, pixmaps/ships/ship90.jpg,
+	  pixmaps/ships/ship91.jpg, pixmaps/ships/ship92.jpg,
+	  pixmaps/ships/ship93.jpg, pixmaps/ships/ship94.jpg,
+	  pixmaps/ships/ship95.jpg, pixmaps/ships/ship96.jpg,
+	  pixmaps/ships/ship97.jpg, pixmaps/ships/ship98.jpg,
+	  pixmaps/ships/ship99.jpg, pixmaps/ships/vpl10.jpg,
+	  pixmaps/ships/vpl100.jpg, pixmaps/ships/vpl101.jpg,
+	  pixmaps/ships/vpl102.jpg, pixmaps/ships/vpl103.jpg,
+	  pixmaps/ships/vpl104.jpg, pixmaps/ships/vpl105.jpg,
+	  pixmaps/ships/vpl106.jpg, pixmaps/ships/vpl107.jpg,
+	  pixmaps/ships/vpl108.jpg, pixmaps/ships/vpl109.jpg,
+	  pixmaps/ships/vpl11.jpg, pixmaps/ships/vpl110.jpg,
+	  pixmaps/ships/vpl112.jpg, pixmaps/ships/vpl113.jpg,
+	  pixmaps/ships/vpl114.jpg, pixmaps/ships/vpl117.jpg,
+	  pixmaps/ships/vpl118.jpg, pixmaps/ships/vpl119.jpg,
+	  pixmaps/ships/vpl12.jpg, pixmaps/ships/vpl120.jpg,
+	  pixmaps/ships/vpl121.jpg, pixmaps/ships/vpl122.jpg,
+	  pixmaps/ships/vpl123.jpg, pixmaps/ships/vpl124.jpg,
+	  pixmaps/ships/vpl128.jpg, pixmaps/ships/vpl129.jpg,
+	  pixmaps/ships/vpl13.jpg, pixmaps/ships/vpl131.jpg,
+	  pixmaps/ships/vpl132.jpg, pixmaps/ships/vpl133.jpg,
+	  pixmaps/ships/vpl134.jpg, pixmaps/ships/vpl135.jpg,
+	  pixmaps/ships/vpl136.jpg, pixmaps/ships/vpl137.jpg,
+	  pixmaps/ships/vpl14.jpg, pixmaps/ships/vpl140.jpg,
+	  pixmaps/ships/vpl141.jpg, pixmaps/ships/vpl142.jpg,
+	  pixmaps/ships/vpl143.jpg, pixmaps/ships/vpl144.jpg,
+	  pixmaps/ships/vpl146.jpg, pixmaps/ships/vpl147.jpg,
+	  pixmaps/ships/vpl148.jpg, pixmaps/ships/vpl149.jpg,
+	  pixmaps/ships/vpl15.jpg, pixmaps/ships/vpl152.jpg,
+	  pixmaps/ships/vpl153.jpg, pixmaps/ships/vpl16.jpg,
+	  pixmaps/ships/vpl17.jpg, pixmaps/ships/vpl18.jpg,
+	  pixmaps/ships/vpl19.jpg, pixmaps/ships/vpl20.jpg,
+	  pixmaps/ships/vpl29.jpg, pixmaps/ships/vpl31.jpg,
+	  pixmaps/ships/vpl32.jpg, pixmaps/ships/vpl33.jpg,
+	  pixmaps/ships/vpl45.jpg, pixmaps/ships/vpl46.jpg,
+	  pixmaps/ships/vpl47.jpg, pixmaps/ships/vpl49.jpg,
+	  pixmaps/ships/vpl5.jpg, pixmaps/ships/vpl50.jpg,
+	  pixmaps/ships/vpl54.jpg, pixmaps/ships/vpl55.jpg,
+	  pixmaps/ships/vpl56.jpg, pixmaps/ships/vpl57.jpg,
+	  pixmaps/ships/vpl58.jpg, pixmaps/ships/vpl59.jpg,
+	  pixmaps/ships/vpl6.jpg, pixmaps/ships/vpl60.jpg,
+	  pixmaps/ships/vpl61.jpg, pixmaps/ships/vpl62.jpg,
+	  pixmaps/ships/vpl63.jpg, pixmaps/ships/vpl64.jpg,
+	  pixmaps/ships/vpl65.jpg, pixmaps/ships/vpl66.jpg,
+	  pixmaps/ships/vpl67.jpg, pixmaps/ships/vpl68.jpg,
+	  pixmaps/ships/vpl69.jpg, pixmaps/ships/vpl7.jpg,
+	  pixmaps/ships/vpl72.jpg, pixmaps/ships/vpl73.jpg,
+	  pixmaps/ships/vpl74.jpg, pixmaps/ships/vpl76.jpg,
+	  pixmaps/ships/vpl77.jpg, pixmaps/ships/vpl78.jpg,
+	  pixmaps/ships/vpl79.jpg, pixmaps/ships/vpl84.jpg,
+	  pixmaps/ships/vpl85.jpg, pixmaps/ships/vpl86.jpg,
+	  pixmaps/ships/vpl87.jpg, pixmaps/ships/vpl88.jpg,
+	  pixmaps/ships/vpl89.jpg, pixmaps/ships/vpl9.jpg,
+	  pixmaps/ships/vpl90.jpg, pixmaps/ships/vpl97.jpg,
+	  pixmaps/ships/vpl98.jpg, pixmaps/ships/vpl99.jpg, src/gwp-ship.c,
+	  src/gwp-ship.h, src/starchart.c: New ship pictures! The ones of
+	  VP4
+
+2004-05-06 14:17  ldipenti
+
+	* releaser.sh: Completing the super-script
+
+2004-05-05 21:19  ldipenti
+
+	* releaser.sh: Releaser utility - automate the release process as
+	  much as possible.
+
+2004-05-04 17:24  ldipenti
+
+	* src/gwp-starbase.c: some inline documentation
+
+2004-05-04 16:54  ldipenti
+
+	* src/gwp-ship.c: some inline documentation
+
+2004-05-04 16:39  ldipenti
+
+	* src/gwp-location.c: some inline documentation
+
+2004-05-04 16:21  ldipenti
+
+	* src/: gwp-beamspec.c, gwp-location.c: compilation warnings
+	  eliminated
+
+2004-05-04 16:17  ldipenti
+
+	* src/: gwp-ion-storm.c, gwp-planet.c, gwp-hullspec.c,
+	  gwp-engspec.c, gwp-torpspec.c: compilation warnings eliminated
+
+2004-05-04 16:14  ldipenti
+
+	* src/: gwp-object.c, gwp-flying-object.c, gwp-starbase.c,
+	  gwp-ship.c, gwp-minefield.c: compilation warnings eliminated
+
+2004-05-03 03:05  ldipenti
+
+	* Doxyfile, debian/changelog, debian/copyright, debian/files,
+	  debian/gwp.substvars: Late minute commit: Release 0.2.13 go go
+	  go!
+
+2004-05-03 02:30  ldipenti
+
+	* ChangeLog: typo
+
+2004-05-03 02:02  ldipenti
+
+	* package/gwp.spec: Ooops, forgot this one
+
+2004-05-03 02:00  ldipenti
+
+	* BUGS, ChangeLog, Makefile.am, configure.in, po/de.po, po/es.po,
+	  po/gwp.pot, src/gwp.glade, src/vp_utils.c: Release 0.2.13 commit
+
+2004-05-03 01:16  ldipenti
+
+	* src/gwp-engspec.c: compilation warning fixed
+
+2004-05-03 01:07  ldipenti
+
+	* src/vp_unpack.c: unpack now generates kore file
+
+2004-05-01 19:06  ldipenti
+
+	* src/Makefile.am: Removed "disable_deprecated" compilation flag...
+	  new gtk+ comes and I should migrate the new things in the future,
+	  when Debian include those libs
+
+2004-04-25 03:13  ldipenti
+
+	* src/starchart.c: Fixed bug with intercept missions
+
+2004-04-23 12:08  ldipenti
+
+	* src/gwp.glade:  Revert glade file to 1.26 version -- 1.27 was
+	  made with a 2.4 glade, odd...mandrake cooker sucks :-)
+
+2004-04-22 18:02  ldipenti
+
+	* src/starchart.c, src/global.h, ChangeLog: Special mark on planets
+	  with starbase
+
+2004-04-22 17:33  ldipenti
+
+	* src/gwp.glade: Some ship UI adds and planet UI corrections
+
+2004-04-22 17:11  ldipenti
+
+	* src/starchart.c: Added ship mission parameter for tow and
+	  intercept
+
+2004-04-22 17:10  ldipenti
+
+	* src/: gwp-ship.c, gwp-ship.h: Added a couple of methods that wrap
+	  a host problem about weapons detection
+
+2004-04-22 11:55  ldipenti
+
+	* src/Makefile.am: Added gwp-utils.c and gwp-utils.h files
+
+2004-04-22 11:48  ldipenti
+
+	* ChangeLog: new bugfix registered
+
+2004-04-21 21:21  ldipenti
+
+	* src/game_mgr.c: Warning message dialogs now use the new
+	  gwp_warning_dialog_new() wrapper
+
+2004-04-21 21:10  ldipenti
+
+	* src/vp_utils.c: load_kore_data now checks for uppercase or
+	  lowercase file, and shows a warning if neither files are found,
+	  but continue the execution
+
+2004-04-21 21:09  ldipenti
+
+	* src/: gwp-utils.c, gwp-utils.h: New file: GWP specific utils.
+	  Begining with a gtk warning dialog wrapper
+
+2004-04-21 12:08  ldipenti
+
+	* src/Makefile.am: GTK 2.4 has deprecated some widgets (GtkCombo
+	  for example)...so we need compatibility with both GTK 2.2 and GTK
+	  2.4, I removed the diable_gtk_deprecated cflag.
+
+2004-04-19 23:15  ldipenti
+
+	* ChangeLog, src/game_mgr.c: bug fixing
+
+2004-04-19 18:25  ldipenti
+
+	* src/game_mgr.c: Bug fixed: when the manager didn't have any game
+	  defined, if the user clicked on "play game" GWP crashed. Thanks
+	  Cristian!
+
+2004-04-15 17:24  ldipenti
+
+	* ChangeLog, debian/README.Debian, debian/changelog, debian/compat,
+	  debian/conffiles.ex, debian/control, debian/copyright,
+	  debian/cron.d.ex, debian/docs, debian/emacsen-install.ex,
+	  debian/emacsen-remove.ex, debian/emacsen-startup.ex,
+	  debian/files, debian/gwp-default.ex, debian/gwp.doc-base.EX,
+	  debian/gwp.postinst.debhelper, debian/gwp.postrm.debhelper,
+	  debian/gwp.substvars, debian/init.d.ex, debian/manpage.1.ex,
+	  debian/manpage.sgml.ex, debian/manpage.xml.ex, debian/menu,
+	  debian/postinst.ex, debian/postrm.ex, debian/preinst.ex,
+	  debian/prerm.ex, debian/rules, debian/watch.ex: Debian package
+	  generation!! woohoooo!!
+
+2004-04-15 11:38  ldipenti
+
+	* ChangeLog: A couple of changes notifications
+
+2004-04-15 02:43  ldipenti
+
+	* package/gwp.spec: First working spec file, works on mandrake 9.2
+
+2004-04-14 21:48  ldipenti
+
+	* package/gwp.spec: RPM spec file
+
+2004-04-11 02:53  ldipenti
+
+	* po/: de.po, es.po, gwp.pot: Eliminated some unstranslatable
+	  strings
+
+2004-04-11 02:52  ldipenti
+
+	* src/gwp.glade: More eliminated translatable properties from
+	  untranslatable strings such as "*" and ",".
+
+2004-04-11 02:49  ldipenti
+
+	* src/gwp.glade: eliminated some translatable properties from
+	  untranslatable strings such as "(", ")", "*".
+
+2004-04-11 02:45  ldipenti
+
+	* src/callbacks.c: Some UI usability glitch was fixed.
+
+2004-04-11 02:40  ldipenti
+
+	* src/: starchart.c, gwp-object.c: cp437 to utf8 tests were made,
+	  looks like works ok! all names now are automatically converted
+
+2004-04-10 22:35  ldipenti
+
+	* ChangeLog: new change
+
+2004-04-10 22:34  ldipenti
+
+	* ChangeLog, Doxyfile, po/POTFILES.in, po/de.po, po/es.po,
+	  po/gwp.pot, src/Makefile.am, src/gwp-ship.c, src/gwp-ship.h,
+	  src/gwp.glade, src/mission.c, src/mission.h, src/starchart.c:
+	  Ship visualization UI completed
+
+2004-04-10 03:25  ldipenti
+
+	* ChangeLog, configure.in, po/es.po, src/callbacks.c,
+	  src/game_state.c, src/game_state.h, src/gwp-planet.c,
+	  src/gwp-planet.h, src/gwp-ship.c, src/gwp-ship.h,
+	  src/gwp-starbase.c, src/gwp.glade, src/starchart.c,
+	  src/starchart.h: Several changes, additions, deletions...bah!
+	  doesn't matter because this is a release commit!! oh yeah!! let's
+	  call it Release-0_2_12!!
+
+2004-04-10 01:57  ldipenti
+
+	* src/game_mgr.c: added missing include
+
+2004-04-10 01:15  ldipenti
+
+	* src/gwp-hullspec.c: Documented function
+
+2004-04-10 00:40  ldipenti
+
+	* src/gwp-ion-storm.c: A little dirty patch to correct awful ion
+	  coordinates... Tim you suck!
+
+2004-04-09 22:32  ldipenti
+
+	* src/global.h: oops, wrong move!!
+
+2004-04-09 22:30  ldipenti
+
+	* src/vp_utils.c: code cleanup
+
+2004-04-09 22:02  ldipenti
+
+	* src/global.h: eliminate a not needed definition
+
+2004-04-09 20:22  ldipenti
+
+	* src/game_state.c: added a missing header
+
+2004-04-09 12:56  ldipenti
+
+	* src/: support.c, support.h: Added GPL header
+
+2004-04-09 12:40  ldipenti
+
+	* src/callbacks.h: Added GPL header
+
+2004-04-08 19:40  ldipenti
+
+	* src/: gwp.glade, starchart.c: Dseigning the ship UI
+
+2004-04-07 19:27  ldipenti
+
+	* src/starchart.c: Ion storm arrow
+
+2004-04-06 18:28  ldipenti
+
+	* ChangeLog, src/Makefile.am, src/global.h, src/gwp-ion-storm.c,
+	  src/gwp-ion-storm.h, src/gwp-minefield.c, src/gwp-object.c,
+	  src/gwp-object.h, src/gwp-planet.c, src/gwp-planet.h,
+	  src/starchart.c, src/starchart.h, src/vp_utils.c: * Some bugs
+	  fixed related to GwpObjects
+
+	  * Ion Storm type implemented and some basic visualization done
+
+2004-04-06 02:28  ldipenti
+
+	* ChangeLog, src/Makefile.am, src/game_state.c, src/global.h,
+	  src/gwp-engspec.c, src/gwp-minefield.c, src/gwp-minefield.h,
+	  src/gwp-ship.c, src/starchart.c, src/starchart.h, src/vp_utils.c,
+	  src/vp_utils.h: Corrected fuel usage algoritm, now it calculates
+	  better, not perfect!
+
+	  Implemented GwpMinefield to load the minefields from KOREx.DAT,
+	  they're showed on starchart
+
+2004-04-01 17:15  ldipenti
+
+	* src/: game_mgr.c, game_state.c, gwp-engspec.c, main.c,
+	  starchart.c: Temporal commit - fixing game cleanups
+
+2004-03-31 22:27  ldipenti
+
+	* README: 0.2.11 update
+
+2004-03-25 14:54  ldipenti
+
+	* src/main.c: Fixed some initialization code on gwp_init()
+
+2004-03-25 02:18  ldipenti
+
+	* src/gwp-starbase.c: Som source documentation...
+
+2004-03-25 01:51  ldipenti
+
+	* src/gwp-planet.c: Added more documentation to the source
+
+2004-03-24 18:09  ldipenti
+
+	* src/gwp-planet.c: Adding more sources documentation
+
+2004-03-24 17:51  ldipenti
+
+	* src/gwp-ship.c: Adding more sources documentation
+
+2004-03-24 10:43  ldipenti
+
+	* Doxyfile: Added autobrief option
+
+2004-03-24 10:31  ldipenti
+
+	* Doxyfile: paths fixed
+
+2004-03-24 00:50  ldipenti
+
+	* src/gwp-engspec.c: Some missing parameters in documentation fixed
+
+2004-03-24 00:49  ldipenti
+
+	* src/gwp-ship.c: High level methods documentation complete
+
+2004-03-23 18:06  ldipenti
+
+	* src/: gwp-engspec.c, gwp-ship.c: Some doxgen documentation added
+	  to high level methods
+
+2004-03-23 17:36  ldipenti
+
+	* ChangeLog: new changes on the log
+
+2004-03-23 17:29  ldipenti
+
+	* Doxyfile: Doxygen configuration file added.
+
+2004-03-23 02:28  ldipenti
+
+	* src/Makefile.am: Added specs.h file to automake
+
+2004-03-23 02:26  ldipenti
+
+	* ChangeLog, po/de.po, po/es.po, po/gwp.pot, src/game_mgr.c,
+	  src/gwp-hullspec.c, src/gwp-ship.c, src/gwp-ship.h,
+	  src/gwp-specs.h, src/starchart.c, src/vp_utils.c, src/vp_utils.h:
+	  Added fuel usage and mass calculation for ships using the specs
+	  types
+
+2004-03-22 20:55  ldipenti
+
+	* src/global.h: Global vars
+
+2004-03-22 20:54  ldipenti
+
+	* src/gwp-ship.c: partial commit
+
+2004-03-22 18:36  ldipenti
+
+	* src/vp_utils.c: Added BEAMSPEC.DAT loader code
+
+2004-03-22 11:59  ldipenti
+
+	* src/: vp_utils.c, vp_utils.h: Added TORPSPEC.DAT loading code.
+
+2004-03-22 11:59  ldipenti
+
+	* src/: gwp-torpspec.h, gwp-torpspec.c: Typo fixed and a couple of
+	  methods were missing...
+
+2004-03-22 11:38  ldipenti
+
+	* src/: vp_utils.c, vp_utils.h: Added ENGSPEC.DAT loading code.
+
+2004-03-22 11:35  ldipenti
+
+	* src/gwp-engspec.c: Oops, forgot the new() method
+
+2004-03-22 07:59  ldipenti
+
+	* src/Makefile.am: Added several specs types
+
+2004-03-22 00:38  ldipenti
+
+	* src/global.h: Added specs lists
+
+2004-03-22 00:35  ldipenti
+
+	* src/: starchart.c, vp_utils.c, vp_utils.h: hullspec list data
+	  type corrected to be from hash to slist
+
+2004-03-22 00:03  ldipenti
+
+	* src/: gwp-engspec.c, gwp-engspec.h: engines specs type
+
+2004-03-21 19:57  ldipenti
+
+	* src/: gwp-beamspec.c, gwp-beamspec.h: beam weapons specs type
+
+2004-03-21 19:57  ldipenti
+
+	* src/: gwp-torpspec.h, gwp-torpspec.c: torpedoes specs type
+
+2004-03-16 12:56  ldipenti
+
+	* AUTHORS: Author & contributors listed
+
+2004-03-16 12:44  ldipenti
+
+	* src/game_mgr.c: Initial coordinates to new games set to middle
+	  echo cluster by default ...thanks Nico!
+
+2004-03-15 23:26  ldipenti
+
+	* ChangeLog, configure.in, po/de.po, po/es.po, po/gwp.pot,
+	  src/callbacks.c: 0.2.11 release commit
+
+2004-03-15 00:12  ldipenti
+
+	* ChangeLog, src/callbacks.c, src/game_state.c, src/gwp.glade,
+	  src/starchart.c, src/vp_unpack.c, src/vp_utils.c: Various bug
+	  fixes, including full ship target support, beyond target 50!
+
+2004-02-18 01:33  ldipenti
+
+	* configure.in, po/de.po: Added German translation, thanks Stefan
+	  Reuther!!!
+
+2004-02-09 00:29  ldipenti
+
+	* ChangeLog, configure.in, pixmaps/Makefile.am,
+	  pixmaps/ships/Makefile.am, src/Makefile.am, src/callbacks.c,
+	  src/global.h, src/gwp-hullspec.c, src/gwp-hullspec.h,
+	  src/gwp.glade, src/starchart.c, src/starchart.h, src/vp_utils.c,
+	  src/vp_utils.h: Added GwpHullSpec data type to handle hull
+	  specifications.
+
+	  Added code to handle ship image viewing.
+
+2004-02-08 19:03  ldipenti
+
+	* pixmaps/ships/: Makefile.am, ship1.jpg, ship10.jpg, ship100.jpg,
+	  ship101.jpg, ship102.jpg, ship103.jpg, ship104.jpg, ship105.jpg,
+	  ship11.jpg, ship12.jpg, ship13.jpg, ship14.jpg, ship15.jpg,
+	  ship16.jpg, ship17.jpg, ship18.jpg, ship19.jpg, ship2.jpg,
+	  ship20.jpg, ship21.jpg, ship22.jpg, ship23.jpg, ship24.jpg,
+	  ship25.jpg, ship26.jpg, ship27.jpg, ship28.jpg, ship29.jpg,
+	  ship3.jpg, ship30.jpg, ship31.jpg, ship32.jpg, ship33.jpg,
+	  ship34.jpg, ship35.jpg, ship36.jpg, ship37.jpg, ship38.jpg,
+	  ship39.jpg, ship4.jpg, ship40.jpg, ship41.jpg, ship42.jpg,
+	  ship43.jpg, ship44.jpg, ship45.jpg, ship46.jpg, ship47.jpg,
+	  ship48.jpg, ship49.jpg, ship5.jpg, ship50.jpg, ship51.jpg,
+	  ship52.jpg, ship53.jpg, ship54.jpg, ship55.jpg, ship56.jpg,
+	  ship57.jpg, ship58.jpg, ship59.jpg, ship6.jpg, ship60.jpg,
+	  ship61.jpg, ship62.jpg, ship63.jpg, ship64.jpg, ship65.jpg,
+	  ship66.jpg, ship67.jpg, ship68.jpg, ship69.jpg, ship7.jpg,
+	  ship70.jpg, ship71.jpg, ship72.jpg, ship73.jpg, ship74.jpg,
+	  ship75.jpg, ship76.jpg, ship77.jpg, ship78.jpg, ship79.jpg,
+	  ship8.jpg, ship80.jpg, ship81.jpg, ship82.jpg, ship83.jpg,
+	  ship84.jpg, ship85.jpg, ship86.jpg, ship87.jpg, ship88.jpg,
+	  ship89.jpg, ship9.jpg, ship90.jpg, ship91.jpg, ship92.jpg,
+	  ship93.jpg, ship94.jpg, ship95.jpg, ship96.jpg, ship97.jpg,
+	  ship98.jpg, ship99.jpg: Ship images added to CVS
+
+2004-02-07 12:42  ldipenti
+
+	* src/starchart.c: changed "n/a" to "--" where values aren't known
+
+2004-02-07 11:45  ldipenti
+
+	* src/gwp-ship.c: Fixed a bug in the ETA calculation method
+
+2004-02-06 22:09  ldipenti
+
+	* src/gwp-ship.c: Bug in calculate_heading method -- fixed
+
+2004-02-06 19:28  ldipenti
+
+	* ChangeLog: ChangeLog updated
+
+2004-02-05 19:10  ldipenti
+
+	* src/gwp-ship.c: Removed som bad checks on cargo unload and
+	  transfer functions
+
+2004-02-02 01:47  ldipenti
+
+	* Makefile.am, configure.in, po/POTFILES.in, po/es.po, po/gwp.pot,
+	  src/callbacks.c, src/starchart.c: Some fixes for 0.2.10 release
+
+2004-02-02 01:03  ldipenti
+
+	* src/: Makefile.am, callbacks.c, callbacks.h, game_mgr.c,
+	  global.h, gwp-flying-object.c, gwp-flying-object.h,
+	  gwp-location.c, gwp-location.h, gwp-ship.c, gwp-ship.h,
+	  gwp.glade, main.c, starchart.c, starchart.h, vp_utils.c: Finally
+	  the ships are shown properly, this is the version 0.2.10 commit!!
+	  yeah!
+
+2004-02-01 14:15  ldipenti
+
+	* src/callbacks.c: Fixed copyright symbol and year on about dialog
+
+2004-01-31 15:09  ldipenti
+
+	* src/gwp-planet.c: fixed little bug on mined_trit assignment
+
+2004-01-30 19:53  ldipenti
+
+	* src/vp_utils.c: Some code cleaning
+
+2004-01-30 07:34  ldipenti
+
+	* src/: Makefile.am, base.c, base.h, planet.c, planet.h,
+	  starchart.c, vp_utils.c: Eliminated rest of the old data source
+	  files
+
+2004-01-30 00:27  ldipenti
+
+	* Makefile.am, src/Makefile.am, src/global.h, src/gwp-starbase.c,
+	  src/gwp.glade, src/ship.c, src/ship.h, src/starchart.c,
+	  src/starchart.h, src/vp_utils.c: Old ship source files
+	  eliminated.
+
+	  Planets now are drawn as circles.
+
+	  Sort of ship mark implemented, must be polished.
+
+	  Added planet coords to UI planet panel.
+
+2004-01-26 15:41  ldipenti
+
+	* src/: callbacks.c, gwp-flying-object.c, gwp-object.c,
+	  gwp-planet.c, gwp-ship.c, gwp-ship.h, gwp-starbase.c,
+	  starchart.c, starchart.h, vp_utils.c: Feature added: ships are
+	  drawn as triangles, and they are rotated by their heading
+	  attribute.
+
+2004-01-25 21:03  ldipenti
+
+	* Makefile.am, configure.in, docs/class-diagram.dia,
+	  po/POTFILES.in, po/es.po, po/gwp.pot, src/callbacks.c,
+	  src/gwp-ship.c, src/gwp-ship.h, src/starchart.c, src/starchart.h,
+	  src/vp_utils.c: Finished with ship drawing, this will be called
+	  the 0.2.9 commit :-)
+
+2004-01-21 00:09  ldipenti
+
+	* docs/class-diagram.dia, src/callbacks.c, src/gwp-object.c,
+	  src/gwp-ship.c, src/gwp-ship.h, src/vp_utils.c: Some missing
+	  methods added to GwpShip, some fixed to GwpObject and some erased
+	  from GwpFlyingObject.
+
+	  Now all ships are being loaded with the new data scheme, they're
+	  not displayed yet.
+
+	  I've removed the dynamic highlight feature, I think it was
+	  annoying.
+
+2004-01-19 00:22  ldipenti
+
+	* src/: gwp-planet.c, gwp-starbase.c, gwp-starbase.h, tables.c,
+	  vp_utils.c: Error fixed in object copy method
+
+2004-01-18 22:19  ldipenti
+
+	* src/: Makefile.am, gwp-planet.c, gwp-planet.h, gwp-starbase.c,
+	  gwp-starbase.h, planet.c, starchart.c, starchart.h, vp_utils.c:
+	  Finished displaying all planet info as of version 0.2.8 with new
+	  data structure
+
+2004-01-18 12:48  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h, starchart.c, starchart.h,
+	  tables.c, tables.h: New planet scheme treatment finished
+	  (hopefully)
+
+2004-01-12 01:13  ldipenti
+
+	* docs/class-diagram.dia, src/callbacks.c, src/gwp-planet.c,
+	  src/gwp-planet.h, src/planet.c, src/planet.h, src/race.c,
+	  src/race.h, src/starchart.c, src/starchart.h, src/vp_utils.c:
+	  Changes being made to migrate planet management from old struct
+	  style to new gnome-type style...work in progress
+
+2004-01-08 19:59  ldipenti
+
+	* configure.in: Added some descriptions to definitions on
+	  configure.in to work with new autoheader
+
+2004-01-06 22:57  ldipenti
+
+	* Makefile.am: [no log message]
+
+2004-01-05 15:42  ldipenti
+
+	* Makefile.in, acconfig.h, aclocal.m4, config.h.in, stamp-h.in,
+	  po/Makefile.in.in: Removed useless files (for CVS)
+
+2004-01-05 01:15  ldipenti
+
+	* src/vp_utils.c: New planet loading it seems to be OK
+
+2004-01-05 00:54  ldipenti
+
+	* src/gwp-planet.c: Some bound checking code corrected
+
+2004-01-04 23:53  ldipenti
+
+	* src/Makefile.in: This file hasn't to be in cvs
+
+2004-01-03 11:51  ldipenti
+
+	* AUTHORS, docs/class-diagram.dia: Some new stuff
+
+2004-01-03 11:50  ldipenti
+
+	* src/main.c: Added init code to type system
+
+2004-01-03 11:48  ldipenti
+
+	* src/: Makefile.am, Makefile.in, main.c: Added the new object
+	  gwp-*.* to Makefile.in.  Disabled splash screen - it's annoying.
+
+2004-01-03 11:46  ldipenti
+
+	* src/: gwp-starbase.h, gwp-starbase.c: Added planet attribute,
+	  fixed some includes so that it compiles
+
+2004-01-03 11:46  ldipenti
+
+	* src/: gwp-planet.h, gwp-planet.c: Some fixes - added attributes
+	  and methods
+
+2004-01-03 11:45  ldipenti
+
+	* src/vp_utils.c: First attempt to use the GwpPlanet object
+
+2004-01-03 11:31  ldipenti
+
+	* src/: gwp-flying-object.h, gwp-flying-object.c, gwp-object.c,
+	  gwp-object.h: name attribute moved up to GwpObject class
+
+2004-01-02 21:27  ldipenti
+
+	* src/gwp-starbase.h: [no log message]
+
+2004-01-02 21:27  ldipenti
+
+	* src/gwp-starbase.c: planet attribute methods added
+
+2004-01-02 20:56  ldipenti
+
+	* src/: gwp-starbase.c, gwp-starbase.h: First version of
+	  GwpStarbase
+
+2004-01-02 14:55  ldipenti
+
+	* src/: gwp-starbase.h, gwp-object.c: (c) updated
+
+2004-01-02 13:52  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h: Finished gwp-planet
+
+2004-01-02 11:39  ldipenti
+
+	* src/gwp-ship.c: Added some cleanup code to dispose method
+
+2003-12-30 19:11  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h: New Glib type GwpPlanet
+
+2003-12-30 08:28  ldipenti
+
+	* docs/class-diagram.dia: Diagram updated
+
+2003-12-30 07:55  ldipenti
+
+	* src/: gwp-ship.h, gwp-flying-object.h, gwp-flying-object.c,
+	  gwp-ship.c: owner attr and methods moved from GwpFlyingObject to
+	  GwpShip
+
+2003-12-29 23:16  ldipenti
+
+	* src/: gwp-object.h, gwp-object.c, gwp-flying-object.h,
+	  gwp-flying-object.c: id attr and methods moved up to GwpObject
+
+2003-12-29 23:05  ldipenti
+
+	* src/gwp-object.c: Some mistakes on type checking and boundaries
+	  were corrected on methods
+
+2003-12-29 23:04  ldipenti
+
+	* src/gwp-flying-object.c: Some mistakes on type checking were
+	  corrected
+
+2003-12-28 23:52  ldipenti
+
+	* src/: gwp-ship.h, gwp-ship.c: Added (hopefully) all attributes
+	  and get/set methods to GwpShip class
+
+2003-12-24 00:23  ldipenti
+
+	* src/: gwp-object.h, gwp-ship.h, gwp-flying-object.h, gwp-ship.c,
+	  gwp-flying-object.c, gwp-object.c: Starting to migrate data
+	  structures to Glib's Object Type System
+
+2003-12-21 09:04  ldipenti
+
+	* src/ship.c: Some code formatting enhancements
+
+2003-09-10 21:07  ldipenti
+
+	* pixmaps/planets/sbase1.png: Starbase image, forgotten!
+
+2003-07-31 11:58  ldipenti
+
+	* docs/class-diagram.dia: Added ship class with attributes
+
+2003-07-31 10:58  ldipenti
+
+	* docs/class-diagram.dia: Added docs dir with class diagram
+
+2003-07-09 01:40  ldipenti
+
+	* po/es.po: Minor correction
+
+2003-07-09 01:40  ldipenti
+
+	* src/starchart.c: Minor feature: Planet name get underlined when
+	  it has a starbase
+
+2003-06-30 03:01  ldipenti
+
+	* configure.in, pixmaps/planets/Makefile.am, po/es.po, po/gwp.pot,
+	  src/Makefile.am, src/Makefile.in, src/base.c, src/base.h,
+	  src/callbacks.c, src/callbacks.h, src/game_mgr.c, src/game_mgr.h,
+	  src/game_state.c, src/game_state.h, src/global.h, src/gwp.glade,
+	  src/gwp_types.c, src/gwp_types.h, src/planet.c, src/planet.h,
+	  src/ship.c, src/starchart.c, src/starchart.h, src/tables.c,
+	  src/vp_types.h, src/vp_utils.c, src/vp_utils.h: Release 0.2.8
+	  commit. Changes:
+
+	  * Starbase data are now being loaded.  * Starbase image shows on
+	  planet image when applicable.  * Initial starbase view UI.  *
+	  Internal data reorganization to be able to save game state.  *
+	  Turns left calculation for mineral extraction on planets.  *
+	  Starchart coordinates are now saved from one GWP execution to
+	  another.  * Global Defense Systems calculation on each planet.  *
+	  Some buttons were added to the toolbar, one to toggle the GDS
+	  panel,   the other to show starbase panel.
+
+2003-06-29 04:17  ldipenti
+
+	* src/: base.c, base.h: Initial starbase support
+
+2003-06-23 03:41  ldipenti
+
+	* Makefile.am, Makefile.in: Oops, forgot documentation
+
+2003-06-23 03:27  ldipenti
+
+	* po/: ChangeLog, es.po, gwp.pot: Oops, I missed these...
+
+2003-06-23 03:23  ldipenti
+
+	* Makefile.am, Makefile.in, aclocal.m4, configure.in,
+	  pixmaps/Makefile.am, pixmaps/planets/Makefile.am,
+	  pixmaps/planets/planet-unknown.png,
+	  pixmaps/planets/planet0-9.png, pixmaps/planets/planet10-19.png,
+	  pixmaps/planets/planet20-29.png, pixmaps/planets/planet30-39.png,
+	  pixmaps/planets/planet40-49.png, pixmaps/planets/planet50-59.png,
+	  pixmaps/planets/planet60-69.png, pixmaps/planets/planet70-79.png,
+	  pixmaps/planets/planet80-89.png,
+	  pixmaps/planets/planet90-100.png, po/es.po, po/gwp.pot,
+	  src/callbacks.c, src/callbacks.h, src/gwp.glade, src/gwp_types.c,
+	  src/main.c, src/starchart.c, src/starchart.h: Release 0.2.7
+	  commit:
+
+	  * Some bugfixes on game manager were fixed * Added toolbar with
+	  show/hide menu function * Show planet image when double-clicking
+	  on one
+
+2003-06-18 15:09  ldipenti
+
+	* src/game_state.c: bug fixed: if the game dir didn't finished with
+	  a trailing /, the client couldn't find the data files
+
+2003-06-17 02:00  ldipenti
+
+	* COPYING-DOCS, Makefile.am, Makefile.in, configure.in,
+	  help/Makefile.am, help/omf.make, help/xmldocs.make,
+	  help/C/Makefile.am, help/C/fdl-appendix.xml, help/C/gwp-C.omf,
+	  help/C/gwp.xml, help/C/legal.xml,
+	  help/C/figures/game-mgr-edit-game.png,
+	  help/C/figures/game-mgr.png, help/C/figures/logo.png,
+	  help/C/figures/starchart-planet.png,
+	  help/C/figures/starchart.png, pixmaps/Makefile.am,
+	  po/Makefile.in.in, po/POTFILES.in, po/es.po, po/gwp.pot,
+	  src/Makefile.am, src/Makefile.in, src/callbacks.c,
+	  src/callbacks.h, src/game_mgr.c, src/global.h, src/gwp.glade,
+	  src/main.c: Release 0.2.6 commit:
+
+	  * Added online help * Fixed some UI usability issues on game
+	  manager
+
+2003-06-10 17:17  ldipenti
+
+	* src/main.c: Comments format corrected
+
+2003-06-09 01:11  ldipenti
+
+	* README, configure.in, po/POTFILES.in, po/es.po, po/gwp.pot,
+	  src/Makefile.am, src/Makefile.in, src/callbacks.c,
+	  src/callbacks.h, src/game_mgr.c, src/game_mgr.h,
+	  src/game_state.c, src/game_state.h, src/global.h, src/gwp.glade,
+	  src/gwp_types.c, src/main.c, src/planet.c, src/planet.h,
+	  src/race.c, src/race.h, src/ship.c, src/starchart.c,
+	  src/starchart.h, src/tables.c, src/tables.h, src/vp_unpack.c,
+	  src/vp_unpack.h, src/vp_utils.c, src/vp_utils.h: Multiple bug
+	  fixes & features added:
+
+	  * Full planet data show feature implemented.	* Extra panels
+	  hides and shows as requested.  * Estimated population growth
+	  table.  * User interface polished.  * Fixed some problems with
+	  starchart panning (now it's necessary to press the shift key).
+
+	  This is the version 0.2.5 commit!!
+
+2003-05-30 21:58  ldipenti
+
+	* src/starchart.c: Improved planet mark
+
+2003-05-30 02:25  ldipenti
+
+	* configure.in, pixmaps/logo.png, src/callbacks.c, src/starchart.c,
+	  src/starchart.h: * Big logo * Shift-drag to pan the starchart *
+	  click will select planet with a little red mark
+
+2003-05-26 00:37  ldipenti
+
+	* Makefile.am, Makefile.in, configure.in, gwp.desktop.in,
+	  pixmaps/gwp.png, pixmaps/logo.png, po/POTFILES.in, po/es.po,
+	  po/gwp.pot, src/callbacks.c, src/game_mgr.c, src/global.h,
+	  src/gwp.glade, src/gwp_types.c, src/gwp_types.h, src/planet.c,
+	  src/planet.h, src/starchart.c, src/starchart.h: Release 0.2.3
+	  commit!! various things:
+
+	  * i18n * Mini-map * Starchart panning * Starchart & mini-map
+	  antialiased * New GWP icon!! (thanks Ricardo!) * Some bugfixes
+
+2003-05-24 21:13  ldipenti
+
+	* src/: starchart.c, callbacks.c, starchart.h, main.c: Some changes
+	  to optimize a little the pan feature and not being dependent to
+	  libgal (not yet)
+
+2003-05-24 15:23  ldipenti
+
+	* configure.in, po/Makefile.in.in, po/es.po, po/gwp.pot,
+	  src/callbacks.c, src/callbacks.h, src/global.h, src/gwp.glade,
+	  src/main.c, src/starchart.c: Change cursor while panning the
+	  starchart
+
+2003-05-24 10:43  ldipenti
+
+	* src/callbacks.c: Fix: the span feature didn't worked when some
+	  key modifier (shift, ctrl, ...) was pressed.
+
+2003-05-24 10:11  ldipenti
+
+	* src/starchart.c: Mark some strings as translatable
+
+2003-05-24 02:41  ldipenti
+
+	* src/: global.h, callbacks.c: Basic starchart pan support - needs
+	  some optimization!!
+
+2003-05-24 01:33  ldipenti
+
+	* src/ship.c: Mark strings for translation
+
+2003-05-24 01:30  ldipenti
+
+	* src/: race.c, planet.c: Mark strings for translation
+
+2003-05-23 01:06  ldipenti
+
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure.in,
+	  po/Makefile.in.in, po/POTFILES.in, po/es.po, po/gwp.pot,
+	  src/Makefile.in, src/gwp.glade: i18n support added!!! :-)
+
+2003-05-22 00:43  ldipenti
+
+	* configure.in: Manteinance release - 0.2.1
+
+2003-05-22 00:25  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, game_state.c, game_state.h,
+	  planet.c, starchart.c, vp_utils.c, vp_utils.h: Code cleanup: tons
+	  of memory leaks fixed!
+
+2003-05-19 10:27  ldipenti
+
+	* src/main.c: Commented a couple of gtk 2.2 functions so that gtk
+	  2.0 users can compile the program
+
+2003-05-18 01:08  ldipenti
+
+	* configure.in: Release 0.2.0...at last :-)
+
+2003-05-18 00:53  ldipenti
+
+	* configure.in, src/starchart.c: Final commit to release 0.2.0
+
+2003-05-12 15:43  ldipenti
+
+	* contrib/kmkturn-1.3a.zip, contrib/kunpack-1.5d.zip,
+	  src/Makefile.am, src/Makefile.in, src/callbacks.c,
+	  src/callbacks.h, src/game_mgr.c, src/game_mgr.h,
+	  src/game_state.c, src/game_state.h, src/gwp.glade,
+	  src/gwp_types.c, src/gwp_types.h, src/main.c, src/vp_utils.c,
+	  src/vp_utils.h: Fixed bug that did strange things with the cancel
+	  button in the game_mgr_properties. Added RST unpacking support.
+	  Fixed some UI design flaw to game mgr props (thanks Nico for the
+	  tip!). Added some contrib files.
+
+2003-05-12 02:31  ldipenti
+
+	* src/: race_select.c, race_select.h: No longer needed
+
+2003-05-12 01:40  ldipenti
+
+	* src/: vp_unpack.c, vp_unpack.h: First adaptation of kunpack
+
+2003-05-11 21:30  ldipenti
+
+	* src/vp_types.h: Change all C++-style comments to C-style ones
+
+2003-05-11 21:20  ldipenti
+
+	* src/game_mgr.c: Adds the game name to window title, and race name
+	  to label
+
+2003-05-11 21:12  ldipenti
+
+	* contrib/: appendix.txt, filefmt.txt: New docs
+
+2003-05-11 14:54  ldipenti
+
+	* src/gwp_types.h: Moved the GameSettings structure here from old
+	  and dead game_types.h
+
+2003-05-11 14:49  ldipenti
+
+	* src/game_types.h: Moved contents to gwp_types.h
+
+2003-05-11 01:59  ldipenti
+
+	* configure: Bye bye useless file
+
+2003-05-11 01:50  ldipenti
+
+	* configure, configure.in, gwp.desktop.in, pixmaps/Makefile.am,
+	  src/callbacks.c, src/callbacks.h, src/game_mgr.c, src/gwp.glade:
+	  * Finished basic game manager.  * Cleaned some UI on the
+	  starchart * This is called: version 0.1.0 :-) TAG!!!
+
+2003-05-10 03:14  ldipenti
+
+	* gwp.desktop.in, pixmaps/Makefile.am, pixmaps/gwp.png,
+	  pixmaps/logo.png, src/Makefile.am, src/Makefile.in,
+	  src/callbacks.c, src/callbacks.h, src/game_mgr.c, src/game_mgr.h,
+	  src/gwp.glade: Backup-only commit: Almost there to version 0.1
+	  :-)
+
+2003-05-09 01:06  ldipenti
+
+	* src/: game_mgr.c, game_mgr.h, callbacks.c: Initial game-init code
+
+2003-05-09 00:47  ldipenti
+
+	* src/gwp.glade: Game administration ready!!! yeah!!
+
+2003-05-09 00:44  ldipenti
+
+	* src/: main.c, callbacks.c, game_mgr.h, game_mgr.c: Game
+	  administration ready!!! yeah!!
+
+2003-05-07 02:37  ldipenti
+
+	* pixmaps/Makefile.am, pixmaps/gwp_splash.png, src/callbacks.c,
+	  src/callbacks.h, src/game_mgr.c, src/game_mgr.h, src/global.h,
+	  src/gwp.glade, src/main.c: Backup-only commit - Data saving is
+	  ready, data loading no quite yet...
+
+2003-05-05 00:30  ldipenti
+
+	* src/: callbacks.h, game_mgr.c, game_mgr.h, game_types.h,
+	  gwp.glade, main.c: Backup-of-the-day commit, game manager almost
+	  there!!! :-)
+
+2003-05-05 00:25  ldipenti
+
+	* src/callbacks.c: Backup-of-the-day commit :-) Game Manager almost
+	  there!!!
+
+2003-05-03 21:23  ldipenti
+
+	* gwp.desktop.in, src/Makefile.am, src/Makefile.in,
+	  src/callbacks.c, src/callbacks.h, src/game_mgr.c, src/gwp.glade,
+	  src/main.c, src/race.c, src/race.h: Backup commit only
+
+2003-05-03 01:45  ldipenti
+
+	* src/: Makefile.am, callbacks.c, callbacks.h, game_mgr.c,
+	  game_mgr.h, game_types.h, gwp.glade: Backup commit only...
+
+2003-05-02 14:47  ldipenti
+
+	* src/game_types.h: first version: game_types
+
+2003-05-02 01:52  ldipenti
+
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	  configure.in, po/Makefile.in.in, src/Makefile.am,
+	  src/Makefile.in, src/callbacks.c, src/callbacks.h,
+	  src/game_mgr.c, src/game_mgr.h, src/global.h, src/gwp.glade,
+	  src/gwp.gladep, src/main.c, src/planet.c, src/race_select.c,
+	  src/starchart.c, src/vp_utils.c: Generic useless commit, only for
+	  backup
+
+2003-05-02 00:37  ldipenti
+
+	* pixmaps/: Makefile.am, game_icon.png: New pixmaps directory
+
+2002-08-10 03:19  ldipenti
+
+	* NEWS, TODO, README, aclocal.m4, Makefile.am, autogen.sh,
+	  configure, configure.in, gwp.desktop.in, Makefile.in,
+	  config.h.in, AUTHORS, stamp-h.in, ABOUT-NLS, ChangeLog,
+	  acconfig.h, po/ChangeLog, po/POTFILES.in, po/Makefile.in.in,
+	  src/gwp.gladep, src/vp_types.h, src/game_state.c,
+	  src/game_state.h, src/race_select.c, src/race_select.h,
+	  src/vp_utils.c, src/vp_utils.h, src/global.h, src/gwp_types.c,
+	  src/gwp_types.h, src/Makefile.am, src/callbacks.c,
+	  src/callbacks.h, src/Makefile.in, src/main.c, src/support.c,
+	  src/support.h, src/starchart.c, src/ship.c, src/ship.h,
+	  src/stamp-h.in, src/starchart.h, src/planet.c, src/planet.h,
+	  src/gwp.glade, contrib/filefmt.txt, contrib/ion-storms.html,
+	  contrib/pcc-markers.png, contrib/.xvpics/pcc-markers.png: Basta
+	  de tgz, es hora de CVS
+
+2002-08-10 03:19  ldipenti
+
+	* NEWS, TODO, README, aclocal.m4, Makefile.am, autogen.sh,
+	  configure, configure.in, gwp.desktop.in, Makefile.in,
+	  config.h.in, AUTHORS, stamp-h.in, ABOUT-NLS, ChangeLog,
+	  acconfig.h, po/ChangeLog, po/POTFILES.in, po/Makefile.in.in,
+	  src/gwp.gladep, src/vp_types.h, src/game_state.c,
+	  src/game_state.h, src/race_select.c, src/race_select.h,
+	  src/vp_utils.c, src/vp_utils.h, src/global.h, src/gwp_types.c,
+	  src/gwp_types.h, src/Makefile.am, src/callbacks.c,
+	  src/callbacks.h, src/Makefile.in, src/main.c, src/support.c,
+	  src/support.h, src/starchart.c, src/ship.c, src/ship.h,
+	  src/stamp-h.in, src/starchart.h, src/planet.c, src/planet.h,
+	  src/gwp.glade, contrib/filefmt.txt, contrib/ion-storms.html,
+	  contrib/pcc-markers.png, contrib/.xvpics/pcc-markers.png: Initial
+	  revision
+
