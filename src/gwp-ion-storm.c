@@ -17,6 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include "global.h"
 #include "gwp-flying-object.h"
 #include "gwp-ion-storm.h"
 
@@ -179,6 +180,20 @@ GString * gwp_ion_storm_get_class_str (GwpIonStorm *self)
 gboolean gwp_ion_storm_is_valid (GwpIonStorm *self)
 {
   g_assert (GWP_IS_ION_STORM(self));
+
+  /* FIXME: this shouldn't be here, maybe override gwp_object methods? */
+  /* FIXME: WE should check if the sphere plugin is on, to substract 100 LY */
+  /* Some coords corrections ... */
+  gint x = gwp_object_get_x_coord(GWP_OBJECT(self));
+  gint y = gwp_object_get_y_coord(GWP_OBJECT(self));
+  if (x > STARCHART_X_MAX) {
+    gwp_object_set_x_coord(GWP_OBJECT(self), 
+			   x - STARCHART_X_MAX + STARCHART_X_MIN);
+  }
+  if (y > STARCHART_Y_MAX) {
+    gwp_object_set_y_coord(GWP_OBJECT(self), 
+			   y - STARCHART_Y_MAX + STARCHART_Y_MIN);
+  }
 
   if (gwp_ion_storm_get_class(self) > 0 && 
       gwp_object_valid_coords(GWP_OBJECT(self))) {
