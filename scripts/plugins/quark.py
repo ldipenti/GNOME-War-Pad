@@ -38,11 +38,14 @@ class Quark(gwp.Plugin):
     #--------------------------------------------------------------------------     
     def _init_lists(self):
         self.pl = []
+        self.pl_otros = []
         all_pl = gwp.planet_get_list()
         for i in all_pl:
             p = all_pl[i]
             if p.is_mine():
                 self.pl.append(p)
+            elif p.is_known() and p.is_unowned():
+                self.pl_otros.append(p)
 
     #--------------------------------------------------------------------------
     
@@ -58,6 +61,7 @@ class Quark(gwp.Plugin):
         self.report_verify_happyness(p, 'c') # Colonists
         self.report_verify_happyness(p, 'n') # Natives
         self.report_verify_colonists(p)
+        self.report_verify_temperature(p) # Ve si conviene Terraformar
         
         
     #--------------------------------------------------------------------------
@@ -129,6 +133,22 @@ class Quark(gwp.Plugin):
             self.textbuffer.set_text(txt + "\n")
 
     #--------------------------------------------------------------------------
+    def report_verify_temperature(self, p): # FIXME : ESTADO TEMPORAL
+        if (p.get_temperature_f() < 15) or (p.get_temperature_f() > 84):
+            limit = p.get_col_growth_limit()
+            tax, max_i = self.calculate_max_income_from_natives(p)
+            if max_i < limit:
+                return 0
+            else:
+                # La $$ cobrada es limitada por la temperatura
+                terraformado = p.copy()
+                if (p.get_temperature_f() < 15):
+                    terraformado.set_temperature(100 \
+                                                 - terraformado.get_temperature() \
+                                                 + 1)
+                    # EN PROCESO
+
+    #--------------------------------------------------------------------------
     
 # *****************************************************************************
 # ***************************  Notification Area  *****************************
@@ -140,6 +160,7 @@ class Quark(gwp.Plugin):
         print "Planeta elegido: " + p.get_name()
         self.na_verify_happyness(p, 'c') # Colonists
         self.na_verify_happyness(p, 'n') # Natives
+        self.na_verify_colonists(p)
         
     #--------------------------------------------------------------------------
     def na_verify_happyness(self, p, people): # FIXME NOTIFICATION AREA
@@ -297,7 +318,12 @@ class Quark(gwp.Plugin):
                 self.signals_id = { planeta.get_id() : cod }
             else:
                 self.signals_id [ planeta.get_id() ] = cod
-        
+        for planeta in self.pl_otros: # Planetas orbitados sin dueño
+            cod = planeta.connect("selected", self.na_generar)
+            if self.signals_id == []:
+                self.signals_id = { planeta.get_id() : cod }
+            else:
+                self.signals_id [ planeta.get_id() ] = cod
             
     ###########################################################################        
     ################################## GUI ####################################
