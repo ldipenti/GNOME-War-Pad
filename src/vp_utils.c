@@ -560,6 +560,9 @@ GHashTable * load_sdata (void)
     gwp_ship_set_intercept_ship_id (s, getWord(buffer + 103));
     gwp_ship_set_megacredits (s, getWord(buffer + 105));
     
+    /* Calculate heading from other data */
+    gwp_fo_set_heading(GWP_FLYING_OBJECT(s), gwp_ship_calculate_heading(s));
+
     /* Assign new memory for new ship */
     /*
     tmp = g_malloc (sizeof (VpShipReg));

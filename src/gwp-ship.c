@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <math.h>
+
 #include "gwp-flying-object.h"
 #include "gwp-ship.h"
 
@@ -194,7 +196,7 @@ static void gwp_ship_init (GTypeInstance  *instance,
   self->priv->intercept_ship_id = 0;
   self->priv->megacredits = 0;
 
-  g_message("GwpShip init");
+  /* g_message("GwpShip init"); */
 }
 
 static void gwp_ship_dispose (GwpShip *self)
@@ -216,14 +218,14 @@ static void gwp_ship_finalize (GwpShip *self)
   /* 
    * Here, complete object destruction.
    */
-  g_message("GwpShip finalize");
+  /* g_message("GwpShip finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_ship_class_init (GwpShipClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  g_message("GwpShipClass init");
+  /* g_message("GwpShipClass init"); */
   /*
    * Register destructor methods.
    */
@@ -242,6 +244,51 @@ GwpShip * gwp_ship_new (void)
 /**********************/
 /* High level methods */
 /**********************/
+
+/* Using own data, calculates heading */
+gint gwp_ship_calculate_heading (GwpShip *self)
+{
+  gdouble dx, dy;
+  gdouble hyp;
+  gdouble heading;
+  gint h;
+
+  g_assert (GWP_IS_SHIP(self));
+  
+  dx = gwp_ship_get_x_to_waypoint(self);
+  dy = gwp_ship_get_y_to_waypoint(self);
+
+  hyp = rint(sqrt((dx*dx) + (dy*dy)));
+
+  if (hyp != 0) {
+    heading = asin(dy/hyp);
+
+    h = rint(heading * (360 / (2 * 3.14159)));
+    
+/*     if (dx >= 0 && dy < 0) { */
+/*       h = 90 + (h * -1); */
+/*     } else if (dx < 0 && dy < 0) { */
+/*       h = h + 270; */
+/*     } else if (dx < 0 && dy >= 0) { */
+/*       h = h + 270; */
+/*     } else if (dx >= 0 && dy >= 0) { */
+/*       h = 90 + (h * -1); */
+/*     } */
+
+    if (dx >= 0) {
+      h = 90 + (h * -1);
+    } else {
+      h = h + 270;
+    }
+
+  } else {
+    h = 0;
+  }
+
+  g_message("heading: %d - %f, %f -> '%s'", h, dx, dy, gwp_object_get_name(GWP_OBJECT(self))->str);
+
+  return h;
+}
 
 /* Returns the ship with id */
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id) 

@@ -132,7 +132,7 @@ static void gwp_planet_init (GTypeInstance *instance,
   self->priv->natives_race = 0;
   self->priv->temperature = 0;
   self->priv->build_base = 0;
-  g_message("GwpPlanet init");
+  /* g_message("GwpPlanet init"); */
 }
 
 static void gwp_planet_dispose (GwpPlanet *self)
@@ -156,14 +156,14 @@ static void gwp_planet_finalize (GwpPlanet *self)
   /*
    * Here, complete object destruction.
    */
-  g_message ("GwpPlanet finalize");
+  /* g_message ("GwpPlanet finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_planet_class_init (GwpPlanetClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  g_message ("GwpPlanetClass init");
+  /* g_message ("GwpPlanetClass init"); */
   /*
    * Register destructor methods.
    */

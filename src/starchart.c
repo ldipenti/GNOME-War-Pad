@@ -623,27 +623,59 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
       /* Check if we don't have a ship in the same place */
       if ((item = gnome_canvas_get_item_at (starchart_get_canvas(), 
 					    xi, yi)) == NULL) {
+	GnomeCanvasPoints *points;
+
+	/* Generate polygon points */
+	points = gnome_canvas_points_new(3);
+	points->coords[0] = xi - 2.0; /* 1st point */
+	points->coords[1] = yi + 2.0;
+	points->coords[2] = xi + 2.0; /* 2nd point */
+	points->coords[3] = yi + 2.0;
+	points->coords[4] = xi; /* 3rd point */
+	points->coords[5] = yi - 4.0;
+
 	if (gwp_ship_is_mine(ship)) {
+/* 	  item = gnome_canvas_item_new (ships_group,  */
+/* 					GNOME_TYPE_CANVAS_ELLIPSE, */
+/* 					"outline_color", OWNED_SHIP_COLOR, */
+/* 					"x1", xi - SHIP_RADIUS, "y1", */
+/* 					yi - SHIP_RADIUS, "x2", */
+/* 					xi + SHIP_RADIUS, "y2", */
+/* 					yi + SHIP_RADIUS, "width_pixels", 1, */
+/* 					"fill_color_rgba", UNIVERSE_COLOR_A,  */
+/* 					NULL); */
+
 	  item = gnome_canvas_item_new (ships_group, 
-					GNOME_TYPE_CANVAS_ELLIPSE,
+					GNOME_TYPE_CANVAS_POLYGON,
 					"outline_color", OWNED_SHIP_COLOR,
-					"x1", xi - SHIP_RADIUS, "y1",
-					yi - SHIP_RADIUS, "x2",
-					xi + SHIP_RADIUS, "y2",
-					yi + SHIP_RADIUS, "width_pixels", 1,
+					"points", points,
+					"width_pixels", 1,
 					"fill_color_rgba", UNIVERSE_COLOR_A, 
 					NULL);
+
 	} else {
+/* 	  item = gnome_canvas_item_new (ships_group,  */
+/* 					GNOME_TYPE_CANVAS_ELLIPSE, */
+/* 					"outline_color", SHIP_COLOR, "x1", */
+/* 					xi - SHIP_RADIUS, "y1", */
+/* 					yi - SHIP_RADIUS, "x2", */
+/* 					xi + SHIP_RADIUS, "y2", */
+/* 					yi + SHIP_RADIUS, "width_pixels", 1, */
+/* 					"fill_color_rgba", UNIVERSE_COLOR_A, */
+/* 					NULL); */
+
 	  item = gnome_canvas_item_new (ships_group, 
-					GNOME_TYPE_CANVAS_ELLIPSE,
-					"outline_color", SHIP_COLOR, "x1",
-					xi - SHIP_RADIUS, "y1",
-					yi - SHIP_RADIUS, "x2",
-					xi + SHIP_RADIUS, "y2",
-					yi + SHIP_RADIUS, "width_pixels", 1,
+					GNOME_TYPE_CANVAS_POLYGON,
+					"outline_color", SHIP_COLOR, 
+					"points", points,
+					"width_pixels", 1,
 					"fill_color_rgba", UNIVERSE_COLOR_A,
 					NULL);
 	}
+	starchart_rotate_ship (ship, item);
+
+	gnome_canvas_points_free(points);
+
         /* Bind canvas item to ship data */
 	/* FIXME!!! */
 	/*
@@ -1493,4 +1525,22 @@ void toggle_starbase_panel(gboolean show)
   } else {
     gtk_notebook_set_current_page(base_panel, 0);
   }
+}
+
+void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)
+{
+  gdouble r[6], t[6];
+  gdouble xi, yi;
+ 
+  vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(ship)), 
+		gwp_object_get_y_coord(GWP_OBJECT(ship)), 
+		&xi, &yi);
+
+  art_affine_translate (t, -xi, -yi);
+  art_affine_rotate (r, (gdouble)gwp_fo_get_heading(GWP_FLYING_OBJECT(ship)));
+  art_affine_multiply (r, t, r);
+  art_affine_translate (t, xi, yi);
+  art_affine_multiply (r, r, t);
+
+  gnome_canvas_item_affine_absolute (item, r);
 }

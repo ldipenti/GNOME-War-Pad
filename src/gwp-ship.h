@@ -60,6 +60,7 @@ GwpShip *gwp_ship_new (void);
 /**********************/
 /* High level methods */
 /**********************/
+gint gwp_ship_calculate_heading (GwpShip *self);
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
 gboolean gwp_ship_valid_coords(GwpShip *self);
 gboolean gwp_ship_is_mine(GwpShip *self);

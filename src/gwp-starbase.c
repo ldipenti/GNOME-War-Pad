@@ -138,7 +138,7 @@ static void gwp_starbase_init (GTypeInstance *instance,
   self->priv->build_beam_count = 0;
   self->priv->build_torp_type = 0;
   self->priv->build_torp_count = 0;
-  g_message("GwpStarbase init");
+  /* g_message("GwpStarbase init"); */
 }
 
 static void gwp_starbase_dispose (GwpStarbase *self)
@@ -160,14 +160,14 @@ static void gwp_starbase_finalize (GwpStarbase *self)
   /*
    * Here, complete object destruction.
    */
-  g_message ("GwpStarbase finalize");
+  /* g_message ("GwpStarbase finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_starbase_class_init (GwpStarbaseClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  g_message ("GwpStarbaseClass init");
+  /*  g_message ("GwpStarbaseClass init"); */
   /* Register destructor methods */
   gobject_class->dispose = gwp_starbase_dispose;
   gobject_class->finalize = gwp_starbase_finalize;

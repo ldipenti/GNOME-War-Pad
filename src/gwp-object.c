@@ -71,7 +71,7 @@ static void gwp_object_init (GTypeInstance *instance,
   self->priv->y_coord = 0;
   self->priv->id = 0;
   self->priv->name = g_string_new("");
-  g_message("GwpObject init");
+  /* g_message("GwpObject init"); */
 }
 
 static void gwp_object_dispose (GwpObject *self)
@@ -93,14 +93,14 @@ static void gwp_object_finalize (GwpObject *self)
   /*
    * Here, complete object destruction.
    */
-  g_message("GwpObject finalize");
+  /*g_message("GwpObject finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_object_class_init (GwpObjectClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  g_message("GwpObjectClass init");
+  /* g_message("GwpObjectClass init"); */
   /* Register destructor methods. */
   gobject_class->dispose = gwp_object_dispose;
   gobject_class->finalize = gwp_object_finalize;

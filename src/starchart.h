@@ -83,4 +83,6 @@ void starchart_mini_set_planet_img(GwpPlanet *planet);
 void toggle_global_defense_panel(gboolean show);
 void toggle_starbase_panel(gboolean show);
 
+void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item);
+
 #endif

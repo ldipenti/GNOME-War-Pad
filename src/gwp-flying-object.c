@@ -64,7 +64,7 @@ static void gwp_fo_init (GTypeInstance *instance,
   /* Attributes initialization */
   self->priv->heading = 0;
   self->priv->speed = 0;
-  g_message("GwpFlyingObject initialized");
+  /* g_message("GwpFlyingObject initialized"); */
 }
 
 static void gwp_fo_dispose (GwpFlyingObject *self)
@@ -86,14 +86,14 @@ static void gwp_fo_finalize (GwpFlyingObject *self)
   /*
    * Here, complete object destruction.
    */
-  g_message("GwpFlyingObject finalize");
+  /* g_message("GwpFlyingObject finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_fo_class_init (GwpFlyingObjectClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  g_message("GwpFlyingObjectClass init");
+  /* g_message("GwpFlyingObjectClass init"); */
   /* Register destructor methods. */
   gobject_class->dispose = gwp_fo_dispose;
   gobject_class->finalize = gwp_fo_finalize;
