@@ -28,7 +28,7 @@
 #include "game_state.h"
 #include "vp_utils.h"
 #include "vp_types.h"
-#include "ship.h"
+/* #include "ship.h" */
 #include "planet.h"
 #include "base.h"
 #include "starchart.h"

@@ -44,8 +44,6 @@ gwp_SOURCES = \
 	planet.h\
 	base.c\
 	base.h\
-	ship.c\
-	ship.h\
 	starchart.c\
 	starchart.h\
 	gwp_types.c\

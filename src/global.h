@@ -64,19 +64,22 @@
 #define IS_ALLIED 3
 #define IS_UNOWNED 4
 
-#define PLANET_RADIUS 0.4
+#define PLANET_RADIUS 2.5
 #define SHIP_RADIUS 1.0
 #define HIGHLIGHTED_PLANET_RADIUS 4.0
 #define HIGHLIGHTED_SHIP_RADIUS 1.0
 
 #define HIGHLIGHTED_OWNED_PLANET_COLOR "yellow"
 #define HIGHLIGHTED_OWNED_SHIP_COLOR "light sky blue"
+
 #define OWNED_PLANET_COLOR "green"
-#define OWNED_SHIP_COLOR "slate blue"
+#define PLANET_COLOR "gray60"
+
+#define OWNED_SHIP_COLOR 0x0087ffff
+#define SHIP_COLOR 0xff0000ff
+
 #define HIGHLIGHTED_PLANET_COLOR "white"
 #define HIGHLIGHTED_SHIP_COLOR "light pink"
-#define SHIP_COLOR "red"
-#define PLANET_COLOR "white" /*"gray60"*/
 #define QUADRANT_GRID_COLOR "gray30"
 #define UNIVERSE_COLOR "black"
 #define UNIVERSE_COLOR_A 0xffffff00 /* RGBA */

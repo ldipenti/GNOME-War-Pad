@@ -417,7 +417,7 @@ gint16 gwp_starbase_get_mission (GwpStarbase *self)
 void gwp_starbase_set_mission (GwpStarbase *self, gint16 mission)
 {
   g_assert (GWP_IS_STARBASE(self));
-  g_assert (mission >= 1 && mission <= 6);
+  g_assert (mission >= 0 && mission <= 6);
   self->priv->mission = mission;
 }
 
