@@ -887,10 +887,11 @@ gint gwp_planet_get_tax_collected_natives_max (GwpPlanet *self)
   gint ret;
 
   if (gwp_planet_get_happiness_natives(self) > 30) {
-    ret = ((gdouble)gwp_planet_get_natives(self)/100) * 
-      ((gdouble)gwp_planet_get_tax_natives(self)/10) * 
-      ((gdouble)gwp_planet_get_natives_spi(self)/5) * 
-      (gdouble)(gwp_planet_get_tax_rate_natives(self)/100);
+    ret = ((gdouble)gwp_planet_get_natives(self)/100.0) * 
+      ((gdouble)gwp_planet_get_tax_rate_colonists(self) / 100.0) *
+      ((gdouble)gwp_planet_get_tax_natives(self)/10.0) * 
+      ((gdouble)gwp_planet_get_natives_spi(self)/5.0) * 
+      ((gdouble)gwp_planet_get_tax_rate_natives(self)/100.0);
   } else {
     ret = 0;
   }
@@ -907,15 +908,19 @@ gint gwp_planet_get_tax_collected_natives_max (GwpPlanet *self)
  */
 gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
 {
-  gint ret;
-
+  /* Max amount of MC that can be collected */
+  gint max = gwp_planet_get_tax_collected_natives_max (self);
+  /* Real max possible amount of MC collected */
+  gint ret = gwp_planet_get_colonists(self) * 
+    ((gdouble)gwp_planet_get_tax_rate_colonists(self)/100.0) *
+    ((gdouble)gwp_planet_get_tax_rate_natives(self)/100.0);
+  
   /* If colonists are too few...we cannot collect all the money */
-  ret = gwp_planet_get_tax_collected_natives_max (self);
-  if (gwp_planet_get_colonists(self) < ret) {
-    ret = gwp_planet_get_colonists(self) * 
-      (gdouble)(gwp_planet_get_tax_rate_natives(self) / 100);
+  if (max > ret) {
+    return ret;
+  } else {
+    return max;
   }
-  return ret;
 }
 
 /**
