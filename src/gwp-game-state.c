@@ -68,6 +68,190 @@ struct _GwpGameStatePrivate {
   gint16 last_y_coord;
   gint16 x_coord;
   gint16 y_coord;
+
+  /* Host configuration settings */
+  gint host_recycle_col_ship; /**< The percentage of minerals invested
+				 in a ship's hull that are regained
+				 when a ship is colonised. Default is 75%. */
+  gint host_large_meteor_impact; /**< The chance that a large meteor
+				    will hit one of the 500 planets in
+				    the cluster. Default is 2%. */
+  gboolean host_space_mines; /**< Torps can be converted to spacemines
+				and laid as minefields. Default:
+				YES. */
+  gboolean host_alchemy_ships; /**< This enables the alchemy functions
+				  for the Merlin and the Neutronic
+				  Refinery Ship. Default: YES */
+  gboolean host_delete_old_msgs; /**< If a player misses a turn, the
+				    messages he or she received that
+				    turn will be saved and sent to the
+				    player again the next
+				    turn. Default: NO */
+  gboolean host_disable_pwd; /**< Players can protect their files
+				using a password. Default: NO */
+  gboolean host_rebel_build_fighters; /**< Rebels can build fighters
+					 in space?. Default: YES */
+  gboolean host_colonial_build_fighters; /**< Colonial can build fighters
+					    in space?. Default: YES */
+  gboolean host_robots_build_fighters; /**< Robots can build fighters
+					  in space?. Default: YES */
+  gint host_cloak_failure; /**< The chance that a cloaking device will
+			      malfunction, for no apparent
+			      reason. Default 0% */
+  gboolean host_priv_rob_cloak; /**< The Privateers can rob cloaked
+				   ships?. Default: NO */
+  gint host_dark_sense_range; /**< Empire's Dark Sense range in
+			    LY. Default: 200 */
+  gint host_ground_attack_ratio[11]; /**< Values for every race for how
+					many kills make a single dropped
+					clan. Default: Lizards=30,
+					Fascists=15, the rest=1 */
+  gint host_ships_visible_range; /**< The detectable range of
+				    non-cloaked ships in LY. Default:
+				    300 */
+  gboolean host_lizard_hiss_mission; /**< Default: YES */
+  gboolean host_rebel_ground_attack; /**< Default: YES */
+  gboolean host_fed_super_refit; /**< Default: YES */
+  gboolean host_crystal_web_mines; /**< Default: YES */
+  gint host_ground_defense_ratio[11]; /**< Default: Lizards=10,
+					 Fascists=5, the rest=1 */
+  gint host_cloak_fuel_use; /**< The amount of fuel used to cloak or
+			       stay cloaked per turn, per 100 kt of
+			       hullmass rounded up. Default: 5 */
+  gint host_sensors_range; /**< Sensor mission range in LY. Default:
+			      200 */
+  gboolean host_new_natives; /**< On colonized planets thought to be
+				devoid of native lifeforms, new
+				natives may be discovered. Default:
+				YES */
+  gboolean host_planets_attack_ships; /**< Using the NUK or ATT
+					 friendly code, a planet can
+					 use its fighters and beams to
+					 attack enemy ships. Default:
+					 YES */
+  gint host_borg_assimilation_rate; /**< Default: 100% */
+  gint host_starbase_free_fighters[11]; /**< Default: Evils=5, the
+					   rest=0 */
+  gint host_webmine_decay; /**< Default: 5% */
+  gint host_mine_decay; /**< Default: 5% */
+  gint host_max_mine_radius; /**< Default: 150 */
+  gint host_isotope_tudr; /** The rate at which new minerals are
+			      formed inside a planet. For the actual
+			      number of kilotons that appear, this
+			      rate is multiplied by the density
+			      first. Default: 5 */
+  gint host_structure_decay; /**< Rate dissapearance when there are
+				insufficient clans to support the
+				number of structures. Default: 1 */
+  gint host_mining_rate[11]; /**< Default: Fed=70, Lizard=200, the
+				rest=100 */
+  gboolean host_colonists_eat_supplies; /**< If enabled, part of a
+					   planet's overpopulation can
+					   survive the harsh climate
+					   by eating
+					   supply-units. Default: NO */
+  gboolean host_zero_fuel_ships_move; /**< Very light ships can move
+					 large distances without any
+					 fuel, while heavy ships can
+					 hardly move at all if they're
+					 fuelless. Default: YES */
+  gint host_mine_hit_odds; /**< The chance of hitting a mine for each
+			      lightyear of mines a spaceship passes
+			      through. Default: 1% */
+  gint host_webmine_hit_odds; /**< The chance of hitting a webmine for
+				 each lightyear of mines a spaceship
+				 passes through. Default: 5% */
+  gint host_mine_detect_range; /**< Ships on a minesweep mission will
+				  detect minefield. Default: 200 */
+  gint host_tax_rate[11]; /**< Colonists and natives living on planets
+			     can be taxed for money. Default:
+			     Feds=200, the rest=100 */
+  gboolean host_mines_destroy_mines; /**< Overlapping minefields of
+					non-allied races will destroy
+					each other. Default: YES */
+  gboolean host_es_bonus; /**< If enabled, ships gain some mass in
+			     battles depending on their type of
+			     engines. Default: NO */
+  gint host_es_bonus_rate; /**< Default: 0% */
+  gint host_colonial_sweep_rate; /**< The Colonies of Man have highly
+				    skilled fighterpilots: their
+				    fighters can be used to sweep
+				    mines. Default: 20 */
+  gboolean host_colonial_sweep_webs; /**< Default: NO */
+  gint host_mine_sweep_rate; /**< Amount of mines swept by a laser
+				beam. Default: 4 */
+  gint host_webmine_sweep_rate; /**< Amount of webmines swept by a
+				   laser beam. Default: 3 */
+  gint host_hiss_mission_efect; /**< Happiness points per ship using
+				   hiss mission. Default: 5 */
+  gint host_rob_mission_failure; /**< There is a slight chance that
+				    the Privateer rob mission will
+				    fail. Default: 1% */
+  gboolean host_planet_attack_rebel; /**< Default: NO */
+  gboolean host_planet_attack_fascist; /**< Default: NO */
+  gint host_mine_sweep_range; /**< Default: 5 */
+  gint host_webmine_sweep_range; /**< Default: 0 */
+  gboolean host_science_missions; /**< This setting enables the
+				     terraforming functions of the
+				     Eros, Bohemian and Onyx. Default:
+				     YES */
+  gdouble host_cloaked_mine_hit; /**< Default: 0.5% */
+  gint host_cloak_prevent_damage; /**< A ship with damage cannot cloak
+				     or stay cloaked. Default: 1% */
+  gboolean host_fed_crew_bonus; /**< Because of the highly trained
+				   crews, Federation ships receive
+				   several bonuses in combat. Default:
+				   YES */
+  gboolean host_one_engine_tow; /**< Default: NO */
+  gboolean host_hyperdrive_ships; /**< Default: YES */
+  gint host_climate_death_rate; /**< Default: 10% */
+  gboolean host_gravity_well; /**< Default: YES */
+  gboolean host_crystal_desert_adv; /**< Crystallines love desert
+				       temperatures. They have a
+				       higher growth rate and maximum
+				       population on hot
+				       planets. Default: YES */
+  gboolean host_mines_destroy_webs; /**< Default: NO */
+  gboolean host_climate_limit_pop; /**< Normally, on planets with a
+				      temperature below 15 degrees or
+				      above 84 the number of colonists
+				      that can survive is
+				      limited. Default: YES */
+  gint host_max_planet_income; /**< The maximum amount that can be
+				  earned from natives and colonists
+				  combined per planet per
+				  turn. Default: 5000 MC */
+  gint host_ion_storms; /**< The maximum number of Ion storms present
+			   in the cluster. Default: 5 */
+  gboolean host_firecloud_chunnel; /**< Default: YES */
+  gboolean host_superspy_deluxe; /**< Default: YES */
+  gboolean host_storms_hide_mines; /**< Default: YES */
+  gboolean host_fascist_glory_device; /**< Default: YES */
+  gboolean host_loki_anticloak; /**< Default: YES */
+  gboolean host_ladyroyale_gambling; /**< Default: YES */
+  gboolean host_cloaked_ships_attack; /**< Default: YES */
+  gboolean host_ship_cloning; /**< Default: YES */
+  gboolean host_boarding_party; /**< Default: YES */
+  gboolean host_imperial_assault; /**< Default: YES */
+  gint host_cobol_fuel; /**< The Cobol (built by the Colonies) scoops
+			   up fuel from space while flying. Default:
+			   2kt per turn */
+  gint host_hulltech_slowed_minehits; /**< Ships with a hull of a
+					 certain techlevel or higher
+					 are not slowed down by
+					 minehits. Default: 7 */
+  gboolean host_aries_makes_fuel; /**< The Aries (built by the
+				     Colonies) makes fuel out of
+				     minerals without needing
+				     supplies. Default: YES */
+  gboolean host_bioscanners; /**< The Brynhild, the Cobol and the Pawn
+				have bioscanners which scan for
+				natives and temperatures of all
+				planets within scanning
+				range. Default: YES */
+  gboolean host_loki_decloak_birds; /**< Default: NO */
+  gboolean host_vpa_extras; /** Default: NO */
+
   /* Toggle states */
   gboolean extra_panel_open;
   gboolean planet_names;
