@@ -29,16 +29,51 @@ noinst_PROGRAMS = check-gwp
 
 # Add here GWP's needed source files
 sources =								\
-	../src/support.h		../src/support.c		\
+	../src/gwp-specs.h						\
+	../src/global.h							\
+	../src/vp_types.h						\
 	../src/gwp-object.h		../src/gwp-object.c		\
-	../src/gwp-ui.h			../src/gwp-ui.c			
+	../src/gwp-flying-object.h	../src/gwp-flying-object.c	\
+	../src/gwp-ship.h		../src/gwp-ship.c		\
+	../src/gwp-starbase.h		../src/gwp-starbase.c		\
+	../src/gwp-planet.h		../src/gwp-planet.c		\
+	../src/gwp-location.h		../src/gwp-location.c		\
+	../src/gwp-hullspec.h		../src/gwp-hullspec.c		\
+	../src/gwp-beamspec.h		../src/gwp-beamspec.c		\
+	../src/gwp-torpspec.h		../src/gwp-torpspec.c		\
+	../src/gwp-engspec.h		../src/gwp-engspec.c		\
+	../src/gwp-minefield.h		../src/gwp-minefield.c		\
+	../src/gwp-ion-storm.h		../src/gwp-ion-storm.c		\
+	../src/gwp-starchart.h		../src/gwp-starchart.c		\
+	../src/gwp-ui.h			../src/gwp-ui.c			\
+	../src/gwp-messages.h		../src/gwp-messages.c		\
+	../src/gwp-py-functions.h	../src/gwp-py-functions.c	\
+	../src/callbacks.h		../src/callbacks.c		\
+	../src/support.h		../src/support.c		\
+	../src/game_state.h		../src/game_state.c		\
+	../src/starchart.h		../src/starchart.c		\
+	../src/gwp_types.h		../src/gwp_types.c		\
+	../src/vp_utils.h		../src/vp_utils.c		\
+	../src/game_mgr.h		../src/game_mgr.c		\
+	../src/vp_unpack.h		../src/vp_unpack.c		\
+	../src/tables.h			../src/tables.c			\
+	../src/mission.h		../src/mission.c		\
+	../src/race.h			../src/race.c			\
+	../src/message-reader.h		../src/message-reader.c		\
+	../src/vcr.h			../src/vcr.c			\
+	../src/vcr-combat.h		../src/vcr-combat.c		\
+	../src/vcr-combat-gl.h		../src/vcr-combat-gl.c		\
+	../src/trackball.h		../src/trackball.c		\
+	../src/gwp-python.h		../src/gwp-python.c		\
+	../src/gwp-utils.h		../src/gwp-utils.c
+
 
 # Unit test source files
 check_gwp_SOURCES = $(sources) 		\
 	check-gwp.c 			\
 	check-gwp-object.c		\
-	check-gwp-ui.c			
-#	check-gwp-starchart.c
+	check-gwp-ui.c			\
+	check-gwp-ship.c
 
 check_gwp_LDADD =  \
 	$(GNOME_LIBS) \
