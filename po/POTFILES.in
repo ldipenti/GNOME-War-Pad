@@ -24,4 +24,4 @@ src/gwp-beamspec.c
 src/gwp-torpspec.c
 src/gwp-hullspec.c
 src/mission.c
-src/vrc-combat-gl.c
+src/vcr-combat-gl.c
