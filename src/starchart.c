@@ -1349,7 +1349,7 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 				      "fill_color_rgba", OWNED_SHIP_COLOR, 
 				      NULL);
 
-	/* Add planet scanner range */
+	/* Add ship scanner range */
 	gnome_canvas_item_new (starchart_get_grp_scanner_area (),
 			       GNOME_TYPE_CANVAS_ELLIPSE,
 			       "outline_color_rgba", SCANNER_RANGE_COLOR,
@@ -1663,6 +1663,7 @@ void init_starchart (GtkWidget * gwp)
 			 "x1", 0.0, "y1", 0.0, "x2", CANVAS_WIDTH,
 			 "y2", CANVAS_WIDTH, "width_units", 1.0,
 			 "fill_color", UNIVERSE_COLOR, NULL);
+  g_message ("GUACAAAAAA");  
   
   /* Sets starchart grid */
   grid_points_v = gnome_canvas_points_new (2);
@@ -1693,7 +1694,7 @@ void init_starchart (GtkWidget * gwp)
 				       "width_pixels", 1,
 				       "points", grid_points_h, NULL);
   }
-  
+
   /* Loads Planets on Starchart */
   g_message("Loading planets...");
   g_hash_table_foreach (planet_list, (GHFunc) draw_planet, gwp);

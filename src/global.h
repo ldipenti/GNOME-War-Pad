@@ -114,7 +114,6 @@
 /* Global vars */
 GHashTable *planet_list;
 GHashTable *ship_list;
-GHashTable *target_list;
 GSList *minefield_list;
 GSList *storm_list;
 

@@ -47,6 +47,11 @@
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 static gint16 getWord(guchar* p);
 static gint32 getDWord(guchar* p);
+static GHashTable *target_list;
+
+#ifdef USE_PYTHON
+static gboolean python_loaded = FALSE;
+#endif
 
 /*
  * Data Loading Init Function
@@ -79,8 +84,11 @@ void init_data (void)
   g_message("TRUEHULL loaded...");
 
 #ifdef USE_PYTHON
-  gwp_python_inittab();
+  if (! python_loaded)
+    gwp_python_inittab();
+  python_loaded = TRUE;
 #endif
+
 }
 
 /*

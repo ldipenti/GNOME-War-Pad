@@ -40,7 +40,8 @@
 #include "gwp-utils.h"
 
 static void game_mgr_init_message_history (void);
-static void destroy_gobject (gpointer key, gpointer value, gpointer user_data);
+static void destroy_gobject_ht (gpointer key, gpointer value, gpointer user_data);
+static void destroy_gobject_sl (gpointer value, gpointer user_data);
 static gint game_state_get_version(void);
 static void game_state_set_version(gint version);
 
@@ -641,6 +642,7 @@ void game_mgr_play_game(GwpGameState *state)
 				      because of the turn number
 				      loading code. */
   init_starchart(gwp);
+  g_message ("opsie!!!!");
   init_starchart_mini();
 
   /* Get the widgets ready */
@@ -980,7 +982,7 @@ void game_mgr_delete_game(const gchar *name)
 void game_mgr_close_game(GwpGameState *game_state)
 {
   if(game_state) {
-    gint x, y;
+    gint x, y, i;
 
     /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
@@ -991,21 +993,54 @@ void game_mgr_close_game(GwpGameState *game_state)
     /* Clean up objects in memory */
     /******************************/
     
-    /* Eliminate planets and ships from memory*/
-    g_hash_table_foreach (planet_list, (GHFunc) destroy_gobject, NULL);
+    /* Eliminate planets */
+    g_hash_table_foreach (planet_list, (GHFunc) destroy_gobject_ht, NULL);
     g_hash_table_destroy (planet_list);
-
-    g_hash_table_foreach (ship_list, (GHFunc) destroy_gobject, NULL);
+    /* Eliminate ships */
+    g_hash_table_foreach (ship_list, (GHFunc) destroy_gobject_ht, NULL);
     g_hash_table_destroy (ship_list);
-
-    /* FIXME!!! cleanup code is buggy! */
+    /* Eliminate minefields */
+    g_slist_foreach (minefield_list, (GFunc) destroy_gobject_sl, NULL);
+    g_slist_free (minefield_list);
+    /* Eliminate ion storms */
+    g_slist_foreach (storm_list, (GFunc) destroy_gobject_sl, NULL);
+    g_slist_free (storm_list);
+    /* Eliminate hullspec */
+    g_slist_foreach (hullspec_list, (GFunc) destroy_gobject_sl, NULL);
+    g_slist_free (hullspec_list);
+    /* Eliminate beamspec */
+    g_slist_foreach (beamspec_list, (GFunc) destroy_gobject_sl, NULL);
+    g_slist_free (beamspec_list);
+    /* Eliminate torpspec */
+    g_slist_foreach (torpspec_list, (GFunc) destroy_gobject_sl, NULL);
+    g_slist_free (torpspec_list);
+    /* Eliminate engspec */
+    g_slist_foreach (engspec_list, (GFunc) destroy_gobject_sl, NULL);
+    g_slist_free (engspec_list);
+    /* FIXME: Dirty cleaning process? */
+    for (i = 0; i < TOTAL_QUADS; i++) {
+      planets_per_quad[i] = NULL;
+      ships_per_quad[i] = NULL;
+      locations_per_quad[i] = NULL;
+    }
+    /* Eliminate & recreate starchart */
+    g_object_unref (G_OBJECT(starchart_get_canvas()));
+    starchart_set_canvas (GNOME_CANVAS(gnome_canvas_new()));
   }
 }
 
 /**
  * Internal function to destroy GObjects from a HashTable
  */
-static void destroy_gobject (gpointer key, gpointer value, gpointer user_data)
+static void destroy_gobject_ht (gpointer key, gpointer value, gpointer user_data)
+{
+  g_object_unref (G_OBJECT(value));
+}
+
+/**
+ * Internal function to destroy GObjects from a GSList
+ */
+static void destroy_gobject_sl (gpointer value, gpointer user_data)
 {
   g_object_unref (G_OBJECT(value));
 }
