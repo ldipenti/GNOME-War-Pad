@@ -32,6 +32,7 @@
 #include "vp_utils.h"
 #include "vp_unpack.h"
 #include "race.h"
+#include "gwp-messages.h"
 
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
@@ -695,5 +696,105 @@ void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 void on_view_message_reader_activate (GtkWidget *widget,
 				      gpointer  user_data)
 {
-  /* FIXME: Noop */
+  GtkWidget *reader = lookup_widget("reader");
+  gtk_widget_show(reader);
+  GwpMessages *messages = (GwpMessages *)gwp_messages_new();
+  g_object_set_data(G_OBJECT(reader), "message_instance", messages);
+  on_reader_firstmess_btn_clicked( reader, user_data );
+}
+
+void on_reader_firstmess_btn_clicked (GtkWidget *widget,
+				      gpointer  user_data)
+{
+  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
+  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdFirst( messages ) ), -1 );
+//gwp_messages_firstMsg( messages );
+  gtk_text_view_set_buffer( textview, buffer );
+}
+
+void on_reader_prev_btn_clicked (GtkWidget *widget,
+				 gpointer  user_data)
+{
+  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
+  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdPrev( messages ) ), -1 );
+//gwp_messages_prevMsg( messages );
+  gtk_text_view_set_buffer( textview, buffer );
+}
+
+void on_reader_next_btn_clicked (GtkWidget *widget,
+				 gpointer  user_data)
+{
+  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
+  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdNext( messages ) ), -1 );
+//gwp_messages_nextMsg( messages );
+  gtk_text_view_set_buffer( textview, buffer );
+}
+
+void on_reader_lastmess_btn_clicked (GtkWidget *widget,
+				     gpointer  user_data)
+{
+  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
+  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw(messages, gwp_messages_getMessageIdLast( messages ) ), -1 );
+//gwp_messages_lastMsg( messages );
+  gtk_text_view_set_buffer( textview, buffer );
+}
+
+/* Ship list double-click to open extra panels */
+void on_ships_list_row_activated (GtkTreeView *ships_l,
+				  GtkTreePath *path,
+				  GtkTreeViewColumn *col,
+				  gpointer user_data)
+{
+  GtkTreeModel *model = NULL;
+  GtkTreeIter iter;
+  static gboolean loaded = FALSE;
+  static GtkNotebook *extra_info_panel = NULL;
+  static GtkNotebook *mini = NULL;
+
+  if (!loaded) {
+    loaded = TRUE;
+
+    extra_info_panel = (GtkNotebook *) lookup_widget("extra_info_panel");
+    mini = (GtkNotebook *) lookup_widget("notebook_mini");
+  }
+
+  /* Open extra panels */
+  starchart_open_extra_ship_panels();  
+  
+  /* Select ship */
+  model = gtk_tree_view_get_model (ships_l);
+  if (gtk_tree_model_get_iter(model, &iter, path)) {
+    gint ship_id;
+    /* get the ship ID from the first column */
+    gtk_tree_model_get (model, &iter, 0, &ship_id, -1);
+
+    /* Update panel with new data */
+    GwpShip *ship = gwp_ship_get (ship_list, ship_id);
+    update_ship_panel_with (ship);
+
+    /* Do extra work only if needed */
+    if (game_is_extra_panel_open(game_state)) {
+      gtk_notebook_set_current_page (extra_info_panel, EXTRA_PANEL_SHIP_PAGE);
+      gtk_notebook_set_current_page (mini, MINI_SHIP_PAGE);
+
+      /* Wait until widgets are in place */
+      while (gtk_events_pending())
+	gtk_main_iteration();
+
+      /* Center starchart around ship */ 
+      starchart_center_around (GWP_OBJECT(ship));
+    }
+  }  
 }

@@ -550,7 +550,7 @@ void update_ship_extra_panel (GwpShip *ship)
       if (gwp_object_get_id (GWP_OBJECT(obj_ship)) != 0) {
 	tmp = g_strdup_printf ("<i>(#%d) %s</i>",
 			       gwp_object_get_id(GWP_OBJECT(obj_ship)),
-			       gwp_object_get_name(GWP_OBJECT(obj_ship))->str);
+			       gwp_object_get_name_trunc(GWP_OBJECT(obj_ship),15)->str);
       } else {
 	tmp = _("<i>No ship</i>");
       }

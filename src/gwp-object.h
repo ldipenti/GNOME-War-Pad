@@ -65,6 +65,7 @@ GwpObject *gwp_object_new (void);
 /* High-Level methods */
 /**********************/
 gboolean gwp_object_valid_coords (GwpObject *self);
+GString * gwp_object_get_name_trunc (GwpObject *self, gint len);
 
 /*******************/
 /* Get-Set methods */

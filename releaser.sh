@@ -48,12 +48,45 @@ case $ANSWER in
 esac
 
 #### Version modification in several control files
+# Doxygen
 perl -p -i -e "s/^PROJECT_NUMBER(.*)=(.*)$/PROJECT_NUMBER\1= $VERSION/"  Doxyfile
+# configure.in
 perl -p -i -e "s/AC_INIT\((.*),(.*),(.*)\)/AC_INIT(\1, $VERSION,\3)/" configure.in
 perl -p -i -e "s/AM_INIT_AUTOMAKE\((.*),(.*)\)/AM_INIT_AUTOMAKE(\1, $VERSION)/" configure.in
+# SPEC file
+perl -p -i -e "s/%define version(.*)$/%define version $VERSION/" package/gwp.spec
+# debian changelog
+TMPFILE=/tmp/gwp.tmp
+rm -f $TMPFILE
+echo "gwp ($VERSION-1) unstable; urgency=low" >> $TMPFILE
+echo                                          >> $TMPFILE
+echo "  * Release $VERSION"                   >> $TMPFILE
+echo                                          >> $TMPFILE
+echo " -- Lucas Di Pentima <lucas@lunix.com.ar>  `date +'%a, %d %b %Y %T %z'`" >> $TMPFILE
+echo                                          >> $TMPFILE
+cat $TMPFILE debian/changelog > debian/changelog.tmp
+mv debian/changelog.tmp debian/changelog
+rm $TMPFILE
 ####
 
+###  CVS commiting & tagging
+cvs ci -m "Release $VERSION commit, yeah!"
+cvs -q tag Release-`echo $VERSION | tr . _`
+###
+
 #### Packages making
+# TGZ
 autoconf && automake && make clean && make dist
+# API
 rm -rf docs/api/html/* ; doxygen Doxyfile ; cd docs/api/ ; tar -cvzf ../../gwp-$VERSION-api.tar.gz html/ ; cd -
+# DEB
+fakeroot dpkg-buildpackage
 ####
+
+### Package uploading
+echo "Uploading packages..."
+scp gwp-$VERSION.tar.gz $URL_SITE"/releases"
+scp gwp-$VERSION-api.tar.gz $URL_SITE"/releases/documentation"
+scp ../gwp_"$VERSION"-1_i386.deb $URL_SITE"/releases/packages"
+scp -r docs/api $URL_SITE"/docs"
+###

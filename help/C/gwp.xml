@@ -4,9 +4,9 @@
   <!ENTITY legal SYSTEM "legal.xml">
   <!ENTITY GFDL SYSTEM "fdl-appendix.xml">
   <!ENTITY app "<application>GNOME War Pad</application>">
-  <!ENTITY appversion "0.2.6">
-  <!ENTITY manrevision "0.2.6">
-  <!ENTITY date "June 16, 2003">
+  <!ENTITY appversion "0.3.0">
+  <!ENTITY manrevision "0.3.0">
+  <!ENTITY date "May 23, 2004">
   <!-- Information about the entities
        The legal.xml file contains legal information, there is no need to edit the file.
        Use the appversion entity to specify the version of the application.
@@ -17,8 +17,8 @@
 
 <!--
       (Do not remove this comment block.)
-  Version: 0.1.0
-  Last modified: March 17, 2001
+  Version: 0.3.0
+  Last modified: May 23, 2001
   Maintainers:
                Lucas Di Pentima <lucas@lunix.com.ar>
 
@@ -34,9 +34,9 @@
     <!-- please do not change the id; for translations, change lang -->
     
     <articleinfo>
-      <title>&app; Manual V&manrevision;</title>
+      <title>&app; Manual v&manrevision;</title>
       <copyright>
-	<year>2003</year>
+	<year>2003, 2004</year>
 	<holder>Lucas Di Pentima</holder>
       </copyright>
       
@@ -66,6 +66,14 @@
 	<revision>
 	  <revnumber>&app; Manual V &manrevision;</revnumber>
 	  <date>2003-06-16</date>
+	  <revdescription>
+	    <para role="author">Lucas Di Pentima
+	    <email>lucas@lunix.com.ar</email></para>
+	  </revdescription>
+	</revision>
+	<revision>
+	  <revnumber>&app; Manual V &manrevision;</revnumber>
+	  <date>2004-05-23</date>
 	  <revdescription>
 	    <para role="author">Lucas Di Pentima
 	    <email>lucas@lunix.com.ar</email></para>
@@ -307,7 +315,7 @@
 	used for anything, you can leave them blank.</para>
     </sect1>
 
-    <sect1 id="basic_usage">
+    <sect1 id="sec:basic_usage">
       <title>&app; Basic Usage</title>
 
       <para>This client is very <emphasis>starchart
@@ -315,7 +323,7 @@
       some kind of starchart view, so that the player can maintain a
       global view at the game.</para>
 
-      <sect2 id="starchart_keys">
+      <sect2 id="sec:starchart_keys">
 	<title>Starchart keystrokes</title>
 
 	<para>The Echo Cluster is a square of 2000 by 2000
@@ -341,10 +349,16 @@
 	</itemizedlist>
 
 	<para>You can also scroll the starchart using the mouse, by
-	  shift-click &amp; dragging. Also, you can toggle the grid by
-	  pressing <keycap>G</keycap> and zoom in and zoom out with
+	  dragging it. Also, you can toggle the grid by pressing
+	  <keycap>G</keycap> and zoom in and zoom out with
 	  <keycap>+</keycap> and <keycap>-</keycap> from the
 	  keypad.</para>
+
+      <para>The planet names are automatically hidden when you zoom
+      out below 100%, but if you want you can turn them off using the
+      <guimenuitem>Planet names</guimenuitem> entry on the
+      <guimenu>View</guimenu> menu. Similar actions you can make with
+      minefields and ion storms.</para>
 
       </sect2>
 
@@ -353,8 +367,9 @@
 
 	<para>Each planet is represented by a tiny circle, if it's
 	grey the planet is unknown, if it's green, the planet is
-	ours. The red and blue circles correspond to ships, in future
-	versions they probably will change.</para>
+	ours. Planets with a green <emphasis>halo</emphasis>, are
+	planets that have starbases orbiting, so that you can identify
+	them quickly.</para>
 
 	<figure id="fig:starchart">
 	  <title>&app;'s StarChart</title>
@@ -372,8 +387,12 @@
 	linkend="fig:starchart-planet"/></para>
 
 	<para>At this mode, you can see all the data about the
-	selected planet, and will be able to modify things such as the
-	firendly code, taxes, mines, factories, defenses, etc.</para>
+	selected planet, and the starchart centers around the selected
+	planet so you can see it sorroundings. You should note that
+	the starchart scrolling functions are disabled in this view
+	mode, you can return to full starchart view hitting the
+	<keycap>Esc</keycap> key, or double-clicking on the planet
+	again.</para>
 
 	<para>On the lower left panel, there's a table with planet's
 	future information, based on its actual state, this is very
@@ -388,9 +407,64 @@
 
       </sect2>
 
-    </sect1>
+    <sect2 id="sec:starbase_ops">
+      <title>Starbase operations</title>
+
+      <para>Inside the planet extended view, you have on the upper
+      right corner the possibility to change to starbase view, there
+      you'll have all the needed information about the actual
+      starbase, asi you can see on the picture below.</para>
+
+      <figure id="fig:starchart-starbase">
+	<title>Information about a starbase</title>
+	<graphic fileref="figures/starchart-starbase.png"/>
+      </figure>
+
+      <para>On future releases, the lower left panel will have several
+      charts about the starbase providing you lots of valuable
+      information.</para>
+
+      <para>If the planet has no starbase, the corresponding
+      information fields are obviously erased.</para>
+    </sect2>
+
+    <sect2 id="sec:starship_ops">
+      <title>Starship operations</title>
+
+      <para>Ships on starchart are shown as little triangles, they're
+      blue if the ships are our own, and red if not. This triangles
+      are oriented specially to show the actual ship's heading, so you
+      can be aware of that even without the need of selecting every
+      ship.</para>
+
+      <para>To select a ship you should right-click near it, the right
+      panel switches to <emphasis>ship list mode</emphasis>, and show
+      a complete list of every visible ship on the same spot,
+      similarly to <xref linkend="fig:starchart-ship-simple"/>,
+      drawing a green mark around the selected location.</para>
+
+      <figure id="fig:starchart-ship-simple">
+	<title>Ship list view</title>
+	<graphic fileref="figures/starchart-ship-simple.png"/>
+      </figure>
+
+      <para>On the list you'll see the ship's ID and name, and
+      selecting any of this list items will update the information
+      below, showing a limited but vital set of ship data. If you
+      double-right-click on the starchart, or double-click on the ship
+      list, the extra panels will appear showing the rest of the
+      ship's data and the corresponding ship image, just like <xref
+      linkend="fig:starchart-ship-complete"/>.</para>
+
+      <figure id="fig:starchart-ship-complete">
+	<title>Complete ship info visualization</title>
+	<graphic fileref="figures/starchart-ship-complete.png"/>
+      </figure>
+    </sect2>
+
+  </sect1>
     
-    <!-- APPENDIX: License -->
-    &GFDL;
-    
+  <!-- APPENDIX: License -->
+  &GFDL;
+  
   </article>

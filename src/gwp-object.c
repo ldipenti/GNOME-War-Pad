@@ -142,6 +142,30 @@ gboolean gwp_object_valid_coords (GwpObject *self)
   }
 }
 
+/**
+ * Returns the object's name truncated.
+ *
+ * Object names can be very long, so with this function you can truncate
+ * it to a given number of characters.
+ *
+ * @param self a GwpObject.
+ * @param len the maximum name length accepted.
+ * @return A string containing the truncated name.
+ */
+GString * gwp_object_get_name_trunc (GwpObject *self, gint len)
+{
+  g_return_val_if_fail ((GWP_IS_OBJECT(self) && len > 0), NULL);
+
+  /* ...truncate object name if it's too long */
+  GString *tmp_str = g_string_new(gwp_object_get_name(self)->str);
+  if (tmp_str->len > len) {
+    tmp_str = g_string_truncate (tmp_str, len);
+    tmp_str = g_string_append (tmp_str, "...");
+  }
+
+  return tmp_str;
+}
+
 /*******************/
 /* Get-Set methods */
 /*******************/
