@@ -55,7 +55,7 @@ if test x$PCRE = xno; then
   AC_MSG_ERROR(Couldn't find Perl Compatible Regular Expression (PCRE) library)
 else
   PCRE_LIBS=`pcre-config --libs`
-  PCRE_CFLAGS=`pcre-condif --cflags`
+  PCRE_CFLAGS=`pcre-config --cflags`
   AC_SUBST(PCRE_LIBS)
   AC_SUBST(PCRE_CFLAGS)
 fi
