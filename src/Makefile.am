@@ -36,6 +36,12 @@ gwp_SOURCES = \
 	gwp-location.c\
 	gwp-hullspec.h\
 	gwp-hullspec.c\
+	gwp-beamspec.h\
+	gwp-beamspec.c\
+	gwp-torpspec.h\
+	gwp-torpspec.c\
+	gwp-engspec.h\
+	gwp-engspec.c\
 	callbacks.c\
 	callbacks.h\
 	support.c\
