@@ -21,7 +21,11 @@
  * This encapsulate game state values that need to be accesible
  * during the execution of the program
  */
- 
+
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <gnome.h>
 #include <string.h>
 
@@ -402,14 +406,14 @@ void game_set_toolbar(GameState *game_state, gboolean tb)
 }
 
 /* FIXME: delete this */
-void game_set_f_key (GameState *self, PyObject *fun)
+void game_set_f_key (GameState *self, void *fun)
 {
   g_assert(self != NULL);
   g_assert(fun != NULL);
 
   self->f_key = fun;
 }
-PyObject *game_get_f_key (GameState *self)
+void *game_get_f_key (GameState *self)
 {
   g_assert(self);
 

@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,11 +23,6 @@
 
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
-
-#ifdef USE_PYTHON
-/* Must be the first!! */
-#include "gwp-python.h"
-#endif
 
 #include <gnome.h>
 #include "race.h"
@@ -79,7 +74,7 @@ struct _GameState
   /* User settings */
   GameSettings *settings;
   /* FIXME: delete this!! */
-  PyObject *f_key;
+  void *f_key;
 };
 
 GameState *game_state_new(void);
@@ -113,8 +108,8 @@ void game_set_turn_number(GameState *game_state, gint turn);
 gint game_get_turn_number(const GameState *game_state);
 
 /* delete!! */
-void game_set_f_key (GameState *self, PyObject *fun);
-PyObject *game_get_f_key (GameState *self);
+void game_set_f_key (GameState *self, void *fun);
+void *game_get_f_key (GameState *self);
 
 
 void game_state_save(const GameState *state);
