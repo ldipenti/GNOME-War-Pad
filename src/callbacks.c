@@ -10,11 +10,11 @@
 #include "global.h"
 #include "game_state.h"
 #include "game_mgr.h"
-#include "race_select.h"
 #include "callbacks.h"
 #include "support.h"
 #include "starchart.h"
 #include "vp_utils.h"
+#include "vp_unpack.h"
 #include "race.h"
 
 
@@ -137,6 +137,7 @@ void on_game_mgr_game_dir_changed (GtkEditable *editable,
 {
   GtkEntry *race_name_entry;
   char *dir;
+  GtkWidget *btn_unpack = lookup_widget("game_mgr_btn_unpack");
 
   dir = gtk_editable_get_chars(editable, 0, -1);
   game_mgr_update_race_list(dir);
@@ -144,6 +145,9 @@ void on_game_mgr_game_dir_changed (GtkEditable *editable,
   /* Clear the race name on the entry */
   race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
   gtk_entry_set_text(race_name_entry, "");
+
+  /* Disable 'Unpack' Button */
+  gtk_widget_set_sensitive(btn_unpack, FALSE);
 }
 
 /* Lets play, dude! */
@@ -231,6 +235,7 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   GtkEntry *race_name_entry = NULL;
   GtkTreeIter iter;
   gint *race = NULL;
+  gchar *dir = NULL;
 
   race_l = (GtkTreeView *) lookup_widget("game_mgr_properties_race_list");
   model = gtk_tree_view_get_model(race_l);
@@ -250,6 +255,20 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   /* Bind its number (the really important data) */
   g_object_set_data(G_OBJECT(race_name_entry),
 		      "race_number", race);
+
+  /* Check if it's neccesary to activate the 'unpack' button */
+  dir = gnome_file_entry_get_full_path((GnomeFileEntry *)
+				       lookup_widget("game_mgr_game_dir"),
+				       FALSE);
+  if(vp_can_unpack(dir, *race)) {
+    GtkWidget *btn_unpack =
+      lookup_widget("game_mgr_btn_unpack");
+    gtk_widget_set_sensitive(btn_unpack, TRUE);
+  } else {
+    GtkWidget *btn_unpack =
+      lookup_widget("game_mgr_btn_unpack");
+    gtk_widget_set_sensitive(btn_unpack, FALSE);
+  }
 }
 
 void on_game_mgr_edit_game(GtkWidget *widget,
@@ -277,11 +296,23 @@ void on_game_mgr_edit_game(GtkWidget *widget,
       g_signal_connect(G_OBJECT(ok_button), 
 		       "clicked", 
 		       G_CALLBACK(game_mgr_cb_edit_game), 
-		       g_strdup(settings->game_name));
+		       iconlist);
       gtk_window_set_transient_for(GTK_WINDOW(game_mgr_properties), 
 				   GTK_WINDOW(game_mgr));
       gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
 			   _("Edit Game Properties"));
+
+      // Update 'Unpack' button status
+      if(vp_can_unpack(settings->game_dir, settings->race)) {
+	GtkWidget *btn_unpack =
+	  lookup_widget("game_mgr_btn_unpack");
+	gtk_widget_set_sensitive(btn_unpack, TRUE);
+      } else {
+	GtkWidget *btn_unpack =
+	  lookup_widget("game_mgr_btn_unpack");
+	gtk_widget_set_sensitive(btn_unpack, FALSE);
+      }
+
       gtk_widget_show(game_mgr_properties);
     } else {
       GtkWidget *warn;
@@ -386,7 +417,7 @@ void on_about_activate(GtkWidget *widget)
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
-				"(c) 2002,2003 Lucas Di Pentima",
+				_("(c) 2002,2003 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
 				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
 				(const gchar **)authors,
 				(const gchar **)documenters,
@@ -423,4 +454,30 @@ void on_game_close_activate (GtkWidget *widget,
 {
   gtk_widget_hide(gwp);
   gtk_widget_show(game_mgr);
+}
+
+void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
+				     gpointer user_data)
+{
+  GtkEntry *race_name_entry = 
+    (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
+  gint *race;
+  gchar *game_dir;
+
+  race = (gint *) g_object_get_data(G_OBJECT(race_name_entry),
+				    "race_number");
+
+  game_dir = 
+    gnome_file_entry_get_full_path((GnomeFileEntry *)
+				   lookup_widget("game_mgr_game_dir"),
+				   FALSE);
+  // Unpack this game
+  vp_unpack(game_dir, *race);
+
+  // Disable button if all ok
+  if(! vp_can_unpack(game_dir, *race)) {
+    GtkWidget *btn_unpack =
+      lookup_widget("game_mgr_btn_unpack");
+    gtk_widget_set_sensitive(btn_unpack, FALSE);    
+  }
 }

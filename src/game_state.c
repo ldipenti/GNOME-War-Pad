@@ -30,10 +30,25 @@
 #include "global.h"
 #include "vp_types.h"
 #include "game_state.h"
+#include "game_mgr.h"
 
 /*
  * Accessor functions to different members of GameState
  */
+
+void game_set_name (const gchar *name)
+{
+  gchar *real_name;
+
+  real_name = g_strdup(name);
+  game_mgr_game_name_demangle(real_name);
+  game_state.name = real_name;
+}
+
+const gchar *game_get_name (void)
+{
+  return game_state.name;
+}
  
 void game_set_dir(gchar *dir) {
   game_state.dir = g_string_assign(game_state.dir, dir);

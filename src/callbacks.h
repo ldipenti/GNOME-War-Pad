@@ -82,3 +82,6 @@ gboolean delete_event (GtkWidget *widget,
 
 void on_game_close_activate (GtkWidget *widget,
 			     gpointer user_data);
+
+void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
+				     gpointer user_data);

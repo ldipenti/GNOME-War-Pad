@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002,2003 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 #define GNOME_DISABLE_DEPRECATED
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <gnome.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -708,3 +710,53 @@ load_ships_per_quad (GnomeCanvasItem * ship,
     }
 }
 */
+
+gboolean vp_can_unpack(gchar *game_dir, gint race)
+/*
+ * Returns TRUE if the race can be unpacked on given directory
+ */
+{
+  struct stat rst_file;
+  struct stat pdata_file;
+  struct stat ship_file;
+  GString *pdata, *ship, *rst;
+  gboolean ret = FALSE;
+
+  g_assert(game_dir != NULL);
+
+  pdata = g_string_new ("pdata");
+  ship = g_string_new ("ship");
+  rst = g_string_new ("player");
+  
+  pdata = g_string_append (pdata, 
+			   g_strdup_printf ("%d.dis", race));
+  ship = g_string_append (ship,
+			  g_strdup_printf ("%d.dis", race));
+  rst = g_string_append (rst,
+			 g_strdup_printf ("%d.rst", race));
+
+  pdata = g_string_prepend(pdata, game_dir);
+  ship = g_string_prepend(ship, game_dir);
+  rst = g_string_prepend(rst, game_dir);
+
+  /* If playerN.rst exist...well... */
+  if(g_file_test(rst->str, G_FILE_TEST_IS_REGULAR)) {
+    stat(rst->str, &rst_file);
+    /* If PDATA file exists */
+    if(g_file_test(pdata->str, G_FILE_TEST_IS_REGULAR)) {
+      stat(pdata->str, &pdata_file);
+      /* If rst file is newer than pdata... */
+      if(rst_file.st_mtime > pdata_file.st_mtime)
+	ret = TRUE;
+    } else if(g_file_test(ship->str, G_FILE_TEST_IS_REGULAR)) {
+      stat(ship->str, &ship_file);
+      /* If rst file is newer than ship... */
+      if(rst_file.st_mtime > ship_file.st_mtime)
+	ret = TRUE;
+    } else {
+      ret = TRUE;
+    }
+  }
+
+  return ret;
+}

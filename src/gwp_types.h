@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002,2003 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -59,28 +59,28 @@ gboolean starchart_toggle_grid(void);
 
 typedef struct _Fleet Fleet;
 struct _Fleet {
-	gint fleet_num; // Fleet id
-	GSList *ships_in_fleet; // First Ship is fleet leader
-	GString *fleet_name;
-	GString *fleet_note;
+  gint fleet_num; /* Fleet id */
+  GSList *ships_in_fleet; /* First Ship is fleet leader */
+  GString *fleet_name;
+  GString *fleet_note;
 };
 
 typedef struct _Starchart Starchart;
 struct _Starchart {
-    gboolean grid;
-	GnomeCanvas *canvas;
-	
-	GnomeCanvasGroup *grp_root;
-    GnomeCanvasGroup *grp_grid;
-	
-	GnomeCanvasGroup *grp_planets;
-	GnomeCanvasGroup *grp_planets_mine;
-	GnomeCanvasGroup *grp_planets_enemy;
-	GnomeCanvasGroup *grp_planets_allied;
-	
-	GnomeCanvasGroup *grp_ships_mine;
-	GnomeCanvasGroup *grp_ships_enemy;
-	GnomeCanvasGroup *grp_ships_allied;	
+  gboolean grid;
+  GnomeCanvas *canvas;
+  
+  GnomeCanvasGroup *grp_root;
+  GnomeCanvasGroup *grp_grid;
+  
+  GnomeCanvasGroup *grp_planets;
+  GnomeCanvasGroup *grp_planets_mine;
+  GnomeCanvasGroup *grp_planets_enemy;
+  GnomeCanvasGroup *grp_planets_allied;
+  
+  GnomeCanvasGroup *grp_ships_mine;
+  GnomeCanvasGroup *grp_ships_enemy;
+  GnomeCanvasGroup *grp_ships_allied;	
 };
 
 /*
@@ -95,5 +95,8 @@ struct _GameSettings {
   gint host_type; // 1=THost ; 2=PHost
   gint race;
 };
+
+GameSettings *game_mgr_settings_new(void);
+void game_mgr_settings_free(GameSettings *s);
 
 #endif

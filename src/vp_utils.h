@@ -46,4 +46,6 @@ gint32 getDWord(guchar* p);
 
 void init_data(void);
 
+gboolean vp_can_unpack(gchar *game_dir, gint race);
+
 #endif

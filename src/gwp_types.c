@@ -149,3 +149,39 @@ gboolean starchart_toggle_grid(void)
     }
     return res;
 }
+
+/* Returns a GameSettings pointer with initializated data */
+GameSettings *game_mgr_settings_new(void)
+{
+  GameSettings *ret;
+
+  ret = g_malloc(sizeof(GameSettings));
+
+  ret->game_dir = NULL;
+  ret->game_name = NULL;
+  ret->trn_dir = "";
+  ret->rst_dir = "";
+  ret->player_email = "";
+  ret->host_email = "";
+  ret->host_type = 0;
+  ret->race = 0;
+
+  return ret;
+}
+
+/* Free GameSettings components to release memory */
+void game_mgr_settings_free(GameSettings *s) 
+{
+  g_assert(s != NULL);
+
+  g_free(s->game_dir);
+  /* FIXME: When this is tried to be freed, the app hangs 
+     (when deleting loaded icons from gconf)
+     g_free(s->game_name);
+  */
+  g_free(s->trn_dir);
+  g_free(s->rst_dir);
+  g_free(s->player_email);
+  g_free(s->host_email);
+  g_free(s);
+}

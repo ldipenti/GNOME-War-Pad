@@ -21,6 +21,7 @@
 #define GNOME_DISABLE_DEPRECATED
 
 #include <gnome.h>
+
 #include "global.h"
 #include "support.h"
 #include "game_mgr.h"
@@ -28,6 +29,7 @@
 #include "vp_utils.h"
 #include "starchart.h"
 #include "race.h"
+#include "vp_unpack.h"
 
 void game_mgr_init(void)
 {
@@ -123,7 +125,7 @@ void game_mgr_init(void)
 
 void game_mgr_update_race_list(char *dir) 
 {
-  GString *pdata, *ship;
+  GString *pdata, *ship, *rst;
   GtkTreeView *race_list;
   GtkListStore *store;
   GtkTreeIter iter;
@@ -149,18 +151,23 @@ void game_mgr_update_race_list(char *dir)
     for (i = 1; i <= 11; i++) {
       pdata = g_string_new ("pdata");
       ship = g_string_new ("ship");
+      rst = g_string_new ("player");
 
       pdata = g_string_append (pdata, 
 			       g_strdup_printf ("%d.dis", i));
       ship = g_string_append (ship,
 			      g_strdup_printf ("%d.dis", i));
+      rst = g_string_append (rst,
+			     g_strdup_printf ("%d.rst", i));
 
       pdata = g_string_prepend(pdata, dir);
       ship = g_string_prepend(ship, dir);
+      rst = g_string_prepend(rst, dir);
     
-      /* shipN.dis or pdataN.dis should exist... */
-      if (g_file_test(pdata->str, G_FILE_TEST_IS_REGULAR) || 
-	  g_file_test(ship->str, G_FILE_TEST_IS_REGULAR)) {
+      /* If one of the required files exist... */
+      if((g_file_test(rst->str, G_FILE_TEST_IS_REGULAR) ||
+	  g_file_test(pdata->str, G_FILE_TEST_IS_REGULAR) ||
+	  g_file_test(ship->str, G_FILE_TEST_IS_REGULAR))) {
 	
 	/* Add available races to race list */
 	gtk_list_store_append(store, &iter);
@@ -169,11 +176,13 @@ void game_mgr_update_race_list(char *dir)
 			   1, i,    /* invisible column with race number */
 			   -1);	
       }
-      g_string_free(pdata, TRUE);
-      g_string_free(ship, TRUE);
-    }    
-  }
+    }
+    g_string_free(pdata, TRUE);
+    g_string_free(ship, TRUE);
+    g_string_free(rst, TRUE);
+  }    
 }
+
 
 
 gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
@@ -206,7 +215,9 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
   /* This MUST be after the game_dir changed event :-) */
   gtk_entry_set_text(race_name, race_get_name(settings->race));
   g_object_set_data(G_OBJECT(race_name),
-		      "race_number", &settings->race);
+		    "race_number", &settings->race);
+  g_object_set_data(G_OBJECT(game_name),
+		    "old_game_name", g_strdup(settings->game_name));
 
   /* FIXME: Remember host type!!! */
   
@@ -224,10 +235,12 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
  * Callback function connected to OK button on the game
  * properties dialog when using it as an edit game dialog
  */
-void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name)
+void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 {
   gint icon_idx = game_mgr_get_icon_idx_selected();
-  GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
+  gchar *old_game_name = (gchar *)
+    g_object_get_data(G_OBJECT(lookup_widget("game_mgr_entry_game_name")),
+		      "old_game_name");
   
   /* If validations are ok... */
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_idx)) {
@@ -259,7 +272,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name)
     /* Disconnect signal before releasing dialog */
     g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
 					 G_CALLBACK(game_mgr_cb_edit_game),
-					 old_game_name);
+					 iconlist);
     gtk_widget_hide(game_mgr_properties);
     game_mgr_properties_dlg_clean();
   }
@@ -640,10 +653,31 @@ void game_mgr_play_game(GameSettings *sett)
 
   g_assert(sett != NULL);
 
-  /* Init data and lets start! */
+  /* Init basic data */
   game_init_dir(sett->game_dir);
   game_set_race(sett->race);
   game_set_name(sett->game_name);
+
+  /* Check for new RST */
+  if (vp_can_unpack(sett->game_dir, sett->race)) {
+    GtkResponseType response;
+    GtkWidget *warn;
+
+    warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
+				  GTK_DIALOG_DESTROY_WITH_PARENT,
+				  GTK_MESSAGE_QUESTION,
+				  GTK_BUTTONS_YES_NO,
+				  _("A new RST file was found. Do you want me to unpack it?"));
+
+    response = gtk_dialog_run(GTK_DIALOG(warn));
+    gtk_widget_destroy(warn);
+
+    if(response == GTK_RESPONSE_YES) {
+      vp_unpack(sett->game_dir, sett->race);
+    }
+  }
+
+  /* Read data files and init starchart */
   init_data();
   init_starchart(gwp);
 

@@ -26,20 +26,18 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
-#include "game_types.h"
+#include "gwp_types.h"
 
 void game_mgr_init(void);
 GtkWidget *game_mgr_get_properties_dlg(void);
 
 // Specific callbacks
 void game_mgr_cb_new_game(GtkWidget *widget, gpointer user_data);
-void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name);
+void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist);
 
 void game_mgr_update_race_list(char *dir);
 
 // Game settings functions
-GameSettings *game_mgr_settings_new(void);
-void game_mgr_settings_free(GameSettings *s);
 void game_mgr_settings_save(const GameSettings *settings);
 void game_mgr_settings_delete(const gchar *name);
 void game_mgr_properties_dlg_clean(void);

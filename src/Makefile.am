@@ -23,8 +23,6 @@ gwp_SOURCES = \
 	support.h\
 	main.c\
 	global.h\
-	race_select.c\
-	race_select.h\
 	game_state.h\
 	game_state.c\
 	planet.c\
@@ -40,7 +38,8 @@ gwp_SOURCES = \
 	vp_utils.h\
 	game_mgr.c\
 	game_mgr.h\
-	game_types.h\
+	vp_unpack.h\
+	vp_unpack.c\
 	race.c\
 	race.h
 
