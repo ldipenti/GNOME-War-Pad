@@ -232,6 +232,7 @@ pixmaps/vcr-textures/Makefile
 scripts/Makefile
 scripts/plugins/Makefile
 scripts/plugins/gwp_config.py
+scripts/plugins/quark_files/Makefile
 gwp.desktop
 ])
 

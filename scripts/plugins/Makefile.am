@@ -1,7 +1,10 @@
-#SUBDIRS = 
+SUBDIRS = quark_files
 
 EXTRA_DIST = \
 	     finder.py				\
+	     quark.py				\
+	     quark.glade			\
+	     quark_utils.py			\
 	     magallanes.py			\
 	     vp_utils.py			\
 	     gwp_config.py			\
