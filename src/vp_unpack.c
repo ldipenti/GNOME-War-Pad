@@ -359,12 +359,35 @@ void UnpackWinplan(char *player)
   unsigned long place = 40;
   unsigned char *buf;
   unsigned short nocontacts = 0;
-  gpointer junk = g_malloc0(90);
+  int i;
+  unsigned char *winplan_sig = g_malloc0 (6);
+  gpointer junk = g_malloc0 (90);
+
+  buf=rstremember+32; /* seek to check winplan signature */
+  for (i=0; i<6; i++) {
+    winplan_sig[i] = buf[i];
+  }
 
   buf=rstremember+place;
   ReadLong(place,buf);
   place--; /* this sucks */
   buf=rstremember+place;
+
+  /* Check for WinPlan RST */
+  if (strncmp(winplan_sig, "VER3.5", sizeof("VER3.5")) == 0) {
+    unsigned char *sig = g_malloc0 (5);
+    int i;
+    sig[4] = '\0';
+    for (i=0; i<4; i++) {
+      sig[i] = buf[i+13282]; /* offset to 1211 or 1120 signature */
+    }
+    if (!(strncmp(sig, "1211", 4) == 0) || (strncmp(sig, "1120", 4) == 0)) {
+      g_free (sig);
+      g_free (winplan_sig);
+      return;
+    }
+    g_free (sig);
+  }
   
   kore = OpenPlayerFile("kore", player, "dat");
 
@@ -397,6 +420,7 @@ void UnpackWinplan(char *player)
     fwrite(buf, 34, nocontacts, kore); /* contacts */
   }
 
+  g_free (winplan_sig);
   fclose(kore);
 } /* UnpackWinplan */
 
