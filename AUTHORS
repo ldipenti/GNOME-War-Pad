@@ -1,2 +1,16 @@
-Lucas Di Pentima <lucas@lunix.com.ar>
+Authors:
+-------
+* Lucas Di Pentima <lucas@lunix.com.ar>: Main developer
+
+
+Other contributions:
+-------------------
+
+* Nicolás César <ncesar@lunix.com.ar>: Lots of UI tips and optimizations.
+* Stefan Reuther <streu@gmx.de>: German translation.
+* German Maglione <german@kernel.com.ar>: Objects proximity detection 
+  optimizations.
+* Kero van Gelder: I used his kunpack and kmaketurn GPL'd code.
+* Laura Gieco: Initial Spanish website translation.
+* Ricardo Burone <ricardo@kernel.com.ar>: Logo & splash images.
 
