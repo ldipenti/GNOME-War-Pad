@@ -173,6 +173,6 @@ if __name__ == "__main__":
                 pass
     else:
         # Print some informational message
-        print "If you want to use your own plugins, you should place them on %s" % user_dir
+        print "If you want to use your own plugins, you should place them on '%s'" % user_dir
 
     
