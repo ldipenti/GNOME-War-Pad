@@ -5,12 +5,26 @@ import gobject
 
 class PluginNavigator(gwp.Plugin):
 
+    name = 'Plugin Navigator'
+    version = '0.1'
+    author_name = 'Lucas Di Pentima'
+    author_email = 'lucas@lunix.com.ar'
+    desc_short = 'Plugin browser to allow the user activate/deactivate plugins'
+    desc_long = 'This plugin works as a graphical frontend for the plugin manager within Gnome War Pad. It is not intended to be deactivated by the user, it should be always active.'
+    license = 'GPL'
+
     # Plugin Manager reference
     __pm = None
 
     # Show details?
     __details = False
     
+    # Constructor
+    def __init__(self):
+        gwp.Plugin.__init__(self)
+        self.__pm = gwp.get_plugin_mgr()
+        self.__create_gui()
+
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
         self.window.hide()
@@ -31,16 +45,6 @@ class PluginNavigator(gwp.Plugin):
             self.__details = False
             self.details_btn.set_label("_Show details >>")
     
-    # Constructor
-    def __init__(self):
-        gwp.Plugin.__init__(self,
-                            "Plugin Navigator", "0.1",
-                            "Lucas Di Pentima", "lucas@lunix.com.ar",
-                            "The plugin manager frontend.",
-                            "", "GPL")
-        self.__pm = gwp.get_plugin_mgr()
-        self.__create_gui()
-
     def __create_details_table(self):
         table = gtk.Table (4, 2, gtk.FALSE)
         ## Attach labels
@@ -114,8 +118,10 @@ class PluginNavigator(gwp.Plugin):
         self.list_scroll.add(self.list)
         self.window.add(self.vbox)
         # treeview setup
-        self.store = gtk.ListStore(gobject.TYPE_BOOLEAN, str, str,
-                                   gobject.TYPE_PYOBJECT)
+        self.store = gtk.ListStore(gobject.TYPE_BOOLEAN, # Active
+                                   str, # Name
+                                   str, # Short Desc
+                                   gobject.TYPE_PYOBJECT) # class
         renderer = gtk.CellRendererText()
         check_render = gtk.CellRendererToggle()
         # Columns
@@ -148,10 +154,10 @@ class PluginNavigator(gwp.Plugin):
         except TypeError:
             pass
         else:
-            self.details_name_lbl.set_label(plugin.name + ' ' +
-                                            str(plugin.version))
-            self.details_author_lbl.set_label(plugin.author_name + ' <' +
-                                              plugin.author_email + '>')
+            self.details_name_lbl.set_label(plugin.name + ' '
+                                            + str(plugin.version))
+            self.details_author_lbl.set_label(plugin.author_name
+                                              +' <'+ plugin.author_email +'>')
             self.details_license_lbl.set_label(plugin.license)
             self.details_desc_lbl.set_label(plugin.desc_long)
 
@@ -204,5 +210,4 @@ class PluginNavigator(gwp.Plugin):
 #####
 if __name__ == '__main__':
     pm = gwp.get_plugin_mgr()
-    navigator = PluginNavigator()
-    pm.register_plugin(navigator)
+    pm.register_plugin(PluginNavigator)

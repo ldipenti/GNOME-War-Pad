@@ -8,6 +8,7 @@ import os.path
 import gtk
 import gwp
 import re
+import inspect
 
 #######
 # Plugin manager class
@@ -20,17 +21,14 @@ class PluginManager:
 
     # Private attributes
     __key_hooks = {}
-    __plugins_registered = []
-    __plugins_available = []
-    
-    def __init__(self):
-        pass
+    __plugins_registered = [] # instances
+    __plugins_available = [] # classes
     
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
             try:
-                # FIXME: don't know why I have to substract 16
-                self.__key_hooks[event["state"] - 16][event["keyval"]]()
+                # Call registered method
+                self.__key_hooks[event["state"]][event["keyval"]]()
             except KeyError:
                 # Debugging message
                 print "PluginManager: key name '%s', mask '%d' not binded" % (gtk.gdk.keyval_name(event["keyval"]), event["state"])
@@ -52,16 +50,28 @@ class PluginManager:
             # Debugging message
             print "PluginManager: key event '%s' not found when unregistering plugin." % gtk.gdk.keyval_name(key)
 
-    def register_plugin (self, plugin):
+    def register_plugin (self, plugin_class):
+        plugin = plugin_class()
         try:
             plugin.register(self)
         except NotImplementedError:
             raise
         else:
             self.__plugins_registered.append (plugin)
-            plugin.registered = True
+            plugin.__class__.registered = True
             
-    def unregister_plugin (self, plugin):
+    def unregister_plugin (self, plugin_class):
+        # Search plugin instance
+        for instance in self.__plugins_registered:
+            if isinstance(instance, plugin_class):
+                plugin = instance
+                break
+
+        # If plugin instance not found, return with message
+        if not isinstance(plugin, plugin_class):
+            print 'PluginManager: plugin instance not found, couldn\'t unregister' + plugin_class.name
+            return
+        
         # Try removing the plugin from registered list
         try:
             self.__plugins_registered.remove(plugin)
@@ -74,7 +84,7 @@ class PluginManager:
             except NotImplementedError:
                 raise
             else:
-                plugin.registered = False
+                plugin.__class__.registered = False
             # Unregister plugin's remaining events
             for mod, event in self.__key_hooks.items():
                 for keyval, action in event.items():
@@ -102,27 +112,20 @@ class Plugin:
     """
     __module__ = 'gwp'
 
-    # Custom attributes
-    name = ''
-    version = 0
-    author_name = ''
-    author_email = ''
-    desc_short = ''
-    desc_long = ''
-    license = ''
+    # Class attributes
+    name = 'A Plugin'
+    version = "0.0"
+    author_name = 'John Doe'
+    author_email = 'jdoe@somehost.tld'
+    desc_short = 'A generic short description'
+    desc_long = 'A generic long description'
+    license = 'A license, hopefully GPL compatible'
     registered = False
 
     # Constructor
-    def __init__ (self, name, version, author_name,
-                  author_email, desc_s, desc_l, license):
-        self.name = name
-        self.version = version
-        self.author_name = author_name
-        self.author_email = author_email
-        self.desc_short = desc_s
-        self.desc_long = desc_l
-        self.license = license
-
+    def __init__ (self):
+        pass
+    
     # Executed at registration time
     def register (self, pm):
         raise NotImplementedError
@@ -164,10 +167,9 @@ if __name__ == "__main__":
         print "If you want to use your own plugins, you should place them on '%s'" % user_dir
 
     # Check the plugins and add them to the available plugins list
-    for obj in dir():
-        try:
-            if (isinstance(eval(obj), gwp.Plugin)):
-                pm.add_plugin_available(eval(obj))
-        except AttributeError:
-            # Ignore if 'obj' is not an instance
-            pass
+    for o in dir():
+        obj = eval(o)
+        if inspect.isclass(obj) and issubclass(obj, gwp.Plugin):
+            # Don't add the Plugin class
+            if not(obj == gwp.Plugin):
+                pm.add_plugin_available(obj)

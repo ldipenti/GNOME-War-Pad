@@ -6,6 +6,19 @@ import re
 
 class Finder(gwp.Plugin):
 
+    name = 'Ship Finder'
+    version = '0.1'
+    author_name = 'Lucas Di Pentima'
+    author_email = 'lucas@lunix.com.ar'
+    desc_short = 'A very simple plugin to search ships by several criteria'
+    desc_long = 'Finder is the very first plugin written for GWP. Its main objective is to allow the player to quickly search objects using boolean operators. This plugin can be used as a base to write other plugins by novice GWP contributors, have fun!'
+    license = 'GPL'
+
+    # Constructor
+    def __init__(self):
+        gwp.Plugin.__init__(self)
+        self.__create_gui()
+
     def __multiple_replace(self, dict, text):
 
         """
@@ -52,16 +65,6 @@ class Finder(gwp.Plugin):
     # Another callback
     def destroy(self, widget, data=None):
         gtk.main_quit()
-
-    # Constructor
-    def __init__(self):
-        long_desc = "Finder is the very first plugin written for GWP. Its main objective is to allow the player to quickly search objects using boolean operators. This plugin can be used as a base to write other plugins by novice GWP contributors, have fun!"
-        gwp.Plugin.__init__(self,
-                            "Ship Finder", "0.1",
-                            "Lucas Di Pentima", "lucas@lunix.com.ar",
-                            "A very simple plugin to search ships by several criteria",
-                            long_desc, "GPL")
-        self.__create_gui()
 
     def __create_gui(self):
         # create a new window
@@ -131,5 +134,5 @@ class Finder(gwp.Plugin):
 #####
 # Load code
 #####
-if __name__ == '__main__':
-    finder = Finder()
+#if __name__ == '__main__':
+#    finder = Finder()
