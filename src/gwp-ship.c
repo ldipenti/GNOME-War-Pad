@@ -1201,7 +1201,7 @@ gint16 gwp_ship_get_tow_ship_id (GwpShip *self)
 void gwp_ship_set_tow_ship_id (GwpShip *self, gint16 id)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (id >= 0 && id <= 500); /* FIXME: check for Host999! */
+  g_assert (id >= 0 && id <= 999); /* FIXME: check for Host999! */
   self->priv->tow_ship_id = id;
 }
 
@@ -1489,7 +1489,7 @@ gint16 gwp_ship_get_transfer_ship_id (GwpShip *self)
 void gwp_ship_set_transfer_ship_id (GwpShip *self, gint16 sid)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (sid >= 0 && sid <= 500); /* FIXME: check for Host999 and if not 0, the ship is on the same spot */
+  g_assert (sid >= 0 && sid <= 999); /* FIXME: check for Host999 and if not 0, the ship is on the same spot */
   self->priv->transfer_ship_id = sid;
 }
 
@@ -1502,7 +1502,7 @@ gint16 gwp_ship_get_intercept_ship_id (GwpShip *self)
 void gwp_ship_set_intercept_ship_id (GwpShip *self, gint16 sid)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (sid >= 0 && sid <= 500); /* FIXME: check for Host999 and if not 0, the ship should be on the same spot */
+  g_assert (sid >= 0 && sid <= 999); /* FIXME: check for Host999 and if not 0, the ship should be on the same spot */
   self->priv->intercept_ship_id = sid;
 }
 
