@@ -21,6 +21,11 @@
 #include "gwp-game-state.h"
 #include "game_mgr.h"
 
+enum {
+  PROP_0,
+  PROP_MINEFIELDS,
+};
+
 /*
  * Private members.
  */
@@ -82,9 +87,54 @@ GType gwp_game_state_get_type (void)
   return type;
 }
 
+/**
+ * Property setters
+ */
+static void 
+gwp_game_state_set_property (GObject      *object,
+			     guint         property_id,
+			     const GValue *value,
+			     GParamSpec   *pspec)
+{
+  GwpGameState *self = (GwpGameState *) object;
+
+  switch (property_id) {
+  case PROP_MINEFIELDS:
+    self->priv->minefields = g_value_get_boolean (value);
+    g_message ("SET minefields!!");
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+/**
+ * Property getters
+ */
+static void
+gwp_game_state_get_property (GObject    *object,
+			     guint       property_id,
+			     GValue     *value,
+			     GParamSpec *pspec)
+{
+  GwpGameState *self = (GwpGameState *) object;
+
+  switch (property_id) {
+  case PROP_MINEFIELDS:
+    g_value_set_boolean (value, self->priv->minefields);
+    g_message ("GET minefields!!");
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
 /* Instance constructor */
-static void gwp_game_state_init (GTypeInstance *instance,
-				 gpointer       g_class)
+static void 
+gwp_game_state_init (GTypeInstance *instance,
+		     gpointer       g_class)
 {
   GwpGameState *self = (GwpGameState *)instance;
   self->priv = g_new0 (GwpGameStatePrivate, 1);
@@ -107,14 +157,15 @@ static void gwp_game_state_init (GTypeInstance *instance,
   self->priv->toolbar = TRUE;
   self->priv->extra_panel_open = FALSE;
   self->priv->planet_names = TRUE;
-  self->priv->minefields = TRUE;
+  /*  self->priv->minefields = TRUE; */
   self->priv->ion_storms = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
 }
 
-static void gwp_game_state_dispose (GwpGameState *self)
+static void 
+gwp_game_state_dispose (GwpGameState *self)
 {
   if (self->priv->dispose_has_run) {
     return;
@@ -137,7 +188,8 @@ static void gwp_game_state_dispose (GwpGameState *self)
   g_list_free (self->priv->pnames);
 }
 
-static void gwp_game_state_finalize (GwpGameState *self)
+static void 
+gwp_game_state_finalize (GwpGameState *self)
 {
   /*
    * Here, complete object destruction.
@@ -145,13 +197,27 @@ static void gwp_game_state_finalize (GwpGameState *self)
   g_free (self->priv);
 }
 
-static void gwp_game_state_class_init (GwpGameStateClass *klass)
+static void 
+gwp_game_state_class_init (GwpGameStateClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   /* Register destructor methods. */
   gobject_class->dispose = (void *)gwp_game_state_dispose;
   gobject_class->finalize = (void *)gwp_game_state_finalize;
+
+  /* Property get/set methods */
+  gobject_class->set_property = gwp_game_state_set_property;
+  gobject_class->get_property = gwp_game_state_get_property;
+
+  /* Properties registrations */
+  g_object_class_install_property (gobject_class, PROP_MINEFIELDS,
+				   g_param_spec_boolean ("minefields", 
+							 "Minefields",
+							 "Whether show minefields or not",
+							 TRUE, 
+							 G_PARAM_READWRITE));
+
 }
 
 /*
@@ -383,13 +449,17 @@ gboolean gwp_game_state_get_scanner_area (GwpGameState *self)
 void gwp_game_state_set_minefields (GwpGameState *self, gboolean show)
 {
   g_assert (GWP_IS_GAME_STATE (self));
-  self->priv->minefields = show;
+  /* self->priv->minefields = show; */
+  g_object_set (G_OBJECT(self), "minefields", show, NULL);
 }
 
 gboolean gwp_game_state_get_minefields (GwpGameState *self)
 {
+  gboolean ret;
   g_assert (GWP_IS_GAME_STATE (self));
-  return self->priv->minefields;
+  /*  return self->priv->minefields; */
+  g_object_get (G_OBJECT(self), "minefields", &ret, NULL);
+  return ret;
 }
 
 void gwp_game_state_set_ion_storms (GwpGameState *self, gboolean show)

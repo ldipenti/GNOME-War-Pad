@@ -721,7 +721,7 @@ void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
   }
 }
 
-/* Hides/Shows the minefields on starchart */
+/* Hides/Shows the scanner area on starchart */
 void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
 				    gpointer user_data)
 {

@@ -786,12 +786,13 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 /**
  * Save game state data on GConf
  */
-void game_mgr_save_game_state (GwpGameState *self)
+void game_mgr_save_game_state (GwpGameState *state)
 {
-  g_assert (GWP_IS_GAME_STATE (self));
+  g_assert (GWP_IS_GAME_STATE (state));
 
-  gchar *name = g_strdup(gwp_game_state_get_name(self));
+  gchar *name = g_strdup(gwp_game_state_get_name(state));
   gchar *path;
+  gboolean tmp_bool;
 
   game_mgr_game_name_mangle(name);
   path = g_strconcat(GWP_GCONF_PATH"Games/",
@@ -800,31 +801,35 @@ void game_mgr_save_game_state (GwpGameState *self)
 
   /* GameState data */
   gconf_client_set_float(gwp_gconf, g_strconcat(path,"starchart_zoom", NULL),
-			 gwp_game_state_get_starchart_zoom(self), NULL);
+			 gwp_game_state_get_starchart_zoom(state), NULL);
   gconf_client_set_int(gwp_gconf, g_strconcat(path,"turn_number",NULL),
-		       gwp_game_state_get_turn_number(self), NULL);
+		       gwp_game_state_get_turn_number(state), NULL);
   gconf_client_set_int(gwp_gconf, g_strconcat(path,"last_x_coord",NULL),
-		       gwp_game_state_get_last_x_coord(self), NULL);
+		       gwp_game_state_get_last_x_coord(state), NULL);
   gconf_client_set_int(gwp_gconf, g_strconcat(path,"last_y_coord",NULL),
-		       gwp_game_state_get_last_y_coord(self), NULL);
+		       gwp_game_state_get_last_y_coord(state), NULL);
   
   /* GameSettings data */
   gconf_client_set_string(gwp_gconf, g_strconcat(path,"player_email",NULL),
-			  gwp_game_state_get_player_email(self), NULL);
+			  gwp_game_state_get_player_email(state), NULL);
   gconf_client_set_string(gwp_gconf, g_strconcat(path,"host_email",NULL),
-			  gwp_game_state_get_host_email(self), NULL);
+			  gwp_game_state_get_host_email(state), NULL);
   gconf_client_set_string(gwp_gconf, g_strconcat(path,"game_dir",NULL),
-			  gwp_game_state_get_dir(self), NULL);
+			  gwp_game_state_get_dir(state), NULL);
   gconf_client_set_string(gwp_gconf, g_strconcat(path,"trn_dir",NULL),
-			  gwp_game_state_get_trn_dir(self), NULL);
+			  gwp_game_state_get_trn_dir(state), NULL);
   gconf_client_set_string(gwp_gconf, g_strconcat(path,"rst_dir",NULL),
-			  gwp_game_state_get_rst_dir(self), NULL);
+			  gwp_game_state_get_rst_dir(state), NULL);
   gconf_client_set_int(gwp_gconf, g_strconcat(path,"host_type",NULL),
-		       gwp_game_state_get_host_type(self), NULL);
+		       gwp_game_state_get_host_type(state), NULL);
   gconf_client_set_int(gwp_gconf, g_strconcat(path,"race",NULL),
-		       gwp_game_state_get_race(self), NULL);
+		       gwp_game_state_get_race(state), NULL);
   gconf_client_set_bool(gwp_gconf, g_strconcat(path,"toolbar",NULL),
-			gwp_game_state_get_toolbar(self), NULL);
+			gwp_game_state_get_toolbar(state), NULL);
+
+  g_object_get (G_OBJECT(state), "minefields", &tmp_bool, NULL);
+  gconf_client_set_bool (gwp_gconf, g_strconcat(path, "minefields", NULL),
+			 tmp_bool, NULL);
 }
 
 
