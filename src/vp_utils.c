@@ -309,6 +309,7 @@ GList * load_shipxy (gint race)
   GList *coords_list = NULL;
   GString *shipxy_file;
   VpShipXYReg coords, *tmp;
+  gint i;
   
   shipxy_file = g_string_new ("SHIPXY");
   shipxy_file =
@@ -325,7 +326,8 @@ GList * load_shipxy (gint race)
   }
   
   rewind (shipxy);
-  while (!feof (shipxy)) {
+
+  for (i = 0; i < MAX_SHIPS; i++) {
     fread (&coords, sizeof (VpShipXYReg), 1, shipxy);
     
     /* Copy ship to tmp variable to assign it in GList */
