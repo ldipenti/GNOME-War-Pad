@@ -1,10 +1,11 @@
 [Desktop Entry]
+Encoding=UTF-8
 Name=GNOME War Pad
 Comment=A VGA Planets client for GNOME
 Comment[es]=Un cliente VGA Planets para GNOME
 Exec=gwp
 Icon=gwp.png 
 Terminal=false
-MultipleArgs=false
 Type=Application
+Categories=GNOME;Application;Game;StrategyGame
 StartupNotify=true
