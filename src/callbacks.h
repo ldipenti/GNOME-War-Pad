@@ -83,6 +83,10 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 void on_game_mgr_play_game (GtkWidget *widget,
 			    gpointer user_data);
 
+gboolean on_game_mgr_iconlist_select_icon_keyboard (GnomeIconList *iconlist,
+						    GdkEventKey   *event,
+						    gpointer       user_data);
+
 void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 				       gint icon_idx,
 				       GdkEventButton *event,

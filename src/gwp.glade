@@ -6622,6 +6622,7 @@
 	      <property name="text_editable">False</property>
 	      <property name="text_static">False</property>
 	      <signal name="select_icon" handler="on_game_mgr_iconlist_select_icon" last_modification_time="Fri, 02 May 2003 04:30:39 GMT"/>
+	      <signal name="key_press_event" handler="on_game_mgr_iconlist_select_icon_keyboard" last_modification_time="Thu, 07 Oct 2004 21:37:32 GMT"/>
 	    </widget>
 	  </child>
 	</widget>

@@ -321,12 +321,38 @@ void on_game_mgr_new_game (GtkWidget *widget,
   gtk_widget_show(game_mgr_properties);
 }
 
+/* Key press event on iconlist */
+gboolean 
+on_game_mgr_iconlist_select_icon_keyboard (GnomeIconList *iconlist,
+					   GdkEventKey   *event,
+					   gpointer       user_data)
+{
+  if (event == NULL)
+    return FALSE;
+
+  if ((event->type == GDK_KEY_PRESS) && (event->keyval == GDK_Return)) {
+    GList *selection = gnome_icon_list_get_selection (iconlist);
+    /* First icon on the selection, we don't support multiple selection */
+    gint icon_selected = g_list_nth_data (selection, 0);
+    /* Play game! */
+    game_mgr_play_game((GwpGameState *)
+		       gnome_icon_list_get_icon_data(iconlist, 
+						     icon_selected));
+    return TRUE;
+  }
+  return FALSE;
+}
+
 /* Button events on iconlist */
 void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 				       gint icon_idx,
 				       GdkEventButton *event,
 				       gpointer user_data)
 {
+  /* If user press the arrow keys, do nothing. */
+  if (event == NULL) 
+    return;
+  
   /* Displays a pop-up menu */
   if((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
     GtkWidget *popup = NULL;
@@ -334,15 +360,12 @@ void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
     popup = lookup_widget("game_mgr_popup_menu");
     gtk_menu_popup (GTK_MENU(popup), NULL, NULL, NULL, NULL, 1, 
 		    gtk_get_current_event_time());
-    return;
   }
-
   /* Double-click enters the game */
-  if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
+  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
     game_mgr_play_game((GwpGameState *)
 		       gnome_icon_list_get_icon_data(iconlist, 
 						     icon_idx));
-    return;
   }
 }
 
