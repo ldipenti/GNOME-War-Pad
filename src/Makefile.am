@@ -3,6 +3,8 @@
 INCLUDES = \
 	$(FOO_CFLAGS)
 
+# FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
+
 CFLAGS =\
 	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment \
 	 -Wuninitialized -Wparentheses -Wpointer-arith \
@@ -12,7 +14,7 @@ CFLAGS =\
 	 -DLIBDIR=\""$(libdir)"\" \
 	 -DDATADIR=\""$(datadir)"\" \
 	 -D_GNU_SOURCE \
-	 -DGTK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED \
+	 -DGNOME_DISABLE_DEPRECATED \
 	 -O1 \
 	 -g
 
