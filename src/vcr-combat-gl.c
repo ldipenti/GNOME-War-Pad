@@ -878,11 +878,14 @@ void vcrcgl_read_texture( void )
 
   gint i, j, k, l;
   FILE *dz;
-  dz = fopen( "/home/werdge/programming/gwp-cvs/pixmaps/planet_earth.bmp", "rb" );
+  gchar name[256];
+  name[0] = '\0';
+  strcat( name, GWP_VCR_TEXTURES_DIR );
+  strcat( name, "/planet_earth.bmp" );
+  dz = fopen( name, "rb" );
   if( !dz )
   {
-    g_message( "## ERROR: unable to open texture file '%s'",
-               "/home/werdge//programming/gwp-cvs/pixmaps/planet_earth.bmp" );
+    g_message( "## ERROR: unable to open texture file '%s'", name );
     return;
   }
 
@@ -951,6 +954,13 @@ static GLint tindices[20][3] = {
 #define pi 3.1415926535898
 float Tx( float v[3], float size )
 {
+/*  float x = v[0] / size;
+  float tx;
+  tx = 
+  if( v[2] < 0 )
+  {
+  }
+*/
 	float tx;
 	if ( v[0] != 0 )
 	{ 
