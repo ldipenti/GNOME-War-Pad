@@ -7,18 +7,17 @@
 
 #define VGAPL_G
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include"vp_maketurn_misc.h"
-#include"vp_maketurn_global.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "vp_maketurn_misc.h"
+#include "vp_maketurn_global.h"
 
 static void
 ReadFile (fname, buf, count)
      char *fname;
      void *buf;
      unsigned short count;
-/* Leest file met naam <fname> in variabele <buf> voor <count> bytes */
 {
   FILE *f;
   char *thefilename;
