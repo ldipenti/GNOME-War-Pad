@@ -83,6 +83,17 @@ struct _Starchart {
 	GnomeCanvasGroup *grp_ships_allied;	
 };
 
-
+/*
+ * This structure is for the game manager to store
+ * every game's information that later will save on
+ * GConf.
+ */
+typedef struct _GameSettings GameSettings;
+struct _GameSettings {
+  gchar *game_dir, *game_name, *trn_dir, *rst_dir;
+  gchar *player_email, *host_email;
+  gint host_type; // 1=THost ; 2=PHost
+  gint race;
+};
 
 #endif
