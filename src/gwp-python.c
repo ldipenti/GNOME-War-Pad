@@ -54,6 +54,11 @@ void gwp_python_inittab (void)
   script = fopen (GWP_SCRIPTS_DIR"/inittab.py", "r");
   PyRun_SimpleFile (script, "inittab.py");
   fclose (script);
+
+  /* Load and register 'navigator' plugin */
+  script = fopen (GWP_SCRIPTS_DIR"/navigator.py", "r");
+  PyRun_SimpleFile (script, "navigator.py");
+  fclose (script);
 }
 
 void gwp_python_quit (void)
