@@ -10,7 +10,6 @@
 #include <math.h>
 
 
-
 #ifdef USE_GTKGLEXT
 
 
@@ -114,6 +113,7 @@ static void realize( GtkWidget *widget, gpointer user_data )
 #ifdef USE_TEXTURES
   glGenTextures( (VCRCGL_TEX_COUNT -1), vcrcgl_texture_names );
   glEnable( GL_TEXTURE );
+  vcrcgl_load_textures();
 #endif
 
   glClearColor (0.8, 0.8, 0.9, 1.0);
@@ -140,124 +140,6 @@ static void realize( GtkWidget *widget, gpointer user_data )
   glPolygonMode( GL_FRONT, GL_FILL );
   glPolygonMode( GL_BACK, GL_FILL );
 
-
-
-
-
-
-
-
-
-
-#ifdef USE_TEXTURES
-
-  /* read planet texture */
-  glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
-  gint width, height;
-  if( vcrcgl_check_texture_bmp( "planet_earth.bmp", &width, &height ) )
-  {
-    g_message( "## Error: vcrcgl_check_texture_bmp() failed for %s", "planet_earth.bmp" );
-  }
-  
-  GLubyte VCRCGL_TextIma[width][height][4];
-
-  vcrcgl_read_texture_from_bmp( &VCRCGL_TextIma[0][0][0], "planet_earth.bmp" );
-
-
-  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
-  glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0,
-                GL_RGBA, GL_UNSIGNED_BYTE,
-                &VCRCGL_TextIma[0][0][0] );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
-
-  glEnable( GL_TEXTURE );
-
-
-
-  /* read universe texture */
-  glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
-  if( vcrcgl_check_texture_bmp( "planet_universe.bmp", &width, &height ) )
-  {
-    g_message( "## Error: vcrcgl_check_texture_bmp() failed for %s", "planet_universe.bmp" );
-  }
-  
-  GLubyte VCRCGL_TextIma_2[width][height][4];
-
-  vcrcgl_read_texture_from_bmp( &VCRCGL_TextIma_2[0][0][0], "planet_universe.bmp" );
-
-
-  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
-  glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0,
-                GL_RGBA, GL_UNSIGNED_BYTE,
-                &VCRCGL_TextIma_2[0][0][0] );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
-
-  glEnable( GL_TEXTURE );
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /* TEXTURE TEST */
-/*
-  glNewList( TEXTURE_TEST, GL_COMPILE );
-    glEnable( GL_TEXTURE_2D );
-	glBegin ( GL_TRIANGLES );
-		glNormal3f( 0.0, 0.0, 1.0 );
-		
-		glTexCoord2f( 0.0, 0.0 );
-		glVertex3f( -2.5, -1.25, 0.0 );
-		
-		glTexCoord2f( 1.0, 0.0 );
-		glVertex3f(  2.5, -1.25, 0.0 );
-
-		glTexCoord2f( 0.0, 1.0 );
-		glVertex3f( -2.5,  1.25, 0.0 );
-		
-	glEnd();
-	
-	glBegin( GL_POINTS );
-		glVertex3f(-2.6, -1.35, 0.0 ); // Tex-coord 0 0
-		glVertex3f( 2.6, -1.35, 0.0 ); // Tex-coord 1 0
-	glEnd();
-	
-	glBegin ( GL_TRIANGLES );
-		glNormal3f( 0.0, 0.0, 1.0 );
-		
-		glTexCoord2f( 0.0, 1.0 );
-		glVertex3f( -2.5,  1.25, 0.0 );
-		
-		glTexCoord2f( 1.0, 0.0 );
-		glVertex3f(  2.5, -1.25, 0.0 );
-		
-		glTexCoord2f( 1.0, 1.0 );
-		glVertex3f(  2.5,  1.25, 0.0 );
-		
-	glEnd(); 
-    glDisable( GL_TEXTURE_2D );
-  glEndList ();
-*/
 
 
 
@@ -388,27 +270,24 @@ static gboolean expose_event( GtkWidget *widget,
   GdkGLContext *glcontext = gtk_widget_get_gl_context (widget);
   GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
 
-  float d_quat[4];
-  float m[4][4];
+  GLfloat d_quat[4];
+  GLfloat m[4][4];
 
+  /* allow to toggle constant rotation animation */
   if (animate)
+  {
+    if (counter == rot_count)
     {
-
-      if (counter == rot_count)
-	{
-	  if (rot_mode[++mode].axis == NULL)
-	    mode = 0;
-	  counter = 0;
-	}
-
-      axis_to_quat (rot_mode[mode].axis,
-		    rot_mode[mode].sign * G_PI_2 / rot_count,
-		    d_quat);
-      add_quats (d_quat, logo_quat, logo_quat);
-
-      counter++;
-
+      if (rot_mode[++mode].axis == NULL)
+        mode = 0;
+      counter = 0;
     }
+    axis_to_quat( rot_mode[mode].axis,
+                  rot_mode[mode].sign * G_PI_2 / rot_count,
+                  d_quat );
+    add_quats (d_quat, logo_quat, logo_quat);
+    counter++;
+  }
 
   /*** OpenGL BEGIN ***/
   if (!gdk_gl_drawable_gl_begin (gldrawable, glcontext))
@@ -424,23 +303,15 @@ static gboolean expose_event( GtkWidget *widget,
   build_rotmatrix (m, view_quat);
   glMultMatrixf (&m[0][0]);
 
-  /* Logo model. */
+  /* Logo model */
   glPushMatrix ();
     build_rotmatrix (m, logo_quat);
     glMultMatrixf (&m[0][0]);
-
     glRotatef (90.0, 1.0, 0.0, 0.0);
-//    glCallList (LOGO_CUBE);
-//    glCallList (LOGO_G_FORWARD);
-//    glCallList (LOGO_G_BACKWARD);
-//    glCallList (LOGO_T_FORWARD);
-//    glCallList (LOGO_T_BACKWARD);
-//    glCallList (LOGO_K_FORWARD);
-//    glCallList (LOGO_K_BACKWARD);
+
     glCallList( VCRCGL_TEX_SHIP_A );
     glCallList( VCRCGL_TEX_PLANET_B );
     glCallList( VCRCGL_TEX_UNIVERSE );
-//    glCallList( TEXTURE_TEST );
   glPopMatrix ();
 
   /* Swap buffers. */
@@ -881,55 +752,40 @@ void vcrcgl_init( void )
 
   gtk_init (0, NULL);
 
-  /*
-   * Init GtkGLExt.
-   */
-
+  /* Init GtkGLExt */
   gtk_gl_init (0, NULL);
 
-  /*
-   * Query OpenGL extension version.
-   */
-
+  /* Query OpenGL extension version */
   gdk_gl_query_version (&major, &minor);
-  g_print ("\nOpenGL extension version - %d.%d\n",
-           major, minor);
+  g_message( "\nOpenGL extension version - %d.%d\n", major, minor );
 
-  /*
-   * Configure OpenGL-capable visual.
-   */
+  /* Configure OpenGL-capable visual */
 
   /* Try double-buffered visual */
   glconfig = gdk_gl_config_new_by_mode (GDK_GL_MODE_RGB    |
 					GDK_GL_MODE_DEPTH  |
 					GDK_GL_MODE_DOUBLE);
   if (glconfig == NULL)
-    {
-      g_print ("*** Cannot find the double-buffered visual.\n");
-      g_print ("*** Trying single-buffered visual.\n");
+  {
+    g_message ("# Warning: Cannot find the double-buffered visual.\n");
+    g_message ("#          single-buffered visual.\n");
 
-      /* Try single-buffered visual */
-      glconfig = gdk_gl_config_new_by_mode (GDK_GL_MODE_RGB   |
-					    GDK_GL_MODE_DEPTH);
-      if (glconfig == NULL)
+    /* Try single-buffered visual */
+    glconfig = gdk_gl_config_new_by_mode( GDK_GL_MODE_RGB   |
+                                          GDK_GL_MODE_DEPTH );
+    if (glconfig == NULL)
 	{
-	  g_print ("*** No appropriate OpenGL-capable visual found.\n");
-	  exit (1);
+	  g_message ("### ERROR: No appropriate OpenGL-capable visual found.\n");
+	  g_message ("###        Try to recompile GWP without GtkGLExtension support\n");
+	  exit( EXIT_FAILURE );
 	}
-    }
+  }
 
   examine_gl_config_attrib (glconfig);
 
 
-
-
-
-  /*
-   * Drawing area for drawing OpenGL scene.
-   */
-
+  /* Drawing area for drawing OpenGL scene.*/
   drawing_area = gtk_drawing_area_new ();
-//  gtk_widget_set_size_request (drawing_area, 300, 300);
 
   /* Set OpenGL-capability to the widget. */
   gtk_widget_set_gl_capability (drawing_area,
@@ -971,10 +827,7 @@ void vcrcgl_init( void )
   gtk_widget_show( drawing_area );
 
 
-  /*
-   * Popup menu.
-   */
-
+  /* Popup menu */
   menu = create_popup_menu (drawing_area);
 
   /* Signal handler */
@@ -982,62 +835,6 @@ void vcrcgl_init( void )
                             G_CALLBACK (button_press_event_popup_menu), menu);
 
   return;
-}
-
-
-
-void vcrcgl_read_texture( void )
-{
-
-  gint i, j, k, l;
-  FILE *dz;
-  gchar name[256];
-  name[0] = '\0';
-  strcat( name, GWP_VCR_TEXTURES_DIR );
-  strcat( name, "/planet_earth.bmp" );
-  dz = fopen( name, "rb" );
-  if( !dz )
-  {
-    g_message( "## ERROR: unable to open texture file '%s'", name );
-    return;
-  }
-
-  /* skip bmp-header */
-  fseek( dz, 54L, SEEK_SET );
-
-  /* read texture */
-  for( i=0; i<(VCRCGL_TextImaX); i++ )
-  {
-    for( j=0; j<(VCRCGL_TextImaY); j++ )
-    {
-      k=i%VCRCGL_TextImaX;
-      l=j%VCRCGL_TextImaY;
-/*
-      VCRCGL_TextIma[i][j][2] = (GLubyte) fgetc( dz );
-      VCRCGL_TextIma[i][j][1] = (GLubyte) fgetc( dz );
-      VCRCGL_TextIma[i][j][0] = (GLubyte) fgetc( dz );
-      VCRCGL_TextIma[i][j][3] = (GLubyte) 255;
-*/
-//      VCRCGL_TextIma[i][j][2] = (GLubyte) k;
-//      VCRCGL_TextIma[i][j][1] = (GLubyte) l;
-//      VCRCGL_TextIma[i][j][0] = (GLubyte) (gint)((k+l)/2);
-//      VCRCGL_TextIma[i][j][3] = (GLubyte) 255;
-    }
-  }
-
-  fclose( dz );
-/*
-  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
-  glTexImage2D( GL_TEXTURE_2D, 0, 4, VCRCGL_TextImaX, VCRCGL_TextImaY, 0,
-                GL_RGBA, GL_UNSIGNED_BYTE, &VCRCGL_TextIma[0][0][0] );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
-
-  glEnable( GL_TEXTURE );
-*/
 }
 
 
@@ -1147,6 +944,46 @@ gint vcrcgl_check_texture_bmp( gchar *filename, gint *width, gint *height )
 
 
 
+void vcrcgl_load_textures( void )
+{
+  gint width, height;
+
+  /* read planet texture */
+  glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
+  if( vcrcgl_check_texture_bmp( "planet_earth.bmp", &width, &height ) )
+    g_message( "## Error: vcrcgl_check_texture_bmp() failed for %s", "planet_earth.bmp" );
+  GLubyte texture_planet[width][height][4];
+  vcrcgl_read_texture_from_bmp( &texture_planet[0][0][0], "planet_earth.bmp" );
+  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
+  glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0,
+                GL_RGBA, GL_UNSIGNED_BYTE,
+                &texture_planet[0][0][0] );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
+
+
+  /* read universe texture */
+  glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
+  if( vcrcgl_check_texture_bmp( "planet_universe.bmp", &width, &height ) )
+    g_message( "## Error: vcrcgl_check_texture_bmp() failed for %s", "planet_universe.bmp" );
+  GLubyte texture_universe[width][height][4];
+  vcrcgl_read_texture_from_bmp( &texture_universe[0][0][0], "planet_universe.bmp" );
+  glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
+  glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0,
+                GL_RGBA, GL_UNSIGNED_BYTE,
+                &texture_universe[0][0][0] );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
+}
+
+
+
 gint vcrcgl_read_texture_from_bmp( GLubyte *texture_pt, gchar *filename )
 {
   /* declarations */
@@ -1238,9 +1075,9 @@ static GLint tindices[20][3] = {
 
 
 
-float Tx( float v[3] )
+GLfloat Tx( GLfloat v[3] )
 {
-  float tx;
+  GLfloat tx;
 
   if ( v[0] != 0 )
     if ( v[0] > 0 )
@@ -1255,16 +1092,16 @@ float Tx( float v[3] )
 
 
 
-float Ty( float v[3] )
+GLfloat Ty( GLfloat v[3] )
 {	
   return ( 0.5 + asin( v[1] ) / G_PI );
 }
 
 
 
-void normalize( float v[3] )
+void normalize( GLfloat v[3] )
 {
-  double d = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
+  GLdouble d = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
   v[0] /= d;
   v[1] /= d;
   v[2] /= d;
@@ -1274,7 +1111,7 @@ void normalize( float v[3] )
 
 void vcrcgl_draw_sphere( GLfloat coord[3], GLfloat diameter, GLint density )
 {
-  gint i;
+  GLint i;
   for (i=0; i<20; i++ )
   polyhedron( vdata[tindices[i][0]],
               vdata[tindices[i][1]],
@@ -1286,58 +1123,38 @@ void vcrcgl_draw_sphere( GLfloat coord[3], GLfloat diameter, GLint density )
 /* draws a sphere-like shape with lots of triangles
    'level' specifies how many triangles are used:
    0: 20, 1: 80, 2: 320, 3: 1280, etc ...             */
-void polyhedron ( float *v1, float *v2, float *v3,
+void polyhedron ( GLfloat *v1, GLfloat *v2, GLfloat *v3,
                  GLfloat coord[3], GLfloat diameter, GLint level )
 {
-	float v12[3], v23[3], v31[3];
-	int i;
+	GLfloat v12[3], v23[3], v31[3];
+	GLint i;
 	
 	if (level == 0 )
 	{
 		glBegin( GL_TRIANGLES );
-			float tx, ty;
 
 			normalize( v1 );
-			
-			tx = Tx( v1 );
-			ty = Ty( v1 );            
-			
-			glTexCoord2f( tx, ty );
-			glNormal3fv(v1);
-			glVertex3f(v1[0]*diameter + coord[0],
-                       v1[1]*diameter + coord[1],
-                       v1[2]*diameter + coord[2] );
-			
-
+			glNormal3fv( v1 );
+			glTexCoord2f( Tx( v1 ), Ty( v1 ) );
+			glVertex3f( v1[0]*diameter + coord[0],
+                        v1[1]*diameter + coord[1],
+                        v1[2]*diameter + coord[2] );
 
 			normalize( v2 );
-			
-			tx = Tx( v2 );
-			ty = Ty( v2 );            
-			
-			glTexCoord2f( tx, ty );
-			glNormal3fv(v2);
-			glVertex3f(v2[0]*diameter + coord[0],
-                       v2[1]*diameter + coord[1],
-                       v2[2]*diameter + coord[2] );
-			
-			
-			
-			normalize( v3 );
-			
-			tx = Tx( v3 );
-			ty = Ty( v3 );
-			
-			glTexCoord2f( tx, ty );
-			glNormal3fv(v3);
-			glVertex3f(v3[0]*diameter + coord[0],
-                       v3[1]*diameter + coord[1],
-                       v3[2]*diameter + coord[2] );
+			glNormal3fv( v2 );
+			glTexCoord2f( Tx( v2 ), Ty( v2 ) );
+			glVertex3f( v2[0]*diameter + coord[0],
+                        v2[1]*diameter + coord[1],
+                        v2[2]*diameter + coord[2] );
 
-			
+			normalize( v3 );
+			glNormal3fv( v3 );
+			glTexCoord2f( Tx( v3 ), Ty( v3 ) );
+			glVertex3f( v3[0]*diameter + coord[0],
+                        v3[1]*diameter + coord[1],
+                        v3[2]*diameter + coord[2] );
+
 		glEnd();
-		glFinish();
-		counter += 3;
         return;
 	}
 	
