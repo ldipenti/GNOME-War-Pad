@@ -18,6 +18,7 @@
  */
 
 #include <gnome.h>
+#include <string.h>
 
 #include "global.h"
 #include "support.h"
