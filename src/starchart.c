@@ -30,31 +30,23 @@
 #include "tables.h"
 #include "mission.h"
 
+/**
+ * Notifications from game_state that should be taken seriously
+ */
 static void
-gstate_notify (GObject state, gpointer data)
+starchart_boolean_notifications (GObject *obj, gpointer data)
 {
-  g_message ("notify signal!!!");
-}
-
-static gboolean
-avisar_emission_hook (GSignalInvocationHint *ihint,
-		      guint n_param_values,
-		      const GValue *param_values,
-		      gpointer data)
-{
-  GwpGameState *state;
+  gchar *property = (gchar *)data;
+  GwpGameState *state = GWP_GAME_STATE(obj);
   gboolean flag;
+  
+  g_object_get (state, 
+		property, &flag, 
+		NULL);
 
-  state = g_value_get_object (param_values);
-
-  if (strcmp(g_quark_to_string(ihint->detail), "minefields") == 0) {
-    g_object_get (state, 
-		  g_quark_to_string(ihint->detail), &flag, 
-		  NULL);
+  if (strcmp(property, "minefields") == 0) {
     starchart_show_minefields (flag);
   }
-
-  return TRUE;
 }
 
 /*
@@ -1741,14 +1733,17 @@ void init_starchart (GtkWidget * gwp)
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
 		     "ships_group", starchart_get_grp_ships());
 
-  /* FIXME: This is just a test with emission hooks */
+  /* FIXME: This is just a test with emission hooks 
   g_signal_add_emission_hook (g_signal_lookup ("property-changed", 
 					       GWP_TYPE_GAME_STATE),
 			      0,
 			      avisar_emission_hook,
 			      NULL,
-			      NULL);
-  g_signal_connect (game_state, "notify", (GCallback)gstate_notify, NULL);
+			      NULL); */
+  g_signal_connect (game_state,
+		    "property-changed::minefields",
+		    G_CALLBACK(starchart_boolean_notifications),
+		    (gpointer)"minefields");
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
