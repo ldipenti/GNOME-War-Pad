@@ -45,6 +45,8 @@
 #include "gwp-utils.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
+static gint16 getWord(guchar* p);
+static gint32 getDWord(guchar* p);
 
 /*
  * Data Loading Init Function
@@ -86,12 +88,12 @@ void init_data (void)
 /*
  * Helper Loading functions
  */
-gint16 getWord (guchar * p)
+static gint16 getWord (guchar * p)
 {
   return 256 * p[1] + p[0];
 }
 
-gint32 getDWord (guchar * p)
+static gint32 getDWord (guchar * p)
 {
   return 16777216 * p[3] + 65536 * p[2] + 256 * p[1] + p[0];
 }

@@ -47,9 +47,6 @@ GSList * load_beamspec (void);
 GList *load_pnames_file(gchar *pnames_file);
 void load_object_per_quad (gpointer obj, GSList * obj_per_quad[TOTAL_QUADS], double wx, gdouble wy);
 
-gint16 getWord(guchar* p);
-gint32 getDWord(guchar* p);
-
 void init_data(void);
 
 gboolean vp_can_unpack(gchar *game_dir, gint race);
