@@ -47,15 +47,25 @@ case $ANSWER in
 	;;
 esac
 
+#########
 #### Version modification in several control files
+#########
+
+###
 # Doxygen
 perl -p -i -e "s/^PROJECT_NUMBER(.*)=(.*)$/PROJECT_NUMBER\1= $VERSION/"  Doxyfile
+
+###
 # configure.in
 perl -p -i -e "s/AC_INIT\((.*),(.*),(.*)\)/AC_INIT(\1, $VERSION,\3)/" configure.in
 perl -p -i -e "s/AM_INIT_AUTOMAKE\((.*),(.*)\)/AM_INIT_AUTOMAKE(\1, $VERSION)/" configure.in
+
+###
 # SPEC files
 perl -p -i -e "s/%define version(.*)$/%define version $VERSION/" package/gwp-mdk.spec
 perl -p -i -e "s/%define version(.*)$/%define version $VERSION/" package/gwp-fedora.spec
+
+###
 # debian changelog
 TMPFILE=/tmp/gwp.tmp
 rm -f $TMPFILE
@@ -68,12 +78,19 @@ echo                                          >> $TMPFILE
 cat $TMPFILE debian/changelog > debian/changelog.tmp
 mv debian/changelog.tmp debian/changelog
 rm $TMPFILE
+
+###
 # ChangeLog version & date header
 mv ChangeLog ChangeLog.bak
 echo -e "Version $VERSION (released `date +%m-%d-%Y`):\n" > ChangeLog.header
 cat ChangeLog.header ChangeLog.bak > ChangeLog
 rm -f ChangeLog.header ChangeLog.bak
-####
+
+###
+# VERSION file - to direct use by the website
+echo $VERSION > VERSION
+
+#########################################
 
 ###  CVS commiting & tagging
 cvs ci -m "Release $VERSION commit, yeah!"
