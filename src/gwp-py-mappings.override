@@ -3,6 +3,7 @@ headers
 #include <Python.h>
 #include <pygobject.h>
 #include "global.h"
+#include "race.h"
 #include "gwp-engspec.h"
 #include "gwp-hullspec.h"
 #include "gwp-beamspec.h"
@@ -206,4 +207,13 @@ _wrap_get_truehull (PyObject *self)
   }
   Py_INCREF(th);
   return th;
+}
+%%
+override get_race_name
+static PyObject *
+_wrap_get_race_name (PyObject *self, PyObject *args)
+{
+  int race;
+  PyArg_ParseTuple (args, "i", &race);
+  return PyString_FromString (race_get_name(race));
 }
