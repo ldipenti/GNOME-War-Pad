@@ -46,45 +46,45 @@ enum {
 static GLuint vcrcgl_texture_names[ VCRCGL_TEX_COUNT -1 ];
 #endif
 
-static guint timeout_id = 0;
-static float begin_x = 0.0;
-static float begin_y = 0.0;
-static float axis_x[3] = { 1.0, 0.0, 0.0 };
-static float axis_y[3] = { 0.0, 1.0, 0.0 };
-static float axis_z[3] = { 0.0, 0.0, 1.0 };
-static float view_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
-static float logo_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
-static float view_scale = 5.0;
-static int rot_count = DEFAULT_ROT_COUNT;
-static int mode = 0;
-static int counter = 0;
+static guint vcrcgl_timeout_id = 0;
+static float vcrcgl_begin_x = 0.0;
+static float vcrcgl_begin_y = 0.0;
+static float vcrcgl_axis_x[3] = { 1.0, 0.0, 0.0 };
+static float vcrcgl_axis_y[3] = { 0.0, 1.0, 0.0 };
+static float vcrcgl_axis_z[3] = { 0.0, 0.0, 1.0 };
+static float vcrcgl_view_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
+static float vcrcgl_logo_quat[4] = { 0.0, 0.0, 0.0, 1.0 };
+static float vcrcgl_view_scale = 5.0;
+static int vcrcgl_rot_count = DEFAULT_ROT_COUNT;
+static int vcrcgl_mode = 0;
+static int vcrcgl_counter = 0;
 
-static gboolean animate = FALSE;
+static gboolean vcrcgl_animate = FALSE;
 static gboolean vcrcgl_is_initialized = FALSE;
 
-static void toggle_animation (GtkWidget *widget);
-static void init_logo_view   (GtkWidget *widget);
+static void vcrcgl_toggle_animation (GtkWidget *widget);
+static void vcrcgl_init_logo_view   (GtkWidget *widget);
 
 
 
-static void init_view( void )
+static void vcrcgl_init_view( void )
 {
   float sine = sin (0.5 * VIEW_INIT_ANGLE * DIG_2_RAD);
-  view_quat[0] = VIEW_INIT_AXIS_X * sine;
-  view_quat[1] = VIEW_INIT_AXIS_Y * sine;
-  view_quat[2] = VIEW_INIT_AXIS_Z * sine;
-  view_quat[3] = cos (0.5 * VIEW_INIT_ANGLE * DIG_2_RAD);
-  view_scale = 1.2;
+  vcrcgl_view_quat[0] = VIEW_INIT_AXIS_X * sine;
+  vcrcgl_view_quat[1] = VIEW_INIT_AXIS_Y * sine;
+  vcrcgl_view_quat[2] = VIEW_INIT_AXIS_Z * sine;
+  vcrcgl_view_quat[3] = cos (0.5 * VIEW_INIT_ANGLE * DIG_2_RAD);
+  vcrcgl_view_scale = 1.2;
 }
 
 
 
-static void init_logo_quat( void )
+static void vcrcgl_init_logo_quat( void )
 {
-  logo_quat[0] = 0.0;
-  logo_quat[1] = 0.0;
-  logo_quat[2] = 0.0;
-  logo_quat[3] = 1.0;
+  vcrcgl_logo_quat[0] = 0.0;
+  vcrcgl_logo_quat[1] = 0.0;
+  vcrcgl_logo_quat[2] = 0.0;
+  vcrcgl_logo_quat[3] = 1.0;
 }
 
 
@@ -100,10 +100,6 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
   static GLfloat mat_specular[]  = { 0.5, 0.5, 0.5, 0.0 };
   static GLfloat mat_shininess[] = { 10.0 };
-  static GLfloat mat_black[]     = { 0.0, 0.0, 0.0, 0.0 };
-  static GLfloat mat_red[]       = { 1.0, 0.0, 0.0, 0.0 };
-  static GLfloat mat_green[]     = { 0.0, 1.0, 0.0, 0.0 };
-  static GLfloat mat_blue[]      = { 0.0, 0.0, 1.0, 0.0 };
 
   /*** OpenGL BEGIN ***/
   if (!gdk_gl_drawable_gl_begin (gldrawable, glcontext))
@@ -143,58 +139,15 @@ static void realize( GtkWidget *widget, gpointer user_data )
 
 
 
-  /* PLANET B */
-  glNewList( VCRCGL_TEX_PLANET_B, GL_COMPILE );
-#ifdef USE_TEXTURES
-    glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
-    glEnable(GL_TEXTURE_2D);
-#endif
-    glEnable( GL_CULL_FACE );
-    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
-
-   GLfloat d[3] = {15.0, 0.0, 0.0};
-    vcrcgl_draw_sphere( d, 1.5, 4 );
-    glDisable (GL_CULL_FACE);
-#ifdef USE_TEXTURES
-    glDisable(GL_TEXTURE_2D);
-#endif
-  glEndList();
-
-  /* UNIVERSE */
-  glNewList( VCRCGL_TEX_UNIVERSE, GL_COMPILE );
-#ifdef USE_TEXTURES
-    glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
-    glEnable(GL_TEXTURE_2D);
-#endif
-    glCullFace( GL_FRONT );
-    glEnable( GL_CULL_FACE );
-    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_black );
-
-   GLfloat e[3] = {0.0, 0.0, 0.0};
-    vcrcgl_draw_sphere( e, 20.0, 4 );
-    glDisable (GL_CULL_FACE);
-    glCullFace( GL_BACK );
-#ifdef USE_TEXTURES
-    glDisable(GL_TEXTURE_2D);
-#endif
-  glEndList();
-
-  /* SHIP A */
-  glNewList( VCRCGL_TEX_SHIP_A, GL_COMPILE );
-    glEnable( GL_CULL_FACE );
-    glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_red);
-    GLfloat c[3] = { -15.0, 0.0, 0.0 };
-    glDisable (GL_CULL_FACE);
-    vcrcgl_draw_ship( c, 1, 0.3 );
-  glEndList ();
+  vcrcgl_create_gl_callists( );
 
   glEnable (GL_NORMALIZE);
 
   /* Init logo orientation. */
-  init_logo_quat ();
+  vcrcgl_init_logo_quat ();
 
   /* Init view. */
-  init_view ();
+  vcrcgl_init_view ();
 
   gdk_gl_drawable_gl_end (gldrawable);
   /*** OpenGL END ***/
@@ -243,21 +196,21 @@ static gboolean configure_event( GtkWidget *widget,
 
 
 /* Logo rotation mode. */
-typedef struct _RotMode
+typedef struct _VcrcglRotMode
 {
   float *axis;
   float sign;
-} RotMode;
+} VcrcglRotMode;
 
-static RotMode rot_mode[] = {
-  { axis_x,  1.0 },
-  { axis_y,  1.0 },
-  { axis_x,  1.0 },
-  { axis_z,  1.0 },
-  { axis_x,  1.0 },
-  { axis_y, -1.0 },
-  { axis_x,  1.0 },
-  { axis_z, -1.0 },
+static VcrcglRotMode vcrcgl_rot_mode[] = {
+  { vcrcgl_axis_x,  1.0 },
+  { vcrcgl_axis_y,  1.0 },
+  { vcrcgl_axis_x,  1.0 },
+  { vcrcgl_axis_z,  1.0 },
+  { vcrcgl_axis_x,  1.0 },
+  { vcrcgl_axis_y, -1.0 },
+  { vcrcgl_axis_x,  1.0 },
+  { vcrcgl_axis_z, -1.0 },
   { NULL,    0.0 }  /* terminator */
 };
 
@@ -274,19 +227,19 @@ static gboolean expose_event( GtkWidget *widget,
   GLfloat m[4][4];
 
   /* allow to toggle constant rotation animation */
-  if (animate)
+  if (vcrcgl_animate)
   {
-    if (counter == rot_count)
+    if (vcrcgl_counter == vcrcgl_rot_count)
     {
-      if (rot_mode[++mode].axis == NULL)
-        mode = 0;
-      counter = 0;
+      if (vcrcgl_rot_mode[++vcrcgl_mode].axis == NULL)
+        vcrcgl_mode = 0;
+      vcrcgl_counter = 0;
     }
-    axis_to_quat( rot_mode[mode].axis,
-                  rot_mode[mode].sign * G_PI_2 / rot_count,
+    axis_to_quat( vcrcgl_rot_mode[vcrcgl_mode].axis,
+                  vcrcgl_rot_mode[vcrcgl_mode].sign * G_PI_2 / vcrcgl_rot_count,
                   d_quat );
-    add_quats (d_quat, logo_quat, logo_quat);
-    counter++;
+    add_quats (d_quat, vcrcgl_logo_quat, vcrcgl_logo_quat);
+    vcrcgl_counter++;
   }
 
   /*** OpenGL BEGIN ***/
@@ -299,13 +252,13 @@ static gboolean expose_event( GtkWidget *widget,
 
   /* View transformation. */
   glTranslatef (0.0, 0.0, -30.0);
-  glScalef (view_scale, view_scale, view_scale);
-  build_rotmatrix (m, view_quat);
+  glScalef (vcrcgl_view_scale, vcrcgl_view_scale, vcrcgl_view_scale);
+  build_rotmatrix (m, vcrcgl_view_quat);
   glMultMatrixf (&m[0][0]);
 
   /* Logo model */
   glPushMatrix ();
-    build_rotmatrix (m, logo_quat);
+    build_rotmatrix (m, vcrcgl_logo_quat);
     glMultMatrixf (&m[0][0]);
     glRotatef (90.0, 1.0, 0.0, 0.0);
 
@@ -332,8 +285,8 @@ static gboolean button_press_event( GtkWidget *widget,
                                     GdkEventButton *event,
                                     GtkWidget *menu )
 {
-  begin_x = event->x;
-  begin_y = event->y;
+  vcrcgl_begin_x = event->x;
+  vcrcgl_begin_y = event->y;
 
   return FALSE;
 }
@@ -355,29 +308,29 @@ static gboolean motion_notify_event( GtkWidget *widget,
   if (event->state & GDK_BUTTON1_MASK)
     {
       trackball (d_quat,
-		 (2.0 * begin_x - w) / w,
-		 (h - 2.0 * begin_y) / h,
+		 (2.0 * vcrcgl_begin_x - w) / w,
+		 (h - 2.0 * vcrcgl_begin_y) / h,
 		 (2.0 * x - w) / w,
 		 (h - 2.0 * y) / h);
-      add_quats (d_quat, view_quat, view_quat);
+      add_quats (d_quat, vcrcgl_view_quat, vcrcgl_view_quat);
       redraw = TRUE;
     }
 
   /* Scaling. */
   if (event->state & GDK_BUTTON2_MASK)
     {
-      view_scale = view_scale * (1.0 + (y - begin_y) / h);
-      if (view_scale > VIEW_SCALE_MAX)
-	view_scale = VIEW_SCALE_MAX;
-      else if (view_scale < VIEW_SCALE_MIN)
-	view_scale = VIEW_SCALE_MIN;
+      vcrcgl_view_scale = vcrcgl_view_scale * (1.0 + (y - vcrcgl_begin_y) / h);
+      if (vcrcgl_view_scale > VIEW_SCALE_MAX)
+	vcrcgl_view_scale = VIEW_SCALE_MAX;
+      else if (vcrcgl_view_scale < VIEW_SCALE_MIN)
+	vcrcgl_view_scale = VIEW_SCALE_MIN;
       redraw = TRUE;
     }
 
-  begin_x = x;
-  begin_y = y;
+  vcrcgl_begin_x = x;
+  vcrcgl_begin_y = y;
 
-  if (redraw && !animate)
+  if (redraw && !vcrcgl_animate)
     gdk_window_invalidate_rect (widget->window, &widget->allocation, FALSE);
 
   return TRUE;
@@ -392,10 +345,10 @@ static gboolean key_press_event( GtkWidget *widget,
   switch (event->keyval)
     {
     case GDK_a:
-      toggle_animation (widget);
+      vcrcgl_toggle_animation (widget);
       break;
     case GDK_i:
-      init_logo_view (widget);
+      vcrcgl_init_logo_view (widget);
       break;
     case GDK_Escape:
       gtk_main_quit ();
@@ -424,9 +377,9 @@ static gboolean timeout( GtkWidget *widget )
 
 static void timeout_add( GtkWidget *widget )
 {
-  if (timeout_id == 0)
+  if (vcrcgl_timeout_id == 0)
     {
-      timeout_id = g_timeout_add (TIMEOUT_INTERVAL,
+      vcrcgl_timeout_id = g_timeout_add (TIMEOUT_INTERVAL,
                                   (GSourceFunc) timeout,
                                   widget);
     }
@@ -436,10 +389,10 @@ static void timeout_add( GtkWidget *widget )
 
 static void timeout_remove( GtkWidget *widget )
 {
-  if (timeout_id != 0)
+  if (vcrcgl_timeout_id != 0)
     {
-      g_source_remove (timeout_id);
-      timeout_id = 0;
+      g_source_remove (vcrcgl_timeout_id);
+      vcrcgl_timeout_id = 0;
     }
 }
 
@@ -449,7 +402,7 @@ static gboolean map_event( GtkWidget *widget,
                            GdkEventAny *event,
                            gpointer user_data )
 {
-  if (animate)
+  if (vcrcgl_animate)
     timeout_add (widget);
 
   return TRUE;
@@ -472,7 +425,7 @@ static gboolean visibility_notify_event( GtkWidget *widget,
                                          GdkEventVisibility *event,
                                          gpointer user_data )
 {
-  if (animate)
+  if (vcrcgl_animate)
     {
       if (event->state == GDK_VISIBILITY_FULLY_OBSCURED)
 	timeout_remove (widget);
@@ -485,11 +438,11 @@ static gboolean visibility_notify_event( GtkWidget *widget,
 
 
 
-static void toggle_animation( GtkWidget *widget )
+static void vcrcgl_toggle_animation( GtkWidget *widget )
 {
-  animate = !animate;
+  vcrcgl_animate = !vcrcgl_animate;
 
-  if (animate)
+  if (vcrcgl_animate)
     {
       timeout_add (widget);
     }
@@ -502,14 +455,14 @@ static void toggle_animation( GtkWidget *widget )
 
 
 
-static void init_logo_view( GtkWidget *widget )
+static void vcrcgl_init_logo_view( GtkWidget *widget )
 {
-  init_logo_quat ();
-  init_view ();
-  mode = 0;
-  counter = 0;
+  vcrcgl_init_logo_quat ();
+  vcrcgl_init_view ();
+  vcrcgl_mode = 0;
+  vcrcgl_counter = 0;
 
-  if (!animate)
+  if (!vcrcgl_animate)
     gdk_window_invalidate_rect (widget->window, &widget->allocation, FALSE);
 }
 
@@ -543,14 +496,14 @@ static GtkWidget *create_popup_menu( GtkWidget *drawing_area )
   menu_item = gtk_menu_item_new_with_label ("Toggle Animation");
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
   g_signal_connect_swapped (G_OBJECT (menu_item), "activate",
-			    G_CALLBACK (toggle_animation), drawing_area);
+			    G_CALLBACK (vcrcgl_toggle_animation), drawing_area);
   gtk_widget_show (menu_item);
 
   /* Init orientation */
   menu_item = gtk_menu_item_new_with_label ("Initialize");
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
   g_signal_connect_swapped (G_OBJECT (menu_item), "activate",
-			    G_CALLBACK (init_logo_view), drawing_area);
+			    G_CALLBACK (vcrcgl_init_logo_view), drawing_area);
   gtk_widget_show (menu_item);
 
   /* Quit */
@@ -781,7 +734,8 @@ void vcrcgl_init( void )
 	}
   }
 
-  examine_gl_config_attrib (glconfig);
+  /* TODO ... decide whether to keep it in or not */
+  /* examine_gl_config_attrib (glconfig);         */
 
 
   /* Drawing area for drawing OpenGL scene.*/
@@ -1075,7 +1029,7 @@ static GLint tindices[20][3] = {
 
 
 
-GLfloat Tx( GLfloat v[3] )
+GLfloat vcrcgl_sphere_texcoord_x( GLfloat v[3] )
 {
   GLfloat tx;
 
@@ -1092,7 +1046,7 @@ GLfloat Tx( GLfloat v[3] )
 
 
 
-GLfloat Ty( GLfloat v[3] )
+GLfloat vcrcgl_sphere_texcoord_y( GLfloat v[3] )
 {	
   return ( 0.5 + asin( v[1] ) / G_PI );
 }
@@ -1135,21 +1089,21 @@ void polyhedron ( GLfloat *v1, GLfloat *v2, GLfloat *v3,
 
 			normalize( v1 );
 			glNormal3fv( v1 );
-			glTexCoord2f( Tx( v1 ), Ty( v1 ) );
+			glTexCoord2f( vcrcgl_sphere_texcoord_x( v1 ), vcrcgl_sphere_texcoord_y( v1 ) );
 			glVertex3f( v1[0]*diameter + coord[0],
                         v1[1]*diameter + coord[1],
                         v1[2]*diameter + coord[2] );
 
 			normalize( v2 );
 			glNormal3fv( v2 );
-			glTexCoord2f( Tx( v2 ), Ty( v2 ) );
+			glTexCoord2f( vcrcgl_sphere_texcoord_x( v2 ), vcrcgl_sphere_texcoord_y( v2 ) );
 			glVertex3f( v2[0]*diameter + coord[0],
                         v2[1]*diameter + coord[1],
                         v2[2]*diameter + coord[2] );
 
 			normalize( v3 );
 			glNormal3fv( v3 );
-			glTexCoord2f( Tx( v3 ), Ty( v3 ) );
+			glTexCoord2f( vcrcgl_sphere_texcoord_x( v3 ), vcrcgl_sphere_texcoord_y( v3 ) );
 			glVertex3f( v3[0]*diameter + coord[0],
                         v3[1]*diameter + coord[1],
                         v3[2]*diameter + coord[2] );
@@ -1177,6 +1131,61 @@ void polyhedron ( GLfloat *v1, GLfloat *v2, GLfloat *v3,
 
 
 
+/*
+ *  creates all necessary callists
+ */
+void vcrcgl_create_gl_callists( void )
+{
+  static GLfloat mat_black[]     = { 0.0, 0.0, 0.0, 0.0 };
+  static GLfloat mat_red[]       = { 1.0, 0.0, 0.0, 0.0 };
+  static GLfloat mat_green[]     = { 0.0, 1.0, 0.0, 0.0 };
+  static GLfloat mat_blue[]      = { 0.0, 0.0, 1.0, 0.0 };
+
+  /* PLANET B */
+  glNewList( VCRCGL_TEX_PLANET_B, GL_COMPILE );
+#ifdef USE_TEXTURES
+    glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_PLANET_B );
+    glEnable(GL_TEXTURE_2D);
+#endif
+    glEnable( GL_CULL_FACE );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
+
+   GLfloat d[3] = {15.0, 0.0, 0.0};
+    vcrcgl_draw_sphere( d, 1.5, 4 );
+    glDisable (GL_CULL_FACE);
+#ifdef USE_TEXTURES
+    glDisable(GL_TEXTURE_2D);
+#endif
+  glEndList();
+
+  /* UNIVERSE */
+  glNewList( VCRCGL_TEX_UNIVERSE, GL_COMPILE );
+#ifdef USE_TEXTURES
+    glBindTexture( GL_TEXTURE_2D, VCRCGL_TEX_UNIVERSE );
+    glEnable(GL_TEXTURE_2D);
+#endif
+    glCullFace( GL_FRONT );
+    glEnable( GL_CULL_FACE );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_black );
+
+   GLfloat e[3] = {0.0, 0.0, 0.0};
+    vcrcgl_draw_sphere( e, 20.0, 4 );
+    glDisable (GL_CULL_FACE);
+    glCullFace( GL_BACK );
+#ifdef USE_TEXTURES
+    glDisable(GL_TEXTURE_2D);
+#endif
+  glEndList();
+
+  /* SHIP A */
+  glNewList( VCRCGL_TEX_SHIP_A, GL_COMPILE );
+    glEnable( GL_CULL_FACE );
+    glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_red);
+    GLfloat c[3] = { -15.0, 0.0, 0.0 };
+    glDisable (GL_CULL_FACE);
+    vcrcgl_draw_ship( c, 1, 0.3 );
+  glEndList ();
+}
 
 
 

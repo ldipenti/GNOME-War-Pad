@@ -73,6 +73,7 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
   cdata.a_typ_hull = vcr_get( widget, user_data, SHIP_A, HULL_ID, VAL_CUR );
   cdata.a_nmb_beams = vcr_get( widget, user_data, SHIP_A, NMB_BEAMS, VAL_CUR );
   cdata.a_typ_beams = vcr_get( widget, user_data, SHIP_A, LVL_BEAM, VAL_CUR );
+  cdata.a_typ_engines = vcr_get( widget, user_data, SHIP_A, LVL_ENGINE, VAL_CUR );
   /* differentiate between torpedo and fighter ships */
   if( vcr_get( widget, user_data, SHIP_A, LVL_TORP, VAL_CUR ) > NMB_OF_TORPTYPES )
   {
@@ -123,6 +124,7 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
     cdata.b_typ_hull = vcr_get( widget, user_data, SHIP_B, HULL_ID, VAL_CUR );
     cdata.b_nmb_beams = vcr_get( widget, user_data, SHIP_B, NMB_BEAMS, VAL_CUR );
     cdata.b_typ_beams = vcr_get( widget, user_data, SHIP_B, LVL_BEAM, VAL_CUR );
+    cdata.b_typ_engines = vcr_get( widget, user_data, SHIP_B, LVL_ENGINE, VAL_CUR );
     if( vcr_get( widget, user_data, SHIP_B, LVL_TORP, VAL_CUR ) > NMB_OF_TORPTYPES )
     {
       /* fighter carrier type */
@@ -1266,7 +1268,8 @@ void vcr_set( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_b" ) );
+                gtk_combo_box_set_active( box, setthis );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_set( %d, %d, %d )", target, value, what );
@@ -2127,7 +2130,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_eng_a" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -2144,7 +2148,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_eng_b" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -2595,7 +2600,7 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
                 idlist = (gint *)g_object_get_data(
                   G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_a")), "id-list" );
                 selected = vcr_get( widget, user_data, SHIP_A, TYP_HULL, VAL_CUR );
-                if( selected >= 0 )
+                if( selected >= 0 ) // && idlist[0] > 1 )
                   retval = idlist[selected+1];
                 else
                   retval = 0;
@@ -2617,8 +2622,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
             case VAL_CUR:
                 idlist = (gint *)g_object_get_data(
                   G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_b")), "id-list" );
-                selected = vcr_get( widget, user_data, SHIP_A, TYP_HULL, VAL_CUR );
-                if( selected >= 0 )
+                selected = vcr_get( widget, user_data, SHIP_B, TYP_HULL, VAL_CUR );
+                if( selected >= 0 ) // && idlist[0] > 1 )
                   retval = idlist[selected+1];
                 else
                   retval = 0;
@@ -2921,7 +2926,8 @@ void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data )
   GtkComboBox *box;
 
   gint *nmb1 = (gint *)g_malloc(MAX_SHIPS_PER_RACE*sizeof( gint ));
-  nmb1[0] = 1;
+  nmb1[0] =  1; // one entry in list, which will be "none"
+  nmb1[1] = -1; // id of "none"
   box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_a" ) );
   gtk_combo_box_append_text( box, "none" );
   g_object_set_data( G_OBJECT( box ), "id-list", nmb1 );
@@ -2929,7 +2935,8 @@ void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data )
 
 
   gint *nmb2 = (gint *)g_malloc(MAX_SHIPS_PER_RACE*sizeof( gint ));
-  nmb2[0] = 1;
+  nmb2[0] =  1; // one entry in list, which will be "none"
+  nmb2[1] = -1; // id of "none"
   box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_b" ) );
   gtk_combo_box_append_text( GTK_COMBO_BOX( box ), "none" );
   g_object_set_data( G_OBJECT( box ), "id-list", nmb2 );
@@ -3006,7 +3013,6 @@ void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data )
 
   /* find out what race was selected */
   race = vcr_get( widget, user_data, SHIP_A, TYP_RACE, VAL_CUR ) - 1;
-  g_message( "selected race is : %d", race );
 
   /*
    * Fill The Hulls
@@ -3021,8 +3027,6 @@ void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data )
     g_message( "# Warning: vcr_ship_a_race_selected() called too early" );
     return;
   }
-  else
-    g_message( "+++ race a selected ok" );
 
 
   /* clear hulls-list */
@@ -3039,6 +3043,10 @@ void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data )
     /* maybe selecting 'none' as race should
        show all possible hulls for all races
     */
+    idlist[0] =  1; // just one entry, called "none"
+    idlist[1] = -1; // id of hull "none"
+    gtk_combo_box_append_text( box, str2low( "None" ) );
+    gtk_combo_box_set_active( box, 0 );
   }
   else
   {
@@ -3066,7 +3074,6 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
 
   /* find out what race was selected */
   race = vcr_get( widget, user_data, SHIP_B, TYP_RACE, VAL_CUR ) - 1;
-  g_message( "selected race is : %d", race );
 
   /*
    * Fill The Hulls
@@ -3081,8 +3088,6 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
     g_message( "# Warning: vcr_ship_b_race_selected() called too early" );
     return;
   }
-  else
-    g_message( "+++ race b selected ok" );
 
 
   /* clear hulls-list */
@@ -3099,6 +3104,10 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
     /* maybe selecting 'none' as race should
        show all possible hulls for all races
     */
+    idlist[0] =  1; // just one entry, called "none"
+    idlist[1] = -1; // id of hull "none"
+    gtk_combo_box_append_text( box, str2low( "None" ) );
+    gtk_combo_box_set_active( box, 0 );
   }
   else
   {
@@ -3134,16 +3143,11 @@ void vcr_ship_a_hull_selected( GtkWidget *widget, gpointer user_data )
     g_message( "# Warning: vcr_ship_a_hull_selected() called too early" );
     return;
   }
-  else
-    g_message( "+++ hull a selected: ok" );
 
   /* find out what hull has been selected */
   selected = vcr_get( widget, user_data, SHIP_A, TYP_HULL, VAL_CUR );
   if( selected >= 0 )
-  {
     hullid = idlist[selected+1];
-    g_message( "hull a id is: %d", hullid );
-  }
 
   /* set maximum values according to selected hull */
   hull = g_slist_nth_data( hullspec_list, hullid-1 );
@@ -3185,16 +3189,11 @@ void vcr_ship_b_hull_selected( GtkWidget *widget, gpointer user_data )
     g_message( "# Warning: vcr_ship_b_hull_selected() called too early" );
     return;
   }
-  else
-    g_message( "+++ hull b selected: ok" );
 
   /* find out what hull has been selected */
   selected = vcr_get( widget, user_data, SHIP_B, TYP_HULL, VAL_CUR );
   if( selected >= 0 )
-  {
     hullid = idlist[selected+1];
-    g_message( "hull b id is: %d", hullid );
-  }
 
   /* set maximum values according to selected hull */
   hull = g_slist_nth_data( hullspec_list, hullid-1 );
