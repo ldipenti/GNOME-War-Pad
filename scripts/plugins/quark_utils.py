@@ -4,6 +4,26 @@ HAPP_STATE_NONE = 0
 HAPP_STATE_UNHAPPY = 1
 HAPP_STATE_CIVIL_WAR = 2
 
+ICONO_TRANSPARENTE = 'quark_transp.gif'
+ICONO_VERDE = 'quark_verde.gif'
+ICONO_AMARILLO = 'quark_amarillo.gif'
+ICONO_ROJO = 'quark_rojo.gif'
+
+# Cantidades que definen cuando un planeta es considerado minero y se levantan las 
+# estructuras al maximo.
+# Cantidad de Minerales extraidos c/100 minas.
+MINERO_MIN_EXTR_NEU = 50
+MINERO_MIN_EXTR_TRI = 50
+MINERO_MIN_EXTR_DUR = 30
+MINERO_MIN_EXTR_MOL = 30
+# Cantidad de Minerales bajo tierra.
+MINERO_MIN_NEU = 2000
+MINERO_MIN_TRI = 2000
+MINERO_MIN_DUR = 1000
+MINERO_MIN_MOL = 900
+# Minimo de MC para considerar a un planeta recaudador de guita en vez de minero
+RECAUDADOR_MIN_MC = 500
+
 def widgets_make_link(self):
     self.window = self.main_window.get_widget('window1')
     self.cmb_filter =  self.main_window.get_widget('cmb_filter')
