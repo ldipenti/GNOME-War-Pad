@@ -31,6 +31,9 @@
 #include <glib.h>
 #include <glib-object.h>
 #include "gwp-object.h"
+#include "gwp-planet.h"
+#include "gwp-ship.h"
+#include "gwp-location.h"
 
 /*
  * Type macros.
@@ -69,6 +72,8 @@ gint gwp_starchart_calculate_canvas_width (GwpStarchart *self);
 gint gwp_starchart_calculate_quads_per_line (GwpStarchart *self);
 gint gwp_starchart_calculate_total_quads (GwpStarchart *self);
 gboolean gwp_starchart_has_valid_coords (GwpStarchart *self, GwpObject *obj);
+gint gwp_starchart_calculate_obj_quadrant (GwpStarchart *self, GwpObject *obj);
+gint gwp_starchart_calculate_quadrant (GwpStarchart *self, gdouble x, gdouble y);
 
 
 /****************************/
@@ -88,6 +93,12 @@ gint gwp_starchart_get_canvas_margin (GwpStarchart *self);
 void gwp_starchart_set_canvas_margin (GwpStarchart *self, gint margin);
 gint gwp_starchart_get_quad_width (GwpStarchart *self);
 void gwp_starchart_set_quad_width (GwpStarchart *self, gint width);
+GSList *gwp_starchart_get_planets_per_quad (GwpStarchart *self, gint quad);
+void gwp_starchart_set_planets_per_quad (GwpStarchart *self, GwpPlanet *planet);
+GSList *gwp_starchart_get_ships_per_quad (GwpStarchart *self, gint quad);
+void gwp_starchart_set_ships_per_quad (GwpStarchart *self, GwpShip *ship);
+GSList *gwp_starchart_get_locations_per_quad (GwpStarchart *self, gint quad);
+void gwp_starchart_set_locations_per_quad (GwpStarchart *self, GwpLocation *loc);
 
 
 /*
