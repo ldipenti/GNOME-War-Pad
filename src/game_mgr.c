@@ -658,9 +658,11 @@ void game_mgr_play_game(GwpGameState *state)
   gtk_window_set_title(GTK_WINDOW(gwp), tmp);
   g_free(tmp);
   
+#ifdef USE_PYTHON
   /* Activate plugins */
   gwp_python_set_active_plugins ((GSList *)g_object_get_data (G_OBJECT(state),
 							      "active_plugins"));
+#endif
   
   /* Show the good stuff! */
   gtk_widget_hide (wait_notice);
@@ -958,6 +960,7 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
   gconf_client_set_bool (gwp_gconf, g_strconcat(path, "warn-korefile", NULL),
 			 tmp_bool, NULL);
 
+#ifdef USE_PYTHON
   if (closing_game) {
     /* Registered plugins */
     gconf_client_set_list (gwp_gconf, g_strconcat(path,"plugins", NULL),
@@ -965,6 +968,7 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
 			   gwp_python_get_active_plugins (),
 			   NULL);
   }
+#endif
 }
 
 
