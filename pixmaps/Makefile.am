@@ -15,5 +15,5 @@ gwpimages_DATA = gwp_splash.png
 gwpdistdir = $(datadir)/gwp
 gwpdist_DATA = logo.png gwp.png
 
-#distpixmapdir = $(datadir)/pixmaps
-#distpixmap_DATA = gwp.png
+distpixmapdir = $(datadir)/pixmaps
+distpixmap_DATA = gwp.png

@@ -18,102 +18,6 @@
 #include "race.h"
 
 
-void
-on_new_file1_activate                  (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_open1_activate                      (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_save1_activate                      (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_save_as1_activate                   (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_exit1_activate                      (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-  /* Bye bye */
-  gtk_main_quit();
-}
-
-
-void
-on_cut1_activate                       (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_copy1_activate                      (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_paste1_activate                     (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_clear1_activate                     (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_properties1_activate                (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_preferences1_activate               (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_about1_activate                     (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
-}
-
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
                                         GdkEventKey     *event,
@@ -462,7 +366,11 @@ void on_starchart_about_activate(GtkWidget *widget,
 {
   on_about_activate(gwp);
 }
-/* The real About show func */
+/* 
+ * The real About show func: It appears that the GnomeAbout widget
+ * is always destroyed when closed, so I have to create it every
+ * time...that sucks!
+ */
 void on_about_activate(GtkWidget *widget)
 {
   if(GTK_IS_WIDGET(widget)) {
@@ -476,10 +384,10 @@ void on_about_activate(GtkWidget *widget)
       NULL
     };
 
-    about_gwp = gnome_about_new("GNOME War Pad",
-				"0.1",
-				"(c) 2002-2003 Lucas Di Pentima",
-				_("A VGA Planets client for the GNOME2 platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
+    about_gwp = gnome_about_new(PACKAGE_NAME,
+				PACKAGE_VERSION,
+				"(c) 2002,2003 Lucas Di Pentima",
+				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
 				(const gchar **)authors,
 				(const gchar **)documenters,
 				NULL,
@@ -493,9 +401,9 @@ void on_about_activate(GtkWidget *widget)
 }
 
 /*
-  This cb is used to catch the "close window" clicks of those
-  pop-up windows we don't want to be destroyed.
-*/
+ * This cb is used to catch the "close window" clicks of those
+ * pop-up windows we don't want to be destroyed.
+ */
 gboolean delete_event (GtkWidget *widget,
 		       GdkEvent *event,
 		       gpointer data)
@@ -503,4 +411,16 @@ gboolean delete_event (GtkWidget *widget,
   /* Return true, so that the window is not destroyed. */
   gtk_widget_hide(widget);
   return TRUE;
+}
+
+/*
+ * Close current game and return to game manager.
+ * FIXME: Here we'll have to clean all the data, including
+ * the actions done and everything...
+ */
+void on_game_close_activate (GtkWidget *widget,
+			     gpointer user_data)
+{
+  gtk_widget_hide(gwp);
+  gtk_widget_show(game_mgr);
 }

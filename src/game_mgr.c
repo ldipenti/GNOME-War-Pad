@@ -51,19 +51,17 @@ void game_mgr_init(void)
 						      NULL);
     gtk_tree_view_set_model(race_list, GTK_TREE_MODEL(store));
     gtk_tree_view_append_column(race_list, column);
-    // Clear the dialog
-    //game_mgr_properties_dlg_clean();
 
-    // Load the games data
+    /* Load the games data */
     gwp_gconf = gconf_client_get_default();
     games = gconf_client_all_dirs(gwp_gconf, 
 				  games_path,
 				  NULL);
-    // Load the games
+    /* Load the games */
     while(games != NULL) {
       game = game_mgr_settings_new();
 
-      // Get the data!
+      /* Get the data! */
       game->game_name = g_strdup(g_strrstr(games->data, "/"));
       game->game_name++;
       game->game_dir = gconf_client_get_string(gwp_gconf, 
@@ -116,10 +114,10 @@ void game_mgr_init(void)
 						    NULL),
 					NULL);
 
-      // Add icon to iconlist
+      /* Add icon to iconlist */
       game_mgr_add_icon(iconlist, game);
       
-      // Move forward on the list...
+      /* Move forward on the list... */
       games = games->next;
     }
 }
@@ -137,7 +135,7 @@ void game_mgr_update_race_list(char *dir)
   g_assert(store != NULL);
   gtk_list_store_clear(store);
 
-  // If dir exists, we work
+  /* If dir exists, we work */
   if(g_file_test(dir, G_FILE_TEST_IS_DIR)) {
 
     GnomeFileEntry *trn_dir, *rst_dir;
@@ -145,7 +143,7 @@ void game_mgr_update_race_list(char *dir)
     trn_dir = (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
     rst_dir = (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
     
-    // Set default dir to some controls
+    /* Set default dir to some controls */
     gnome_file_entry_set_default_path(trn_dir, dir);
     gnome_file_entry_set_default_path(rst_dir, dir);
 
@@ -161,15 +159,15 @@ void game_mgr_update_race_list(char *dir)
       pdata = g_string_prepend(pdata, dir);
       ship = g_string_prepend(ship, dir);
     
-      // shipN.dis or pdataN.dis should exist...
+      /* shipN.dis or pdataN.dis should exist... */
       if (g_file_test(pdata->str, G_FILE_TEST_IS_REGULAR) || 
 	  g_file_test(ship->str, G_FILE_TEST_IS_REGULAR)) {
 	
-	// Add available races to race list
+	/* Add available races to race list */
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter, 
 			   0, g_strdup_printf("%s", race_get_name(i)),
-			   1, i,    // invisible column with race number
+			   1, i,    /* invisible column with race number */
 			   -1);	
       }
       g_string_free(pdata, TRUE);
@@ -206,14 +204,14 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
   gtk_entry_set_text(game_name, game_name_str);
   gtk_entry_set_text(player_email, settings->player_email);
   gtk_entry_set_text(host_email, settings->host_email);
-  // This MUST be after the game_dir changed event :-)
+  /* This MUST be after the game_dir changed event :-) */
   gtk_entry_set_text(race_name, race_get_name(settings->race));
   g_object_set_data(G_OBJECT(race_name),
 		      "race_number", &settings->race);
 
-  //FIXME: Remember host type!!!
+  /* FIXME: Remember host type!!! */
   
-  // Do some validations...
+  /* Do some validations... */
   if(game_mgr_properties_dlg_all_ok(FALSE, -1)) {
     return TRUE;
   } else {
@@ -223,14 +221,16 @@ gboolean game_mgr_properties_dlg_fill(GameSettings *settings)
 }
 
 
-/* Callback function connected to OK button on the game
-   properties dialog when using it as an edit game dialog */
+/* 
+ * Callback function connected to OK button on the game
+ * properties dialog when using it as an edit game dialog
+ */
 void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name)
 {
   gint icon_idx = game_mgr_get_icon_idx_selected();
   GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
   
-  // If validations are ok...
+  /* If validations are ok... */
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_idx)) {
     GameSettings *settings = NULL;
     GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
@@ -241,14 +241,14 @@ void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name)
 				    icon_idx);
     g_assert(settings != NULL);
   
-    // Assign dialog values to settings structure
+    /* Assign dialog values to settings structure */
     game_mgr_properties_dlg_get_settings(settings);
 
-    // Update it on GConf
+    /* Update it on GConf */
     game_mgr_settings_delete(old_game_name);
     game_mgr_settings_save(settings);
 
-    // Update icon name
+    /* Update icon name */
     icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
 						   icon_idx);
     g_assert(GNOME_IS_ICON_TEXT_ITEM(icon_text));
@@ -257,37 +257,39 @@ void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name)
     game_mgr_game_name_demangle(icon_text->text);
     gnome_icon_text_item_stop_editing(icon_text, TRUE);
 
-    // Disconnect signal before releasing dialog
+    /* Disconnect signal before releasing dialog */
     g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
 					 G_CALLBACK(game_mgr_cb_edit_game),
-					 iconlist);
+					 old_game_name);
     gtk_widget_hide(game_mgr_properties);
     game_mgr_properties_dlg_clean();
   }
 }
 
-/* Callback function connected to OK button on the game 
-   properties dialog when using it as a new game dialog */
+/* 
+ * Callback function connected to OK button on the game 
+ * properties dialog when using it as a new game dialog 
+ */
 void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
 {
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
   gint icon_q;
 
   icon_q = gnome_icon_list_get_num_icons(iconlist)+1;
-  // If validations are ok, we work...
+  /* If validations are ok, we work... */
   if(game_mgr_properties_dlg_all_ok(TRUE, icon_q)) {
     GameSettings *new_game = game_mgr_settings_new();
 
-    // Get the data from the dialog
+    /* Get the data from the dialog */
     game_mgr_properties_dlg_get_settings(new_game);
 
-    // Save it on GConf
+    /* Save it on GConf */
     game_mgr_settings_save(new_game);
 
-    // Add icon with data
+    /* Add icon with data */
     game_mgr_add_icon(iconlist, new_game);
 
-    // Disconnect signal before releasing dialog
+    /* Disconnect signal before releasing dialog */
     g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
 					 G_CALLBACK(game_mgr_cb_new_game),
 					 iconlist);
@@ -321,7 +323,7 @@ void game_mgr_properties_dlg_get_settings(GameSettings *settings)
     settings->game_dir = gnome_file_entry_get_full_path(game_dir, FALSE);
 
     name = g_strdup_printf("%s", gtk_entry_get_text(game_name));
-    // Tranform "game name" to "game_name"
+    /* Tranform "game name" to "game_name" */
     game_mgr_game_name_mangle(name);
     settings->game_name = g_strdup_printf("%s", name);
 
@@ -331,7 +333,7 @@ void game_mgr_properties_dlg_get_settings(GameSettings *settings)
       g_strdup_printf("%s", gtk_entry_get_text(player_email));
     settings->host_email = 
       g_strdup_printf("%s", gtk_entry_get_text(host_email));
-    // FIXME: settings->host_type =
+    /* FIXME: settings->host_type = */
     race_num = (gint *) g_object_get_data(G_OBJECT(race_name),
 					  "race_number");
     g_assert(race_num != NULL);
@@ -339,7 +341,7 @@ void game_mgr_properties_dlg_get_settings(GameSettings *settings)
   }
 }
 
-// Several dialog validations
+/* Several dialog validations */
 gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 					const gint icon_number)
 {
@@ -355,7 +357,9 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
   gchar *game_name_str;
 
-  // check if game dir exists
+  /*
+   * Check if game dir exists
+   */
   if(! g_file_test(gnome_file_entry_get_full_path(game_dir, FALSE), 
 		   G_FILE_TEST_IS_DIR)) {
     if(show_warnings) {
@@ -373,7 +377,9 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     }
     return FALSE;
   }
-  // check if there is a game name
+  /*
+   * Check if there is a game name
+   */
   if(strlen(gtk_entry_get_text(game_name)) <= 0) {
     if(show_warnings) {
       GtkWidget *warn;
@@ -388,7 +394,9 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     }
     return FALSE;
   }
-  // check if game name is not duplicated
+  /* 
+   * Check if game name is not duplicated 
+   */
   game_name_str = g_strdup_printf("%s", gtk_entry_get_text(game_name));
   game_mgr_game_name_mangle(game_name_str);
   if(icon_number >= 0) {
@@ -397,7 +405,7 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     GameSettings *sett;
     gint i, icon_q;
 
-    // Iterate through all games except the one being edited
+    /* Iterate through all games except the one being edited */
     icon_q = gnome_icon_list_get_num_icons(iconlist);
     for(i = 0; i < icon_q; i++) {
       if(i != icon_number) {
@@ -406,10 +414,9 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 					i);
 	g_assert(sett != NULL);
 
-	// If strings are equal...
-	if(g_ascii_strncasecmp(sett->game_name, 
-			       game_name_str,
-			       strlen(game_name_str)) == 0) {
+	/* If strings are equal... */
+	if(g_ascii_strcasecmp(sett->game_name, 
+			      game_name_str) == 0) {
 	  GtkWidget *warn;
 	  
 	  warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
@@ -426,7 +433,9 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
       }
     }
   }
-  // check if user selected a race
+  /*
+   * Check if user selected a race 
+   */
   if(strlen(gtk_entry_get_text(race_name)) <= 0) {
     if(show_warnings) {
       GtkWidget *warn;
@@ -442,7 +451,7 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     return FALSE;
   }
 
-  // auto-validations
+  /* auto-validations */
   if(! gnome_file_entry_get_full_path(trn_dir, FALSE)) {
     gnome_file_entry_set_filename(trn_dir,
 				  gnome_file_entry_get_full_path(game_dir,
@@ -455,11 +464,11 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 								 FALSE));
   }
 
-  // All ok!, lets continue...
+  /* All ok!, lets continue... */
   return TRUE;
 }
 
-// Returns a GameSettings pointer with initializated data
+/* Returns a GameSettings pointer with initializated data */
 GameSettings *game_mgr_settings_new(void)
 {
   GameSettings *ret;
