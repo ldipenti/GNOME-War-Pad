@@ -69,6 +69,18 @@ class Quark(gwp.Plugin):
         self.report_verify_colonists(p)
         self.report_verify_temperature(p) # Ve si conviene Terraformar
 
+        # PRUEBAS CONSTRUCIONES
+        
+        #pid = p.get_id()
+        #pq = self.pl_qdata[pid]
+
+        #if pq['tipo_quark'] ==  self.quark_utils.TIPO_MINERO:
+            # 200 clanes
+        #    self.natt = self.natt + "\n"
+        #    self.quark_set_icon(self.quark_utils.PRIORIDAD_AVISO_MEDIO, self.natt)
+        #elif pq['tipo_quark'] ==  self.quark_utils.TIPO_COMUN:
+            # 100
+
     #--------------------------------------------------------------------------
     def calculate_future_happyness_natives(self, p):
         """Devuelve el valor de happyness del siguiente turno"""
@@ -444,6 +456,9 @@ class Quark(gwp.Plugin):
         if self.na and (event == 'planet-selected'):
             self.na.add_notification(self.quark_icon)
             self.na_report_generate(objeto)
+            pid = objeto.get_id()
+            self.planet_load_data(pid)
+            
             #for planeta in self.pl:
             #    if planeta.get_id() == pid:
             #        self.na_report_generate(objeto)
@@ -454,7 +469,7 @@ class Quark(gwp.Plugin):
             self.na.remove_notification(self.quark_icon)
 
     #--------------------------------------------------------------------------    
-    def quark_set_report(self, p):
+    def quark_set_report(self):
         """Realiza todos los chequeos para mostrar el reporte en la ventana de
         existir algo que informar."""
         self.textbuffer = self.tv_notification.get_buffer()
@@ -595,7 +610,7 @@ class Quark(gwp.Plugin):
         self.store_minerals.append(fila)
         
         ## renderer.set_property('background','green')
-        self.quark_set_report(p)
+        self.quark_set_report()
 
     #--------------------------------------------------------------------------
     def main_cb(self, widget, data=None):
