@@ -138,6 +138,16 @@ GwpHullSpec * gwp_hullspec_new (void)
 /* High Level methods */
 /**********************/
 
+/**
+ * Returns the hull name truncated.
+ *
+ * Hull names can be very long, so with this function you can truncate
+ * it to a given number of characters.
+ *
+ * @param self a GwpHullSpec.
+ * @param len the maximum name length accepted.
+ * @return A string containing the truncated name.
+ */
 GString * gwp_hullspec_get_name_trunc (GwpHullSpec *self, gint len)
 {
   g_return_val_if_fail ((GWP_IS_HULLSPEC(self) && len > 0), NULL);
