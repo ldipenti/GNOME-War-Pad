@@ -31,8 +31,6 @@ Error (s)
       fprintf (stderr, "Fatal error: %s\n", s);
       fprintf (stderr, "Program aborted.\n");
       exit (1);
-    default:
-      /* ignore */
     }
 }
 
