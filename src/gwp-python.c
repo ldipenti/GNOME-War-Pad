@@ -64,11 +64,15 @@ void gwp_python_inittab (void)
   GtkWidget *menubar = NULL;
   PyObject *plugin_mgr = NULL;
   PyObject *pyobj_menu = NULL;
+  GtkWidget *plugin_slot = NULL;
+  PyObject *plugin_slot_pyobj = NULL;
 
   /* Load 'inittab' script */
   script = fopen (GWP_SCRIPTS_DIR"/inittab.py", "r");
   PyRun_SimpleFile (script, "inittab.py");
   fclose (script);
+
+  plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
 
   /* Configure the plugins menu item and pass it to the PluginManager */
   plugin_menu = gtk_menu_new ();
@@ -79,13 +83,40 @@ void gwp_python_inittab (void)
   menubar = lookup_widget ("menubar");
   gtk_menu_bar_insert (menubar, plugin_menu_root, 2);
 
-  pyobj_menu = pygobject_new ((GObject *)plugin_menu);
-  plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
-  
+  pyobj_menu = pygobject_new ((GObject *)plugin_menu);  
   PyObject_CallMethodObjArgs (plugin_mgr,
-			      PyString_FromString("set_menu"),
+			      PyString_FromString("_PluginManager__set_menu"),
 			      pyobj_menu, NULL);
   Py_DECREF (pyobj_menu);
+
+  /*** Pass plugin_slot_* references to PluginManager ***/
+  /* Panel slot */
+  plugin_slot = lookup_widget ("plugin_slot_panel");
+  plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
+  PyObject_CallMethodObjArgs (plugin_mgr,
+			      PyString_FromString("_PluginManager__set_plugin_slot"),
+			      PyString_FromString("plugin_slot_panel"),
+			      plugin_slot_pyobj,
+			      NULL);
+  Py_DECREF (plugin_slot_pyobj);
+  /* Planet panel slot */
+  plugin_slot = lookup_widget ("plugin_slot_panel_planet");
+  plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
+  PyObject_CallMethodObjArgs (plugin_mgr,
+			      PyString_FromString("_PluginManager__set_plugin_slot"),
+			      PyString_FromString("plugin_slot_panel_planet"),
+			      plugin_slot_pyobj,
+			      NULL);
+  Py_DECREF (plugin_slot_pyobj);
+  /* Ship panel slot */
+  plugin_slot = lookup_widget ("plugin_slot_panel_ship");
+  plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
+  PyObject_CallMethodObjArgs (plugin_mgr,
+			      PyString_FromString("_PluginManager__set_plugin_slot"),
+			      PyString_FromString("plugin_slot_panel_ship"),
+			      plugin_slot_pyobj,
+			      NULL);
+  Py_DECREF (plugin_slot_pyobj);
 
   /* Load and register 'navigator' plugin */
   script = fopen (GWP_SCRIPTS_DIR"/navigator.py", "r");

@@ -34,6 +34,7 @@ class PluginManager:
         self.__menu_hooks = {}
         self.__plugins_registered = [] # instances
         self.__plugins_available = [] # classes
+        self.__slots = {} # UI slots
         self.__menu = None # Plugins menu reference
 
         ###
@@ -57,9 +58,19 @@ class PluginManager:
 
     # This method runs only once...it's called from C code to assign
     # a reference to the Plugin's GtkMenu widget.
-    def set_menu (self, menu):
+    def __set_menu (self, menu):
         if not self.__menu:
             self.__menu = menu
+
+    # This method is called from C code to assign a reference to the
+    # plugin UI slots.
+    def __set_plugin_slot (self, slot_name, slot):
+        if (slot_name == "plugin_slot_panel"):
+            self.__slots[slot_name] = slot
+        elif (slot_name == "plugin_slot_panel_planet"):
+            self.__slots[slot_name] = slot
+        elif (slot_name == "plugin_slot_panel_ship"):
+            self.__slots[slot_name] = slot
         
     def manage_event_key (self, event):
         if (event["type"] == gtk.gdk.KEY_PRESS):
@@ -166,6 +177,8 @@ class PluginManager:
                 except AttributeError:
                     # Debugging
                     print "PluginManager: '%s' action is not a method!!!" % gtk.gdk.keyval_name(keyval)
+            # Delete plugin instance (must be the last thing to do)
+            del (plugin)
 
     def get_plugins_available(self):
         return self.__plugins_available
@@ -191,6 +204,15 @@ class PluginManager:
         for plugin in self.__plugins_available:
             if plugin.__name__ in names:
                 self.register_plugin (plugin)
+
+    # UI Slots management
+    def add_plugin_slot(self, slot_name, widget):
+        if (slot_name == "plugin_slot_panel"):
+            self.__slots[slot_name].add(widget)
+        elif (slot_name == "plugin_slot_panel_planet"):
+            self.__slots[slot_name].add(widget)
+        elif (slot_name == "plugin_slot_panel_ship"):
+            self.__slots[slot_name].add(widget)
 
 #######
 # Plugin abstract class
