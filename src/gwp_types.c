@@ -110,6 +110,16 @@ void starchart_set_grp_scanner_area(GnomeCanvasGroup * group)
   starchart.grp_scanner_area = group;
 }
 
+GnomeCanvasGroup * starchart_get_grp_scanner_area_sensor(void)
+{
+  return starchart.grp_scanner_area_sensor;
+}
+
+void starchart_set_grp_scanner_area_sensor(GnomeCanvasGroup * group)
+{
+  starchart.grp_scanner_area_sensor = group;
+}
+
 GnomeCanvasGroup * starchart_get_grp_planets(void)
 {
   return starchart.grp_planets;

@@ -48,6 +48,8 @@ GnomeCanvasGroup * starchart_get_grp_planet_names (void);
 void starchart_set_grp_planet_names (GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_scanner_area (void);
 void starchart_set_grp_scanner_area (GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_scanner_area_sensor (void);
+void starchart_set_grp_scanner_area_sensor (GnomeCanvasGroup * group);
 
 GnomeCanvasGroup * starchart_get_grp_planets (void);
 void starchart_set_grp_planets (GnomeCanvasGroup * group);
@@ -71,7 +73,8 @@ struct _Starchart {
   GnomeCanvasGroup *grp_grid;
   
   GnomeCanvasGroup *grp_planet_names;
-  GnomeCanvasGroup *grp_scanner_area;
+  GnomeCanvasGroup *grp_scanner_area; /**< For ship visualizations range */
+  GnomeCanvasGroup *grp_scanner_area_sensor; /**< For sensor sweep mission */
 
   GnomeCanvasGroup *grp_planets;
   GnomeCanvasGroup *grp_ships;

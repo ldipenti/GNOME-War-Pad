@@ -1395,7 +1395,7 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
 	/* Add sensor sweep range (if active) */
 	if (gwp_ship_get_mission(ship) == MISSION_SENSOR_SWEEP) {
 	  gint sensor_range = gwp_game_state_get_host_sensors_range (game_state);
-	  gnome_canvas_item_new (starchart_get_grp_scanner_area (),
+	  gnome_canvas_item_new (starchart_get_grp_scanner_area_sensor (),
 				 GNOME_TYPE_CANVAS_ELLIPSE,
 				 "outline_color_rgba", SCANNER_RANGE_COLOR,
 				 "fill_color_rgba", SCANNER_RANGE_COLOR,
@@ -1696,6 +1696,10 @@ void init_starchart (GtkWidget * gwp)
 				  (gnome_canvas_item_new 
 				   (starchart_get_grp_root(), 
 				    GNOME_TYPE_CANVAS_GROUP, NULL)));
+  starchart_set_grp_scanner_area_sensor (GNOME_CANVAS_GROUP 
+					 (gnome_canvas_item_new 
+					  (starchart_get_grp_root(), 
+					   GNOME_TYPE_CANVAS_GROUP, NULL)));
   
   starchart_set_grp_planets (GNOME_CANVAS_GROUP 
 			     (gnome_canvas_item_new 
@@ -1804,6 +1808,7 @@ void init_starchart (GtkWidget * gwp)
 
   /* Set scanner range on the top */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area()));
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_scanner_area_sensor()));
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
   /* Set Constellations on the top */
@@ -2815,9 +2820,13 @@ void starchart_show_scanner_area (gboolean show)
   if (show) {
     gnome_canvas_item_show ((GnomeCanvasItem *) 
 			    starchart_get_grp_scanner_area ());
+    gnome_canvas_item_show ((GnomeCanvasItem *) 
+			    starchart_get_grp_scanner_area_sensor ());
   } else {
     gnome_canvas_item_hide ((GnomeCanvasItem *) 
 			    starchart_get_grp_scanner_area ());
+    gnome_canvas_item_hide ((GnomeCanvasItem *) 
+			    starchart_get_grp_scanner_area_sensor ());
   }
 }
 
