@@ -26,6 +26,7 @@ struct _GwpObjectPrivate {
   gboolean dispose_has_run;
   gint x_coord;
   gint y_coord;
+  gint id;
 };
 
 /*
@@ -67,6 +68,7 @@ static void gwp_object_init (GTypeInstance *instance,
   /* Private members init */
   self->priv->x_coord = 0;
   self->priv->y_coord = 0;
+  self->priv->id = 0;
   g_message("GwpObject init");
 }
 
@@ -134,4 +136,16 @@ void gwp_object_set_y_coord (GwpObject *self, gint y)
   g_assert (GWP_IS_OBJECT(self));
   g_assert (y >= 0 && y <= 4000);
   self->priv->y_coord = y;
+}
+
+gint gwp_object_get_id (GwpObject *self)
+{
+  g_assert(GWP_IS_OBJECT(self));
+  return self->priv->id;
+}
+
+void gwp_object_set_id (GwpObject *self, gint id)
+{
+  g_assert(GWP_IS_OBJECT(self));
+  self->priv->id = id;
 }

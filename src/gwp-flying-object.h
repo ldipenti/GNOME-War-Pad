@@ -68,8 +68,6 @@ gint gwp_fo_get_speed (GwpFlyingObject *self);
 void gwp_fo_set_speed (GwpFlyingObject *self, gint speed);
 gint gwp_fo_get_owner (GwpFlyingObject *self);
 void gwp_fo_set_owner (GwpFlyingObject *self, gint owner);
-gint gwp_fo_get_id (GwpFlyingObject *self);
-void gwp_fo_set_id (GwpFlyingObject *self, gint id);
 GString * gwp_fo_get_name (GwpFlyingObject *self);
 void gwp_fo_set_name (GwpFlyingObject *self, GString *name);
 

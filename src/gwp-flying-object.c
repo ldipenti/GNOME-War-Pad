@@ -25,7 +25,6 @@ struct _GwpFlyingObjectPrivate {
   gint heading; /* range 0..360 */
   gint speed; /* range 0..9, sometimes can be negative (set by the host) */
   gint owner; /* range 1..11 */
-  gint id; /* normally 0..500 */
   GString *name;
 };
 
@@ -68,7 +67,6 @@ static void gwp_fo_init (GTypeInstance *instance,
   self->priv->heading = 0;
   self->priv->speed = 0;
   self->priv->owner = 0;
-  self->priv->id = 0;
   self->priv->name = g_string_new("");
   g_message("GwpFlyingObject initialized");
 }
@@ -149,18 +147,6 @@ void gwp_fo_set_owner (GwpFlyingObject *self, gint owner)
   g_assert (GWP_IS_FLYING_OBJECT(self));
   g_assert (owner >= 0 && owner <= 12);
   self->priv->owner = owner;
-}
-
-gint gwp_fo_get_id (GwpFlyingObject *self)
-{
-  g_assert(GWP_IS_FLYING_OBJECT(self));
-  return self->priv->id;
-}
-
-void gwp_fo_set_id (GwpFlyingObject *self, gint id)
-{
-  g_assert(GWP_IS_FLYING_OBJECT(self));
-  self->priv->id = id;
 }
 
 GString * gwp_fo_get_name (GwpFlyingObject *self)

@@ -64,6 +64,8 @@ gint gwp_object_get_x_coord (GwpObject *self);
 void gwp_object_set_x_coord (GwpObject *self, gint x);
 gint gwp_object_get_y_coord (GwpObject *self);
 void gwp_object_set_y_coord (GwpObject *self, gint y);
+gint gwp_object_get_id (GwpObject *self);
+void gwp_object_set_id (GwpObject *self, gint id);
 
 /*
  * Standard defines.
