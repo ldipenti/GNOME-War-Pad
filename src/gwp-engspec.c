@@ -167,16 +167,18 @@ gint gwp_engspec_get_fuel_usage_full (GwpEngSpec *self, gdouble dist,
   } 
   /* Calculate fuel usage, turn by turn */
   else {
-    gdouble eta = dist / (speed * speed);
-
+    gdouble distrest = dist;
+    gdouble sspeed = speed*speed;
     gint usage = 0;
-    for (; eta >= 1.0; eta--) {
-      usage = (mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000;
+    for( ; distrest >= sspeed; distrest -= sspeed ) {
+      usage = floor( gwp_engspec_get_fuel_usage(self, speed) \
+              * ((gint)( mass/10.0 )) / 10000.0 );
       mass -= usage;
       ret += usage;
     }
-    if (eta > 0.0) {
-      ret += floor(((mass * gwp_engspec_get_fuel_usage(self, speed)) / 100000) * eta);
+    if (distrest > 0.0) {
+      ret += (gint)( gwp_engspec_get_fuel_usage(self, speed) \
+             * ( mass/10.0 ) * ((gint)distrest) / (sspeed*10000.0) );
     }
   }
   return ret;
