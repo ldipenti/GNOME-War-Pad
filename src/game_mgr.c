@@ -44,7 +44,6 @@ void game_mgr_init(void)
     GSList *games = NULL;
     GwpGameState *game;
     gchar *games_path = g_strconcat(GWP_GCONF_PATH, "Games", NULL);
-    gchar *tmp = NULL;
     gchar *name_tmp = NULL;
     GnomeIconList *iconlist =
       (GnomeIconList *) lookup_widget("game_mgr_iconlist");
@@ -84,8 +83,6 @@ void game_mgr_init(void)
 
     /* Load (or delete) the games */
     while(games != NULL) {
-      game = gwp_game_state_new ();
-
       name_tmp = g_strdup(g_strrstr(games->data, "/"));
       name_tmp++;
 
@@ -93,66 +90,8 @@ void game_mgr_init(void)
 	game_mgr_delete_game(name_tmp);
 	game_state_set_version(GAME_STATE_VERSION);
       } else {
-	/*****************/
 	/* Get the data! */
-	/*****************/
-
-	gwp_game_state_set_name(game, name_tmp);
-	
-	/* GwpGameState */
-	tmp = g_strconcat(games_path, "/", name_tmp, "/starchart_zoom", NULL);
-	gwp_game_state_set_starchart_zoom(game, 
-				gconf_client_get_float(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/turn_number", NULL);
-	gwp_game_state_set_turn_number(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/last_x_coord", NULL);
-	gwp_game_state_set_last_x_coord(game, 
-			      gconf_client_get_int(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/last_y_coord", NULL);
-	gwp_game_state_set_last_y_coord(game, 
-			      gconf_client_get_int(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/toolbar", NULL);
-	gwp_game_state_set_toolbar(game, 
-			 gconf_client_get_bool(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	/* Game Settings */
-	tmp = g_strconcat(games_path, "/", name_tmp, "/game_dir", NULL);
-	gwp_game_state_set_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/trn_dir", NULL);
-	gwp_game_state_set_trn_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/rst_dir", NULL);
-	gwp_game_state_set_rst_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/player_email", NULL);
-	gwp_game_state_set_player_email(game, 
-			      gconf_client_get_string(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/host_email", NULL);
-	gwp_game_state_set_host_email(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/host_type", NULL);
-	gwp_game_state_set_host_type(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
-	g_free(tmp);
-	
-	tmp = g_strconcat(games_path, "/", name_tmp, "/race", NULL);
-	gwp_game_state_set_race(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
-	g_free(tmp);
+	game = game_mgr_load_game_state (games_path, name_tmp);
 
 	/* Add icon to iconlist */
 	game_mgr_add_icon(iconlist, game);
@@ -307,7 +246,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 
     /* Update it on GConf */
     game_mgr_delete_game(old_game_name);
-    game_mgr_save_game(state);
+    game_mgr_save_game_state(state);
 
     /* Update icon name */
     icon_text = gnome_icon_list_get_icon_text_item(GNOME_ICON_LIST(iconlist),
@@ -348,7 +287,7 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
     gwp_game_state_set_last_coords (new_game, 1500, 1500);
 
     /* Save it on GConf */
-    game_mgr_save_game(new_game);
+    game_mgr_save_game_state(new_game);
 
     /* Add icon with data */
     game_mgr_add_icon(iconlist, new_game);
@@ -770,10 +709,84 @@ static void game_mgr_init_message_history (void)
 /* FIXME: This code below comes from the dead game_state.[ch] files, 
    it really belongs here, fix the function names please! */
 
+
+GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
+{
+  gchar *tmp = NULL;
+  GwpGameState *game = gwp_game_state_new ();
+
+  gwp_game_state_set_name(game, game_name);
+  
+  /* GwpGameState */
+  tmp = g_strconcat(games_path, "/", game_name, "/starchart_zoom", NULL);
+  gwp_game_state_set_starchart_zoom(game, 
+				    gconf_client_get_float(gwp_gconf, 
+							   tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/turn_number", NULL);
+  gwp_game_state_set_turn_number(game, 
+				 gconf_client_get_int(gwp_gconf, 
+						      tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/last_x_coord", NULL);
+  gwp_game_state_set_last_x_coord(game, 
+				  gconf_client_get_int(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/last_y_coord", NULL);
+  gwp_game_state_set_last_y_coord(game, 
+				  gconf_client_get_int(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/toolbar", NULL);
+  gwp_game_state_set_toolbar(game, 
+			     gconf_client_get_bool(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  /* Game Settings */
+  tmp = g_strconcat(games_path, "/", game_name, "/game_dir", NULL);
+  gwp_game_state_set_dir(game, gconf_client_get_string(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/trn_dir", NULL);
+  gwp_game_state_set_trn_dir(game, 
+			     gconf_client_get_string(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/rst_dir", NULL);
+  gwp_game_state_set_rst_dir(game, 
+			     gconf_client_get_string(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/player_email", NULL);
+  gwp_game_state_set_player_email(game, 
+				  gconf_client_get_string(gwp_gconf, 
+							  tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/host_email", NULL);
+  gwp_game_state_set_host_email(game, 
+				gconf_client_get_string(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/host_type", NULL);
+  gwp_game_state_set_host_type(game, 
+			       gconf_client_get_int(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+  
+  tmp = g_strconcat(games_path, "/", game_name, "/race", NULL);
+  gwp_game_state_set_race(game, gconf_client_get_int(gwp_gconf, tmp, NULL));
+  g_free(tmp);
+
+  return game;
+}
+
 /**
  * Save game state data on GConf
  */
-void game_mgr_save_game (GwpGameState *self)
+void game_mgr_save_game_state (GwpGameState *self)
 {
   g_assert (GWP_IS_GAME_STATE (self));
 
@@ -862,7 +875,7 @@ void game_mgr_close_game(GwpGameState *game_state)
     /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
     gwp_game_state_set_last_coords(game_state, x, y);
-    game_mgr_save_game(game_state);
+    game_mgr_save_game_state(game_state);
 
     /******************************/
     /* Clean up objects in memory */
