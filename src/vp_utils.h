@@ -35,7 +35,7 @@ void vp_coord_w2v(gdouble x1, gdouble y1, gint16 *x2, gint16 *y2);
 GList *load_xyplan(gchar *xyplan_file);
 GList *load_shipxy(gint race);
 GHashTable *load_pdata(void);
-GHashTable *load_bdata(void);
+void load_bdata(void);
 GHashTable *load_sdata(void);
 GHashTable *load_target(gint race);
 

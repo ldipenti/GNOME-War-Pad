@@ -109,10 +109,8 @@
 
 /* Global vars */
 GHashTable *planet_list;
-GHashTable *base_list;
 GHashTable *ship_list;
 GHashTable *target_list;
-GHashTable *fleet_list;
 GSList *minefield_list;
 GSList *storm_list;
 

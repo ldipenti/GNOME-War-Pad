@@ -65,7 +65,7 @@ void init_data (void)
   g_message ("SDATA loaded...");
   load_gen_data();
   g_message("GENx loaded...");
-  base_list = load_bdata();
+  load_bdata();
   g_message("BDATA loaded...");
   hullspec_list = load_hullspec();
   g_message("HULLSPEC.DAT loaded...");
@@ -975,13 +975,12 @@ void load_gen_data(void)
   fclose(gen_dat);
 }
 
-GHashTable *load_bdata(void)
+ void load_bdata(void)
 {
   GString *bdata_dis_file, *bdata_dat_file;
   FILE *bdata = NULL;
   GwpStarbase *b;
   GwpPlanet *p;
-  GHashTable *base_list = NULL;
   struct stat dis_data;
   struct stat dat_data;
   gint16 bases_nr;
@@ -992,9 +991,6 @@ GHashTable *load_bdata(void)
     g_string_new(g_strdup_printf("bdata%d.dis", game_get_race(game_state)));
   bdata_dat_file =
     g_string_new(g_strdup_printf("bdata%d.dat", game_get_race(game_state)));
-
-  /* Init base hash */
-  base_list = g_hash_table_new(NULL, NULL);
 
   /* Load Base Data...*/
   if(g_file_test(game_get_full_path(game_state, bdata_dis_file->str),
@@ -1088,13 +1084,8 @@ GHashTable *load_bdata(void)
     p = gwp_planet_get (planet_list, starbase_id);
     gwp_starbase_set_planet (b, p);
     gwp_planet_set_starbase (p, b);
-
-    /* Add starbase to list */
-    g_hash_table_insert(base_list, (gpointer)(gint)gwp_starbase_get_id(b), b);
   }
   fclose(bdata);
-
-  return base_list;
 }
 
 GSList * load_hullspec (void)
