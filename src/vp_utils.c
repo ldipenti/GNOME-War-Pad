@@ -32,9 +32,11 @@
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
+
 #include "gwp-hullspec.h"
 #include "gwp-engspec.h"
 #include "gwp-torpspec.h"
+#include "gwp-beamspec.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 
@@ -67,6 +69,8 @@ void init_data (void)
   g_message("ENGSPEC.DAT loaded...");
   torpspec_list = load_torpspec();
   g_message("TORPSPEC.DAT loaded...");
+  beamspec_list = load_beamspec();
+  g_message("BEAMSPEC.DAT loaded...");
 }
 
 /*
@@ -966,7 +970,7 @@ GSList * load_hullspec (void)
   GString *hullspec_file;
   GwpHullSpec *hs;
   gint16 i, idx, hullspec_nr;
-  gchar buffer[60];
+  gchar buffer[HULLSPEC_SIZE];
   gchar *name_tmp;
   
   /* Initialize file name */
@@ -988,7 +992,7 @@ GSList * load_hullspec (void)
 
   /* read registers */
   for (i = 1; i <= hullspec_nr; i++) {
-    fread (buffer, 60, 1, hullspec);
+    fread (buffer, HULLSPEC_SIZE, 1, hullspec);
     
     /* Instantiate new object */
     hs = gwp_hullspec_new ();
@@ -1035,7 +1039,7 @@ GSList * load_engspec (void)
   GString *engspec_file;
   GwpEngSpec *es;
   gint16 i, idx, engspec_nr;
-  gchar buffer[66];
+  gchar buffer[ENGSPEC_SIZE];
   gchar *name_tmp;
   
   /* Initialize file name */
@@ -1057,7 +1061,7 @@ GSList * load_engspec (void)
 
   /* read registers */
   for (i = 1; i <= engspec_nr; i++) {
-    fread (buffer, 66, 1, engspec);
+    fread (buffer, ENGSPEC_SIZE, 1, engspec);
     
     /* Instantiate new object */
     es = gwp_engspec_new ();
@@ -1099,7 +1103,7 @@ GSList * load_torpspec (void)
   GString *torpspec_file;
   GwpTorpSpec *ts;
   gint16 i, idx, torpspec_nr;
-  gchar buffer[38];
+  gchar buffer[TORPSPEC_SIZE];
   gchar *name_tmp;
   
   /* Initialize file name */
@@ -1121,7 +1125,7 @@ GSList * load_torpspec (void)
 
   /* read registers */
   for (i = 1; i <= torpspec_nr; i++) {
-    fread (buffer, 38, 1, torpspec);
+    fread (buffer, TORPSPEC_SIZE, 1, torpspec);
     
     /* Instantiate new object */
     ts = gwp_torpspec_new ();
@@ -1145,8 +1149,8 @@ GSList * load_torpspec (void)
     
     gwp_torpspec_set_mass (ts, getWord(buffer + 30));
     gwp_torpspec_set_tech_level (ts, getWord(buffer + 32));
-    gwp_torpspec_set_kill_value (ts, getWord(buffer + 32));
-    gwp_torpspec_set_damage_value (ts, getWord(buffer + 32));
+    gwp_torpspec_set_kill_value (ts, getWord(buffer + 34));
+    gwp_torpspec_set_damage_value (ts, getWord(buffer + 36));
 
     /* Add new torpedo launcher */
     torpspec_list = g_slist_append (torpspec_list, ts);
@@ -1154,4 +1158,67 @@ GSList * load_torpspec (void)
   fclose (torpspec);
 
   return torpspec_list;
+}
+
+GSList * load_beamspec (void)
+{
+  FILE *beamspec;
+  GSList *beamspec_list = NULL;
+  GString *beamspec_file;
+  GwpBeamSpec *bs;
+  gint16 i, idx, beamspec_nr;
+  gchar buffer[BEAMSPEC_SIZE];
+  gchar *name_tmp;
+  
+  /* Initialize file name */
+  beamspec_file = g_string_new ("BEAMSPEC.DAT");
+  
+  if ((beamspec = fopen(game_get_full_path(game_state, beamspec_file->str), "r")) == NULL) {
+    beamspec_file = g_string_down (beamspec_file);
+    if ((beamspec =
+	 fopen (game_get_full_path(game_state, beamspec_file->str), "r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 game_get_full_path(game_state, beamspec_file->str));
+      exit (-1);
+    }
+  }
+  
+  rewind (beamspec);
+
+  beamspec_nr = 10;
+
+  /* read registers */
+  for (i = 1; i <= beamspec_nr; i++) {
+    fread (buffer, BEAMSPEC_SIZE, 1, beamspec);
+    
+    /* Instantiate new object */
+    bs = gwp_beamspec_new ();
+
+    /* Load data */
+    gwp_beamspec_set_id (bs, i);
+
+    name_tmp = g_malloc (sizeof(gchar)*21);
+    for (idx = 0; idx < 20; idx++) {
+      name_tmp[idx] = getWord(buffer + idx);
+    }
+    name_tmp[20] = '\0';
+    gwp_beamspec_set_name (bs, g_string_new(g_strchomp(name_tmp)));
+    g_free(name_tmp);
+
+    gwp_beamspec_set_cost (bs, getWord(buffer + 20));
+    gwp_beamspec_set_tritanium (bs, getWord(buffer + 22));
+    gwp_beamspec_set_duranium (bs, getWord(buffer + 24));
+    gwp_beamspec_set_molybdenum (bs, getWord(buffer + 26));
+    
+    gwp_beamspec_set_mass (bs, getWord(buffer + 28));
+    gwp_beamspec_set_tech_level (bs, getWord(buffer + 30));
+    gwp_beamspec_set_kill_value (bs, getWord(buffer + 32));
+    gwp_beamspec_set_damage_value (bs, getWord(buffer + 34));
+
+    /* Add new beam weapon */
+    beamspec_list = g_slist_append (beamspec_list, bs);
+  }
+  fclose (beamspec);
+
+  return beamspec_list;
 }
