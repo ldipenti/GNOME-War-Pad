@@ -192,8 +192,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   y = (gint) event->y;
 
   /* If we are dragging the starchart to pan... */
-  if((event->state & (GDK_BUTTON1_MASK | GDK_SHIFT_MASK)) 
-     == (GDK_BUTTON1_MASK | GDK_SHIFT_MASK)) {
+  if((event->state & (GDK_BUTTON1_MASK)) == (GDK_BUTTON1_MASK)) {
     gint offset_x, offset_y;
 
     /* Set hand cursor */
