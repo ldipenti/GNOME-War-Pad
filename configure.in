@@ -24,7 +24,7 @@ if test "$have_libgnomeui" = "yes"; then
 else
 	AC_MSG_ERROR([Need libgnomeui version 2.6.0 or higher])
 fi
-PKG_CHECK_MODULES(LIBGLADE, libglade-2.0 >= 2.4.0, have_libglade=yes, have_libglade=no)
+PKG_CHECK_MODULES(LIBGLADE, libglade-2.0 >= 2.3.6, have_libglade=yes, have_libglade=no)
 if test "$have_libglade" = "yes"; then
 	GNOME_MODULES="$GNOME_MODULES libglade-2.0"
 else
