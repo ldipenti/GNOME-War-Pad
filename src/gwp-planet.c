@@ -856,32 +856,62 @@ gint gwp_planet_duranium_turns_left(GwpPlanet *self)
  * Calculates how many MC will collect a planet from colonists taxes.
  *
  * @param self a GwpPlanet.
- * @return The amount of MC collected from colonists.
+ * @return The maximum amount of MC collected from colonists.
  */
-gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
+gint gwp_planet_get_tax_collected_colonists_max (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
   gint ret;
+  gint mult;
+
+  switch (gwp_game_state_get_race(game_state)) {
+  case RACE_FEDS:
+    mult = 2;
+    break;
+  default:
+    mult = 1;
+    break;
+  }
 
   if(gwp_planet_get_happiness_colonists(self) > 30) {
-    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * race_get_tax_rate_colonists(self);
+    ret = ((gdouble)gwp_planet_get_colonists(self)/100) * ((gdouble)gwp_planet_get_tax_colonists(self)/10) * race_get_tax_rate_colonists(self) * mult;
   } else {
     ret = 0;
   }
 
-  /* If colonists are too few...we cannot collect all the money */
-  if (gwp_planet_get_colonists(self) < ret) {
-    ret = gwp_planet_get_colonists(self);
-  }
+  return ret;
+}
 
-  /* Some modifiers */
+/**
+ * Calculates how many MC will collect a planet from colonists taxes.
+ *
+ * This value is limited by the kind and amount of colonists.
+ *
+ * @param self a GwpPlanet.
+ * @return The amount of MC collected from colonists.
+ */
+gint gwp_planet_get_tax_collected_colonists(GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  gint ret;
+  gint mult;
+
+  ret = gwp_planet_get_tax_collected_colonists_max (self);
+
   switch (gwp_game_state_get_race(game_state)) {
   case RACE_FEDS:
-    ret *= 2;
+    mult = 2;
     break;
   default:
+    mult = 1;
     break;
+  }
+
+  /* If colonists are too few...we cannot collect all the money */
+  if (gwp_planet_get_colonists(self) < ret) {
+    ret = gwp_planet_get_colonists(self) * mult;
   }
 
   return ret;
@@ -894,42 +924,91 @@ gint gwp_planet_get_tax_earned_colonists(GwpPlanet *self)
  * @param self a GwpPlanet.
  * @return The amount of MC collected from natives.
  */
-gint gwp_planet_get_tax_earned_natives(GwpPlanet *self)
+gint gwp_planet_get_tax_collected_natives_max (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
   gint ret;
-  
-  if(gwp_planet_get_happiness_natives(self) > 30) {
-    ret = ((gdouble)gwp_planet_get_natives(self)/100) * ((gdouble)gwp_planet_get_tax_natives(self)/10) * ((gdouble)gwp_planet_get_natives_spi(self)/5);
+  gint mult_col;
+  gint mult_nat;
+
+  switch (gwp_game_state_get_race(game_state)) {
+  case RACE_FEDS:
+    mult_col = 2;
+    break;
+  default:
+    mult_col = 1;
+    break;
+  }
+
+  switch(gwp_planet_get_natives_race(self)) {
+  case NATIVE_INSECTOID:
+    mult_nat= 2;
+    break;
+  case NATIVE_AMORPHOUS:
+    mult_nat = 0;
+    break;
+  default:
+    mult_nat = 1;
+    break;
+  }
+
+  if (gwp_planet_get_happiness_natives(self) > 30) {
+    ret = ((gdouble)gwp_planet_get_natives(self)/100) * 
+      ((gdouble)gwp_planet_get_tax_natives(self)/10) * 
+      ((gdouble)gwp_planet_get_natives_spi(self)/5) * 
+      mult_col * mult_nat;
   } else {
     ret = 0;
   }
 
-  /* If colonists are too few...we cannot collect all the money */
-  if (gwp_planet_get_colonists(self) < ret) {
-    ret = gwp_planet_get_colonists(self);
-  }
+  return ret;
+}
 
-  /* Some modifiers */
+/**
+ * Calculates how many MC will collect a planet from native taxes.
+ *
+ * This value is limited by the kind and amount of colonists and natives.
+ *
+ * @param self a GwpPlanet.
+ * @return The amount of MC collected from natives.
+ */
+gint gwp_planet_get_tax_collected_natives(GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  gint ret;
+  gint mult_col;
+  gint mult_nat;
+
+  ret = gwp_planet_get_tax_collected_natives_max (self);
+
+  /* FIXME: Must obtain this values from host config */
   switch (gwp_game_state_get_race(game_state)) {
   case RACE_FEDS:
-    ret *= 2;
+    mult_col = 2;
     break;
   default:
+    mult_col = 1;
     break;
   }
   switch(gwp_planet_get_natives_race(self)) {
   case NATIVE_INSECTOID:
-    ret *= 2;
+    mult_nat= 2;
     break;
   case NATIVE_AMORPHOUS:
-    ret = 0;
+    mult_nat = 0;
     break;
   default:
+    mult_nat = 1;
     break;
   }
   
+  /* If colonists are too few...we cannot collect all the money */
+  if (gwp_planet_get_colonists(self) < ret) {
+    ret = gwp_planet_get_colonists(self) * mult_col * mult_nat;
+  }
+
   return ret;
 }
 

@@ -420,15 +420,27 @@
   (return-type "gint")
 )
 
-(define-method get_tax_earned_colonists
+(define-method get_tax_collected_colonists
   (of-object "GwpPlanet")
-  (c-name "gwp_planet_get_tax_earned_colonists")
+  (c-name "gwp_planet_get_tax_collected_colonists")
   (return-type "gint")
 )
 
-(define-method get_tax_earned_natives
+(define-method get_tax_collected_natives
   (of-object "GwpPlanet")
-  (c-name "gwp_planet_get_tax_earned_natives")
+  (c-name "gwp_planet_get_tax_collected_natives")
+  (return-type "gint")
+)
+
+(define-method get_tax_collected_colonists_max
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_collected_colonists_max")
+  (return-type "gint")
+)
+
+(define-method get_tax_collected_natives_max
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_collected_natives_max")
   (return-type "gint")
 )
 
