@@ -119,23 +119,23 @@ realize (GtkWidget *widget,
   glMaterialfv (GL_FRONT, GL_SHININESS, mat_shininess);
 
   glPolygonMode( GL_FRONT, GL_FILL );
-  glPolygonMode( GL_BACK, GL_FILL );
-
+  glPolygonMode( GL_BACK, GL_LINE );
 
   /* SHIP */
   glNewList (TEST_SHIP, GL_COMPILE);
-    glEnable (GL_CULL_FACE);
+    glDisable (GL_CULL_FACE);
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_red);
-    vcrcgl_draw_ship ();
+    GLfloat c[3] = { -15.0, 0.0, 0.0 };
+    vcrcgl_draw_ship( c, 1, 1 );
   glEndList ();
 
   /* PLANET B */
   glNewList( UNIVERSE, GL_COMPILE );
     glEnable(GL_TEXTURE_2D);
-    glEnable( GL_CULL_FACE );
+    glDisable( GL_CULL_FACE );
     glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_green );
-    GLfloat c[3] = {15.0, 0.0, 0.0};
-    vcrcgl_draw_sphere( c, 4.5, 2 );
+    GLfloat d[3] = {15.0, 0.0, 0.0};
+    vcrcgl_draw_sphere( d, 4.5, 2 );
     glEnable(GL_TEXTURE_2D);
   glEndList();
 
@@ -693,14 +693,27 @@ static GLfloat test_ship[TEST_SHIP_SIZE][3][3] = {
   {  {  5.5000,  0.8500, -0.1500*2 }, {  5.5000, -0.8500, -0.1500*2 }, {  5.5000,  0.7500,  0.3000*2 } }
 };
 
-void vcrcgl_draw_ship (void)
+void vcrcgl_draw_ship( GLfloat coord[3], GLint direction, GLfloat size )
 {
   GLint i;
+  GLfloat v0[3], v1[3], v2[3];
 
   for (i = 0; i < TEST_SHIP_SIZE; i++)
-    logo_draw_triangle(&test_ship[i][2][0],
-                       &test_ship[i][1][0],
-                       &test_ship[i][0][0]);
+  {
+    v0[0] = direction * ( test_ship[i][0][0] * size + coord[0] );
+    v0[1] = direction * ( test_ship[i][0][1] * size + coord[1] );
+    v0[2] = direction * ( test_ship[i][0][2] * size + coord[2] );
+
+    v1[0] = direction * ( test_ship[i][1][0] * size + coord[0] );
+    v1[1] = direction * ( test_ship[i][1][1] * size + coord[1] );
+    v1[2] = direction * ( test_ship[i][1][2] * size + coord[2] );
+
+    v2[0] = direction * ( test_ship[i][2][0] * size + coord[0] );
+    v2[1] = direction * ( test_ship[i][2][1] * size + coord[1] );
+    v2[2] = direction * ( test_ship[i][2][2] * size + coord[2] );
+
+    logo_draw_triangle( &v2, &v1, &v0 );
+  }
 }
 
 
@@ -772,7 +785,7 @@ void vcrcgl_init( void )
   examine_gl_config_attrib (glconfig);
 
 /* DEBUG : try to read texture */
-vcrcgl_read_texture();
+//vcrcgl_read_texture();
 
   vbox = GTK_VBOX( lookup_widget( "vcr_vbox_simulation" ) );
 

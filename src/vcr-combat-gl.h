@@ -24,10 +24,10 @@ void vcrcgl_init( void );
 #define VCRCGL_TextImaX 256
 #define VCRCGL_TextImaY 256
 GLubyte VCRCGL_TextIma[VCRCGL_TextImaX][VCRCGL_TextImaY][4];
-void vcrcgl_draw_ship( void );
-void vcrcgl_draw_universe( void );
+
 void vcrcgl_read_texture( void );
 
+void vcrcgl_draw_ship( GLfloat coord[3], GLint direction, GLfloat size );
 void vcrcgl_draw_sphere( GLfloat coord[3], GLfloat diameter, GLint density );
 float Tx( float v[3], float size );
 float Ty( float v[3], float size );
