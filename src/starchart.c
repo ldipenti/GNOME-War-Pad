@@ -34,6 +34,9 @@
 static void starchart_zoom (GnomeCanvas *starchart, gdouble zoom);
 static void init_starchart_constellations(void);
 
+static GnomeCanvasPoints *distance_p;
+static GnomeCanvasLine *distance_line;
+
 /**
  * Notifications from game_state that should be taken seriously
  */
@@ -1702,6 +1705,18 @@ void init_starchart (GtkWidget * gwp)
 				       "points", grid_points_h, NULL);
   }
 
+  /*********** TEST ***********/
+  distance_p = gnome_canvas_points_new (2);
+  distance_p->coords[0] = 1500.0;
+  distance_p->coords[1] = 1500.0;
+  distance_p->coords[2] = 1600.0;
+  distance_p->coords[3] = 1600.0;
+  distance_line = gnome_canvas_item_new (starchart_get_grp_grid(),
+					 GNOME_TYPE_CANVAS_LINE,
+					 "fill_color", "green",
+					 "width_pixels", 1, 
+					 "points", distance_p, NULL);
+
   /* Loads Planets on Starchart */
   g_message("Loading planets...");
   g_hash_table_foreach (planet_list, (GHFunc) draw_planet, gwp);
@@ -2172,6 +2187,13 @@ void starchart_update_coord_panel(GtkWidget *gwp,
   /* Free stuff */
   g_free(x_tmp);
   g_free(y_tmp);
+
+  distance_p->coords[2] = wx;
+  distance_p->coords[3] = wy;
+  g_object_set (distance_line, 
+		"points", distance_p,
+		NULL);
+  g_message ("Moviendo a X:%f Y:%f", wx, wy);
 }
 
 void starchart_set_default_cursor(void)
