@@ -9,6 +9,10 @@ import gtk
 import gwp
 import re
 import inspect
+import sys
+
+sys.path.append(gwp.get_system_plugins_dir())
+import gwp_config
 
 #######
 # Plugin manager class

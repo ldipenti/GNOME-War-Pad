@@ -26,3 +26,5 @@ src/gwp-game-state.c
 src/mission.c
 src/vcr-combat-gl.c
 src/gwp-python.c
+scripts/plugins/magallanes.py
+scripts/plugins/magallanes.glade

@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-08 00:05-0300\n"
+"POT-Creation-Date: 2004-11-09 18:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Stefan Reuther <Streu@gmx.de>\n"
 "Language-Team: German\n"
@@ -241,7 +241,7 @@ msgstr "<b>Lade Spieldaten, bitte warten...</b>"
 msgid "<b>MC:</b>"
 msgstr "<b>MC:</b>"
 
-#: src/gwp.glade.h:47
+#: src/gwp.glade.h:47 scripts/plugins/magallanes.glade.h:8
 msgid "<b>MC</b>"
 msgstr "<b>MC</b>"
 
@@ -407,7 +407,7 @@ msgstr "Geschütze: "
 msgid "Build ship"
 msgstr "Schiff bauen"
 
-#: src/gwp.glade.h:88
+#: src/gwp.glade.h:88 scripts/plugins/magallanes.py:460
 msgid "Cargo"
 msgstr "Fracht"
 
@@ -415,7 +415,7 @@ msgstr "Fracht"
 msgid "Construction"
 msgstr "Bau"
 
-#: src/gwp.glade.h:90
+#: src/gwp.glade.h:90 scripts/plugins/magallanes.py:457
 msgid "Crew"
 msgstr "Crew"
 
@@ -520,7 +520,7 @@ msgstr "Host-Email-Adresse:"
 msgid "Host Type:"
 msgstr "Host-Typ:"
 
-#: src/gwp.glade.h:116
+#: src/gwp.glade.h:116 scripts/plugins/magallanes.py:455
 msgid "Hull"
 msgstr "Typ"
 
@@ -710,7 +710,8 @@ msgstr "Daten zu Schiff"
 msgid "Ship List"
 msgstr "Schiff-Liste"
 
-#: src/gwp.glade.h:162
+#. Columns Lista Naves
+#: src/gwp.glade.h:162 scripts/plugins/magallanes.py:452
 msgid "Ships"
 msgstr "Schiffe"
 
@@ -1409,7 +1410,7 @@ msgstr "kühl"
 msgid "arctic"
 msgstr "arktisch"
 
-#: src/gwp-planet.c:598
+#: src/gwp-planet.c:598 scripts/plugins/magallanes.glade.h:36
 msgid "n/a"
 msgstr "n/a"
 
@@ -1681,6 +1682,223 @@ msgstr "Viel Erfolg...\n"
 #: src/gwp-python.c:75
 msgid "_Plugins"
 msgstr "_Plugins"
+
+#: scripts/plugins/magallanes.py:15
+msgid "Utility for viewing the ships characteristics"
+msgstr ""
+
+#. Columns Comparacion
+#: scripts/plugins/magallanes.py:454
+#, fuzzy
+msgid "Race"
+msgstr "Volk: "
+
+#: scripts/plugins/magallanes.py:456
+msgid "Mass"
+msgstr ""
+
+#: scripts/plugins/magallanes.py:458
+#, fuzzy
+msgid "Beam (tech)"
+msgstr "Geschütz-Tech: "
+
+#: scripts/plugins/magallanes.py:459
+msgid "T/F (tech)"
+msgstr ""
+
+#: scripts/plugins/magallanes.py:461
+#, fuzzy
+msgid "Fuel"
+msgstr "Feudal"
+
+#: scripts/plugins/magallanes.py:462
+msgid "Eng (wp)"
+msgstr ""
+
+#: scripts/plugins/magallanes.py:463
+#, fuzzy
+msgid "MC"
+msgstr "0 MC"
+
+#: scripts/plugins/magallanes.py:464
+#, fuzzy
+msgid "Tri"
+msgstr "Tribal"
+
+#: scripts/plugins/magallanes.py:465
+msgid "Dur"
+msgstr ""
+
+#: scripts/plugins/magallanes.py:466
+msgid "Mol"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:1
+msgid "1"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:2
+#, fuzzy
+msgid "<b>Cargo</b>"
+msgstr "<b>Kol:</b>"
+
+#: scripts/plugins/magallanes.glade.h:3
+#, fuzzy
+msgid "<b>Costo Total: </b>"
+msgstr "<b>Kol:</b>"
+
+#: scripts/plugins/magallanes.glade.h:4
+msgid "<b>Cuadro Compartativo</b>"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:5
+#, fuzzy
+msgid "<b>Dur</b>"
+msgstr "<b>Dur:</b>"
+
+#: scripts/plugins/magallanes.glade.h:6
+#, fuzzy
+msgid "<b>Fuel</b>"
+msgstr "<b>Sprit:</b>"
+
+#: scripts/plugins/magallanes.glade.h:7
+#, fuzzy
+msgid "<b>Funciones Especiales: </b>"
+msgstr "<b>Spritverbrauch:</b>"
+
+#: scripts/plugins/magallanes.glade.h:9
+#, fuzzy
+msgid "<b>Masa</b>"
+msgstr "<b>Masse:</b>"
+
+#: scripts/plugins/magallanes.glade.h:10
+#, fuzzy
+msgid "<b>Mol</b>"
+msgstr "<b>Mol:</b>"
+
+#: scripts/plugins/magallanes.glade.h:11
+#, fuzzy
+msgid "<b>Motores: </b>"
+msgstr "<b>Pos.:</b>"
+
+#: scripts/plugins/magallanes.glade.h:12
+#, fuzzy
+msgid "<b>Motores</b>"
+msgstr "<b>Fabriken</b>"
+
+#: scripts/plugins/magallanes.glade.h:13
+#, fuzzy
+msgid "<b>Rayos: </b>"
+msgstr "<b>Masse:</b>"
+
+#: scripts/plugins/magallanes.glade.h:14
+#, fuzzy
+msgid "<b>Rayos</b>"
+msgstr "<b>Waffen</b>"
+
+#: scripts/plugins/magallanes.glade.h:15
+msgid "<b>Razas que pueden construirla</b>"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:16
+#, fuzzy
+msgid "<b>TP/F</b>"
+msgstr "<b>FC:</b>"
+
+# ??? dupe
+#: scripts/plugins/magallanes.glade.h:17
+#, fuzzy
+msgid "<b>Tech Level:  </b>"
+msgstr "<b>Verteidigung: </b>"
+
+#: scripts/plugins/magallanes.glade.h:18
+#, fuzzy
+msgid "<b>Torpedos: </b>"
+msgstr "<b>Torps:</b>"
+
+#: scripts/plugins/magallanes.glade.h:19
+#, fuzzy
+msgid "<b>Tri</b>"
+msgstr "<b>Tri:</b>"
+
+#: scripts/plugins/magallanes.glade.h:20
+#, fuzzy
+msgid "<b>Trip</b>"
+msgstr "<b>Tri:</b>"
+
+#: scripts/plugins/magallanes.glade.h:21
+msgid "Birds"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:22
+msgid "Borgs"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:23
+#, fuzzy
+msgid "Colonies"
+msgstr "Kolonisieren"
+
+#: scripts/plugins/magallanes.glade.h:24
+#, fuzzy
+msgid "Crystals"
+msgstr "The Crystalline"
+
+#: scripts/plugins/magallanes.glade.h:25
+msgid "Esta raza posee la nave actual"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:26
+msgid "Evils"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:27
+#, fuzzy
+msgid "Fascists"
+msgstr "The Fascists"
+
+#: scripts/plugins/magallanes.glade.h:28
+#, fuzzy
+msgid "Feds"
+msgstr "Feudal"
+
+#: scripts/plugins/magallanes.glade.h:29
+#, fuzzy
+msgid "Lizards"
+msgstr "The Lizards"
+
+#: scripts/plugins/magallanes.glade.h:30
+msgid "Magallanes 0.2"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:31
+#, fuzzy
+msgid "Nave"
+msgstr "Name"
+
+#: scripts/plugins/magallanes.glade.h:32
+msgid "Nave y Partes"
+msgstr ""
+
+#: scripts/plugins/magallanes.glade.h:33
+#, fuzzy
+msgid "Privateers"
+msgstr "The Privateers"
+
+#: scripts/plugins/magallanes.glade.h:34
+#, fuzzy
+msgid "Rebels"
+msgstr "The Rebels"
+
+#: scripts/plugins/magallanes.glade.h:35
+#, fuzzy
+msgid "Robots"
+msgstr "The Robots"
+
+#: scripts/plugins/magallanes.glade.h:37
+#, fuzzy
+msgid "ninguna"
+msgstr "Bergbau"
 
 #~ msgid "*"
 #~ msgstr "*"

@@ -4,8 +4,6 @@ import sys
 import pygtk
 import gtk
 import gtk.glade
-
-sys.path.append(gwp.get_system_plugins_dir())
 import vp_utils
 
 class Magallanes(gwp.Plugin):
@@ -14,7 +12,7 @@ class Magallanes(gwp.Plugin):
     version = "0.2"
     author_name = "Cristian Abalos"
     author_email = "abalosc@ciudad.com.ar"
-    desc_short = "Utilidad para visualizar las caracteristicas de las naves por raza"
+    desc_short = _("Utility for viewing the ships characteristics")
     desc_long = ""
     license = "GPL"
     
@@ -451,21 +449,21 @@ class Magallanes(gwp.Plugin):
         renderer = gtk.CellRendererText()
         
         # Columns Lista Naves
-        col_naves = gtk.TreeViewColumn('Naves', renderer, text=1)
+        col_naves = gtk.TreeViewColumn(_('Ships'), renderer, text=1)
         # Columns Comparacion
-        col_raza = gtk.TreeViewColumn('Raza', renderer, text=1)
-        col_hull = gtk.TreeViewColumn('Hull', renderer, text=2)
-        col_masa = gtk.TreeViewColumn('Masa', renderer, text=3)
-        col_trip = gtk.TreeViewColumn('Trip', renderer, text=4)
-        col_rayos = gtk.TreeViewColumn('RY (tech)', renderer, text=5)
-        col_torps = gtk.TreeViewColumn('T/F (tech)', renderer, text=6)
-        col_cargo = gtk.TreeViewColumn('Cargo', renderer, text=7)
-        col_fuel = gtk.TreeViewColumn('Fuel', renderer, text=8)
-        col_motor = gtk.TreeViewColumn('Mot (wp)', renderer, text=9)
-        col_MC = gtk.TreeViewColumn('MC', renderer, text=10)
-        col_tri = gtk.TreeViewColumn('Tri', renderer, text=11)
-        col_dur = gtk.TreeViewColumn('Dur', renderer, text=12)
-        col_mol = gtk.TreeViewColumn('Mol', renderer, text=13)
+        col_raza = gtk.TreeViewColumn(_('Race'), renderer, text=1)
+        col_hull = gtk.TreeViewColumn(_('Hull'), renderer, text=2)
+        col_masa = gtk.TreeViewColumn(_('Mass'), renderer, text=3)
+        col_trip = gtk.TreeViewColumn(_('Crew'), renderer, text=4)
+        col_rayos = gtk.TreeViewColumn(_('Beam (tech)'), renderer, text=5)
+        col_torps = gtk.TreeViewColumn(_('T/F (tech)'), renderer, text=6)
+        col_cargo = gtk.TreeViewColumn(_('Cargo'), renderer, text=7)
+        col_fuel = gtk.TreeViewColumn(_('Fuel'), renderer, text=8)
+        col_motor = gtk.TreeViewColumn(_('Eng (wp)'), renderer, text=9)
+        col_MC = gtk.TreeViewColumn(_('MC'), renderer, text=10)
+        col_tri = gtk.TreeViewColumn(_('Tri'), renderer, text=11)
+        col_dur = gtk.TreeViewColumn(_('Dur'), renderer, text=12)
+        col_mol = gtk.TreeViewColumn(_('Mol'), renderer, text=13)
         # Add columns to models
         ## Naves
         self.lst_naves.append_column(col_naves)

@@ -140,10 +140,13 @@ AM_GLIB_GNU_GETTEXT
 
 dnl Set PACKAGE_LOCALE_DIR in config.h.
 if test "x${prefix}" = "xNONE"; then
+  PACKAGE_LOCALE_DIR="${ac_default_prefix}/${DATADIRNAME}/locale"
   AC_DEFINE_UNQUOTED(PACKAGE_LOCALE_DIR, "${ac_default_prefix}/${DATADIRNAME}/locale", "Description")
 else
+  PACKAGE_LOCALE_DIR="${prefix}/${DATADIRNAME}/locale"
   AC_DEFINE_UNQUOTED(PACKAGE_LOCALE_DIR, "${prefix}/${DATADIRNAME}/locale", "Description")
 fi
+AC_SUBST(PACKAGE_LOCALE_DIR)
 
 
 dnl Set PACKAGE SOURCE DIR in config.h.
@@ -216,6 +219,7 @@ pixmaps/vcr-textures/Makefile
 scripts/Makefile
 scripts/plugins/Makefile
 tests/Makefile
+scripts/plugins/gwp_config.py
 gwp.desktop
 ])
 
