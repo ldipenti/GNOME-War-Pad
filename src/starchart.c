@@ -151,7 +151,7 @@ void update_starbase_panel(GwpPlanet *planet)
     /*** Ship build ***/
     if (gwp_starbase_get_build_ship_type(base) != 0) {
       /* Hull */
-      GwpHullSpec *hull = GWP_HULLSPEC(g_slist_nth_data(hullspec_list, truehull[gwp_starbase_get_build_ship_type(base)-1] - 1));
+      GwpHullSpec *hull = GWP_HULLSPEC(g_slist_nth_data(hullspec_list, truehull[game_get_race(game_state)-1][gwp_starbase_get_build_ship_type(base)-1] - 1));
 
       tmp = g_strdup_printf("%s", gwp_hullspec_get_name_trunc(hull, 18)->str);
       gtk_label_set_text (build_hull, tmp);

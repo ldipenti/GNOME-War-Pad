@@ -1295,7 +1295,7 @@ void load_truehull_data (void)
 {
   FILE *fd;
   GString *truehull_file;
-  gint i;
+  gint i,j;
   gchar buffer[40];
 
   /* Init file name */
@@ -1310,15 +1310,17 @@ void load_truehull_data (void)
     }
   }
 
-  /* Search my registers */
-  fseek (fd, 40*(game_get_race(game_state)-1), SEEK_SET);
+  rewind (fd);
 
-  /* read registers */
-  fread (buffer, 40, 1, fd);
-
-  /* Load data on global array */
-  for (i = 0; i < 20; i++) {
-    truehull[i] = getWord (buffer + (i*2));
+  /* Load all race data! */
+  for (j = 0; j < 11; j++) {
+    /* read registers */
+    fread (buffer, 40, 1, fd);
+    
+    /* Load data on global array */
+    for (i = 0; i < 20; i++) {
+      truehull[j][i] = getWord (buffer + (i*2));
+    }
   }
 }
 

@@ -127,7 +127,7 @@ GSList *locations_per_quad[TOTAL_QUADS];
 GList *xyplanet_list;
 GList *shipxy_list;
 
-gint truehull[20]; /**< Our race hulls */
+gint truehull[11][20]; /**< Race -> Hulls assignments */
 
 /* Various widgets */
 GtkWidget *gwp, *game_mgr, *game_mgr_properties;
