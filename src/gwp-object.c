@@ -105,8 +105,8 @@ static void gwp_object_class_init (GwpObjectClass *klass)
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   /* g_message("GwpObjectClass init"); */
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_object_dispose;
-  gobject_class->finalize = gwp_object_finalize;
+  gobject_class->dispose = (void *)gwp_object_dispose;
+  gobject_class->finalize = (void *)gwp_object_finalize;
 }
 
 /* 

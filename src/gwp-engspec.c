@@ -111,8 +111,8 @@ static void gwp_engspec_class_init (GwpEngSpecClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_engspec_dispose;
-  gobject_class->finalize = gwp_engspec_finalize;
+  gobject_class->dispose = (void *) gwp_engspec_dispose;
+  gobject_class->finalize = (void *) gwp_engspec_finalize;
 }
 
 /*

@@ -112,8 +112,8 @@ static void gwp_torpspec_class_init (GwpTorpSpecClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_torpspec_dispose;
-  gobject_class->finalize = gwp_torpspec_finalize;
+  gobject_class->dispose = (void *) gwp_torpspec_dispose;
+  gobject_class->finalize = (void *) gwp_torpspec_finalize;
 }
 
 /*

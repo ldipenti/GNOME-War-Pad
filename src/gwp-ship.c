@@ -268,8 +268,8 @@ static void gwp_ship_class_init (GwpShipClass *klass)
   /*
    * Register destructor methods.
    */
-  gobject_class->dispose = gwp_ship_dispose;
-  gobject_class->finalize = gwp_ship_finalize;
+  gobject_class->dispose = (void *) gwp_ship_dispose;
+  gobject_class->finalize = (void *) gwp_ship_finalize;
 }
 
 /*

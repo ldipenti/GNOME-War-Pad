@@ -110,8 +110,8 @@ static void gwp_beamspec_class_init (GwpBeamSpecClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_beamspec_dispose;
-  gobject_class->finalize = gwp_beamspec_finalize;
+  gobject_class->dispose = (void *) gwp_beamspec_dispose;
+  gobject_class->finalize = (void *) gwp_beamspec_finalize;
 }
 
 /* 

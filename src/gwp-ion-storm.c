@@ -106,8 +106,8 @@ static void gwp_ion_storm_class_init (GwpIonStormClass *klass)
   /*
    * Register destructor methods.
    */
-  gobject_class->dispose = gwp_ion_storm_dispose;
-  gobject_class->finalize = gwp_ion_storm_finalize;
+  gobject_class->dispose = (void *) gwp_ion_storm_dispose;
+  gobject_class->finalize = (void *) gwp_ion_storm_finalize;
 }
 
 /*

@@ -94,8 +94,8 @@ static void gwp_minefield_class_init (GwpMinefieldClass *klass)
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_minefield_dispose;
-  gobject_class->finalize = gwp_minefield_finalize;
+  gobject_class->dispose = (void *) gwp_minefield_dispose;
+  gobject_class->finalize = (void *) gwp_minefield_finalize;
 }
 
 /*

@@ -227,8 +227,8 @@ static void gwp_planet_class_init (GwpPlanetClass *klass)
   /*
    * Register destructor methods.
    */
-  gobject_class->dispose = gwp_planet_dispose;
-  gobject_class->finalize = gwp_planet_finalize;
+  gobject_class->dispose = (void *) gwp_planet_dispose;
+  gobject_class->finalize = (void *) gwp_planet_finalize;
 }
 
 /**

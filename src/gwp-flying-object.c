@@ -93,8 +93,8 @@ static void gwp_fo_class_init (GwpFlyingObjectClass *klass)
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_fo_dispose;
-  gobject_class->finalize = gwp_fo_finalize;
+  gobject_class->dispose = (void *) gwp_fo_dispose;
+  gobject_class->finalize = (void *) gwp_fo_finalize;
 }
 
 /*

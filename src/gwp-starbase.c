@@ -181,8 +181,8 @@ static void gwp_starbase_class_init (GwpStarbaseClass *klass)
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   /* Register destructor methods */
-  gobject_class->dispose = gwp_starbase_dispose;
-  gobject_class->finalize = gwp_starbase_finalize;
+  gobject_class->dispose = (void *) gwp_starbase_dispose;
+  gobject_class->finalize = (void *) gwp_starbase_finalize;
 }
 
 /* 

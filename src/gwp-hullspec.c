@@ -122,8 +122,8 @@ static void gwp_hullspec_class_init (GwpHullSpecClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   /* Register destructor methods. */
-  gobject_class->dispose = gwp_hullspec_dispose;
-  gobject_class->finalize = gwp_hullspec_finalize;
+  gobject_class->dispose = (void *) gwp_hullspec_dispose;
+  gobject_class->finalize = (void *) gwp_hullspec_finalize;
 }
 
 /* 

@@ -94,8 +94,8 @@ static void gwp_location_class_init (GwpLocationClass *klass)
   /* 
    * Register destructor methods.
    */
-  gobject_class->dispose = gwp_location_dispose;
-  gobject_class->finalize = gwp_location_finalize;
+  gobject_class->dispose = (void *) gwp_location_dispose;
+  gobject_class->finalize = (void *) gwp_location_finalize;
 }
 
 /*
