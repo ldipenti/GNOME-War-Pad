@@ -1110,10 +1110,8 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
 
   /* Set up summary label */
   if (ships_nr == 1) {
-    tmp = g_strdup_printf (_("%d ship in (%d , %d)"), 
-			   ships_nr,
-			   gwp_object_get_x_coord(GWP_OBJECT(location)),
-			   gwp_object_get_y_coord(GWP_OBJECT(location)));
+    tmp = g_strdup_printf (_("%d ship in %s"), ships_nr,
+			   starchart_get_location_name(gwp_object_get_x_coord(GWP_OBJECT(location)), gwp_object_get_y_coord(GWP_OBJECT(location)))->str);
     gtk_label_set_text (summary, tmp);
     g_free (tmp);
   } else {
@@ -1453,6 +1451,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     g_object_set_data (G_OBJECT (item), "planet_data", planet);
     /* Insert item into quadrant */
     load_object_per_quad (item, planets_per_quad, xi, yi);
+    load_object_per_quad (planet, gwp_planets_per_quad, xi, yi);
   }
 }
 
@@ -1641,6 +1640,23 @@ GSList * starchart_get_surrounding_quads (GSList * objects_per_quad[TOTAL_QUADS]
       g_slist_concat (objects, g_slist_copy (objects_per_quad[south_east]));
 
   return objects;
+}
+
+GwpPlanet * starchart_find_planet (GSList *planets_in_quad, gint x, gint y)
+{
+  gint nr, i;
+  GwpPlanet *planet = NULL;
+
+  nr = g_slist_length (planets_in_quad);
+  for (i = 0; i < nr; i++) {
+    planet = GWP_PLANET(g_slist_nth_data (planets_in_quad, i));
+    if (gwp_object_get_x_coord(GWP_OBJECT(planet)) == x &&
+	gwp_object_get_y_coord(GWP_OBJECT(planet)) == y) {
+      /* Planet found, return it */
+      return planet;
+    }
+  }
+  return NULL;
 }
 
 GwpLocation * starchart_find_location (GSList *locations_in_quad,
@@ -2411,4 +2427,33 @@ void starchart_show_ion_storms (gboolean show)
     gnome_canvas_item_hide ((GnomeCanvasItem *)
 			    starchart_get_grp_ion_storms ());
   }
+}
+
+/**
+ * Searches for planets on the given coords and return its name if any.
+ */
+GString * starchart_get_location_name (gint x, gint y)
+{
+  /* FIXME: Acceptable input values?? */
+  g_assert (x >= 0 && x <= 5000);
+  g_assert (y >= 0 && y <= 5000);
+
+  GwpObject *obj;
+  gint q;
+  GString *ret;
+  GSList *objects_nearby;
+  gdouble dx, dy;
+
+  vp_coord_v2w (x, y, &dx, &dy);
+  q = get_quadrant(dx, dy);
+
+  objects_nearby = starchart_get_surrounding_quads (gwp_planets_per_quad, q);
+
+  if ((obj = (GwpObject *)starchart_find_planet(objects_nearby, x, y))) {
+    ret = g_string_new(gwp_object_get_name(obj)->str);
+  } else {
+    ret = g_string_new(g_strdup_printf("(%d , %d)", x, y));
+  }
+
+  return ret;
 }

@@ -73,6 +73,7 @@ void starchart_mark_ship (gint x, gint y);
 void starchart_scroll (gint scroll_x, gint scroll_y);
 
 /* Find functions */
+GwpPlanet * starchart_find_planet (GSList *planets_in_quad, gint x, gint y);
 GwpLocation * starchart_find_location (GSList *locations_in_quad, gint x, gint y);
 GnomeCanvasItem *starchart_find_nearest_object(GSList *objects_in_quad, gdouble x, gdouble y);
 GSList *starchart_get_surrounding_quads(GSList *objects_per_quad[TOTAL_QUADS], gint center_quad);
@@ -95,5 +96,7 @@ void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item);
 void starchart_show_planet_names (gboolean show);
 void starchart_show_minefields (gboolean show);
 void starchart_show_ion_storms (gboolean show);
+
+GString * starchart_get_location_name (gint x, gint y);
 
 #endif
