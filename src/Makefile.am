@@ -44,6 +44,8 @@ gwp_SOURCES = \
 	gwp-engspec.c\
 	gwp-minefield.h\
 	gwp-minefield.c\
+	gwp-ion-storm.h\
+	gwp-ion-storm.c\
 	gwp-specs.h\
 	callbacks.c\
 	callbacks.h\

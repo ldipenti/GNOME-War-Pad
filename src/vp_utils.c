@@ -33,6 +33,7 @@
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
 #include "gwp-minefield.h"
+#include "gwp-ion-storm.h"
 
 #include "gwp-specs.h"
 
@@ -819,6 +820,7 @@ void load_kore_data (void)
   FILE *kore_dat = NULL;
   GString *kore_file_name;
   gchar mf_buf[8]; /* Minefields buffer */
+  gchar is_buf[12]; /* Ion Storms buffer */
   gint i;
 
   kore_file_name = g_string_new (g_strdup_printf("kore%d.dat",
@@ -844,9 +846,9 @@ void load_kore_data (void)
 
     gwp_object_set_id (GWP_OBJECT(minefield), i);
     gwp_object_set_x_coord (GWP_OBJECT(minefield), getWord(mf_buf));
-    gwp_object_set_y_coord (GWP_OBJECT(minefield), getWord(mf_buf+2));
-    gwp_minefield_set_radius (minefield, getWord(mf_buf+4));
-    gwp_minefield_set_owner (minefield, getWord(mf_buf+6));
+    gwp_object_set_y_coord (GWP_OBJECT(minefield), getWord(mf_buf + 2));
+    gwp_minefield_set_radius (minefield, getWord(mf_buf + 4));
+    gwp_minefield_set_owner (minefield, getWord(mf_buf + 6));
 
     minefield_list = g_slist_append (minefield_list, minefield);
     g_message ("Minefield #%d: %d,%d (%d LY) - Owner: %d", 
@@ -856,6 +858,33 @@ void load_kore_data (void)
 	       gwp_minefield_get_radius (minefield),
 	       gwp_minefield_get_owner (minefield));
   }
+
+  /* Load Ion Storms from file */
+  fseek (kore_dat, 4102, SEEK_SET);
+  for (i = 1; i <= 50; i++) {
+    fread (is_buf, 12, 1, kore_dat);
+
+    GwpIonStorm *storm = gwp_ion_storm_new();
+
+    gwp_object_set_id (GWP_OBJECT(storm), i);
+    gwp_object_set_x_coord (GWP_OBJECT(storm), getWord(is_buf));
+    gwp_object_set_y_coord (GWP_OBJECT(storm), getWord(is_buf + 2));
+    gwp_ion_storm_set_radius (storm, getWord(is_buf + 4));
+    gwp_ion_storm_set_voltage (storm, getWord(is_buf + 6));
+    gwp_fo_set_speed (GWP_FLYING_OBJECT(storm), getWord(is_buf + 8));
+    gwp_fo_set_heading (GWP_FLYING_OBJECT(storm), getWord(is_buf + 10));
+
+    storm_list = g_slist_append (storm_list, storm);
+    g_message ("Storm #%d: %d,%d (%d LY) Warp: %d Heading: %d Class: %d",
+	       gwp_object_get_id (GWP_OBJECT(storm)),
+	       gwp_object_get_x_coord (GWP_OBJECT(storm)),
+	       gwp_object_get_y_coord (GWP_OBJECT(storm)),
+	       gwp_ion_storm_get_radius (storm),
+	       gwp_fo_get_speed (GWP_FLYING_OBJECT(storm)),
+	       gwp_fo_get_heading (GWP_FLYING_OBJECT(storm)),
+	       gwp_ion_storm_get_class (storm));
+  }
+
   fclose (kore_dat);
 }
 

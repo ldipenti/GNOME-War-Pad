@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002, 2003  Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004  Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -60,6 +60,15 @@ GType gwp_object_get_type (void);
  * Public method definitions.
  */
 GwpObject *gwp_object_new (void);
+
+/**********************/
+/* High-Level methods */
+/**********************/
+gboolean gwp_object_valid_coords (GwpObject *self);
+
+/*******************/
+/* Get-Set methods */
+/*******************/
 gint gwp_object_get_x_coord (GwpObject *self);
 void gwp_object_set_x_coord (GwpObject *self, gint x);
 gint gwp_object_get_y_coord (GwpObject *self);

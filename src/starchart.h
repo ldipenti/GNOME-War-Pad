@@ -27,6 +27,7 @@
 #include "gwp-location.h"
 #include "gwp-hullspec.h"
 #include "gwp-minefield.h"
+#include "gwp-ion-storm.h"
 
 /* Starchart init function */
 void init_starchart(GtkWidget *gwp);
@@ -55,6 +56,8 @@ void starchart_close_extra_panels(void);
 /* Drawing functions */
 void draw_planet (gpointer key, gpointer value, gpointer user_data);
 void draw_ship (gpointer key, gpointer value, gpointer user_data);
+void draw_minefield (gpointer data, gpointer user_data);
+void draw_ion_storm (gpointer data, gpointer user_data);
 GnomeCanvasItem * starchart_highlight_nearest_planet (GSList *planets_in_quad, gdouble wx, gdouble wy);
 GnomeCanvasItem * starchart_highlight_nearest_ship (GSList *ships_in_quad, gdouble wx, gdouble wy);
 GnomeCanvasItem * starchart_select_nearest_planet (GtkWidget *gwp, GSList *planets_nearby, gdouble wx, gdouble wy);

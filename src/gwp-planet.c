@@ -437,27 +437,6 @@ GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id)
   return (GwpPlanet *) g_hash_table_lookup(list, (gconstpointer)planet_id);
 }
 
-/**
- * Check if the given planet has valid coordinates
- *
- * @param self a GwpPlanet
- * @return TRUE if the current planet has valid coordinates, FALSE
- * otherwise.
- */
-gboolean gwp_planet_valid_coords (GwpPlanet *self) 
-{
-  g_assert(GWP_IS_PLANET(self));
-
-  if (gwp_object_get_x_coord(GWP_OBJECT(self)) <= STARCHART_X_MAX && 
-      gwp_object_get_x_coord(GWP_OBJECT(self)) >= STARCHART_X_MIN &&
-      gwp_object_get_y_coord(GWP_OBJECT(self)) <= STARCHART_Y_MAX && 
-      gwp_object_get_y_coord(GWP_OBJECT(self)) >= STARCHART_Y_MIN) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
 gboolean gwp_planet_is_mine (GwpPlanet *self)
 {
   g_assert(GWP_IS_PLANET(self));

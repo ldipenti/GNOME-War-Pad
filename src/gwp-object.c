@@ -17,6 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include "global.h"
 #include "gwp-object.h"
 
 /*
@@ -113,6 +114,35 @@ GwpObject * gwp_object_new (void)
 {
   return g_object_new (gwp_object_get_type (), NULL);
 }
+
+/**********************/
+/* High-level methods */
+/**********************/
+
+/**
+ * Check if the given object has valid coordinates
+ *
+ * @param self a GwpObject
+ * @return TRUE if the current object has valid coordinates, FALSE
+ * otherwise.
+ */
+gboolean gwp_object_valid_coords (GwpObject *self) 
+{
+  g_assert(GWP_IS_OBJECT(self));
+
+  if (gwp_object_get_x_coord(self) <= STARCHART_X_MAX && 
+      gwp_object_get_x_coord(self) >= STARCHART_X_MIN &&
+      gwp_object_get_y_coord(self) <= STARCHART_Y_MAX && 
+      gwp_object_get_y_coord(self) >= STARCHART_Y_MIN) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/*******************/
+/* Get-Set methods */
+/*******************/
 
 gint gwp_object_get_x_coord (GwpObject *self)
 {

@@ -35,7 +35,6 @@
 /*
  * Type macros.
  */
-
 typedef struct _GwpPlanet GwpPlanet;
 typedef struct _GwpPlanetClass GwpPlanetClass;
 typedef struct _GwpPlanetPrivate GwpPlanetPrivate;
@@ -78,7 +77,6 @@ gint gwp_planet_get_col_growth_limit(GwpPlanet *self);
 gint gwp_planet_get_nat_growth_limit(GwpPlanet *self);
 GwpPlanet * gwp_planet_copy (GwpPlanet *self);
 GwpPlanet * gwp_planet_get(GHashTable *list, gint planet_id);
-gboolean gwp_planet_valid_coords (GwpPlanet *self);
 gboolean gwp_planet_is_mine (GwpPlanet *self);
 gint gwp_planet_what_is (GwpPlanet *self);
 gint16 gwp_planet_get_temperature_f (GwpPlanet *self);

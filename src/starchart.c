@@ -852,10 +852,35 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
   }
 }
 
+void draw_ion_storm (gpointer data, gpointer user_data)
+{
+  GnomeCanvasItem *item = NULL;
+  GtkWidget *starchart = (GtkWidget *)starchart_get_canvas();
+  GnomeCanvasGroup *group = gnome_canvas_root(GNOME_CANVAS(starchart));
+  GwpIonStorm *storm = GWP_ION_STORM(data);
+  gdouble xi, yi;
+
+  if (gwp_ion_storm_is_valid (storm)) {
+    vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(storm)),
+		  gwp_object_get_y_coord(GWP_OBJECT(storm)), &xi, &yi);
+
+    gint radius = gwp_ion_storm_get_radius (storm);
+    item = gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_ELLIPSE,
+				  "outline_color", "red",
+				  "x1", xi - radius,
+				  "y1", yi - radius,
+				  "x2", xi + radius,
+				  "y2", yi + radius,
+				  "width_pixels", 1,
+				  "fill_color_rgba", UNIVERSE_COLOR_A,
+				  NULL);
+  }
+}
+
 void draw_minefield (gpointer data, gpointer user_data)
 {
   GnomeCanvasItem *item = NULL;
-  GtkWidget *starchart = starchart_get_canvas();
+  GtkWidget *starchart = (GtkWidget *)starchart_get_canvas();
   GnomeCanvasGroup *group = gnome_canvas_root(GNOME_CANVAS(starchart));
   GwpMinefield *minefield = GWP_MINEFIELD(data);
   gdouble xi, yi;
@@ -912,7 +937,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
   group = gnome_canvas_root (GNOME_CANVAS (starchart));
 
   /* Check if planet coords aren't 0...and work */
-  if (gwp_planet_valid_coords(planet)) {
+  if (gwp_object_valid_coords(GWP_OBJECT(planet))) {
     vp_coord_v2w (gwp_object_get_x_coord(GWP_OBJECT(planet)), 
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
@@ -1073,6 +1098,11 @@ void init_starchart (GtkWidget * gwp)
   g_message ("Loading minefields...");
   g_slist_foreach (minefield_list, (GFunc) draw_minefield, NULL);
   g_message ("...minefields loaded!");
+
+  /* Loads Ion Storm on Starchart */
+  g_message ("Loading ion storms...");
+  g_slist_foreach (storm_list, (GFunc) draw_ion_storm, NULL);
+  g_message ("...ion storms loaded!");
 
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
