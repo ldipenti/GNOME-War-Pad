@@ -79,7 +79,6 @@ GnomeCanvasItem *starchart_find_nearest_object(GSList *objects_in_quad, gdouble 
 GSList *starchart_get_surrounding_quads(GSList *objects_per_quad[TOTAL_QUADS], gint center_quad);
 gint get_quadrant(gdouble x, gdouble y);
 
-gint get_planet_from_coords(gdouble x_wc, gdouble y_wc);
 GSList *get_ships_from_coords(gdouble x_wc, gdouble y_wc);
 void starchart_get_object_center_coord(GnomeCanvasItem *item, gdouble *x, gdouble *y);
 void starchart_set_default_cursor(void);

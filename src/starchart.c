@@ -1274,28 +1274,6 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
   gtk_tree_path_free (path);
 }
 
-gint get_planet_from_coords (gdouble x_wc, gdouble y_wc)
-{
-  VpXYPlanReg *planet;
-  gint16 x, y;
-  gint i;
-
-  /* Convert World Coords to VP System */
-  vp_coord_w2v (x_wc, y_wc, &x, &y);
-
-  for (i = 0; i < g_list_length (xyplanet_list); i++) {
-    planet = g_list_nth_data (xyplanet_list, i);
-    
-    /* Check if this is the clicked planet */
-    if ((x == planet->x) && (y == planet->y))	{
-      return i + 1;
-    }
-  }
-  
-  /* If we don't find the planet... */
-  return 0;
-}
-
 GSList * get_ships_from_coords (gdouble x_wc, gdouble y_wc)
 {
   VpShipXYReg *ship;
