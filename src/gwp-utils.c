@@ -39,23 +39,16 @@ GtkWidget * gwp_warning_dialog_new (GtkWidget *parent,
   if (short_msg) {
     if (long_msg) {
       complete_msg = g_strdup_printf ("%s\n\n%s", short_msg, long_msg);
-
-      /* FIXME: This should be used when migrating to gtk 2.4, HIG compatible */
       complete_msg = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s", short_msg, long_msg);
-
     } else {
       complete_msg = g_strdup_printf ("%s", short_msg);
-
-      /* FIXME: This should be used when migrating to gtk 2.4, HIG compatible*/
-      complete_msg = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>", short_msg); 
-      
+      complete_msg = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>", short_msg);
     }
     warn = gtk_message_dialog_new ((GtkWindow *) parent,
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
 				   complete_msg);
 
-    /* FIXME: This should be used when migrating to gtk 2.4, HIG compatible */
     warn = gtk_message_dialog_new_with_markup ((GtkWindow *) parent,
 					       GTK_DIALOG_DESTROY_WITH_PARENT,
 					       GTK_MESSAGE_WARNING, 
