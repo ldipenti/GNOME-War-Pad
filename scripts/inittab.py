@@ -181,6 +181,32 @@ class PluginManager:
     def add_plugin_available(self, plugin):
         self.__plugins_available.append(plugin)
 
+    # Returns true if the plugin is available
+    def is_plugin_available(self, name):
+        for plugin in self.__plugins_available:
+            if name == plugin.__name__:
+                return True
+        # Not found
+        return False
+
+    # Returns true is the plugin is registered
+    def is_plugin_registered(self, name):
+        for plugin in self.__plugins_registered:
+            if name == plugin.__class__.__name__:
+                return True
+        # Not found
+        return False
+
+    # Returns the registered plugin's reference to the caller
+    def get_plugin(self, name):
+        if self.is_plugin_registered(name):
+            for plugin in self.__plugins_registered:
+                if name == plugin.__class__.__name__:
+                    return plugin
+        else:
+            # Not found
+            return None
+    
     # This method is used by the GwpGameState C code to store the active
     # plugins list before closing the game.
     def get_plugin_registered_names(self):
