@@ -1,4 +1,4 @@
-/* -- THIS FILE IS GENERATED - DO NOT EDIT *//* -*- Mode: C; c-basic-offset: 4 -*- */
+/* -- THIS FILE IS GENERATE - DO NOT EDIT *//* -*- Mode: C; c-basic-offset: 4 -*- */
 
 #include <Python.h>
 
@@ -21,9 +21,8 @@
 #include "gwp-starbase.h"
 #include "gwp-location.h"
 #include "gwp-minefield.h"
-#include "gwp-ui.h"
 #include "gwp-py-functions.h"
-#line 27 "src/gwp-py-mappings.c"
+#line 26 "src/gwp-py-mappings.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -44,7 +43,6 @@ PyTypeObject PyGwpPlanet_Type;
 PyTypeObject PyGwpShip_Type;
 PyTypeObject PyGwpStarbase_Type;
 PyTypeObject PyGwpTorpSpec_Type;
-PyTypeObject PyGwpUi_Type;
 
 
 /* ----------- GwpBeamSpec ----------- */
@@ -330,7 +328,7 @@ PyTypeObject PyGwpBeamSpec_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -348,10 +346,6 @@ PyTypeObject PyGwpBeamSpec_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)pygobject_no_constructor,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -598,7 +592,7 @@ PyTypeObject PyGwpEngSpec_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -616,10 +610,6 @@ PyTypeObject PyGwpEngSpec_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)pygobject_no_constructor,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1061,7 +1051,7 @@ PyTypeObject PyGwpHullSpec_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -1079,10 +1069,6 @@ PyTypeObject PyGwpHullSpec_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)pygobject_no_constructor,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1092,26 +1078,30 @@ PyTypeObject PyGwpHullSpec_Type = {
 static int
 _wrap_gwp_object_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpObject.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_object_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Object object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpObject object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
 
-
 static PyObject *
 _wrap_gwp_object_valid_coords(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_object_valid_coords(GWP_OBJECT(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -1262,7 +1252,7 @@ PyTypeObject PyGwpObject_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -1280,10 +1270,6 @@ PyTypeObject PyGwpObject_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_object_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1293,46 +1279,54 @@ PyTypeObject PyGwpObject_Type = {
 static int
 _wrap_gwp_minefield_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpMinefield.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_minefield_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Minefield object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpMinefield object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
 
-
 static PyObject *
 _wrap_gwp_minefield_is_valid(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_minefield_is_valid(GWP_MINEFIELD(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
 _wrap_gwp_minefield_is_mine(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_minefield_is_mine(GWP_MINEFIELD(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
 _wrap_gwp_minefield_is_web(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_minefield_is_web(GWP_MINEFIELD(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -1411,7 +1405,7 @@ PyTypeObject PyGwpMinefield_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -1429,10 +1423,6 @@ PyTypeObject PyGwpMinefield_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_minefield_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1442,17 +1432,19 @@ PyTypeObject PyGwpMinefield_Type = {
 static int
 _wrap_gwp_location_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpLocation.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_location_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Location object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpLocation object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
-
 
 static PyObject *
 _wrap_gwp_location_add_object(PyGObject *self, PyObject *args, PyObject *kwargs)
@@ -1518,7 +1510,7 @@ PyTypeObject PyGwpLocation_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -1536,10 +1528,6 @@ PyTypeObject PyGwpLocation_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_location_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1549,17 +1537,19 @@ PyTypeObject PyGwpLocation_Type = {
 static int
 _wrap_gwp_flying_object_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpFlyingObject.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_flying_object_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.FlyingObject object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpFlyingObject object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
-
 
 static PyObject *
 _wrap_gwp_flying_object_get_heading_str(PyGObject *self)
@@ -1650,7 +1640,7 @@ PyTypeObject PyGwpFlyingObject_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -1668,10 +1658,6 @@ PyTypeObject PyGwpFlyingObject_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_flying_object_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1681,17 +1667,19 @@ PyTypeObject PyGwpFlyingObject_Type = {
 static int
 _wrap_gwp_ion_storm_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpIonStorm.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_ion_storm_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.IonStorm object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpIonStorm object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
-
 
 static PyObject *
 _wrap_gwp_ion_storm_get_class(PyGObject *self)
@@ -1721,10 +1709,12 @@ static PyObject *
 _wrap_gwp_ion_storm_is_valid(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_ion_storm_is_valid(GWP_ION_STORM(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -1803,7 +1793,7 @@ PyTypeObject PyGwpIonStorm_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -1821,10 +1811,6 @@ PyTypeObject PyGwpIonStorm_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_ion_storm_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -1834,17 +1820,19 @@ PyTypeObject PyGwpIonStorm_Type = {
 static int
 _wrap_gwp_planet_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpPlanet.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_planet_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Planet object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpPlanet object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
-
 
 static PyObject *
 _wrap_gwp_planet_get_def_sys_beams_type_str(PyGObject *self)
@@ -1938,10 +1926,12 @@ static PyObject *
 _wrap_gwp_planet_is_mine(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_planet_is_mine(GWP_PLANET(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -2038,10 +2028,12 @@ static PyObject *
 _wrap_gwp_planet_has_starbase(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_planet_has_starbase(GWP_PLANET(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -2138,10 +2130,12 @@ static PyObject *
 _wrap_gwp_planet_is_known(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_planet_is_known(GWP_PLANET(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -2940,7 +2934,7 @@ PyTypeObject PyGwpPlanet_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -2958,10 +2952,6 @@ PyTypeObject PyGwpPlanet_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_planet_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -2971,36 +2961,42 @@ PyTypeObject PyGwpPlanet_Type = {
 static int
 _wrap_gwp_ship_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpShip.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_ship_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Ship object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpShip object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
 
-
 static PyObject *
 _wrap_gwp_ship_has_beam_weapons(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_ship_has_beam_weapons(GWP_SHIP(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
 _wrap_gwp_ship_has_torp_weapons(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_ship_has_torp_weapons(GWP_SHIP(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -3197,23 +3193,27 @@ static PyObject *
 _wrap_gwp_ship_valid_coords(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_ship_valid_coords(GWP_SHIP(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
 _wrap_gwp_ship_is_mine(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_ship_is_mine(GWP_SHIP(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
-#line 30 "src/gwp-py-mappings.override"
+#line 29 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_gwp_ship_get_waypoint (PyGObject *self)
 {
@@ -3284,10 +3284,12 @@ static PyObject *
 _wrap_gwp_ship_is_known(PyGObject *self)
 {
     int ret;
+    PyObject *py_ret;
 
     ret = gwp_ship_is_known(GWP_SHIP(self->obj));
-    return PyBool_FromLong(ret);
-
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
 }
 
 static PyObject *
@@ -4347,7 +4349,7 @@ PyTypeObject PyGwpShip_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -4365,10 +4367,6 @@ PyTypeObject PyGwpShip_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_ship_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -4378,17 +4376,19 @@ PyTypeObject PyGwpShip_Type = {
 static int
 _wrap_gwp_starbase_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    GType obj_type = pyg_type_from_object((PyObject *) self);
+    static char *kwlist[] = { NULL };
 
-    self->obj = g_object_newv(obj_type, 0, NULL);
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, ":GwpStarbase.__init__", kwlist))
+        return -1;
+    self->obj = (GObject *)gwp_starbase_new();
+
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Starbase object");
+        PyErr_SetString(PyExc_RuntimeError, "could not create GwpStarbase object");
         return -1;
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
 }
-
 
 static PyObject *
 _wrap_gwp_starbase_copy(PyGObject *self)
@@ -5004,7 +5004,7 @@ PyTypeObject PyGwpStarbase_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -5022,10 +5022,6 @@ PyTypeObject PyGwpStarbase_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)_wrap_gwp_starbase_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -5327,7 +5323,7 @@ PyTypeObject PyGwpTorpSpec_Type = {
     (reprfunc)0,		/* tp_str */
     (getattrofunc)0,			/* tp_getattro */
     (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
+    0,					/* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
     NULL, 				/* Documentation string */
     (traverseproc)0,			/* tp_traverse */
@@ -5345,92 +5341,6 @@ PyTypeObject PyGwpTorpSpec_Type = {
     (descrsetfunc)0,	/* tp_descr_set */
     offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
     (initproc)pygobject_no_constructor,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
-};
-
-
-
-/* ----------- GwpUi ----------- */
-
-static int
-_wrap_gwp_ui_new(PyGObject *self, PyObject *args, PyObject *kwargs)
-{
-    GType obj_type = pyg_type_from_object((PyObject *) self);
-
-    self->obj = g_object_newv(obj_type, 0, NULL);
-    if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create gwp.Ui object");
-        return -1;
-    }
-    pygobject_register_wrapper((PyObject *)self);
-    return 0;
-}
-
-
-static PyObject *
-_wrap_gwp_ui_set_notification(PyGObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { "msg", NULL };
-    char *msg;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpUi.set_notification", kwlist, &msg))
-        return NULL;
-    gwp_ui_set_notification(GWP_UI(self->obj), msg);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyMethodDef _PyGwpUi_methods[] = {
-    { "set_notification", (PyCFunction)_wrap_gwp_ui_set_notification, METH_VARARGS|METH_KEYWORDS },
-    { NULL, NULL, 0 }
-};
-
-PyTypeObject PyGwpUi_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,					/* ob_size */
-    "gwp.Ui",			/* tp_name */
-    sizeof(PyGObject),	        /* tp_basicsize */
-    0,					/* tp_itemsize */
-    /* methods */
-    (destructor)0,			/* tp_dealloc */
-    (printfunc)0,			/* tp_print */
-    (getattrfunc)0,	/* tp_getattr */
-    (setattrfunc)0,	/* tp_setattr */
-    (cmpfunc)0,		/* tp_compare */
-    (reprfunc)0,		/* tp_repr */
-    (PyNumberMethods*)0,     /* tp_as_number */
-    (PySequenceMethods*)0, /* tp_as_sequence */
-    (PyMappingMethods*)0,   /* tp_as_mapping */
-    (hashfunc)0,		/* tp_hash */
-    (ternaryfunc)0,		/* tp_call */
-    (reprfunc)0,		/* tp_str */
-    (getattrofunc)0,			/* tp_getattro */
-    (setattrofunc)0,			/* tp_setattro */
-    (PyBufferProcs*)0,	/* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    NULL, 				/* Documentation string */
-    (traverseproc)0,			/* tp_traverse */
-    (inquiry)0,			/* tp_clear */
-    (richcmpfunc)0,	/* tp_richcompare */
-    offsetof(PyGObject, weakreflist),             /* tp_weaklistoffset */
-    (getiterfunc)0,		/* tp_iter */
-    (iternextfunc)0,	/* tp_iternext */
-    _PyGwpUi_methods,			/* tp_methods */
-    0,					/* tp_members */
-    0,		       	/* tp_getset */
-    NULL,				/* tp_base */
-    NULL,				/* tp_dict */
-    (descrgetfunc)0,	/* tp_descr_get */
-    (descrsetfunc)0,	/* tp_descr_set */
-    offsetof(PyGObject, inst_dict),                 /* tp_dictoffset */
-    (initproc)_wrap_gwp_ui_new,		/* tp_init */
-    (allocfunc)0,           /* tp_alloc */
-    (newfunc)0,               /* tp_new */
-    (freefunc)0,             /* tp_free */
-    (inquiry)0              /* tp_is_gc */
 };
 
 
@@ -5478,7 +5388,7 @@ _wrap_planet_get_by_id(PyObject *self, PyObject *args, PyObject *kwargs)
     return pygobject_new((GObject *)ret);
 }
 
-#line 41 "src/gwp-py-mappings.override"
+#line 40 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_ship_get_list (PyObject *self)
 {
@@ -5497,10 +5407,10 @@ _wrap_ship_get_list (PyObject *self)
 
   return ret;
 }
-#line 5501 "src/gwp-py-mappings.c"
+#line 5411 "src/gwp-py-mappings.c"
 
 
-#line 61 "src/gwp-py-mappings.override"
+#line 60 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_planet_get_list (PyObject *self)
 {
@@ -5519,10 +5429,10 @@ _wrap_planet_get_list (PyObject *self)
 
   return ret;
 }
-#line 5523 "src/gwp-py-mappings.c"
+#line 5433 "src/gwp-py-mappings.c"
 
 
-#line 109 "src/gwp-py-mappings.override"
+#line 108 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_hullspec_get_list (PyObject *self)
 {
@@ -5541,10 +5451,10 @@ _wrap_hullspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5545 "src/gwp-py-mappings.c"
+#line 5455 "src/gwp-py-mappings.c"
 
 
-#line 129 "src/gwp-py-mappings.override"
+#line 128 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_engspec_get_list (PyObject *self)
 {
@@ -5563,10 +5473,10 @@ _wrap_engspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5567 "src/gwp-py-mappings.c"
+#line 5477 "src/gwp-py-mappings.c"
 
 
-#line 149 "src/gwp-py-mappings.override"
+#line 148 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_beamspec_get_list (PyObject *self)
 {
@@ -5585,10 +5495,10 @@ _wrap_beamspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5589 "src/gwp-py-mappings.c"
+#line 5499 "src/gwp-py-mappings.c"
 
 
-#line 169 "src/gwp-py-mappings.override"
+#line 168 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_torpspec_get_list (PyObject *self)
 {
@@ -5607,19 +5517,19 @@ _wrap_torpspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5611 "src/gwp-py-mappings.c"
+#line 5521 "src/gwp-py-mappings.c"
 
 
-#line 81 "src/gwp-py-mappings.override"
+#line 80 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_plugins_get_dir (PyObject *self)
 {
   return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
 }
-#line 5620 "src/gwp-py-mappings.c"
+#line 5530 "src/gwp-py-mappings.c"
 
 
-#line 88 "src/gwp-py-mappings.override"
+#line 87 "src/gwp-py-mappings.override"
 PyObject *
 _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
 {
@@ -5632,19 +5542,19 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
   Py_INCREF (Py_None);
   return Py_None;
 }
-#line 5636 "src/gwp-py-mappings.c"
+#line 5546 "src/gwp-py-mappings.c"
 
 
-#line 102 "src/gwp-py-mappings.override"
+#line 101 "src/gwp-py-mappings.override"
 PyObject *
 _wrap_get_plugin_mgr (PyObject *self)
 {
   return (PyObject *)game_get_plugin_mgr (game_state);
 }
-#line 5645 "src/gwp-py-mappings.c"
+#line 5555 "src/gwp-py-mappings.c"
 
 
-#line 222 "src/gwp-py-mappings.override"
+#line 221 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
 {
@@ -5656,10 +5566,10 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
 			  DATADIR"/pixmaps/gwp/ships", ship_nr);
   return PyString_FromString (path);
 }
-#line 5660 "src/gwp-py-mappings.c"
+#line 5570 "src/gwp-py-mappings.c"
 
 
-#line 189 "src/gwp-py-mappings.override"
+#line 188 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_truehull (PyObject *self)
 {
@@ -5682,10 +5592,10 @@ _wrap_get_truehull (PyObject *self)
   Py_INCREF(th);
   return th;
 }
-#line 5686 "src/gwp-py-mappings.c"
+#line 5596 "src/gwp-py-mappings.c"
 
 
-#line 213 "src/gwp-py-mappings.override"
+#line 212 "src/gwp-py-mappings.override"
 static PyObject *
 _wrap_get_race_name (PyObject *self, PyObject *args)
 {
@@ -5693,8 +5603,21 @@ _wrap_get_race_name (PyObject *self, PyObject *args)
   PyArg_ParseTuple (args, "i", &race);
   return PyString_FromString (race_get_name(race));
 }
-#line 5697 "src/gwp-py-mappings.c"
+#line 5607 "src/gwp-py-mappings.c"
 
+
+static PyObject *
+_wrap_gwp_ui_set_notification(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "msg", NULL };
+    char *msg;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:gwp_ui_set_notification", kwlist, &msg))
+        return NULL;
+    gwp_ui_set_notification(msg);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
 
 PyMethodDef gwp_functions[] = {
     { "gwp_planet_get_ground_percent", (PyCFunction)_wrap_gwp_planet_get_ground_percent, METH_VARARGS|METH_KEYWORDS },
@@ -5712,10 +5635,11 @@ PyMethodDef gwp_functions[] = {
     { "get_path_pic_hull", (PyCFunction)_wrap_get_path_pic_hull, METH_VARARGS },
     { "get_truehull", (PyCFunction)_wrap_get_truehull, METH_NOARGS },
     { "get_race_name", (PyCFunction)_wrap_get_race_name, METH_VARARGS },
+    { "gwp_ui_set_notification", (PyCFunction)_wrap_gwp_ui_set_notification, METH_VARARGS|METH_KEYWORDS },
     { NULL, NULL, 0 }
 };
 
-/* initialise stuff extension classes */
+/* intialise stuff extension classes */
 void
 gwp_register_classes(PyObject *d)
 {
@@ -5737,7 +5661,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5741 "src/gwp-py-mappings.c"
+#line 5665 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
@@ -5750,5 +5674,4 @@ gwp_register_classes(PyObject *d)
     pygobject_register_class(d, "GwpShip", GWP_TYPE_SHIP, &PyGwpShip_Type, Py_BuildValue("(O)", &PyGwpFlyingObject_Type));
     pygobject_register_class(d, "GwpStarbase", GWP_TYPE_STARBASE, &PyGwpStarbase_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpTorpSpec", GWP_TYPE_TORP_SPEC, &PyGwpTorpSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
-    pygobject_register_class(d, "GwpUi", GWP_TYPE_UI, &PyGwpUi_Type, Py_BuildValue("(O)", &PyGObject_Type));
 }

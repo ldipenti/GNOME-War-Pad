@@ -16,7 +16,6 @@ headers
 #include "gwp-starbase.h"
 #include "gwp-location.h"
 #include "gwp-minefield.h"
-#include "gwp-ui.h"
 #include "gwp-py-functions.h"
 %%
 modulename gwp

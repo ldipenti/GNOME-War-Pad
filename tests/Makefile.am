@@ -65,7 +65,6 @@ sources =								\
 check_gwp_SOURCES = $(sources) 		\
 	check-gwp.c 			\
 	check-gwp-object.c		\
-	check-gwp-ui.c			\
 	check-gwp-ship.c
 
 check_gwp_LDADD =  \

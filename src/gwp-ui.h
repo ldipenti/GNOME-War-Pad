@@ -18,68 +18,15 @@
  */
 
 /*
- * GwpUi :
- * ---------
- *
- * This class represents GWP's user interface, it provides a
- * controlled way to access the widgets.
+ * This file contains functions to interact with GWP's user interface, in
+ * a controlled and safe way.
  */
 
 #ifndef GWP_UI_H
 #define GWP_UI_H
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gnome.h>
 
-/*
- * Type macros.
- */
-
-typedef struct _GwpUi GwpUi;
-typedef struct _GwpUiClass GwpUiClass;
-typedef struct _GwpUiPrivate GwpUiPrivate;
-
-struct _GwpUi {
-  GObject parent;
-
-  /* instance members */
-
-  /* private */
-  GwpUiPrivate *priv;
-};
-
-struct _GwpUiClass {
-  GObjectClass parent;
-  /* class members */
-};
-
-/* used by GWP_UI_TYPE */
-GType gwp_ui_get_type (void);
-
-/*
- * Public method definitions.
- */
-GwpUi *gwp_ui_new (void);
-
-/**********************/
-/* High-Level methods */
-/**********************/
-void gwp_ui_set_notification (GwpUi *self, gchar *msg);
-
-
-/*******************/
-/* Get-Set methods */
-/*******************/
-
-
-/*
- * Standard defines.
- */
-#define GWP_TYPE_UI            (gwp_ui_get_type())
-#define GWP_UI(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_UI, GwpUi))
-#define GWP_UI_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_UI, GwpUiClass))
-#define GWP_IS_UI(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_UI))
-#define GWP_IS_UI_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_UI))
-#define GWP_UI_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_UI, GwpUiClass))
+void gwp_ui_set_notification (gchar *msg);
 
 #endif
