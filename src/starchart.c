@@ -99,25 +99,25 @@ void update_starbase_panel(GwpPlanet *planet)
 
   } else {
     gtk_progress_bar_set_fraction(tech_engines, 0.0);
-    gtk_progress_bar_set_text(tech_engines, _("Engines: n/a"));
+    gtk_progress_bar_set_text(tech_engines, _("Engines: --"));
 
     gtk_progress_bar_set_fraction(tech_hulls, 0.0);
-    gtk_progress_bar_set_text(tech_hulls, _("Hulls: n/a"));
+    gtk_progress_bar_set_text(tech_hulls, _("Hulls: --"));
 
     gtk_progress_bar_set_fraction(tech_beams, 0.0);
-    gtk_progress_bar_set_text(tech_beams, _("Beams: n/a"));
+    gtk_progress_bar_set_text(tech_beams, _("Beams: --"));
 
     gtk_progress_bar_set_fraction(tech_torps, 0.0);
-    gtk_progress_bar_set_text(tech_torps, _("Torpedoes: n/a"));
+    gtk_progress_bar_set_text(tech_torps, _("Torpedoes: --"));
 
     gtk_progress_bar_set_fraction(base_defenses, 0.0);
-    gtk_progress_bar_set_text(base_defenses, _("Defenses: n/a"));
+    gtk_progress_bar_set_text(base_defenses, _("Defenses: --"));
 
     gtk_progress_bar_set_fraction(base_fighters, 0.0);
-    gtk_progress_bar_set_text(base_fighters, _("Fighters: n/a"));
+    gtk_progress_bar_set_text(base_fighters, _("Fighters: --"));
 
     gtk_progress_bar_set_fraction(base_damage, 0.0);
-    gtk_progress_bar_set_text(base_damage, _("Damage: n/a"));
+    gtk_progress_bar_set_text(base_damage, _("Damage: --"));
   }
 }
 
@@ -153,11 +153,11 @@ void update_global_defense_panel(GwpPlanet *planet)
     gtk_label_set_label(battle_mass, tmp);
     g_free(tmp);
   } else {
-    gtk_label_set_label(beams, _("n/a"));
-    gtk_label_set_label(beams_type, _("n/a"));
-    gtk_label_set_label(fighters, _("n/a"));
-    gtk_label_set_label(fighter_bays, _("n/a"));
-    gtk_label_set_label(battle_mass, _("n/a"));
+    gtk_label_set_label(beams, "--");
+    gtk_label_set_label(beams_type, "--");
+    gtk_label_set_label(fighters, "--");
+    gtk_label_set_label(fighter_bays, "--");
+    gtk_label_set_label(battle_mass, "--");
   }
 }
 
@@ -325,35 +325,35 @@ void update_planet_extra_panel(gint16 planet_id)
 	gtk_entry_set_text(GTK_ENTRY(planet_fc->entry), "   ");
 
 	gtk_progress_bar_set_fraction(neu_ground, 0.0);
-	gtk_progress_bar_set_text(neu_ground, _("n/a kT"));
+	gtk_progress_bar_set_text(neu_ground, _("-- kT"));
 	gtk_progress_bar_set_fraction(neu_density, 0.0);
-	gtk_progress_bar_set_text(neu_density, _("n/a %"));
+	gtk_progress_bar_set_text(neu_density, _("-- %"));
 
 	gtk_progress_bar_set_fraction(mol_ground, 0.0);
-	gtk_progress_bar_set_text(mol_ground, _("n/a kT"));
+	gtk_progress_bar_set_text(mol_ground, _("-- kT"));
 	gtk_progress_bar_set_fraction(mol_density, 0.0);
-	gtk_progress_bar_set_text(mol_density, _("n/a %"));
+	gtk_progress_bar_set_text(mol_density, _("-- %"));
 
 	gtk_progress_bar_set_fraction(tri_ground, 0.0);
-	gtk_progress_bar_set_text(tri_ground, _("n/a kT"));
+	gtk_progress_bar_set_text(tri_ground, _("-- kT"));
 	gtk_progress_bar_set_fraction(tri_density, 0.0);
-	gtk_progress_bar_set_text(tri_density, _("n/a %"));
+	gtk_progress_bar_set_text(tri_density, _("-- %"));
 
 	gtk_progress_bar_set_fraction(dur_ground, 0.0);
-	gtk_progress_bar_set_text(dur_ground, _("n/a kT"));
+	gtk_progress_bar_set_text(dur_ground, _("-- kT"));
 	gtk_progress_bar_set_fraction(dur_density, 0.0);
-	gtk_progress_bar_set_text(dur_density, _("n/a %"));
+	gtk_progress_bar_set_text(dur_density, _("-- %"));
 
 	gtk_range_set_value(GTK_RANGE(tax_nat), 0.0);
 	gtk_range_set_value(GTK_RANGE(tax_col), 0.0);
 
-	gtk_label_set_text(neu_rate, _("n/a kT/turn"));
-	gtk_label_set_text(tri_rate, _("n/a kT/turn"));
-	gtk_label_set_text(mol_rate, _("n/a kT/turn"));
-	gtk_label_set_text(dur_rate, _("n/a kT/turn"));
+	gtk_label_set_text(neu_rate, _("-- kT/turn"));
+	gtk_label_set_text(tri_rate, _("-- kT/turn"));
+	gtk_label_set_text(mol_rate, _("-- kT/turn"));
+	gtk_label_set_text(dur_rate, _("-- kT/turn"));
 	
-	gtk_label_set_text(tax_nat_earned, _("n/a MC"));
-	gtk_label_set_text(tax_col_earned, _("n/a MC"));
+	gtk_label_set_text(tax_nat_earned, _("-- MC"));
+	gtk_label_set_text(tax_col_earned, _("-- MC"));
       }
     }
 }
@@ -527,23 +527,23 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     gtk_label_set_markup(planet_name, tmp);
     g_free(tmp);
 	
-    gtk_label_set_text (mines, _("n/a"));
-    gtk_label_set_text (factories, _("n/a"));
-    gtk_label_set_text (defenses, _("n/a"));
-    gtk_label_set_text (temperature, _("n/a"));
+    gtk_label_set_text (mines, "--");
+    gtk_label_set_text (factories, "--");
+    gtk_label_set_text (defenses, "--");
+    gtk_label_set_text (temperature, "--");
 	
-    gtk_label_set_text (neutronium, _("n/a"));
-    gtk_label_set_text (tritanium, _("n/a"));
-    gtk_label_set_text (duranium, _("n/a"));
-    gtk_label_set_text (molybdenum, _("n/a"));
-    gtk_label_set_text (supplies, _("n/a"));
+    gtk_label_set_text (neutronium, "--");
+    gtk_label_set_text (tritanium, "--");
+    gtk_label_set_text (duranium, "--");
+    gtk_label_set_text (molybdenum, "--");
+    gtk_label_set_text (supplies, "--");
 	
-    gtk_label_set_text (colonists, _("n/a"));
-    gtk_label_set_text (natives, _("n/a"));
-    gtk_label_set_text (natives_race, _("n/a"));
-    gtk_label_set_text (spi, _("n/a"));
-    gtk_label_set_text (megacredits, _("n/a"));
-    gtk_label_set_text (visibility, _("n/a"));
+    gtk_label_set_text (colonists, "--");
+    gtk_label_set_text (natives, "--");
+    gtk_label_set_text (natives_race, "--");
+    gtk_label_set_text (spi, "--");
+    gtk_label_set_text (megacredits, "--");
+    gtk_label_set_text (visibility, "--");
 
     /* Planet coords are always known */
     tmp = g_strdup_printf("%d , %d", 
@@ -579,7 +579,9 @@ void update_ship_panel_with (GwpShip *ship)
     fuel_usage = (GtkLabel *) lookup_widget("label_ship_panel_fuel");
   }
 
-  if (GWP_IS_SHIP(ship)) {
+  g_assert(GWP_IS_SHIP(ship));
+
+  if (gwp_ship_is_mine(ship)) {
     /* Update waypoint */
     gint x, y;
     gwp_ship_get_waypoint(ship, &x, &y);
@@ -594,11 +596,11 @@ void update_ship_panel_with (GwpShip *ship)
 
     /* Update heading */
     gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
-    gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
-    if (h == 1) {
+    if(h != -1) {
+      gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
       tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
     } else {
-      tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
+      tmp = g_strdup_printf(_("not moving"));
     }
     gtk_label_set_text(heading, tmp);
     g_free(tmp);
@@ -620,14 +622,29 @@ void update_ship_panel_with (GwpShip *ship)
   }
   /* If it's not a ship, reset all fields */
   else {
-    gtk_label_set_text(waypoint, _("n/a"));
-    gtk_label_set_text(distance, _("n/a"));
-    gtk_label_set_text(heading, _("n/a"));
-    gtk_label_set_text(speed, _("n/a"));
-    gtk_label_set_text(eta, _("n/a"));
-    gtk_label_set_text(mass, _("n/a"));
-    gtk_label_set_text(fuel_usage, _("n/a"));
-    gtk_label_set_text(eta, _("n/a"));
+    gtk_label_set_text(waypoint, "--");
+    gtk_label_set_text(distance, "--");
+
+    /* Update heading */
+    gint h = gwp_fo_get_heading(GWP_FLYING_OBJECT(ship));
+    if(h != -1) {
+      gchar *hstr = gwp_fo_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
+      tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
+    } else {
+      tmp = g_strdup_printf(_("not moving"));
+    }
+    gtk_label_set_text(heading, tmp);
+    g_free(tmp);
+
+    /* Update speed */
+    tmp = g_strdup_printf("%d", gwp_fo_get_speed(GWP_FLYING_OBJECT(ship)));
+    gtk_label_set_text(speed, tmp);
+    g_free(tmp);
+
+    gtk_label_set_text(eta, "--");
+    gtk_label_set_text(mass, "--");
+    gtk_label_set_text(fuel_usage, "--");
+    gtk_label_set_text(eta, "--");
   }
 }
 
