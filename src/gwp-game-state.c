@@ -182,7 +182,7 @@ struct _GwpGameStatePrivate {
 				beam. Default: 4 */
   gint host_webmine_sweep_rate; /**< Amount of webmines swept by a
 				   laser beam. Default: 3 */
-  gint host_hiss_mission_efect; /**< Happiness points per ship using
+  gint host_hiss_mission_effect; /**< Happiness points per ship using
 				   hiss mission. Default: 5 */
   gint host_rob_mission_failure; /**< There is a slight chance that
 				    the Privateer rob mission will
@@ -405,6 +405,7 @@ gwp_game_state_init (GTypeInstance *instance,
   GwpGameState *self = (GwpGameState *)instance;
   self->priv = g_new0 (GwpGameStatePrivate, 1);
   self->priv->dispose_has_run = FALSE;
+  gint i;
 
   /* Private members init */
   self->priv->game_dir = NULL;
@@ -430,6 +431,106 @@ gwp_game_state_init (GTypeInstance *instance,
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
+  /* Host Configurations Defaults */
+  self->priv->host_recycle_col_ship = 75;
+  self->priv->host_large_meteor_impact = 2;
+  self->priv->host_space_mines = TRUE;
+  self->priv->host_alchemy_ships = TRUE;
+  self->priv->host_delete_old_msgs = FALSE;
+  self->priv->host_disable_pwd = TRUE;
+  self->priv->host_rebel_build_fighters = TRUE;
+  self->priv->host_colonial_build_fighters = TRUE;
+  self->priv->host_robots_build_fighters = TRUE;
+  self->priv->host_cloak_failure = 0;
+  self->priv->host_priv_rob_cloak = FALSE;
+  self->priv->host_dark_sense_range = 200;
+
+  for (i = 0; i < 11; i++) self->priv->host_ground_attack_ratio[i] = 1;
+  self->priv->host_ground_attack_ratio[1] = 30; /* Lizards */
+  self->priv->host_ground_attack_ratio[3] = 15; /* Fascists */
+  
+  self->priv->host_ships_visible_range = 300;
+  self->priv->host_lizard_hiss_mission = TRUE;
+  self->priv->host_rebel_ground_attack = TRUE;
+  self->priv->host_fed_super_refit = TRUE;
+  self->priv->host_crystal_web_mines = TRUE;
+
+  for (i = 0; i < 11; i++) self->priv->host_ground_defense_ratio[i] = 1;
+  self->priv->host_ground_defense_ratio[1] = 10; /* Lizards */
+  self->priv->host_ground_defense_ratio[3] = 5; /* Fascists */
+
+  self->priv->host_cloak_fuel_use = 5;
+  self->priv->host_sensors_range = 200;
+  self->priv->host_new_natives = TRUE;
+  self->priv->host_planets_attack_ships = TRUE;
+  self->priv->host_borg_assimilation_rate = 100;
+
+  for (i = 0; i < 11; i++) self->priv->host_starbase_free_fighters[i] = 0;
+  self->priv->host_starbase_free_fighters[7] = 5; /* Evils */
+
+  self->priv->host_webmine_decay = 5;
+  self->priv->host_mine_decay = 5;
+  self->priv->host_max_mine_radius = 150;
+  self->priv->host_isotope_tudr = 5;
+  self->priv->host_structure_decay = 1;
+
+  for (i = 0; i < 11; i++) self->priv->host_mining_rate[i] = 100;
+  self->priv->host_mining_rate[0] = 70; /* Feds */
+  self->priv->host_mining_rate[2] = 200; /* Lizards */
+
+  self->priv->host_colonists_eat_supplies = FALSE;
+  self->priv->host_zero_fuel_ships_move = TRUE;
+  self->priv->host_mine_hit_odds = 1;
+  self->priv->host_webmine_hit_odds = 5;
+  self->priv->host_mine_detect_range = 200;
+
+  for (i = 0; i < 11; i++)
+    self->priv->host_tax_rate[i] = 100;
+  self->priv->host_tax_rate[0] = 200; /* Feds */
+
+  self->priv->host_mines_destroy_mines = TRUE;
+  self->priv->host_es_bonus = FALSE;
+  self->priv->host_es_bonus_rate = 0;
+  self->priv->host_colonial_sweep_rate = 20;
+  self->priv->host_colonial_sweep_webs = FALSE;
+  self->priv->host_mine_sweep_rate = 4;
+  self->priv->host_webmine_sweep_rate = 3;
+  self->priv->host_hiss_mission_effect = 5;
+  self->priv->host_rob_mission_failure = 1;
+  self->priv->host_planet_attack_rebel = FALSE;
+  self->priv->host_planet_attack_fascist = FALSE;
+  self->priv->host_mine_sweep_range = 5;
+  self->priv->host_webmine_sweep_range = 0;
+  self->priv->host_science_missions = TRUE;
+  self->priv->host_cloaked_mine_hit = 0.5;
+  self->priv->host_cloak_prevent_damage = 1;
+  self->priv->host_fed_crew_bonus = TRUE;
+  self->priv->host_one_engine_tow = FALSE;
+  self->priv->host_hyperdrive_ships = TRUE;
+  self->priv->host_climate_death_rate = 10;
+  self->priv->host_gravity_well = TRUE;
+  self->priv->host_crystal_desert_adv = TRUE;
+  self->priv->host_mines_destroy_webs = FALSE;
+  self->priv->host_climate_limit_pop = TRUE;
+  self->priv->host_max_planet_income = 5000;
+  self->priv->host_ion_storms = 5;
+  self->priv->host_firecloud_chunnel = TRUE;
+  self->priv->host_superspy_deluxe = TRUE;
+  self->priv->host_storms_hide_mines = TRUE;
+  self->priv->host_fascist_glory_device = TRUE;
+  self->priv->host_loki_anticloak = TRUE;
+  self->priv->host_ladyroyale_gambling = TRUE;
+  self->priv->host_cloaked_ships_attack = TRUE;
+  self->priv->host_ship_cloning = TRUE;
+  self->priv->host_boarding_party = TRUE;
+  self->priv->host_imperial_assault = TRUE;
+  self->priv->host_cobol_fuel = 2;
+  self->priv->host_hulltech_slowed_minehits = 7;
+  self->priv->host_aries_makes_fuel = TRUE;
+  self->priv->host_bioscanners = TRUE;
+  self->priv->host_loki_decloak_birds = FALSE;
+  self->priv->host_vpa_extras = FALSE;
+  /* End Host Configuration */
 }
 
 static void 
@@ -827,3 +928,32 @@ void * gwp_game_state_get_plugin_mgr (GwpGameState *self)
 }
 #endif
 
+/**
+ * Return Host's mining rate setting.
+ *
+ * @param self a GwpGameState object.
+ * @param race the race number (1-11)
+ * @return The race's mining rate or 0 in case of incorrect race number.
+ */
+gint
+gwp_game_state_get_host_mining_rate (GwpGameState *self, gint race)
+{
+  g_assert (GWP_IS_GAME_STATE (self));
+  g_return_val_if_fail (race > 0 && race <= 11, 0);
+  return self->priv->host_mining_rate[race-1];
+}
+
+/**
+ * Return Host's tax rate setting.
+ *
+ * @param self a GwpGameState object.
+ * @param race the race number (1-11)
+ * @return The race's tax rate or 0 in case of incorrect race number.
+ */
+gint
+gwp_game_state_get_host_tax_rate (GwpGameState *self, gint race)
+{
+  g_assert (GWP_IS_GAME_STATE (self));
+  g_return_val_if_fail (race > 0 && race <= 11, 0);
+  return self->priv->host_tax_rate[race-1];
+}

@@ -2875,6 +2875,24 @@ _wrap_gwp_planet_set_build_base(PyGObject *self, PyObject *args, PyObject *kwarg
     return Py_None;
 }
 
+static PyObject *
+_wrap_gwp_planet_get_mining_rate(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_planet_get_mining_rate(GWP_PLANET(self->obj));
+    return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_planet_get_tax_rate(PyGObject *self)
+{
+    int ret;
+
+    ret = gwp_planet_get_tax_rate(GWP_PLANET(self->obj));
+    return PyInt_FromLong(ret);
+}
+
 static PyMethodDef _PyGwpPlanet_methods[] = {
     { "get_def_sys_beams_type_str", (PyCFunction)_wrap_gwp_planet_get_def_sys_beams_type_str, METH_NOARGS },
     { "get_def_sys_beams_type", (PyCFunction)_wrap_gwp_planet_get_def_sys_beams_type, METH_NOARGS },
@@ -2972,6 +2990,8 @@ static PyMethodDef _PyGwpPlanet_methods[] = {
     { "set_temperature", (PyCFunction)_wrap_gwp_planet_set_temperature, METH_VARARGS|METH_KEYWORDS },
     { "get_build_base", (PyCFunction)_wrap_gwp_planet_get_build_base, METH_NOARGS },
     { "set_build_base", (PyCFunction)_wrap_gwp_planet_set_build_base, METH_VARARGS|METH_KEYWORDS },
+    { "get_mining_rate", (PyCFunction)_wrap_gwp_planet_get_mining_rate, METH_NOARGS },
+    { "get_tax_rate", (PyCFunction)_wrap_gwp_planet_get_tax_rate, METH_NOARGS },
     { NULL, NULL, 0 }
 };
 
@@ -3439,7 +3459,7 @@ _wrap_gwp_ship_get_waypoint (PyGObject *self)
   
   return Py_BuildValue("(ii)", wp_x, wp_y); 
 }
-#line 3443 "src/gwp-py-mappings.c"
+#line 3463 "src/gwp-py-mappings.c"
 
 
 static PyObject *
@@ -5632,7 +5652,7 @@ _wrap_ship_get_list (PyObject *self)
 
   return ret;
 }
-#line 5636 "src/gwp-py-mappings.c"
+#line 5656 "src/gwp-py-mappings.c"
 
 
 #line 61 "src/gwp-py-mappings.override"
@@ -5654,7 +5674,7 @@ _wrap_planet_get_list (PyObject *self)
 
   return ret;
 }
-#line 5658 "src/gwp-py-mappings.c"
+#line 5678 "src/gwp-py-mappings.c"
 
 
 #line 109 "src/gwp-py-mappings.override"
@@ -5676,7 +5696,7 @@ _wrap_hullspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5680 "src/gwp-py-mappings.c"
+#line 5700 "src/gwp-py-mappings.c"
 
 
 #line 129 "src/gwp-py-mappings.override"
@@ -5698,7 +5718,7 @@ _wrap_engspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5702 "src/gwp-py-mappings.c"
+#line 5722 "src/gwp-py-mappings.c"
 
 
 #line 149 "src/gwp-py-mappings.override"
@@ -5720,7 +5740,7 @@ _wrap_beamspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5724 "src/gwp-py-mappings.c"
+#line 5744 "src/gwp-py-mappings.c"
 
 
 #line 169 "src/gwp-py-mappings.override"
@@ -5742,7 +5762,7 @@ _wrap_torpspec_get_list (PyObject *self)
 
   return ret;
 }
-#line 5746 "src/gwp-py-mappings.c"
+#line 5766 "src/gwp-py-mappings.c"
 
 
 #line 88 "src/gwp-py-mappings.override"
@@ -5758,7 +5778,7 @@ _wrap_set_plugin_mgr (PyObject *self, PyObject *args)
   Py_INCREF (Py_None);
   return Py_None;
 }
-#line 5762 "src/gwp-py-mappings.c"
+#line 5782 "src/gwp-py-mappings.c"
 
 
 #line 102 "src/gwp-py-mappings.override"
@@ -5767,7 +5787,7 @@ _wrap_get_plugin_mgr (PyObject *self)
 {
   return (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
 }
-#line 5771 "src/gwp-py-mappings.c"
+#line 5791 "src/gwp-py-mappings.c"
 
 
 #line 222 "src/gwp-py-mappings.override"
@@ -5783,7 +5803,7 @@ _wrap_get_path_pic_hull (PyObject *self, PyObject *args)
   return PyString_FromString (path);
 }
 
-#line 5787 "src/gwp-py-mappings.c"
+#line 5807 "src/gwp-py-mappings.c"
 
 
 #line 189 "src/gwp-py-mappings.override"
@@ -5809,7 +5829,7 @@ _wrap_get_truehull (PyObject *self)
   Py_INCREF(th);
   return th;
 }
-#line 5813 "src/gwp-py-mappings.c"
+#line 5833 "src/gwp-py-mappings.c"
 
 
 #line 213 "src/gwp-py-mappings.override"
@@ -5820,7 +5840,7 @@ _wrap_get_race_name (PyObject *self, PyObject *args)
   PyArg_ParseTuple (args, "i", &race);
   return PyString_FromString (race_get_name(race));
 }
-#line 5824 "src/gwp-py-mappings.c"
+#line 5844 "src/gwp-py-mappings.c"
 
 
 #line 81 "src/gwp-py-mappings.override"
@@ -5829,7 +5849,7 @@ _wrap_get_system_plugins_dir (PyObject *self)
 {
   return PyString_FromString (GWP_SCRIPTS_DIR"/plugins/");
 }
-#line 5833 "src/gwp-py-mappings.c"
+#line 5853 "src/gwp-py-mappings.c"
 
 
 PyMethodDef gwp_functions[] = {
@@ -5873,7 +5893,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5877 "src/gwp-py-mappings.c"
+#line 5897 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));

@@ -27,7 +27,7 @@
 #include "gwp-planet.h"
 #include "gwp-beamspec.h"
 
-gint gwp_planet_mineral_extraction_rate(enum races race, enum natives natives, gint mines, gint density, gint mineral);
+gint gwp_planet_mineral_extraction_rate(GwpPlanet *self, gint density, gint mineral);
 gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);
 
 
@@ -780,9 +780,7 @@ gint gwp_planet_neutronium_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
-					    gwp_planet_get_natives_race(self),
-					    gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(self,
 					    gwp_planet_get_dens_neutronium(self),
 					    gwp_planet_get_ground_neutronium(self));
 }
@@ -799,9 +797,7 @@ gint gwp_planet_tritanium_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
-					    gwp_planet_get_natives_race(self),
-					    gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(self,
 					    gwp_planet_get_dens_tritanium(self),
 					    gwp_planet_get_ground_tritanium(self));
 }
@@ -818,9 +814,7 @@ gint gwp_planet_molybdenum_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
-					    gwp_planet_get_natives_race(self),
-					    gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(self,
 					    gwp_planet_get_dens_molybdenum(self),
 					    gwp_planet_get_ground_molybdenum(self));
 }
@@ -837,9 +831,7 @@ gint gwp_planet_duranium_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
-					    gwp_planet_get_natives_race(self),
-					    gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(self,
 					    gwp_planet_get_dens_duranium(self),
 					    gwp_planet_get_ground_duranium(self));
 }
@@ -1417,37 +1409,63 @@ void gwp_planet_set_build_base (GwpPlanet *self, gint16 bb)
   self->priv->build_base = bb;
 }
 
+/**
+ * Returns the planet's mining rate depending on its owner and natives.
+ */
+gint
+gwp_planet_get_mining_rate (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  enum natives natives = gwp_planet_get_natives_race (self);
+  gint owner = gwp_planet_get_owner (self);
+  gint miningrate = gwp_game_state_get_host_mining_rate (game_state, owner);
+  
+  if (natives == NATIVE_REPTILIAN)
+    miningrate *= 2;
+
+  return miningrate;
+}
+
+/**
+ * Returns the planet's tax rate depending on its owner and natives.
+ */
+gint
+gwp_planet_get_tax_rate (GwpPlanet *self)
+{
+  g_assert (GWP_IS_PLANET(self));
+
+  enum natives natives = gwp_planet_get_natives_race (self);
+  gint owner = gwp_planet_get_owner (self);
+  gint taxrate = gwp_game_state_get_host_tax_rate (game_state, owner);
+  
+  if (natives == NATIVE_INSECTOID)
+    taxrate *= 2;
+
+  return taxrate;
+}
+
 /*******************/
 /* Private methods */
 /*******************/
 
 gint 
-gwp_planet_mineral_extraction_rate(enum races   race,
-				   enum natives natives,
-				   gint         mines, 
+gwp_planet_mineral_extraction_rate(GwpPlanet   *self,
 				   gint         density, 
 				   gint         mineral)
 {
+  g_assert (GWP_IS_PLANET (self));
+
   gint ret;
   gdouble miningrate;
+  gint mines = gwp_planet_get_mines (self);
 
   /* Race & natives corrections */
-  /* FIXME: Must get this values from Host config!!! */
-  if (race == RACE_FEDS) {
-    miningrate = 70.0;
-  } else if (race == RACE_LIZARDS) {
-    miningrate = 200.0;
-  } else {
-    miningrate = 100.0;
-  }
+  miningrate = gwp_planet_get_mining_rate (self);
 
   /* WARNING: This calculus is the good one, check filefmt.txt, not Donovan! */
   ret = rint (rint((gdouble)mines * (gdouble)density / 100.0) * 
 	      miningrate / 100.0);
-
-  if (natives == NATIVE_REPTILIAN) {
-    ret *= 2;
-  }
 
   if(ret <= mineral) {
     return ret;

@@ -172,6 +172,8 @@ gint16 gwp_planet_get_temperature (GwpPlanet *self);
 void gwp_planet_set_temperature (GwpPlanet *self, gint16 temp);
 gint16 gwp_planet_get_build_base (GwpPlanet *self);
 void gwp_planet_set_build_base (GwpPlanet *self, gint16 bb);
+gint gwp_planet_get_mining_rate (GwpPlanet *self);
+gint gwp_planet_get_tax_rate (GwpPlanet *self);
 
 /*
  * Standard defines.

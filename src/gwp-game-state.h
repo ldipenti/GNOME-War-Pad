@@ -119,6 +119,8 @@ gboolean gwp_game_state_get_extra_panel_open (GwpGameState *self);
 void gwp_game_state_set_plugin_mgr (GwpGameState *self, void *obj);
 void * gwp_game_state_get_plugin_mgr (GwpGameState *self);
 #endif
+gint gwp_game_state_get_host_mining_rate (GwpGameState *self, gint race);
+gint gwp_game_state_get_host_tax_rate (GwpGameState *self, gint race);
 
 
 /*

@@ -934,6 +934,18 @@
   )
 )
 
+(define-method get_mining_rate
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_mining_rate")
+  (return-type "gint")
+)
+
+(define-method get_tax_rate
+  (of-object "GwpPlanet")
+  (c-name "gwp_planet_get_tax_rate")
+  (return-type "gint")
+)
+
 
 
 ;; From src/gwp-ship.h
