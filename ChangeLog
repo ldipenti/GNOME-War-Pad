@@ -10,7 +10,7 @@ Version 0.2.13 (released 05-03-2004):
 	  names.
 	* Planets with starbase have a special mark on starchart.
 	* Compilation flags removed from Makefile that disabled deprecated
-	  features, now GWP can be compiled againt GTK+ 2.4.0.
+	  features, now GWP can be compiled against GTK+ 2.4.0.
 	* Unpack now generates korex.dat file.
 
 Version 0.2.12 (released 04-10-2004):
