@@ -190,6 +190,9 @@ starchart_event_button                 (GtkWidget       *widget,
     ps_ship = s_ship;
     s_ship = starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr),
 					   ships_nearby, wx, wy);
+
+    /* When a ship is selected, emit the corresponding signal */
+    g_signal_emit_by_name (s_ship, "selected");
   }
   /* Open Ship panel (double-click) */
   else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 3)) {
