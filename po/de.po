@@ -1,13 +1,15 @@
 # German Translation.
 # Copyright (C) 2004
 # This file is distributed under the same license as the GWP package.
-# Stefan Reuther <Streu@gmx.de>, February 2004.
+# Stefan Reuther <Streu@gmx.de>, February + October 2004.
 #
 # Some notes: German words are inevitably longer than their English
 # counterparts. Some vocabulary:
 #   fighters         Jäger
 #   fighter bays     Startrampen
-#   beams            Strahler
+#   beams            Geschütze
+#   launchers        Torpedorohre
+#   crew             usually taken as Crew
 #   engines          Triebwerke
 #   fuel             Treibstoff, Sprit
 #   natives          Eingeborene
@@ -16,6 +18,10 @@
 #                    the computers, but also fcodes are used to give
 #                    orders ('Kommandos').
 #   hulls            Karosserien
+#   hull type        Typ
+#   web mines        Fangminen (PHost terminology)
+#   primary enemy    Primärziel
+# Random notes throughout the file are marked with '???'.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -30,7 +36,7 @@ msgstr ""
 
 #: src/gwp.glade.h:1
 msgid " x "
-msgstr ""
+msgstr " x "
 
 #: src/gwp.glade.h:2
 msgid "("
@@ -68,37 +74,34 @@ msgstr ","
 #: src/starchart.c:1082 src/starchart.c:1083 src/starchart.c:1084
 #: src/starchart.c:1085 src/starchart.c:1086
 msgid "--"
-msgstr ""
+msgstr "--"
 
 #: src/gwp.glade.h:8 src/starchart.c:651 src/starchart.c:863
 #: src/starchart.c:868 src/starchart.c:873 src/starchart.c:878
 #, no-c-format
 msgid "-- %"
-msgstr ""
+msgstr "-- %"
 
 #: src/gwp.glade.h:9 src/starchart.c:683 src/starchart.c:888
 #: src/starchart.c:889
-#, fuzzy
 msgid "-- MC"
-msgstr "0 MC"
+msgstr "-- MC"
 
 #: src/gwp.glade.h:10 src/starchart.c:679
 msgid "-- clans"
-msgstr ""
+msgstr "-- Clans"
 
 #: src/gwp.glade.h:11 src/starchart.c:647 src/starchart.c:659
 #: src/starchart.c:663 src/starchart.c:667 src/starchart.c:671
 #: src/starchart.c:675 src/starchart.c:861 src/starchart.c:866
 #: src/starchart.c:871 src/starchart.c:876
-#, fuzzy
 msgid "-- kT"
-msgstr "0 kT"
+msgstr "-- kT"
 
 #: src/gwp.glade.h:12 src/starchart.c:883 src/starchart.c:884
 #: src/starchart.c:885 src/starchart.c:886
-#, fuzzy
 msgid "-- kT/turn"
-msgstr "n/a kt/Zug"
+msgstr "-- kt/Zug"
 
 #: src/gwp.glade.h:13
 msgid "0 MC"
@@ -109,9 +112,8 @@ msgid "0 kT"
 msgstr "0 kT"
 
 #: src/gwp.glade.h:15
-#, fuzzy
 msgid "<b>--</b>"
-msgstr "<b>MC</b>"
+msgstr "<b>--</b>"
 
 #: src/gwp.glade.h:16
 msgid "<b>Battle Mass:</b>"
@@ -119,11 +121,11 @@ msgstr "<b>Kampfmasse:</b>"
 
 #: src/gwp.glade.h:17
 msgid "<b>Beams Type:</b>"
-msgstr "<b>Beam-Typ:</b>"
+msgstr "<b>Geschütz-Typ:</b>"
 
 #: src/gwp.glade.h:18
 msgid "<b>Beams:</b>"
-msgstr "<b>Beams:</b>"
+msgstr "<b>Geschütze:</b>"
 
 #: src/gwp.glade.h:19
 msgid "<b>Col:</b>"
@@ -134,28 +136,25 @@ msgid "<b>Colonists Pay:</b>"
 msgstr "<b>Kolonisten zahlen:</b>"
 
 #: src/gwp.glade.h:21
-#, fuzzy
 msgid "<b>Command</b>"
-msgstr "<b>Kol:</b>"
+msgstr "<b>Befehl</b>"
 
 #: src/gwp.glade.h:22
 msgid "<b>Coords:</b>"
 msgstr "<b>Pos.:</b>"
 
 #: src/gwp.glade.h:23
-#, fuzzy
 msgid "<b>Crew:</b>"
-msgstr "<b>FC:</b>"
+msgstr "<b>Crew:</b>"
 
 #: src/gwp.glade.h:24
-#, fuzzy
 msgid "<b>Damage:</b>"
-msgstr "<b>Volk:</b>"
+msgstr "<b>Schaden:</b>"
 
+# ??? dupe
 #: src/gwp.glade.h:25
-#, fuzzy
 msgid "<b>Defense: </b>"
-msgstr "<b>Verteidigung:</b>"
+msgstr "<b>Verteidigung: </b>"
 
 #: src/gwp.glade.h:26
 msgid "<b>Defenses:</b>"
@@ -178,24 +177,21 @@ msgid "<b>E.T.A.:</b>"
 msgstr "<b>E.T.A.:</b>"
 
 #: src/gwp.glade.h:31
-#, fuzzy
 msgid "<b>Engines:</b>"
-msgstr "<b>Minen:</b>"
+msgstr "<b>Triebwerke:</b>"
 
 #: src/gwp.glade.h:32
-#, fuzzy
 msgid "<b>Equipment</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Ausrüstung</b>"
 
+# ??? not sure. What does this mean?
 #: src/gwp.glade.h:33
-#, fuzzy
 msgid "<b>Existing Planet: </b>"
-msgstr "<b>Entfernung:</b>"
+msgstr "<b>Existierender Planet: </b>"
 
 #: src/gwp.glade.h:34
-#, fuzzy
 msgid "<b>Existing Ship: </b>"
-msgstr "<b>Minen:</b>"
+msgstr "<b>Existierendes Schiff:</b>"
 
 #: src/gwp.glade.h:35
 msgid "<b>FC:</b>"
@@ -218,14 +214,12 @@ msgid "<b>Fighters:</b>"
 msgstr "<b>Jäger:</b>"
 
 #: src/gwp.glade.h:40
-#, fuzzy
 msgid "<b>Fuel use:</b>"
 msgstr "<b>Spritverbrauch:</b>"
 
 #: src/gwp.glade.h:41
-#, fuzzy
 msgid "<b>Fuel:</b>"
-msgstr "<b>FC:</b>"
+msgstr "<b>Sprit:</b>"
 
 #: src/gwp.glade.h:42
 msgid "<b>Gov:</b>"
@@ -236,18 +230,16 @@ msgid "<b>Heading:</b>"
 msgstr "<b>Kurs:</b>"
 
 #: src/gwp.glade.h:44
-#, fuzzy
 msgid "<b>Hull:</b>"
-msgstr "<b>FC:</b>"
+msgstr "<b>Typ:</b>"
 
 #: src/gwp.glade.h:45
-#, fuzzy
 msgid "<b>Hulls:</b>"
-msgstr "<b>FC:</b>"
+msgstr "<b>Karosserien:</b>"
 
 #: src/gwp.glade.h:46
 msgid "<b>Loading game data, please wait...</b>"
-msgstr ""
+msgstr "<b>Lade Spieldaten, bitte warten...</b>"
 
 #: src/gwp.glade.h:47
 msgid "<b>MC:</b>"
@@ -278,9 +270,8 @@ msgid "<b>Mol:</b>"
 msgstr "<b>Mol:</b>"
 
 #: src/gwp.glade.h:54
-#, fuzzy
 msgid "<b>Money:</b>"
-msgstr "<b>Minen:</b>"
+msgstr "<b>Geld:</b>"
 
 #: src/gwp.glade.h:55
 msgid "<b>Nat:</b>"
@@ -294,89 +285,75 @@ msgstr "<b>Eingeb. zahlen:</b>"
 msgid "<b>Neu:</b>"
 msgstr "<b>Neu:</b>"
 
+# ??? I hope this is right :) It does not appear in my copy of gwp.glade
+# but I guess it's the output of the Python script?
 #: src/gwp.glade.h:58
-#, fuzzy
 msgid "<b>Output</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Ausgabe</b>"
 
 #: src/gwp.glade.h:59
-#, fuzzy
 msgid "<b>Owner:</b>"
-msgstr "<b>Minen:</b>"
+msgstr "<b>Besitzer:</b>"
 
 #: src/gwp.glade.h:60
-#, fuzzy
 msgid "<b>P. Enemy:</b>"
-msgstr "<b>Temp:</b>"
+msgstr "<b>Primärziel:</b>"
 
 #: src/gwp.glade.h:61
-#, fuzzy
 msgid "<b>Planet</b>"
-msgstr "<b>Eingeb.:</b>"
+msgstr "<b>Planet</b>"
 
 #: src/gwp.glade.h:62
-#, fuzzy
 msgid "<b>Primary:</b>"
-msgstr "<b>Tri:</b>"
+msgstr "<b>Primär:</b>"
 
 #: src/gwp.glade.h:63
 msgid "<b>Race:</b>"
 msgstr "<b>Volk:</b>"
 
 #: src/gwp.glade.h:64
-#, fuzzy
 msgid "<b>Recycle:</b>"
-msgstr "<b>Volk:</b>"
+msgstr "<b>Recycle:</b>"
 
 #: src/gwp.glade.h:65
-#, fuzzy
 msgid "<b>Repair:</b>"
-msgstr "<b>Volk:</b>"
+msgstr "<b>Reparatur:</b>"
 
 #: src/gwp.glade.h:66
-#, fuzzy
 msgid "<b>Secondary:</b>"
-msgstr "<b>n/a</b>"
+msgstr "<b>Sekundär:</b>"
 
 #: src/gwp.glade.h:67
-#, fuzzy
 msgid "<b>Shield</b>"
-msgstr "<b>Sup:</b>"
+msgstr "<b>Schilde</b>"
 
 #: src/gwp.glade.h:68
-#, fuzzy
 msgid "<b>Ship A</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Schiff A</b>"
 
 #: src/gwp.glade.h:69
-#, fuzzy
 msgid "<b>Ship B</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Schiff B</b>"
 
 #: src/gwp.glade.h:70
-#, fuzzy
 msgid "<b>Ship Name</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Schiffsname</b>"
 
 #: src/gwp.glade.h:71
-#, fuzzy
 msgid "<b>Simulate Ship</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Schiff simulieren</b>"
 
 #: src/gwp.glade.h:72
-#, fuzzy
 msgid "<b>Speed:</b>"
-msgstr "<b>Sup:</b>"
+msgstr "<b>Geschwindigkeit:</b>"
 
 #: src/gwp.glade.h:73
-#, fuzzy
 msgid "<b>Starbase</b>"
-msgstr "Sternenbasis"
+msgstr "<b>Sternenbasis</b>"
 
 #: src/gwp.glade.h:74
-#, fuzzy
 msgid "<b>Status</b>"
-msgstr "<b>Sup</b>"
+msgstr "<b>Status</b>"
 
 #: src/gwp.glade.h:75
 msgid "<b>Sup:</b>"
@@ -391,18 +368,16 @@ msgid "<b>Temp:</b>"
 msgstr "<b>Temp:</b>"
 
 #: src/gwp.glade.h:78
-#, fuzzy
 msgid "<b>Torps:</b>"
-msgstr "<b>Tri:</b>"
+msgstr "<b>Torps:</b>"
 
 #: src/gwp.glade.h:79
 msgid "<b>Tri:</b>"
 msgstr "<b>Tri:</b>"
 
 #: src/gwp.glade.h:80
-#, fuzzy
 msgid "<b>Turn #</b>"
-msgstr "<b>Dur:</b>"
+msgstr "<b>Zug #</b>"
 
 #: src/gwp.glade.h:81
 msgid "<b>Visibility:</b>"
@@ -413,9 +388,8 @@ msgid "<b>Waypoint:</b>"
 msgstr "<b>Ziel:</b>"
 
 #: src/gwp.glade.h:83
-#, fuzzy
 msgid "<b>Weapons</b>"
-msgstr "<b>Ziel:</b>"
+msgstr "<b>Waffen</b>"
 
 #: src/gwp.glade.h:84
 msgid "ATT"
@@ -426,22 +400,20 @@ msgid "Available Races"
 msgstr "Verfügbare Rassen"
 
 #: src/gwp.glade.h:86
-#, fuzzy
 msgid "Beam Tech: "
-msgstr "Strahler: %d"
+msgstr "Geschütz-Tech: "
 
 #: src/gwp.glade.h:87
-#, fuzzy
 msgid "Beams: "
-msgstr "Strahler: %d"
+msgstr "Geschütze: "
 
 #: src/gwp.glade.h:88
 msgid "Build ship"
-msgstr ""
+msgstr "Schiff bauen"
 
 #: src/gwp.glade.h:89
 msgid "Cargo"
-msgstr ""
+msgstr "Fracht"
 
 #: src/gwp.glade.h:90
 msgid "Construction"
@@ -449,21 +421,19 @@ msgstr "Bau"
 
 #: src/gwp.glade.h:91
 msgid "Crew"
-msgstr ""
+msgstr "Crew"
 
 #: src/gwp.glade.h:92
-#, fuzzy
 msgid "Damage"
-msgstr "Schaden: n/a"
+msgstr "Schaden"
 
 #: src/gwp.glade.h:93
 msgid "Data"
 msgstr "Daten"
 
 #: src/gwp.glade.h:94
-#, fuzzy
 msgid "Defense: "
-msgstr "Verteidigung: %d"
+msgstr "Verteidigung: "
 
 #: src/gwp.glade.h:95
 msgid "Delete Game"
@@ -486,9 +456,8 @@ msgid "Edit Game Preferences"
 msgstr "Spiel-Einstellungen bearbeiten"
 
 #: src/gwp.glade.h:100
-#, fuzzy
 msgid "Engine Type"
-msgstr "Triebwerke: %d"
+msgstr "Triebwerks-Typ"
 
 #: src/gwp.glade.h:101
 msgid "Estimated Growth"
@@ -496,25 +465,24 @@ msgstr "Geschätztes Wachstum"
 
 #: src/gwp.glade.h:102
 msgid "Execute"
-msgstr ""
+msgstr "Ausführen"
 
 #: src/gwp.glade.h:103
-#, fuzzy
 msgid "Fighters / Torpedos"
-msgstr "Jäger: %d"
+msgstr "Jäger / Torpedos"
 
 #: src/gwp.glade.h:104
-#, fuzzy
 msgid "Fighters: "
-msgstr "Jäger: %d"
+msgstr "Jäger: "
 
 #: src/gwp.glade.h:105
 msgid "First message"
-msgstr ""
+msgstr "Erste Nachricht"
 
+# ??? what's this?
 #: src/gwp.glade.h:106
 msgid "GDS"
-msgstr ""
+msgstr "GDS"
 
 #: src/gwp.glade.h:107
 msgid "GNOME War Pad"
@@ -557,46 +525,47 @@ msgid "Host Type:"
 msgstr "Host-Typ:"
 
 #: src/gwp.glade.h:117
-#, fuzzy
 msgid "Hull"
-msgstr "Karosserien: %d"
+msgstr "Typ"
 
 #: src/gwp.glade.h:118
 msgid "Last message"
-msgstr ""
+msgstr "Letzte Nachricht"
 
 #: src/gwp.glade.h:119
 msgid "Loading..."
-msgstr ""
+msgstr "Laden..."
 
 #: src/gwp.glade.h:120
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: src/gwp.glade.h:121
 msgid "Message"
-msgstr ""
+msgstr "Nachricht"
 
 #: src/gwp.glade.h:122
 msgid "Message Reader"
-msgstr ""
+msgstr "Nachrichtenanzeige"
 
+# ???? '_' correctly placed?
 #: src/gwp.glade.h:123
 msgid "Message _reader"
-msgstr ""
+msgstr "Nach_richtenanzeige"
 
-# huh? where's this?
+# ??? huh? where's this?
 #: src/gwp.glade.h:124
 msgid "Mini SC"
-msgstr ""
+msgstr "Mini SC"
 
 #: src/gwp.glade.h:125
 msgid "Mining"
-msgstr ""
+msgstr "Bergbau"
 
+# Abbreviation for 'diverses'
 #: src/gwp.glade.h:126
 msgid "Misc"
-msgstr ""
+msgstr "Div."
 
 #: src/gwp.glade.h:127
 msgid "NUK"
@@ -608,7 +577,7 @@ msgstr "Neues Spiel"
 
 #: src/gwp.glade.h:129
 msgid "Next message"
-msgstr ""
+msgstr "Nächste Nachricht"
 
 #: src/gwp.glade.h:130
 msgid "Online Help"
@@ -620,7 +589,7 @@ msgstr "Aufgaben"
 
 #: src/gwp.glade.h:132
 msgid "Other Settings"
-msgstr ""
+msgstr "Andere Einstellungen"
 
 #: src/gwp.glade.h:133
 msgid "PHost"
@@ -631,9 +600,8 @@ msgid "Planet"
 msgstr "Planet"
 
 #: src/gwp.glade.h:135
-#, fuzzy
 msgid "Planet/SB"
-msgstr "Planet"
+msgstr "Planet/SB"
 
 #: src/gwp.glade.h:136
 msgid "Play Game"
@@ -653,15 +621,16 @@ msgstr "Population"
 
 #: src/gwp.glade.h:140
 msgid "Previous message"
-msgstr ""
+msgstr "Vorige Nachricht"
 
 #: src/gwp.glade.h:141
 msgid "Python Console"
-msgstr ""
+msgstr "Python-Konsole"
 
+# ??? almost a dupe
 #: src/gwp.glade.h:142
 msgid "Python console"
-msgstr ""
+msgstr "Python-Konsole"
 
 #: src/gwp.glade.h:143
 msgid "RST Dir:"
@@ -676,9 +645,8 @@ msgid "Race selected"
 msgstr "Ausgewähltes Volk"
 
 #: src/gwp.glade.h:146
-#, fuzzy
 msgid "Race: "
-msgstr "Name des Volkes:"
+msgstr "Volk: "
 
 #: src/gwp.glade.h:147
 msgid ""
@@ -687,14 +655,12 @@ msgstr ""
 "In diesem Spielverzeichnis verfügbare Völker; wähle eins durch Anklicken"
 
 #: src/gwp.glade.h:148
-#, fuzzy
 msgid "Resources (KT)"
 msgstr "Ressourcen (kt)"
 
 #: src/gwp.glade.h:149
-#, fuzzy
 msgid "Select"
-msgstr "_Löschen"
+msgstr "Auswahl"
 
 #: src/gwp.glade.h:150
 msgid "Select RST directory"
@@ -729,18 +695,16 @@ msgid "Setup a new game"
 msgstr "Ein neues Spiel einrichten"
 
 #: src/gwp.glade.h:158
-#, fuzzy
 msgid "Shield"
-msgstr "Schiffe"
+msgstr "Schilde"
 
 #: src/gwp.glade.h:159
 msgid "Shield Bonus"
-msgstr ""
+msgstr "Schild-Bonus"
 
 #: src/gwp.glade.h:160
-#, fuzzy
 msgid "Ship"
-msgstr "Schiffe"
+msgstr "Schiff"
 
 #: src/gwp.glade.h:161
 msgid "Ship Data"
@@ -755,13 +719,13 @@ msgid "Ships"
 msgstr "Schiffe"
 
 #: src/gwp.glade.h:164
-#, fuzzy
 msgid "Simulation"
-msgstr "Population"
+msgstr "Simulation"
 
+# ??? sensible translation?
 #: src/gwp.glade.h:165
 msgid "Specifications"
-msgstr ""
+msgstr "Daten"
 
 #: src/gwp.glade.h:166
 msgid "Starbase"
@@ -776,13 +740,12 @@ msgid "Starship"
 msgstr "Raumschiff"
 
 #: src/gwp.glade.h:169
-#, fuzzy
 msgid "Start"
-msgstr "Sternkarte"
+msgstr "Start"
 
 #: src/gwp.glade.h:170
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: src/gwp.glade.h:171
 msgid "THost"
@@ -801,9 +764,8 @@ msgid "Technology Levels"
 msgstr "Tech-Levels"
 
 #: src/gwp.glade.h:175
-#, fuzzy
 msgid "Test"
-msgstr "Steuern"
+msgstr "Test"
 
 #: src/gwp.glade.h:176
 msgid "The directory where GWP will save its turns"
@@ -821,31 +783,31 @@ msgstr "Email-Adresse des Hosts, an die Turns gesendet werden"
 msgid "The label this game will have in the game manager"
 msgstr "Titel, den dieses Spiel in der Spiel-Auswahl haben wird"
 
+# ???? I assume we're talking about toggling display of minefields
+# This is a tooltip so length does not matter
 #: src/gwp.glade.h:180
 msgid "Toggle mine fields"
-msgstr ""
+msgstr "Minenfeld-Anzeige umschalten"
 
 #: src/gwp.glade.h:181
 msgid "Toggle planet names"
-msgstr ""
+msgstr "Anzeige der Planetennamen umschalten"
 
 #: src/gwp.glade.h:182
 msgid "Torp/Fight"
-msgstr ""
+msgstr "Torp/Kampf"
 
 #: src/gwp.glade.h:183
-#, fuzzy
 msgid "Torps: "
-msgstr "Torpedos: %d"
+msgstr "Torps: "
 
 #: src/gwp.glade.h:184
 msgid "Total cargo capacity"
-msgstr ""
+msgstr "Gesamt-Frachtraum"
 
 #: src/gwp.glade.h:185
-#, fuzzy
 msgid "Type: "
-msgstr "Host-Typ:"
+msgstr "Typ: "
 
 #: src/gwp.glade.h:186
 msgid "Unpack the new RST file"
@@ -853,11 +815,12 @@ msgstr "Neues Result entpacken"
 
 #: src/gwp.glade.h:187
 msgid "Visual Combat Recorder"
-msgstr ""
+msgstr "Visual Combat Recorder"
 
+# ??? dupe
 #: src/gwp.glade.h:188
 msgid "Visual combat recorder"
-msgstr ""
+msgstr "Visual combat recorder"
 
 #: src/gwp.glade.h:189
 msgid "Where the game data files reside"
@@ -876,12 +839,10 @@ msgid "Your email address, to send your turns to the host"
 msgstr "Deine Email-Adresse, mit der Turns an den Host gesendet werden"
 
 #: src/gwp.glade.h:193
-#, fuzzy
 msgid "Zoom In"
 msgstr "Vergrößern"
 
 #: src/gwp.glade.h:194
-#, fuzzy
 msgid "Zoom Out"
 msgstr "Verkleinern"
 
@@ -902,17 +863,16 @@ msgid "_Edit Game"
 msgstr "Spiel _bearbeiten"
 
 #: src/gwp.glade.h:199
-#, fuzzy
 msgid "_Grid"
-msgstr "Gitternetz"
+msgstr "_Gitternetz"
 
 #: src/gwp.glade.h:200
 msgid "_Ion storms"
-msgstr ""
+msgstr "_Ionenstürme"
 
 #: src/gwp.glade.h:201
 msgid "_Mine fields"
-msgstr ""
+msgstr "_Minenfelder"
 
 #: src/gwp.glade.h:202
 msgid "_New"
@@ -927,9 +887,8 @@ msgid "_Online Help"
 msgstr "_Online-Hilfe"
 
 #: src/gwp.glade.h:205
-#, fuzzy
 msgid "_Planet names"
-msgstr "_Spiel spielen"
+msgstr "_Planetennamen"
 
 #: src/gwp.glade.h:206
 msgid "_Play"
@@ -945,7 +904,7 @@ msgstr "_Zufällig"
 
 #: src/gwp.glade.h:209
 msgid "_Scanner area"
-msgstr ""
+msgstr "_Scanner-Reichweite"
 
 #: src/gwp.glade.h:210
 msgid "_Unpack"
@@ -955,10 +914,10 @@ msgstr "Res_ult entpacken"
 msgid "n/a kT/turn"
 msgstr "n/a kt/Zug"
 
+# ??? huh?
 #: src/gwp.glade.h:212
-#, fuzzy
 msgid "n/m"
-msgstr "n/a"
+msgstr "n/m"
 
 #: src/callbacks.c:303
 msgid "New Game Properties"
@@ -995,13 +954,13 @@ msgstr ""
 
 #: src/callbacks.c:1014
 msgid "No Python support enabled."
-msgstr ""
+msgstr "Python-Unterstützung ist nicht aktiviert."
 
 #: src/callbacks.c:1015
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
-msgstr ""
+msgstr "Wenn du Python-Scripte verwenden möchtest, solltest du das Programm neu übersetzen, nachdem du die Python-Entwicklerpakete auf deinem System installiert hast."
 
 #: src/support.c:63 src/support.c:88
 #, c-format
@@ -1012,119 +971,120 @@ msgstr "Bilddatei konnte nicht geladen werden: %s"
 #: src/starchart.c:119
 #, c-format
 msgid "Tech %d"
-msgstr ""
+msgstr "Tech %d"
 
+# ??? wots this?
 #: src/starchart.c:125 src/starchart.c:131
 #, c-format
 msgid "%d"
-msgstr ""
+msgstr "%d"
 
 #: src/starchart.c:137
 #, c-format
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 #: src/starchart.c:208
-#, fuzzy, c-format
+#, c-format
 msgid "0 (%d fighter bays)"
-msgstr "Jäger: n/a"
+msgstr "0 (%d Startrampen)"
 
 #: src/starchart.c:384 src/starchart.c:417 src/starchart.c:609
 #: src/starchart.c:637
 msgid "no weapon"
-msgstr ""
+msgstr "keine Waffe"
 
 #: src/starchart.c:392
 #, c-format
 msgid "%d <i>%s</i>"
-msgstr ""
+msgstr "%d <i>%s</i>"
 
 #: src/starchart.c:396
 msgid "1 torpedo"
-msgstr ""
+msgstr "1 Torpedo"
 
 #: src/starchart.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "%d torpedoes"
-msgstr "Torpedos: %d"
+msgstr "%d Torpedos"
 
 #: src/starchart.c:404 src/starchart.c:628
-#, fuzzy
 msgid "1 fighter bay"
-msgstr "Jäger: n/a"
+msgstr "1 Startrampe"
 
 #: src/starchart.c:406 src/starchart.c:630
 #, c-format
 msgid "%d fighter bays"
-msgstr ""
+msgstr "%d Startrampen"
 
 #: src/starchart.c:410
 msgid "1 fighter"
-msgstr ""
+msgstr "1 Jäger"
 
 #: src/starchart.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "%d fighters"
-msgstr "%d Züge"
+msgstr "%d Jäger"
 
 #: src/starchart.c:433 src/starchart.c:472 src/starchart.c:484
 #: src/starchart.c:496 src/starchart.c:508 src/starchart.c:520
 #: src/starchart.c:760 src/starchart.c:779 src/starchart.c:797
 #: src/starchart.c:815
-#, fuzzy, c-format
+#, c-format
 msgid "%d kT"
-msgstr "0 kT"
+msgstr "%d kT"
 
+# ??? This is hard to do in German. The real word would be "1 Besatzungsmitglied".
+# But on airplanes, everyone talks about 'crew' instead of 'Besatzung' anyway
 #: src/starchart.c:457
 msgid "1 crewman"
-msgstr ""
+msgstr "1 Crewman"
 
 #: src/starchart.c:459
 #, c-format
 msgid "%d crewmen"
-msgstr ""
+msgstr "%d Crewmen"
 
 #: src/starchart.c:533
-#, fuzzy
 msgid "1 clan"
-msgstr "%d Züge"
+msgstr "1 Clan"
 
 #: src/starchart.c:535
-#, fuzzy, c-format
+#, c-format
 msgid "%d clans"
-msgstr "%d Züge"
+msgstr "%d Clans"
 
 #: src/starchart.c:548 src/starchart.c:840 src/starchart.c:850
-#, fuzzy, c-format
+#, c-format
 msgid "%d MC"
-msgstr "0 MC"
+msgstr "%d MC"
 
 #: src/starchart.c:574
 msgid "<i>No ship</i>"
-msgstr ""
+msgstr "<i>Kein Schiff</i>"
 
 #. Engines
 #: src/starchart.c:599 src/starchart.c:606
 #, c-format
 msgid "%d <i>unknown</i>"
-msgstr ""
+msgstr "%d <i>unbekannte</i>"
 
 #: src/starchart.c:618
 msgid "1 launcher"
-msgstr ""
+msgstr "1 Torpedorohr"
 
 #: src/starchart.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "%d launchers"
-msgstr "%d Züge"
+msgstr "%d Torpedorohre"
 
 #: src/starchart.c:623 src/starchart.c:633
 msgid "unknown"
-msgstr ""
+msgstr "unbekannt"
 
 #: src/starchart.c:655
 msgid "-- crewmen"
-msgstr ""
+msgstr "-- Crewmen"
 
 #: src/starchart.c:771 src/starchart.c:789 src/starchart.c:807
 #: src/starchart.c:825
@@ -1135,7 +1095,7 @@ msgstr "%d kt/Zug (%d Züge)"
 #: src/starchart.c:843
 #, c-format
 msgid "%d <span foreground=\"red\">(%d)</span> MC"
-msgstr ""
+msgstr "%d <span foreground=\"red\">(%d)</span> MC"
 
 #. Update distance
 #: src/starchart.c:1138
@@ -1148,11 +1108,11 @@ msgstr "%.2f ly"
 #: src/starchart.c:1143 src/starchart.c:1148
 #, c-format
 msgid "%d KT"
-msgstr ""
+msgstr "%d KT"
 
 #: src/starchart.c:1155
 msgid "<span foreground=\"red\">never</span>"
-msgstr ""
+msgstr "<span foreground=\"red\">nie</span>"
 
 #: src/starchart.c:1159
 #, c-format
@@ -1164,20 +1124,21 @@ msgstr "%d Zug"
 msgid "%d turns"
 msgstr "%d Züge"
 
+# ??? alternatives: "bewegt sich nicht" oder "keine Bewegung"
 #: src/starchart.c:1193
 msgid "not moving"
-msgstr ""
+msgstr "Stillstand"
 
 #. Update speed
 #: src/starchart.c:1199
 #, c-format
 msgid "Warp %d"
-msgstr ""
+msgstr "Warp %d"
 
 #: src/starchart.c:1265
 #, c-format
 msgid "%d %s in %s"
-msgstr ""
+msgstr "%d %s in %s"
 
 #: src/starchart.c:2123
 msgid "Name"
@@ -1186,29 +1147,25 @@ msgstr "Name"
 #: src/vp_utils.c:874
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
-msgstr ""
+msgstr "KORE%d.DAT nicht gefunden, einige Daten werden nicht angezeigt."
 
 #: src/vp_utils.c:876
 msgid ""
 "This file provides the data about ion storms and minefields, but couldn't be "
 "found in this case. This is not a fatal error, GWP will continue loading but "
 "this data won't appear on the game."
-msgstr ""
+msgstr "KOREx.DAT enthält Informationen über Ionenstürme und Minenfelder. Diese Datei konnte nicht gefunden werden. Das ist kein schwerer Fehler, GWP wird das Spiel also laden, aber die entsprechenden Daten werden nicht angezeigt."
 
 #: src/game_mgr.c:88
 msgid "Your game definitions will be deleted."
-msgstr ""
+msgstr "Deine Spieldefinitionen werden gelöscht."
 
 #: src/game_mgr.c:89
-#, fuzzy
 msgid ""
 "The game state data format have changed. Your game definitions will be "
 "deleted because are not compatible with this version, please re-create them. "
 "Your game files won't be touched, sorry for the inconvenience."
-msgstr ""
-"Das Spieldaten-Format hat sich geändert. Deine Spiel-Definitionen werden "
-"gelöscht, weil sie nicht mit dieser Version kompatibel sind; bitte lege sie "
-"neu an. Sorry."
+msgstr "Das Spieldaten-Format hat sich geändert. Deine Spiel-Definitionen werden gelöscht, weil sie nicht mit dieser Version kompatibel sind; bitte lege sie neu an. Deine Spieldaten sind davon nicht betroffen. Sorry."
 
 #: src/game_mgr.c:385
 #, c-format
@@ -1229,23 +1186,20 @@ msgid "Please select a race"
 msgstr "Bitte wähle ein Volk"
 
 #: src/game_mgr.c:534
-#, fuzzy
 msgid "turn "
-msgstr "Zug"
+msgstr "Zug "
 
 #: src/game_mgr.c:602
-#, fuzzy
 msgid "No game selected, please select one."
-msgstr "Es gibt bereits ein Spiel '%s', bitte wähle einen anderen Namen"
+msgstr "Kein Spiel ausgewählt. Bitte wähle ein Spiel."
 
 #: src/game_mgr.c:603
 msgid ""
 "If you don't have any game on your game manager, you should add one with the "
 "\"New\" button, adding the necessary game data."
-msgstr ""
+msgstr "Wenn in der Spiel-Verwaltung noch kein Spiel eingetragen ist, solltest du mit dem \"Neu\"-Knopf eins anlegen."
 
 #: src/game_mgr.c:621
-#, fuzzy
 msgid "A new RST file was found. Do you want to unpack it?"
 msgstr "Eine neue Result-Datei wurde gefunden. Möchtest du sie entpacken?"
 
@@ -1254,42 +1208,41 @@ msgstr "Eine neue Result-Datei wurde gefunden. Möchtest du sie entpacken?"
 msgid "Turn: %d"
 msgstr "Zug: %d"
 
+# ??? better word for "gespeicherten Nachrichten"?
 #: src/game_mgr.c:701
 msgid "Error creating the message history directory."
-msgstr ""
+msgstr "Fehler beim Erstellen des Verzeichnisses für die gespeicherten Nachrichten."
 
 #: src/game_mgr.c:702
 msgid ""
 "A file already exists with the name 'message-history', please remove or "
 "rename this file so that the message history feature can work correctly."
-msgstr ""
+msgstr "Es existiert bereits eine Datei mit dem Namen 'message-history'. Bitte benenne diese Datei um oder lösche sie, damit GWP deine Nachrichten aufzeichnen kann."
 
 #: src/game_mgr.c:739
 msgid "Message data file not found."
-msgstr ""
+msgstr "Nachrichtendatei nicht gefunden."
 
 #: src/game_mgr.c:740
 msgid ""
 "The MDATA file was not found, it's needed to read the game messages, please "
 "check your VGA Planets installation."
-msgstr ""
+msgstr "Die Datei MDATAx.DAT wurde nicht gefunden. Diese Datei wird benötigt, um die Nachrichten aus dem Spiel anzuzeigen. Bitte überprüfe deine VGA-Planets-Installation."
 
 #: src/game_mgr.c:990
 msgid "no games"
-msgstr ""
+msgstr "keine Spiele"
 
 #: src/game_mgr.c:992
-#, fuzzy
 msgid "1 game"
-msgstr "Name"
+msgstr "1 Spiel"
 
 #: src/game_mgr.c:994
-#, fuzzy, c-format
+#, c-format
 msgid "%d games"
-msgstr "%d Züge"
+msgstr "%d Spiele"
 
 #: src/race.c:28
-#, fuzzy
 msgid "None"
 msgstr "kein"
 
@@ -1367,7 +1320,7 @@ msgstr "E Wachstum"
 
 #: src/gwp-object.c:76
 msgid "Unknown name"
-msgstr ""
+msgstr "Unbekannter Name"
 
 #: src/gwp-flying-object.c:119
 msgid "N"
@@ -1401,13 +1354,14 @@ msgstr "W"
 msgid "NW"
 msgstr "NW"
 
+# ??? I assume this is the primary enemy :)
 #: src/gwp-ship.c:445
 msgid "No enemy"
-msgstr ""
+msgstr "Kein Primärziel"
 
 #: src/gwp-planet.c:290
 msgid "No beam weapon"
-msgstr ""
+msgstr "Keine Geschütze"
 
 #: src/gwp-planet.c:588
 msgid "desert"
@@ -1509,196 +1463,198 @@ msgstr "Participatory"
 msgid "Unity"
 msgstr "Unity"
 
+# I translate 'Disturbance' as 'Subraumstörung' (='subspace disturbance')
+# to make life easier for people not familiar with the terminology :)
 #: src/gwp-ion-storm.c:169
 msgid "Inexistent Disturbance"
-msgstr ""
+msgstr "Nicht-existierende Subraumstörung"
 
 #: src/gwp-ion-storm.c:170
 msgid "Harmless Disturbance"
-msgstr ""
+msgstr "Harmlose Subraumstörung"
 
 #: src/gwp-ion-storm.c:171
 msgid "Moderate Disturbance"
-msgstr ""
+msgstr "Mäßige Subraumstörung"
 
 #: src/gwp-ion-storm.c:172
 msgid "Strong Disturbance"
-msgstr ""
+msgstr "Starke Subraumstörung"
 
 #: src/gwp-ion-storm.c:173
 msgid "Dangerous Storm"
-msgstr ""
+msgstr "Gefährlicher Sturm"
 
 #: src/gwp-ion-storm.c:174
 msgid "Very Dangerous Storm"
-msgstr ""
+msgstr "Sehr gefährlicher Sturm"
 
 #: src/mission.c:28 src/mission.c:72 src/mission.c:128
 msgid "No mission"
-msgstr ""
+msgstr "Keine Mission"
 
+# don't translate, it's a proper name
 #: src/mission.c:31
 msgid "Super Refit"
-msgstr ""
+msgstr "Super Refit"
 
 #: src/mission.c:34
 msgid "Hisssssss!"
-msgstr ""
+msgstr "Hisssssss!"
 
 #: src/mission.c:37
 msgid "Super Spy"
-msgstr ""
+msgstr "Super Spy"
 
 #: src/mission.c:40
-#, fuzzy
 msgid "Pillage Planet"
-msgstr "Planet"
+msgstr "Planet plündern"
 
 #: src/mission.c:43
-#, fuzzy
 msgid "Rob Ship"
-msgstr "Schiffe"
+msgstr "Schiffe ausrauben"
 
 #: src/mission.c:46
 msgid "Self Repair"
-msgstr ""
+msgstr "Reparieren"
 
 #: src/mission.c:49
 msgid "Lay Web Mines"
-msgstr ""
+msgstr "Fangminen legen"
 
 #: src/mission.c:52
 msgid "Dark Sense"
-msgstr ""
+msgstr "Dark Sense"
 
 #: src/mission.c:55 src/mission.c:61
-#, fuzzy
 msgid "Build Fighters"
-msgstr "Jäger: %d"
+msgstr "Raumjäger bauen"
 
 #: src/mission.c:58
-#, fuzzy
 msgid "Ground Attack"
-msgstr "Boden:"
+msgstr "Bodenangriff"
 
 #: src/mission.c:75
 msgid "Explore"
-msgstr ""
+msgstr "Forschung"
 
 #: src/mission.c:78
 msgid "Mine sweep"
-msgstr ""
+msgstr "Minen räumen"
 
 #: src/mission.c:81
 msgid "Lay mines"
-msgstr ""
+msgstr "Minen legen"
 
+# I don't like this being 'Töten'.
 #: src/mission.c:84
 msgid "Kill"
-msgstr ""
+msgstr "Kampf"
 
 #: src/mission.c:87
 msgid "Sensor sweep"
-msgstr ""
+msgstr "Sensor-Abtastung"
 
 #: src/mission.c:90
-#, fuzzy
 msgid "Colonize"
-msgstr "Kolonisten"
+msgstr "Kolonisieren"
 
 #: src/mission.c:93
 msgid "Tow"
-msgstr ""
+msgstr "Abschleppen"
 
 #: src/mission.c:96
 msgid "Intercept"
-msgstr ""
+msgstr "Abfangen"
 
 #: src/mission.c:99
 msgid "Special"
-msgstr ""
+msgstr "Spezialmission"
 
 #: src/mission.c:102
 msgid "Cloak"
-msgstr ""
+msgstr "Tarnen"
 
 #: src/mission.c:105
 msgid "Beam up fuel"
-msgstr ""
+msgstr "Treibstoff laden"
 
 #: src/mission.c:108
 msgid "Beam up duranium"
-msgstr ""
+msgstr "Duranium laden"
 
 #: src/mission.c:111
 msgid "Beam up tritanium"
-msgstr ""
+msgstr "Tritanium laden"
 
 #: src/mission.c:114
 msgid "Beam up molybdenum"
-msgstr ""
+msgstr "Molybdenum laden"
 
+# ??? when it's used more often, maybe use a better term for supplies
+# which fits better into the rest. One possibility would be 'Waren'
+# (=goods). Now use the term which I think is most often used.
 #: src/mission.c:117
 msgid "Beam up supplies"
-msgstr ""
+msgstr "Vorräte laden"
 
 #: src/mission.c:131
 msgid "Refuel ships"
-msgstr ""
+msgstr "Schiffe betanken"
 
 #: src/mission.c:134
 msgid "Maximize defense"
-msgstr ""
+msgstr "Verteidigung ausbauen"
 
 #: src/mission.c:137
-#, fuzzy
 msgid "Load torpedoes on ships"
-msgstr "Torpedos: %d"
+msgstr "Torpedos auf Schiffe laden"
 
 #: src/mission.c:140
 msgid "Unload ships"
-msgstr ""
+msgstr "Schiffe entladen"
 
 #: src/mission.c:143
-#, fuzzy
 msgid "Repair starbase"
-msgstr "Sternenbasis"
+msgstr "Sternenbasis reparieren"
 
 #: src/mission.c:146
 msgid "Force a surrender"
-msgstr ""
+msgstr "Kapitulation erzwingen"
 
 #: src/vcr-combat-gl.c:1236
 msgid "Welcome to the Visual Combat Simulator\n"
-msgstr ""
+msgstr "Willkommen zum Visual Combat Simulator\n"
 
+# ??? huH?
 #: src/vcr-combat-gl.c:1237 src/vcr-combat-gl.c:1240 src/vcr-combat-gl.c:1243
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: src/vcr-combat-gl.c:1238
 msgid "If you can read this message your GWP is not able to show\n"
-msgstr ""
+msgstr "Wenn du diesen Text lesen kannst, kann dein GWP keine\n"
 
 #: src/vcr-combat-gl.c:1239
 msgid "any 3D-animated combat simulations - which is quite a pity :-).\n"
-msgstr ""
+msgstr "3D-Kampfsimulationen anzeigen. Das ist schade.\n"
 
+# ??? can we translate 'gnome-extension' or is that a proper name?
 #: src/vcr-combat-gl.c:1241
 msgid "The required gnome-extension should be available at:\n"
-msgstr ""
+msgstr "Die erforderliche GNOME-Erweiterung bekommst du bei:\n"
 
 #: src/vcr-combat-gl.c:1242
 msgid "http://gtkglext.sourceforge.net/\n"
-msgstr ""
+msgstr "http://gtkglext.sourceforge.net/\n"
 
 #: src/vcr-combat-gl.c:1244
 msgid "Good luck ...\n"
-msgstr ""
+msgstr "Viel Erfolg...\n"
 
 #: src/gwp-python.c:75
 msgid "_Plugins"
-msgstr ""
+msgstr "_Plugins"
 
 #~ msgid "Toggle toolbar"
 #~ msgstr "Toolbar ein/ausschalten"
@@ -1708,11 +1664,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Laser"
-#~ msgstr "Sternenbasis"
+#~ msgstr "Laser"
 
 #, fuzzy
 #~ msgid "The Solar Federation"
-#~ msgstr "The Federation"
+#~ msgstr "The Solar Federation"
 
 #~ msgid "<b>Build:</b>"
 #~ msgstr "<b>Bauen:</b>"
@@ -1722,26 +1678,26 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Damage: -- %"
-#~ msgstr "Schaden: n/a %"
+#~ msgstr "Damage: -- %"
 
 #, fuzzy
 #~ msgid "Defenses: --"
-#~ msgstr "Verteidigung: %d"
+#~ msgstr "Verteidigung: --"
 
 #, fuzzy
 #~ msgid "Engines: --"
-#~ msgstr "Triebwerke: %d"
+#~ msgstr "Triebwerke: --"
 
 #, fuzzy
 #~ msgid "Fighters: --"
-#~ msgstr "Jäger: %d"
+#~ msgstr "Jäger: --"
 
 #~ msgid "Planet Detail"
 #~ msgstr "Details zu Planet"
 
 #, fuzzy
 #~ msgid "SB"
-#~ msgstr "S"
+#~ msgstr "SB"
 
 #~ msgid "Show starbase panel"
 #~ msgstr "Sternenbasis-Panel anzeigen"
