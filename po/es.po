@@ -7,706 +7,690 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GWP 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-10 21:57-0300\n"
-"PO-Revision-Date: 2004-04-10 22:22-0300\n"
+"POT-Creation-Date: 2004-04-11 02:51-0300\n"
+"PO-Revision-Date: 2004-04-11 02:51-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gwp.glade.h:1
-msgid "("
-msgstr "("
-
-#: src/gwp.glade.h:2
-msgid ")"
-msgstr ")"
-
-#: src/gwp.glade.h:3
-msgid "*"
-msgstr "*"
-
-#: src/gwp.glade.h:4
-msgid ","
-msgstr ","
-
 #. Mission
 #. Primary Enemy
-#: src/gwp.glade.h:5 src/starchart.c:288 src/starchart.c:479
+#: src/gwp.glade.h:1 src/starchart.c:288 src/starchart.c:479
 #: src/starchart.c:530 src/starchart.c:533
 msgid "--"
 msgstr "--"
 
-#: src/gwp.glade.h:7 src/starchart.c:492 src/starchart.c:701
+#: src/gwp.glade.h:3 src/starchart.c:492 src/starchart.c:701
 #: src/starchart.c:706 src/starchart.c:711 src/starchart.c:716
 #, no-c-format
 msgid "-- %"
 msgstr "-- %"
 
-#: src/gwp.glade.h:8 src/starchart.c:524 src/starchart.c:726
+#: src/gwp.glade.h:4 src/starchart.c:524 src/starchart.c:726
 #: src/starchart.c:727
 msgid "-- MC"
 msgstr "-- MC"
 
-#: src/gwp.glade.h:9 src/starchart.c:520
+#: src/gwp.glade.h:5 src/starchart.c:520
 msgid "-- clans"
 msgstr "-- clanes"
 
-#: src/gwp.glade.h:10 src/starchart.c:488 src/starchart.c:500
+#: src/gwp.glade.h:6 src/starchart.c:488 src/starchart.c:500
 #: src/starchart.c:504 src/starchart.c:508 src/starchart.c:512
 #: src/starchart.c:516 src/starchart.c:699 src/starchart.c:704
 #: src/starchart.c:709 src/starchart.c:714
 msgid "-- kT"
 msgstr "-- kT"
 
-#: src/gwp.glade.h:11 src/starchart.c:721 src/starchart.c:722
+#: src/gwp.glade.h:7 src/starchart.c:721 src/starchart.c:722
 #: src/starchart.c:723 src/starchart.c:724
 msgid "-- kT/turn"
 msgstr "-- kT/turno"
 
-#: src/gwp.glade.h:12
+#: src/gwp.glade.h:8
 msgid "0 MC"
 msgstr "0 MC"
 
-#: src/gwp.glade.h:13
+#: src/gwp.glade.h:9
 msgid "0 kT"
 msgstr "0 kT"
 
-#: src/gwp.glade.h:14
+#: src/gwp.glade.h:10
 msgid "<b>--</b>"
 msgstr "<b>--</b>"
 
-#: src/gwp.glade.h:15
+#: src/gwp.glade.h:11
 msgid "<b>Battle Mass:</b>"
 msgstr "<b>Masa:</b>"
 
-#: src/gwp.glade.h:16
+#: src/gwp.glade.h:12
 msgid "<b>Beams Type:</b>"
 msgstr "<b>Tipo de rayos:</b>"
 
-#: src/gwp.glade.h:17
+#: src/gwp.glade.h:13
 msgid "<b>Beams:</b>"
 msgstr "<b>Rayos:</b>"
 
-#: src/gwp.glade.h:18
+#: src/gwp.glade.h:14
 msgid "<b>Build:</b>"
 msgstr "<b>Construir:</b>"
 
-#: src/gwp.glade.h:19
+#: src/gwp.glade.h:15
 msgid "<b>Col:</b>"
 msgstr "<b>Col:</b>"
 
-#: src/gwp.glade.h:20
+#: src/gwp.glade.h:16
 msgid "<b>Colonists Pay:</b>"
 msgstr "<b>Colonos pagan:</b>"
 
-#: src/gwp.glade.h:21
+#: src/gwp.glade.h:17
 msgid "<b>Coords:</b>"
 msgstr "<b>Coords:</b>"
 
-#: src/gwp.glade.h:22
+#: src/gwp.glade.h:18
 msgid "<b>Crew:</b>"
 msgstr "<b>Trip:</b>"
 
-#: src/gwp.glade.h:23
+#: src/gwp.glade.h:19
 msgid "<b>Damage:</b>"
 msgstr "<b>Daño:</b>"
 
-#: src/gwp.glade.h:24
+#: src/gwp.glade.h:20
 msgid "<b>Defenses:</b>"
 msgstr "<b>Defensas:</b>"
 
-#: src/gwp.glade.h:25
+#: src/gwp.glade.h:21
 msgid "<b>Defenses</b>"
 msgstr "<b>Defensas</b>"
 
-#: src/gwp.glade.h:26
+#: src/gwp.glade.h:22
 msgid "<b>Distance:</b>"
 msgstr "<b>Distancia:</b>"
 
-#: src/gwp.glade.h:27
+#: src/gwp.glade.h:23
 msgid "<b>Dur:</b>"
 msgstr "<b>Dur:</b>"
 
-#: src/gwp.glade.h:28
+#: src/gwp.glade.h:24
 msgid "<b>E.T.A.:</b>"
 msgstr "<b>T.E.A.:</b>"
 
-#: src/gwp.glade.h:29
+#: src/gwp.glade.h:25
 msgid "<b>Engines:</b>"
 msgstr "<b>Motores:</b>"
 
-#: src/gwp.glade.h:30
+#: src/gwp.glade.h:26
 msgid "<b>FC:</b>"
 msgstr "<b>FC:</b>"
 
-#: src/gwp.glade.h:31
+#: src/gwp.glade.h:27
 msgid "<b>Factories:</b>"
 msgstr "<b>Fábricas:</b>"
 
-#: src/gwp.glade.h:32
+#: src/gwp.glade.h:28
 msgid "<b>Factories</b>"
 msgstr "<b>Fábricas</b>"
 
-#: src/gwp.glade.h:33
+#: src/gwp.glade.h:29
 msgid "<b>Fighter Bays:</b>"
 msgstr "<b>Lanzaderas:</b>"
 
-#: src/gwp.glade.h:34
+#: src/gwp.glade.h:30
 msgid "<b>Fighters:</b>"
 msgstr "<b>Cazas:</b>"
 
-#: src/gwp.glade.h:35
+#: src/gwp.glade.h:31
 msgid "<b>Fuel use:</b>"
 msgstr "<b>Uso comb.:</b>"
 
-#: src/gwp.glade.h:36
+#: src/gwp.glade.h:32
 msgid "<b>Fuel:</b>"
 msgstr "<b>Comb.:</b>"
 
-#: src/gwp.glade.h:37
+#: src/gwp.glade.h:33
 msgid "<b>Gov:</b>"
 msgstr "<b>Gob:</b>"
 
-#: src/gwp.glade.h:38
+#: src/gwp.glade.h:34
 msgid "<b>Heading:</b>"
 msgstr "<b>Rumbo:</b>"
 
-#: src/gwp.glade.h:39
+#: src/gwp.glade.h:35
 msgid "<b>MC:</b>"
 msgstr "<b>MC:</b>"
 
-#: src/gwp.glade.h:40
+#: src/gwp.glade.h:36
 msgid "<b>MC</b>"
 msgstr "<b>MC</b>"
 
-#: src/gwp.glade.h:41
+#: src/gwp.glade.h:37
 msgid "<b>Mass:</b>"
 msgstr "<b>Masa:</b>"
 
-#: src/gwp.glade.h:42
+#: src/gwp.glade.h:38
 msgid "<b>Mines:</b>"
 msgstr "<b>Minas:</b>"
 
-#: src/gwp.glade.h:43
+#: src/gwp.glade.h:39
 msgid "<b>Mines</b>"
 msgstr "<b>Minas</b>"
 
-#: src/gwp.glade.h:44
+#: src/gwp.glade.h:40
 msgid "<b>Mission:</b>"
 msgstr "<b>Misión:</b>"
 
-#: src/gwp.glade.h:45
+#: src/gwp.glade.h:41
 msgid "<b>Mol:</b>"
 msgstr "<b>Mol:</b>"
 
-#: src/gwp.glade.h:46
+#: src/gwp.glade.h:42
 msgid "<b>Money:</b>"
 msgstr "<b>Dinero:</b>"
 
-#: src/gwp.glade.h:47
+#: src/gwp.glade.h:43
 msgid "<b>Nat:</b>"
 msgstr "<b>Nat:</b>"
 
-#: src/gwp.glade.h:48
+#: src/gwp.glade.h:44
 msgid "<b>Natives Pay:</b>"
 msgstr "<b>Nativos pagan:</b>"
 
-#: src/gwp.glade.h:49
+#: src/gwp.glade.h:45
 msgid "<b>Neu:</b>"
 msgstr "<b>Neu:</b>"
 
-#: src/gwp.glade.h:50
+#: src/gwp.glade.h:46
 msgid "<b>Owner:</b>"
 msgstr "<b>Dueño:</b>"
 
-#: src/gwp.glade.h:51
+#: src/gwp.glade.h:47
 msgid "<b>P. Enemy:</b>"
 msgstr "<b>Enemigo:</b>"
 
-#: src/gwp.glade.h:52
+#: src/gwp.glade.h:48
 msgid "<b>Primary:</b>"
 msgstr "<b>Primaria:</b>"
 
-#: src/gwp.glade.h:53
+#: src/gwp.glade.h:49
 msgid "<b>R/R:</b>"
 msgstr "<b>R/R:</b>"
 
-#: src/gwp.glade.h:54
+#: src/gwp.glade.h:50
 msgid "<b>Race:</b>"
 msgstr "<b>Raza:</b>"
 
-#: src/gwp.glade.h:55
+#: src/gwp.glade.h:51
 msgid "<b>Secondary:</b>"
 msgstr "<b>Secundaria:</b>"
 
-#: src/gwp.glade.h:56
+#: src/gwp.glade.h:52
 msgid "<b>Ship Name</b>"
 msgstr "<b>Nombre nave</b>"
 
-#: src/gwp.glade.h:57
+#: src/gwp.glade.h:53
 msgid "<b>Speed:</b>"
 msgstr "<b>Velocidad:</b>"
 
-#: src/gwp.glade.h:58
+#: src/gwp.glade.h:54
 msgid "<b>Sup:</b>"
 msgstr "<b>Prov:</b>"
 
-#: src/gwp.glade.h:59
+#: src/gwp.glade.h:55
 msgid "<b>Sup</b>"
 msgstr "<b>Prov</b>"
 
-#: src/gwp.glade.h:60
+#: src/gwp.glade.h:56
 msgid "<b>Temp:</b>"
 msgstr "<b>Temp:</b>"
 
-#: src/gwp.glade.h:61
+#: src/gwp.glade.h:57
 msgid "<b>Tri:</b>"
 msgstr "<b>Tri:</b>"
 
-#: src/gwp.glade.h:62
+#: src/gwp.glade.h:58
 msgid "<b>Visibility:</b>"
 msgstr "<b>Visibilidad:</b>"
 
-#: src/gwp.glade.h:63
+#: src/gwp.glade.h:59
 msgid "<b>Waypoint:</b>"
 msgstr "<b>Destino:</b>"
 
-#: src/gwp.glade.h:64
+#: src/gwp.glade.h:60
 msgid "ATT"
 msgstr "ATT"
 
-#: src/gwp.glade.h:65
+#: src/gwp.glade.h:61
 msgid "Available Races"
 msgstr "Razas disponibles"
 
-#: src/gwp.glade.h:66 src/starchart.c:115
+#: src/gwp.glade.h:62 src/starchart.c:115
 msgid "Beams: --"
 msgstr "Rayos: --"
 
-#: src/gwp.glade.h:67
+#: src/gwp.glade.h:63
 msgid "Cargo"
 msgstr "Cargamento"
 
-#: src/gwp.glade.h:68
+#: src/gwp.glade.h:64
 msgid "Construction"
 msgstr "Construcción"
 
-#: src/gwp.glade.h:70
+#: src/gwp.glade.h:66
 #, no-c-format
 msgid "Damage: -- %"
 msgstr "Daño: -- %"
 
-#: src/gwp.glade.h:71
+#: src/gwp.glade.h:67
 msgid "Data"
 msgstr "Datos"
 
-#: src/gwp.glade.h:72 src/starchart.c:121
+#: src/gwp.glade.h:68 src/starchart.c:121
 msgid "Defenses: --"
 msgstr "Defensas: --"
 
-#: src/gwp.glade.h:73
+#: src/gwp.glade.h:69
 msgid "Delete Game"
 msgstr "Eliminar el juego"
 
-#: src/gwp.glade.h:74
+#: src/gwp.glade.h:70
 msgid "Delete this game configuration"
 msgstr "Eliminar esta configuración de juego"
 
-#: src/gwp.glade.h:75
+#: src/gwp.glade.h:71
 msgid "Density:"
 msgstr "Densidad:"
 
-#: src/gwp.glade.h:76
+#: src/gwp.glade.h:72
 msgid "Edit Game"
 msgstr "Editar el juego"
 
-#: src/gwp.glade.h:77
+#: src/gwp.glade.h:73
 msgid "Edit Game Preferences"
 msgstr "Editar las preferencias de juego"
 
-#: src/gwp.glade.h:78 src/starchart.c:109
+#: src/gwp.glade.h:74 src/starchart.c:109
 msgid "Engines: --"
 msgstr "Motores: --"
 
-#: src/gwp.glade.h:79
+#: src/gwp.glade.h:75
 msgid "Estimated Growth"
 msgstr "Crecimiento estimado"
 
-#: src/gwp.glade.h:80 src/starchart.c:124
+#: src/gwp.glade.h:76 src/starchart.c:124
 msgid "Fighters: --"
 msgstr "Cazas: --"
 
-#: src/gwp.glade.h:81
+#: src/gwp.glade.h:77
 msgid "GDF"
 msgstr "SDG"
 
-#: src/gwp.glade.h:82
+#: src/gwp.glade.h:78
 msgid "GNOME War Pad"
 msgstr "GNOME War Pad"
 
-#: src/gwp.glade.h:83
+#: src/gwp.glade.h:79
 msgid "GWP Game Manager"
 msgstr "Administrador de juegos del GWP"
 
-#: src/gwp.glade.h:84
+#: src/gwp.glade.h:80
 msgid "Game Directory"
 msgstr "Directorio del juego"
 
-#: src/gwp.glade.h:85
+#: src/gwp.glade.h:81
 msgid "Game Name:"
 msgstr "Nombre del juego:"
 
-#: src/gwp.glade.h:86
+#: src/gwp.glade.h:82
 msgid "Game Properties"
 msgstr "Propiedades del juego"
 
-#: src/gwp.glade.h:87
+#: src/gwp.glade.h:83
 msgid "Generate a random Friendly Code"
 msgstr "Generar código de alianza al azar"
 
-#: src/gwp.glade.h:88
+#: src/gwp.glade.h:84
 msgid "Global Defense Systems"
 msgstr "Sistemas defensivos globales"
 
-#: src/gwp.glade.h:89
+#: src/gwp.glade.h:85
 msgid "Grid"
 msgstr "Grilla"
 
-#: src/gwp.glade.h:90
+#: src/gwp.glade.h:86
 msgid "Ground:"
 msgstr "Bajo tierra:"
 
-#: src/gwp.glade.h:91
+#: src/gwp.glade.h:87
 msgid "Host Email:"
 msgstr "Email del host:"
 
-#: src/gwp.glade.h:92
+#: src/gwp.glade.h:88
 msgid "Host Type:"
 msgstr "Tipo de host:"
 
-#: src/gwp.glade.h:93 src/starchart.c:112
+#: src/gwp.glade.h:89 src/starchart.c:112
 msgid "Hulls: --"
 msgstr "Cascos: --"
 
-#: src/gwp.glade.h:94
+#: src/gwp.glade.h:90
 msgid "Mini SC"
 msgstr "Mini SC"
 
-#: src/gwp.glade.h:95
+#: src/gwp.glade.h:91
 msgid "Misc"
 msgstr "Misc"
 
-#: src/gwp.glade.h:96
+#: src/gwp.glade.h:92
 msgid "NUK"
 msgstr "NUK"
 
-#: src/gwp.glade.h:97
+#: src/gwp.glade.h:93
 msgid "New Game"
 msgstr "Juego nuevo"
 
-#: src/gwp.glade.h:98
+#: src/gwp.glade.h:94
 msgid "Online Help"
 msgstr "Ayuda en línea"
 
-#: src/gwp.glade.h:99
+#: src/gwp.glade.h:95
 msgid "Orders"
 msgstr "Órdenes"
 
-#: src/gwp.glade.h:100
+#: src/gwp.glade.h:96
 msgid "Other Settings"
 msgstr "Otros valores"
 
-#: src/gwp.glade.h:101
+#: src/gwp.glade.h:97
 msgid "PHost"
 msgstr "PHost"
 
-#: src/gwp.glade.h:102
+#: src/gwp.glade.h:98
 msgid "Planet"
 msgstr "Planeta"
 
-#: src/gwp.glade.h:103
+#: src/gwp.glade.h:99
 msgid "Planet Detail"
 msgstr "Detalle del planeta"
 
-#: src/gwp.glade.h:104
+#: src/gwp.glade.h:100
 msgid "Play Game"
 msgstr "Jugar la partida"
 
-#: src/gwp.glade.h:105
+#: src/gwp.glade.h:101
 msgid "Play Selected Game"
 msgstr "Jugar el juego seleccionado"
 
-#: src/gwp.glade.h:106
+#: src/gwp.glade.h:102
 msgid "Player Email:"
 msgstr "Email del jugador:"
 
-#: src/gwp.glade.h:107
+#: src/gwp.glade.h:103
 msgid "Population"
 msgstr "Población"
 
-#: src/gwp.glade.h:108
+#: src/gwp.glade.h:104
 msgid "RST Dir:"
 msgstr "Directorio RST:"
 
-#: src/gwp.glade.h:109
+#: src/gwp.glade.h:105
 msgid "Race Name:"
 msgstr "Nombre de la raza:"
 
-#: src/gwp.glade.h:110
+#: src/gwp.glade.h:106
 msgid "Race selected"
 msgstr "Raza seleccionada"
 
-#: src/gwp.glade.h:111
+#: src/gwp.glade.h:107
 msgid ""
 "Races available at this particular game directory, pick one by clicking on it"
 msgstr ""
 "Razas disponibles en este directorio de juego en \n"
 "particular, elige una haciendo clic en ella"
 
-#: src/gwp.glade.h:112
+#: src/gwp.glade.h:108
 msgid "Resources"
 msgstr "Recursos"
 
-#: src/gwp.glade.h:113
+#: src/gwp.glade.h:109
 msgid "Resources (kT)"
 msgstr "Recursos (kT)"
 
-#: src/gwp.glade.h:114
+#: src/gwp.glade.h:110
 msgid "SB"
 msgstr "BE"
 
-#: src/gwp.glade.h:115
+#: src/gwp.glade.h:111
 msgid "Select RST directory"
 msgstr "Selecciona el directorio RST"
 
-#: src/gwp.glade.h:116
+#: src/gwp.glade.h:112
 msgid "Select TRN directory"
 msgstr "Selecciona el directorio TRN"
 
-#: src/gwp.glade.h:117
+#: src/gwp.glade.h:113
 msgid "Select game directory"
 msgstr "Selecciona el directorio de juego"
 
-#: src/gwp.glade.h:118
+#: src/gwp.glade.h:114
 msgid "Select if you want to edit this game's properties"
 msgstr "Selecciona si quieres editar las propiedades de este juego"
 
-#: src/gwp.glade.h:119
+#: src/gwp.glade.h:115
 msgid "Select if you want to play this game"
 msgstr "Selecciona si quieres jugar a este juego"
 
-#: src/gwp.glade.h:120
+#: src/gwp.glade.h:116
 msgid "Select this if the game is hosted by a PHost (alternative) host type"
 msgstr "Selecciona si el juego es manejado por un host PHost (alternativo)"
 
-#: src/gwp.glade.h:121
+#: src/gwp.glade.h:117
 msgid "Select this if the game is hosted by a THost (classic) host type"
 msgstr "Selecciona si el juego es manejado por un host THost (clásico)"
 
-#: src/gwp.glade.h:122
+#: src/gwp.glade.h:118
 msgid "Setup a new game"
 msgstr "Configura un juego nuevo"
 
-#: src/gwp.glade.h:123
+#: src/gwp.glade.h:119
 msgid "Ship"
 msgstr "Nave"
 
-#: src/gwp.glade.h:124
+#: src/gwp.glade.h:120
 msgid "Ship Data"
 msgstr "Datos de la nave"
 
-#: src/gwp.glade.h:125
+#: src/gwp.glade.h:121
 msgid "Ship List"
 msgstr "Lista de naves"
 
-#: src/gwp.glade.h:126
+#: src/gwp.glade.h:122
 msgid "Ships"
 msgstr "Naves"
 
-#: src/gwp.glade.h:127
+#: src/gwp.glade.h:123
 msgid "Show starbase panel"
 msgstr "Detalle de la base estelar"
 
-#: src/gwp.glade.h:128
+#: src/gwp.glade.h:124
 msgid "Specifications"
 msgstr "Especificaciones"
 
-#: src/gwp.glade.h:129
+#: src/gwp.glade.h:125
 msgid "Starbase"
 msgstr "Base Estelar"
 
-#: src/gwp.glade.h:130
+#: src/gwp.glade.h:126
 msgid "Starbase Defense Systems"
 msgstr "Sistemas defensivos de la base"
 
-#: src/gwp.glade.h:131
+#: src/gwp.glade.h:127
 msgid "Starbase Detail"
 msgstr "Detalle de la base estelar"
 
-#: src/gwp.glade.h:132
+#: src/gwp.glade.h:128
 msgid "Starchart"
 msgstr "Mapa estelar"
 
-#: src/gwp.glade.h:133
+#: src/gwp.glade.h:129
 msgid "Starship"
 msgstr "Nave Estelar"
 
-#: src/gwp.glade.h:134
+#: src/gwp.glade.h:130
 msgid "Status"
 msgstr "Estado"
 
-#: src/gwp.glade.h:135
+#: src/gwp.glade.h:131
 msgid "THost"
 msgstr "THost"
 
-#: src/gwp.glade.h:136
+#: src/gwp.glade.h:132
 msgid "TRN Dir:"
 msgstr "Directorio TRN:"
 
-#: src/gwp.glade.h:137
+#: src/gwp.glade.h:133
 msgid "Taxes"
 msgstr "Impuestos"
 
-#: src/gwp.glade.h:138
+#: src/gwp.glade.h:134
 msgid "Technology Levels"
 msgstr "Niveles de tecnología"
 
-#: src/gwp.glade.h:139
+#: src/gwp.glade.h:135
 msgid "The directory where GWP will save its turns"
 msgstr "El directorio donde GWP grabará los turnos"
 
-#: src/gwp.glade.h:140
+#: src/gwp.glade.h:136
 msgid "The directory where GWP will search for host results"
 msgstr "El directorio donde GWP buscará los resultados del host"
 
-#: src/gwp.glade.h:141
+#: src/gwp.glade.h:137
 msgid "The host's email address, to send your turns"
 msgstr "La dirección de correo-e, para enviar los turnos"
 
-#: src/gwp.glade.h:142
+#: src/gwp.glade.h:138
 msgid "The label this game will have in the game manager"
 msgstr "La etiqueta que este juego tendrá en el administrador de juegos"
 
-#: src/gwp.glade.h:143
+#: src/gwp.glade.h:139
 msgid "Toggle 'Global Defense Systems' panel"
 msgstr "Alternar el panel de «Sistemas Globales Defensivos»"
 
-#: src/gwp.glade.h:144
+#: src/gwp.glade.h:140
 msgid "Toggle toolbar"
 msgstr "Mostrar/Esconder barra de herramientas"
 
-#: src/gwp.glade.h:145 src/starchart.c:118
+#: src/gwp.glade.h:141 src/starchart.c:118
 msgid "Torpedoes: --"
 msgstr "Torpedos: --"
 
-#: src/gwp.glade.h:146
+#: src/gwp.glade.h:142
 msgid "Total cargo capacity"
 msgstr "Capacidad de cargamento"
 
-#: src/gwp.glade.h:147
+#: src/gwp.glade.h:143
 msgid "Unpack the new RST file"
 msgstr "Desempaquetar el nuevo archivo RST"
 
-#: src/gwp.glade.h:148
+#: src/gwp.glade.h:144
 msgid "Where the game data files reside"
 msgstr "Lugar donde residen los archivos de datos"
 
-#: src/gwp.glade.h:149
+#: src/gwp.glade.h:145
 msgid "X"
 msgstr "X"
 
-#: src/gwp.glade.h:150
+#: src/gwp.glade.h:146
 msgid "Y"
 msgstr "Y"
 
-#: src/gwp.glade.h:151
+#: src/gwp.glade.h:147
 msgid "Your email address, to send your turns to the host"
 msgstr "Tu dirección de correo-e, para enviar tus turnos al host"
 
-#: src/gwp.glade.h:152
+#: src/gwp.glade.h:148
 msgid "Zoom in"
 msgstr "Acercar"
 
-#: src/gwp.glade.h:153
+#: src/gwp.glade.h:149
 msgid "Zoom out"
 msgstr "Alejar"
 
-#: src/gwp.glade.h:154
+#: src/gwp.glade.h:150
 msgid "_Delete"
 msgstr "E_liminar"
 
-#: src/gwp.glade.h:155
+#: src/gwp.glade.h:151
 msgid "_Delete Game"
 msgstr "E_liminar el juego"
 
-#: src/gwp.glade.h:156
+#: src/gwp.glade.h:152
 msgid "_Edit"
 msgstr "_Editar"
 
-#: src/gwp.glade.h:157
+#: src/gwp.glade.h:153
 msgid "_Edit Game"
 msgstr "_Editar el juego"
 
-#: src/gwp.glade.h:158
+#: src/gwp.glade.h:154
 msgid "_New"
 msgstr "_Nuevo"
 
-#: src/gwp.glade.h:159
+#: src/gwp.glade.h:155
 msgid "_New Game"
 msgstr "Juego _nuevo"
 
-#: src/gwp.glade.h:160
+#: src/gwp.glade.h:156
 msgid "_Online Help"
 msgstr "_Ayuda en línea"
 
-#: src/gwp.glade.h:161
+#: src/gwp.glade.h:157
 msgid "_Play"
 msgstr "_Jugar"
 
-#: src/gwp.glade.h:162
+#: src/gwp.glade.h:158
 msgid "_Play Game"
 msgstr "Jugar _partida"
 
-#: src/gwp.glade.h:163
+#: src/gwp.glade.h:159
 msgid "_Random"
 msgstr "Al aza_r"
 
-#: src/gwp.glade.h:164
+#: src/gwp.glade.h:160
 msgid "_Toolbar"
 msgstr "Barra de herramien_tas"
 
-#: src/gwp.glade.h:165
+#: src/gwp.glade.h:161
 msgid "_Unpack"
 msgstr "Desempaque_tar"
 
-#: src/gwp.glade.h:166
+#: src/gwp.glade.h:162
 msgid "n/a kT/turn"
 msgstr "n/d kT/turno"
 
-#: src/gwp.glade.h:167 src/gwp-planet.c:690 src/gwp-planet.c:717
+#: src/gwp.glade.h:163 src/gwp-planet.c:690 src/gwp-planet.c:717
 msgid "none"
 msgstr "ninguno"
 
-#: src/callbacks.c:275
+#: src/callbacks.c:280
 msgid "New Game Properties"
 msgstr "Propiedades del nuevo juego"
 
-#: src/callbacks.c:421
+#: src/callbacks.c:426
 msgid "Edit Game Properties"
 msgstr "Editar las propiedades del juego"
 
-#: src/callbacks.c:442
+#: src/callbacks.c:447
 msgid "Oops! there is some problem with this game"
 msgstr "Ups! existe algún problema con este juego"
 
-#: src/callbacks.c:476
+#: src/callbacks.c:481
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "¿Está seguro que desea eliminar «%s»?"
 
-#: src/callbacks.c:542
+#: src/callbacks.c:547
 msgid ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
@@ -714,7 +698,7 @@ msgstr ""
 "(C) 2002-2004 Lucas Di Pentima\n"
 "Este software se libera bajo las condiciones de la licencia GNU GPL"
 
-#: src/callbacks.c:543
+#: src/callbacks.c:548
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
