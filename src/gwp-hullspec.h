@@ -107,13 +107,12 @@ void gwp_hullspec_set_cost (GwpHullSpec *self, gint cost);
 /*
  * Standard defines.
  */
-#define GWP_HULLSPEC_TYPE            (gwp_hullspec_get_type())
 #define GWP_TYPE_HULL_SPEC            (gwp_hullspec_get_type())
-#define GWP_HULLSPEC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_HULLSPEC_TYPE, GwpHullSpec))
-#define GWP_HULL_SPEC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_HULLSPEC_TYPE, GwpHullSpec))
-#define GWP_HULLSPEC_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_HULLSPEC_TYPE, GwpHullSpecClass))
-#define GWP_IS_HULLSPEC(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_HULLSPEC_TYPE))
-#define GWP_IS_HULLSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_HULLSPEC_TYPE))
-#define GWP_HULLSPEC_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_HULLSPEC_TYPE, GwpHullSpecClass))
+#define GWP_HULLSPEC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_HULL_SPEC, GwpHullSpec))
+#define GWP_HULL_SPEC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_HULL_SPEC, GwpHullSpec))
+#define GWP_HULLSPEC_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_HULL_SPEC, GwpHullSpecClass))
+#define GWP_IS_HULLSPEC(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_HULL_SPEC))
+#define GWP_IS_HULLSPEC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_HULL_SPEC))
+#define GWP_HULLSPEC_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_HULL_SPEC, GwpHullSpecClass))
 
 #endif

@@ -176,7 +176,7 @@ GType gwp_ship_get_type (void)
       0,               /* n_preallocs */
       (GInstanceInitFunc) gwp_ship_init    /* instance_init */
     };
-    type = g_type_register_static (GWP_FLYING_OBJECT_TYPE,
+    type = g_type_register_static (GWP_TYPE_FLYING_OBJECT,
 				   "GwpShip",
 				   &info, 0);
   }

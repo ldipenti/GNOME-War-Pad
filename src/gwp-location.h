@@ -72,11 +72,11 @@ GwpObject * gwp_location_get_object (GwpLocation *self, guint obj_nr);
 /*
  * Standard defines.
  */
-#define GWP_LOCATION_TYPE (gwp_location_get_type())
-#define GWP_LOCATION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_LOCATION_TYPE, GwpLocation))
-#define GWP_LOCATION_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_LOCATION_TYPE, GwpLocationClass))
-#define GWP_IS_LOCATION(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_LOCATION_TYPE))
-#define GWP_IS_LOCATION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_LOCATION_TYPE))
-#define GWP_LOCATION_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_LOCATION_TYPE, GwpLocationClass))
+#define GWP_TYPE_LOCATION (gwp_location_get_type())
+#define GWP_LOCATION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_LOCATION, GwpLocation))
+#define GWP_LOCATION_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_LOCATION, GwpLocationClass))
+#define GWP_IS_LOCATION(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_LOCATION))
+#define GWP_IS_LOCATION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_LOCATION))
+#define GWP_LOCATION_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_LOCATION, GwpLocationClass))
 
 #endif

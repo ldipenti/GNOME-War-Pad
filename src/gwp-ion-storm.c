@@ -56,7 +56,7 @@ GType gwp_ion_storm_get_type (void)
       0, /* n_preallocs */
       (GInstanceInitFunc) gwp_ion_storm_init /* instance_init */
     };
-    type = g_type_register_static (GWP_FLYING_OBJECT_TYPE,
+    type = g_type_register_static (GWP_TYPE_FLYING_OBJECT,
 				   "GwpIonStorm",
 				   &info, 0);
   }

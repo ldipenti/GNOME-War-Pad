@@ -148,7 +148,7 @@ GType gwp_planet_get_type (void)
       0, /* n_preallocs */
       (GInstanceInitFunc) gwp_planet_init /* instance_init */
     };
-    type = g_type_register_static (GWP_OBJECT_TYPE,
+    type = g_type_register_static (GWP_TYPE_OBJECT,
 				   "GwpPlanet",
 				   &info, 0);
   }

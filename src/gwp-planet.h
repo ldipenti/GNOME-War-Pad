@@ -172,12 +172,11 @@ void gwp_planet_set_build_base (GwpPlanet *self, gint16 bb);
 /*
  * Standard defines.
  */
-#define GWP_PLANET_TYPE (gwp_planet_get_type())
 #define GWP_TYPE_PLANET (gwp_planet_get_type())
-#define GWP_PLANET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_PLANET_TYPE, GwpPlanet))
-#define GWP_PLANET_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_PLANET_TYPE, GwpPlanetClass))
-#define GWP_IS_PLANET(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_PLANET_TYPE))
-#define GWP_IS_PLANET_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_PLANET_TYPE))
-#define GWP_PLANET_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_PLANET_TYPE, GwpPlanetClass))
+#define GWP_PLANET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_PLANET, GwpPlanet))
+#define GWP_PLANET_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_PLANET, GwpPlanetClass))
+#define GWP_IS_PLANET(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_PLANET))
+#define GWP_IS_PLANET_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_PLANET))
+#define GWP_PLANET_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_PLANET, GwpPlanetClass))
 
 #endif

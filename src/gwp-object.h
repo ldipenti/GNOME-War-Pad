@@ -82,12 +82,11 @@ void gwp_object_set_name (GwpObject *self, GString *name);
 /*
  * Standard defines.
  */
-#define GWP_OBJECT_TYPE            (gwp_object_get_type())
 #define GWP_TYPE_OBJECT            (gwp_object_get_type())
-#define GWP_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_OBJECT_TYPE, GwpObject))
-#define GWP_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_OBJECT_TYPE, GwpObjectClass))
-#define GWP_IS_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_OBJECT_TYPE))
-#define GWP_IS_OBJECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_OBJECT_TYPE))
-#define GWP_OBJECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_OBJECT_TYPE, GwpObjectClass))
+#define GWP_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_OBJECT, GwpObject))
+#define GWP_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_OBJECT, GwpObjectClass))
+#define GWP_IS_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_OBJECT))
+#define GWP_IS_OBJECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_OBJECT))
+#define GWP_OBJECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_OBJECT, GwpObjectClass))
 
 #endif

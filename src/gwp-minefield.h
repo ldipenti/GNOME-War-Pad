@@ -78,11 +78,11 @@ void gwp_minefield_set_owner (GwpMinefield *self, gint owner);
 /*
  * Standard defines.
  */
-#define GWP_MINEFIELD_TYPE (gwp_minefield_get_type())
-#define GWP_MINEFIELD(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_MINEFIELD_TYPE, GwpMinefield))
-#define GWP_MINEFIELD_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_MINEFIELD_TYPE, GwpMinefieldClass))
-#define GWP_IS_MINEFIELD(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_MINEFIELD_TYPE))
-#define GWP_IS_MINEFIELD_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_MINEFIELD_TYPE))
-#define GWP_MINEFIELD_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_MINEFIELD_TYPE, GwpMinefieldClass))
+#define GWP_TYPE_MINEFIELD (gwp_minefield_get_type())
+#define GWP_MINEFIELD(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_MINEFIELD, GwpMinefield))
+#define GWP_MINEFIELD_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_MINEFIELD, GwpMinefieldClass))
+#define GWP_IS_MINEFIELD(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_MINEFIELD))
+#define GWP_IS_MINEFIELD_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_MINEFIELD))
+#define GWP_MINEFIELD_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_MINEFIELD, GwpMinefieldClass))
 
 #endif

@@ -12,6 +12,8 @@ headers
 #include "gwp-ion-storm.h"
 #include "gwp-ship.h"
 #include "gwp-starbase.h"
+#include "gwp-location.h"
+#include "gwp-minefield.h"
 %%
 modulename gwp
 %%

@@ -73,12 +73,11 @@ void gwp_ion_storm_set_voltage (GwpIonStorm *self, gint v);
 /*
  * Standard defines.
  */
-#define GWP_ION_STORM_TYPE            (gwp_ion_storm_get_type())
 #define GWP_TYPE_ION_STORM            (gwp_ion_storm_get_type())
-#define GWP_ION_STORM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_ION_STORM_TYPE, GwpIonStorm))
-#define GWP_ION_STORM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_ION_STORM_TYPE, GwpIonStormClass))
-#define GWP_IS_ION_STORM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_ION_STORM_TYPE))
-#define GWP_IS_ION_STORM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_ION_STORM_TYPE))
-#define GWP_ION_STORM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_ION_STORM_TYPE, GwpIonStormClass))
+#define GWP_ION_STORM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_ION_STORM, GwpIonStorm))
+#define GWP_ION_STORM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_ION_STORM, GwpIonStormClass))
+#define GWP_IS_ION_STORM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_ION_STORM))
+#define GWP_IS_ION_STORM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_ION_STORM))
+#define GWP_ION_STORM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_ION_STORM, GwpIonStormClass))
 
 #endif

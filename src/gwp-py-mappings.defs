@@ -28,6 +28,20 @@
   (gtype-id "GWP_TYPE_OBJECT")
 )
 
+(define-object Minefield
+  (in-module "Gwp")
+  (parent "GwpObject")
+  (c-name "GwpMinefield")
+  (gtype-id "GWP_TYPE_MINEFIELD")
+)
+
+(define-object Location
+  (in-module "Gwp")
+  (parent "GwpObject")
+  (c-name "GwpLocation")
+  (gtype-id "GWP_TYPE_LOCATION")
+)
+
 (define-object FlyingObject
   (in-module "Gwp")
   (parent "GwpObject")
@@ -2918,6 +2932,108 @@
   (of-object "GwpStarbase")
   (c-name "gwp_starbase_get_planet")
   (return-type "GwpPlanet*")
+)
+
+
+
+;; From src/gwp-location.h
+
+(define-function gwp_location_get_type
+  (c-name "gwp_location_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_location_new
+  (c-name "gwp_location_new")
+  (is-constructor-of "GwpLocation")
+  (return-type "GwpLocation*")
+)
+
+(define-method add_object
+  (of-object "GwpLocation")
+  (c-name "gwp_location_add_object")
+  (return-type "none")
+  (parameters
+    '("GwpObject*" "obj")
+  )
+)
+
+(define-method objects_nr
+  (of-object "GwpLocation")
+  (c-name "gwp_location_objects_nr")
+  (return-type "guint")
+)
+
+(define-method get_object
+  (of-object "GwpLocation")
+  (c-name "gwp_location_get_object")
+  (return-type "GwpObject*")
+  (parameters
+    '("guint" "obj_nr")
+  )
+)
+
+
+
+;; From src/gwp-minefield.h
+
+(define-function gwp_minefield_get_type
+  (c-name "gwp_minefield_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_minefield_new
+  (c-name "gwp_minefield_new")
+  (is-constructor-of "GwpMinefield")
+  (return-type "GwpMinefield*")
+)
+
+(define-method is_valid
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_is_valid")
+  (return-type "gboolean")
+)
+
+(define-method is_mine
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_is_mine")
+  (return-type "gboolean")
+)
+
+(define-method is_web
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_is_web")
+  (return-type "gboolean")
+)
+
+(define-method get_radius
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_get_radius")
+  (return-type "gint")
+)
+
+(define-method set_radius
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_set_radius")
+  (return-type "none")
+  (parameters
+    '("gint" "r")
+  )
+)
+
+(define-method get_owner
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_get_owner")
+  (return-type "gint")
+)
+
+(define-method set_owner
+  (of-object "GwpMinefield")
+  (c-name "gwp_minefield_set_owner")
+  (return-type "none")
+  (parameters
+    '("gint" "owner")
+  )
 )
 
 

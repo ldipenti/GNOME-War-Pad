@@ -76,12 +76,11 @@ void gwp_flying_object_set_speed (GwpFlyingObject *self, gint speed);
 /*
  * Standard defines.
  */
-#define GWP_FLYING_OBJECT_TYPE            (gwp_flying_object_get_type())
 #define GWP_TYPE_FLYING_OBJECT            (gwp_flying_object_get_type())
-#define GWP_FLYING_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_FLYING_OBJECT_TYPE, GwpFlyingObject))
-#define GWP_FLYING_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_FLYING_OBJECT_TYPE, GwpFlyingObjectClass))
-#define GWP_IS_FLYING_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_FLYING_OBJECT_TYPE))
-#define GWP_IS_FLYING_OBJECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_FLYING_OBJECT_TYPE))
-#define GWP_FLYING_OBJECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_FLYING_OBJECT_TYPE, GwpFlyingObjectClass))
+#define GWP_FLYING_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GWP_TYPE_FLYING_OBJECT, GwpFlyingObject))
+#define GWP_FLYING_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GWP_TYPE_FLYING_OBJECT, GwpFlyingObjectClass))
+#define GWP_IS_FLYING_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GWP_TYPE_FLYING_OBJECT))
+#define GWP_IS_FLYING_OBJECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_FLYING_OBJECT))
+#define GWP_FLYING_OBJECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_FLYING_OBJECT, GwpFlyingObjectClass))
 
 #endif

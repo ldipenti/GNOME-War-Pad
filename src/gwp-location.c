@@ -47,7 +47,7 @@ GType gwp_location_get_type (void)
       0, /* n_preallocs */
       (GInstanceInitFunc) gwp_location_init /* instance_init */
     };
-    type = g_type_register_static (GWP_OBJECT_TYPE, 
+    type = g_type_register_static (GWP_TYPE_OBJECT, 
 				   "GwpLocation", 
 				   &info, 0);
   }
