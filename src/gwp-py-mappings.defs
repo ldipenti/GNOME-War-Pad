@@ -3126,15 +3126,3 @@
 )
 
 
-
-;; From src/gwp-ui.h
-
-(define-function gwp_ui_set_notification
-  (c-name "gwp_ui_set_notification")
-  (return-type "none")
-  (parameters
-    '("gchar*" "msg")
-  )
-)
-
-
