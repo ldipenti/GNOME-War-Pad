@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <!-- -*- xml -*- -->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"/usr/share/sgml/docbook/xml-dtd-4.2/docbookx.dtd" [
+  <!ENTITY app "<application>GNOME War Pad</application>">
+  <!ENTITY gwp "<abbrev>GWP</abbrev>">
+  <!ENTITY vgap "<emphasis>VGA Planets 3</emphasis>">
+  <!ENTITY appname "GNOME War Pad">
+  <!ENTITY image03 SYSTEM "images/03-glade-palette.png" NDATA PNG>
+  <!ENTITY example1_00 SYSTEM "example1_00.py">
+]>
+<book>
+  <bookinfo>
+    <title>Creando un plugin para &app; en minutos</title>
+    <author>
+      <firstname>Cristian</firstname>
+      <surname>Abalos</surname>
+    </author>
+    <legalnotice>
+      <simpara>Este documento esta protegido por la <ulink
+      url="http://www.gnu.org/licenses/fdl.html">FDL</ulink></simpara>
+    </legalnotice>
+  </bookinfo>
+
+
+  <chapter>
+    <title>Prefacio</title>
+
+    <para>&app; es un cliente para &vgap;. Esta escrito en C
+    utilizando las librerias GTK.</para>
+
+    <para>Desde la versión 0.3.3, posee la capacidad de correr
+pequeños programas python como plug-ins de la aplicación principal,
+esto dará la posibilidad a los usuarios de personalizar su propia
+funcionalidad sin tener que esperar hasta que esas características
+aparezcan en el programa en si.</para>
+    
+    <section>
+      <title>Porque este Tutorial?</title>
+
+      <para>Porque puede dar la impresión de que es dificil crear un
+      plugin debido a la idea que tenemos de la complejidad de un
+      juego cualquiera, pero que queda de lado gracias a la
+      versatilidad que nos provee Python y las librerias GTK. Para
+      simplemente enfocarnos en sacarle todo el jugo posible al API
+      del &gwp; para confeccionar esa idea que siempre tuvimos en la
+      cabeza sobre una funcionalidad que le falta a nuestro ex-cliente
+      favorito ;-) </para>
+      <para>Además, no hay que dejar de lado que con cada nuevo plugin
+      crece el &gwp; y las funcionalidades que nos brinda a todos los que lo
+      usamos.</para>
+    </section>
+
+    <section>
+      <title>La audiencia de este tutorial</title>
+
+      <para>Este tutorial esta pensado para aquellas personas que han
+      programado alguna vez en algun lenguaje orientado a objetos o
+      incluso para los programadores de otros paradigmas ya que Python
+      es un lenguaje muy facil de aprender, aunque sea para los fines
+      que motivan este tutorial.</para>
+    </section>
+
+    <section>
+      <title>La organizacion de este tutorial</title>
+      
+      <para>Cual??</para>
+    </section>
+
+  </chapter>
+
+  <chapter>
+    <title>Un ejemplo Glade + Python</title>
+    <section>
+      <title>Creando la GUI</title>
+      <para><application>Glade</application> es muy facil de usar, y
+      no voy a mostrar como hacerlo en detalle, solamente voy a
+      veremos algunas características básicas. Tal vez para hacer
+      cosas complejas pueda necesitar más dedicación pero con tiempo,
+      práctica y paciencia todo es posible.</para>
+      <para>En nuestro primer ejemplo, el objetivo es aprender
+      a utilizar widgets, señales y manejadores de
+      señales. Diseñaremos un ejemplo simple con un par de botones,
+      una etiqueta y una caja de texto. Lo que haremos con este ejemplo
+      será copiar el texto de la caja de texto a la etiqueta cuando el
+      boton es clickeado.</para>
+      <para>Para comenzar el proyecto ejecuta
+      <application>Glade</application>. Su binario es usualmente
+      llamado <application>glade-2</application> para diferenciarlo de
+      su vieja version basada en gtk+-1.2.</para>
+
+      <figure>
+	  <title>Ventana principal de <application>glade-2</application></title>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="images/01-glade-main-thumb.png"
+		  format="PNG" />
+	      </imageobject>
+	    </mediaobject>
+	</figure>
+
+      <para>Muy bien, estamos listos para comenzar un nuevo
+      proyecto. Comienza un nuevo proyecto clickeando en
+      <command>new</command> y luego selecciona <command>New GTK+ Proyect</command>.</para>
+      
+        <figure>
+	  <title>Nuevo proyecto</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/02-glade-new-project-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+      <para>Desde la ventana principal puedes hacer visible la ventana
+      de propiedades y la paleta de controles si no están visibles. La
+      paleta tiene muchos widgets separados en categorias. Usaremos
+      "Gtk+ Basic" y "Gtk+ Adicional".</para>
+      <important>
+	<para>No se deben usar los controles que aparecen como
+	"Deprecated" ya que han sido conservados solo por una cuestion
+	de compatibilidad con aplicaciones viejas y seran eliminados
+	en futuras versiones de GTK.</para>
+      </important>
+      <para>Puedes pasar algunos minutos examinando los diferentes
+      tipos de controles disponibles.</para>
+
+        <figure>
+	  <title>Paleta de widgets</title>
+	<ulink url="images/03-glade-palette.png">
+	    <inlinemediaobject>
+	    <imageobject>
+	      <imagedata fileref="images/03-glade-palette.png"
+	      format="PNG" scale="10"/>
+	    </imageobject>
+	  </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Comencemos de una vez. Haz un click en el icono
+      <command>Ventana</command>. Una ventana vacia aparecerá en
+      pantalla para empezar a crear nuestra interfaz.</para>
+
+        <figure>
+	  <title>Nueva ventana</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/04-glade-new-window1-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+      <para>Primero prestemos atención a las propiedades de la
+      ventana. Selecciona la ventana para ver sus propiedades en la
+      ventana propiedades. Puedes modificar algunas propiedades como
+      <command>Título</command> y <command>Borde</command> para
+      ver como se comporta la ventana.</para>
+
+        <figure>
+	  <title>Ventana propiedades</title>
+	<ulink url='images/05-glade-window1-properties.png'>
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+	        fileref="images/05-glade-window1-properties.png"
+	        format="PNG" scale="20"/>
+   	      </imageobject>
+	    </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Muy bien, veamos algo mas interesante. Selecciona la
+      sección señales de la ventana propiedades. Inicialmente no hay
+      señales definidas asi que la lista esta vacia. Haz un click en
+      el boton <command>[...]</command> para definir una nueva
+      señal. En la lista que aparecerá a continuación las señales
+      están divididas en secciones. Las secciones corresponden con la
+      jerarquia de clases de la libreria GTK. Así
+      <command>GtkWindow</command> deriva de la clase
+      <command>GtkContainer</command>, esta a su vez deriva de
+      <command>GtkWidget</command> y de esta forma para
+      <command>GtkObject</command> y <command>GObject</command>
+      heredando comportamiento y funcionalidad. El padre de toda
+      jerarquia es siempre
+      <command>GObject</command>. <command>GObject</command> posee la
+      funcionalidad básica, como la introspección, propiedades y señales. </para>
+
+      <para>Las señales que debemos definir son
+      <command>destroy</command> de GtkObject y
+      <command>delete_event</command> de GtkWidget. En ambos casos
+      debemos elegir un manejador para poder agregarlos a la lista de
+      señales activas. Podemos elegir un manejador del menú
+      desplegable pero en lugar eso escribiremos el mismo nombre de la
+      señal como manejador como se ve en <xref
+      linkend="img_sig_1"/>. Más adelante veremos que los manejadores
+      los crearemos nosotros en el código de nuestra aplicación. En
+      resumen la señal <command>delete_event</command> se emite cuando
+      queremos cerrar la ventana de la aplicación, y la señal
+      <command>destroy</command> cuando se solicita la destruccion del
+      widget, es decir que ya nadie apuntará al mismo.</para>
+
+        <figure id="img_sig_1">
+	  <title>Señales de la ventana</title>
+	  <ulink url="images/06-glade-window1-signals.png">
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+	        fileref="images/06-glade-window1-signals.png"
+	        format="PNG" scale="20"/>
+   	      </imageobject>
+	    </inlinemediaobject>
+           </ulink>
+        </figure>
+
+      <para>Las ventanas en GTK son contenedores que solo pueden
+      contener un control. Para poder agregar varios controles debemos
+      valernos de otros contenedores como <command>HBox</command>,
+      <command>VBox</command>, <command>Tables</command>,
+      etc.</para>
+      <para>Selecciona el control <command>VBox</command> y haz un
+      click dentro de la ventana, cuando se te pregunte elige 3 filas
+      que es el valor por defecto. La ventana deberia aparecer como en
+      <xref linkend="img_vbox_1"/>.</para>
+ 
+        <figure id="img_vbox_1">
+	  <title>Ventana dividida con vbox</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/08-glade-window1-vbox1-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+      <para>Nuestra ventana tendrá 2 botones. Ya que los botones están dentro de
+      los controles mas usados, GTK provee un control compuesto llamado
+      <command>Caja de botones horizontal</command> o
+      <command>GtkHButtonBox</command>, además de su variante vertical,
+      qe nos hace la vida más facil.</para>
+
+      <para>Haz un click en el control <command>GtkHButtonBox</command> e
+      insertalo en la fila de abajo, elige dos botones cuando se te
+      consulte por la cantidad de botones. Luego cambia las propiedades del
+      Button Box y de los botones individualmente hasta obtener un
+      diseño adecuado. En el caso de los botones es conveniente
+      seleccionar modelos del almacén para seguir los estandares de
+      diseño. Uno de los botones usará el diseño
+      <emphasis>Aplicar</emphasis> y el otro el de
+      <emphasis>Salir</emphasis>. Como verás la botonera ocupa mucho
+      espacio, para cambiar esto debes ir a la sección de empaquetado
+      de las propiedades de la caja de
+      botones. <command>Expandir</command> significa recalcular la
+      posicion inicial del control y <command>Rellenar</command>
+      significa rellenar el espacio disponible. Setea ambos valores a
+      <command>Falso</command> para no tener una botonera enorme.</para>
+
+        <figure>
+	  <title>Propiedades de HButtonBox</title>
+	<ulink url='images/09-glade-window1-hbuttonbox1-packing.png'>
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/09-glade-window1-hbuttonbox1-packing-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Ahora agrega una <command>Etiqueta</command> a la fila superior del
+      <command>VBox</command> y una <command>Entrada de
+      Texto</command> a la fila del medio.</para>
+
+      <para>Las etiquetas son interesantes porque permiten el uso de
+      un lenguaje de marcas similar al <acronym>HTML</acronym>. Setea el texto del
+      control para que se asemeje a <xref linkend="img_lbl_prop"/>.</para>
+
+        <figure id="img_lbl_prop">
+	  <title>Propiedades de label</title>
+	<ulink url="images/10-glade-window1-label1-properties.png" >
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/10-glade-window1-label1-properties-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Has terminado tu primer diseño en
+      <application>Glade</application>. Si seguiste el tutorial hasta
+      este punto la ventana deberia verse como <xref
+      linkend="img_dis_fin"/>.</para>
+
+        <figure id="img_dis_fin">
+	  <title>Diseño final</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/12-glade-window1-final-design-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+      <para>¿Fue facil verdad?. Salva el proyecto, la primera vez que lo hagas un dialogo
+      te pedirá algunas opciones, setea los valores del directorio y
+      nombre de archivo y usa los demás valores por defecto.</para>
+
+    </section>
+
+    <section>
+      <title>Comenzando con el código</title>
+
+      <para>Una vez finalizado y grabado el archivo glade comenzamos
+      con el código del ejemplo 1. </para>
+      <para>El esqueleto de cualquier programita escrito en python y
+      que use las librerias GTK se vería como esto:</para>
+
+<informalexample>
+<programlisting>
+&example1_00;
+</programlisting>
+</informalexample>
+
+      <para><ulink url="example1_00.py">example1_00.py</ulink></para>
+      
+      <para>Comencemos explicando este código. Las primeras lineas son
+      necesarias para importar los modulos necesarios para el manejo de las librerias
+      gtk, no hay mucho que decir.</para>
+
+      <para>Las dos primeras funciones de la clase
+      <classname>Example1</classname> son las funciones encargadas de
+      manejar los eventos de cerrado de la ventana de la aplicacion y
+      de la destruccion de las referencias en memoria del programa
+      respectivamente. Son las funciones que especificamos en
+      <application>Glade</application> para manejar las señales de la
+      ventana.</para>
+
+      <para>La función privada <command>__init__</command> es
+      obviamente la constructora de la clase. Prestemos atención aqui
+      a la segunda y tercer linea de la
+      misma. <command>gtk.glade.XML()</command> se encarga de parsear
+      el archivo <acronym>XML</acronym> generado por
+      <application>glade</application> y transformarlo en código
+      python. La función <command>signal_autoconnect()</command>
+      enlaza los eventos con sus manejadores según lo indicamos en
+      <application>glade</application>.</para>
+
+      <para><command>__controls_link__()</command> se encarga de
+      enlazar los controles que creamos en glade a punteros para
+      dejarlos accesibles desde nuestro programa.</para>
+
+      <para>Vale decir aquí, que en archivos glade con muchos
+      controles para interactuar, esta función puede ser muy larga y
+      laboriosa de escribir ya que se deben enlazar todos y cada uno
+      de los controles a usar. Una alternativa es utilizar algunas
+      características especiales de python como lo muestra Sandino
+      "tigrux" Flores en su tutorial <ulink
+      url="http://primates.ximian.com/~sandino/python-glade/index.html">Writing
+      PyGTK applications in a visual way</ulink>, utilizando una
+      metodología que nos ahorra unas lineas de código a costa de
+      sobrecargar un poco nuestra aplicación. Yo considero que es
+      mejor de realizar las declaraciones explicitamente para mantener
+      un código mas transparente.</para>
+
+
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Usando las funciones del GWP</title>
+    <section>
+      <title>El API del GWP</title>
+
+      <para>ass </para>
+    </section>
+
+    <section>
+      <title>Usando el API</title>
+
+      <para>ass </para>
+    </section>
+
+  </chapter>
+
+  <chapter>
+    <title>Hola &lt;Planet></title>
+    <section>
+      <title>Gui del Plugin basico</title>
+      <para>ass </para>
+    </section>
+    <section>
+      <title>Un codigo que hace algo interesante</title>
+      <para>codigo... </para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Un plugin avanzado</title>
+
+    <section>
+      <title>Otra vez glade...</title>
+      <para>otro diseño en glade </para>
+    </section>
+
+    <section>
+      <title>Codigo en serio ;-)</title>
+      <para>codigo que usa el API de gwp </para>
+    </section>
+  </chapter>
+</book>

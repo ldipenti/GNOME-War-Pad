@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <!-- -*- xml -*- -->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"/usr/share/sgml/docbook/xml-dtd-4.2/docbookx.dtd" [
+  <!ENTITY app "<application>GNOME War Pad</application>">
+  <!ENTITY gwp "<abbrev>GWP</abbrev>">
+  <!ENTITY vgap "<emphasis>VGA Planets 3</emphasis>">
+  <!ENTITY appname "GNOME War Pad">
+  <!ENTITY image03 SYSTEM "images/03-glade-palette.png" NDATA PNG>
+]>
+<book>
+  <bookinfo>
+    <title>Making a plugin for &app; in minutes</title>
+    <author>
+      <firstname>Cristian</firstname>
+      <surname>Abalos</surname>
+    </author>
+    <legalnotice>
+      <simpara>This document is protected by the <ulink
+      url="http://www.gnu.org/licenses/fdl.html">FDL</ulink></simpara>
+    </legalnotice>
+  </bookinfo>
+
+
+
+  <chapter>
+    <title>An example Glade + Python</title>
+    <section>
+      <title>Making the GUI</title>
+      <para>Glade is very easy to use, and I won't show you how to use
+      glade in detail, I'm only going to show you some basic features. </para>
+      <para>In our first example, your goal is learning the basics of
+      glade, widgets, signals and signal handlers. We will design a
+      silly example with a couple of buttons, a label and an
+      entry. The functionality of this example is copying the text in
+      the entry to the label when a button is clicked. </para>
+      <para>In order to start the project, run glade.  Its binary is
+      usually named glade-2 to differentiate it from the old version based on
+	gtk+-1.2.
+
+      <figure>
+	  <title><application>Glade-2</application> main window</title>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="images/01-glade-main-thumb.png"
+		  format="PNG" />
+	      </imageobject>
+	    </mediaobject>
+	</figure>
+
+      </para>
+      
+      <para>You are ready to start a new project now. Click in New and
+	you'll be asked to choose either a GTK or Gnome project. The
+	difference is gnome projects can use more stock icons and more
+	widgets. But, using gnome projects is not a good idea when
+	portability is in your mind. Only plain gtk projects can be
+	used in other operating systems rather than linux or bsd.</para>
+
+        <figure>
+	  <title>New proyect</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/02-glade-new-project-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+      <para>From the main window of glade, turn visible the dialogs for properties and palette. The palette has many widgets separated in
+categories. You are free to use Gtk+ Basic and Gtk+ Additional; but, you should not use widgets in Deprecated since those
+are legacy widgets remaining only for compatibility with old
+applications and they could be removed in future versions of
+GTK. Please, spend a few minutes identifying widget icons and its names. </para>
+
+        <figure>
+	  <title>Widgets Palette</title>
+	<ulink url="images/03-glade-palette.png">
+	    <inlinemediaobject>
+	    <imageobject>
+	      <imagedata
+		fileref="images/03-glade-palette-thumb.png"
+		format="PNG" />
+	    </imageobject>
+	  </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Once the palette looks familiar, make a click in the icon
+	for Window. You'll notice an empty window is shown and you are
+	ready to add some widgets to it, but, wait a few seconds and keep reading</para>
+
+        <figure>
+	  <title>New window</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/04-glade-new-window1-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+      <para>Our fist step with this new window is take a look at its properties. Select the
+	window, then see the dialog for properties. You can practice modifying properties
+	like title and border width, and shown in the next
+	image.</para>
+
+        <figure>
+	  <title>Properties window</title>
+	<ulink url='images/05-glade-window1-properties.png'>
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/05-glade-window1-properties-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Windows in GTK are containers which can only contain one widget</para>
+ 
+        <figure>
+	  <title>Window with vbox</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/08-glade-window1-vbox1-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+      <para>Our application will have two buttons. You would think the next step would be use
+	an horizontal box. Right, you can use an horizontal box. But because dealing with
+	buttons is a very common task, gtk and glade provide a widget to make things easier.
+	That class of widget is GtkButtonBox and it has vertical and horizontal variants. Click
+	in the icon for GtkHButtonBox  then click in the lowest placeholder of the box. Say 2
+	when you be asked for the number of child buttons. Then, change properties of the
+	buttonbox and the buttons to obtain a pleasing design. Go to the properties for each
+	button, and set stock icons for them. One will use an Apply stock icon and the other
+	one will use Quit. Notice the button box is filling much space. Go to its properties
+	then go to its packing. Expand means recalculate the starting position of the widget
+	and Fill means fill all the available space. Turn both of them to false since we don't
+	want to have an applications with a huge button box. Finally, click inside the window,
+	press secondary button of the mouse and select Redisplay for the window. </para>
+
+        <figure>
+	  <title>HButtonBox properties</title>
+	<ulink url='images/09-glade-window1-hbuttonbox1-packing.png'>
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/09-glade-window1-hbuttonbox1-packing-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>Now, add an entry and a label to the window. Label are interesting because they
+	can render a markup language, similar to html. Set the text for the label as shown
+	in the next screenshot.</para>
+
+        <figure>
+	  <title>Label properties</title>
+	<ulink url="images/10-glade-window1-label1-properties.png" >
+	    <inlinemediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/10-glade-window1-label1-properties-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </inlinemediaobject>
+	  </ulink>
+        </figure>
+
+      <para>You have finished yout first glade design. If you followed the tutorial until this
+	point, your design will look very similar to the next
+	image.</para>
+
+
+        <figure>
+	  <title>Final design</title>
+	    <mediaobject>
+	      <imageobject>
+	        <imagedata
+		  fileref="images/12-glade-window1-final-design-thumb.png"
+		  format="PNG" />
+   	      </imageobject>
+	    </mediaobject>
+        </figure>
+
+
+      <para>Now, save your project. The first time you save, a dialog will ask you for some
+	options.</para>
+
+    </section>
+
+    <section>
+      <title>Beginning with the code</title>
+      <para>ass </para>
+    </section>
+  </chapter>
+
+
+
+</book>
