@@ -30,7 +30,7 @@ starchart:
 
 race related:
 
-[XXX][B][n] Use a function that return the race *character*, from 1 to
+[XXX][B][-] Use a function that return the race *character*, from 1 to
             B...not from 1 to 11. I think players with race 10 and 11
             are not being able to use GWP.
 

@@ -1,3 +1,13 @@
+Version 0.3.1 (released 06-06-2004):
+
+	* Glade version corrections for UI.
+	* Feature: GWP initialization includes message history keeping.
+	* Bugfix: new  GWP users received a configuration format problem
+	  message.
+	* New fedora RPM spec file.
+	* Feature: GTK+ 2.4 compatibility.
+	* Feature: message reader new layout, with treeview list.
+	* Bugfix: KOREx.DAT visual contacts weren't loaded.
 	* Bugfix: new users were having problems with gconf format version
 	  checks.
 
