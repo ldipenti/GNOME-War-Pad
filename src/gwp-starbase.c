@@ -20,39 +20,51 @@
 #include "gwp-planet.h"
 #include "gwp-starbase.h"
 
-/*
- * Private members.
+/**
+ * Private data structure for the GwpStarbase type.
+ *
+ * This data should be accesed directly only by the low-level get/set
+ * object's methods, the high-level ones shouldn't touch them.
  */
 struct _GwpStarbasePrivate {
-  gboolean dispose_has_run;
+  gboolean dispose_has_run; /**< Internal object's variable. */
   /* Private attributes */
-  GwpPlanet *planet;     /* Planet where this starbase is on */
-  gint16 defense;        /* 0..200 */
-  gint16 damage;         /* 0..100 */
-  gint16 engines_tech;   /* 1..10 */
-  gint16 hulls_tech;     /* 1..10 */
-  gint16 beams_tech;     /* 1..10 */
-  gint16 torps_tech;     /* 1..10 */
+  GwpPlanet *planet;     /**< Planet where this starbase is on. */
+  gint16 defense;        /**< Starbase's defense posts. Range 0..200 */
+  gint16 damage;         /**< Starbase's damage level. Range 0..100 */
+  gint16 engines_tech;   /**< Engines technology level. Range 1..10 */
+  gint16 hulls_tech;     /**< Hulls technology level. Range 1..10 */
+  gint16 beams_tech;     /**< Beam weapons technology level. Range 1..10 */
+  gint16 torps_tech;     /**< Torpedo weapongs technology level. Range 1..10 */
 	
-  gint16 storage_engines[9];
-  gint16 storage_hulls[20];
-  gint16 storage_beams[10];
-  gint16 storage_torp_launchers[10];
-  gint16 storage_torps[10];
+  gint16 storage_engines[9]; /**< Engines in storage. */
+  gint16 storage_hulls[20]; /**< Hulls in storage. */
+  gint16 storage_beams[10]; /**< Beam weapons in storage. */
+  gint16 storage_torp_launchers[10]; /**< Torpedo weapons in storage. */
+  gint16 storage_torps[10]; /**< Torpedoes in storage. */
 	
-  gint16 fighters; /* 0..60 */
+  gint16 fighters; /**< Fighters in storage. Range 0..60 */
 	
-  gint16 id_ship; /* ship to be recycled or repaired */
-  gint16 ship_action; /*	0 - Nothing
-				1 - Fix
-				2 - Recycle */
+  gint16 id_ship; /**< Ship to be recycled or repaired. */
+
+  /**
+   * Ship actions.
+   *   - 0 - Nothing
+   *   - 1 - Fix
+   *   - 2 - Recycle
+   */
+  gint16 ship_action;
 	
-  gint16 mission; /*	1 - Refuel
-			2 - Max Defense
-			3 - Load torps onto ships
-			4 - Unload freighters
-			5 - Repair base
-			6 - Force a surrender */
+  /**
+   * Mission type.
+   *    - 1 - Refuel
+   *	- 2 - Max Defense
+   *    - 3 - Load torps onto ships
+   *	- 4 - Unload freighters
+   *	- 5 - Repair base
+   *	- 6 - Force a surrender 
+   */
+  gint16 mission; 
 	
   /* -- Spaceship Build -- */
   gint16 build_ship_type;
