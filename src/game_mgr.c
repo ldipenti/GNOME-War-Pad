@@ -909,9 +909,6 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
 		     name,
 		     "/", NULL);
 
-  /* Generate VP data */
-  dump_to_dat_files();
-
   /* GameState data */
   gconf_client_set_float(gwp_gconf, g_strconcat(path,"starchart_zoom", NULL),
 			 gwp_game_state_get_starchart_zoom(state), NULL);
@@ -1025,6 +1022,9 @@ void game_mgr_close_game(GwpGameState *game_state)
     /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
     gwp_game_state_set_last_coords(game_state, x, y);
+
+    dump_to_dat_files(); /* Generate VP data */
+
     game_mgr_save_game_state(game_state, TRUE);
 
     /******************************/
