@@ -410,7 +410,7 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
   /* 
    * Check if game name is not duplicated 
    */
-  game_name_str = g_strdup_printf("%s", gtk_entry_get_text(game_name));
+  game_name_str = g_strdup (gtk_entry_get_text(game_name));
   game_mgr_game_name_mangle(game_name_str);
   if(icon_number >= 0) {
     GnomeIconList *iconlist =
