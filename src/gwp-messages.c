@@ -32,6 +32,9 @@
 
 #define DEBUGOUTPUT 0
 
+/* 
+ * Private functions.
+ */
 int gwp_messages_readWord( FILE *from );
 long gwp_messages_readDWord( FILE *from );
 
@@ -279,7 +282,6 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
   mdatafile = fopen( filename, "rb" );
   if( !mdatafile )
     {
-      //        cout << "## Error: unable to open file '" << filename << "' for read-access" << endl;
       if( DEBUGOUTPUT ) g_message("DEBUG: readFile finished x" );
       return( EXIT_FAILURE );
     }
@@ -310,7 +312,6 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
             if( self->priv->msgs.m[i].t[j] == 13 ) self->priv->msgs.m[i].t[j] = 10;
 	  }
         self->priv->msgs.m[i].t[self->priv->msgs.m[i].l]='\0';
-	//        cout << endl << endl << "Message # " << i << ":" << endl << msgs.m[i].t << endl;
     }
   
   /* done */

@@ -63,6 +63,13 @@
   (gtype-id "GWP_TYPE_PLANET")
 )
 
+(define-object Race
+  (in-module "Gwp")
+  (parent "GObject")
+  (c-name "GwpRace")
+  (gtype-id "GWP_TYPE_RACE")
+)
+
 (define-object Ship
   (in-module "Gwp")
   (parent "GwpFlyingObject")
@@ -3152,6 +3159,66 @@
 
 (define-function get_system_plugins_dir
   (c-name "get_system_plugins_dir")
+  (return-type "gchar*")
+)
+
+
+
+;; From src/gwp-race.h
+
+(define-function gwp_race_get_type
+  (c-name "gwp_race_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_race_new
+  (c-name "gwp_race_new")
+  (is-constructor-of "GwpRace")
+  (return-type "GwpRace*")
+)
+
+(define-method set_long_desc
+  (of-object "GwpRace")
+  (c-name "gwp_race_set_long_desc")
+  (return-type "none")
+  (parameters
+    '("gchar*" "name")
+  )
+)
+
+(define-method get_long_desc
+  (of-object "GwpRace")
+  (c-name "gwp_race_get_long_desc")
+  (return-type "gchar*")
+)
+
+(define-method set_short_desc
+  (of-object "GwpRace")
+  (c-name "gwp_race_set_short_desc")
+  (return-type "none")
+  (parameters
+    '("gchar*" "name")
+  )
+)
+
+(define-method get_short_desc
+  (of-object "GwpRace")
+  (c-name "gwp_race_get_short_desc")
+  (return-type "gchar*")
+)
+
+(define-method set_adjective
+  (of-object "GwpRace")
+  (c-name "gwp_race_set_adjective")
+  (return-type "none")
+  (parameters
+    '("gchar*" "name")
+  )
+)
+
+(define-method get_adjective
+  (of-object "GwpRace")
+  (c-name "gwp_race_get_adjective")
   (return-type "gchar*")
 )
 

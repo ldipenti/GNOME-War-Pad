@@ -4,7 +4,7 @@ EXTRA_DIST = \
 	     finder.py		\
 	     magallanes.py	\
 	     vp_utils.py	\
-             gwp_config.py	\
+	     gwp_config.py	\
 	     magallanes.glade
 
 pluginsdir = $(datadir)/gwp/scripts/plugins

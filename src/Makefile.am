@@ -4,6 +4,7 @@ INCLUDES = \
 	$(GNOME_CFLAGS) \
 	$(PY_CFLAGS) \
 	$(GTKGLEXT_CFLAGS) \
+	$(PCRE_CFLAGS) \
 	$(PYGTK_CFLAGS)
 
 # FIXME: Add this when migrating to gtk 2.4: -DGTK_DISABLE_DEPRECATED 
@@ -48,6 +49,7 @@ gwp_SOURCES =						\
 	gwp-messages.h		gwp-messages.c		\
 	gwp-vcrfile.h		gwp-vcrfile.c		\
 	gwp-py-functions.h	gwp-py-functions.c	\
+	gwp-race.h		gwp-race.c		\
 	callbacks.h		callbacks.c		\
 	support.h		support.c		\
 	starchart.h		starchart.c		\
@@ -66,12 +68,12 @@ gwp_SOURCES =						\
 	gwp-python.h		gwp-python.c		\
 	gwp-utils.h		gwp-utils.c
 
-#	game_state.h		game_state.c		
 
 gwp_LDADD =  \
 	$(GNOME_LIBS) \
 	$(PY_LIB_LOC) $(PY_EXTRA_LIBS) $(PY_LIBS) \
 	$(GTKGLEXT_LIBS) \
+	$(PCRE_LIBS) \
 	$(PYGTK_LIBS)
 
 gladedir = $(datadir)/gwp

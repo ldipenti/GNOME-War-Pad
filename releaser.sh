@@ -98,7 +98,7 @@ cvs -q tag Release-`echo $VERSION | tr . _`
 
 #### Packages making
 # TGZ
-autoconf && automake && make clean && make dist
+./autogen.sh --enable-check=no && make clean && make dist
 # API
 rm -rf docs/api/html/* ; doxygen Doxyfile ; cd docs/api/ ; tar -cvzf ../../gwp-$VERSION-api.tar.gz html/ ; cd -
 # DEB

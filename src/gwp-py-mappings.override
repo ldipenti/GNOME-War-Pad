@@ -17,6 +17,7 @@ headers
 #include "gwp-location.h"
 #include "gwp-minefield.h"
 #include "gwp-py-functions.h"
+#include "gwp-race.h"
 %%
 modulename gwp
 %%

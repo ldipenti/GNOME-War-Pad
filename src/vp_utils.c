@@ -30,6 +30,7 @@
 #include <gnome.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <pcre.h>
 
 #include "global.h"
 #include "gwp-game-state.h"
@@ -43,6 +44,8 @@
 #include "gwp-ion-storm.h"
 #include "gwp-specs.h"
 #include "gwp-utils.h"
+#include "gwp-messages.h"
+#include "gwp-race.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 static gint16 getWord(guchar* p);
@@ -60,6 +63,8 @@ void init_data (void)
 {
   /* Game state initializations */
 
+  race_list = load_race();
+  g_message ("RACE.NM loaded...");
   target_list = load_target (gwp_game_state_get_race(game_state));
   g_message ("TARGET loaded...");
   load_kore_data();
@@ -104,7 +109,7 @@ static gint32 getDWord (guchar * p)
   return 16777216 * p[3] + 65536 * p[2] + 256 * p[1] + p[0];
 }
 
-/*
+/**
  * Converts VP coords to Canvas World Coord system
  */
 void vp_coord_v2w (gint16 x1, gint16 y1, gdouble * x2, gdouble * y2)
@@ -122,7 +127,7 @@ void vp_coord_v2w (gint16 x1, gint16 y1, gdouble * x2, gdouble * y2)
   }
 }
 
-/*
+/**
  * Converts Canvas World Coord system to VP coords
  */
 void vp_coord_w2v (gdouble x1, gdouble y1, gint16 * x2, gint16 * y2)
@@ -132,7 +137,7 @@ void vp_coord_w2v (gdouble x1, gdouble y1, gint16 * x2, gint16 * y2)
   *y2 = (gint16) abs (y1 - 3000) + CANVAS_OFFSET_INT;
 }
 
-/*
+/**
  * Loads planets names into a list
  */
 GList * load_pnames_file (gchar * pnames_file)
@@ -170,7 +175,7 @@ GList * load_pnames_file (gchar * pnames_file)
   return pname_list;
 }
 
-/*
+/**
  * Loads planets coordinates into a list
  */
 GList * load_xyplan (gchar * xyplan_file)
@@ -610,6 +615,7 @@ GHashTable * load_pdata (void)
   struct stat dat_data;
   GwpPlanet *p;
   gchar *fc_tmp;
+  GwpMessages *messages = gwp_messages_new();
 
   /* Load temp planets coord data */
   xyplanet_list = load_xyplan(XYPLAN);
@@ -774,9 +780,6 @@ GHashTable * load_pdata (void)
 
       /* Add planet to list */
       g_hash_table_insert (planet_list, (gpointer)(i+1), p);
-
-    g_message("Planeta ID: %d - Nombre: %s", gwp_object_get_id(p),
-	      gwp_object_get_name(p));
     }
   }
   fclose (pdata);
@@ -849,6 +852,83 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   }
 
   return ret;
+}
+
+/**
+ * Loads race names into a list
+ */
+GSList *
+load_race (void)
+{
+  FILE *race_nm = NULL;
+  GString *race_file_name;
+  GSList *race_list = NULL;
+  gint i;
+
+  race_file_name = g_string_new ("race.nm");
+
+  /* Try to open RACE.NM or race.nm */
+  /* Lowercase... */
+  if (g_file_test (gwp_game_state_get_full_path(game_state, 
+						race_file_name->str),
+		   G_FILE_TEST_IS_REGULAR)) {
+    race_nm = fopen (gwp_game_state_get_full_path(game_state, 
+						  race_file_name->str), "rb");
+  }
+  /* Uppercase...*/
+  else if (g_file_test (gwp_game_state_get_full_path(game_state, 
+						     g_string_up(race_file_name)->str),
+			G_FILE_TEST_IS_REGULAR)) {
+    race_nm = fopen (gwp_game_state_get_full_path(game_state, 
+						  g_string_up(race_file_name)->str),
+		     "rb");
+  }
+
+  if(!race_nm) {
+    g_message("ERROR trying to open %s file.",
+	      gwp_game_state_get_full_path(game_state, g_string_up(race_file_name)->str));
+    exit(-1);
+  }
+  rewind (race_nm);
+  
+  /* Long descriptions ... with race creation */
+  for (i = 0; i < 11; i++) {
+    /* Instantiate new race and add it to the list*/
+    GwpRace *race = gwp_race_new ();
+    race_list = g_slist_append (race_list, race);
+
+    gchar *buffer = g_malloc (sizeof(gchar)*30+1);
+    fread (buffer, 30, 1, race_nm);
+    buffer[30] = '\0';
+    gwp_race_set_long_desc (race, buffer);
+    g_free (buffer);
+  }
+
+  /* Short descriptions */
+  for (i = 0; i < 11; i++) {
+    /* Get race from list instead of creating a new one */
+    GwpRace *race = GWP_RACE (g_slist_nth_data(race_list, i));
+
+    gchar *buffer = g_malloc (sizeof(gchar)*20+1);
+    fread (buffer, 20, 1, race_nm);
+    buffer[20] = '\0';
+    gwp_race_set_short_desc (race, buffer);
+    g_free (buffer);
+  }
+
+  /* Adjectives */
+  for (i = 0; i < 11; i++) {
+    /* Get race from list instead of creating a new one */
+    GwpRace *race = GWP_RACE (g_slist_nth_data(race_list, i));
+
+    gchar *buffer = g_malloc (sizeof(gchar)*12+1);
+    fread (buffer, 12, 1, race_nm);
+    buffer[12] = '\0';
+    gwp_race_set_adjective (race, buffer);
+    g_free (buffer);
+  }
+
+  return race_list;
 }
 
 void load_kore_data (void)

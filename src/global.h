@@ -112,6 +112,7 @@
 #define GAME_STATE_VERSION 2
 
 /* Global vars */
+GSList *race_list;
 GHashTable *planet_list;
 GHashTable *ship_list;
 GSList *minefield_list;

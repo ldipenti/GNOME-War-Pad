@@ -40,16 +40,16 @@ enum{
 
 typedef struct
 {
-    long a;
-    int l;
-    char *t;
-    char *p;
+  long a;  /**< Message address+1 in MDATA */
+  int l;   /**< Message length in bytes */
+  char *t; /**< Message contents */
+  char *p; /**< Message path (?) */
 } mdataMessage;
 
 typedef struct
 {
-    int n;
-    mdataMessage *m;
+  int n;           /**< Number of messages */
+  mdataMessage *m; /**< Messages array */
 } mdataMessages;
 
 /*

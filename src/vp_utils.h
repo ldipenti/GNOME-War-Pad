@@ -39,6 +39,7 @@ void load_bdata(void);
 GHashTable *load_sdata(void);
 GHashTable *load_target(gint race);
 
+GSList * load_race (void);
 GSList * load_hullspec (void);
 GSList * load_engspec (void);
 GSList * load_torpspec (void);
