@@ -196,14 +196,16 @@ class Finder(gwp.Plugin):
         for (key,obj) in planets.items():
             if self.__filtering_function(key,obj,query):
                 self.store2.append([key, obj.get_name(), obj.get_colonists()])
-
-        self.list_scroll.show()
+        
         if self.store.__len__() == 0:
             self.list_scroll.hide()
+        else:
+            self.list_scroll.show()
 
-        self.list2_scroll.show()
         if self.store2.__len__() == 0:
             self.list2_scroll.hide()
+        else:
+            self.list2_scroll.show()
 
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
