@@ -25,6 +25,7 @@
  */
 #include <gnome.h>
 #include <math.h>
+#include <gal/widgets/e-cursors.h>
 
 #include "vp_types.h"
 #include "gwp_types.h"
@@ -343,7 +344,6 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 
 void init_starchart (GtkWidget * gwp) 
 {
-  GdkCursor *cursor;
   GnomeCanvasItem *background;
   GnomeCanvasItem *grid_line;
   GnomeCanvasPoints *grid_points_v, *grid_points_h;
@@ -383,10 +383,8 @@ void init_starchart (GtkWidget * gwp)
   // End struct initialization...
   
   // Initialize mouse cursor
-  cursor = gdk_cursor_new (GDK_TCROSS);
-  gtk_widget_realize ((GtkWidget *) starchart_get_canvas());
-  gdk_window_set_cursor (GTK_WIDGET(starchart_get_canvas())->window, cursor);
-  gdk_cursor_destroy (cursor);
+  e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
+		      E_CURSOR_THIN_CROSS);
   
   // Loads Ships on Starchart
   g_message ("Cargando naves...");

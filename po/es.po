@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GWP 0.2.1\n"
-"POT-Creation-Date: 2003-05-23 00:48-0300\n"
-"PO-Revision-Date: 2003-05-23 00:48-0300\n"
+"POT-Creation-Date: 2003-05-24 14:51-0300\n"
+"PO-Revision-Date: 2003-05-24 02:00-0300\n"
 "Last-Translator: Lucas Di Pentima <lucas@lunix.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,118 +35,134 @@ msgid "Defenses:"
 msgstr "Defensas:"
 
 #: src/gwp.glade.h:6
+msgid "Delete Game"
+msgstr "Eliminar el juego"
+
+#: src/gwp.glade.h:7
 msgid "Delete this game configuration"
 msgstr "Eliminar esta configuración de juego"
 
-#: src/gwp.glade.h:7
+#: src/gwp.glade.h:8
 msgid "Duranium:"
 msgstr "Duranio:"
 
-#: src/gwp.glade.h:8
+#: src/gwp.glade.h:9
+msgid "Edit Game"
+msgstr "Editar el juego"
+
+#: src/gwp.glade.h:10
 msgid "Edit Game Preferences"
 msgstr "Editar las preferencias de juego"
 
-#: src/gwp.glade.h:9
+#: src/gwp.glade.h:11
 msgid "Factories:"
 msgstr "Fábricas:"
 
-#: src/gwp.glade.h:10
+#: src/gwp.glade.h:12
 msgid "GNOME War Pad"
 msgstr "GNOME War Pad"
 
-#: src/gwp.glade.h:11
+#: src/gwp.glade.h:13
 msgid "GWP Game Manager"
 msgstr "Administrador de juegos del GWP"
 
-#: src/gwp.glade.h:12
+#: src/gwp.glade.h:14
 msgid "Game Directory"
 msgstr "Directorio del juego"
 
-#: src/gwp.glade.h:13
+#: src/gwp.glade.h:15
 msgid "Game Name: "
 msgstr "Nombre del juego:"
 
-#: src/gwp.glade.h:14
+#: src/gwp.glade.h:16
 msgid "Game Properties"
 msgstr "Propiedades del juego"
 
-#: src/gwp.glade.h:15
+#: src/gwp.glade.h:17
 msgid "Gov Type:"
 msgstr "Tipo Gob:"
 
-#: src/gwp.glade.h:16
+#: src/gwp.glade.h:18
 msgid "Host Email: "
 msgstr "Email del host:"
 
-#: src/gwp.glade.h:17
+#: src/gwp.glade.h:19
 msgid "Host Type: "
 msgstr "Tipo de host:"
 
-#: src/gwp.glade.h:18
+#: src/gwp.glade.h:20
 msgid "Mines:"
 msgstr "Minas:"
 
-#: src/gwp.glade.h:19
+#: src/gwp.glade.h:21
 msgid "Misc"
 msgstr "Misc"
 
-#: src/gwp.glade.h:20
+#: src/gwp.glade.h:22
 msgid "Molybdenum:"
 msgstr "Molibdeno:"
 
-#: src/gwp.glade.h:21
+#: src/gwp.glade.h:23
 msgid "Natives:"
 msgstr "Nativos:"
 
-#: src/gwp.glade.h:22
+#: src/gwp.glade.h:24
 msgid "Neutronium:"
 msgstr "Neutronio:"
 
-#: src/gwp.glade.h:23
+#: src/gwp.glade.h:25
+msgid "New Game"
+msgstr "Juego nuevo"
+
+#: src/gwp.glade.h:26
 msgid "PHost"
 msgstr "PHost"
 
-#: src/gwp.glade.h:24
+#: src/gwp.glade.h:27
 msgid "Planet"
 msgstr "Planeta"
 
-#: src/gwp.glade.h:25
+#: src/gwp.glade.h:28
 msgid "Planet Detail"
 msgstr "Detalle del planeta"
 
-#: src/gwp.glade.h:26
+#: src/gwp.glade.h:29
+msgid "Play Game"
+msgstr "Jugar la partida"
+
+#: src/gwp.glade.h:30
 msgid "Play Selected Game"
 msgstr "Jugar el juego seleccionado"
 
-#: src/gwp.glade.h:27
+#: src/gwp.glade.h:31
 msgid "Player Email: "
 msgstr "Email del jugador:"
 
-#: src/gwp.glade.h:28
+#: src/gwp.glade.h:32
 msgid "Population"
 msgstr "Población"
 
-#: src/gwp.glade.h:29
+#: src/gwp.glade.h:33
 msgid "RST Dir: "
 msgstr "Directorio RST:"
 
-#: src/gwp.glade.h:30
+#: src/gwp.glade.h:34
 msgid "Race Name: "
 msgstr "Nombre de la raza:"
 
-#: src/gwp.glade.h:31
+#: src/gwp.glade.h:35
 msgid "Race selected"
 msgstr "Raza seleccionada"
 
-#: src/gwp.glade.h:32
+#: src/gwp.glade.h:36
 msgid "Race:"
 msgstr "Raza:"
 
-#: src/gwp.glade.h:33
+#: src/gwp.glade.h:37
 msgid "Races Available"
 msgstr "Razas disponibles"
 
-#: src/gwp.glade.h:34
+#: src/gwp.glade.h:38
 msgid ""
 "Races available at this particular game directory, pick one by double-"
 "clicking on it"
@@ -154,160 +170,180 @@ msgstr ""
 "Razas disponibles en este directorio de juego en \n"
 "particular, elige una haciendo doble-clic en ella"
 
-#: src/gwp.glade.h:35
+#: src/gwp.glade.h:39
 msgid "Resources (KT)"
 msgstr "Recursos (KT)"
 
-#: src/gwp.glade.h:36
+#: src/gwp.glade.h:40
 msgid "Select RST directory"
 msgstr "Selecciona el directorio RST"
 
-#: src/gwp.glade.h:37
+#: src/gwp.glade.h:41
 msgid "Select TRN directory"
 msgstr "Selecciona el directorio TRN"
 
-#: src/gwp.glade.h:38
+#: src/gwp.glade.h:42
 msgid "Select game directory"
 msgstr "Selecciona el directorio de juego"
 
-#: src/gwp.glade.h:39
+#: src/gwp.glade.h:43
 msgid "Select if you want to edit this game's properties"
 msgstr "Selecciona si quieres editar las propiedades de este juego"
 
-#: src/gwp.glade.h:40
+#: src/gwp.glade.h:44
 msgid "Select if you want to play this game"
 msgstr "Selecciona si quieres jugar a este juego"
 
-#: src/gwp.glade.h:41
+#: src/gwp.glade.h:45
 msgid "Select this if the game is hosted by a PHost (alternative) host type"
 msgstr "Selecciona si el juego es manejado por un host PHost (alternativo)"
 
-#: src/gwp.glade.h:42
+#: src/gwp.glade.h:46
 msgid "Select this if the game is hosted by a THost (classic) host type"
 msgstr "Selecciona si el juego es manejado por un host THost (clásico)"
 
-#: src/gwp.glade.h:43
+#: src/gwp.glade.h:47
 msgid "Setup a new game"
 msgstr "Configura un juego nuevo"
 
-#: src/gwp.glade.h:44
+#: src/gwp.glade.h:48
 msgid "Ship Data"
 msgstr "Datos de la nave"
 
-#: src/gwp.glade.h:45
+#: src/gwp.glade.h:49
 msgid "Ships"
 msgstr "Naves"
 
-#: src/gwp.glade.h:46
+#: src/gwp.glade.h:50
 msgid "Starbase Detail"
 msgstr "Detalle de la base estelar"
 
-#: src/gwp.glade.h:47
+#: src/gwp.glade.h:51
 msgid "Starchart"
 msgstr "Mapa estelar"
 
-#: src/gwp.glade.h:48
+#: src/gwp.glade.h:52
 msgid "Supplies:"
 msgstr "Provisiones:"
 
-#: src/gwp.glade.h:49
+#: src/gwp.glade.h:53
 msgid "THost"
 msgstr "THost"
 
-#: src/gwp.glade.h:50
+#: src/gwp.glade.h:54
 msgid "TRN Dir: "
 msgstr "Directorio TRN:"
 
-#: src/gwp.glade.h:51
+#: src/gwp.glade.h:55
 msgid "The directory where GWP will save its turns"
 msgstr "El directorio donde GWP grabará los turnos"
 
-#: src/gwp.glade.h:52
+#: src/gwp.glade.h:56
 msgid "The directory where GWP will search for host results"
 msgstr "El directorio donde GWP buscará los resultados del host"
 
-#: src/gwp.glade.h:53
+#: src/gwp.glade.h:57
 msgid "The host's email address, to send your turns"
 msgstr "La dirección de correo-e, para enviar los turnos"
 
-#: src/gwp.glade.h:54
+#: src/gwp.glade.h:58
 msgid "The label this game will have in the game manager"
 msgstr "La etiqueta que este juego tendrá en el administrador de juegos"
 
-#: src/gwp.glade.h:55
+#: src/gwp.glade.h:59
 msgid "Tritanium:"
 msgstr "Tritanio:"
 
-#: src/gwp.glade.h:56
+#: src/gwp.glade.h:60
 msgid "Unpack the new RST file"
 msgstr "Desempaquetar el nuevo archivo RST"
 
-#: src/gwp.glade.h:57
+#: src/gwp.glade.h:61
 msgid "Where the game data files reside"
 msgstr "Lugar donde residen los archivos de datos"
 
-#: src/gwp.glade.h:58
+#: src/gwp.glade.h:62
 msgid "X"
 msgstr "X"
 
-#: src/gwp.glade.h:59
+#: src/gwp.glade.h:63
 msgid "Y"
 msgstr "Y"
 
-#: src/gwp.glade.h:60
+#: src/gwp.glade.h:64
 msgid "Your email address, to send your turns to the host"
 msgstr "Tu dirección de correo-e, para enviar tus turnos al host"
 
-#: src/gwp.glade.h:61
+#: src/gwp.glade.h:65
 msgid "["
 msgstr "["
 
-#: src/gwp.glade.h:62
+#: src/gwp.glade.h:66
 msgid "]"
 msgstr "]"
 
-#: src/gwp.glade.h:63
+#: src/gwp.glade.h:67
+msgid "_Delete"
+msgstr "E_liminar"
+
+#: src/gwp.glade.h:68
 msgid "_Delete Game"
 msgstr "E_liminar el juego"
 
-#: src/gwp.glade.h:64
+#: src/gwp.glade.h:69
+msgid "_Edit"
+msgstr "_Editar"
+
+#: src/gwp.glade.h:70
 msgid "_Edit Game"
 msgstr "_Editar el juego"
 
-#: src/gwp.glade.h:65
+#: src/gwp.glade.h:71
+msgid "_New"
+msgstr "_Nuevo"
+
+#: src/gwp.glade.h:72
 msgid "_New Game"
 msgstr "Juego _nuevo"
 
-#: src/gwp.glade.h:66
+#: src/gwp.glade.h:73
+msgid "_Play"
+msgstr "_Jugar"
+
+#: src/gwp.glade.h:74
 msgid "_Play Game"
 msgstr "Jugar _partida"
 
-#: src/gwp.glade.h:67
+#: src/gwp.glade.h:75
 msgid "_Unpack"
 msgstr "Desempaque_tar"
 
-#: src/gwp.glade.h:68
+#: src/gwp.glade.h:76 src/planet.c:220 src/ship.c:144 src/starchart.c:138
+#: src/starchart.c:139 src/starchart.c:140 src/starchart.c:142
+#: src/starchart.c:143 src/starchart.c:144 src/starchart.c:145
+#: src/starchart.c:146 src/starchart.c:148 src/starchart.c:149
+#: src/starchart.c:150 src/starchart.c:151
 msgid "n/a"
 msgstr "n/d"
 
-#: src/callbacks.c:181
+#: src/callbacks.c:210
 msgid "New Game Properties"
 msgstr "Propiedades del nuevo juego"
 
-#: src/callbacks.c:304
+#: src/callbacks.c:333
 msgid "Edit Game Properties"
 msgstr "Editar las propiedades del juego"
 
-#: src/callbacks.c:325
+#: src/callbacks.c:354
 msgid "Oops! there is some problem with this game"
 msgstr "Ups! existe algún problema con este juego"
 
-#: src/callbacks.c:359
+#: src/callbacks.c:388
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "¿Está seguro que desea eliminar «%s»?"
 
-#: src/callbacks.c:421
+#: src/callbacks.c:450
 msgid ""
 "(c) 2002,2003 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
@@ -315,7 +351,7 @@ msgstr ""
 "(c) 2002,2003 Lucas Di Pentima\n"
 "Este software se libera bajo las condiciones de la licencia GNU GPL"
 
-#: src/callbacks.c:422
+#: src/callbacks.c:451
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
@@ -327,6 +363,102 @@ msgstr ""
 #, c-format
 msgid "Couldn't find pixmap file: %s"
 msgstr "No se encontró el archivo de imagen: %s"
+
+#: src/planet.c:166 src/planet.c:187
+msgid "none"
+msgstr "ninguno"
+
+#: src/planet.c:167
+msgid "Anarchy"
+msgstr "Anarquía"
+
+#: src/planet.c:168
+msgid "Pre-Tribal"
+msgstr "Pre tribal"
+
+#: src/planet.c:169
+msgid "Early-Tribal"
+msgstr ""
+
+#: src/planet.c:170
+msgid "Tribal"
+msgstr "Tribal"
+
+#: src/planet.c:171
+msgid "Feudal"
+msgstr "Feudal"
+
+#: src/planet.c:172
+msgid "Monarchy"
+msgstr "Monarquía"
+
+#: src/planet.c:173
+msgid "Representative"
+msgstr "Representativo"
+
+#: src/planet.c:174
+msgid "Participatory"
+msgstr "Participatorio"
+
+#: src/planet.c:175
+msgid "Unity"
+msgstr "Unidad"
+
+#: src/planet.c:188
+msgid "Humanoid"
+msgstr "Humanoides"
+
+#: src/planet.c:189
+msgid "Bovinoid"
+msgstr "Bovinoides"
+
+#: src/planet.c:190
+msgid "Reptilian"
+msgstr "Reptílicos"
+
+#: src/planet.c:191
+msgid "Avian"
+msgstr ""
+
+#: src/planet.c:192
+msgid "Amorphous"
+msgstr "Amorfos"
+
+#: src/planet.c:193
+msgid "Insectoid"
+msgstr "Insectoides"
+
+#: src/planet.c:194
+msgid "Amphibian"
+msgstr "Anfibios"
+
+#: src/planet.c:195
+msgid "Ghipsoldal"
+msgstr ""
+
+#: src/planet.c:196
+msgid "Siliconoid"
+msgstr "Silícicos"
+
+#: src/planet.c:210
+msgid "desert"
+msgstr "desierto"
+
+#: src/planet.c:212
+msgid "tropical"
+msgstr "tropical"
+
+#: src/planet.c:214
+msgid "warm"
+msgstr "templado"
+
+#: src/planet.c:216
+msgid "cool"
+msgstr "fresco"
+
+#: src/planet.c:218
+msgid "arctic"
+msgstr "ártico"
 
 #: src/game_mgr.c:366
 #, c-format
@@ -349,3 +481,47 @@ msgstr "Por favor, selecciona una raza"
 #: src/game_mgr.c:654
 msgid "A new RST file was found. Do you want me to unpack it?"
 msgstr "Se encontró un nuevo archivo RST. ¿Desea desempaquetarlo?"
+
+#: src/race.c:28
+msgid "The Federation"
+msgstr "La Federación"
+
+#: src/race.c:31
+msgid "The Lizards"
+msgstr "Los Lagartos"
+
+#: src/race.c:34
+msgid "The Birdmen"
+msgstr "Los Pájaros"
+
+#: src/race.c:37
+msgid "The Fascists"
+msgstr "Los Fascistas"
+
+#: src/race.c:40
+msgid "The Privateers"
+msgstr "Los Piratas"
+
+#: src/race.c:43
+msgid "The Cyborgs"
+msgstr "Los Ciborgs"
+
+#: src/race.c:46
+msgid "The Crystalline"
+msgstr "Los Cristalinos"
+
+#: src/race.c:49
+msgid "The Evil Empire"
+msgstr "El Imperio"
+
+#: src/race.c:52
+msgid "The Robots"
+msgstr "Los Robots"
+
+#: src/race.c:55
+msgid "The Rebels"
+msgstr "Los Rebeldes"
+
+#: src/race.c:58
+msgid "The Colonies"
+msgstr "Los Colonos"

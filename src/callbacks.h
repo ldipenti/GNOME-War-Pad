@@ -4,7 +4,10 @@ gboolean
 starchart_event_key                    (GtkWidget       *widget,
                                         GdkEventKey     *event,
                                         gpointer         user_data);
-
+gboolean
+starchart_event_button_release         (GtkWidget       *widget,
+                                        GdkEventButton  *event,
+                                        gpointer         user_data);
 gboolean
 starchart_event_button                 (GtkWidget       *widget,
                                         GdkEventButton  *event,

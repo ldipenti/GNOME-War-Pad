@@ -6,6 +6,7 @@
 #define GNOME_DISABLE_DEPRECATED
 
 #include <gnome.h>
+#include <gal/widgets/e-cursors.h>
 
 #include "global.h"
 #include "game_state.h"
@@ -53,7 +54,15 @@ starchart_event_key                    (GtkWidget       *widget,
   return FALSE;
 }
 
-
+gboolean
+starchart_event_button_release          (GtkWidget       *widget,
+                                        GdkEventButton  *event,
+                                        gpointer         user_data)
+{
+  e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
+		      E_CURSOR_THIN_CROSS);
+  return FALSE;
+}
 
 gboolean
 starchart_event_button                 (GtkWidget       *widget,
@@ -102,14 +111,22 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   static GnomeCanvasItem *planet, *ship;
   static guint interleave;
   static gint pointer_x = 0, pointer_y = 0;
+  static gboolean panning = FALSE;
   
   /* First get canvas coords */
   x = (gint) event->x;
   y = (gint) event->y;
 
-  /* If we are dragging the starchart to span... */
+  /* If we are dragging the starchart to pan... */
   if(event->state & GDK_BUTTON1_MASK) {
     gint offset_x, offset_y;
+
+    /* Set hand cursor */
+    if(!panning) {
+      e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
+			  E_CURSOR_HAND_OPEN);
+      panning = TRUE;
+    }
 
     if((interleave++ % MOUSE_INTERLEAVE) == 0) {
       gnome_canvas_get_scroll_offsets(starchart_get_canvas(), 
@@ -120,8 +137,16 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
 			     offset_y + (pointer_y - y) * MOUSE_INTERLEAVE);
     }
   } 
-  /* If not... */
+  /* If not panning... */
   else {
+
+    /* Reset cursor */
+    if(panning) {
+      e_cursor_set_widget(GTK_WIDGET(starchart_get_canvas()),
+			  E_CURSOR_THIN_CROSS);
+      panning = FALSE;
+    }
+
     /* Translate coords to World system */
     gnome_canvas_c2w(GNOME_CANVAS(widget), x, y, &wx, &wy);
     

@@ -138,8 +138,8 @@
 		    <widget class="GtkScrolledWindow" id="starchart_window">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="hscrollbar_policy">GTK_POLICY_ALWAYS</property>
-		      <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
+		      <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+		      <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
 		      <property name="shadow_type">GTK_SHADOW_NONE</property>
 		      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
@@ -160,6 +160,7 @@
 			  <signal name="key_press_event" handler="starchart_event_key" last_modification_time="Sat, 03 Aug 2002 19:43:07 GMT"/>
 			  <signal name="button_press_event" handler="starchart_event_button" object="(gpointer)gwp" last_modification_time="Sat, 03 Aug 2002 17:48:54 GMT"/>
 			  <signal name="motion_notify_event" handler="starchart_event_pointer_motion" last_modification_time="Sat, 03 Aug 2002 17:49:30 GMT"/>
+			  <signal name="button_release_event" handler="starchart_event_button_release" last_modification_time="Sat, 24 May 2003 18:03:42 GMT"/>
 			</widget>
 		      </child>
 		    </widget>
@@ -1588,7 +1589,8 @@
 	      <child>
 		<widget class="button" id="btn_new_game">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_New Game</property>
+		  <property name="tooltip" translatable="yes">New Game</property>
+		  <property name="label" translatable="yes">_New</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-new</property>
 		  <signal name="clicked" handler="on_game_mgr_new_game" last_modification_time="Wed, 30 Apr 2003 02:24:22 GMT"/>
@@ -1598,7 +1600,8 @@
 	      <child>
 		<widget class="button" id="btn_delete_game">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Delete Game</property>
+		  <property name="tooltip" translatable="yes">Delete Game</property>
+		  <property name="label" translatable="yes">_Delete</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-delete</property>
 		  <signal name="clicked" handler="on_game_mgr_delete_game" last_modification_time="Mon, 05 May 2003 02:50:08 GMT"/>
@@ -1608,7 +1611,8 @@
 	      <child>
 		<widget class="button" id="btn_edit_game">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Edit Game</property>
+		  <property name="tooltip" translatable="yes">Edit Game</property>
+		  <property name="label" translatable="yes">_Edit</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-properties</property>
 		  <signal name="clicked" handler="on_game_mgr_edit_game" last_modification_time="Fri, 02 May 2003 04:24:19 GMT"/>
@@ -1618,7 +1622,8 @@
 	      <child>
 		<widget class="button" id="btn_play_game">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Play Game</property>
+		  <property name="tooltip" translatable="yes">Play Game</property>
+		  <property name="label" translatable="yes">_Play</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_pixmap">gtk-execute</property>
 		  <signal name="clicked" handler="on_game_mgr_play_game" last_modification_time="Sun, 04 May 2003 20:16:13 GMT"/>
