@@ -52,7 +52,8 @@ int main (int argc, char *argv[]) {
 
   gnome_program_init(PACKAGE, VERSION, LIBGNOMEUI_MODULE,
 		     argc, argv,
-		     GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
+		     /*GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,*/
+		     GNOME_PROGRAM_STANDARD_PROPERTIES,
 		     NULL);
   
   /* Libglade init */

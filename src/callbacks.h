@@ -89,3 +89,6 @@ void on_game_close_activate (GtkWidget *widget,
 void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 				     gpointer user_data);
 gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value);
+
+void on_online_help_activate (GtkWidget *widget,
+			      gpointer user_data);

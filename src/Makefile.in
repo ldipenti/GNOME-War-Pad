@@ -116,6 +116,8 @@ POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
 RANLIB = @RANLIB@
+SCROLLKEEPER_BUILD_REQUIRED = @SCROLLKEEPER_BUILD_REQUIRED@
+SK_CONFIG = @SK_CONFIG@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
@@ -125,7 +127,7 @@ cxxflags_set = @cxxflags_set@
 INCLUDES =  	$(FOO_CFLAGS)
 
 
-CFLAGS =  	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment 	 -Wuninitialized -Wparentheses -Wpointer-arith 	 -Wmissing-prototypes -export-dynamic 	 -DDATA_DIR=\""$(datadir)"\" 	 -D_GNU_SOURCE 	 -DGTK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED 	 -O1 	 -g
+CFLAGS =  	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment 	 -Wuninitialized -Wparentheses -Wpointer-arith 	 -Wmissing-prototypes -export-dynamic 	 -DPREFIX=\""$(prefix)"\" 	 -DSYSCONFDIR=\""$(sysconfdir)"\" 	 -DLIBDIR=\""$(libdir)"\" 	 -DDATADIR=\""$(datadir)"\" 	 -D_GNU_SOURCE 	 -DGTK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED 	 -O1 	 -g
 
 
 bin_PROGRAMS = gwp

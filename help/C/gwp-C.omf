@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<omf>
+  <resource>
+    <creator>
+      lucas@lunix.com.ar (Lucas Di Pentima)
+    </creator>
+    <title>
+      GNOME War Pad User's Manual
+    </title>
+    <date>
+      2003-06-16
+    </date>
+    <version identifier="0.2.6" date="2003-06-16" description="Updated for GWP 0.2.6"/>
+    <subject category="GNOME|Applications|Games"/>
+    <description>
+      User manual for the GNOME War Pad 'VGA Planets' client. It only
+      covers the functionality of the client, it doesn't explain how to play
+      'VGA Planets'.
+    </description>
+    <type>
+      manual
+    </type>
+    <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>
+    <identifier url=""/>
+    <language code="C"/>
+    <relation seriesid="12d4fac2-a023-11d7-9ecf-e0b8acfe703c"/>
+    <rights type="GNU FDL" license.version="1.1" holder="Lucas Di Pentima"/>
+  </resource>
+</omf>

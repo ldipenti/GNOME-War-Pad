@@ -27,9 +27,9 @@
 #include "game_state.h"
 #include "gwp_types.h"
 
-#define GWP_GLADE_XML_DIR DATA_DIR"/gwp"
-#define GWP_IMAGES_DIR DATA_DIR"/pixmaps/gwp/images"
-#define GWP_ICONS_DIR DATA_DIR"/pixmaps/gwp/icons"
+#define GWP_GLADE_XML_DIR DATADIR"/gwp"
+#define GWP_IMAGES_DIR DATADIR"/pixmaps/gwp/images"
+#define GWP_ICONS_DIR DATADIR"/pixmaps/gwp/icons"
 
 /* 
  * Defines

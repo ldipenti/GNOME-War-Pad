@@ -7,7 +7,10 @@ CFLAGS =\
 	 -Wall -Wimplicit -Wreturn-type -Wunused -Wswitch -Wcomment \
 	 -Wuninitialized -Wparentheses -Wpointer-arith \
 	 -Wmissing-prototypes -export-dynamic \
-	 -DDATA_DIR=\""$(datadir)"\" \
+	 -DPREFIX=\""$(prefix)"\" \
+	 -DSYSCONFDIR=\""$(sysconfdir)"\" \
+	 -DLIBDIR=\""$(libdir)"\" \
+	 -DDATADIR=\""$(datadir)"\" \
 	 -D_GNU_SOURCE \
 	 -DGTK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED \
 	 -O1 \

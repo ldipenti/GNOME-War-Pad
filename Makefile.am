@@ -3,13 +3,13 @@
 ## If you don't want it to overwrite it,
 ## 	Please disable it in the Anjuta project configuration
 
-#SUBDIRS = po src 
-SUBDIRS = po pixmaps src
+SUBDIRS = po pixmaps src help
 
 gwpdocdir = ${prefix}/doc/gwp
 gwpdoc_DATA = \
 	README\
 	COPYING\
+	COPYING-DOCS\
 	AUTHORS\
 	INSTALL\
 	ChangeLog\
@@ -17,7 +17,10 @@ gwpdoc_DATA = \
 	TODO\
 	ABOUT-NLS
 
-EXTRA_DIST = $(gwpdoc_DATA)
+EXTRA_DIST = $(gwpdoc_DATA)	\
+        intltool-extract.in	\
+        intltool-merge.in	\
+        intltool-update.in
 
 gnomemenudir = $(prefix)/@NO_PREFIX_PACKAGE_MENU_DIR@/Games
 gnomemenu_DATA = gwp.desktop

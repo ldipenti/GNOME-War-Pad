@@ -10,8 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-#SUBDIRS = po src 
-
 
 SHELL = @SHELL@
 
@@ -118,19 +116,22 @@ POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
 RANLIB = @RANLIB@
+SCROLLKEEPER_BUILD_REQUIRED = @SCROLLKEEPER_BUILD_REQUIRED@
+SK_CONFIG = @SK_CONFIG@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARN_CFLAGS = @WARN_CFLAGS@
 cxxflags_set = @cxxflags_set@
 
-SUBDIRS = po pixmaps src
+SUBDIRS = po pixmaps src help
 
 gwpdocdir = ${prefix}/doc/gwp
-gwpdoc_DATA =  	README 	COPYING 	AUTHORS 	INSTALL 	ChangeLog 	NEWS 	TODO 	ABOUT-NLS
+gwpdoc_DATA =  	README 	COPYING 	COPYING-DOCS 	AUTHORS 	INSTALL 	ChangeLog 	NEWS 	TODO 	ABOUT-NLS
 
 
-EXTRA_DIST = $(gwpdoc_DATA)
+EXTRA_DIST = $(gwpdoc_DATA)	        intltool-extract.in	        intltool-merge.in	        intltool-update.in
+
 
 gnomemenudir = $(prefix)/@NO_PREFIX_PACKAGE_MENU_DIR@/Games
 gnomemenu_DATA = gwp.desktop

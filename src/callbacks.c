@@ -490,7 +490,7 @@ void on_about_activate(GtkWidget *widget)
 				(const gchar **)authors,
 				(const gchar **)documenters,
 				NULL,
-				gdk_pixbuf_new_from_file(DATA_DIR"/gwp/logo.png",
+				gdk_pixbuf_new_from_file(DATADIR"/gwp/logo.png",
 							 NULL));
 
     gtk_window_set_transient_for(GTK_WINDOW(about_gwp), 
@@ -554,4 +554,16 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value)
 {
   return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), value);
+}
+
+/* Show online help */
+void on_online_help_activate (GtkWidget *widget,
+			      gpointer user_data)
+{
+  GError* error = NULL;
+  
+  if (!gnome_help_display ("gwp.xml", NULL, &error)) {
+    // report error
+    g_error_free (error);
+  }
 }

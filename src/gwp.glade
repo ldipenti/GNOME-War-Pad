@@ -90,6 +90,27 @@
 		    <widget class="GtkMenu" id="help1_menu">
 
 		      <child>
+			<widget class="GtkImageMenuItem" id="online_help2">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Online Help</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_online_help_activate" last_modification_time="Mon, 16 Jun 2003 21:19:21 GMT"/>
+
+			  <child internal-child="image">
+			    <widget class="GtkImage" id="image88">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-help</property>
+			      <property name="icon_size">1</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
 			<widget class="GtkImageMenuItem" id="about1">
 			  <property name="visible">True</property>
 			  <property name="stock_item">GNOMEUIINFO_MENU_ABOUT_ITEM</property>
@@ -3145,7 +3166,7 @@
 			  <accelerator key="n" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image69">
+			    <widget class="GtkImage" id="image93">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-new</property>
 			      <property name="icon_size">1</property>
@@ -3168,7 +3189,7 @@
 			  <accelerator key="e" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image70">
+			    <widget class="GtkImage" id="image94">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-properties</property>
 			      <property name="icon_size">1</property>
@@ -3191,7 +3212,7 @@
 			  <accelerator key="p" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image71">
+			    <widget class="GtkImage" id="image95">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-execute</property>
 			      <property name="icon_size">1</property>
@@ -3213,7 +3234,7 @@
 			  <accelerator key="d" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image72">
+			    <widget class="GtkImage" id="image96">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-delete</property>
 			      <property name="icon_size">1</property>
@@ -3251,6 +3272,27 @@
 
 		  <child>
 		    <widget class="GtkMenu" id="ayuda1_menu">
+
+		      <child>
+			<widget class="GtkImageMenuItem" id="online_help">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">_Online Help</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_online_help_activate" last_modification_time="Mon, 16 Jun 2003 21:18:05 GMT"/>
+
+			  <child internal-child="image">
+			    <widget class="GtkImage" id="image97">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-help</property>
+			      <property name="icon_size">1</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
 
 		      <child>
 			<widget class="GtkImageMenuItem" id="acerca_de1">
@@ -3489,7 +3531,7 @@
 		      <property name="rules_hint">True</property>
 		      <property name="reorderable">False</property>
 		      <property name="enable_search">True</property>
-		      <signal name="row_activated" handler="on_game_mgr_properties_race_list_row_activated" last_modification_time="Sat, 03 May 2003 21:10:57 GMT"/>
+		      <signal name="cursor_changed" handler="on_game_mgr_properties_race_list_row_activated" last_modification_time="Tue, 17 Jun 2003 04:30:32 GMT"/>
 		    </widget>
 		  </child>
 		</widget>
@@ -4176,13 +4218,14 @@
 
 <widget class="GtkWindow" id="gwp_splash_screen">
   <property name="width_request">400</property>
-  <property name="height_request">300</property>
+  <property name="height_request">350</property>
+  <property name="sensitive">False</property>
   <property name="title" translatable="yes">GNOME War Pad</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>
   <property name="default_width">400</property>
-  <property name="default_height">300</property>
+  <property name="default_height">350</property>
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
   <property name="icon">gwp.png</property>

@@ -102,13 +102,17 @@ void game_mgr_init(void)
     g_free(games_path);
 }
 
-void game_mgr_update_race_list(char *dir) 
+void game_mgr_update_race_list(char *dir_param) 
 {
   GString *pdata, *ship, *rst;
   GtkTreeView *race_list;
   GtkListStore *store;
   GtkTreeIter iter;
+  gchar *dir;
   gint i;
+
+  /* Add a slash at the end */
+  dir = g_strconcat(dir_param, "/", NULL);
 
   race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
   store = (GtkListStore*) gtk_tree_view_get_model(race_list);
@@ -159,7 +163,8 @@ void game_mgr_update_race_list(char *dir)
     g_string_free(pdata, TRUE);
     g_string_free(ship, TRUE);
     g_string_free(rst, TRUE);
-  }    
+  }
+  g_free(dir);
 }
 
 
