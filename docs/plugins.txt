@@ -14,7 +14,8 @@ Plugin registering process:
 * Plugin name.
 * Plugin version.
 * Plugin author (name <email@some.host.com>).
-* Plugin description.
+* Plugin short description. (1 line)
+* Plugin long description.
 * Plugin license.
 * Hooks to connect to.
 
@@ -29,7 +30,7 @@ Plugin hooks:
 UI Integration:
 --------------
 * Menu item with plugin's name as its label.
-* Detachable toolbar, with one category per plugin, like glade.
+* Toolbox, with one category per plugin, like glade.
 * Pop-up menus (on different parts of GWP's UI).
 * GWP provides empty panes where the plugins can add their own UI. The
   user will choose to view the default UI or the plugin one, by
