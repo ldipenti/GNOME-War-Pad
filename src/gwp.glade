@@ -6413,7 +6413,7 @@
 		  <property name="stock_id">gtk-new</property>
 		  <property name="visible_horizontal">True</property>
 		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="is_important">True</property>
 		  <signal name="clicked" handler="on_game_mgr_new_game" last_modification_time="Wed, 30 Apr 2003 02:24:22 GMT"/>
 		</widget>
 		<packing>
@@ -6431,7 +6431,7 @@
 		  <property name="stock_id">gtk-delete</property>
 		  <property name="visible_horizontal">True</property>
 		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="is_important">True</property>
 		  <signal name="clicked" handler="on_game_mgr_delete_game" last_modification_time="Mon, 05 May 2003 02:50:08 GMT"/>
 		</widget>
 		<packing>
@@ -6449,7 +6449,7 @@
 		  <property name="stock_id">gtk-properties</property>
 		  <property name="visible_horizontal">True</property>
 		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="is_important">True</property>
 		  <signal name="clicked" handler="on_game_mgr_edit_game" last_modification_time="Fri, 02 May 2003 04:24:19 GMT"/>
 		</widget>
 		<packing>
@@ -6467,7 +6467,7 @@
 		  <property name="stock_id">gtk-execute</property>
 		  <property name="visible_horizontal">True</property>
 		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
+		  <property name="is_important">True</property>
 		  <signal name="clicked" handler="on_game_mgr_play_game" last_modification_time="Sun, 04 May 2003 20:16:13 GMT"/>
 		</widget>
 		<packing>
@@ -7433,7 +7433,7 @@
 	      <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
 	      <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
 	      <property name="tooltips">True</property>
-	      <property name="show_arrow">True</property>
+	      <property name="show_arrow">False</property>
 
 	      <child>
 		<widget class="GtkToolItem" id="toolitem4">
