@@ -21,43 +21,60 @@
 
 #include "race.h"
 
-gchar *race_get_name(gint racenum)
+gchar *race_get_name(enum races racenum)
 {
   switch (racenum) {
-  case 1:
+  case RACE_FEDS:
     return _("The Federation");
     break;
-  case 2:
+  case RACE_LIZARDS:
     return _("The Lizards");
     break;
-  case 3:
+  case RACE_BIRDMEN:
     return _("The Birdmen");
     break;
-  case 4:
+  case RACE_FASCISTS:
     return _("The Fascists");
     break;
-  case 5:
+  case RACE_PRIVATEERS:
     return _("The Privateers");
     break;
-  case 6:
+  case RACE_CYBORGS:
     return _("The Cyborgs");
     break;
-  case 7:
+  case RACE_CRYSTALLINE:
     return _("The Crystalline");
     break;
-  case 8:
+  case RACE_EVILS:
     return _("The Evil Empire");
     break;
-  case 9:
+  case RACE_ROBOTS:
     return _("The Robots");
     break;
-  case 10:
+  case RACE_REBELS:
     return _("The Rebels");
     break;
-  case 11:
+  case RACE_COLONIES:
     return _("The Colonies");
     break;
   default:
     return NULL;
   }
+}
+
+gdouble race_get_tax_rate_colonists(Planet *planet)
+{
+  gdouble ret;
+  g_assert(planet != NULL);
+
+  switch(planet_get_owner(planet)) {
+  case RACE_FEDS:
+    ret = 2.0;
+    break;
+  default:
+    ret = 1.0;
+    break;
+  }
+
+  return ret;
 }

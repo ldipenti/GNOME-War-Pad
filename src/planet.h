@@ -23,7 +23,7 @@
 #define PLANET_H
 
 #include "vp_types.h"
-
+#include "race.h"
 
 Planet *planet_get(GHashTable *list, gint planet_id);
 
@@ -33,7 +33,7 @@ gint planet_is_known(Planet *planet);
 // Planet "GET" functions
 gint16 planet_get_id(Planet *planet);
 gchar *planet_get_name(Planet *planet);
-gint16 planet_get_owner(Planet *planet);
+enum races planet_get_owner(Planet *planet);
 gchar *planet_get_fcode(Planet *planet);
 gint16 planet_get_mines(Planet *planet);
 gint16 planet_get_factories(Planet *planet);
@@ -57,16 +57,38 @@ gint16 planet_get_tax_colonists(Planet *planet);
 gint16 planet_get_tax_natives(Planet *planet);
 gint16 planet_get_happiness_colonists(Planet *planet);
 gint16 planet_get_happiness_natives(Planet *planet);
-gchar *planet_get_native_spi(Planet *planet);
+void planet_set_happiness_natives(Planet *planet, gint happ);
+void planet_set_happiness_colonists(Planet *planet, gint happ);
+gchar *planet_get_native_spi_chars(Planet *planet);
+gint planet_get_native_spi(Planet *planet);
 gint32 planet_get_natives(Planet *planet);
-gchar *planet_get_native_race(Planet *planet);
+enum natives planet_get_native_race(Planet *planet);
+gchar *planet_get_native_race_chars(Planet *planet);
 gint16 planet_get_temperature(Planet *planet);
 gint16 planet_get_temperature_f(Planet *planet);
 gchar *planet_get_temperature_str(Planet *planet);
 gint16 planet_get_build_base(Planet *planet);
+gint planet_get_visibility(Planet *planet);
 
 gboolean planet_is_mine(Planet *planet);
 gboolean planet_valid_coords(Planet *planet);
 gint planet_what_is(Planet *planet);
+
+gint planet_neutronium_extraction_rate(Planet *planet);
+gint planet_molybdenum_extraction_rate(Planet *planet);
+gint planet_tritanium_extraction_rate(Planet *planet);
+gint planet_duranium_extraction_rate(Planet *planet);
+gint planet_mineral_extraction_rate(gint mines, gint density, gint mineral);
+gdouble planet_get_ground_percent(gint mineral);
+
+gint planet_get_tax_earned_natives(Planet *planet);
+gint planet_get_tax_earned_colonists(Planet *planet);
+gint planet_get_happiness_col_change(Planet *planet);
+gint planet_get_happiness_nat_change(Planet *planet);
+
+gint planet_get_nat_growth_limit(Planet *planet);
+gint planet_get_col_growth_limit(Planet *planet);
+
+Planet *planet_copy(Planet *planet);
 
 #endif

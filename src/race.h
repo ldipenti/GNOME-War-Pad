@@ -22,6 +22,50 @@
 
 #include <gnome.h>
 
-gchar *race_get_name(gint racenum);
+#include "planet.h"
+
+enum spi {
+  SPI_NONE,
+  SPI_ANARCHY,
+  SPI_PRE_TRIBAL,
+  SPI_EARLY_TRIBAL,
+  SPI_TRIBAL,
+  SPI_FEUDAL,
+  SPI_MONARCHY,
+  SPI_REPRESENTATIVE,
+  SPI_PARTICIPATORY,
+  SPI_UNITY
+};
+
+enum natives {
+  NATIVE_NONE,
+  NATIVE_HUMANOID,
+  NATIVE_BOVINOID,
+  NATIVE_REPTILIAN,
+  NATIVE_AVIAN,
+  NATIVE_AMORPHOUS,
+  NATIVE_INSECTOID,
+  NATIVE_AMPHIBIAN,
+  NATIVE_GHIPSOLDAL,
+  NATIVE_SILICONOID
+};
+
+enum races {
+  RACE_NONE,
+  RACE_FEDS,
+  RACE_LIZARDS,
+  RACE_BIRDMEN,
+  RACE_FASCISTS,
+  RACE_PRIVATEERS,
+  RACE_CYBORGS,
+  RACE_CRYSTALLINE,
+  RACE_EVILS,
+  RACE_ROBOTS,
+  RACE_REBELS,
+  RACE_COLONIES
+};
+
+gchar *race_get_name(enum races racenum);
+gdouble race_get_tax_rate_colonists(Planet *planet);
 
 #endif

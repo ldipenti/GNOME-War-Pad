@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 #ifndef GAME_MGR_H
 #define GAME_MGR_H
 

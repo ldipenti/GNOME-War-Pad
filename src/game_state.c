@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 /*
  * This encapsulate game state values that need to be accesible
  * during the execution of the program
@@ -77,13 +74,16 @@ gdouble game_get_starchart_zoom(void) {
 	return game_state.starchart_zoom;
 }
 
-void game_set_race(gint race_num) {
-	if((race_num > 0) && (race_num <= 11)) {
-		game_state.race = race_num;
-	}
+void game_set_race(gint race_num) 
+{
+  if((race_num > 0) && (race_num <= 11)) {
+    game_state.race = race_num;
+  }
 }
-gint game_get_race(void) {
-	return game_state.race;
+
+enum races game_get_race(void) 
+{
+  return game_state.race;
 }
 
 gint16 game_get_last_x_coord(void)
@@ -98,7 +98,7 @@ gint16 game_get_last_y_coord(void)
 
 void game_set_last_coords(gint16 x, gint16 y)
 {
-    //g_return_if_fail(ACA VA CHEQUEO DE COORDS!!!);
+    //g_return_if_fail(FIXME: Check coordinates!!!);
     game_state.last_x_coord = x;
     game_state.last_y_coord = y;
 }
@@ -111,4 +111,14 @@ void game_set_pnames(GList *pnames)
 GList *game_get_pnames(void)
 {
   return game_state.pnames;
+}
+
+void game_set_turn_number(gint turn)
+{
+  game_state.turn_number = turn;
+}
+
+gint game_get_turn_number(void)
+{
+  return game_state.turn_number;
 }

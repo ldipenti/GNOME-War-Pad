@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 /*
  * StarChart Helper Functions
  */
@@ -35,11 +32,186 @@
 #include "starchart.h"
 #include "planet.h"
 #include "ship.h"
-
+#include "tables.h"
 
 /*
  * Updates Planet Data on Panel
  */
+void update_planet_extra_panel (gint16 planet_id)
+{
+  GtkCombo *planet_fc;
+  GtkProgressBar *neu_ground, *neu_density;
+  GtkProgressBar *mol_ground, *mol_density;
+  GtkProgressBar *tri_ground, *tri_density;
+  GtkProgressBar *dur_ground, *dur_density;
+  GtkHScale *tax_col, *tax_nat;
+  GtkLabel *mol_rate, *neu_rate, *dur_rate, *tri_rate;
+  GtkLabel *tax_nat_earned, *tax_col_earned;
+  Planet *a_planet;
+  gchar *tmp;
+
+  planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");  
+
+  neu_ground = (GtkProgressBar *) lookup_widget("progressbar_neu_ground");
+  neu_density = (GtkProgressBar *) lookup_widget("progressbar_neu_density");
+  mol_ground = (GtkProgressBar *) lookup_widget("progressbar_mol_ground");
+  mol_density = (GtkProgressBar *) lookup_widget("progressbar_mol_density");
+  tri_ground = (GtkProgressBar *) lookup_widget("progressbar_tri_ground");
+  tri_density = (GtkProgressBar *) lookup_widget("progressbar_tri_density");
+  dur_ground = (GtkProgressBar *) lookup_widget("progressbar_dur_ground");
+  dur_density = (GtkProgressBar *) lookup_widget("progressbar_dur_density");
+
+  tax_nat = (GtkHScale *) lookup_widget("hscale_tax_natives");
+  tax_col = (GtkHScale *) lookup_widget("hscale_tax_colonists");
+
+  mol_rate = (GtkLabel *) lookup_widget("label_mol_rate");
+  neu_rate = (GtkLabel *) lookup_widget("label_neu_rate");
+  tri_rate = (GtkLabel *) lookup_widget("label_tri_rate");
+  dur_rate = (GtkLabel *) lookup_widget("label_dur_rate");
+
+  tax_nat_earned = (GtkLabel *) lookup_widget("label_tax_nat_pay");
+  tax_col_earned = (GtkLabel *) lookup_widget("label_tax_col_pay");
+
+  /* If we received a valid planet id, we work */
+  if ((planet_id >= 1) && (planet_id <= MAX_PLANETS))
+    {
+      /* If we have data on this planet, then work */
+      if ((a_planet = planet_get (planet_list, planet_id)) != NULL &&
+	  planet_is_known (a_planet))
+	{
+	  /*** Friendly Code ***/
+	  tmp = g_strdup_printf ("%s", planet_get_fcode(a_planet));
+	  gtk_entry_set_text (GTK_ENTRY(planet_fc->entry), tmp);
+	  g_free(tmp);
+
+	  /*** Neutronium ***/
+	  gtk_progress_bar_set_fraction(neu_ground, planet_get_ground_percent(planet_get_ground_neutronium(a_planet)));
+	  tmp = g_strdup_printf("%d kT", 
+				planet_get_ground_neutronium(a_planet));
+	  gtk_progress_bar_set_text(neu_ground, tmp);
+	  g_free(tmp);
+
+	  gtk_progress_bar_set_fraction(neu_density, (planet_get_dens_neutronium(a_planet)/100.0));
+	  tmp = g_strdup_printf("%d%%", 
+				planet_get_dens_neutronium(a_planet));
+	  gtk_progress_bar_set_text(neu_density, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf(_("%d kT/turn"), planet_neutronium_extraction_rate(a_planet));
+	  gtk_label_set_text(neu_rate, tmp);
+	  g_free(tmp);
+
+	  /*** Duranium ***/
+	  gtk_progress_bar_set_fraction(dur_ground, planet_get_ground_percent(planet_get_ground_duranium(a_planet)));
+	  tmp = g_strdup_printf("%d kT", 
+				planet_get_ground_duranium(a_planet));
+	  gtk_progress_bar_set_text(dur_ground, tmp);
+	  g_free(tmp);
+	  gtk_progress_bar_set_fraction(dur_density, (planet_get_dens_duranium(a_planet)/100.0));
+	  tmp = g_strdup_printf("%d%%", 
+				planet_get_dens_duranium(a_planet));
+	  gtk_progress_bar_set_text(dur_density, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf(_("%d kT/turn"), planet_duranium_extraction_rate(a_planet));
+	  gtk_label_set_text(dur_rate, tmp);
+	  g_free(tmp);
+
+	  /*** Molybdenum ***/
+	  gtk_progress_bar_set_fraction(mol_ground, planet_get_ground_percent(planet_get_ground_molybdenum(a_planet)));
+	  tmp = g_strdup_printf("%d kT", 
+				planet_get_ground_molybdenum(a_planet));
+	  gtk_progress_bar_set_text(mol_ground, tmp);
+	  g_free(tmp);
+	  gtk_progress_bar_set_fraction(mol_density, (planet_get_dens_molybdenum(a_planet)/100.0));
+	  tmp = g_strdup_printf("%d%%", 
+				planet_get_dens_molybdenum(a_planet));
+	  gtk_progress_bar_set_text(mol_density, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf(_("%d kT/turn"), planet_molybdenum_extraction_rate(a_planet));
+	  gtk_label_set_text(mol_rate, tmp);
+	  g_free(tmp);
+
+	  /*** Tritanium ***/
+	  gtk_progress_bar_set_fraction(tri_ground, planet_get_ground_percent(planet_get_ground_tritanium(a_planet)));
+	  tmp = g_strdup_printf("%d kT", 
+				planet_get_ground_tritanium(a_planet));
+	  gtk_progress_bar_set_text(tri_ground, tmp);
+	  g_free(tmp);
+	  gtk_progress_bar_set_fraction(tri_density, (planet_get_dens_tritanium(a_planet)/100.0));
+	  tmp = g_strdup_printf("%d%%", 
+				planet_get_dens_tritanium(a_planet));
+	  gtk_progress_bar_set_text(tri_density, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf(_("%d kT/turn"), planet_tritanium_extraction_rate(a_planet));
+	  gtk_label_set_text(tri_rate, tmp);
+	  g_free(tmp);
+
+	  /*** TAXES ***/
+	  gtk_range_set_value(GTK_RANGE(tax_col), 
+			      (gdouble)planet_get_tax_colonists(a_planet));
+	  gtk_range_set_value(GTK_RANGE(tax_nat),
+			      (gdouble)planet_get_tax_natives(a_planet));
+
+	  /* Tax earned */
+	  if(planet_get_tax_earned_natives(a_planet) <=
+	     planet_get_colonists(a_planet)) {
+	    tmp = g_strdup_printf("%d MC", 
+				  planet_get_tax_earned_natives(a_planet));
+	  } else {
+	    tmp = g_strdup_printf("%d <span foreground=\"red\">(%d)</span> MC",
+				  planet_get_tax_earned_natives(a_planet),
+				  planet_get_colonists(a_planet));
+	  }
+	  gtk_label_set_markup(tax_nat_earned, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf("%d MC", 
+				planet_get_tax_earned_colonists(a_planet));
+	  gtk_label_set_text(tax_col_earned, tmp);
+	  g_free(tmp);
+
+	} 
+      /* Reset panel */
+      else {
+	gtk_entry_set_text(GTK_ENTRY(planet_fc->entry), "   ");
+
+	gtk_progress_bar_set_fraction(neu_ground, 0.0);
+	gtk_progress_bar_set_text(neu_ground, _("n/a kT"));
+	gtk_progress_bar_set_fraction(neu_density, 0.0);
+	gtk_progress_bar_set_text(neu_density, _("n/a %"));
+
+	gtk_progress_bar_set_fraction(mol_ground, 0.0);
+	gtk_progress_bar_set_text(mol_ground, _("n/a kT"));
+	gtk_progress_bar_set_fraction(mol_density, 0.0);
+	gtk_progress_bar_set_text(mol_density, _("n/a %"));
+
+	gtk_progress_bar_set_fraction(tri_ground, 0.0);
+	gtk_progress_bar_set_text(tri_ground, _("n/a kT"));
+	gtk_progress_bar_set_fraction(tri_density, 0.0);
+	gtk_progress_bar_set_text(tri_density, _("n/a %"));
+
+	gtk_progress_bar_set_fraction(dur_ground, 0.0);
+	gtk_progress_bar_set_text(dur_ground, _("n/a kT"));
+	gtk_progress_bar_set_fraction(dur_density, 0.0);
+	gtk_progress_bar_set_text(dur_density, _("n/a %"));
+
+	gtk_range_set_value(GTK_RANGE(tax_nat), 0.0);
+	gtk_range_set_value(GTK_RANGE(tax_col), 0.0);
+
+	gtk_label_set_text(neu_rate, _("n/a kT/turn"));
+	gtk_label_set_text(tri_rate, _("n/a kT/turn"));
+	gtk_label_set_text(mol_rate, _("n/a kT/turn"));
+	gtk_label_set_text(dur_rate, _("n/a kT/turn"));
+	
+	gtk_label_set_text(tax_nat_earned, _("n/a MC"));
+	gtk_label_set_text(tax_col_earned, _("n/a MC"));
+      }
+    }
+}
+
 void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 {
   GtkWidget *planet_page;
@@ -47,6 +219,7 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
   GtkLabel *planet_name, *mines, *factories, *defenses, *temperature;
   GtkLabel *neutronium, *tritanium, *duranium, *molybdenum, *supplies;
   GtkLabel *colonists, *natives, *native_race, *spi;
+  GtkLabel *megacredits, *visibility;
   gchar *tmp;
   Planet *a_planet;
 
@@ -71,6 +244,9 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
   natives = (GtkLabel *) lookup_widget ("label_natives");
   native_race = (GtkLabel *) lookup_widget ("label_native_race");
   spi = (GtkLabel *) lookup_widget ("label_spi");
+  megacredits = (GtkLabel *) lookup_widget("label_mc");
+  visibility = (GtkLabel *) lookup_widget("label_visibility");
+
 
   /* If we received a valid planet id, we work */
   if ((planet_id >= 1) && (planet_id <= MAX_PLANETS))
@@ -79,8 +255,10 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
       if ((a_planet = planet_get (planet_list, planet_id)) != NULL &&
 	  planet_is_known (a_planet))
 	{
-	  tmp = g_strdup_printf ("%s", planet_get_name (a_planet));
-	  gtk_label_set_text (planet_name, tmp);
+	  tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
+				 planet_get_name(a_planet),
+				 planet_get_id(a_planet));
+	  gtk_label_set_markup(planet_name, tmp);
 	  g_free(tmp);
 
 	  tmp = g_strdup_printf ("%d", planet_get_mines (a_planet));
@@ -121,27 +299,60 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 	  gtk_label_set_text (supplies, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf ("%d", planet_get_colonists (a_planet) * 100);
-	  gtk_label_set_text (colonists, tmp);
+	  tmp = g_strdup_printf ("%d", planet_get_megacredits(a_planet));
+	  gtk_label_set_text (megacredits, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf ("%d", planet_get_natives (a_planet) * 100);
-	  gtk_label_set_text (natives, tmp);
+	  tmp = g_strdup_printf("%d%%", planet_get_visibility(a_planet));
+	  gtk_label_set_text(visibility, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf ("%s", planet_get_native_race(a_planet));
+	  if(planet_get_happiness_col_change(a_planet) >= 0) {
+	    tmp = g_strdup_printf("%d (%d%%, +%d)", 
+				  planet_get_colonists (a_planet),
+				  planet_get_happiness_colonists(a_planet),
+				  planet_get_happiness_col_change(a_planet));
+	  } else {
+	    tmp = g_strdup_printf("%d (%d%%, <span foreground=\"red\">%d</span>)", 
+				  planet_get_colonists (a_planet),
+				  planet_get_happiness_colonists(a_planet),
+				  planet_get_happiness_col_change(a_planet));
+	  }
+	  gtk_label_set_markup(colonists, tmp);
+	  g_free(tmp);
+
+	  if(planet_get_happiness_nat_change(a_planet) >= 0) {
+	    tmp = g_strdup_printf("%d (%d%%, +%d)", 
+				  planet_get_natives (a_planet),
+				  planet_get_happiness_natives(a_planet),
+				  planet_get_happiness_nat_change(a_planet));
+	  } else {
+	    tmp = g_strdup_printf("%d (%d%%, <span foreground=\"red\">%d</span>)", 
+				  planet_get_natives (a_planet),
+				  planet_get_happiness_natives(a_planet),
+				  planet_get_happiness_nat_change(a_planet));
+	  }
+
+	  gtk_label_set_markup(natives, tmp);
+	  g_free(tmp);
+
+	  tmp = g_strdup_printf("%s", planet_get_native_race_chars(a_planet));
 	  gtk_label_set_text (native_race, tmp);
 	  g_free(tmp);
 
-	  tmp = g_strdup_printf ("%s", planet_get_native_spi(a_planet));
+	  tmp = g_strdup_printf("%s", planet_get_native_spi_chars(a_planet));
 	  gtk_label_set_text (spi, tmp);
 	  g_free(tmp);
-	}
-      else
-	{
-	  gtk_label_set_text (planet_name,
-			      g_strdup_printf ("%s",
-					       planet_get_name (a_planet)));
+
+	} else {
+	  /** If planet is unknown... */
+
+	  tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
+				 planet_get_name(a_planet),
+				 planet_get_id(a_planet));
+	  gtk_label_set_markup(planet_name, tmp);
+	  g_free(tmp);
+
 	  gtk_label_set_text (mines, _("n/a"));
 	  gtk_label_set_text (factories, _("n/a"));
 	  gtk_label_set_text (defenses, _("n/a"));
@@ -157,6 +368,8 @@ void update_planet_panel (GtkWidget * gwp, gint16 planet_id)
 	  gtk_label_set_text (natives, _("n/a"));
 	  gtk_label_set_text (native_race, _("n/a"));
 	  gtk_label_set_text (spi, _("n/a"));
+	  gtk_label_set_text (megacredits, _("n/a"));
+	  gtk_label_set_text (visibility, _("n/a"));
 	}
     }
 }
@@ -683,7 +896,7 @@ gboolean starchart_is_my_ship (GnomeCanvasItem * ship_item)
   return TRUE;
 }
 
-void
+GnomeCanvasItem*
 starchart_select_nearest_planet (GtkWidget * gwp, 
 				 GSList * planets_nearby,
 				 gdouble wx, gdouble wy)
@@ -694,8 +907,13 @@ starchart_select_nearest_planet (GtkWidget * gwp,
   planet = starchart_find_nearest_object (planets_nearby, wx, wy);
   planet_data = g_object_get_data (G_OBJECT (planet), "planet_data");
   if (planet_data != NULL) {
-    update_planet_panel (gwp, planet_get_id (planet_data));
+    update_planet_panel (gwp, planet_get_id(planet_data));
+    update_planet_extra_panel(planet_get_id(planet_data));
+    table_population_update(planet_data);
     starchart_mark_planet(planet_data);
+    return planet;
+  } else {
+    return NULL;
   }
 }
 
@@ -899,14 +1117,13 @@ void starchart_mark_planet(Planet *a_planet)
   static GnomeCanvasItem *planet_mark_r = NULL;
   static GnomeCanvasItem *planet_mark_u = NULL;
   static GnomeCanvasItem *planet_mark_d = NULL;
-  //  GdkColor red = {0, 0xffff, 0x0000, 0x0000};
   GnomeCanvasPoints *p;
   gdouble wx, wy;
   gdouble matrix[6];
 
   vp_coord_v2w(a_planet->x, a_planet->y, &wx, &wy);
 
-  // If item doesn't exist yet, lets create it.
+  /* If item doesn't exist yet, lets create it. */
   if(! planet_mark) {
     planet_mark = gnome_canvas_item_new (starchart_get_grp_root(), 
 					 GNOME_TYPE_CANVAS_ELLIPSE,
@@ -969,11 +1186,23 @@ void starchart_mark_planet(Planet *a_planet)
 					   "width_pixels", 1,
 					   NULL);
   }
-  // Translate the mark!
+  /* Translate the mark! */
   art_affine_translate(matrix, wx, wy);
   gnome_canvas_item_affine_absolute(planet_mark, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_l, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_r, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_u, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_d, matrix);
+}
+
+void starchart_open_extra_panels(void)
+{
+  gtk_widget_show(lookup_widget("extra_info_panel"));
+  gtk_widget_show(lookup_widget("calc_panel"));
+}
+
+void starchart_close_extra_panels(void)
+{
+  gtk_widget_hide(lookup_widget("extra_info_panel"));
+  gtk_widget_hide(lookup_widget("calc_panel"));  
 }

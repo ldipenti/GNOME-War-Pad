@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
@@ -29,7 +26,6 @@
 
 #include "game_state.h"
 #include "gwp_types.h"
-
 
 #define GWP_GLADE_XML_DIR DATA_DIR"/gwp"
 #define GWP_IMAGES_DIR DATA_DIR"/pixmaps/gwp/images"
@@ -68,7 +64,7 @@
 #define IS_ALLIED 3
 #define IS_UNOWNED 4
 
-#define PLANET_RADIUS 1.0
+#define PLANET_RADIUS 0.4
 #define SHIP_RADIUS 1.0
 #define HIGHLIGHTED_PLANET_RADIUS 4.0
 #define HIGHLIGHTED_SHIP_RADIUS 1.0
@@ -80,7 +76,7 @@
 #define HIGHLIGHTED_PLANET_COLOR "white"
 #define HIGHLIGHTED_SHIP_COLOR "light pink"
 #define SHIP_COLOR "red"
-#define PLANET_COLOR "gray60"
+#define PLANET_COLOR "white" /*"gray60"*/
 #define QUADRANT_GRID_COLOR "gray30"
 #define UNIVERSE_COLOR "black"
 #define UNIVERSE_COLOR_A 0xffffff00 /* RGBA */

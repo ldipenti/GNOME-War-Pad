@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 #include <gnome.h>
 
 #include "global.h"
@@ -669,7 +666,9 @@ void game_mgr_play_game(GameSettings *sett)
   /* Get the widgets ready */
   gtk_label_set_text(race, race_get_name(sett->race));
 
-  tmp = g_strconcat(game_get_name(), " - GNOME War Pad", NULL);
+  tmp = g_strconcat(game_get_name(), " | ",
+		    g_strdup_printf(_("Turn: %d"), game_get_turn_number()),
+		    " - GNOME War Pad", NULL);
   gtk_window_set_title(GTK_WINDOW(gwp), tmp);
   g_free(tmp);
 

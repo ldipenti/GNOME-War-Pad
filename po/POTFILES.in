@@ -25,3 +25,5 @@ src/vp_unpack.c
 src/vp_unpack.h
 src/race.c
 src/race.h
+src/tables.c
+src/tables.h

@@ -2,9 +2,6 @@
 #  include <config.h>
 #endif
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 #include <gnome.h>
 
 #include "global.h"
@@ -49,6 +46,10 @@ starchart_event_key                    (GtkWidget       *widget,
     case GDK_g:
       starchart_toggle_grid();
       return TRUE;
+      /* Hide panels */
+    case GDK_Escape:
+      starchart_close_extra_panels();
+      return TRUE;
     }
   return FALSE;
 }
@@ -78,6 +79,7 @@ starchart_event_button                 (GtkWidget       *widget,
   gint x, y, q;
   gdouble wx, wy;
   GSList *planets_nearby, *ships_nearby;
+  static GnomeCanvasItem *ps_planet = NULL, *s_planet = NULL;
   
   /* Get focus on starchart */
   gtk_widget_grab_focus(GTK_WIDGET(starchart_get_canvas()));
@@ -90,12 +92,27 @@ starchart_event_button                 (GtkWidget       *widget,
   gnome_canvas_c2w(starchart_get_canvas(), x, y, &wx, &wy);
   q = get_quadrant(wx, wy);
   
-  if((event->button == 1) && (!(event->state & GDK_SHIFT_MASK))) {
+  // Select a planet
+  if((event->type == GDK_BUTTON_PRESS) && (event->button == 1) 
+     && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest planet and select it */
     planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
-    starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), 
-				    planets_nearby, wx, wy);
-  } else if((event->button == 3) && (!(event->state & GDK_SHIFT_MASK))) {
+
+    /* Keep record of previously selected planet */
+    ps_planet = s_planet;
+    s_planet = starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), 
+					       planets_nearby, wx, wy);
+  } 
+  // Open Planet panel (double-click)
+  else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)
+	  && (!(event->state & GDK_SHIFT_MASK))) {
+    /* If the d-click was on the same planet, show the panels! */
+    if(ps_planet == s_planet) {
+      starchart_open_extra_panels();
+    }
+  } 
+  // Select a ship
+  else if((event->button == 3) && (!(event->state & GDK_SHIFT_MASK))) {
     /* Search for nearest ship and select it */
     ships_nearby = starchart_get_surrounding_quads(ships_per_quad, q);
     starchart_select_nearest_ship(GTK_WIDGET(gwp_ptr), ships_nearby, wx, wy);
@@ -531,4 +548,10 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
       lookup_widget("game_mgr_btn_unpack");
     gtk_widget_set_sensitive(btn_unpack, FALSE);    
   }
+}
+
+/* CB to format the hscale widgets value */
+gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value)
+{
+  return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), value);
 }

@@ -8,7 +8,9 @@ CFLAGS =\
 	 -Wuninitialized -Wparentheses -Wpointer-arith \
 	 -Wmissing-prototypes -export-dynamic \
 	 -DDATA_DIR=\""$(datadir)"\" \
-	 -O1\
+	 -D_GNU_SOURCE \
+	 -DGTK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED \
+	 -O1 \
 	 -g
 
 bin_PROGRAMS = gwp
@@ -40,6 +42,8 @@ gwp_SOURCES = \
 	game_mgr.h\
 	vp_unpack.h\
 	vp_unpack.c\
+	tables.c\
+	tables.h\
 	race.c\
 	race.h
 

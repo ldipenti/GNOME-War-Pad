@@ -363,30 +363,32 @@ void UnpackGenPart1(void)
  * dissig and datsig. Moves turnnr and some other short.
  */
 {
-  unsigned long place=24;
+  unsigned long place = 24;
   unsigned char *buf;
   int i;
 
-  buf=rstremember+place;
-  ReadLong(place,buf);
+  buf = rstremember + place;
+  ReadLong(place, buf);
   place--; /* this sucks */
   /* check length; */
-  if ((place+157-13+2)>rstsize) { /* place + sizeof(gen)-MissingPartOf(gen) + noVcrs (1 short zero) */
-    fprintf(stderr,"This is not a (complete) result! (gen part 1)\n");
+  if ((place + 157 - 13 + 2) > rstsize) { /* place + sizeof(gen)-
+					     MissingPartOf(gen) + 
+					     noVcrs (1 short zero) */
+    fprintf(stderr, "This is not a (complete) result! (gen part 1)\n");
     exit(-1);
   }
-  genremember=rstremember+place;
+  genremember = rstremember + place;
 
   /* for some odd reason, these two words must be replaced */
-  buf=genremember+140;
-  ReadShort(turnnr,buf);
-  ReadShort(gameid,buf);
-  fprintf(stdout,"turn %d\n",turnnr);
+  buf = genremember + 140;
+  ReadShort(turnnr, buf);
+  ReadShort(gameid, buf);
+  fprintf(stdout, "turn %d\n", turnnr);
 
-  buf=genremember+118; /* position of DIS-signature */
-  dissig=malloc(11);   /* ---+   */
-  memcpy(dissig,buf,10); /* \|/  */
-  strcat(dissig,"\0");   /* This fills one empty byte in ``gen??.dat''*/
+  buf = genremember + 118; /* position of DIS-signature */
+  dissig = malloc(11);     /* ---+   */
+  memcpy(dissig, buf, 10); /* \|/  */
+  strcat(dissig, "\0");   /* This fills one empty byte in ``gen??.dat''*/
 #ifdef test
   fprintf(stderr,"DIS-Signature is %s\n",dissig);
 #endif
@@ -461,20 +463,22 @@ int found=0;
 
 void DoUnpack(FILE *rst, char *player, int nr)
 {
-  inittmp[nr-1]=1;
-  found=1;
-  fprintf(stdout,"Unpacking player %s in game %s ",player,gamedir);
-  fseek(rst,0,SEEK_END);
-  rstsize=ftell(rst);
+  inittmp[nr - 1] = 1;
+  found = 1;
+  fprintf(stdout, "Unpacking player %s in game %s ", player, gamedir);
+  fseek(rst, 0, SEEK_END);
+  rstsize = ftell(rst);
 #ifdef test
-  fprintf(stderr,"Size of the result-file: %ld\n",rstsize);
+  fprintf(stderr, "Size of the result-file: %ld\n", rstsize);
 #endif
-  rstremember=malloc(rstsize+13); /* rst misses 13 chars of ``gen??.dat'' */
-  fseek(rst,0,SEEK_SET);
-  fread(rstremember,rstsize,1,rst);
+  rstremember = malloc(rstsize + 13); /* rst misses 13 chars of 
+					 ``gen??.dat'' */
+  fseek(rst, 0, SEEK_SET);
+  fread(rstremember, rstsize, 1, rst);
   /* do the unpacking */
   UnpackGenPart1();       /* reads only (inclusive dis- & datsig) */
-  UnpackVcr(player);      /* includes length-check, so asap after reading datsig&dissig */
+  UnpackVcr(player);      /* includes length-check, so asap after 
+			     reading datsig&dissig */
   UnpackShip(player);     /* inclusive part 1 of ctrlbuf */
   UnpackPData(player);    /* inclusive part 2 of ctrlbuf */
   UnpackBData(player);    /* inclusive part 3 of ctrlbuf */
@@ -482,8 +486,8 @@ void DoUnpack(FILE *rst, char *player, int nr)
   UnpackShipXY(player);
   UnpackMess(player);
   UnpackGenPart2(player); /* OVERWRITES INTERNAL buf DATA!!!   Run last?
-							 (to be ran after Unpack-Ship,PData,BData) */
-  fprintf(stdout,"Done!\n\n");
+			     (to be ran after Unpack-Ship,PData,BData) */
+  fprintf(stdout, "Done!\n\n");
   free(dissig);
   free(datsig);
   free(rstremember);
@@ -492,89 +496,77 @@ void DoUnpack(FILE *rst, char *player, int nr)
 
 gint main_unpack(gchar *game_dir, gint race)
 {
-  /* This is to fool the code below */
   gint argc = 2;
   gchar *argv[2];
 
-  FILE *init,*ctrl;
-  gchar *rstname,*player;
+  FILE *init, *ctrl;
+  gchar *rstname, *player;
   gint i;
 
-  /* This is to fool the code below */
   argv[1] = game_dir;
 
-  fprintf(stdout,"\nkunpack %s made by Kero van Gelder, %s\n",
-	  kunpackversion,email);
-  fprintf(stdout,"THE unpack-utility for Tim Wisseman's VGA-planets.\n\n");
-  if (argc==2) {
-    gamedir=malloc(strlen(argv[1])+1+1); /* trailing '/' and '\0' */
-    if (argv[1][strlen(argv[1])-1]!='/') {
-      sprintf(gamedir,"%s%c",argv[1],'/');
+  if (argc == 2) {
+    gamedir = malloc(strlen(argv[1]) + 1 + 1); /* trailing '/' and '\0' */
+    if (argv[1][strlen(argv[1]) - 1] != '/') {
+      sprintf(gamedir, "%s%c", argv[1], '/');
     } else {
-      sprintf(gamedir,"%s",argv[1]);
+      sprintf(gamedir, "%s", argv[1]);
     }
 #ifdef test
-    fprintf(stderr,"Game directory is %s\n",gamedir);
+    fprintf(stderr, "Game directory is %s\n", gamedir);
 #endif
-    ctrlremember=malloc(6002);
-    for (i=0;i<6002;i++) ctrlremember[i]='K';
+    ctrlremember = malloc(6002);
+    for (i = 0; i < 6002; i++) ctrlremember[i] = 'K';
 
-
-    /* This WAS a loop :-) */
-    /* for (i=1;i<=11;i++) {*/
-    /* Lets deceive the code! */
     i = race;
-
-    player=malloc(3); /* max 2 digits + '\0' */
-    sprintf(player,"%d",i);
+    player = malloc(3); /* max 2 digits + '\0' */
+    sprintf(player, "%d", i);
 #ifdef test
-    fprintf(stderr,"Player number is %s\n",player);
+    fprintf(stderr, "Player number is %s\n", player);
 #endif
-    rstname=malloc(strlen(gamedir)+strlen(player)+11);
-    sprintf(rstname,"%splayer%s.rst",gamedir,player);
+    rstname = malloc(strlen(gamedir) + strlen(player) + 11);
+    sprintf(rstname, "%splayer%s.rst", gamedir, player);
 #ifdef test
-    fprintf(stderr,"%s\n",rstname);
+    fprintf(stderr, "%s\n", rstname);
 #endif
-    rst=fopen(rstname,"rb");
-    if (rst!=NULL) {
-      DoUnpack(rst,player,i);
+    rst = fopen(rstname, "rb");
+    if (rst != NULL) {
+      DoUnpack(rst, player, i);
     } else {
-      sprintf(rstname,"%sPLAYER%s.RST",gamedir,player);
+      sprintf(rstname, "%sPLAYER%s.RST", gamedir, player);
 #ifdef test
-      fprintf(stderr,"%s\n",rstname);
+      fprintf(stderr, "%s\n", rstname);
 #endif
-      rst=fopen(rstname,"rb");
-      if (rst!=NULL) {
-	DoUnpack(rst,player,i);
+      rst = fopen(rstname, "rb");
+      if (rst != NULL) {
+	DoUnpack(rst, player, i);
       } else {
 #ifdef test
-	fprintf(stderr,"No player %s in game %s\n",player,gamedir);
+	fprintf(stderr, "No player %s in game %s\n", player, gamedir);
 #endif
       }
     }
     free(rstname);
     free(player);
-    /* } */
-
 
     if (found) {
-      init=OpenPlayerFile("init","","tmp");
-      fwrite(&inittmp,2,11,init);
+      init = OpenPlayerFile("init", "", "tmp");
+      fwrite(&inittmp, 2, 11, init);
       fclose(init);
-      ctrl=OpenPlayerFile("control","","dat");
-      fwrite(ctrlremember,6002,1,ctrl);
+      ctrl = OpenPlayerFile("control", "", "dat");
+      fwrite(ctrlremember, 6002, 1, ctrl);
       fclose(ctrl);
     } else {
-      fprintf(stderr,"Nothing to unpack!\n\n");
+      fprintf(stderr, "Nothing to unpack!\n\n");
     }
     free(gamedir);
     free(ctrlremember);
   } else {
-    fprintf(stderr,"Usage: kunpack <gamedir> \n\n");
-    exit(1);
+    fprintf(stderr, "Usage: kunpack <gamedir> \n\n");
+    return(1);
   }
 #ifdef test
-  fprintf(stderr,"Really done now.\n");
+  fprintf(stderr, "Really done now.\n");
 #endif
   return(0);
 } /* main */

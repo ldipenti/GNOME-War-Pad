@@ -17,10 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
-
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
@@ -36,6 +32,7 @@
 #include "starchart.h"
 #include "game_state.h"
 #include "game_mgr.h"
+#include "tables.h"
 
 #define GWP_GLADE_XML_FILE GWP_GLADE_XML_DIR"/gwp.glade"
 
@@ -98,13 +95,32 @@ int main (int argc, char *argv[]) {
 
 void gwp_init(void) 
 {
-  /* Gnome Config Init */
-  gnome_config_push_prefix("/gwp/");
+  GtkWidget *notebk;
 
-  //game_init_dir(gnome_config_get_string("General/game_dir=\"\""));
+  /* Hide all tabs on notebooks */
+  notebk = lookup_widget("extra_info_panel");
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
+			     FALSE);
+  notebk = lookup_widget("main_screen");
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
+			     FALSE);
+  notebk = lookup_widget("info_panel");
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
+			     FALSE);
+  /*
+  notebk = lookup_widget("calc_panel");
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
+			     FALSE);
+  */
+
+  /* Hide panels */
+  starchart_close_extra_panels();
 
   /* Game Properties Dialog Init */
   game_mgr_init();
+
+  /* Tables Init */
+  table_all_init();
 }
 
 void gwp_init_splash(void)

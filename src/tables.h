@@ -17,15 +17,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/*
- * Adaptation of K-Unpack. See vp_unpack.c for credits.
- */
+#ifndef TABLES_H
+#define TABLES_H
 
-#ifndef VP_UNPACK_H
-#define VP_UNPACK_H
+#include "planet.h"
 
-#include <gnome.h>
-
-gboolean vp_unpack(const gchar *game_dir, gint race_num);
+void table_all_init(void);
+void table_population_init(void);
+void table_population_update(Planet *planet);
 
 #endif

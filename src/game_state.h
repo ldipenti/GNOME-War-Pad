@@ -22,6 +22,8 @@
 
 #include <gnome.h>
 
+#include "race.h"
+
 /*
  * Game state data type, this will be used to store all 
  * the global info that will be needed during the game.
@@ -33,6 +35,7 @@ struct _GameState
   gint16 last_x_coord;
   gint16 last_y_coord;
   GString * dir;
+  gint turn_number;
   gint race;
   gchar *name;
   GList *pnames;
@@ -47,7 +50,7 @@ void game_set_starchart_zoom (gdouble zoom);
 gdouble game_get_starchart_zoom (void);
 
 void game_set_race (gint race_num);
-gint game_get_race (void);
+enum races game_get_race (void);
 
 gint16 game_get_last_x_coord(void);
 gint16 game_get_last_y_coord(void);
@@ -58,5 +61,8 @@ const gchar *game_get_name (void);
 
 GList *game_get_pnames(void);
 void game_set_pnames(GList *pnames);
+
+void game_set_turn_number(gint turn);
+gint game_get_turn_number(void);
 
 #endif

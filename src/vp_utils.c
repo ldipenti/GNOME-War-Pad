@@ -17,9 +17,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define GTK_DISABLE_DEPRECATED
-#define GNOME_DISABLE_DEPRECATED
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -54,6 +51,8 @@ void init_data (void)
   g_message ("PDATA cargado...");
   ship_list = load_sdata ();
   g_message ("SDATA cargado...");
+  load_gen_data();
+  g_message("GENx cargado...");
 }
 
 /*
@@ -605,10 +604,10 @@ GHashTable * load_pdata (void)
   fread (&planets_nr, sizeof (gint16), 1, pdata);
 
   for (i = 0; i < planets_nr; i++) {
-    // Read Planet data from file
+    /* Read Planet data from file */
     fread (buffer, 85, 1, pdata);
     
-    // Load Planet Data on struct
+    /* Load Planet Data on struct */
     planet.owner = getWord (buffer);
     planet.id = getWord (buffer + 2);
     planet.fcode[0] = buffer[4];
@@ -767,4 +766,30 @@ gboolean vp_can_unpack(gchar *game_dir, gint race)
   }
 
   return ret;
+}
+
+void load_gen_data(void)
+{
+  FILE *gen_dat = NULL;
+  GString *gen_file_name;
+  gchar buffer[155];
+
+  gen_file_name = g_string_new(g_strdup_printf("gen%d.dat", game_get_race()));
+  gen_dat = fopen(game_get_full_path(gen_file_name)->str, "r");
+  
+  if(!gen_dat) {
+    g_message("ERROR trying to open %s file.",
+	      game_get_full_path(gen_file_name)->str);
+    exit(-1);
+  }
+  rewind(gen_dat);
+
+  /* Read data from file */
+  fread(buffer, 155, 1, gen_dat);
+
+  /* Set data to structures */
+  game_set_turn_number(getWord(buffer + 153));
+
+  /* Close file */
+  fclose(gen_dat);
 }
