@@ -606,7 +606,19 @@ void game_mgr_play_game(GameState *state)
   GtkLabel *race = 
     (GtkLabel *) lookup_widget("label_race_name");
 
-  g_assert(state != NULL);
+  /* If none game selected, notice the user */
+  if (!state) {
+    GtkWidget *warn;
+
+    warn = gtk_message_dialog_new ((GtkWindow *) game_mgr_properties,
+				   GTK_DIALOG_DESTROY_WITH_PARENT,
+				   GTK_MESSAGE_WARNING,
+				   GTK_BUTTONS_CLOSE,
+				   _("No game selected, please select one.\n\nIf you don't have any game on your game manager, you should add one with the \"New Game\" button, adding the necessary game data."));
+    gtk_dialog_run(GTK_DIALOG(warn));
+    gtk_widget_destroy(warn);
+    return;
+  }
 
   game_state = state;
 
@@ -615,11 +627,11 @@ void game_mgr_play_game(GameState *state)
     GtkResponseType response;
     GtkWidget *warn;
 
-    warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
-				  GTK_DIALOG_DESTROY_WITH_PARENT,
-				  GTK_MESSAGE_QUESTION,
-				  GTK_BUTTONS_YES_NO,
-				  _("A new RST file was found. Do you want to unpack it?"));
+    warn = gtk_message_dialog_new ((GtkWindow *) game_mgr_properties,
+				   GTK_DIALOG_DESTROY_WITH_PARENT,
+				   GTK_MESSAGE_QUESTION,
+				   GTK_BUTTONS_YES_NO,
+				   _("A new RST file was found. Do you want to unpack it?"));
 
     response = gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
