@@ -22,4 +22,14 @@ message-reader:
 [   ][r][n] try to use colourified messages according to their importance
 [   ][r][n] expand/collapse categories with double-click
 
+starchart:
 
+[ XX][B][n] Some minefields are not being showed.
+[  X][B][n] When unpacking with GWP, some ships appear on starchart
+            but when clicking on it, the ship list is empty.
+
+race related:
+
+[XXX][B][n] Use a function that return the race *character*, from 1 to
+            B...not from 1 to 11. I think players with race 10 and 11
+            are not being able to use GWP.
