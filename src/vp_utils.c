@@ -34,6 +34,7 @@
 #include "gwp-ship.h"
 #include "gwp-hullspec.h"
 #include "gwp-engspec.h"
+#include "gwp-torpspec.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 
@@ -64,6 +65,8 @@ void init_data (void)
   g_message("HULLSPEC.DAT loaded...");
   engspec_list = load_engspec();
   g_message("ENGSPEC.DAT loaded...");
+  torpspec_list = load_torpspec();
+  g_message("TORPSPEC.DAT loaded...");
 }
 
 /*
@@ -1032,7 +1035,7 @@ GSList * load_engspec (void)
   GString *engspec_file;
   GwpEngSpec *es;
   gint16 i, idx, engspec_nr;
-  gchar buffer[60];
+  gchar buffer[66];
   gchar *name_tmp;
   
   /* Initialize file name */
@@ -1087,4 +1090,68 @@ GSList * load_engspec (void)
   fclose (engspec);
 
   return engspec_list;
+}
+
+GSList * load_torpspec (void)
+{
+  FILE *torpspec;
+  GSList *torpspec_list = NULL;
+  GString *torpspec_file;
+  GwpTorpSpec *ts;
+  gint16 i, idx, torpspec_nr;
+  gchar buffer[38];
+  gchar *name_tmp;
+  
+  /* Initialize file name */
+  torpspec_file = g_string_new ("TORPSPEC.DAT");
+  
+  if ((torpspec = fopen(game_get_full_path(game_state, torpspec_file->str), "r")) == NULL) {
+    torpspec_file = g_string_down (torpspec_file);
+    if ((torpspec =
+	 fopen (game_get_full_path(game_state, torpspec_file->str), "r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 game_get_full_path(game_state, torpspec_file->str));
+      exit (-1);
+    }
+  }
+  
+  rewind (torpspec);
+
+  torpspec_nr = 10;
+
+  /* read registers */
+  for (i = 1; i <= torpspec_nr; i++) {
+    fread (buffer, 38, 1, torpspec);
+    
+    /* Instantiate new object */
+    ts = gwp_torpspec_new ();
+
+    /* Load data */
+    gwp_torpspec_set_id (ts, i);
+
+    name_tmp = g_malloc (sizeof(gchar)*21);
+    for (idx = 0; idx < 20; idx++) {
+      name_tmp[idx] = getWord(buffer + idx);
+    }
+    name_tmp[20] = '\0';
+    gwp_torpspec_set_name (ts, g_string_new(g_strchomp(name_tmp)));
+    g_free(name_tmp);
+
+    gwp_torpspec_set_torpedo_cost (ts, getWord(buffer + 20));
+    gwp_torpspec_set_launcher_cost (ts, getWord(buffer + 22));
+    gwp_torpspec_set_tritanium (ts, getWord(buffer + 24));
+    gwp_torpspec_set_duranium (ts, getWord(buffer + 26));
+    gwp_torpspec_set_molybdenum (ts, getWord(buffer + 28));
+    
+    gwp_torpspec_set_mass (ts, getWord(buffer + 30));
+    gwp_torpspec_set_tech_level (ts, getWord(buffer + 32));
+    gwp_torpspec_set_kill_value (ts, getWord(buffer + 32));
+    gwp_torpspec_set_damage_value (ts, getWord(buffer + 32));
+
+    /* Add new torpedo launcher */
+    torpspec_list = g_slist_append (torpspec_list, ts);
+  }
+  fclose (torpspec);
+
+  return torpspec_list;
 }

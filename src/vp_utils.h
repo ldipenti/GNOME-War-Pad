@@ -41,6 +41,8 @@ GHashTable *load_target(gint race);
 
 GSList * load_hullspec (void);
 GSList * load_engspec (void);
+GSList * load_torpspec (void);
+GSList * load_beamspec (void);
 
 GList *load_pnames_file(gchar *pnames_file);
 void load_object_per_quad (gpointer obj, GSList * obj_per_quad[TOTAL_QUADS], double wx, gdouble wy);
