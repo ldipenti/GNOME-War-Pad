@@ -33,6 +33,7 @@
 #include "gwp-starbase.h"
 #include "gwp-ship.h"
 #include "gwp-hullspec.h"
+#include "gwp-engspec.h"
 
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 
@@ -61,6 +62,8 @@ void init_data (void)
   g_message("BDATA loaded...");
   hullspec_list = load_hullspec();
   g_message("HULLSPEC.DAT loaded...");
+  engspec_list = load_engspec();
+  g_message("ENGSPEC.DAT loaded...");
 }
 
 /*
@@ -990,7 +993,7 @@ GSList * load_hullspec (void)
     /* Load data */
     gwp_hullspec_set_id (hs, i);
 
-    name_tmp = g_malloc (sizeof(gchar)*30);
+    name_tmp = g_malloc (sizeof(gchar)*31);
     for (idx = 0; idx < 30; idx++) {
       name_tmp[idx] = getWord(buffer + idx);
     }
@@ -1014,10 +1017,74 @@ GSList * load_hullspec (void)
     gwp_hullspec_set_beam_weapons (hs, getWord(buffer + 56));
     gwp_hullspec_set_cost (hs, getWord(buffer + 58));
     
-    /* Add new target */
+    /* Add new hull */
     hullspec_list = g_slist_append (hullspec_list, hs);
   }
   fclose (hullspec);
 
   return hullspec_list;
+}
+
+GSList * load_engspec (void)
+{
+  FILE *engspec;
+  GSList *engspec_list = NULL;
+  GString *engspec_file;
+  GwpEngSpec *es;
+  gint16 i, idx, engspec_nr;
+  gchar buffer[60];
+  gchar *name_tmp;
+  
+  /* Initialize file name */
+  engspec_file = g_string_new ("ENGSPEC.DAT");
+  
+  if ((engspec = fopen(game_get_full_path(game_state, engspec_file->str), "r")) == NULL) {
+    engspec_file = g_string_down (engspec_file);
+    if ((engspec =
+	 fopen (game_get_full_path(game_state, engspec_file->str), "r")) == NULL) {
+      g_message ("ERROR trying to open %s file.\n",
+		 game_get_full_path(game_state, engspec_file->str));
+      exit (-1);
+    }
+  }
+  
+  rewind (engspec);
+
+  engspec_nr = 9;
+
+  /* read registers */
+  for (i = 1; i <= engspec_nr; i++) {
+    fread (buffer, 66, 1, engspec);
+    
+    /* Instantiate new object */
+    es = gwp_engspec_new ();
+
+    /* Load data */
+    gwp_engspec_set_id (es, i);
+
+    name_tmp = g_malloc (sizeof(gchar)*21);
+    for (idx = 0; idx < 20; idx++) {
+      name_tmp[idx] = getWord(buffer + idx);
+    }
+    name_tmp[20] = '\0';
+    gwp_engspec_set_name (es, g_string_new(g_strchomp(name_tmp)));
+    g_free(name_tmp);
+
+    gwp_engspec_set_cost (es, getWord(buffer + 20));
+    gwp_engspec_set_tritanium (es, getWord(buffer + 22));
+    gwp_engspec_set_duranium (es, getWord(buffer + 24));
+    gwp_engspec_set_molybdenum (es, getWord(buffer + 26));
+    
+    gwp_engspec_set_tech_level (es, getWord(buffer + 28));
+
+    for (idx = 1; idx <= 9; idx++) {
+      gwp_engspec_set_fuel_usage (es, idx, getDWord(buffer + 30 + (4*idx)));
+    }
+    
+    /* Add new engine */
+    engspec_list = g_slist_append (engspec_list, es);
+  }
+  fclose (engspec);
+
+  return engspec_list;
 }
