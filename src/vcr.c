@@ -12,6 +12,9 @@
 
 #define ASCII_0 48
 #define MAXNMBSHIPS 512
+/* TODO - try to eliminate as much hardcoded values as possible */
+#define MAX_SHIPS_PER_RACE 20
+#define NMB_OF_TORPTYPES 10
 
 void vcr_all_init( GtkWidget *widget,
 				      gpointer  user_data )
@@ -23,6 +26,7 @@ void vcr_all_init( GtkWidget *widget,
   vcr_populate_beamspec_lists( widget, user_data );
   vcr_populate_race_lists( widget, user_data );
   vcr_populate_torps_lists( widget, user_data );
+  vcr_populate_hull_lists( widget, user_data );
 }
 
 
@@ -1277,6 +1281,7 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
   gint retval = 0;
   GtkRange *range;
   GtkEntry *entry;
+  GtkComboBox *box;
 
   switch( value )
   {
@@ -2215,7 +2220,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_a" ) );
+                retval = gtk_combo_box_get_active( box );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -2232,7 +2238,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_b" ) );
+                retval = gtk_combo_box_get_active( box );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -2249,7 +2256,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_race_p" ) );
+                retval = gtk_combo_box_get_active( box );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
@@ -2488,10 +2496,10 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
 
   box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_a" ) );
   gtk_combo_box_append_text( box, "none" );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
   box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_beam_b" ) );
   gtk_combo_box_append_text( box, "none" );
-  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
-  gtk_combo_box_append_text( box, "none" );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
   n = g_slist_length( beamspec_list );
   for( i=0; i<n; i++ )
   {
@@ -2503,6 +2511,8 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
     gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
   }
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_bea_bas" ) );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
 }
 
 
@@ -2516,10 +2526,13 @@ void vcr_populate_race_lists( GtkWidget *widget, gpointer user_data )
   {
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_a" ) );
     gtk_combo_box_append_text( box, race_get_name( i ) );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_race_b" ) );
     gtk_combo_box_append_text( box, race_get_name( i ) );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
     box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_race_p" ) );
     gtk_combo_box_append_text( box, race_get_name( i ) );
+    gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
     i++;
   }
 }
@@ -2546,17 +2559,40 @@ void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data )
   }
   box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_a" ) );
   gtk_combo_box_append_text( box, "Fighters" );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
   box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_torp_b" ) );
   gtk_combo_box_append_text( box, "Fighters" );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
 }
 
+
+void vcr_populate_hull_lists( GtkWidget *widget, gpointer user_data )
+{
+  GtkComboBox *box;
+
+  gint *nmb1 = (gint *)g_malloc(1*sizeof( gint ));
+  nmb1[0] = 1;
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_a" ) );
+  gtk_combo_box_append_text( box, "none" );
+  g_object_set_data( G_OBJECT( box ), "nmb_of_hulls", nmb1 );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+
+
+  gint *nmb2 = (gint *)g_malloc(1*sizeof( gint ));
+  nmb2[0] = 1;
+  box = GTK_COMBO_BOX_ENTRY( lookup_widget( "vcr_comboboxentry_sel_type_b" ) );
+  gtk_combo_box_append_text( GTK_COMBO_BOX( box ), "none" );
+  g_object_set_data( G_OBJECT( box ), "nmb_of_hulls", nmb2 );
+  gtk_combo_box_set_active( GTK_COMBO_BOX( box ), 0 );
+
+}
 
 
 void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
 {
   GtkComboBoxEntry *entry;
   GwpShip *ship;
-  
+
   entry = GTK_COMBO_BOX_ENTRY( lookup_widget( "vcr_comboboxentry_sel_ext_shp_a" ) );
 
   gint *idlist = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_ext_shp_a")), "shipidlist");
@@ -2598,6 +2634,63 @@ void vcr_ship_a_selected( GtkWidget *widget, gpointer user_data )
   vcr_set( widget, user_data, SHIP_A, LVL_ENGINE, VAL_CUR, gwp_ship_get_engines_type( ship )+1 );
 }
 
+
+void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
+{
+  gint i, id, race;
+  GwpHullSpec *hull;
+  GtkComboBox *box;
+  gint *nmbpt;
+
+  /* find out what race was selected */
+  race = vcr_get( widget, user_data, SHIP_B, TYP_RACE, VAL_CUR ) - 1;
+  g_message( "selected race is : %d", race );
+
+  /*
+   * Fill The Hulls
+   */
+  /* find out how many entries are (at least "should be") in hulls-list */
+  nmbpt = (gint *)g_object_get_data(
+    G_OBJECT(lookup_widget("vcr_comboboxentry_sel_type_a")), "nmb_of_hulls" );
+
+  /* make sure this function is not called too early */
+  if( nmbpt == NULL )
+  {
+    g_message( "# Warning: vcr_ship_b_race_selected() called too early" );
+    return;
+  }
+  else
+    g_message( "+++ race b selected ok" );
+
+
+  /* clear hulls-list */
+  box = GTK_COMBO_BOX( lookup_widget( "vcr_comboboxentry_sel_type_b" ) );
+  for( i=0; i<nmbpt[0]; i++ )
+    gtk_combo_box_remove_text( box, 0 );
+  nmbpt[0] = 0;
+
+  /* fill ship-type list with race specific hulls */
+  if( race < 0 )
+  {
+    /* TODO */
+    /* maybe selecting 'none' as race should
+       show all possible hulls for all races
+    */
+  }
+  else
+  {
+    i = 0;
+    id = truehull[race][i];
+    do {
+      hull = GWP_HULLSPEC( g_slist_nth_data( hullspec_list, id-1 ) );
+      gtk_combo_box_append_text( box, gwp_hullspec_get_name_trunc( hull, 18 )->str );
+      nmbpt[0]++;
+      i++;
+      id = truehull[race][i];
+    } while( id>0 && i< MAX_SHIPS_PER_RACE );
+  }
+  gtk_combo_box_set_active( box, 0 );
+}
 
 
 gint str2int( char *str )
