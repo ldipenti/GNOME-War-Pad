@@ -35,27 +35,28 @@ class Quark(gwp.Plugin):
                 self.pl_otros.append(p)
 
     #--------------------------------------------------------------------------
-    def determine_planet_qdata(self, p, planeta):
+    def determine_planet_qdata(self, p, planetaq):
         """Determina el tipo de planeta y setea los valores en la estructura
-        planeta que se devuelve"""
+        planeta_quark que se devuelve"""
         income_col = p.get_tax_collected_colonists()
         if income_col > self.quark_utils.RECAUDADOR_MIN_MC:
-            planeta['recaudador'] = 1
+            planetaq['recaudador'] = 1
         else:
             tax, income = calculate_max_income_from_natives(p)
             if income > self.quark_utils.RECAUDADOR_MIN_MC:
-                planeta['recaudador'] = 1
-        planeta = determine_mineral_composition(p, planeta)
+                planetaq['recaudador'] = 1
+
+        planetaq = determine_mineral_composition(p, planetaq)
 
         # Determino el tipo de planeta que recomiendo
-        if planeta['recaudador'] == 1:
-            planeta['tipo_quark'] = self.quark_utils.TIPO_RECAUDADOR
-        elif planeta['minero_neu'] or planeta['minero_tri'] or planeta['minero_dur'] or planeta['minero_mol']:
-            planeta['tipo_quark'] = self.quark_utils.TIPO_MINERO
+        if planetaq['recaudador'] == 1:
+            planetaq['tipo_quark'] = self.quark_utils.TIPO_RECAUDADOR
+        elif planetaq['minero_neu'] or planetaq['minero_tri'] or planetaq['minero_dur'] or planetaq['minero_mol']:
+            planetaq['tipo_quark'] = self.quark_utils.TIPO_MINERO
         else:
-            planeta['tipo_quark'] = self.quark_utils.TIPO_COMUN
+            planetaq['tipo_quark'] = self.quark_utils.TIPO_COMUN
         
-        return planeta
+        return planetaq
 
     #--------------------------------------------------------------------------
     def na_report_generate(self, p):
@@ -87,7 +88,7 @@ class Quark(gwp.Plugin):
     def calculate_missing_colonists_tax_natives(self, p):
         """devuelve la cantidad de colonos que faltan para cobrar al maximo a
         los nativos."""
-        if (p.get_natives_race() <> 5): # Si no son Amorphous
+        if (p.get_natives_race() <> self.quark_utils.ID_AMORFOS):
             tax, max_i = self.calculate_max_income_from_natives(p)
             if max_i > p.get_tax_collected_natives():
 
@@ -104,7 +105,7 @@ class Quark(gwp.Plugin):
     def calculate_max_income_from_natives(self, p):
         """ Determino el maximo que se puede cobrar (con una copia del planeta)
         devuelve (% de impuesto, cantidad de MC) """
-        if p.get_natives() and (p.get_natives_race() <> 5): # nativos y no amorfos
+        if p.get_natives() and (p.get_natives_race() <> self.quark_utils.ID_AMORFOS):
             future_p = p.copy()
 
             #gs = gwp.get_game_state()
@@ -138,7 +139,7 @@ class Quark(gwp.Plugin):
         """Devuelve la cantidad de colonos que faltan para que los bovinoides
         produzcan el maximo de supplies."""
         # Supplies Bovinoids
-        if (p.get_natives_race() == 2): # Bovinoids
+        if (p.get_natives_race() == self.quark_utils.ID_BOVINOIDS):
             sup = p.get_natives() / 100
             if p.get_colonists() < sup:
                 return sup
@@ -335,21 +336,24 @@ class Quark(gwp.Plugin):
 
     #--------------------------------------------------------------------------
     def init_planets_structure(self):
-        planeta_vacio = self.quark_utils.planeta_quark
+
+        # FIXME : Actualmente en proceso de desarrollo
+        
+        planetaq_vacio = self.quark_utils.planeta_quark
         self.pl_qdata = {}
 
         for p in self.pl:
-            pid = p.get_id
-            planeta = planeta_vacio
-            planeta['pid'] = pid
-            planeta = self.determine_planet_qdata(p, planeta)
-            self.pl_qdata[pid] = planeta
+            pid = p.get_id()
+            planetaq = planetaq_vacio
+            planetaq['pid'] = pid
+            planetaq = self.determine_planet_qdata(p, planetaq)
+            self.pl_qdata[pid] = planetaq
 
         # FIXME : los mismo para otros planetas
         
     #--------------------------------------------------------------------------
     def __create_gui(self):
-        # Para el manejo de la selecion en los treeviews
+        # Para el manejo de la seleccion en los treeviews
         self.treeselection_planets = self.lst_planets.get_selection()
         # treeview setup
         self.store_planets = gtk.ListStore(int, str)
