@@ -78,8 +78,6 @@ GnomeCanvasItem *starchart_find_nearest_object(GSList *objects_in_quad, gdouble 
 GSList *starchart_get_surrounding_quads(GSList *objects_per_quad[TOTAL_QUADS], gint center_quad);
 gint get_quadrant(gdouble x, gdouble y);
 
-gboolean starchart_is_my_planet(GnomeCanvasItem *planet_item);
-gboolean starchart_is_my_ship(GnomeCanvasItem *ship_item);
 gint get_planet_from_coords(gdouble x_wc, gdouble y_wc);
 GSList *get_ships_from_coords(gdouble x_wc, gdouble y_wc);
 void starchart_get_object_center_coord(GnomeCanvasItem *item, gdouble *x, gdouble *y);
@@ -91,10 +89,11 @@ void starchart_set_status(gchar *msg);
 void starchart_mini_set_planet_img(GwpPlanet *planet);
 void starchart_mini_set_ship_img(GwpShip *ship);
 
-void toggle_global_defense_panel(gboolean show);
 void toggle_starbase_panel(gboolean show);
 
 void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item);
 void starchart_show_planet_names (gboolean show);
+void starchart_show_minefields (gboolean show);
+void starchart_show_ion_storms (gboolean show);
 
 #endif

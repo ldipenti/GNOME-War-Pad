@@ -1197,7 +1197,7 @@ void draw_ship (gpointer key, gpointer value, gpointer user_data)
   GwpLocation *location;
   
   ship = value;
-  ships_group = starchart_get_grp_ships_allied(); /*FIXME: only allied!!*/
+  ships_group = starchart_get_grp_ships (); /*FIXME: only allied!!*/
   
   /* Check if ship coords aren't invalid...and work */
   if (gwp_ship_valid_coords (ship)) {
@@ -1269,8 +1269,7 @@ void draw_ion_storm (gpointer data, gpointer user_data)
 { 
   GnomeCanvasItem *item = NULL;
   GnomeCanvasItem *item_arrow = NULL;
-  GtkWidget *starchart = (GtkWidget *)starchart_get_canvas();
-  GnomeCanvasGroup *group = gnome_canvas_root(GNOME_CANVAS(starchart));
+  GnomeCanvasGroup *group = starchart_get_grp_ion_storms();
   GwpIonStorm *storm = GWP_ION_STORM(data);
   gdouble xi, yi;
   GnomeCanvasPoints *points;
@@ -1336,8 +1335,7 @@ void draw_ion_storm (gpointer data, gpointer user_data)
 void draw_minefield (gpointer data, gpointer user_data)
 {
   GnomeCanvasItem *item = NULL;
-  GtkWidget *starchart = (GtkWidget *)starchart_get_canvas();
-  GnomeCanvasGroup *group = gnome_canvas_root(GNOME_CANVAS(starchart));
+  GnomeCanvasGroup *group = starchart_get_grp_minefields();
   GwpMinefield *minefield = GWP_MINEFIELD(data);
   gdouble xi, yi;
 
@@ -1471,21 +1469,6 @@ void init_starchart (GtkWidget * gwp)
 			 game_get_last_x_coord(game_state),
 			 game_get_last_y_coord(game_state));
 
-  /* Set up toolbar view & menu entry */
-  /* FIXME: Does not work toolbar hiding...why??
-  if(game_get_toolbar(game_state)) {
-    gtk_check_menu_item_set_active((GtkCheckMenuItem*)
-				   lookup_widget("toolbar_menu"),
-				   TRUE);
-    gtk_widget_show(lookup_widget("bonobodock_btn_bar"));
-  } else {
-    gtk_check_menu_item_set_active((GtkCheckMenuItem*)
-				   lookup_widget("toolbar_menu"),
-				   FALSE);
-    gtk_widget_hide(lookup_widget("bonobodock_btn_bar"));
-  }
-  */
-
   starchart_set_grp_grid(GNOME_CANVAS_GROUP 
 			 (gnome_canvas_item_new 
 			  (starchart_get_grp_root(), 
@@ -1495,31 +1478,26 @@ void init_starchart (GtkWidget * gwp)
 				   (gnome_canvas_item_new 
 				    (starchart_get_grp_root(), 
 				     GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_planets_mine(GNOME_CANVAS_GROUP 
-				 (gnome_canvas_item_new 
-				  (starchart_get_grp_root(),
-				   GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_planets_enemy(GNOME_CANVAS_GROUP 
-				  (gnome_canvas_item_new 
-				   (starchart_get_grp_root(), 
-				    GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_planets_allied(GNOME_CANVAS_GROUP 
-				   (gnome_canvas_item_new 
-				    (starchart_get_grp_root(), 
-				     GNOME_TYPE_CANVAS_GROUP, NULL)));
-  
-  starchart_set_grp_ships_mine(GNOME_CANVAS_GROUP 
-			       (gnome_canvas_item_new 
-				(starchart_get_grp_root(), 
-				 GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_ships_enemy(GNOME_CANVAS_GROUP 
+
+  starchart_set_grp_planets (GNOME_CANVAS_GROUP 
+			     (gnome_canvas_item_new 
+			      (starchart_get_grp_root(),
+			       GNOME_TYPE_CANVAS_GROUP, NULL)));
+
+  starchart_set_grp_ships (GNOME_CANVAS_GROUP 
+			   (gnome_canvas_item_new 
+			    (starchart_get_grp_root(), 
+			     GNOME_TYPE_CANVAS_GROUP, NULL)));
+
+  starchart_set_grp_minefields (GNOME_CANVAS_GROUP 
 				(gnome_canvas_item_new 
-				 (starchart_get_grp_root(), 
+				 (starchart_get_grp_root(),
 				  GNOME_TYPE_CANVAS_GROUP, NULL)));
-  starchart_set_grp_ships_allied(GNOME_CANVAS_GROUP 
-				 (gnome_canvas_item_new 
-				  (starchart_get_grp_root(),
-				   GNOME_TYPE_CANVAS_GROUP, NULL)));
+
+  starchart_set_grp_ion_storms (GNOME_CANVAS_GROUP 
+				(gnome_canvas_item_new 
+				 (starchart_get_grp_root(),
+				  GNOME_TYPE_CANVAS_GROUP, NULL)));
   /* End struct initialization... */
 
   /* Initialize mouse cursor */
@@ -1585,16 +1563,20 @@ void init_starchart (GtkWidget * gwp)
 
   /* Set grid up in the item pile. */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_grid()));
+  /* Planets and ships */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planets()));
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_ships()));
+  /* Set Minefields and storms on the top */
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_minefields()));
+  gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_ion_storms()));
   /* Set Planet names on the top */
   gnome_canvas_item_raise_to_top(GNOME_CANVAS_ITEM(starchart_get_grp_planet_names()));
-  /* Put ships above all other objects */
-  gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (starchart_get_grp_ships_allied()));
   
   /* Various bindings */
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
 		     "grid_group", starchart_get_grp_grid());
   g_object_set_data (G_OBJECT (starchart_get_canvas()), 
-		     "ships_group", starchart_get_grp_ships_allied());
+		     "ships_group", starchart_get_grp_ships());
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -1700,45 +1682,6 @@ GnomeCanvasItem * starchart_find_nearest_object (GSList * objects_in_quad,
     return min_object;
   }
   return NULL;
-}
-
-gboolean starchart_is_my_planet (GnomeCanvasItem * planet_item)
-{
-  gdouble x, y;
-  GwpPlanet *planet = NULL;
-  
-  starchart_get_object_center_coord (planet_item, &x, &y);
-  planet = g_object_get_data (G_OBJECT (planet_item), "planet_data");
-  if (gwp_planet_what_is (planet) == IS_MINE) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
-gboolean starchart_is_my_ship (GnomeCanvasItem * ship_item)
-{
-  /* FIXME: Check this out! *too slow!*
-     
-  gdouble x, y;
-  GSList *ship_l;
-  Ship *ship = NULL;
-  gint i;
-  gboolean answer;
-  
-  answer = TRUE;
-  
-  starchart_get_object_center_coord(ship_item, &x, &y);
-  ship_l = get_ships_from_coords(x, y);
-  for(i = 0; i < g_slist_length(ship_l); i++) {
-  ship = g_hash_table_lookup(ship_list, (gconstpointer)g_slist_nth_data(ship_l, i));
-  if(ship->owner != game_get_race()) {
-  answer = FALSE;
-  }
-  }
-  return answer;
-  */
-  return TRUE;
 }
 
 GnomeCanvasItem* starchart_select_nearest_planet (GtkWidget * gwp, 
@@ -1875,14 +1818,22 @@ void starchart_zoom_in (GnomeCanvas * starchart)
 {
   gdouble zoom = game_get_starchart_zoom(game_state);
   gchar *zoom_status;
+  GtkCheckMenuItem *pnames_menu = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
   
   if (zoom < 2.0) {
-    zoom = zoom + 0.2;
+    zoom += 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
     game_set_starchart_zoom(game_state, zoom);
+
+    /* print status */
     zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
     starchart_set_status(zoom_status);
     g_free(zoom_status);
+
+    /* show planet names if needed */
+    if (zoom >= 1.0 && gtk_check_menu_item_get_active(pnames_menu)) {
+      starchart_show_planet_names (TRUE);
+    }
   }
 }
 
@@ -1890,14 +1841,22 @@ void starchart_zoom_out (GnomeCanvas * starchart)
 {
   gdouble zoom = game_get_starchart_zoom(game_state);
   gchar *zoom_status;
+  GtkCheckMenuItem *pnames_menu = (GtkCheckMenuItem *) lookup_widget ("view_pnames_menu");
   
-  if (zoom > 0.6) {
-    zoom = zoom - 0.2;
+  if (zoom > 0.4) {
+    zoom -= 0.2;
     gnome_canvas_set_pixels_per_unit (starchart, zoom);
     game_set_starchart_zoom(game_state, zoom);
+
+    /* print status */
     zoom_status = g_strdup_printf("Zoom: %d%%", (gint)(rint(zoom*10)*10));
     starchart_set_status(zoom_status);
     g_free(zoom_status);
+
+    /* show planet names if needed */
+    if (zoom < 1.0 && gtk_check_menu_item_get_active(pnames_menu)) {
+      starchart_show_planet_names (FALSE);
+    }
   }
 }
 
@@ -1979,7 +1938,7 @@ void init_starchart_mini (void)
   starchart_mini_set_canvas((GnomeCanvas *) lookup_widget ("starchart_mini"));
   starchart_mini_set_grp_root(gnome_canvas_root (starchart_mini_get_canvas()));
 
-  /* Set on AA mode */
+  /* Set starchart on "antialias" mode */
   starchart_mini_get_canvas()->aa = 1;
   gnome_canvas_update_now(starchart_mini_get_canvas());
 
@@ -2061,7 +2020,6 @@ void starchart_set_status(gchar *msg)
 
 void starchart_mark_planet(GwpPlanet *a_planet)
 {
-  /*  static GnomeCanvasItem *planet_mark = NULL; */
   static GnomeCanvasItem *planet_mark_l = NULL;
   static GnomeCanvasItem *planet_mark_r = NULL;
   static GnomeCanvasItem *planet_mark_u = NULL;
@@ -2129,7 +2087,6 @@ void starchart_mark_planet(GwpPlanet *a_planet)
   }
   /* Translate the mark! */
   art_affine_translate(matrix, wx, wy);
-  /*  gnome_canvas_item_affine_absolute(planet_mark, matrix); */
   gnome_canvas_item_affine_absolute(planet_mark_l, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_r, matrix);
   gnome_canvas_item_affine_absolute(planet_mark_u, matrix);
@@ -2138,7 +2095,6 @@ void starchart_mark_planet(GwpPlanet *a_planet)
 
 void starchart_mark_ship (gint x, gint y)
 {
-  /*  static GnomeCanvasItem *ship_mark = NULL; */
   static GnomeCanvasItem *ship_mark_l = NULL;
   static GnomeCanvasItem *ship_mark_r = NULL;
   static GnomeCanvasItem *ship_mark_u = NULL;
@@ -2147,25 +2103,11 @@ void starchart_mark_ship (gint x, gint y)
   gdouble wx, wy;
   gdouble matrix[6];
 
-  /*
-  vp_coord_v2w(gwp_object_get_x_coord(GWP_OBJECT(a_ship)), 
-	       gwp_object_get_y_coord(GWP_OBJECT(a_ship)), &wx, &wy);
-  */
-
   wx = (gdouble)x;
   wy = (gdouble)y;
 
   /* If item doesn't exist yet, lets create it. */
   if(! ship_mark_l) {
-/*     ship_mark = gnome_canvas_item_new (starchart_get_grp_root(),  */
-/* 					 GNOME_TYPE_CANVAS_ELLIPSE, */
-/* 					 "outline_color_rgba", 0x00000000, */
-/* 					 "x1", -2.5,  */
-/* 					 "y1", -2.5, */
-/* 					 "x2", 2.5, */
-/* 					 "y2", 2.5, "width_pixels", 1, */
-/* 					 "fill_color_rgba", 0xdd000011,  */
-/* 					 NULL); */
     p = gnome_canvas_points_new(2);
     p->coords[0] = -6.0;
     p->coords[1] = 6.0;
@@ -2220,7 +2162,6 @@ void starchart_mark_ship (gint x, gint y)
   }
   /* Translate the mark! */
   art_affine_translate(matrix, wx, wy);
-  /*  gnome_canvas_item_affine_absolute(ship_mark, matrix); */
   gnome_canvas_item_affine_absolute(ship_mark_l, matrix);
   gnome_canvas_item_affine_absolute(ship_mark_r, matrix);
   gnome_canvas_item_affine_absolute(ship_mark_u, matrix);
@@ -2395,17 +2336,6 @@ void starchart_mini_set_ship_img(GwpShip *ship)
   g_string_free(img_name, TRUE);
 }
 
-void toggle_global_defense_panel(gboolean show)
-{
-  GtkWidget *def_panel = lookup_widget("global_defense_panel");
-
-  if(show) {
-    gtk_widget_show(def_panel);
-  } else {
-    gtk_widget_hide(def_panel);
-  }
-}
-
 void toggle_starbase_panel(gboolean show)
 {
   GtkNotebook *base_panel = 
@@ -2438,13 +2368,39 @@ void starchart_rotate_ship (GwpShip *ship, GnomeCanvasItem *item)
 
 void starchart_show_planet_names (gboolean show)
 {
+  game_set_planet_names (game_state, show);
+    
   if (show) {
-    game_set_planet_names (game_state, show);
     gnome_canvas_item_show ((GnomeCanvasItem *) 
-			    starchart_get_grp_planet_names());
+			    starchart_get_grp_planet_names ());
   } else {
-    game_set_planet_names (game_state, show);
     gnome_canvas_item_hide ((GnomeCanvasItem *) 
-			    starchart_get_grp_planet_names());    
+			    starchart_get_grp_planet_names ());
+  }
+}
+
+void starchart_show_minefields (gboolean show)
+{
+  game_set_minefields (game_state, show);
+
+  if (show) {
+    gnome_canvas_item_show ((GnomeCanvasItem *) 
+			    starchart_get_grp_minefields ());
+  } else {
+    gnome_canvas_item_hide ((GnomeCanvasItem *) 
+			    starchart_get_grp_minefields ());
+  }
+}
+
+void starchart_show_ion_storms (gboolean show)
+{
+  game_set_ion_storms (game_state, show);
+
+  if (show) {
+    gnome_canvas_item_show ((GnomeCanvasItem *)
+			    starchart_get_grp_ion_storms ());
+  } else {
+    gnome_canvas_item_hide ((GnomeCanvasItem *)
+			    starchart_get_grp_ion_storms ());
   }
 }

@@ -97,6 +97,8 @@ GameState *game_state_new(void)
   ret->toolbar = TRUE;
   ret->extra_panel_open = FALSE;
   ret->planet_names = TRUE;
+  ret->minefields = TRUE;
+  ret->ion_storms = TRUE;
   ret->settings = game_settings_new();
   
   return ret;
@@ -179,7 +181,12 @@ void game_set_race(GameState *game_state, gint race_num)
 enum races game_get_race(const GameState *game_state) 
 {
   g_assert(game_state != NULL);
+  return game_state->settings->race;
+}
 
+gint game_get_race_nr (const GameState *game_state) 
+{
+  g_assert(game_state != NULL);
   return game_state->settings->race;
 }
 
@@ -330,6 +337,30 @@ void game_set_planet_names (GameState *game_state, gboolean show)
   game_state->planet_names = show;
 }
 
+gboolean game_get_minefields (const GameState *game_state)
+{
+  g_assert (game_state != NULL);
+  return game_state->minefields;
+}
+
+void game_set_minefields (GameState *game_state, gboolean show)
+{
+  g_assert (game_state != NULL);
+  game_state->minefields = show;
+}
+
+gboolean game_get_ion_storms (const GameState *game_state)
+{
+  g_assert (game_state != NULL);
+  return game_state->ion_storms;
+}
+
+void game_set_ion_storms (GameState *game_state, gboolean show)
+{
+  g_assert (game_state != NULL);
+  game_state->ion_storms = show;
+}
+
 gboolean game_is_extra_panel_open (const GameState *game_state)
 {
   g_assert (game_state != NULL);
@@ -458,7 +489,6 @@ void game_close(GameState *game_state)
 
     g_hash_table_foreach (ship_list, (GHFunc) destroy_gobject, NULL);
     g_hash_table_destroy (ship_list);
-    gtk_object_destroy (GTK_OBJECT(starchart_get_grp_ships_allied()));
 
     /* FIXME!!! cleanup code is buggy! */
   }

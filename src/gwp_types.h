@@ -44,25 +44,22 @@ void starchart_set_grp_root(GnomeCanvasGroup * group);
 GnomeCanvasGroup * starchart_get_grp_grid(void);
 void starchart_set_grp_grid(GnomeCanvasGroup * group);
 
-GnomeCanvasGroup * starchart_get_grp_planet_names(void);
-void starchart_set_grp_planet_names(GnomeCanvasGroup * group);
-GnomeCanvasGroup * starchart_get_grp_planets_mine(void);
-void starchart_set_grp_planets_mine(GnomeCanvasGroup * group);
-GnomeCanvasGroup * starchart_get_grp_planets_enemy(void);
-void starchart_set_grp_planets_enemy(GnomeCanvasGroup * group);
-GnomeCanvasGroup * starchart_get_grp_planets_allied(void);
-void starchart_set_grp_planets_allied(GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_planet_names (void);
+void starchart_set_grp_planet_names (GnomeCanvasGroup * group);
 
-GnomeCanvasGroup * starchart_get_grp_ships_mine(void);
-void starchart_set_grp_ships_mine(GnomeCanvasGroup * group);
-GnomeCanvasGroup * starchart_get_grp_ships_enemy(void);
-void starchart_set_grp_ships_enemy(GnomeCanvasGroup * group);
-GnomeCanvasGroup * starchart_get_grp_ships_allied(void);
-void starchart_set_grp_ships_allied(GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_planets (void);
+void starchart_set_grp_planets (GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_ships (void);
+void starchart_set_grp_ships (GnomeCanvasGroup * group);
 
-void starchart_set_grid(gboolean state);
-gboolean starchart_get_grid(void);
-gboolean starchart_toggle_grid(void);
+GnomeCanvasGroup * starchart_get_grp_minefields (void);
+void starchart_set_grp_minefields (GnomeCanvasGroup * group);
+GnomeCanvasGroup * starchart_get_grp_ion_storms (void);
+void starchart_set_grp_ion_storms (GnomeCanvasGroup * group);
+
+void starchart_set_grid (gboolean state);
+gboolean starchart_get_grid (void);
+gboolean starchart_toggle_grid (void);
 
 typedef struct _Fleet Fleet;
 struct _Fleet {
@@ -81,13 +78,12 @@ struct _Starchart {
   GnomeCanvasGroup *grp_grid;
   
   GnomeCanvasGroup *grp_planet_names;
-  GnomeCanvasGroup *grp_planets_mine;
-  GnomeCanvasGroup *grp_planets_enemy;
-  GnomeCanvasGroup *grp_planets_allied;
-  
-  GnomeCanvasGroup *grp_ships_mine;
-  GnomeCanvasGroup *grp_ships_enemy;
-  GnomeCanvasGroup *grp_ships_allied;	
+
+  GnomeCanvasGroup *grp_planets;
+  GnomeCanvasGroup *grp_ships;
+
+  GnomeCanvasGroup *grp_minefields;
+  GnomeCanvasGroup *grp_ion_storms;
 };
 
 typedef struct _StarchartMini StarchartMini;

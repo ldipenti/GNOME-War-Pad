@@ -5,6 +5,10 @@ Version ?.?.?? (released ??-??-????):
 	  shift key anymore, the planets and ships get centered when
    	  double-clicking on them.
 	* New race icons on game manager.
+	* Planet names in starchart.
+	* Minefields, ion storms and planet names are toggled using the
+	  'view' menu.
+	* Planet names only appear if zoom >= 100%.
 
 Version 0.2.13 (released 05-03-2004):
 

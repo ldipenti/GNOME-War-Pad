@@ -52,16 +52,20 @@ starchart_event_key                    (GtkWidget       *widget,
       return TRUE;
       /* Scrolling Events */
     case GDK_w:
-      starchart_scroll(0, -SCROLL);
+      if (!game_is_extra_panel_open(game_state))
+	starchart_scroll(0, -SCROLL);
       return TRUE;
     case GDK_s:
-      starchart_scroll(0, SCROLL);
+      if (!game_is_extra_panel_open(game_state))
+	starchart_scroll(0, SCROLL);
       return TRUE;
     case GDK_a:
-      starchart_scroll(-SCROLL, 0);
+      if (!game_is_extra_panel_open(game_state))
+	starchart_scroll(-SCROLL, 0);
       return TRUE;
     case GDK_d:
-      starchart_scroll(SCROLL, 0);
+      if (!game_is_extra_panel_open(game_state))
+	starchart_scroll(SCROLL, 0);
       return TRUE;
       /* Activate/Deactivate Grid */
     case GDK_g:
@@ -188,20 +192,25 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   if((event->state & (GDK_BUTTON1_MASK)) == (GDK_BUTTON1_MASK)) {
     gint offset_x, offset_y;
 
-    /* Set hand cursor */
-    if(!panning) {
-      starchart_set_pan_cursor();
-      panning = TRUE;
-    }
+    /* Check if extra panels are closed, panning is deactivated when open */
+    if (!game_is_extra_panel_open(game_state)) {
+      
+      /* Set drag cursor */
+      if(!panning) {
+	starchart_set_pan_cursor();
+	panning = TRUE;
+      }
 
-    if((interleave++ % MOUSE_INTERLEAVE) == 0) {
-      gnome_canvas_get_scroll_offsets(starchart_get_canvas(), 
-				      &offset_x, 
-				      &offset_y);
-      starchart_scroll_to(offset_x + (pointer_x - x) * (MOUSE_INTERLEAVE+1), 
-			  offset_y + (pointer_y - y) * (MOUSE_INTERLEAVE+1));
-    }
-  } 
+      /* Do panning */       
+      if((interleave++ % MOUSE_INTERLEAVE) == 0) {
+	gnome_canvas_get_scroll_offsets(starchart_get_canvas(), 
+					&offset_x, 
+					&offset_y);
+	starchart_scroll_to(offset_x + (pointer_x - x) * (MOUSE_INTERLEAVE+1), 
+			    offset_y + (pointer_y - y) * (MOUSE_INTERLEAVE+1));
+      }
+    } 
+  }
   /* If not panning... */
   else {
 
@@ -657,17 +666,25 @@ void on_view_toolbar_activate (GtkCheckMenuItem *menuitem,
 void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 			      gpointer user_data)
 {
-  if (gtk_check_menu_item_get_active(menuitem)) {
-    starchart_show_planet_names (TRUE);
-  } else {
-    starchart_show_planet_names (FALSE);
+  gboolean show = gtk_check_menu_item_get_active(menuitem);
+
+  if (game_get_starchart_zoom(game_state) >= 1.0) {
+    starchart_show_planet_names (show);
   }
 }
 
-void on_togglebutton_panel_defense_toggled(GtkToggleButton *button,
-					   gpointer user_data)
+/* Hides/Shows the minefields on starchart */
+void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
+				  gpointer user_data)
 {
-  toggle_global_defense_panel(gtk_toggle_button_get_active(button));
+  starchart_show_minefields (gtk_check_menu_item_get_active(menuitem));
+}
+
+/* Hides/Shows the ion storms on starchart */
+void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
+				  gpointer user_data)
+{
+  starchart_show_ion_storms (gtk_check_menu_item_get_active(menuitem));
 }
 
 void on_togglebutton_panel_base_toggled(GtkToggleButton *button,

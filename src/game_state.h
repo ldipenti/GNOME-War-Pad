@@ -61,9 +61,13 @@ struct _GameState
   gint16 last_x_coord;
   gint16 last_y_coord;
   GList *pnames;
+  /* Toggle states */
   gboolean toolbar;
   gboolean extra_panel_open;
   gboolean planet_names;
+  gboolean minefields;
+  gboolean ion_storms;
+  /* User settings */
   GameSettings *settings;
 };
 
@@ -80,6 +84,7 @@ gdouble game_get_starchart_zoom (const GameState *game_state);
 
 void game_set_race (GameState *game_state, gint race_num);
 enum races game_get_race (const GameState *game_state);
+gint game_get_race_nr (const GameState *game_state);
 
 gint16 game_get_last_x_coord(const GameState *game_state);
 void game_set_last_x_coord(GameState *game_state, gint y);
@@ -113,8 +118,12 @@ gboolean game_get_toolbar(const GameState *game_state);
 void game_set_toolbar(GameState *game_state, gboolean tb);
 gboolean game_is_extra_panel_open (const GameState *game_state);
 void game_set_extra_panel_open (GameState *game_state, gboolean is_open);
-void game_state_set_planet_names (GameState *game_state, gboolean show);
-gboolean game_state_get_planet_names (const GameState *game_state);
+void game_set_planet_names (GameState *game_state, gboolean show);
+gboolean game_get_planet_names (const GameState *game_state);
+void game_set_minefields (GameState *game_state, gboolean show);
+gboolean game_get_minefields (const GameState *game_state);
+void game_set_ion_storms (GameState *game_state, gboolean show);
+gboolean game_get_ion_storms (const GameState *game_state);
 
 void game_close(GameState *game_state);
 gint game_state_get_version(void);

@@ -100,64 +100,44 @@ void starchart_set_grp_planet_names(GnomeCanvasGroup * group)
   starchart.grp_planet_names = group;
 }
 
-GnomeCanvasGroup * starchart_get_grp_planets_mine(void)
+GnomeCanvasGroup * starchart_get_grp_planets(void)
 {
-  return starchart.grp_planets_mine;
+  return starchart.grp_planets;
 }
 
-void starchart_set_grp_planets_mine(GnomeCanvasGroup * group)
+void starchart_set_grp_planets(GnomeCanvasGroup * group)
 {
-  starchart.grp_planets_mine = group;
+  starchart.grp_planets = group;
 }
 
-GnomeCanvasGroup * starchart_get_grp_planets_enemy(void)
+GnomeCanvasGroup * starchart_get_grp_ships(void)
 {
-  return starchart.grp_planets_enemy;
+  return starchart.grp_ships;
 }
 
-void starchart_set_grp_planets_enemy(GnomeCanvasGroup * group)
+void starchart_set_grp_ships(GnomeCanvasGroup * group)
 {
-  starchart.grp_planets_enemy = group;
+  starchart.grp_ships = group;
 }
 
-GnomeCanvasGroup * starchart_get_grp_planets_allied(void)
+GnomeCanvasGroup * starchart_get_grp_minefields (void)
 {
-  return starchart.grp_planets_allied;
+  return starchart.grp_minefields;
 }
 
-void starchart_set_grp_planets_allied(GnomeCanvasGroup * group)
+void starchart_set_grp_minefields (GnomeCanvasGroup * group)
 {
-  starchart.grp_planets_allied = group;
+  starchart.grp_minefields = group;
 }
 
-GnomeCanvasGroup * starchart_get_grp_ships_mine(void)
+GnomeCanvasGroup * starchart_get_grp_ion_storms (void)
 {
-  return starchart.grp_ships_mine;
+  return starchart.grp_ion_storms;
 }
 
-void starchart_set_grp_ships_mine(GnomeCanvasGroup * group)
+void starchart_set_grp_ion_storms (GnomeCanvasGroup * group)
 {
-  starchart.grp_ships_mine = group;
-}
-
-GnomeCanvasGroup * starchart_get_grp_ships_enemy(void)
-{
-  return starchart.grp_ships_enemy;
-}
-
-void starchart_set_grp_ships_enemy(GnomeCanvasGroup * group)
-{
-  starchart.grp_ships_enemy = group;
-}
-
-GnomeCanvasGroup * starchart_get_grp_ships_allied(void)
-{
-  return starchart.grp_ships_allied;
-}
-
-void starchart_set_grp_ships_allied(GnomeCanvasGroup * group)
-{
-  starchart.grp_ships_allied = group;
+  starchart.grp_ion_storms = group;
 }
 
 void starchart_set_grid(gboolean state)

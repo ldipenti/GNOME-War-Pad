@@ -132,6 +132,7 @@ po/Makefile.in
 pixmaps/Makefile
 pixmaps/planets/Makefile
 pixmaps/ships/Makefile
+pixmaps/races/Makefile
 gwp.desktop
 ])
 
