@@ -611,7 +611,7 @@ void on_about_activate(GtkWidget *widget)
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       NULL
     };
-    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nDavid Botha <fermier@gmx.co.uk> (French)\nCarlos Paulino <freechgp@gmail.com> (Brazilian Portuguese)";
+    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nDavid Botha <fermier@gmx.co.uk> (French)\nCarlos Paulino <chgp@minaslivre.org> (Brazilian Portuguese)";
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 02:33-0300\n"
-"PO-Revision-Date: 2004-10-24 16:18-0300\n"
+"PO-Revision-Date: 2005-03-09 02:12-0300\n"
 "Last-Translator: Carlos Henrique G. Paulino <chgp@minaslivre.org>\n"
 "Language-Team: ONG MinasLivre <www.minaslivre.org>\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "<b>Coord.:</b>"
 
 #: src/gwp.glade.h:22
 msgid "<b>Crew:</b>"
-msgstr "<b>Trip:</b>"
+msgstr "<b>Tripulação:</b>"
 
 #: src/gwp.glade.h:23
 msgid "<b>Damage:</b>"
@@ -374,7 +374,7 @@ msgstr "Raças Disponíveis"
 
 #: src/gwp.glade.h:85
 msgid "Beam Tech: "
-msgstr ""
+msgstr "Tec. de Raios"
 
 #: src/gwp.glade.h:86
 msgid "Beams: "
@@ -498,7 +498,7 @@ msgstr "Tipo do host:"
 
 #: src/gwp.glade.h:116 scripts/plugins/magallanes.py:452
 msgid "Hull"
-msgstr ""
+msgstr "Casco"
 
 #: src/gwp.glade.h:117
 msgid "Last message"
@@ -815,9 +815,8 @@ msgid "Zoom Out"
 msgstr "Afastar"
 
 #: src/gwp.glade.h:194
-#, fuzzy
 msgid "_Constellations"
-msgstr "Construção"
+msgstr "_Constelações"
 
 #: src/gwp.glade.h:195
 msgid "_Delete"
@@ -901,7 +900,7 @@ msgstr "Editar as propriedades do jogo"
 
 #: src/callbacks.c:511
 msgid "Oops! there is some problem with this game"
-msgstr "Opa! existe algum problema com este jogo"
+msgstr "Ops! existe algum problema com este jogo"
 
 #: src/callbacks.c:545
 #, c-format
@@ -1114,7 +1113,7 @@ msgstr "%d %s em %s"
 #: src/starchart.c:2285
 #, c-format
 msgid "Distance: %.2f LY"
-msgstr ""
+msgstr "Distância: %.2f AL"
 
 #: src/starchart.c:2350
 msgid "Name"
@@ -1126,16 +1125,12 @@ msgid "KORE%d.DAT not found, some data will be missing."
 msgstr "Arquivo KORE%d.DAT, não encontrado, alguns dados não serão exibidos."
 
 #: src/vp_utils.c:987
-#, fuzzy
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
 "about ion storms and minefields, but couldn't be found in this case. This is "
 "not a fatal error, GWP will continue loading but this data won't appear on "
 "the game."
-msgstr ""
-"Este archivo fornece informações sobre as tempestades iônicas e campos "
-"minados, mas não pode ser encontrado neste caso. este não é um erro fatal, o "
-"GWP continuará carregando o programa sem mostrar estes dados no jogo."
+msgstr "Parece que você esta utilizando o formato DOS RST. O arquivo não encontrado fornece os dados sobre tempestades iônicas e campos de minas. Este não é um erro fatal, GWP irá continuar carregando enquanto estes dados não aparecerem durante o jogo."
 
 #: src/game_mgr.c:89
 msgid "Your game definitions will be deleted."
@@ -1161,18 +1156,17 @@ msgid "Please provide a name for this game"
 msgstr "Por favor, forneça um nome para este jogo"
 
 #: src/game_mgr.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "A game named '%s' already exist, please select another name"
-msgstr "Já existe um jogo chamado '%s', por favor selecione outro nome"
+msgstr "Um jogo chamado '%s' já existe, por favor selecione outro nome"
 
 #: src/game_mgr.c:455
 msgid "Please select a race"
 msgstr "Por favor, selecione uma raça"
 
 #: src/game_mgr.c:537
-#, fuzzy
 msgid "turn "
-msgstr "Turno "
+msgstr "turno "
 
 #: src/game_mgr.c:606
 msgid "No game selected, please select one."
@@ -1220,19 +1214,17 @@ msgstr ""
 "jogo,por favor confira sua instalação."
 
 #: src/game_mgr.c:1113
-#, fuzzy
 msgid "no games"
-msgstr "Nome desconhecido"
+msgstr "sem jogos"
 
 #: src/game_mgr.c:1115
-#, fuzzy
 msgid "1 game"
-msgstr "Nome"
+msgstr "1 game"
 
 #: src/game_mgr.c:1117
-#, fuzzy, c-format
+#, c-format
 msgid "%d games"
-msgstr "%d caças"
+msgstr "%d jogos"
 
 #: src/race.c:28 scripts/plugins/magallanes.glade.h:31
 #: scripts/plugins/vp_utils.py:85
@@ -1312,7 +1304,6 @@ msgid "N Growth"
 msgstr "Crec. N."
 
 #: src/gwp-object.c:76
-#, fuzzy
 msgid "Unknown name"
 msgstr "Nome desconhecido"
 
@@ -1486,7 +1477,7 @@ msgstr "Sem missão"
 
 #: src/mission.c:31
 msgid "Super Refit"
-msgstr ""
+msgstr "Super Reaparelhagem"
 
 #: src/mission.c:34
 msgid "Hisssssss!"
@@ -1530,11 +1521,11 @@ msgstr "Explorar"
 
 #: src/mission.c:78
 msgid "Mine sweep"
-msgstr ""
+msgstr "Varredura de Minas"
 
 #: src/mission.c:81
 msgid "Lay mines"
-msgstr ""
+msgstr "Depósito de Minas"
 
 #: src/mission.c:84
 msgid "Kill"
@@ -1542,7 +1533,7 @@ msgstr "Matar"
 
 #: src/mission.c:87
 msgid "Sensor sweep"
-msgstr ""
+msgstr "Sensor de Varredura"
 
 #: src/mission.c:90
 msgid "Colonize"
@@ -1643,284 +1634,252 @@ msgstr "_Plugins"
 
 #: scripts/plugins/magallanes.py:14
 msgid "Utility for viewing the ships characteristics"
-msgstr ""
+msgstr "Utilitário para ver as características das naves"
 
 #. Columns Comparacion
 #: scripts/plugins/magallanes.py:451
-#, fuzzy
 msgid "Race"
 msgstr "Raça:"
 
 #: scripts/plugins/magallanes.py:453
 msgid "Mass"
-msgstr ""
+msgstr "Massa"
 
 #: scripts/plugins/magallanes.py:455
 msgid "Beam (tech)"
-msgstr ""
+msgstr "Raio (tec.)"
 
 #: scripts/plugins/magallanes.py:456
 msgid "T/F (tech)"
-msgstr ""
+msgstr "T/F (tec.)"
 
 #: scripts/plugins/magallanes.py:458
-#, fuzzy
 msgid "Fuel"
-msgstr "Feudal"
+msgstr "Combustível"
 
 #: scripts/plugins/magallanes.py:459
 msgid "Eng (wp)"
-msgstr ""
+msgstr "Eng (wp)"
 
 #: scripts/plugins/magallanes.py:460
-#, fuzzy
 msgid "MC"
-msgstr "0 MC"
+msgstr "MC"
 
 #: scripts/plugins/magallanes.py:461
-#, fuzzy
 msgid "Tri"
-msgstr "Tribal"
+msgstr "Tri"
 
 #: scripts/plugins/magallanes.py:462
 msgid "Dur"
-msgstr ""
+msgstr "Dur"
 
 #: scripts/plugins/magallanes.py:463
 msgid "Mol"
-msgstr ""
+msgstr "Mol"
 
 #: scripts/plugins/magallanes.glade.h:1
 msgid "1"
-msgstr ""
+msgstr "1\n"
 
 #: scripts/plugins/magallanes.glade.h:2
-#, fuzzy
 msgid "<b>Beams: </b>"
 msgstr "<b>Raios:</b>"
 
 #: scripts/plugins/magallanes.glade.h:3
-#, fuzzy
 msgid "<b>Beams</b>"
 msgstr "<b>Raios:</b>"
 
 #: scripts/plugins/magallanes.glade.h:4
-#, fuzzy
 msgid "<b>Cargo</b>"
 msgstr "<b>Col:</b>"
 
 #: scripts/plugins/magallanes.glade.h:5
-#, fuzzy
 msgid "<b>Comparative table</b>"
 msgstr "<b>Nativos Pagos:</b>"
 
 #: scripts/plugins/magallanes.glade.h:6
-#, fuzzy
 msgid "<b>Crew</b>"
 msgstr "<b>Trip:</b>"
 
 #: scripts/plugins/magallanes.glade.h:7
-#, fuzzy
 msgid "<b>Dur</b>"
 msgstr "<b>Dur:</b>"
 
 #: scripts/plugins/magallanes.glade.h:8
-#, fuzzy
 msgid "<b>Engines: </b>"
 msgstr "<b>Motores:</b>"
 
 #: scripts/plugins/magallanes.glade.h:9
-#, fuzzy
 msgid "<b>Engines</b>"
 msgstr "<b>Motores:</b>"
 
 #: scripts/plugins/magallanes.glade.h:10
-#, fuzzy
 msgid "<b>Fuel</b>"
 msgstr "<b>Combust.:</b>"
 
 #: scripts/plugins/magallanes.glade.h:12
-#, fuzzy
 msgid "<b>Mass</b>"
-msgstr "<b>Massa:</b>"
+msgstr "<b>Massa</b>"
 
 #: scripts/plugins/magallanes.glade.h:13
-#, fuzzy
 msgid "<b>Mol</b>"
-msgstr "<b>Mol:</b>"
+msgstr "<b>Mol</b>"
 
 #: scripts/plugins/magallanes.glade.h:14
-#, fuzzy
 msgid "<b>Races available</b>"
-msgstr "<b>Raça:</b>"
+msgstr "<b>Raças disponíveis</b>"
 
 #: scripts/plugins/magallanes.glade.h:15
-#, fuzzy
 msgid "<b>Special Functions: </b>"
-msgstr "<b>Uso Combust.:</b>"
+msgstr "<b>Funções especiais:</b>"
 
 #: scripts/plugins/magallanes.glade.h:16
-#, fuzzy
 msgid "<b>TP/F</b>"
-msgstr "<b>FC:</b>"
+msgstr "<b>TP/F</b>"
 
 #: scripts/plugins/magallanes.glade.h:17
-#, fuzzy
 msgid "<b>Tech Level:  </b>"
-msgstr "<b>Defesa:</b>"
+msgstr "<b>Nível Técnico: </b>"
 
 #: scripts/plugins/magallanes.glade.h:18
-#, fuzzy
 msgid "<b>Torps: </b>"
 msgstr "<b>Torps:</b>"
 
 #: scripts/plugins/magallanes.glade.h:19
-#, fuzzy
 msgid "<b>Total Cost: </b>"
-msgstr "<b>Coord.:</b>"
+msgstr "<b>Custo Total: </b>"
 
 #: scripts/plugins/magallanes.glade.h:20
-#, fuzzy
 msgid "<b>Tri</b>"
 msgstr "<b>Tri:</b>"
 
 #: scripts/plugins/magallanes.glade.h:21
 msgid "Birds"
-msgstr ""
+msgstr "Pássaros"
 
 #: scripts/plugins/magallanes.glade.h:22
 msgid "Borgs"
-msgstr ""
+msgstr "Borgs"
 
 #: scripts/plugins/magallanes.glade.h:23
-#, fuzzy
 msgid "Colonies"
-msgstr "Colonizar"
+msgstr "Colônias"
 
 #: scripts/plugins/magallanes.glade.h:24
-#, fuzzy
 msgid "Crystals"
-msgstr "Os Cristalinos"
+msgstr "Cristais"
 
 #: scripts/plugins/magallanes.glade.h:25
 msgid "Esta raza posee la nave actual"
-msgstr ""
+msgstr "Esta raça possui a nave atual"
 
 #: scripts/plugins/magallanes.glade.h:26
 msgid "Evils"
-msgstr ""
+msgstr "Malígnos"
 
 #: scripts/plugins/magallanes.glade.h:27
-#, fuzzy
 msgid "Fascists"
-msgstr "Os Fascistas"
+msgstr "Fascistas"
 
 #: scripts/plugins/magallanes.glade.h:28
-#, fuzzy
 msgid "Feds"
 msgstr "Feudal"
 
 #: scripts/plugins/magallanes.glade.h:29
-#, fuzzy
 msgid "Lizards"
-msgstr "Os lagartos"
+msgstr "Lagartos"
 
 #: scripts/plugins/magallanes.glade.h:30
 msgid "Magallanes 0.2"
-msgstr ""
+msgstr "Magallanes 0.2"
 
 #: scripts/plugins/magallanes.glade.h:32
-#, fuzzy
 msgid "Privateers"
-msgstr "Os Piratas"
+msgstr "Comandantes"
 
 #: scripts/plugins/magallanes.glade.h:33
-#, fuzzy
 msgid "Rebels"
-msgstr "Os Rebeldes"
+msgstr "Rebeldes"
 
 #: scripts/plugins/magallanes.glade.h:34
-#, fuzzy
 msgid "Robots"
-msgstr "Os Robos"
+msgstr "Robos"
 
 #: scripts/plugins/magallanes.glade.h:36
-#, fuzzy
 msgid "Ship & Parts"
-msgstr "Dados da nave"
+msgstr "Naves e partes"
 
 #: scripts/plugins/vp_utils.py:68
 msgid "Advanced Cloak"
-msgstr ""
+msgstr "Cobertura Avançada"
 
 #: scripts/plugins/vp_utils.py:69
-#, fuzzy
 msgid "Anti-Cloak"
-msgstr "Invisibilidade"
+msgstr "Contra Cobertura"
 
 #: scripts/plugins/vp_utils.py:70
 msgid "BioScan"
-msgstr ""
+msgstr "Varredura Biológica"
 
 #: scripts/plugins/vp_utils.py:71
 msgid "Cools down to 50 degrees"
-msgstr ""
+msgstr "Abaixa a temp. para 50 graus"
 
 #: scripts/plugins/vp_utils.py:72
 msgid "Warms up to 50 degrees"
-msgstr ""
+msgstr "Aumenta a temp. para 50 graus"
 
 #: scripts/plugins/vp_utils.py:73
 msgid "Warms up to 100 degrees"
-msgstr ""
+msgstr "Aumenta a temp. para 100 graus"
 
 #: scripts/plugins/vp_utils.py:74
 msgid "Glory Device High Damage"
-msgstr ""
+msgstr "Danos sérios no dispositivo de Glória "
 
 #: scripts/plugins/vp_utils.py:75
 msgid "Glory Device Low Damage"
-msgstr ""
+msgstr "Danos simples no dispositivo de Glória"
 
 #: scripts/plugins/vp_utils.py:76
 msgid "Generate MCs"
-msgstr ""
+msgstr "Gerar MCs"
 
 #: scripts/plugins/vp_utils.py:77
 msgid "Cloak and Gravitronic Acelerators"
-msgstr ""
+msgstr "Proteção e acelerador Gravitrônico"
 
 #: scripts/plugins/vp_utils.py:78
 msgid "Chunnel"
-msgstr ""
+msgstr "Túnel"
 
 #: scripts/plugins/vp_utils.py:79
 msgid "Hyperdrive"
-msgstr ""
+msgstr "Hiperespaço"
 
 #: scripts/plugins/vp_utils.py:80
 msgid "Imperial Assault"
-msgstr ""
+msgstr "Ataque imperial"
 
 #: scripts/plugins/vp_utils.py:81
 msgid "Ramscoop, Bioscanner"
-msgstr ""
+msgstr "Ramscoop, Bioscanner"
 
 #: scripts/plugins/vp_utils.py:82 scripts/plugins/vp_utils.py:83
 msgid "Fuel Alchemy"
-msgstr ""
+msgstr "Produção de combustível"
 
 #: scripts/plugins/vp_utils.py:84
 msgid "Minerals Alchemy"
-msgstr ""
+msgstr "Produção Mineral"
 
 #, fuzzy
 #~ msgid "<b>Costo Total: </b>"
-#~ msgstr "<b>Col:</b>"
+#~ msgstr "<b>Custo Total:</b>"
 
 #, fuzzy
 #~ msgid "<b>Funciones Especiales: </b>"
-#~ msgstr "<b>Uso Combust.:</b>"
+#~ msgstr "<b>Funções especiais.:</b>"
 
 #, fuzzy
 #~ msgid "<b>Masa</b>"
@@ -1958,7 +1917,7 @@ msgstr ""
 #~ msgstr "*"
 
 #~ msgid "Toggle toolbar"
-#~ msgstr "Mostrar/Esconder barra de ferramentas"
+#~ msgstr "Exibir Barra de ferramentas"
 
 #~ msgid "_Toolbar"
-#~ msgstr "Barra de ferramentas"
+#~ msgstr "_Barra de ferramentas"
