@@ -1310,7 +1310,7 @@ void update_ship_panel_with (GwpShip *ship)
     /* Update ETA */
     if (gwp_flying_object_get_speed(GWP_FLYING_OBJECT(ship)) == 0 &&
 	gwp_ship_calculate_waypoint_distance(ship) > 0) {
-      tmp = _("<span foreground=\"red\">never</span>");
+      tmp = g_strdup(_("<span foreground=\"red\">never</span>"));
     } else {
       gint e = gwp_ship_calculate_eta (ship);
       if (e == 1) {
