@@ -209,7 +209,10 @@ aparezcan en el programa en si.</para>
       resumen la señal <command>delete_event</command> se emite cuando
       queremos cerrar la ventana de la aplicación, y la señal
       <command>destroy</command> cuando se solicita la destruccion del
-      widget.</para>
+      widget. En realidad esta señal <command>destroy</command> no hará falta en los
+      plugins ya que los mismos nunca se destruyen, pero ahora la
+      incluiremos porque llamaremos esta aplicación desde la linea de
+      comandos y necesitamos que destruya completamente la ventana.</para>
 
         <figure id="img_sig_1">
 	  <title>Señales de la ventana</title>
@@ -377,6 +380,41 @@ aparezcan en el programa en si.</para>
       mejor de realizar las declaraciones explicitamente para mantener
       un código mas transparente.</para>
 
+      <para>Por último la función <command>__create_gui()</command>
+      hace algún trabajo en los widgets que no pueda ser hecho en
+      <application>glade</application> como insertar las columnas de
+      un treeview o realizar algún enlace a señales que no están
+      accesibles desde <application>glade</application>.</para>
+
+      <para>La función main es la que llamaremos para arracar el
+      programa.</para>
+
+      <para>Aquí viene un pequeño truco para arrancar una aplicación
+      en forma directa:</para>
+
+<informalexample>
+<programlisting>
+if __name__ == '__main__':
+    example1 = Example1()
+    example1.main()
+</programlisting>
+</informalexample>
+
+      <para>Este código es muy común para probar modulos mientras se
+      los crea, nosotros lo usaremos sólo aquí, ya que en los plugins habrá una
+      forma distinta de instanciarlos y llamarlos.</para>
+
+      <para>¿Por qué esta sentencia if en concreto es un truco? Los
+      módulos son objetos, y todos los módulos tienen un atributo
+      <command>__name__</command> incorporado. El atributo
+      <command>__name__</command> de un módulo depende
+      de cómo se utiliza el módulo. Si se importa con import,
+      <command>__name__</command>
+      es el nombre del fichero del módulo, sin la ruta al directorio
+      ni la extensión. Pero también puede ejecutarse un módulo
+      directamente como programa independiente, y en este caso
+      <command>__name__</command> adquiere un valor especial,
+      <command>__main__</command>.</para>
 
     </section>
   </chapter>
