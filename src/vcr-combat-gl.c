@@ -1,5 +1,5 @@
 
-#undef USE_TEXTURES
+#define USE_TEXTURES
 
 
 #include "vcr-combat-gl.h"
