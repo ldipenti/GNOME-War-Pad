@@ -108,7 +108,7 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   y = (gint) event->y;
 
   /* If we are dragging the starchart to span... */
-  if(event->state == GDK_BUTTON1_MASK) {
+  if(event->state & GDK_BUTTON1_MASK) {
     gint offset_x, offset_y;
 
     if((interleave++ % MOUSE_INTERLEAVE) == 0) {
