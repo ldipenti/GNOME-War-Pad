@@ -2321,12 +2321,13 @@
 		  <child>
 		    <widget class="GtkTreeView" id="game_mgr_properties_race_list">
 		      <property name="visible">True</property>
-		      <property name="tooltip" translatable="yes">Races available</property>
+		      <property name="tooltip" translatable="yes">Races available at this particular game directory, pick one by double-clicking on it</property>
 		      <property name="can_focus">True</property>
 		      <property name="headers_visible">False</property>
 		      <property name="rules_hint">True</property>
 		      <property name="reorderable">False</property>
 		      <property name="enable_search">True</property>
+		      <signal name="row_activated" handler="on_game_mgr_properties_race_list_row_activated" last_modification_time="Sat, 03 May 2003 21:10:57 GMT"/>
 		    </widget>
 		  </child>
 		</widget>
@@ -2427,6 +2428,7 @@
 		  <child>
 		    <widget class="GtkEntry" id="game_mgr_entry_game_name">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">The label this game will have in the game manager</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
@@ -2448,8 +2450,9 @@
 		  <child>
 		    <widget class="GtkEntry" id="game_mgr_entry_race_name">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Race selected</property>
 		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
+		      <property name="editable">False</property>
 		      <property name="visibility">True</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
@@ -2528,6 +2531,7 @@
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">
 			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">The directory where GWP will save its turns</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">True</property>
 			  <property name="visibility">True</property>
@@ -2560,6 +2564,7 @@
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry3">
 			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">The directory where GWP will search for host results</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">True</property>
 			  <property name="visibility">True</property>
@@ -2608,6 +2613,7 @@
 		  <child>
 		    <widget class="GtkEntry" id="game_mgr_entry_host_email">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">The host's email address, to send your turns</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
@@ -2654,6 +2660,7 @@
 		  <child>
 		    <widget class="GtkEntry" id="game_mgr_entry_player_email">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Your email address, to send your turns to the host</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
@@ -2681,6 +2688,7 @@
 		      <child>
 			<widget class="GtkRadioButton" id="radio_thost">
 			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Select this if the game is hosted by a THost (classic) host type</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">THost</property>
 			  <property name="use_underline">True</property>
@@ -2699,6 +2707,7 @@
 		      <child>
 			<widget class="GtkRadioButton" id="radio_phost">
 			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Select this if the game is hosted by a PHost (alternative) host type</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">PHost</property>
 			  <property name="use_underline">True</property>
@@ -2804,6 +2813,7 @@
 	      <child internal-child="entry">
 		<widget class="GtkEntry" id="entry5">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Where the game data files reside</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2856,42 +2866,53 @@
       </child>
 
       <child>
-	<widget class="GtkHBox" id="hbox4">
+	<widget class="GtkAlignment" id="alignment1">
 	  <property name="visible">True</property>
-	  <property name="homogeneous">True</property>
-	  <property name="spacing">0</property>
+	  <property name="xalign">1</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xscale">0.15</property>
+	  <property name="yscale">1</property>
 
 	  <child>
-	    <widget class="GtkButton" id="game_mgr_button_ok">
-	      <property name="width_request">98</property>
+	    <widget class="GtkHBox" id="hbox4">
 	      <property name="visible">True</property>
-	      <property name="has_default">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="label">gtk-ok</property>
-	      <property name="use_stock">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">False</property>
-	      <property name="fill">False</property>
-	    </packing>
-	  </child>
+	      <property name="homogeneous">True</property>
+	      <property name="spacing">0</property>
 
-	  <child>
-	    <widget class="GtkButton" id="game_mgr_button_cancel">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="label">gtk-cancel</property>
-	      <property name="use_stock">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <signal name="clicked" handler="on_game_mgr_button_cancel_clicked" last_modification_time="Fri, 02 May 2003 23:25:09 GMT"/>
+	      <child>
+		<widget class="GtkButton" id="game_mgr_button_cancel">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="label">gtk-cancel</property>
+		  <property name="use_stock">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <signal name="clicked" handler="on_game_mgr_button_cancel_clicked" last_modification_time="Fri, 02 May 2003 23:25:09 GMT"/>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkButton" id="game_mgr_button_ok">
+		  <property name="width_request">98</property>
+		  <property name="visible">True</property>
+		  <property name="can_default">True</property>
+		  <property name="has_default">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="label">gtk-ok</property>
+		  <property name="use_stock">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
 	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">False</property>
-	      <property name="fill">False</property>
-	    </packing>
 	  </child>
 	</widget>
 	<packing>

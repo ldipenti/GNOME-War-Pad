@@ -26,60 +26,50 @@
 #include "game_mgr.h"
 #include "game_state.h"
 #include "game_types.h"
-
-GtkWidget *game_mgr_get_properties_dlg(void)
-{
-  return lookup_widget("game_mgr_properties");
-}
+#include "race.h"
 
 void game_mgr_update_race_list(char *dir) 
 {
-  GString *pdata, *pdata_lower;
+  GString *pdata, *ship;
   GtkTreeView *race_list;
   GtkListStore *store;
-  GtkCellRenderer *renderer;
-  GtkTreeViewColumn *column;
   GtkTreeIter iter;
   gint i;
 
-  // If dir is some string, we work
-  if(dir != NULL) {
+  race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
+  store = (GtkListStore*) gtk_tree_view_get_model(race_list);
+  g_assert(store != NULL);
+  gtk_list_store_clear(store);
 
-    race_list = (GtkTreeView*)lookup_widget("game_mgr_properties_race_list");
-    store = gtk_list_store_new(1, G_TYPE_STRING);
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("Races", 
-						      renderer,
-						      "text", 0,
-						      NULL);
+  // If dir exists, we work
+  if(g_file_test(dir, G_FILE_TEST_IS_DIR)) {
 
     for (i = 1; i <= 11; i++) {
-      pdata = g_string_new ("PDATA");
-      pdata_lower = g_string_new ("pdata");
+      pdata = g_string_new ("pdata");
+      ship = g_string_new ("ship");
 
       pdata = g_string_append (pdata, 
-			       g_strdup_printf ("%d.DIS", i));
-      pdata_lower = g_string_append (pdata_lower,
-				     g_strdup_printf ("%d.dis", i));
+			       g_strdup_printf ("%d.dis", i));
+      ship = g_string_append (ship,
+			      g_strdup_printf ("%d.dis", i));
 
       pdata = g_string_prepend(pdata, dir);
-      pdata_lower = g_string_prepend(pdata_lower, dir);
-      
-      if (g_file_test(pdata->str, G_FILE_TEST_EXISTS) || 
-	  g_file_test(pdata_lower->str, G_FILE_TEST_EXISTS)) {
+      ship = g_string_prepend(ship, dir);
+    
+      // shipN.dis or pdataN.dis should exist...
+      if (g_file_test(pdata->str, G_FILE_TEST_IS_REGULAR) || 
+	  g_file_test(ship->str, G_FILE_TEST_IS_REGULAR)) {
 	
 	// Add available races to race list
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter, 
-			   0, g_strdup_printf("Race %d", i),
+			   0, g_strdup_printf("%s", race_get_name(i)),
+			   1, i,    // invisible column with race number
 			   -1);	
       }
       g_string_free(pdata, TRUE);
-      g_string_free(pdata_lower, TRUE);
+      g_string_free(ship, TRUE);
     }    
-    // Set ListModel to Race list
-    gtk_tree_view_set_model(race_list, GTK_TREE_MODEL(store));
-    gtk_tree_view_append_column(race_list, column);
   }
 }
 
@@ -88,20 +78,21 @@ void game_mgr_update_race_list(char *dir)
 void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
 {
   GameSettings *new_game = game_mgr_new_settings();
-  GtkWidget *mgr_props = game_mgr_get_properties_dlg();
-  GnomeFileEntry *game_dir = (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
+  GnomeFileEntry *game_dir = 
+    (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
   GtkEntry *entry;
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
   gint icon_idx;
 
   g_assert(game_dir != NULL);
-  new_game->game_dir = gnome_file_entry_get_full_path(game_dir, TRUE);
+  new_game->game_dir = gnome_file_entry_get_full_path(game_dir, FALSE);
 
-  if(new_game->game_dir) {
+  // If that dir exists...
+  if(g_file_test(new_game->game_dir, G_FILE_TEST_IS_DIR)) {
     entry = (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
     new_game->game_name = g_strdup_printf("%s", gtk_entry_get_text(entry));
 
-    /*
+    /* FIXME: completeeee
       new_game->trn_dir =
       new_game->rst_dir =
       new_game->player_email =
@@ -118,13 +109,27 @@ void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
 				  icon_idx,
 				  new_game);
 
+    
+    // Disconnect signal before releasing dialog
+    g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
+					 G_CALLBACK(game_mgr_cb_new_game),
+					 iconlist);
+    gtk_widget_hide(game_mgr_properties);
+    game_mgr_properties_dlg_clean();
+  } else {
+    {
+      GtkWidget *warn;
+
+      warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_MESSAGE_WARNING,
+				    GTK_BUTTONS_CLOSE,
+				    "Game directory '%s' doesn't exist", 
+				    new_game->game_dir);
+      gtk_dialog_run(GTK_DIALOG(warn));
+      gtk_widget_destroy(warn);
+    }
   }
-  // Disconnect signal before releasing dialog
-  g_signal_handlers_disconnect_by_func(G_OBJECT(ok_button),
-				       G_CALLBACK(game_mgr_cb_new_game),
-				       iconlist);
-  gtk_widget_hide(mgr_props);
-  game_mgr_properties_dlg_clean();
 }
 
 // Returns a GameSettings pointer with initializated data
@@ -150,7 +155,14 @@ void game_mgr_properties_dlg_clean(void)
 {
   GtkEntry *entry;
   GnomeFileEntry *fentry;
+  GtkTreeView *race_list;
+  GtkListStore *store;
 
+  race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
+  store = (GtkListStore*) gtk_tree_view_get_model(race_list);
+  g_assert(store != NULL);
+  gtk_list_store_clear(store);
+  
   entry = (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
   gtk_entry_set_text(entry, "");
 

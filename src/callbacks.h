@@ -83,51 +83,6 @@ gboolean
 starchart_event_button                 (GtkWidget       *widget,
                                         GdkEventButton  *event,
                                         gpointer         user_data);
-
-void
-select_race1_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race2_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race3_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race4_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race5_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race6_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race7_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race8_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race9_event                     (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race10_event                    (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
-select_race11_event                    (GtkButton       *button,
-                                        gpointer         user_data);
-
 void
 select_race_event                      (GtkButton       *button,
                                         gpointer         user_data);
@@ -188,3 +143,6 @@ void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
 
 void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
 					gpointer user_data);
+
+void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
+						     gpointer user_data);

@@ -15,6 +15,7 @@
 #include "support.h"
 #include "starchart.h"
 #include "vp_utils.h"
+#include "race.h"
 
 
 void
@@ -236,51 +237,6 @@ select_race_event                      (GtkButton       *button,
   gtk_widget_show(gwp);
 }
 
-void select_race1_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)1);
-}
-void select_race2_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)2);
-}
-void select_race3_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)3);
-}
-void select_race4_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)4);
-}
-void select_race5_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)5);
-}
-void select_race6_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)6);
-}
-void select_race7_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)7);
-}
-void select_race8_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)8);
-}
-void select_race9_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)9);
-}
-void select_race10_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)10);
-}
-void select_race11_event(GtkButton *button, gpointer user_data)
-{
-  select_race_event(button, (gpointer)11);
-}
-
 void on_vp_game_dir_changed (GtkEditable *editable,
 			     gpointer gwp_select_dlg) 
 {
@@ -304,7 +260,6 @@ void on_game_mgr_new_game (GtkWidget *widget,
 			   gpointer user_data)
 {
   GtkWidget *iconlist;
-  GtkWidget *mgr_props = game_mgr_get_properties_dlg();
   GtkWidget *mgr = lookup_widget("game_mgr");
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
 
@@ -314,8 +269,11 @@ void on_game_mgr_new_game (GtkWidget *widget,
   g_signal_connect(G_OBJECT(ok_button), 
 		   "clicked", 
 		   G_CALLBACK(game_mgr_cb_new_game), iconlist);
-  gtk_window_set_transient_for(GTK_WINDOW(mgr_props), GTK_WINDOW(mgr));
-  gtk_widget_show(mgr_props);
+  gtk_window_set_transient_for(GTK_WINDOW(game_mgr_properties), 
+			       GTK_WINDOW(mgr));
+  gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
+		       _("New Game Properties"));
+  gtk_widget_show(game_mgr_properties);
 }
 
 // Displays pop-up menu on selected game icon
@@ -332,11 +290,38 @@ void on_game_mgr_iconlist_select_icon (GtkWidget *widget,
 void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
 					gpointer user_data)
 {
-  GtkWidget *mgr_props;
-
-  mgr_props = lookup_widget("game_mgr_properties");
-
-  gtk_widget_hide(mgr_props);
+  gtk_widget_hide(game_mgr_properties);
   game_mgr_properties_dlg_clean();
 }
 
+// Get the race number and assign it to the race name field
+void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
+						     gpointer user_data)
+{
+  GtkTreeView *race_l;
+  GtkTreeSelection *sel;
+  GtkTreeModel *model;
+  GtkEntry *race_name_entry;
+  GtkTreeIter iter;
+  gint race;
+
+  race_l = (GtkTreeView *) lookup_widget("game_mgr_properties_race_list");
+  model = gtk_tree_view_get_model(race_l);
+  sel = gtk_tree_view_get_selection(race_l);
+  race = (gint) gtk_tree_selection_get_user_data(sel);
+
+  // get the iterator at the selection
+  gtk_tree_selection_get_selected(sel, NULL, &iter);
+
+  // get the "hidden" data from the second column
+  gtk_tree_model_get(model, &iter, 
+		     1, &race, -1);
+
+  // Copy the race name on the entry
+  race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
+  gtk_entry_set_text(race_name_entry, race_get_name(race));
+
+  // Bind its number (the really important data)
+  g_object_set_data(G_OBJECT(race_name_entry),
+		      "race_number", &race);
+}

@@ -1,7 +1,7 @@
 
 [Desktop Entry]
-Name=gwp Version 0.1
-Comment=No comment
+Name=GNOME War Pad
+Comment=A VGA Planets client for GNOME
 Exec=gwp
 Icon=@PACKAGE_PIXMAPS_DIR@/ 
 Terminal=false

@@ -36,7 +36,6 @@
 #include "starchart.h"
 #include "race_select.h"
 #include "game_state.h"
-//#include "game_mgr.h"
 
 #define GWP_GLADE_XML_FILE GWP_GLADE_XML_DIR"/gwp.glade"
 
@@ -50,9 +49,7 @@ int main (int argc, char *argv[]) {
   gwp = NULL;
   gwp_select_race_dialog = NULL;
   game_mgr = NULL;
-
-  // FIXME: Que es esto de abajo??
-  //game_mgr_new_game = NULL;
+  game_mgr_properties = NULL;
 
   gnome_program_init(PACKAGE, VERSION, LIBGNOMEUI_MODULE,
 		     argc, argv,
@@ -87,6 +84,25 @@ int main (int argc, char *argv[]) {
   game_init_dir(gnome_config_get_string("General/game_dir=\"\""));
   //init_select_dlg(gwp_select_race_dialog);
   
+
+  /* Game Properties Dialog Init */
+  {
+    GtkTreeView *race_list;
+    GtkListStore *store;
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+    
+    race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
+    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes("Races", 
+						      renderer,
+						      "text", 0,
+						      NULL);
+    gtk_tree_view_set_model(race_list, GTK_TREE_MODEL(store));
+    gtk_tree_view_append_column(race_list, column);
+  }
+
   // Show it!
   //gtk_widget_show(gwp_select_race_dialog);
   gtk_widget_show(game_mgr);
