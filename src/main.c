@@ -24,7 +24,6 @@
 #include <gnome.h>
 #include "support.h"
 
-// My includes
 #include "callbacks.h"
 #include "global.h"
 #include "vp_types.h"
@@ -36,7 +35,7 @@
 
 #define GWP_GLADE_XML_FILE GWP_GLADE_XML_DIR"/gwp.glade"
 
-// Prototypes
+/* Prototypes */
 void gwp_init(void);
 void gwp_init_splash(void);
 
@@ -56,20 +55,20 @@ int main (int argc, char *argv[]) {
 		     GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
 		     NULL);
   
-  // Libglade init
+  /* Libglade init */
   glade_gnome_init();
   xml_interface = glade_xml_new(GWP_GLADE_XML_FILE, NULL, NULL);
   g_assert(xml_interface != NULL);
 
   glade_xml_signal_autoconnect(xml_interface);
   
-  // Init & show splash screen
+  /* Init & show splash screen */
   gwp_splash_screen = glade_xml_get_widget(xml_interface, "gwp_splash_screen");
   g_assert(gwp_splash_screen);
   gwp_init_splash();
   gtk_widget_show(gwp_splash_screen);
 
-  // Now we look where those widgets are...
+  /* Now we look where those widgets are... */
   gwp = glade_xml_get_widget(xml_interface, "gwp");
   g_assert(gwp != NULL);
 
@@ -80,14 +79,14 @@ int main (int argc, char *argv[]) {
 					     "game_mgr_properties");
   g_assert(game_mgr_properties != NULL);
 
-  // Initialisations
+  /* Initialisations */
   gwp_init();
   
-  // Hide splash screen & show game manager
+  /* Hide splash screen & show game manager */
   gtk_widget_hide(gwp_splash_screen);
   gtk_widget_show(game_mgr);
 
-  // Enter main loop  
+  /* Enter main loop */
   gtk_main();
   
   return 0;
@@ -107,11 +106,6 @@ void gwp_init(void)
   notebk = lookup_widget("info_panel");
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
 			     FALSE);
-  /*
-  notebk = lookup_widget("calc_panel");
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebk),
-			     FALSE);
-  */
 
   /* Hide panels */
   starchart_close_extra_panels();
