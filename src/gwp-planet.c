@@ -713,7 +713,7 @@ gchar * gwp_planet_get_natives_race_chars (GwpPlanet *self)
     _("Siliconoid")
   };
 	
-  return race[gwp_planet_get_natives_race (self)];
+  return g_strdup(race[gwp_planet_get_natives_race (self)]);
 }
 
 /**
@@ -740,7 +740,7 @@ gchar * gwp_planet_get_natives_spi_chars (GwpPlanet *self)
     _("Unity")
   };
 	
-  return spi[gwp_planet_get_natives_spi (self)];
+  return g_strdup(spi[gwp_planet_get_natives_spi (self)]);
 }
 
 /**
