@@ -551,6 +551,7 @@ void on_about_activate(GtkWidget *widget)
     GtkWidget *about_gwp;
     const gchar *authors[] = {
       "Lucas Di Pentima <lucas@lunix.com.ar>",
+      "Sven Wergandt <summ@gmx.de>",
       NULL
     };
     const gchar *documenters[] = {
