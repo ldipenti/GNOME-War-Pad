@@ -109,6 +109,7 @@ char *gwp_messages_getMessageBody( GwpMessages *self, int id );
 char *gwp_messages_getMessageSubject( GwpMessages *self, int id );
 char *gwp_messages_getMessageHeader( GwpMessages *self, int id );
 char *gwp_messages_getMessageHeaderLong( GwpMessages *self, int id );
+char *gwp_messages_getMessageCategory( GwpMessages *self, int id );
 bool gwp_messages_messageIsOld( GwpMessages *self, int id );
 int gwp_messages_readWord( GwpMessages *self, FILE *from );
 long gwp_messages_readDWord( GwpMessages *self, FILE *from );

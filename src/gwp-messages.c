@@ -852,6 +852,102 @@ if( DEBUGOUTPUT ) g_message("DEBUG: getHeadLong finished" );
     return( self->priv->tmptxt );
 }
 
+char *gwp_messages_getMessageCategory( GwpMessages *self, int id )
+{
+if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory called" );
+    /* check if file was already read */
+    if( !self->priv->fileRead )
+        gwp_messages_readFileAny( self );
+
+    /* check for valid message id */
+    gwp_messages_checkValidMessageId( self, &id );
+    self->priv->currMsg = id;
+
+
+    /* get header code */
+    char *header;
+    header = (char *)malloc(128*sizeof(char));
+    header[0] = '\0';
+    strncat( header, gwp_messages_getMessageHeader( self, id ), 127 );
+
+    /* create text to be returned */
+    self->priv->tmptxt[0] = '\0';
+    switch( header[1] )
+    {
+        case '9':
+                strcat( self->priv->tmptxt, "Race-specific Missions" );
+                break;
+        case 'a':
+                strcat( self->priv->tmptxt, "Message from 3rd-party add-on" );
+                break;
+        case 'c':
+              strcat( self->priv->tmptxt, "Tim Continuum Attack" );
+              break;
+        case 'd':
+                strcat( self->priv->tmptxt, "New Ship/Starbase" );
+                break;
+        case 'e':
+                strcat( self->priv->tmptxt, "Emergency call from ship" );
+                break;
+        case 'f':
+                strcat( self->priv->tmptxt, "Ship/Planet Lost" );
+                break;
+        case 'g':
+                strcat( self->priv->tmptxt, "Host Configuration" );
+                break;
+        case 'h':
+                strcat( self->priv->tmptxt, "External Message" );
+                break;
+        case 'i':
+                strcat( self->priv->tmptxt, "Ion Storm" );
+                break;
+        case 'l':
+                strcat( self->priv->tmptxt, "Minefield Laid" );
+                break;
+        case 'm':
+                strcat( self->priv->tmptxt, "Minefield Scanned/Swept" );
+                break;
+        case 'n':
+                strcat( self->priv->tmptxt, "Intercepted Enemy Messages" );
+                break;
+        case 'p':
+                strcat( self->priv->tmptxt, "Planet-Messages" );
+                break;
+        case 'r':
+                strcat( self->priv->tmptxt, "Player-Messages" );
+                break;
+        case 's':
+                strcat( self->priv->tmptxt, "Ship-Messages" );
+                break;
+        case 't':
+                strcat( self->priv->tmptxt, "Terraform Status" );
+                break;
+        case 'u':
+                strcat( self->priv->tmptxt, "UFO-Messages" );
+                break;
+        case 'w':
+                strcat( self->priv->tmptxt, "Web-Mine Hit" );
+                break;
+        case 'x':
+                strcat( self->priv->tmptxt, "Explosions" );
+                break;
+        case 'y':
+                strcat( self->priv->tmptxt, "Meteor Impacts" );
+                break;
+        case 'z':
+                strcat( self->priv->tmptxt, "(Bio-)Scanner Reports" );
+                break;
+        default:
+            strcat( self->priv->tmptxt, "- unknown -" );
+            g_message( "# Warning: 'getMessageHeaderLong': unknown message header '%s'", header );
+            break;
+    }
+
+
+
+if( DEBUGOUTPUT ) g_message("DEBUG: gwp_messages_getMessageCategory finished" );
+    return( self->priv->tmptxt );
+}
 
 
 bool gwp_messages_messageIsOld( GwpMessages *self, int id )

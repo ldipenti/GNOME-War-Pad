@@ -736,43 +736,23 @@ void on_combox_turnnmb_changed( GtkWidget *widget,
   message_reader_change_messagefile( widget, user_data );
 }
 
-void on_treeview1_button_press_event( GtkWidget *widget,
-                    gpointer user_data )
+void on_message_treeview_select_cursor_row( GtkWidget *widget,
+				     gpointer user_data)
 {
-    /* TODO */
+  g_message( "on_message_treeview_select_cursor_row: NOTHING IMPLEMENTED YET" );
 }
 
 void on_message_treeview_row_activated( GtkWidget *widget,
-                    gpointer user_data )
+				     gpointer user_data)
 {
-  g_message( "on_message_treeview_row_activated" );
-}
-void on_message_treeview_row_collapsed( GtkWidget *widget,
-                    gpointer user_data )
-{
-  g_message( "on_message_treeview_row_collapsed" );
-}
-void on_message_treeview_row_expanded( GtkWidget *widget,
-                    gpointer user_data )
-{
-  g_message( "on_message_treeview_row_expanded" );
-}
-void on_message_treeview_expand_collapse_cursor_row( GtkWidget *widget,
-                    gpointer user_data )
-{
-  g_message( "on_message_treeview_expand_collapse_cursor_row" );
-}
-void on_message_treeview_test_collapse_row( GtkWidget *widget,
-                    gpointer user_data )
-{
-  g_message( "on_message_treeview_test_collapse_row" );
-}
-void on_message_treeview_test_expand_row( GtkWidget *widget,
-                    gpointer user_data )
-{
-  g_message( "on_message_treeview_test_expand_row" );
+  g_message( "on_message_treeview_row_activated: NOTHING IMPLEMENTED YET" );
 }
 
+void on_message_treeview_cursor_changed( GtkWidget *widget,
+				     gpointer user_data)
+{
+  g_message( "on_message_treeview_cursor_changed: NOTHING IMPLEMENTED YET" );
+}
 
 /* Ship list double-click to open extra panels */
 void on_ships_list_row_activated (GtkTreeView *ships_l,

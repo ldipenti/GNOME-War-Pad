@@ -47,13 +47,10 @@ void message_reader_treeview_init( GtkWidget *widget,
 if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
 
   /* declarations and preparations */
-  enum {
-    COL_HEADER = 0,
-    COL_SUBJECT,
-    NUM_COLS };
   gchar oldhead;
   gint i;
   gchar *tmph, *tmps;
+  gint tmpi;
   tmph = (gchar *)g_malloc(1024*sizeof(gchar));
   tmps = (gchar *)g_malloc(1024*sizeof(gchar));
   GtkTreeStore  *treestore;
@@ -64,7 +61,8 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
   message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
   treestore = gtk_tree_store_new(NUM_COLS,
                                  G_TYPE_STRING,
-                                 G_TYPE_STRING);
+                                 G_TYPE_STRING,
+                                 G_TYPE_INT);
   GwpMessages *messages = (GwpMessages *)
     g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
 
@@ -73,6 +71,7 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
   if( gtk_tree_view_get_model( message_tree ) )
   {
     GList* list = gtk_tree_view_get_columns( message_tree );
+    gtk_tree_view_remove_column( message_tree, list->next->next->data );
     gtk_tree_view_remove_column( message_tree, list->next->data );
     gtk_tree_view_remove_column( message_tree, list->data );
   }
@@ -101,12 +100,28 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
   /* connect 'text' property of the cell renderer to
    *  model column that contains the message subject */
   gtk_tree_view_column_add_attribute(col, renderer, "text", COL_SUBJECT);
+  /* connect a cell data function */
+  gtk_tree_view_column_set_cell_data_func(col, renderer, subject_cell_data_func, NULL, NULL);
   /* set 'weight' property of the cell renderer to
    *  bold print (we want all subjects in bold) */
   g_object_set(renderer,
               "weight", PANGO_WEIGHT_BOLD,
               "weight-set", TRUE,
                NULL);
+
+  /* The (hidden) Identifier-Column */
+  col = gtk_tree_view_column_new();
+  gtk_tree_view_column_set_title(col, "#");
+  /* pack tree view column into tree view */
+  gtk_tree_view_append_column(message_tree, col);
+  renderer = gtk_cell_renderer_text_new();
+  /* pack cell renderer into tree view column */
+  gtk_tree_view_column_pack_start(col, renderer, TRUE);
+  /* connect 'text' property of the cell renderer to
+   *  model column that contains the message subject */
+  gtk_tree_view_column_add_attribute(col, renderer, "text", COL_IDENT);
+  /* hide this identifier column */
+  gtk_tree_view_column_set_visible( col, FALSE );
 
 
   oldhead = '\n';
@@ -117,34 +132,34 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
 
     if( oldhead != tmph[1] )
     {
-      /* new message division */
+      /* start a new message division */
       oldhead = tmph[1];
       /* create the right header/subjects */
       tmph[0] = '\0';
       strncat( tmph, gwp_messages_getMessageHeader( messages, i )+1, 1 );
       tmps[0] = '\0';
-      strcat( tmps, gwp_messages_getMessageSubject( messages, i ) );
+      tmpi = -i-1;
       /* Append a top level row */
       gtk_tree_store_append(treestore, &toplevel, NULL);
       gtk_tree_store_set(treestore, &toplevel,
                      COL_HEADER, tmph,
                      COL_SUBJECT, tmps,
+                     COL_IDENT, tmpi,
                      -1);
     }
-    else
-    {
-      /* create the right header/subjects */
+    /* create the right header/subjects */
     tmph[0] = '\0';
     strcat( tmph, gwp_messages_getMessageHeader( messages, i ) );
     tmps[0] = '\0';
     strcat( tmps, gwp_messages_getMessageHeaderLong( messages, i ) );
-      /* Append a child to the top level row, and fill in some data */
-      gtk_tree_store_append(treestore, &child, &toplevel);
-      gtk_tree_store_set(treestore, &child,
-                     COL_HEADER, tmph,
-                     COL_SUBJECT, tmps,
-                     -1);
-    }
+    tmpi = i+1;
+    /* Append a child to the top level row, and fill in some data */
+    gtk_tree_store_append(treestore, &child, &toplevel);
+    gtk_tree_store_set(treestore, &child,
+                   COL_HEADER, tmph,
+                   COL_SUBJECT, tmps,
+                   COL_IDENT, tmpi,
+                   -1);
   }
 
 
@@ -152,83 +167,64 @@ if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init called" );
 
   /* fill the treeview with this new model */
   gtk_tree_view_set_model( message_tree, GTK_TREE_MODEL( treestore ) );
-  /* expand the message tree */
-//  gtk_tree_view_expand_all( message_tree );
   /* jump again to first message */
   gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdFirst( messages ) );
+  /* make messages selectable, one at a time */
+  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(message_tree),
+                              GTK_SELECTION_SINGLE);
 
   /* cleanup */
   g_free( tmph );
   g_free( tmps );
-
-
-
-
-//  
-//  GtkTreeView *message_tree;
-//  GtkListStore *store;
-//  GtkTreeViewColumn *column;
-//  GtkCellRenderer *renderer;
-//  GtkTreeIter iter;
-//  int i;
-//  char *tmph, *tmps;
-//  tmph = (char *)malloc(1024*sizeof(char));
-//  tmps = (char *)malloc(1024*sizeof(char));
-//  GwpMessages *messages = (GwpMessages *)
-//    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-
-//  enum {
-//    HEADER_COLUMN,
-//    SUBJECT_COLUMN
-//  };
-
-//  message_tree = (GtkTreeView *)lookup_widget( "message_treeview" );
-//  /* remove all old columns */
-//  while( gtk_tree_view_get_column( message_tree, 0 ) )
-
-//  gtk_tree_view_remove_column( message_tree, gtk_tree_view_get_column( message_tree, 0 ) );
-//  store = gtk_list_store_new( 2,
-//                            G_TYPE_STRING,
-//                            G_TYPE_STRING );
-//  gtk_tree_view_set_model( message_tree, GTK_TREE_MODEL( store ));
-//  renderer = gtk_cell_renderer_text_new( );
-
-//  column = gtk_tree_view_column_new_with_attributes(_("Header"),
-//                            renderer,
-//                            "text", HEADER_COLUMN,
-//                            NULL);
-//  gtk_tree_view_append_column( message_tree, column );
-
-//  column = gtk_tree_view_column_new_with_attributes(_("Subject"),
-//                            renderer,
-//                            "text", SUBJECT_COLUMN,
-//                            NULL );
-//  gtk_tree_view_append_column( message_tree, column );
-
-
-
-//  for( i=0; i<gwp_messages_getNumberOfMessages( messages ); i++ )
-//  {
-//    tmph[0] = '\0';
-//    strcat( tmph, gwp_messages_getMessageHeader( messages, i ) );
-//    tmps[0] = '\0';
-//    strcat( tmps, gwp_messages_getMessageSubject( messages, i ) );
-
-//    gtk_list_store_append(store, &iter); /* Get iterator */
-//    gtk_list_store_set(store, &iter,
-//      HEADER_COLUMN, tmph,
-//      SUBJECT_COLUMN, tmps,
-//      -1);
-//    }
-
-//  /* jump again to first message */
-//  gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdFirst( messages ) );
-
-//  /* cleanup */
-//  free( tmph );
-//  free( tmps );
 if( DEBUGOUTPUT ) g_message("DEBUG: mr treeview init finished" );
 }
+
+
+
+
+
+
+
+void subject_cell_data_func (GtkTreeViewColumn *col,
+                             GtkCellRenderer   *renderer,
+                             GtkTreeModel      *model,
+                             GtkTreeIter       *iter,
+                             gpointer           user_data)
+{
+  gint   ident;
+  gchar  buf[1024];
+
+  GwpMessages *messages = (GwpMessages *)
+    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
+
+  gtk_tree_model_get(model, iter, COL_IDENT, &ident, -1);
+  if( ident < 0 )
+  {
+    /* row is parent */
+    buf[0]='\0';
+    strcat( buf, gwp_messages_getMessageCategory( messages, -(ident-1) ) );
+    g_object_set( renderer, "foreground-set", FALSE, NULL );
+    g_object_set( renderer, "weight", PANGO_WEIGHT_BOLD, "weight-set", FALSE, NULL );
+  }
+  else
+  {
+    /* row is child */
+    buf[0]='\0';
+    strcat( buf, gwp_messages_getMessageSubject( messages, (ident-1) ) );
+    g_object_set( renderer, "foreground", "Blue", "foreground-set", TRUE, NULL );
+    g_object_set( renderer, "weight", PANGO_WEIGHT_BOLD, "weight-set", FALSE, NULL );
+  }
+
+  g_object_set(renderer, "text", buf, NULL);
+}
+
+
+
+
+
+
+
+
 
 void message_reader_combobox_init( GtkWidget *widget,
 				      gpointer  user_data )

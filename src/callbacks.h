@@ -148,20 +148,12 @@ void on_reader_lastmess_btn_clicked (GtkWidget *widget,
 				     gpointer  user_data);
 void on_combox_turnnmb_changed( GtkWidget *widget,
 				     gpointer user_data);
-void on_treeview1_button_press_event( GtkWidget *widget,
-                    gpointer user_data );
+void on_message_treeview_select_cursor_row( GtkWidget *widget,
+				     gpointer user_data);
 void on_message_treeview_row_activated( GtkWidget *widget,
-                    gpointer user_data );
-void on_message_treeview_row_collapsed( GtkWidget *widget,
-                    gpointer user_data );
-void on_message_treeview_row_expanded( GtkWidget *widget,
-                    gpointer user_data );
-void on_message_treeview_expand_collapse_cursor_row( GtkWidget *widget,
-                    gpointer user_data );
-void on_message_treeview_test_collapse_row( GtkWidget *widget,
-                    gpointer user_data );
-void on_message_treeview_test_expand_row( GtkWidget *widget,
-                    gpointer user_data );
+				     gpointer user_data);
+void on_message_treeview_cursor_changed( GtkWidget *widget,
+				     gpointer user_data);
 void on_ships_list_row_activated (GtkTreeView *ships_list,
 				  GtkTreePath *path,
 				  GtkTreeViewColumn *col,
