@@ -226,30 +226,6 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   return FALSE;
 }
 
-/* Deprecated
-void
-select_race_event                      (GtkButton       *button,
-                                        gpointer         user_data)
-{
-  game_set_race((gint) user_data);
-  init_data();
-  init_starchart(gwp);
-  gtk_widget_hide(gwp_select_race_dialog);
-  gtk_widget_show(gwp);
-}
-*/
-/* Deprecated
-void on_vp_game_dir_changed (GtkEditable *editable,
-			     gpointer gwp_select_dlg) 
-{
-  //editable = (GtkEditable *) lookup_widget("vp_game_dir");
-  game_set_dir(gtk_editable_get_chars(editable, 0, -1));
-  gnome_config_set_string("General/game_dir", 
-			  gtk_editable_get_chars(editable, 0, -1));
-  update_select_dlg((GtkWidget *) gwp_select_dlg);  
-}
-*/
-
 void on_game_mgr_game_dir_changed (GtkEditable *editable,
 				   gpointer user_data)
 {
@@ -389,7 +365,8 @@ void on_game_mgr_edit_game(GtkWidget *widget,
 	 an "edit game" dialog. */
       g_signal_connect(G_OBJECT(ok_button), 
 		       "clicked", 
-		       G_CALLBACK(game_mgr_cb_edit_game), iconlist);
+		       G_CALLBACK(game_mgr_cb_edit_game), 
+		       g_strdup(settings->game_name));
       gtk_window_set_transient_for(GTK_WINDOW(game_mgr_properties), 
 				   GTK_WINDOW(game_mgr));
       gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
@@ -422,29 +399,37 @@ void on_game_mgr_delete_game (GtkWidget *widget,
     gint icon_idx = (gint)g_list_nth_data(selections, 0);
     GtkResponseType response;
     GtkWidget *warn;
+    gchar *game_name;
+
+    settings = (GameSettings *) 
+      gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
+				    icon_idx);
+    g_assert(settings != NULL);
+    game_name = g_strdup_printf("%s", settings->game_name);
+    game_mgr_game_name_demangle(game_name);
 
     // Are you sureeee?
     warn = gtk_message_dialog_new((GtkWindow*) game_mgr_properties,
 				  GTK_DIALOG_DESTROY_WITH_PARENT,
 				  GTK_MESSAGE_QUESTION,
 				  GTK_BUTTONS_YES_NO,
-				  _("Are you sure you want to delete this game?"));
+				  _("Are you sure you want to delete '%s'?"),
+				  game_name);
     response = gtk_dialog_run(GTK_DIALOG(warn));
     gtk_widget_destroy(warn);
 
     // Oh well...
     if(response == GTK_RESPONSE_YES) {
     
-      settings = (GameSettings *) 
-	gnome_icon_list_get_icon_data(GNOME_ICON_LIST(iconlist),
-				      icon_idx);
-      g_assert(settings != NULL);
+      // Remove it from GConf
+      game_mgr_settings_delete(settings->game_name);
+      gconf_client_suggest_sync(gwp_gconf, NULL);
+
       // Free memory from GameSettings struct
       game_mgr_settings_free(settings);
       // Remove icon
       gnome_icon_list_remove(GNOME_ICON_LIST(iconlist),
 			     icon_idx);
-      // FIXME: Remember to remove GConf data!!!
     }
   } 
 }

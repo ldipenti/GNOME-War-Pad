@@ -33,17 +33,29 @@ GtkWidget *game_mgr_get_properties_dlg(void);
 
 // Specific callbacks
 void game_mgr_cb_new_game(GtkWidget *widget, gpointer user_data);
-void game_mgr_cb_edit_game(GtkWidget *widget, gpointer iconlist);
+void game_mgr_cb_edit_game(GtkWidget *widget, gchar *old_game_name);
 
 void game_mgr_update_race_list(char *dir);
-GameSettings *game_mgr_new_settings(void);
+
+// Game settings functions
+GameSettings *game_mgr_settings_new(void);
 void game_mgr_settings_free(GameSettings *s);
+void game_mgr_settings_save(const GameSettings *settings);
+void game_mgr_settings_delete(const gchar *name);
 void game_mgr_properties_dlg_clean(void);
-gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
+void game_mgr_settings_print_data (GameSettings *s);
+
 // icon_number < 0 if not editing or adding a game
 gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 					const gint icon_number);
 void game_mgr_properties_dlg_get_settings(GameSettings *settings);
-void game_mgr_settings_save(const GameSettings *settings);
+gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
+
+void game_mgr_add_icon(GnomeIconList *iconlist, GameSettings *sett);
+
+
+// Game name translators
+void game_mgr_game_name_mangle(gchar *name);
+void game_mgr_game_name_demangle(gchar *name);
 
 #endif

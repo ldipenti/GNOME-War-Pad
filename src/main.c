@@ -80,7 +80,8 @@ int main (int argc, char *argv[]) {
   game_mgr = glade_xml_get_widget(xml_interface, "game_mgr");
   g_assert(game_mgr != NULL);
 
-  game_mgr_properties = glade_xml_get_widget(xml_interface, "game_mgr_properties");
+  game_mgr_properties = glade_xml_get_widget(xml_interface,
+					     "game_mgr_properties");
   g_assert(game_mgr_properties != NULL);
 
   // Initialisations
