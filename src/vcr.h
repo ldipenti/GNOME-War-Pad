@@ -1,7 +1,19 @@
 #ifndef VCR_H
 #define VCR_H
 
+#include <gnome.h>
+#include <math.h>
+#include <string.h>
+#include <glib/gprintf.h>
+
 #include "gwp-planet.h"
+#include "vcr-combat-gl.h"
+#include "callbacks.h"
+#include "global.h"
+#include "support.h"
+#include "gwp-ship.h"
+#include "race.h"
+#include "vcr-combat.h"
 
 /* target */
 enum {

@@ -86,6 +86,10 @@ gwp_SOURCES =				\
 	vcr.h				\
 	vcr-combat.c			\
 	vcr-combat.h			\
+    vcr-combat-gl.c         \
+    vcr-combat-gl.h         \
+    trackball.c             \
+    trackball.h             \
 	gwp-python.h			\
 	gwp-python.c			\
 	gwp-utils.c			\

@@ -1,8 +1,8 @@
 [I][T][S]
 I = Importance: "   " - nice to have (program/part improvement)
-                "  X" - needed       (program/part usable without)
-                " XX" - essential    (program/part not usable without)
-                "XXX" - urgent       (program/part crashing, insecure, ...)
+                "  X" - needed       (program/part is usable without)
+                " XX" - essential    (program/part is not usable without)
+                "XXX" - urgent       (program/part is crashing, insecure, ...)
 T = Type:       "r"   - request
                 "B"   - bug
 S = Status:     "-"   - done
@@ -21,6 +21,12 @@ message-reader:
 [   ][r][n] try to create a significant subject for every message
 [   ][r][n] try to use colourified messages according to their importance
 [   ][r][n] expand/collapse categories with double-click
+
+vcr / vcr-combat:
+
+[  X][B][n] exchange ASCII_0 #defines in vcr.c with gnome key handling.
+            http://developer.gnome.org/doc/API/2.0/gdk/gdk-Keyboard-Handling.html
+[   ][r][n] get a nice star-background: http://www.seds.org/messier/more/m-kc.html
 
 starchart:
 

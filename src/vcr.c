@@ -1,16 +1,5 @@
 
-#include <gnome.h>
-#include <glib.h>
-#include <math.h>
-#include <string.h>
-
-#include "callbacks.h"
-#include "global.h"
-#include "support.h"
 #include "vcr.h"
-#include "gwp-ship.h"
-#include "race.h"
-#include "vcr-combat.h"
 
 #define ASCII_0   48
 #define ASCII_A   65

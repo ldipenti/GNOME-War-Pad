@@ -16,6 +16,9 @@ void vcrc_combat_start( combatdata *cdata )
 
   vcrc_prepare_for_battle( cdata, &battle );
   vcrc_print_combatants( cdata );
+
+  /* try to initialize the open-gl simulation area */
+  vcrcgl_init();
 }
 
 
@@ -91,7 +94,7 @@ void vcrc_fight( battlefield *battle )
 
 void init_log( void )
 {
-  GtkTextView *view = GTK_TEXT_VIEW( lookup_widget( "vcr_textview_simulate" ) );
+  GtkTextView *view = GTK_TEXT_VIEW( lookup_widget( "vcr_textview_log" ) );
   vcr_logging_textview_buffer = gtk_text_view_get_buffer( view );
   PangoFontDescription *pfontdesc = pango_font_description_from_string( "Monospace 10" );
   gtk_widget_modify_font( GTK_WIDGET( view ), pfontdesc );
