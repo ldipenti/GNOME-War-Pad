@@ -506,6 +506,7 @@ gwp_starchart_select_nearest_planet (GwpStarchart *self,
   planets_nearby = starchart_get_surrounding_quads(planets_per_quad, q);
 
   s_planet = starchart_select_nearest_planet(gwp, planets_nearby, wx, wy);
+  g_signal_emit_by_name (s_planet, "selected");
 
   return s_planet;
 }
