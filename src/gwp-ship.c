@@ -348,7 +348,7 @@ gint gwp_ship_calculate_eta (GwpShip *self)
 
   gint eta = 0;
   if (dist > 0.0) {
-    eta = rint(dist / (speed*speed));
+    eta = ceil(dist / (speed*speed));
   }
   
   return eta;
