@@ -29,40 +29,100 @@ gint gwp_planet_mineral_extraction_rate(gint mines, gint density, gint mineral);
 gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);
 
 
+/**
+ * Private data structure for the GwpPlanet type.
+ *
+ * This data should be accesed directly only by the low-level get/set
+ * object's methods, the high-level ones shouldn't touch them.
+ */
 struct _GwpPlanetPrivate {
-  gboolean dispose_has_run;
+  gboolean dispose_has_run; /**< Internal object's variable. */
   /* private attributes */
-  gboolean is_known;
-  GwpStarbase *starbase;
-  gint16 owner;
-  GString *fcode;
-  gint16 mines;
-  gint16 factories;
-  gint16 defense_posts;
-  gint32 mined_neutronium;
-  gint32 mined_tritanium;
-  gint32 mined_duranium;
-  gint32 mined_molybdenum;
-  gint32 colonists;
-  gint32 supplies;
-  gint32 megacredits;
-  gint32 ground_neutronium;
-  gint32 ground_tritanium;
-  gint32 ground_duranium;
-  gint32 ground_molybdenum;
-  gint16 dens_neutronium;
-  gint16 dens_tritanium;
-  gint16 dens_duranium;
-  gint16 dens_molybdenum;
-  gint16 tax_colonists;
-  gint16 tax_natives;
-  gint16 happiness_colonists;
-  gint16 happiness_natives;
-  gint16 natives_spi;
-  gint32 natives;
+  gboolean is_known; /**< TRUE if the planet is owned by the player. */
+  GwpStarbase *starbase; /**< Pointer to a starbase orbiting the
+			    planet. NULL if the planet doesn't have one. */
+  gint16 owner; /**< Owner's race number. Range 1..11. */
+  GString *fcode; /**< Planet's friendly Code. Max 3 chars. */
+  gint16 mines; /**< Mineral mines on planet. */
+  gint16 factories; /**< Supplies factories on planet. */
+  gint16 defense_posts; /**< Defense posts on planet. If 15 or more,
+			   planet activity's visibility goes to 0% */
+  gint32 mined_neutronium; /**< Neutronium on surface. Specified in KT. */
+  gint32 mined_tritanium; /**< Tritanium on surface. Specified in KT. */
+  gint32 mined_duranium; /**< Duranium on surface. Specified in KT. */
+  gint32 mined_molybdenum; /**< Molybdenum on surface, Specified in KT. */
+  gint32 colonists; /**< Number of colonists on planet. Specified in
+		       clans (100 people each). */
+  gint32 supplies; /**< Supplies available on planet. Specified in KT. */
+  gint32 megacredits; /**< Megacredits available on planet. */
+  gint32 ground_neutronium; /**< Neutronium below surface. Specified
+			       in KT. */
+  gint32 ground_tritanium; /**< Tritanium below surface. Specified in KT. */
+  gint32 ground_duranium; /**< Duranium below surface. Specified in KT. */
+  gint32 ground_molybdenum; /**< Molybdenum below surface. Specified
+			       in KT. */
+  gint16 dens_neutronium; /**< Neutroium below surface. Specified in KT. */
+  gint16 dens_tritanium; /**< Tritanium below surface. Specified in KT. */
+  gint16 dens_duranium; /**< Duranium below surface. Specified in KT. */
+  gint16 dens_molybdenum; /**< Molybdenum below surface. Specified in KT. */
+  gint16 tax_colonists; /**< Tax charged to colonists. Specified in %. */
+  gint16 tax_natives; /**< Tax charged to natives. Specified in %. */
+  gint16 happiness_colonists; /**< Colonists's happines
+				 level. Specified in %. */
+  gint16 happiness_natives; /**< Natives's happiness level. Specified
+			       in % */
+  /**
+   *  Socio Political Index.
+   *
+   * This defines the type of government that the natives have on the
+   * current planet and the quantity of taxes that they pay. Options
+   * can be:
+   *
+   *    - 0 none (0%)
+   *    - 1 Anarchy (20%)
+   *    - 2 Pre-Tribal (40%)
+   *    - 3 Early-Tribal (60%)
+   *    - 4 Tribal (80%)
+   *    - 5 Feudal (100%)
+   *    - 6 Monarchy (120%)
+   *    - 7 Representative (140%)
+   *    - 8 Participatory (160%)
+   *    - 9 Unity (180%)
+   */
+  gint16 natives_spi; 
+  gint32 natives; /**< Number of natives on planet. Specified in clans
+		     (100 people each). */
+
+  /**
+   * Native race on planet.
+   *
+   *    - 0 none
+   *    - 1 Humanoid
+   *    - 2 Bovinoid
+   *    - 3 Reptilian
+   *    - 4 Avian
+   *    - 5 Amorphous
+   *    - 6 Insectoid
+   *    - 7 Amphibian
+   *    - 8 Ghipsoldal
+   *    - 9 Siliconoid   
+   */
   gint16 natives_race;
+
+  /**
+   * Planet's temperature.
+   *
+   * Defines the habitability, the maximum number of colonists that
+   * can live on the current planet, and the growth rate.
+   *
+   *    - 0..15 desert (85..100 ºF)
+   *    - 16..35 tropical (65..84 ºF)
+   *    - 36..60 warm (40..64 ºF)
+   *    - 61..85 cool (15..39 ºF)
+   *    - 86..100 arctic (0..14 ºF)
+   */
   gint16 temperature;
-  gint16 build_base;
+  gint16 build_base; /**< 1=Build base, 0 otherwise. */
 };
 
 /*
@@ -169,8 +229,10 @@ static void gwp_planet_class_init (GwpPlanetClass *klass)
   gobject_class->finalize = gwp_planet_finalize;
 }
 
-/*
- * Public method implementations.
+/**
+ * Instantiates a new planet.
+ *
+ * @return The new GwpPlanet object.
  */
 GwpPlanet * gwp_planet_new (void)
 {
@@ -181,7 +243,19 @@ GwpPlanet * gwp_planet_new (void)
 /* High-level methods */
 /**********************/
 
-/* Global Defense Systems calculations */
+/*
+ * Global Defense Systems calculations. (GDS)
+ */
+
+/**
+ * Number of beam weapons on defense systems - GDS.
+ *
+ * This calculates the equivalent number of beams a planet has to
+ * defend itself from attacks.
+ *
+ * @param self a Gwp Planet.
+ * @return The number of beam weapons.
+ */
 gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self)
 {
   gint ret;
@@ -197,7 +271,15 @@ gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self)
   return ret;
 }
 
-/* Global Defense Systems calculations */
+/**
+ * Number of fighters on defense systems - GDS.
+ *
+ * This calculates the equivalent number of fighters a planet has to
+ * defend itself from attacks.
+ *
+ * @param self a GwpPlanet.
+ * @return The number of fighters.
+ */
 gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self)
 {
   gint ret;
@@ -217,13 +299,26 @@ gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self)
   return ret;
 }
 
-/* Global Defense Systems calculations */
+/**
+ * Number of fighter bays on defense systems - GDS.
+ *
+ * @param self a GwpPlanet.
+ * @return The number of fighter bays
+ */
 gint gwp_planet_get_def_sys_fighter_bays(GwpPlanet *self)
 {
   return trunc(sqrt(gwp_planet_get_defense_posts(self)));
 }
 
-/* Global Defense Systems calculations */
+/**
+ * Planet's Battle mass on defense systems - GDS.
+ *
+ * This is the equivalent mass that defense systems generate on the
+ * planet, the planet's battle endurance.
+ *
+ * @param self a GwpPlanet.
+ * @return The ballte mass in KT.
+ */
 gint gwp_planet_get_def_sys_battle_mass(GwpPlanet *self)
 {
   gint ret;
