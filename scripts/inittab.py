@@ -164,6 +164,16 @@ class PluginManager:
     def add_plugin_available(self, plugin):
         self.__plugins_available.append(plugin)
 
+    # This method is used by the GwpGameState C code to store the active
+    # plugins list before closing the game.
+    def get_plugin_registered_names(self):
+        names = []
+        for plugin in self.__plugins_registered:
+            # The Navigator gets loaded always
+            if not plugin.__class__.__name__ == 'PluginNavigator':
+                names.append(plugin.__class__.__name__)
+        return names
+
 #######
 # Plugin abstract class
 #######

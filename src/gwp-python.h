@@ -37,6 +37,8 @@ void gwp_python_init (char *argv0);
 void gwp_python_quit (void);
 void gwp_python_event_key (GdkEventKey *event);
 void gwp_python_inittab (void);
+GSList * gwp_python_get_active_plugins (void);
+
 
 #endif
 

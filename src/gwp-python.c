@@ -147,4 +147,37 @@ void gwp_python_event_key (GdkEventKey *event)
   }
 }
 
+/**
+ * Returns a list with theactive plugins class names.
+ *
+ * @return A new GSList
+ */
+GSList *
+gwp_python_get_active_plugins (void)
+{
+  PyObject *plugin_mgr = NULL;
+  PyObject *pylist = NULL;
+  GSList *names = NULL;
+  gint i;
+
+  plugin_mgr = (PyObject *)gwp_game_state_get_plugin_mgr (game_state);
+
+  pylist = PyObject_CallMethod (plugin_mgr,
+				"get_plugin_registered_names",
+				NULL);
+  /* Make sure that we have a Python list */
+  g_assert (PyList_Check(pylist) == 1);
+
+  /*  Assemble the GSList */
+  for (i = 0; i < PyList_Size(pylist); i++) {
+    PyObject *name = PyList_GetItem (pylist, i);
+    g_assert (PyString_Check(name)); /* Must be a Python string */
+    names = g_slist_append (names, g_strdup(PyString_AsString(name)));
+  }
+
+  Py_DECREF (pylist);
+
+  return names;
+}
+
 #endif /* USE_PYTHON */

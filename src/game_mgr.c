@@ -17,6 +17,15 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+/* This should be the first include, because of the Python.h */
+#ifdef USE_PYTHON
+#  include "gwp-python.h"
+#endif
+
 #include <gnome.h>
 #include <string.h>
 
@@ -834,6 +843,12 @@ void game_mgr_save_game_state (GwpGameState *state)
   g_object_get (G_OBJECT(state), "minefields", &tmp_bool, NULL);
   gconf_client_set_bool (gwp_gconf, g_strconcat(path, "minefields", NULL),
 			 tmp_bool, NULL);
+  
+  /* Registered plugins */
+  gconf_client_set_list (gwp_gconf, g_strconcat(path,"plugins", NULL),
+			 GCONF_VALUE_STRING,
+			 gwp_python_get_active_plugins (),
+			 NULL);
 }
 
 
