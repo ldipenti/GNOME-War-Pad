@@ -1,3 +1,613 @@
+2004-10-17 23:21  ldipenti
+
+	* configure.in: Added conditional check's unit tests
+
+2004-10-12 19:13  ldipenti
+
+	* po/de.po: German translations updated! thanks Stefan!! :-D
+
+2004-10-11 22:31  ldipenti
+
+	* po/: POTFILES.in, de.po, es.po, fr.po, gwp.pot: Merged all .po
+	  files with new strings. Updated spanish translation
+
+2004-10-11 21:24  ldipenti
+
+	* help/C/: Makefile.am, gwp.xml, message-reader.xml: Added section
+	  for message reader on online help
+
+2004-10-11 18:57  ldipenti
+
+	* src/starchart.c: Finished writing the first draft about MVC's way
+	  of handling events from controller to starchart
+
+2004-10-11 15:33  ldipenti
+
+	* help/C/Makefile.am, help/C/aboutgwp.xml,
+	  help/C/games_internet.xml, help/C/gwp-C.omf, help/C/gwp.xml,
+	  help/C/learnmore.xml, help/C/planet-ops.xml,
+	  help/C/plugins-console.xml, help/C/plugins-intro.xml,
+	  help/C/plugins-using.xml, help/C/ship-ops.xml,
+	  help/C/starbase-ops.xml, help/C/starchart-ops.xml,
+	  help/C/vpmechanics.xml, help/C/whatisvp.xml,
+	  help/C/figures/game-mgr.png, help/C/figures/plugin-navigator.png,
+	  help/C/figures/python-console.png,
+	  help/C/figures/starchart-planet.png,
+	  help/C/figures/starchart-ship-complete.png,
+	  help/C/figures/starchart-ship-simple.png,
+	  help/C/figures/starchart-starbase.png,
+	  help/C/figures/starchart.png, src/callbacks.c: Bugfix: The online
+	  help is working again.  Feature: Online help files were
+	  reorganized and expanded.
+
+2004-10-11 13:04  ldipenti
+
+	* src/gwp.glade: Added F1 keystroke for online help
+
+2004-10-11 12:36  ldipenti
+
+	* src/starchart.c: Some optimizations on the planet name creation
+
+2004-10-10 17:57  ldipenti
+
+	* src/game_mgr.c: Bugfix: appbar messages were wrong when only one
+	  or none games were defined on the manager
+
+2004-10-10 00:55  ldipenti
+
+	* help/C/gwp.xml: Corrected revision history
+
+2004-10-10 00:26  ldipenti
+
+	* src/: game_mgr.c, game_mgr.h: Bugfix: When editing an existing
+	  game, if the race changed the icon didn't.
+
+2004-10-09 21:34  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, game_mgr.h, gwp.glade: New
+	  feature: Game Manager's AppBar shows the number of games
+	  available.  Bugfix: When adding a new game or editing an existing
+	  one, game crashed because it hadn't any plugin manager active yet
+
+2004-10-09 20:18  ldipenti
+
+	* src/callbacks.c: Feature: a,w,s,d keys for starchart scrolling
+	  were changed to arrow keys
+
+2004-10-09 20:13  ldipenti
+
+	* src/starchart.c: Bugfix: zoom level corrected, now x,y coord
+	  restores correctly when zoom != 100%
+
+2004-10-08 01:41  ldipenti
+
+	* src/: callbacks.c, callbacks.h, game_mgr.c, gwp-game-state.c,
+	  gwp-game-state.h, gwp.glade, gwp_types.c, gwp_types.h,
+	  starchart.c, starchart.h: New features and fixes: the annoying
+	  toolbar is no more, toggle grid and zoom functions moved to
+	  "View" menu. Some code cleanup too
+
+2004-10-08 00:36  ldipenti
+
+	* src/game_mgr.c: Feature: Show turn number on game list
+
+2004-10-08 00:21  ldipenti
+
+	* src/callbacks.c: Fixed a missing cast
+
+2004-10-07 19:02  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp.glade: Bugfix: iconlist do
+	  not segfaults when arrow keys are pressed. Also, hitting Return
+	  will open the selected game
+
+2004-10-07 13:32  ldipenti
+
+	* scripts/inittab.py, src/gwp-py-functions.h,
+	  src/gwp-py-mappings.c, src/gwp-py-mappings.defs,
+	  src/gwp-py-mappings.override: Eliminated old get_dir() method.
+	  Corrected plugins to reflect this change
+
+2004-10-07 13:31  ldipenti
+
+	* scripts/plugins/: Makefile.am, magallanes.glade, magallanes.py:
+	  New official plugin: Magallanes written by Cristian Abalos, is a
+	  ship list browser. Thanks Cristian!
+
+2004-10-07 13:11  ldipenti
+
+	* src/: gwp-py-functions.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs, gwp-py-mappings.override: New python module
+	  method: get_system_plugins_dir()
+
+2004-10-07 13:10  ldipenti
+
+	* scripts/navigator.py: "Show Details" button now is at the bottom
+	  of the window
+
+2004-10-07 10:47  ldipenti
+
+	* scripts/navigator.py: Bugfix: Now activation/deactivation works
+	  fine. I was getting the wrong row based on the current selection
+	  instead of the path given on the callback
+
+2004-10-07 01:29  ldipenti
+
+	* scripts/inittab.py, src/game_mgr.c, src/gwp-python.c,
+	  src/gwp-python.h: Now plugins are loaded automatically, each game
+	  has its own configuration
+
+2004-10-06 20:05  ldipenti
+
+	* scripts/inittab.py, src/game_mgr.c, src/gwp-python.c,
+	  src/gwp-python.h: The game manager saves the registered plugins
+	  list on GConf. We just need to load it and preload the necessary
+	  plugins at game start :-D
+
+2004-10-06 19:34  ldipenti
+
+	* src/main.c: fixed missing conditional include
+
+2004-10-04 01:25  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, gwp-game-state.c, main.c,
+	  starchart.c: Some MVC tests being done...
+
+2004-10-02 14:57  ldipenti
+
+	* src/vp_utils.c: PNAMES.DAT data only is used within vp_utils.c
+	  file, so pnames global access from game_state was removed
+
+2004-10-01 20:02  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, gwp-game-state.c: First tests
+	  about using gobject properties
+
+2004-10-01 12:17  ldipenti
+
+	* src/: game_mgr.c, game_mgr.h: GwpGameState loading code from
+	  GConf encapsulated on a function
+
+2004-10-01 11:29  ldipenti
+
+	* src/: game_mgr.c, game_mgr.h, gwp-game-state.c, gwp-game-state.h:
+	  old gwp_game_state_save() function moved to game_mgr_save_game().
+
+2004-09-30 19:22  ldipenti
+
+	* src/vp_utils.c: Removed old zoom init code
+
+2004-09-30 16:56  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, game_mgr.h: Corrections and
+	  cleanups for legacy code from game_state.[ch]
+
+2004-09-30 15:20  ldipenti
+
+	* src/Makefile.am, src/callbacks.c, src/game_mgr.c, src/game_mgr.h,
+	  src/game_state.c, src/game_state.h, src/global.h,
+	  src/gwp-game-state.c, src/gwp-game-state.h, src/gwp-messages.c,
+	  src/gwp-minefield.c, src/gwp-planet.c, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.override, src/gwp-python.c, src/gwp-ship.c,
+	  src/gwp-vcrfile.c, src/main.c, src/message-reader.c,
+	  src/starchart.c, src/tables.c, src/vp_utils.c, tests/Makefile.am:
+	  Old structure-based GameState & GameSettings types were migrated
+	  to one and only GwpGameState GObject type. All files updated.
+
+2004-09-29 15:58  ldipenti
+
+	* src/gwp-ship.c: new signal for GwpShip: "selected"
+
+2004-09-29 15:58  ldipenti
+
+	* src/callbacks.c: emit signal on ship selection
+
+2004-09-29 15:57  ldipenti
+
+	* scripts/inittab.py: Implemented the event-hub: the plugin manager
+	  connects itself to every signal it wants, then it broadcast every
+	  signal to their active plugins. Each plugin must decide which
+	  signal to respond.
+
+2004-09-29 15:56  ldipenti
+
+	* scripts/plugins/finder.py: removed useless comments
+
+2004-09-28 23:46  ldipenti
+
+	* generate_py_mappings.sh, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs: Removed unused gobject type on python
+	  mappings
+
+2004-09-28 17:55  ldipenti
+
+	* src/gwp-python.c: 'Plugins' menu now is inserted before the Help
+	  menu entry
+
+2004-09-28 17:05  ldipenti
+
+	* scripts/inittab.py, src/gwp-py-mappings.c, src/gwp-python.c:
+	  PluginManager manages menu entry method
+
+2004-09-28 17:03  ldipenti
+
+	* scripts/plugins/finder.py: Finder registers itself on the plugins
+	  menu
+
+2004-09-28 17:03  ldipenti
+
+	* scripts/navigator.py: Navigator registers itself on the plugins
+	  menu
+
+2004-09-28 07:34  ldipenti
+
+	* scripts/inittab.py, src/gwp-python.c, src/gwp-ui.c,
+	  src/gwp.glade: Transport commit!
+
+2004-09-28 00:54  ldipenti
+
+	* po/POTFILES.in: New gettextized file
+
+2004-09-27 22:10  ldipenti
+
+	* src/: vp_utils.h, vp_utils.c: static-fied some funcs
+
+2004-09-19 21:38  ldipenti
+
+	* scripts/inittab.py: Substract 16 to key state
+
+2004-09-19 20:08  ldipenti
+
+	* src/gwp-py-mappings.c, src/gwp-py-mappings.defs,
+	  src/gwp-py-mappings.override, src/gwp-ui.c, src/gwp-ui.h,
+	  tests/Makefile.am, tests/check-gwp-ui.c, tests/check-gwp.c:
+	  Design change: GWP's User Interface API won't be through a
+	  GObject, ite makes no sense. gwp-ui.[ch] now contain simple
+	  functions
+
+2004-09-13 18:55  ldipenti
+
+	* contrib/: appendix.txt, filefmt.txt: New data files from Stefan
+
+2004-09-13 01:06  ldipenti
+
+	* scripts/: inittab.py, navigator.py, plugins/finder.py: Code
+	  cleanup: now PluginManager manages plugin classes, and
+	  initializes instances only when plugin are activated
+
+2004-09-11 19:21  ldipenti
+
+	* src/: gwp-py-functions.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs, gwp-py-mappings.override: New method for
+	  python module: get_path_pic_hull(hull_nr), returns a string with
+	  the hull picture filename path.
+
+2004-09-06 19:25  ldipenti
+
+	* scripts/inittab.py: Ignore all user plugins different from *.py
+	  on load
+
+2004-09-06 10:13  cvs-sven
+
+	* src/: gwp-vcrfile.c, gwp-vcrfile.h: gwp-vcrfile.c/.h provide the
+	  functionality of reading the visual combat recordings file
+	  (vcrX.dat)
+
+2004-09-06 10:11  cvs-sven
+
+	* src/: Makefile.am, callbacks.c, callbacks.h, gwp-messages.c,
+	  gwp.glade, vcr-combat.c, vcr-combat.h, vcr.c, vcr.h: A first
+	  version of the Visual Combat Recorder (VCR) - which can now read
+	  the vcrX.dat files and replay the recorded combats visually
+
+2004-09-06 01:05  ldipenti
+
+	* scripts/plugins/finder.py: Added a long description to Finder
+
+2004-09-06 00:50  ldipenti
+
+	* scripts/navigator.py: Added plugin details pane
+
+2004-09-05 23:03  ldipenti
+
+	* scripts/inittab.py: updated doc string on Plugin class
+
+2004-09-05 21:42  ldipenti
+
+	* scripts/inittab.py: Trivial output bug
+
+2004-09-05 21:39  ldipenti
+
+	* scripts/navigator.py, src/gwp-py-functions.h,
+	  src/gwp-py-mappings.defs: New functions on gwp python module,
+	  thanks to Cristian :-)
+
+2004-09-05 21:36  ldipenti
+
+	* scripts/inittab.py: New features: key events are saved with
+	  modifiers (Alt, Ctrl, etc). When unregistering a plugin..the
+	  PluginManager unregister the key events for itself
+
+2004-09-05 21:30  ldipenti
+
+	* scripts/plugins/finder.py: unregister key events not need
+
+2004-09-05 20:29  ldipenti
+
+	* src/: gwp-py-mappings.override, gwp-py-mappings.c: Added
+	  get_race_name() function
+
+2004-09-05 20:11  ldipenti
+
+	* src/: gwp-py-mappings.override, gwp-py-mappings.c: Added
+	  get_truehull() function, returns a dict of dicts with the
+	  race->hulls assignments
+
+2004-09-03 10:00  ldipenti
+
+	* tests/Makefile.am: Removed some unused source files from test
+	  definition
+
+2004-09-03 01:26  ldipenti
+
+	* src/gwp-ship.c: Marked a couple of functions to be tested
+
+2004-09-03 01:24  ldipenti
+
+	* scripts/: navigator.py, inittab.py: Changed visibility of plugin
+	  manager attribute
+
+2004-09-03 00:44  ldipenti
+
+	* tests/: Makefile.am, check-gwp-ship.c, check-gwp.c: New test for
+	  gwp-ship
+
+2004-09-01 02:27  ldipenti
+
+	* scripts/inittab.py: Preliminary code to load user plugins
+
+2004-08-31 18:36  ldipenti
+
+	* scripts/: inittab.py, plugins/finder.py: Completed basic
+	  functionality on PluginManager and some tweaks on finder plugin
+
+2004-08-31 18:33  ldipenti
+
+	* src/gwp-python.c: auto-load PluginNavigator system plugin
+
+2004-08-31 18:32  ldipenti
+
+	* scripts/Makefile.am: Added PluginNavigator plugin to build system
+
+2004-08-31 18:31  ldipenti
+
+	* scripts/navigator.py: First working version of PluginNavigator
+
+2004-08-31 09:33  ldipenti
+
+	* scripts/plugins/Makefile.am: Adding missing Makefile.am
+
+2004-08-31 01:49  ldipenti
+
+	* scripts/inittab.py: Added attribute, changed some attr names
+
+2004-08-30 23:55  ldipenti
+
+	* src/starchart.c: Removed planet name data from starchart --
+	  temporal bugfix
+
+2004-08-30 23:52  ldipenti
+
+	* scripts/inittab.py: plugins are loaded to available list from
+	  global namspace
+
+2004-08-30 02:19  ldipenti
+
+	* scripts/inittab.py: Several additions to PluginManager towards an
+	  initial register/unregister plugin mechanism
+
+2004-08-30 02:17  ldipenti
+
+	* scripts/plugins/finder.py: Enhancement: plugins hides and
+	  re-shows when called.
+
+2004-08-30 01:41  ldipenti
+
+	* scripts/plugins/finder.py: Changed the way the keyval is
+	  referenced
+
+2004-08-29 19:19  ldipenti
+
+	* po/: fr.po, gwp.pot: French translation synced to 0.3.2 version
+
+2004-08-27 20:40  ldipenti
+
+	* scripts/: inittab.py, plugins/finder.py: PluginManager looks for
+	  available plugins on {prefix}/share/gwp/scripts/plugins, and
+	  insert them on the "available plugins" list
+
+2004-08-27 19:19  ldipenti
+
+	* scripts/inittab.py: Corrected some attribute names
+
+2004-08-27 12:05  ldipenti
+
+	* scripts/Makefile.am, scripts/plugins/finder.py,
+	  src/gwp-py-functions.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override: stuff
+
+2004-08-27 11:57  ldipenti
+
+	* configure.in: New plugins directory
+
+2004-08-27 07:59  ldipenti
+
+	* scripts/inittab.py: Some additions to the PluginManager class
+
+2004-08-27 02:04  ldipenti
+
+	* tests/: check-gwp-object.c, check-gwp-ui.c, check-gwp.c: New unit
+	  test using signal checking
+
+2004-08-26 17:04  ldipenti
+
+	* scripts/inittab.py: Some work being done on the plugin framework
+
+2004-08-26 02:28  ldipenti
+
+	* scripts/gtkcons.py, scripts/inittab.py, src/callbacks.c,
+	  src/gwp-py-functions.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/gwp-python.c: First working version: PluginManager. It can
+	  register callbacks to certain key presses
+
+2004-08-25 21:34  ldipenti
+
+	* scripts/inittab.py, src/callbacks.c, src/gwp-python.c,
+	  src/gwp-python.h: "transport commit" -- going home without
+	  solving the problem
+
+2004-08-25 20:06  ldipenti
+
+	* scripts/inittab.py: Register a new PluginManager on load
+
+2004-08-25 20:05  ldipenti
+
+	* src/vp_utils.c: PluginManager registration function called after
+	  all data loading
+
+2004-08-25 02:19  ldipenti
+
+	* scripts/Makefile.am, scripts/inittab.py, src/callbacks.c,
+	  src/game_state.c, src/game_state.h, src/gwp-py-functions.h,
+	  src/gwp-py-mappings.c, src/gwp-py-mappings.defs,
+	  src/gwp-py-mappings.override, src/gwp-python.c, src/gwp-python.h:
+	  Initial tests on plugin manager implemented in python
+
+2004-08-24 17:58  ldipenti
+
+	* src/: game_state.c, game_state.h, global.h: Some corrections to
+	  Python.h includes
+
+2004-08-24 10:09  ldipenti
+
+	* src/: callbacks.c, game_state.c, game_state.h, gwp-py-mappings.c,
+	  gwp-py-mappings.override: Commit for file exchange
+
+2004-08-23 19:43  ldipenti
+
+	* docs/plugins.txt: Some corrections
+
+2004-08-23 16:35  ldipenti
+
+	* src/Makefile.am, src/check-gwp-object.c, src/check-gwp-ui.c,
+	  src/check-gwp.c, src/gwp-ui.c, tests/Makefile.am: Unit test
+	  finally moved to their own tests/ directory. From now on...we
+	  should use automake-1.7
+
+2004-08-23 11:55  ldipenti
+
+	* Makefile.am, autogen.sh, configure.in, src/Makefile.am,
+	  tests/Makefile.am, tests/check-gwp-object.c,
+	  tests/check-gwp-ui.c, tests/check-gwp.c: unit tests on 'tests'
+	  directory. Automake version needed: 1.7
+
+2004-08-23 11:49  ldipenti
+
+	* tests/Makefile.am: New include path
+
+2004-08-21 22:57  ldipenti
+
+	* generate_py_mappings.sh, src/Makefile.am, src/callbacks.c,
+	  src/check-gwp-ui.c, src/check-gwp.c, src/game_state.c,
+	  src/game_state.h, src/gwp-py-functions.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/gwp-python.c, src/gwp-ui.c, src/gwp-ui.h, src/gwp.glade: New
+	  code: starting works for plugin architecture
+
+2004-08-21 12:48  ldipenti
+
+	* docs/plugins.txt: First draft on plugin specification
+
+2004-08-20 02:11  ldipenti
+
+	* Makefile.am, debian/files, debian/gwp.substvars, src/Makefile.am,
+	  src/check-gwp-object.c, src/check-gwp.c: unit tests rewritten to
+	  reflect the use of the custom check framework
+
+2004-08-20 02:10  ldipenti
+
+	* releaser.sh: corrected web dir name
+
+2004-08-18 21:01  ldipenti
+
+	* src/callbacks.c: When a  planet is selected on the starchart, it
+	  emits the "selected" signal
+
+2004-08-18 21:00  ldipenti
+
+	* src/gwp-planet.c: Added signal "selected" to planet...just a test
+
+2004-08-16 08:56  cvs-sven
+
+	* src/gwp-messages.h: just small changes to the message-colouring
+	  system
+
+2004-08-16 08:55  cvs-sven
+
+	* src/gwp-messages.c: just small improvements to the
+	  message-colouring system
+
+2004-08-13 07:43  ldipenti
+
+	* src/Makefile.am: New module test
+
+2004-08-13 07:43  ldipenti
+
+	* src/check-gwp.c: Modifications to load all other tests ad run
+	  them
+
+2004-08-13 07:42  ldipenti
+
+	* src/gwp-object.c: Some minor corrections
+
+2004-08-13 07:42  ldipenti
+
+	* src/check-gwp-object.c: New tests
+
+2004-08-12 15:44  ldipenti
+
+	* src/check-gwp.c: Added fallback code when check support is
+	  disabled
+
+2004-08-12 15:32  ldipenti
+
+	* Makefile.am, configure.in, src/Makefile.am, src/check-gwp.c:
+	  Initial unit test (check framework) code, autoconf settings to
+	  include all the needed params to build system
+
+2004-08-12 14:16  ldipenti
+
+	* autogen.sh, aclocal-macros/check.m4: Added check unit test
+	  framework macro to local macro directory
+
+2004-08-05 12:57  cvs-sven
+
+	* src/: gwp-messages.c, gwp-messages.h, message-reader.c,
+	  vcr-combat.c: message reader uses different subject-colours
+	  according to the message body (bad news, good news, etc ..)
+
+2004-08-05 12:07  ldipenti
+
+	* ChangeLog: New ChangeLog
+
+2004-07-07 01:13  ldipenti
+
+	* CHANGES, Doxyfile, Makefile.am, VERSION, configure.in,
+	  debian/changelog, package/gwp-fedora.spec, package/gwp-mdk.spec,
+	  po/de.po, po/es.po, po/fr.po, po/gwp.pot: Release 0.3.2 commit,
+	  yeah!
+
 2004-07-07 00:45  ldipenti
 
 	* releaser.sh: Changes because of the name change of the changelog

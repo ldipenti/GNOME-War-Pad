@@ -928,7 +928,10 @@ msgstr "El soporte de Python está desactivado."
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
-msgstr "Si necesitas las características de scripts Python, debes recompilar el programa después de instalar los paquetes de desarrollo de Python en tu distribución."
+msgstr ""
+"Si necesitas las características de scripts Python, debes recompilar el "
+"programa después de instalar los paquetes de desarrollo de Python en tu "
+"distribución."
 
 #: src/support.c:63 src/support.c:88
 #, c-format
@@ -1188,7 +1191,10 @@ msgstr "Se produjo un error creando el directorio de historial de mensajes."
 msgid ""
 "A file already exists with the name 'message-history', please remove or "
 "rename this file so that the message history feature can work correctly."
-msgstr "Un archivo con el nombre 'message-history' ya existe, por favor elimine o mueva este archivo de manera que el almacenamiento de mensajes pueda funcionar correctamente."
+msgstr ""
+"Un archivo con el nombre 'message-history' ya existe, por favor elimine o "
+"mueva este archivo de manera que el almacenamiento de mensajes pueda "
+"funcionar correctamente."
 
 #: src/game_mgr.c:739
 msgid "Message data file not found."
@@ -1198,7 +1204,9 @@ msgstr "El archivo de datos de mensajes no se encontró."
 msgid ""
 "The MDATA file was not found, it's needed to read the game messages, please "
 "check your VGA Planets installation."
-msgstr "El archivo MDATA no se encontró, se lo necesita para leer los mensajes del juego, por favor chequea tu instalación de VGA Planets."
+msgstr ""
+"El archivo MDATA no se encontró, se lo necesita para leer los mensajes del "
+"juego, por favor chequea tu instalación de VGA Planets."
 
 #: src/game_mgr.c:990
 msgid "no games"

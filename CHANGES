@@ -1,3 +1,53 @@
+Version 0.3.3 (released 10-18-2004):
+
+	* Feature: message reader uses colored headers according to the
+	  message body. (bad news, good news, etc...)
+	* Feature: Added 'check' unit testing framework to build system
+	  with some basic tests.
+	* Feature: New Python plugin architecture added to the
+	  environment: it features a plugin manager, a plugins menu, a
+	  plugin navigator and two test plugins (ship finder and ship list
+	  browser).
+	* Requirement: GWP now uses at least autoconf 1.7.
+	* Feature: French translation added.
+	* Feature: German translation updated.
+	* Feature: Spanish translation updated.
+	* Feature: Plugin system can load user plugins from
+	  ~/.gwp/plugins/
+	* Feature: Added some functions to gwp Python module for use
+	  within plugins.
+	* Feature: A first version of the Visual Combat Recording (VCR) -
+	  which can now read the vcrX.dat files and replay the combats
+	  visually.
+	* Feature: the plugin manager features an 'event hub' to broadcast
+	  all application events to its registered plugins.
+	* Feature: planets and ships emit an event when selected.
+	* Bugfix: game state subsystem re-written to be more easily
+	  managed.
+	* Bugfix: several code cleanups regarding old game state
+	  structure.
+	* Feature: the game state sybsystem saves the registered plugins
+	  list so that the next GWP run those plugins will automatically
+	  be initialized for every defined game.
+	* Bugfix: iconlist on game manager doesn't segfault anymore when
+	  arrow keys are pressed. Also, hitting Return will open the
+	  selected game.
+	* Feature: game manager was polished: game icon's labels show the
+	  turn number of every game, and its application bar shows the
+	  number of defined games.
+	* Bugfix: annoying toolbar is gone, its functions were moved to
+	  the 'View' menu.
+	* Bugfix: Zoom level corrected, now X and Y coordinates are
+	  restored correctly when zoom is not 100%.
+	* Bugfix: a,w,d,s keys for starchart scrolling were changed to
+	  arrow keys.
+	* Bugfix: online help now it's loaded pressing the F1 key.
+	* Bugfix: online help now works correctly again.
+	* Feature: online help was updated and expanded to include GWP's
+	  new features.
+	* Feature: started works to migrate to a Model-View-Controller
+	  kind of design.
+
 Version 0.3.2 (released 07-07-2004):
 
 	* Minor bugfixes.

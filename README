@@ -1,20 +1,32 @@
-GNOME War Pad - version 0.2.11
-------------------------------
+GNOME War Pad - version 0.3.3
+-----------------------------
 
 With this version of GWP, you can do the following:
 
 [KeyPad +]: Zoom in
 [KeyPad -]: Zoom out
-[G]: Toggle grid.
-[W]: Move up.
-[A]: Move left.
-[D]: Move right.
-[S]: Move down.
-[SHIFT+Mouse_Button1_drag]: Starchart panning.
+
+[Ctrl+G]: Toggle grid view.
+[Ctrl+M]: Toggle minefield view.
+[Ctrl+S]: Toggle ion storm view.
+[Ctrl+A]: Toggle scanner area view.
+[Ctrl+N]: Toggle planet names view.
+
+[Ctrl+M]: Start message reader.
+[Ctrl+Y]: Start Python console.
+[Ctrl+F]: Start VCR viewer.
+
+[Up]: Move up.
+[Left]: Move left.
+[Right]: Move right.
+[Down]: Move down.
+
+[Mouse_Button1_drag]: Starchart panning.
 [Mouse_Button1_click]: Select planet.
 [Mouse_Button1_double-click]: Select planet and activate extra panels.
 [Mouse_Button3_click]: Select ship.
 [Mouse_Button3_double-click]: Select ship and activate extra panels.
+
 [Esc]: Deactivate extra panels.
 [CTRL+Q]: Quit.
 [CTRL+W]: Close game and return to the Game Manager.

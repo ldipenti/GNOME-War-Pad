@@ -960,7 +960,10 @@ msgstr "Python-Unterstützung ist nicht aktiviert."
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
-msgstr "Wenn du Python-Scripte verwenden möchtest, solltest du das Programm neu übersetzen, nachdem du die Python-Entwicklerpakete auf deinem System installiert hast."
+msgstr ""
+"Wenn du Python-Scripte verwenden möchtest, solltest du das Programm neu "
+"übersetzen, nachdem du die Python-Entwicklerpakete auf deinem System "
+"installiert hast."
 
 #: src/support.c:63 src/support.c:88
 #, c-format
@@ -1154,7 +1157,10 @@ msgid ""
 "This file provides the data about ion storms and minefields, but couldn't be "
 "found in this case. This is not a fatal error, GWP will continue loading but "
 "this data won't appear on the game."
-msgstr "KOREx.DAT enthält Informationen über Ionenstürme und Minenfelder. Diese Datei konnte nicht gefunden werden. Das ist kein schwerer Fehler, GWP wird das Spiel also laden, aber die entsprechenden Daten werden nicht angezeigt."
+msgstr ""
+"KOREx.DAT enthält Informationen über Ionenstürme und Minenfelder. Diese "
+"Datei konnte nicht gefunden werden. Das ist kein schwerer Fehler, GWP wird "
+"das Spiel also laden, aber die entsprechenden Daten werden nicht angezeigt."
 
 #: src/game_mgr.c:88
 msgid "Your game definitions will be deleted."
@@ -1165,7 +1171,10 @@ msgid ""
 "The game state data format have changed. Your game definitions will be "
 "deleted because are not compatible with this version, please re-create them. "
 "Your game files won't be touched, sorry for the inconvenience."
-msgstr "Das Spieldaten-Format hat sich geändert. Deine Spiel-Definitionen werden gelöscht, weil sie nicht mit dieser Version kompatibel sind; bitte lege sie neu an. Deine Spieldaten sind davon nicht betroffen. Sorry."
+msgstr ""
+"Das Spieldaten-Format hat sich geändert. Deine Spiel-Definitionen werden "
+"gelöscht, weil sie nicht mit dieser Version kompatibel sind; bitte lege sie "
+"neu an. Deine Spieldaten sind davon nicht betroffen. Sorry."
 
 #: src/game_mgr.c:385
 #, c-format
@@ -1197,7 +1206,9 @@ msgstr "Kein Spiel ausgewählt. Bitte wähle ein Spiel."
 msgid ""
 "If you don't have any game on your game manager, you should add one with the "
 "\"New\" button, adding the necessary game data."
-msgstr "Wenn in der Spiel-Verwaltung noch kein Spiel eingetragen ist, solltest du mit dem \"Neu\"-Knopf eins anlegen."
+msgstr ""
+"Wenn in der Spiel-Verwaltung noch kein Spiel eingetragen ist, solltest du "
+"mit dem \"Neu\"-Knopf eins anlegen."
 
 #: src/game_mgr.c:621
 msgid "A new RST file was found. Do you want to unpack it?"
@@ -1211,13 +1222,17 @@ msgstr "Zug: %d"
 # ??? better word for "gespeicherten Nachrichten"?
 #: src/game_mgr.c:701
 msgid "Error creating the message history directory."
-msgstr "Fehler beim Erstellen des Verzeichnisses für die gespeicherten Nachrichten."
+msgstr ""
+"Fehler beim Erstellen des Verzeichnisses für die gespeicherten Nachrichten."
 
 #: src/game_mgr.c:702
 msgid ""
 "A file already exists with the name 'message-history', please remove or "
 "rename this file so that the message history feature can work correctly."
-msgstr "Es existiert bereits eine Datei mit dem Namen 'message-history'. Bitte benenne diese Datei um oder lösche sie, damit GWP deine Nachrichten aufzeichnen kann."
+msgstr ""
+"Es existiert bereits eine Datei mit dem Namen 'message-history'. Bitte "
+"benenne diese Datei um oder lösche sie, damit GWP deine Nachrichten "
+"aufzeichnen kann."
 
 #: src/game_mgr.c:739
 msgid "Message data file not found."
@@ -1227,7 +1242,10 @@ msgstr "Nachrichtendatei nicht gefunden."
 msgid ""
 "The MDATA file was not found, it's needed to read the game messages, please "
 "check your VGA Planets installation."
-msgstr "Die Datei MDATAx.DAT wurde nicht gefunden. Diese Datei wird benötigt, um die Nachrichten aus dem Spiel anzuzeigen. Bitte überprüfe deine VGA-Planets-Installation."
+msgstr ""
+"Die Datei MDATAx.DAT wurde nicht gefunden. Diese Datei wird benötigt, um "
+"die Nachrichten aus dem Spiel anzuzeigen. Bitte überprüfe deine VGA-"
+"Planets-Installation."
 
 #: src/game_mgr.c:990
 msgid "no games"

@@ -20,8 +20,8 @@
   <!ENTITY gwp "<abbrev>GWP</abbrev>">
   <!ENTITY vgap "<emphasis>VGA Planets</emphasis>">
   <!ENTITY appname "GNOME War Pad">
-  <!ENTITY appversion "0.3.0">
-  <!ENTITY manrevision "0.3.0">
+  <!ENTITY appversion "0.3.3">
+  <!ENTITY manrevision "0.3.3">
   <!ENTITY date "May 23, 2004">
 ]>
 
@@ -89,6 +89,14 @@ Information about the entities:
     </authorgroup>
     
     <revhistory>
+      <revision>
+	<revnumber>&appname; Manual V 0.3.3</revnumber>
+	<date>2004-10-17</date>
+	<revdescription>
+	  <para role="author">Lucas Di Pentima
+	    <email>lucas@lunix.com.ar</email></para>
+	</revdescription>
+      </revision>
       <revision>
 	<revnumber>&appname; Manual V 0.3.0</revnumber>
 	<date>2004-05-23</date>
