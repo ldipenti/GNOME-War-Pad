@@ -129,10 +129,11 @@ class PluginManager:
         else:
             self.__plugins_registered.append (plugin)
             plugin.__class__.registered = True
-            plugin.connect("unregistered", self.__event_hub, "plugin-unregistered")
+            #plugin.connect('unregistered', self.__event_hub, 'plugin-unregistered')
+
             # "Emit" an event to the HUB notifying all plugins that a new
             # plugin is in the 'hood...
-            self.__event_hub(plugin, "plugin-registered")
+            self.__event_hub(plugin, 'plugin-registered')
             
     def unregister_plugin (self, plugin_class):
         # Search plugin instance
