@@ -1444,7 +1444,7 @@ void gwp_ship_set_transfer_duranium (GwpShip *self, gint16 dur)
 gint16 gwp_ship_get_transfer_molybdenum (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
-  return self->priv->molybdenum;
+  return self->priv->transfer_molybdenum;
 }
 
 void gwp_ship_set_transfer_molybdenum (GwpShip *self, gint16 mol)

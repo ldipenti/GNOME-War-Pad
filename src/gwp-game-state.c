@@ -747,19 +747,60 @@ selected_ship_notification (GObject *ship, gpointer data)
 /* High level methods */
 /**********************/
 
-gchar * gwp_game_state_get_full_path (GwpGameState *self, gchar *filename)
+gchar * 
+gwp_game_state_get_full_path (GwpGameState *self, 
+			      gchar        *filename)
 {
   g_assert (GWP_IS_GAME_STATE (self));
   return g_strconcat (gwp_game_state_get_dir (self), "/", filename, NULL);
 }
 
-void gwp_game_state_set_last_coords (GwpGameState *self, gint16 x, gint16 y)
+void 
+gwp_game_state_set_last_coords (GwpGameState *self, 
+				gint16        x, 
+				gint16        y)
 {
   g_assert (GWP_IS_GAME_STATE (self));
   gwp_game_state_set_last_x_coord (self, x);
   gwp_game_state_set_last_y_coord (self, y);
 }
 
+gchar * 
+gwp_game_state_get_dat_filename (GwpGameState *self, 
+				 gchar        *prefix,
+				 gchar        *suffix)
+{
+  GString *sdata_dat_file = NULL;
+  GString *filename_prefix = g_string_new(prefix);
+  GString *filename_suffix = g_string_new(suffix);
+  gchar *ret = NULL;
+  
+  g_string_up (filename_prefix);
+  g_string_up (filename_suffix);
+  sdata_dat_file = g_string_new (g_strdup_printf ("%s%d.%s", 
+						  filename_prefix->str,
+						  gwp_game_state_get_race(game_state),
+						  filename_suffix->str));
+  
+  if (g_file_test (gwp_game_state_get_full_path(game_state, 
+						sdata_dat_file->str),
+		   G_FILE_TEST_EXISTS)) {
+    ret = gwp_game_state_get_full_path(game_state, sdata_dat_file->str);
+  } else {
+    sdata_dat_file = g_string_down (sdata_dat_file);
+    if (g_file_test (gwp_game_state_get_full_path(game_state, sdata_dat_file->str),
+		     G_FILE_TEST_EXISTS)) {
+      ret = gwp_game_state_get_full_path(game_state, sdata_dat_file->str);
+    } else {
+      g_message ("ERROR: %s file not found.\n",
+		 gwp_game_state_get_full_path(game_state, sdata_dat_file->str));
+    }
+  }
+  g_string_free (filename_prefix, TRUE);
+  g_string_free (filename_suffix, TRUE);
+  g_string_free (sdata_dat_file, FALSE);    
+  return ret;
+}
 
 /*******************/
 /* Get/Set methods */

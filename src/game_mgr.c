@@ -909,6 +909,9 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
 		     name,
 		     "/", NULL);
 
+  /* Generate VP data */
+  dump_to_dat_files();
+
   /* GameState data */
   gconf_client_set_float(gwp_gconf, g_strconcat(path,"starchart_zoom", NULL),
 			 gwp_game_state_get_starchart_zoom(state), NULL);
@@ -973,7 +976,6 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
   }
 #endif
 }
-
 
 /**
  * Deletes GConf Game entry... 

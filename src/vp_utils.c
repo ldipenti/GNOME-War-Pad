@@ -54,7 +54,10 @@ void scan_messages (void);
 void scan_messages_planet_orbit (const gchar *msg_body);
 void scan_messages_planet_scanned (const gchar *msg_body);
 
+static void ghfunc_dump_ship_data (gpointer key, gpointer value, gpointer user_data);
+
 static gint16 getWord(guchar* p);
+static void setWord (gchar * buf, gint16 p);
 static gint32 getDWord(guchar* p);
 static GHashTable *target_list;
 
@@ -114,6 +117,16 @@ void init_data (void)
 static gint16 getWord (guchar * p)
 {
   return 256 * p[1] + p[0];
+}
+
+static void setWord (gchar * buf, gint16 p)
+{ 
+  if (p < 0) {
+    p = (65536 + p);
+  }
+
+  buf[1] = (gchar)(p >> 8);
+  buf[0] = (gchar)(p % 256);
 }
 
 static gint32 getDWord (guchar * p)
@@ -1418,6 +1431,133 @@ GSList * load_beamspec (void)
   fclose (beamspec);
 
   return beamspec_list;
+}
+
+/**
+ * Generates .DAT files from live objects.
+ *
+ * In order to generate the TRN file, modifications to the objects should
+ * be dumped back to the data files.
+ */
+void 
+dump_to_dat_files (void)
+{
+  GSList *ships_data = NULL;
+  FILE *ship_dat_file = NULL;
+  FILE *gen_dat_file = NULL;
+  gint i;
+  gchar c;
+  guchar *reg_nr = g_malloc0 (sizeof(guchar)*2);
+
+  /* dummy value append */
+  ships_data =  g_slist_append (ships_data, "delme!");
+
+  g_hash_table_foreach (ship_list, (GHFunc) ghfunc_dump_ship_data, 
+			(gpointer)ships_data);
+
+  /* Skip first dummy value */  
+  ships_data = g_slist_next (ships_data);
+
+  if ((ship_dat_file = fopen(gwp_game_state_get_dat_filename(game_state, "ship", "dat"), "w+")) == NULL) {
+    g_message ("ERROR: Could not open ships data file for writing");
+    exit(-1);
+  }
+
+  setWord(reg_nr, g_slist_length(ships_data));
+
+  fwrite (reg_nr, 2, 1, ship_dat_file);
+
+  for (i = 0; i < g_slist_length(ships_data); i++) {
+    fwrite ((guchar *)g_slist_nth_data(ships_data, i), 107, 1, ship_dat_file);
+  }
+
+  if ((gen_dat_file = fopen(gwp_game_state_get_dat_filename(game_state, "gen", "dat"), "r")) == NULL) {
+    g_message ("ERROR: Could not open GENx.DAT data file: %s",
+	       gwp_game_state_get_dat_filename(game_state, "gen", "dat"));
+    exit(-1);
+  }
+
+  /* Signature 1's offset */
+  fseek (gen_dat_file, 118, SEEK_SET);
+
+  /* Do some signature */
+  for (i = 1; i < 11; i++) {
+    c = fgetc (gen_dat_file);
+    fputc (c+i, ship_dat_file);
+  }
+
+  fclose (gen_dat_file);
+  fclose (ship_dat_file);
+}
+
+static void
+ghfunc_dump_ship_data (gpointer key, gpointer value, gpointer user_data)
+{
+  GwpShip *ship = GWP_SHIP(value);
+  GSList *ships_data = (GSList *)user_data;
+  guchar *ship_reg = g_malloc0 (sizeof(guchar)*107);
+
+  if (gwp_ship_is_mine(ship)) {
+    /* Fill the 107 byte record */
+    setWord (ship_reg+0, gwp_object_get_id(GWP_OBJECT(ship)));
+    setWord (ship_reg+2, gwp_game_state_get_race_nr(game_state));
+    memcpy (ship_reg+4, gwp_ship_get_fcode(ship), 3);
+    setWord (ship_reg+7, gwp_flying_object_get_speed(GWP_FLYING_OBJECT(ship)));
+    setWord (ship_reg+9, gwp_ship_get_x_to_waypoint(ship));
+    setWord (ship_reg+11, gwp_ship_get_y_to_waypoint(ship));
+    setWord (ship_reg+13, gwp_object_get_x_coord(GWP_OBJECT(ship)));
+    setWord (ship_reg+15, gwp_object_get_y_coord(GWP_OBJECT(ship)));
+    setWord (ship_reg+17, gwp_ship_get_engines_type(ship));
+    setWord (ship_reg+19, gwp_ship_get_hull_type(ship));
+    setWord (ship_reg+21, gwp_ship_get_beams_type(ship));
+    setWord (ship_reg+23, gwp_ship_get_beams(ship));
+    setWord (ship_reg+25, gwp_ship_get_fighter_bays(ship));
+    setWord (ship_reg+27, gwp_ship_get_torps_type(ship));
+    
+    if (gwp_ship_get_torps_type(ship)>0 && 
+	gwp_ship_get_torps_launchers(ship)>0) {
+      setWord (ship_reg+29, gwp_ship_get_torps(ship));
+    } else if (gwp_ship_get_fighter_bays(ship)>0 &&
+	       gwp_ship_get_fighters(ship)>0) {
+      setWord (ship_reg+29, gwp_ship_get_fighters(ship));
+    } else {
+      setWord (ship_reg+29, 0);
+    }
+    
+    setWord (ship_reg+31, gwp_ship_get_torps_launchers(ship));
+    setWord (ship_reg+33, gwp_ship_get_mission(ship));
+    setWord (ship_reg+35, gwp_ship_get_primary_enemy(ship));
+    setWord (ship_reg+37, gwp_ship_get_tow_ship_id(ship));
+    setWord (ship_reg+39, gwp_ship_get_damage(ship));
+    setWord (ship_reg+41, gwp_ship_get_crew(ship));
+    setWord (ship_reg+43, gwp_ship_get_colonists(ship));
+    memset (ship_reg+45, ' ', 20);
+    memcpy (ship_reg+45, gwp_object_get_name(GWP_OBJECT(ship)), 
+	    strlen(gwp_object_get_name(GWP_OBJECT(ship))));
+    setWord (ship_reg+65, gwp_ship_get_neutronium(ship));
+    setWord (ship_reg+67, gwp_ship_get_tritanium(ship));
+    setWord (ship_reg+69, gwp_ship_get_duranium(ship));
+    setWord (ship_reg+71, gwp_ship_get_molybdenum(ship));
+    setWord (ship_reg+73, gwp_ship_get_supplies(ship));
+    setWord (ship_reg+75, gwp_ship_get_unload_neutronium(ship));
+    setWord (ship_reg+77, gwp_ship_get_unload_tritanium(ship));
+    setWord (ship_reg+79, gwp_ship_get_unload_duranium(ship));
+    setWord (ship_reg+81, gwp_ship_get_unload_molybdenum(ship));
+    setWord (ship_reg+83, gwp_ship_get_unload_colonists(ship));
+    setWord (ship_reg+85, gwp_ship_get_unload_supplies(ship));
+    setWord (ship_reg+87, gwp_ship_get_unload_planet_id(ship));
+    setWord (ship_reg+89, gwp_ship_get_transfer_neutronium(ship));
+    setWord (ship_reg+91, gwp_ship_get_transfer_tritanium(ship));
+    setWord (ship_reg+93, gwp_ship_get_transfer_duranium(ship));
+    setWord (ship_reg+95, gwp_ship_get_transfer_molybdenum(ship));
+    setWord (ship_reg+97, gwp_ship_get_transfer_colonists(ship));
+    setWord (ship_reg+99, gwp_ship_get_transfer_supplies(ship));
+    setWord (ship_reg+101, gwp_ship_get_transfer_ship_id(ship));
+    setWord (ship_reg+103, gwp_ship_get_intercept_ship_id(ship));
+    setWord (ship_reg+105, gwp_ship_get_megacredits(ship));
+
+    ships_data = g_slist_append (ships_data, (gpointer)ship_reg);
+  }
 }
 
 /**

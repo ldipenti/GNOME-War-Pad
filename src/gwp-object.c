@@ -232,6 +232,7 @@ void gwp_object_set_name (GwpObject *self, gchar *name)
   g_assert (GWP_IS_OBJECT(self));
   g_assert (name != NULL);
   g_return_if_fail (strlen(name) > 0);
+  g_return_if_fail (strlen(name) <= 21);
   g_string_free (self->priv->name, TRUE);
   self->priv->name = g_string_new(name);
 }

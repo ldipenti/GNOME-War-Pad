@@ -75,6 +75,7 @@ void gwp_game_state_postinit (GwpGameState *self);
 /**********************/
 gchar * gwp_game_state_get_full_path (GwpGameState *self, gchar *filename);
 void gwp_game_state_set_last_coords (GwpGameState *self, gint16 x, gint16 y);
+gchar * gwp_game_state_get_dat_filename (GwpGameState *self,  gchar *prefix, gchar *suffix);
 
 
 /*******************/

@@ -55,4 +55,7 @@ void load_gen_data(void);
 void load_kore_data (void);
 void load_truehull_data (void);
 
+void dump_to_dat_files (void);
+
+
 #endif
