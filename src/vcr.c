@@ -108,23 +108,14 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
   if( vcr_planet_selected( widget, user_data ) == 1 )
   {
     /* side b is a planet with or without starbase */
-g_message( "DEBUG: 1" );
     cdata.g_b_is_ship = 0;
-g_message( "DEBUG: 2" );
     cdata.p_has_base = vcr_base_selected( widget, user_data ) ? 1 : 0;
-g_message( "DEBUG: 3" );
     cdata.p_typ_beams = vcr_get( widget, user_data, BASE, LVL_BEAM, VAL_CUR );
-g_message( "DEBUG: 4" );
     cdata.p_nmb_pdefense = vcr_get( widget, user_data, PLANET, NMB_DEF, VAL_CUR );
-g_message( "DEBUG: 5" );
     cdata.p_nmb_bdefense = vcr_get( widget, user_data, BASE, NMB_DEF, VAL_CUR );
-g_message( "DEBUG: 6" );
     cdata.p_nmb_fighter = vcr_get( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR );
-g_message( "DEBUG: 7" );
     cdata.b_shield = 0;
-g_message( "DEBUG: 8" );
     cdata.b_hull = 0;
-g_message( "DEBUG: 9" );
     cdata.b_crew = 0;
     cdata.b_typ_hull = 0;
     cdata.b_nmb_beams = 0;
@@ -134,7 +125,6 @@ g_message( "DEBUG: 9" );
     cdata.b_nmb_torps = 0;
     cdata.b_nmb_tubes = 0;
     cdata.b_typ_torps = 0;
-g_message( "DEBUG: 0" );
   } else {
     /* side b is a ship */
     cdata.g_b_is_ship = 1;
