@@ -33,6 +33,7 @@
 #include "vp_unpack.h"
 #include "race.h"
 #include "gwp-messages.h"
+#include "message-reader.h"
 
 gboolean
 starchart_event_key                    (GtkWidget       *widget,
@@ -696,60 +697,52 @@ void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 void on_view_message_reader_activate (GtkWidget *widget,
 				      gpointer  user_data)
 {
-  GtkWidget *reader = lookup_widget("reader");
-  gtk_widget_show(reader);
-  GwpMessages *messages = (GwpMessages *)gwp_messages_new();
-  g_object_set_data(G_OBJECT(reader), "message_instance", messages);
-  on_reader_firstmess_btn_clicked( reader, user_data );
+  message_reader_all_init( widget, user_data );
+}
+
+void on_reader_delete_event( GtkWidget *widget,
+				      gpointer  user_data )
+{
+  message_reader_delete_event( widget, user_data );
 }
 
 void on_reader_firstmess_btn_clicked (GtkWidget *widget,
 				      gpointer  user_data)
 {
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
-  GwpMessages *messages = (GwpMessages *)
-    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdFirst( messages ) ), -1 );
-//gwp_messages_firstMsg( messages );
-  gtk_text_view_set_buffer( textview, buffer );
+  message_reader_show_first_body( widget, user_data );
 }
 
 void on_reader_prev_btn_clicked (GtkWidget *widget,
 				 gpointer  user_data)
 {
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
-  GwpMessages *messages = (GwpMessages *)
-    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdPrev( messages ) ), -1 );
-//gwp_messages_prevMsg( messages );
-  gtk_text_view_set_buffer( textview, buffer );
+  message_reader_show_prev_body( widget, user_data );
 }
 
 void on_reader_next_btn_clicked (GtkWidget *widget,
 				 gpointer  user_data)
 {
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
-  GwpMessages *messages = (GwpMessages *)
-    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw( messages, gwp_messages_getMessageIdNext( messages ) ), -1 );
-//gwp_messages_nextMsg( messages );
-  gtk_text_view_set_buffer( textview, buffer );
+  message_reader_show_next_body( widget, user_data );
 }
 
 void on_reader_lastmess_btn_clicked (GtkWidget *widget,
 				     gpointer  user_data)
 {
-  GtkTextView *textview = (GtkTextView *)lookup_widget( "reader_textview" );
-  GtkTextBuffer *buffer = gtk_text_buffer_new( NULL );
-  GwpMessages *messages = (GwpMessages *)
-    g_object_get_data(G_OBJECT(lookup_widget("reader")), "message_instance");
-  gtk_text_buffer_set_text( buffer, gwp_messages_getMessageRaw(messages, gwp_messages_getMessageIdLast( messages ) ), -1 );
-//gwp_messages_lastMsg( messages );
-  gtk_text_view_set_buffer( textview, buffer );
+  message_reader_show_last_body( widget, user_data );
 }
+
+void on_combox_turnnmb_changed( GtkWidget *widget,
+				     gpointer  user_data)
+{
+  message_reader_change_messagefile( widget, user_data );
+}
+
+void on_treeview1_button_press_event( GtkWidget *widget,
+                    gpointer user_data )
+{
+    /* TODO */
+}
+
+
 
 /* Ship list double-click to open extra panels */
 void on_ships_list_row_activated (GtkTreeView *ships_l,

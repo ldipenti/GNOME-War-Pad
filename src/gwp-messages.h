@@ -54,6 +54,10 @@ typedef struct
 typedef struct _GwpMessages GwpMessages;
 typedef struct _GwpMessagesClass GwpMessagesClass;
 typedef struct _GwpMessagesPrivate GwpMessagesPrivate;
+typedef struct _GwpMessagesPublic {
+  gint *msgindex;
+  gboolean *msgexists;
+} GwpMessagesPublic;
 
 struct _GwpMessages {
   GObject parent;
@@ -62,6 +66,7 @@ struct _GwpMessages {
 
   /* private */
   GwpMessagesPrivate *priv;
+  GwpMessagesPublic *pub;
 };
 
 struct _GwpMessagesClass {
@@ -110,6 +115,7 @@ int gwp_messages_getMessageIdFirst( GwpMessages *self );
 int gwp_messages_getMessageIdLast( GwpMessages *self );
 int gwp_messages_getMessageIdNext( GwpMessages *self );
 int gwp_messages_getMessageIdPrev( GwpMessages *self );
+int gwp_messages_getMessageIdCurrent( GwpMessages *self );
 void gwp_messages_nextMsg( GwpMessages *self );
 void gwp_messages_prevMsg( GwpMessages *self );
 void gwp_messages_firstMsg( GwpMessages *self );

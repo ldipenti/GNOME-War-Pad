@@ -132,8 +132,12 @@ void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
 void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data);
+
+
 void on_view_message_reader_activate (GtkWidget *widget,
 				      gpointer  user_data);
+void on_reader_delete_event( GtkWidget *widget,
+				      gpointer  user_data );
 void on_reader_firstmess_btn_clicked (GtkWidget *widget,
 				      gpointer  user_data);
 void on_reader_prev_btn_clicked (GtkWidget *widget,
@@ -142,6 +146,11 @@ void on_reader_next_btn_clicked (GtkWidget *widget,
 				 gpointer  user_data);
 void on_reader_lastmess_btn_clicked (GtkWidget *widget,
 				     gpointer  user_data);
+void on_combox_turnnmb_changed( GtkWidget *widget,
+				     gpointer user_data);
+void on_treeview1_button_press_event( GtkWidget *widget,
+                    gpointer user_data );
+
 void on_ships_list_row_activated (GtkTreeView *ships_list,
 				  GtkTreePath *path,
 				  GtkTreeViewColumn *col,

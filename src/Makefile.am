@@ -75,6 +75,8 @@ gwp_SOURCES = \
 	mission.h\
 	race.c\
 	race.h\
+	message-reader.c\
+	message-reader.h\
 	gwp-utils.c\
 	gwp-utils.h
 

@@ -24,7 +24,11 @@
 
 #define WORKING_PATH "/home/werdge/planets/vpwork1/"
 #define TMPTXTLENG 65535
+#define ASCII_LF 10
+#define ASCII_CR 13
+#define ASCII_SP 32
 
+#define DEBUGOUTPUT 0
 /*
  * Private members.
  */
@@ -73,9 +77,11 @@ GType gwp_messages_get_type (void)
 static void gwp_messages_init (GTypeInstance *instance,
 			     gpointer       g_class)
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: constructor called" );
   GwpMessages *self = (GwpMessages *)instance;
   self->priv = g_new0 (GwpMessagesPrivate, 1);
   self->priv->dispose_has_run = FALSE;
+  self->pub = g_new0 (GwpMessagesPublic, 1);
 
   /* Private members init */
   self->priv->x_coord = 0;
@@ -88,6 +94,9 @@ static void gwp_messages_init (GTypeInstance *instance,
   self->priv->msgs.m = NULL;
   self->priv->tmptxt = (char *)malloc(TMPTXTLENG*sizeof(char));
   self->priv->currMsg = 0;
+  self->pub->msgindex = (gint *)malloc(game_get_turn_number(game_state)*sizeof(gint));
+  self->pub->msgexists = (gboolean *)malloc(game_get_turn_number(game_state)*sizeof(gboolean));
+if( DEBUGOUTPUT ) g_message("DEBUG: constructor finished" );
   /* g_message("GwpMessages init"); */
 }
 
@@ -107,20 +116,31 @@ static void gwp_messages_dispose (GwpMessages *self)
 
 static void gwp_messages_finalize (GwpMessages *self)
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: destructor called" );
   /*
    * Here, complete object destruction.
    */
   /*g_message("GwpMessages finalize"); */
+  int i;
+  for( i=0; i<self->priv->msgs.n; i++ )
+    free( self->priv->msgs.m[i].t );
+  free( self->priv->msgs.m );
+  free( self->priv->tmptxt );
+  free( self->pub->msgindex );
+  free( self->pub->msgexists );
   g_free (self->priv);
+if( DEBUGOUTPUT ) g_message("DEBUG: destructor finished" );
 }
 
 static void gwp_messages_class_init (GwpMessagesClass *klass)
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: class init called" );
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   /* g_message("GwpMessagesClass init"); */
   /* Register destructor methods. */
   gobject_class->dispose = (void *)gwp_messages_dispose;
   gobject_class->finalize = (void *)gwp_messages_finalize;
+if( DEBUGOUTPUT ) g_message("DEBUG: class init finished" );
 }
 
 /* 
@@ -229,19 +249,23 @@ void gwp_messages_set_name (GwpMessages *self, GString *name)
 
 bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: valid id called" );
     /* check for valid message id */
     if( *id<0 )
     {
 //        g_message( "# Warning: message id of %d has to be in [0, %d]\n", *id, self->priv->msgs.n );
         *id = 0;
+if( DEBUGOUTPUT ) g_message("DEBUG: valid id finished x" );
         return( false );
     }
     if( *id>=(self->priv->msgs.n) )
     {
 //        g_message( "# Warning: message id of %d has to be in [0, %d]\n", *id, self->priv->msgs.n );
         *id = (self->priv->msgs.n)-1;
+if( DEBUGOUTPUT ) g_message("DEBUG: valid id finished x" );
         return( false );
     }
+if( DEBUGOUTPUT ) g_message("DEBUG: valid id finished" );
     return( true );
 }
 
@@ -249,6 +273,7 @@ bool gwp_messages_checkValidMessageId( GwpMessages *self, int *id )
 
 int gwp_messages_readFileAny( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny called" );
     char *filename = (char *)malloc(1024*sizeof(char));
     int i;
     FILE *testfile;
@@ -279,6 +304,7 @@ int gwp_messages_readFileAny( GwpMessages *self )
       fclose( testfile );
       gwp_messages_readFile( self, game_get_full_path(game_state, filename) );
       free( filename );
+if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny finished" );
       return( EXIT_SUCCESS );
     }
 
@@ -322,13 +348,15 @@ int gwp_messages_readFileAny( GwpMessages *self )
     }
     
     free( filename );
-    
+
+if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny finished" );
     return( EXIT_SUCCESS );
 }
 
 int gwp_messages_readFile( GwpMessages *self, char *filename )
 {
 //    cout << "readFile called with name '" << filename << "'" << endl;
+if( DEBUGOUTPUT ) g_message("DEBUG: readFile called" );
     FILE *mdatafile;
     long adress, length;
     int i, j;
@@ -338,6 +366,7 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
     if( !mdatafile )
     {
 //        cout << "## Error: unable to open file '" << filename << "' for read-access" << endl;
+if( DEBUGOUTPUT ) g_message("DEBUG: readFile finished x" );
         return( EXIT_FAILURE );
     }
 
@@ -372,6 +401,7 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
     /* done */
     self->priv->fileRead = true;
     fclose( mdatafile );
+if( DEBUGOUTPUT ) g_message("DEBUG: readFile finished" );
     return( EXIT_SUCCESS );
 }
 
@@ -380,7 +410,9 @@ int gwp_messages_readFile( GwpMessages *self, char *filename )
 int gwp_messages_getNumberOfMessages( GwpMessages *self )
 {
     /* check if file was already read */
+if( DEBUGOUTPUT ) g_message("DEBUG: getnmb called" );
     if( !self->priv->fileRead ) gwp_messages_readFileAny( self );
+if( DEBUGOUTPUT ) g_message("DEBUG: getnmb finished" );
     return( self->priv->msgs.n );
 }
 
@@ -389,6 +421,7 @@ int gwp_messages_getNumberOfMessages( GwpMessages *self )
 char *gwp_messages_getMessageRaw( GwpMessages *self, int id )
 {
     /* check if file was already read */
+if( DEBUGOUTPUT ) g_message("DEBUG: getRaw called" );
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
 g_message( "###: MessageRaw called with ID %d", id );
@@ -410,6 +443,7 @@ g_message( "###: MessageRaw called with ID %d", id );
     self->priv->tmptxt[self->priv->msgs.m[id].l]='\0';
 
     /* done */
+if( DEBUGOUTPUT ) g_message("DEBUG: getRaw finished" );
     return( self->priv->tmptxt );
 }
 
@@ -417,6 +451,7 @@ g_message( "###: MessageRaw called with ID %d", id );
 
 char *gwp_messages_getMessageBody( GwpMessages *self, int id )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getBody called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
@@ -428,10 +463,19 @@ char *gwp_messages_getMessageBody( GwpMessages *self, int id )
     /* create text to be returned */
     self->priv->tmptxt[0] = '\0';
     int i=0, j=0;
+    /* look for first '>' sign */
     while( self->priv->msgs.m[id].t[i] != '>' && i<self->priv->msgs.m[id].l )
         i++;
+    /* jump till last of the '>' signs */
     while( self->priv->msgs.m[id].t[i] == '>' && i<self->priv->msgs.m[id].l )
         i++;
+    /* skip all line-feeds, carriage-returns and spaces */
+    while( ( self->priv->msgs.m[id].t[i] == ASCII_LF
+          || self->priv->msgs.m[id].t[i] == ASCII_CR
+          || self->priv->msgs.m[id].t[i] == ASCII_SP )
+             && i<self->priv->msgs.m[id].l )
+        i++;
+    /* copy from here to end of message */
     while( i<self->priv->msgs.m[id].l )
     {
         self->priv->tmptxt[j] = self->priv->msgs.m[id].t[i];
@@ -439,8 +483,16 @@ char *gwp_messages_getMessageBody( GwpMessages *self, int id )
         j++;
     }
     self->priv->tmptxt[j]='\0';
-    
+
+    /* check if message body was retrieved */
+    if( j == 0 )
+    {
+        /* copy whole message */
+        gwp_messages_getMessageRaw( self, id );
+    }
+
     /* done */
+if( DEBUGOUTPUT ) g_message("DEBUG: getBody finished" );
     return( self->priv->tmptxt );
 }
 
@@ -448,6 +500,7 @@ char *gwp_messages_getMessageBody( GwpMessages *self, int id )
 
 char *gwp_messages_getMessageSubject( GwpMessages *self, int id )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getSub called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
@@ -475,7 +528,15 @@ char *gwp_messages_getMessageSubject( GwpMessages *self, int id )
         j--;
     self->priv->tmptxt[j] = '\0';
 
+    /* check if subject is empty */
+    if( j==0 )
+    {
+        /* get the long header instead */
+        gwp_messages_getMessageHeaderLong( self, id );
+    }
+
     /* done */
+if( DEBUGOUTPUT ) g_message("DEBUG: getSub finished" );
     return( self->priv->tmptxt );
 }
 
@@ -483,6 +544,7 @@ char *gwp_messages_getMessageSubject( GwpMessages *self, int id )
 
 char *gwp_messages_getMessageHeader( GwpMessages *self, int id )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getHead called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
@@ -507,6 +569,7 @@ char *gwp_messages_getMessageHeader( GwpMessages *self, int id )
     self->priv->tmptxt[j] = '\0';
 
     /* done */
+if( DEBUGOUTPUT ) g_message("DEBUG: getHead finished" );
     return( self->priv->tmptxt );
 }
 
@@ -514,6 +577,7 @@ char *gwp_messages_getMessageHeader( GwpMessages *self, int id )
 
 char *gwp_messages_getMessageHeaderLong( GwpMessages *self, int id )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getHeadLong called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
@@ -783,6 +847,7 @@ char *gwp_messages_getMessageHeaderLong( GwpMessages *self, int id )
 
     /* done */
     free( header );
+if( DEBUGOUTPUT ) g_message("DEBUG: getHeadLong finished" );
     return( self->priv->tmptxt );
 }
 
@@ -790,6 +855,7 @@ char *gwp_messages_getMessageHeaderLong( GwpMessages *self, int id )
 
 bool gwp_messages_messageIsOld( GwpMessages *self, int id )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: isOld called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
@@ -815,6 +881,7 @@ bool gwp_messages_messageIsOld( GwpMessages *self, int id )
 
     /* done */
     free( header );
+if( DEBUGOUTPUT ) g_message("DEBUG: isOld finished" );
     return( retval );
 }
 
@@ -843,73 +910,99 @@ long gwp_messages_readDWord( GwpMessages *self, FILE *from )
 
 int gwp_messages_getMessageIdFirst( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getfirstid called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
 
     int retval = 0;
+if( DEBUGOUTPUT ) g_message("DEBUG: getfirstid finished" );
     return( retval );
 }
 
 
 int gwp_messages_getMessageIdLast( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getlastid called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
 
     int retval = self->priv->numberOfMessages-1;
+if( DEBUGOUTPUT ) g_message("DEBUG: getlastid finished" );
     return( retval );
 }
 
 
 int gwp_messages_getMessageIdNext( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getnextid called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
 
     int retval = self->priv->currMsg + 1;
     if( retval >= self->priv->numberOfMessages-1 ) retval = self->priv->numberOfMessages-1;
+if( DEBUGOUTPUT ) g_message("DEBUG: getnextid finished" );
     return( retval );
 }
 
 
 int gwp_messages_getMessageIdPrev( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: getprevid called" );
     /* check if file was already read */
     if( !self->priv->fileRead )
         gwp_messages_readFileAny( self );
 
     int retval = self->priv->currMsg - 1;
     if( retval < 0 ) retval = 0;
+if( DEBUGOUTPUT ) g_message("DEBUG: getprevid finished" );
     return( retval );
 }
 
+int gwp_messages_getMessageIdCurrent( GwpMessages *self )
+{
+if( DEBUGOUTPUT ) g_message("DEBUG: getcurrid called" );
+    /* check if file was already read */
+    if( !self->priv->fileRead )
+        gwp_messages_readFileAny( self );
+
+if( DEBUGOUTPUT ) g_message("DEBUG: getcurrid finished" );
+    return( self->priv->currMsg );
+}
 
 void gwp_messages_nextMsg( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: nextmsg called" );
     self->priv->currMsg++;
     if( self->priv->currMsg >= self->priv->numberOfMessages )
         self->priv->currMsg = self->priv->numberOfMessages - 1;
+if( DEBUGOUTPUT ) g_message("DEBUG: nextmsg finished" );
 }
 
 
 void gwp_messages_prevMsg( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: prevmsg called" );
     self->priv->currMsg--;
     if( self->priv->currMsg < 0 )
         self->priv->currMsg = 0;
+if( DEBUGOUTPUT ) g_message("DEBUG: prevmsg finished" );
 }
 
 
 void gwp_messages_firstMsg( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: firstmsg called" );
     self->priv->currMsg = 0;
+if( DEBUGOUTPUT ) g_message("DEBUG: firstmsg finished" );
 }
 
 
 void gwp_messages_lastMsg( GwpMessages *self )
 {
+if( DEBUGOUTPUT ) g_message("DEBUG: lastmsg called" );
     self->priv->currMsg = self->priv->numberOfMessages - 1;
+if( DEBUGOUTPUT ) g_message("DEBUG: lastmsg finished" );
 }
