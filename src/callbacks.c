@@ -277,12 +277,9 @@ void on_game_mgr_iconlist_select_icon (GnomeIconList *iconlist,
 
   // Double-click enters the game
   if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
-    g_message("Lets play baby, yeah!!!");
-    /* FIXME: Manage play_game callback
-
-       on_game_mgr_play_game()
-
-    */
+    game_mgr_play_game((GameSettings *)
+		       gnome_icon_list_get_icon_data(iconlist, 
+						     icon_idx));
     return;
   }
 }

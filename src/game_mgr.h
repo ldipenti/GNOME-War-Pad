@@ -52,7 +52,7 @@ void game_mgr_properties_dlg_get_settings(GameSettings *settings);
 gboolean game_mgr_properties_dlg_fill(GameSettings *settings);
 
 void game_mgr_add_icon(GnomeIconList *iconlist, GameSettings *sett);
-
+void game_mgr_play_game(GameSettings *sett);
 
 // Game name translators
 void game_mgr_game_name_mangle(gchar *name);

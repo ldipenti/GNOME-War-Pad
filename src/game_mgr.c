@@ -26,6 +26,8 @@
 #include "game_mgr.h"
 #include "game_state.h"
 #include "game_types.h"
+#include "vp_utils.h"
+#include "starchart.h"
 #include "race.h"
 
 void game_mgr_init(void)
@@ -662,4 +664,15 @@ void game_mgr_game_name_demangle(gchar *name)
     if(*ptr == '_') *ptr = ' ';
     ptr++;
   }
+}
+
+void game_mgr_play_game(GameSettings *sett)
+{
+  // Init data and lets start!
+  game_init_dir(sett->game_dir);
+  game_set_race(sett->race);
+  init_data();
+  init_starchart(gwp);
+  gtk_widget_hide(game_mgr);
+  gtk_widget_show(gwp);
 }
