@@ -27,7 +27,7 @@
 #include "gwp-planet.h"
 #include "gwp-beamspec.h"
 
-gint gwp_planet_mineral_extraction_rate(gint mines, gint density, gint mineral);
+gint gwp_planet_mineral_extraction_rate(enum races race, enum natives natives, gint mines, gint density, gint mineral);
 gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);
 
 
@@ -780,7 +780,9 @@ gint gwp_planet_neutronium_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
+					    gwp_planet_get_natives_race(self),
+					    gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_neutronium(self),
 					    gwp_planet_get_ground_neutronium(self));
 }
@@ -797,7 +799,9 @@ gint gwp_planet_tritanium_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
+					    gwp_planet_get_natives_race(self),
+					    gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_tritanium(self),
 					    gwp_planet_get_ground_tritanium(self));
 }
@@ -814,7 +818,9 @@ gint gwp_planet_molybdenum_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
+					    gwp_planet_get_natives_race(self),
+					    gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_molybdenum(self),
 					    gwp_planet_get_ground_molybdenum(self));
 }
@@ -831,7 +837,9 @@ gint gwp_planet_duranium_extraction_rate(GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
-  return gwp_planet_mineral_extraction_rate(gwp_planet_get_mines(self), 
+  return gwp_planet_mineral_extraction_rate(gwp_game_state_get_race (game_state),
+					    gwp_planet_get_natives_race(self),
+					    gwp_planet_get_mines(self), 
 					    gwp_planet_get_dens_duranium(self),
 					    gwp_planet_get_ground_duranium(self));
 }
@@ -1322,11 +1330,15 @@ void gwp_planet_set_build_base (GwpPlanet *self, gint16 bb)
 /* Private methods */
 /*******************/
 
-gint gwp_planet_mineral_extraction_rate(gint mines, gint density, gint mineral)
+gint 
+gwp_planet_mineral_extraction_rate(enum races   race,
+				   enum natives natives,
+				   gint         mines, 
+				   gint         density, 
+				   gint         mineral)
 {
   gint ret;
 
-  /* FIXME: Check out the player's race mining rate!!! */
   if(density < 10) {
     ret = mines / 10;
   } else if((density >= 10) && (density < 30)) {
@@ -1337,6 +1349,17 @@ gint gwp_planet_mineral_extraction_rate(gint mines, gint density, gint mineral)
     ret = mines / 2;
   } else {
     ret = mines;
+  }
+
+  /* Race & natives corrections */
+  /* FIXME: Must get this values from Host config!!! */
+  if (race == RACE_FEDS) {
+    ret *= 0.7;
+  } else if (race == RACE_LIZARDS) {
+    ret *= 2;
+  }
+  if (natives == NATIVE_REPTILIAN) {
+    ret *= 2;
   }
 
   if(ret <= mineral) {
