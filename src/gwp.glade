@@ -139,10 +139,20 @@
 		      <child>
 			<widget class="GtkMenuItem" id="visual_combat_recorder">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Visual Combat Recorder</property>
+			  <property name="label" translatable="yes">Visual combat recorder</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_vcr_activate" last_modification_time="Tue, 08 Jun 2004 13:13:15 GMT"/>
 			  <accelerator key="F" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkMenuItem" id="view_python_console">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Python console</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_view_python_console_activate" last_modification_time="Thu, 17 Jun 2004 16:44:19 GMT"/>
+			  <accelerator key="Y" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 			</widget>
 		      </child>
 		    </widget>
@@ -213,7 +223,7 @@
 	      <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
 	      <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
 	      <property name="tooltips">True</property>
-	      <property name="show_arrow">True</property>
+	      <property name="show_arrow">False</property>
 
 	      <child>
 		<widget class="GtkToggleToolButton" id="togglebutton_grid">
