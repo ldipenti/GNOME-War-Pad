@@ -973,56 +973,42 @@ gint gwp_messages_getSubjectColour( GwpMessages *self, gint id )
 {
   gint retval;
   gchar msgbody[1024];
-  gint msglen;
-  gint i;
   retval = GWP_MESSAGE_IS_NORMAL;
 
   /* checking for special cases */
   msgbody[0] = '\0';
   strncat( msgbody, gwp_messages_getMessageRaw( self, id ), 1023 );
-  msglen = strlen( msgbody );
+
   /* distinguish between enemy and own minefields */
   if( msgbody[2] == 'm' )
   {
-    retval = GWP_MESSAGE_IS_POSITIVE;
-    i = 0;
-    while( i < msglen-9 )
+    retval = GWP_MESSAGE_IS_NORMAL;
+    if( gwp_messages_grepMessage( msgbody, "for mines" ) )
     {
-      if( msgbody[i] == 'f' )
-        if( strncmp( msgbody+i, "for mines", 9 ) == 0 )
-        {
-          retval = GWP_MESSAGE_IS_NEGATIVE;
-          i = msglen; /* break */
-        }
-      i++;
+      retval = GWP_MESSAGE_IS_NEGATIVE;
+      if( gwp_messages_grepMessage( msgbody, "INSIDE" ) )
+      {
+        retval = GWP_MESSAGE_IS_URGENT;
+        if( gwp_messages_grepMessage( msgbody, "firing" ) )
+          retval = GWP_MESSAGE_IS_POSITIVE;
+      }
     }
-  }
+ }
   /* distinguish between sensor scans with good and bad news */
   if( msgbody[2] == 'z' )
   {
-    i = 0;
-    while( i < msglen-11 )
+    if( gwp_messages_grepMessage( msgbody, "are enemy" ) )
     {
-      if( msgbody[i] == 'a' )
-        if( strncmp( msgbody+i, "are enemy", 9 ) == 0 )
-        {
-          retval = GWP_MESSAGE_IS_NEGATIVE;
-          i = msglen; /* break */
-        }
-      if( msgbody[i] == 't' )
-        if( strncmp( msgbody+i, "there to be", 11 ) == 0 )
-        {
-          retval = GWP_MESSAGE_IS_NEGATIVE;
-          i = msglen; /* break */
-        }
-      if( msgbody[i] == 'c' )
-        if( strncmp( msgbody+i, "clear to co", 11 ) == 0 )
-          retval = GWP_MESSAGE_IS_POSITIVE;
-      if( msgbody[i] == 'l' )
-        if( strncmp( msgbody+i, "lifeforms", 9 ) == 0 )
-          retval = GWP_MESSAGE_IS_POSITIVE;
-      i++;
+      retval = GWP_MESSAGE_IS_NEGATIVE;
+      if( gwp_messages_grepMessage( msgbody, "this planet" ) )
+        retval = GWP_MESSAGE_IS_URGENT;
     }
+    else if( gwp_messages_grepMessage( msgbody, "there to be" ) )
+      retval = GWP_MESSAGE_IS_NEGATIVE;
+    else if( gwp_messages_grepMessage( msgbody, "clear to co" ) )
+      retval = GWP_MESSAGE_IS_POSITIVE;
+    else if( gwp_messages_grepMessage( msgbody, "lifeforms" ) )
+      retval = GWP_MESSAGE_IS_POSITIVE;
   }
 
   /* done */
@@ -1306,4 +1292,29 @@ void gwp_messages_setMessagePath( GwpMessages *self, gint id, char *path )
   strncat( self->priv->msgs.m[id].p, path, MAXMSGPATHLEN-1 );
 }
 
+
+/* returns true if *message contains *text ... false otherwise */
+bool gwp_messages_grepMessage( gchar *message, gchar *text )
+{
+  gint i, msglen, txtlen;
+  bool retval;
+
+  i = 0;
+  msglen = strlen( message );
+  txtlen = strlen( text );
+  retval = false;
+
+  while( i < msglen-txtlen )
+  {
+    if( message[i] == text[0] )
+      if( strncmp( message+i, text, txtlen ) == 0 )
+      {
+        retval = true;
+        i = msglen - txtlen;
+      }
+    i++;
+  }
+
+  return( retval );
+}
 
