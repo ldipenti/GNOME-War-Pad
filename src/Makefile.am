@@ -50,6 +50,8 @@ gwp_SOURCES =				\
 	gwp-minefield.c			\
 	gwp-ion-storm.h			\
 	gwp-ion-storm.c			\
+	gwp-starchart.c			\
+	gwp-starchart.h			\
 	gwp-messages.c			\
 	gwp-messages.h			\
 	gwp-specs.h			\
