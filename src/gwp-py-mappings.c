@@ -5417,7 +5417,7 @@ _wrap_planet_get_list (PyObject *self)
 
   static void add_planet (gpointer key, gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
-    GwpShip *planet = GWP_PLANET(value);
+    GwpPlanet *planet = GWP_PLANET(value);
 
     PyDict_SetItem (dict, 
 		    PyInt_FromLong(gwp_object_get_id(GWP_OBJECT(planet))),

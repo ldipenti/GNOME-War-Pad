@@ -20,6 +20,12 @@
 #ifndef GWP_PY_FUNCTIONS_H
 #define GWP_PY_FUNCTIONS_H
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#ifdef USE_PYTHON
+
 #include <gnome.h>
 #include "gwp-ship.h"
 #include "gwp-planet.h"
@@ -34,5 +40,6 @@ GwpPlanet * planet_get_by_id (gint id);
 GSList * ship_get_list (void);
 GSList * planet_get_list (void);
 
+#endif /* USE_PYTHON */
 
-#endif
+#endif 

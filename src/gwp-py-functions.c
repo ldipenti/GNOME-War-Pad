@@ -22,6 +22,12 @@
  * environment, but don't belong to any defined class.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#ifdef USE_PYTHON
+
 #include "gwp-py-functions.h"
 #include "global.h"
 
@@ -42,3 +48,4 @@ GwpPlanet * planet_get_by_id (gint id)
   return gwp_planet_get (planet_list, id);
 }
 
+#endif
