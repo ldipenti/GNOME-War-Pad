@@ -64,7 +64,7 @@ GwpHullSpec *gwp_hullspec_new (void);
 /**********************/
 /* high level methods */
 /**********************/
-GString * gwp_hullspec_get_name_trunc (GwpHullSpec *self, gint len);
+gchar * gwp_hullspec_get_name_trunc (GwpHullSpec *self, gint len);
 
 
 /*******************/
@@ -72,8 +72,8 @@ GString * gwp_hullspec_get_name_trunc (GwpHullSpec *self, gint len);
 /*******************/
 gint gwp_hullspec_get_id (GwpHullSpec *self);
 void gwp_hullspec_set_id (GwpHullSpec *self, gint id);
-GString * gwp_hullspec_get_name (GwpHullSpec *self);
-void gwp_hullspec_set_name (GwpHullSpec *self, GString *name);
+gchar * gwp_hullspec_get_name (GwpHullSpec *self);
+void gwp_hullspec_set_name (GwpHullSpec *self, gchar *name);
 gint gwp_hullspec_get_picture (GwpHullSpec *self);
 void gwp_hullspec_set_picture (GwpHullSpec *self, gint pic);
 gint gwp_hullspec_get_tritanium (GwpHullSpec *self);

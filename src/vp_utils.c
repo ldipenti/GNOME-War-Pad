@@ -20,9 +20,11 @@
 #  include <config.h>
 #endif
 
+/*
 #ifdef USE_PYTHON
 #include <Python.h>
 #endif
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -458,7 +460,7 @@ GHashTable * load_sdata (void)
     fc_tmp[1] = buffer[5];
     fc_tmp[2] = buffer[6];
     fc_tmp[3] = '\0';
-    gwp_ship_set_fcode(s, g_string_new(fc_tmp));
+    gwp_ship_set_fcode(s, fc_tmp);
     g_free(fc_tmp);
 
     gwp_flying_object_set_speed (GWP_FLYING_OBJECT(s), getWord(buffer + 7));
@@ -496,7 +498,7 @@ GHashTable * load_sdata (void)
       name_tmp[idx] = buffer[45+idx];
     }
     name_tmp[20] = '\0';
-    gwp_object_set_name (GWP_OBJECT(s), g_string_new(name_tmp));
+    gwp_object_set_name (GWP_OBJECT(s), g_string_new(name_tmp)->str);
     g_free(name_tmp);
 
     gwp_ship_set_neutronium (s, getWord(buffer + 65));
@@ -545,7 +547,7 @@ GHashTable * load_sdata (void)
 	   g_hash_table_lookup (target_list,
 				(gconstpointer) (i + 1))) != NULL) {
 	gwp_object_set_id (GWP_OBJECT(s), target_reg->id);
-	gwp_object_set_name (GWP_OBJECT(s), g_string_new(target_reg->name));
+	gwp_object_set_name (GWP_OBJECT(s), g_string_new(target_reg->name)->str);
 	gwp_flying_object_set_speed (GWP_FLYING_OBJECT(s), target_reg->warp_factor);
 	gwp_flying_object_set_heading (GWP_FLYING_OBJECT(s), target_reg->heading);
 	gwp_ship_set_hull_type (s, target_reg->hull_type);
@@ -683,7 +685,7 @@ GHashTable * load_pdata (void)
     fc_tmp[1] = buffer[5];
     fc_tmp[2] = buffer[6];
     fc_tmp[3] = '\0';
-    gwp_planet_set_fcode (p, g_string_new(fc_tmp));
+    gwp_planet_set_fcode (p, fc_tmp);
     g_free(fc_tmp);
 
     gwp_planet_set_mines (p, getWord(buffer+7));
@@ -719,7 +721,7 @@ GHashTable * load_pdata (void)
     coords = g_list_nth_data (xyplanet_list, gwp_object_get_id(GWP_OBJECT(p))-1);
     gwp_object_set_x_coord (GWP_OBJECT(p), coords->x);
     gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
-    gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (GWP_OBJECT(p)) - 1)));
+    gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *)g_list_nth_data(pnames, (gint)gwp_object_get_id (GWP_OBJECT(p)) - 1))->str);
 
 
     /* Add planet to list */
@@ -740,7 +742,7 @@ GHashTable * load_pdata (void)
       gwp_object_set_y_coord (GWP_OBJECT(p), coords->y);
       gwp_planet_set_owner (p, 0);
       gwp_object_set_id (GWP_OBJECT(p), i+1);
-      gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *) g_list_nth_data (pnames, i)));
+      gwp_object_set_name (GWP_OBJECT(p), g_string_new((gchar *) g_list_nth_data (pnames, i))->str);
 
       /* Add planet to list */
       g_hash_table_insert (planet_list, (gpointer)(i+1), p);
@@ -1143,7 +1145,7 @@ GSList * load_hullspec (void)
       name_tmp[idx] = getWord(buffer + idx);
     }
     name_tmp[30] = '\0';
-    gwp_hullspec_set_name (hs, g_string_new(g_strchomp(name_tmp)));
+    gwp_hullspec_set_name (hs, g_string_new(g_strchomp(name_tmp))->str);
     g_free(name_tmp);
 
     gwp_hullspec_set_picture (hs, getWord(buffer + 30));
@@ -1212,7 +1214,7 @@ GSList * load_engspec (void)
       name_tmp[idx] = getWord(buffer + idx);
     }
     name_tmp[20] = '\0';
-    gwp_engspec_set_name (es, g_string_new(g_strchomp(name_tmp)));
+    gwp_engspec_set_name (es, g_string_new(g_strchomp(name_tmp))->str);
     g_free(name_tmp);
 
     gwp_engspec_set_cost (es, getWord(buffer + 20));
@@ -1276,7 +1278,7 @@ GSList * load_torpspec (void)
       name_tmp[idx] = getWord(buffer + idx);
     }
     name_tmp[20] = '\0';
-    gwp_torpspec_set_name (ts, g_string_new(g_strchomp(name_tmp)));
+    gwp_torpspec_set_name (ts, g_string_new(g_strchomp(name_tmp))->str);
     g_free(name_tmp);
 
     gwp_torpspec_set_torpedo_cost (ts, getWord(buffer + 20));
@@ -1373,7 +1375,7 @@ GSList * load_beamspec (void)
       name_tmp[idx] = getWord(buffer + idx);
     }
     name_tmp[20] = '\0';
-    gwp_beamspec_set_name (bs, g_string_new(g_strchomp(name_tmp)));
+    gwp_beamspec_set_name (bs, g_string_new(g_strchomp(name_tmp))->str);
     g_free(name_tmp);
 
     gwp_beamspec_set_cost (bs, getWord(buffer + 20));

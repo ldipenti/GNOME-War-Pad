@@ -72,8 +72,8 @@ gint gwp_engspec_get_fuel_usage_full (GwpEngSpec *self, gdouble dist,
 /**************************/
 gint gwp_engspec_get_id (GwpEngSpec *self);
 void gwp_engspec_set_id (GwpEngSpec *self, gint id);
-GString * gwp_engspec_get_name (GwpEngSpec *self);
-void gwp_engspec_set_name (GwpEngSpec *self, GString *name);
+gchar * gwp_engspec_get_name (GwpEngSpec *self);
+void gwp_engspec_set_name (GwpEngSpec *self, gchar *name);
 gint gwp_engspec_get_cost (GwpEngSpec *self);
 void gwp_engspec_set_cost (GwpEngSpec *self, gint cost);
 gint gwp_engspec_get_tritanium (GwpEngSpec *self);

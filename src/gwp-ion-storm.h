@@ -59,7 +59,7 @@ GwpIonStorm *gwp_ion_storm_new (void);
 /* High-level methods */
 /**********************/
 gint gwp_ion_storm_get_class (GwpIonStorm *self);
-GString * gwp_ion_storm_get_class_str (GwpIonStorm *self);
+gchar * gwp_ion_storm_get_class_str (GwpIonStorm *self);
 gboolean gwp_ion_storm_is_valid (GwpIonStorm *self);
 
 /*******************/

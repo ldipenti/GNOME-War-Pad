@@ -17,6 +17,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
 #include "gwp-torpspec.h"
 
 /*
@@ -143,19 +144,22 @@ void gwp_torpspec_set_id (GwpTorpSpec *self, gint id)
   self->priv->id = id;
 }
 
-GString * gwp_torpspec_get_name (GwpTorpSpec *self)
+gchar * gwp_torpspec_get_name (GwpTorpSpec *self)
 {
   g_assert (GWP_IS_TORPSPEC(self));
+  GString *ret = g_string_new (self->priv->name->str);
 
-  return g_string_new (self->priv->name->str);
+  return ret->str;
 }
 
-void gwp_torpspec_set_name (GwpTorpSpec *self, GString *name)
+void gwp_torpspec_set_name (GwpTorpSpec *self, gchar *name)
 {
   g_assert (GWP_IS_TORPSPEC(self));
-  g_assert (name != NULL && name->len <= 20);
+  g_assert (name != NULL);
 
-  self->priv->name = g_string_assign (self->priv->name, name->str);
+  if (strlen(name) <= 20) {
+    self->priv->name = g_string_assign (self->priv->name, name);
+  }
 }
 
 gint gwp_torpspec_get_torpedo_cost (GwpTorpSpec *self)

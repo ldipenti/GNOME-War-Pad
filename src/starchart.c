@@ -129,7 +129,7 @@ void update_starbase_panel(GwpPlanet *planet)
       GwpShip *ship = gwp_ship_get(ship_list, gwp_starbase_get_id_ship(base));
       tmp = g_strdup_printf ("(#%d) %s",
 			     gwp_object_get_id(GWP_OBJECT(ship)),
-			     gwp_object_get_name(GWP_OBJECT(ship))->str);
+			     gwp_object_get_name(GWP_OBJECT(ship)));
       switch (gwp_starbase_get_ship_action(base)) {
       case 1:
 	gtk_label_set_text (base_repair, tmp);
@@ -153,7 +153,7 @@ void update_starbase_panel(GwpPlanet *planet)
       /* Hull */
       GwpHullSpec *hull = GWP_HULLSPEC(g_slist_nth_data(hullspec_list, truehull[game_get_race(game_state)-1][gwp_starbase_get_build_ship_type(base)-1] - 1));
 
-      tmp = g_strdup_printf("%s", gwp_hullspec_get_name_trunc(hull, 18)->str);
+      tmp = g_strdup_printf("%s", gwp_hullspec_get_name_trunc(hull, 18));
       gtk_label_set_text (build_hull, tmp);
       g_free (tmp);
 
@@ -161,7 +161,7 @@ void update_starbase_panel(GwpPlanet *planet)
       GwpEngSpec *engines = GWP_ENGSPEC(g_slist_nth_data(engspec_list, gwp_starbase_get_build_engine_type(base) - 1));
       tmp = g_strdup_printf("%d %s", 
 			    gwp_hullspec_get_engines(hull),
-			    gwp_engspec_get_name(engines)->str);
+			    gwp_engspec_get_name(engines));
       gtk_label_set_text (build_engines, tmp);
       g_free (tmp);
 
@@ -170,7 +170,7 @@ void update_starbase_panel(GwpPlanet *planet)
 	GwpBeamSpec *beams = GWP_BEAMSPEC(g_slist_nth_data(beamspec_list, gwp_starbase_get_build_beam_type(base) - 1));
 	tmp = g_strdup_printf("%d %s",
 			      gwp_starbase_get_build_beam_count(base),
-			      gwp_beamspec_get_name(beams)->str);
+			      gwp_beamspec_get_name(beams));
 	gtk_label_set_text (build_beams, tmp);
 	g_free (tmp);
       } else {
@@ -182,7 +182,7 @@ void update_starbase_panel(GwpPlanet *planet)
 	GwpTorpSpec *torps = GWP_TORPSPEC(g_slist_nth_data(torpspec_list, gwp_starbase_get_build_torp_type(base) - 1));
 	tmp = g_strdup_printf("%d %s",
 			      gwp_starbase_get_build_torp_count(base),
-			      gwp_torpspec_get_name(torps)->str);
+			      gwp_torpspec_get_name(torps));
 	gtk_label_set_text (build_torps, tmp);
 	g_free (tmp);
       } else if (gwp_hullspec_get_fighter_bays(hull) > 0) {
@@ -262,7 +262,7 @@ void update_global_defense_panel(GwpPlanet *planet)
     gtk_label_set_label(beams, tmp);
     g_free(tmp);
 
-    tmp = gwp_planet_get_def_sys_beams_type_str (planet)->str;
+    tmp = gwp_planet_get_def_sys_beams_type_str (planet);
     gtk_label_set_label(beams_type, tmp);
     g_free (tmp);
 
@@ -344,7 +344,7 @@ void update_ship_extra_panel (GwpShip *ship)
 
 
   /* Ship data always available... */
-  tmp = g_strdup_printf ("<b>%s</b>", gwp_object_get_name(GWP_OBJECT(ship))->str);
+  tmp = g_strdup_printf ("<b>%s</b>", gwp_object_get_name(GWP_OBJECT(ship)));
   gtk_label_set_markup (ship_name, tmp);
   g_free (tmp);
 
@@ -352,7 +352,7 @@ void update_ship_extra_panel (GwpShip *ship)
   if (gwp_ship_is_mine(ship)) {
     /*** Engines ***/
     tmp = g_strdup_printf("%d <i>%s</i>", gwp_ship_get_hull_engines(ship),
-			  gwp_ship_get_engine_name(ship)->str);
+			  gwp_ship_get_engine_name(ship));
     gtk_label_set_markup (spec_engines, tmp);
     g_free (tmp);
 
@@ -360,7 +360,7 @@ void update_ship_extra_panel (GwpShip *ship)
     if (gwp_ship_has_beam_weapons(ship)) {
       tmp = g_strdup_printf("%d <i>%s</i>", 
 			    gwp_ship_get_beams(ship),
-			    gwp_ship_get_beams_name(ship)->str);
+			    gwp_ship_get_beams_name(ship));
     } else {
       tmp = _("no weapon");
     }
@@ -372,7 +372,7 @@ void update_ship_extra_panel (GwpShip *ship)
     if (gwp_ship_has_torp_weapons(ship)) {
       tmp = g_strdup_printf(_("%d <i>%s</i>"),
 			    gwp_ship_get_torps_launchers(ship),
-			    gwp_ship_get_torps_name(ship)->str);
+			    gwp_ship_get_torps_name(ship));
       if (gwp_ship_get_torps(ship) == 1) {
 	tmp2 = _("1 torpedo");
       } else {
@@ -531,12 +531,12 @@ void update_ship_extra_panel (GwpShip *ship)
     g_free (tmp);
 
     /*** Friendly Code ***/
-    tmp = g_strdup_printf ("%s", gwp_ship_get_fcode(ship)->str);
+    tmp = g_strdup_printf ("%s", gwp_ship_get_fcode(ship));
     gtk_entry_set_text (GTK_ENTRY(ship_fc->entry), tmp);
     g_free(tmp);
 
     /*** Mission ***/
-    tmp = g_strdup_printf ("%s", gwp_ship_get_mission_name(ship)->str);
+    tmp = g_strdup_printf ("%s", gwp_ship_get_mission_name(ship));
     gtk_label_set_text (mission, tmp);
     g_free (tmp);
 
@@ -550,7 +550,7 @@ void update_ship_extra_panel (GwpShip *ship)
       if (gwp_object_get_id (GWP_OBJECT(obj_ship)) != 0) {
 	tmp = g_strdup_printf ("<i>(#%d) %s</i>",
 			       gwp_object_get_id(GWP_OBJECT(obj_ship)),
-			       gwp_object_get_name_trunc(GWP_OBJECT(obj_ship),15)->str);
+			       gwp_object_get_name_trunc(GWP_OBJECT(obj_ship),15));
       } else {
 	tmp = _("<i>No ship</i>");
       }
@@ -562,7 +562,7 @@ void update_ship_extra_panel (GwpShip *ship)
       g_assert (GWP_IS_SHIP(obj_ship));
       tmp = g_strdup_printf ("<i>(#%d) %s</i>",
 			     gwp_object_get_id(GWP_OBJECT(obj_ship)),
-			     gwp_object_get_name(GWP_OBJECT(obj_ship))->str);
+			     gwp_object_get_name(GWP_OBJECT(obj_ship)));
       gtk_label_set_markup (mission_param, tmp);     
       g_free (tmp);      
     } else {
@@ -570,7 +570,7 @@ void update_ship_extra_panel (GwpShip *ship)
     }
 
     /*** Primary Enemy ***/
-    tmp = g_strdup_printf ("%s", gwp_ship_get_primary_enemy_name(ship)->str);
+    tmp = g_strdup_printf ("%s", gwp_ship_get_primary_enemy_name(ship));
     gtk_label_set_text (enemy, tmp);
     g_free (tmp);
   }
@@ -732,7 +732,7 @@ void update_planet_extra_panel(gint16 planet_id)
     if ((a_planet = gwp_planet_get (planet_list, planet_id)) != NULL &&
 	gwp_planet_is_known (a_planet)) {
       /*** Friendly Code ***/
-      tmp = g_strdup_printf ("%s", gwp_planet_get_fcode(a_planet)->str);
+      tmp = g_strdup_printf ("%s", gwp_planet_get_fcode(a_planet));
       gtk_entry_set_text (GTK_ENTRY(planet_fc->entry), tmp);
       g_free(tmp);
       
@@ -934,11 +934,11 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     /* Underline planet name if it has starbase */
     if(gwp_planet_has_starbase (a_planet)) {
       tmp = g_strdup_printf ("<u><b>%s</b></u> (#%d)", 
-			     gwp_object_get_name (GWP_OBJECT(a_planet))->str,
+			     gwp_object_get_name (GWP_OBJECT(a_planet)),
 			     gwp_object_get_id (GWP_OBJECT(a_planet)));
     } else {
       tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
-			     gwp_object_get_name (GWP_OBJECT(a_planet))->str,
+			     gwp_object_get_name (GWP_OBJECT(a_planet)),
 			     gwp_object_get_id (GWP_OBJECT(a_planet)));
     }
     gtk_label_set_markup(planet_name, tmp);
@@ -1042,7 +1042,7 @@ void update_planet_panel (GtkWidget * gwp, GwpPlanet *a_planet)
     /** If planet is unknown... */
 	
     tmp = g_strdup_printf ("<b>%s</b> (#%d)", 
-			   gwp_object_get_name (GWP_OBJECT(a_planet))->str,
+			   gwp_object_get_name (GWP_OBJECT(a_planet)),
 			   gwp_object_get_id (GWP_OBJECT(a_planet)));
     gtk_label_set_markup(planet_name, tmp);
     g_free(tmp);
@@ -1168,7 +1168,7 @@ void update_ship_panel_with (GwpShip *ship)
   /* Update heading */
   gint h = gwp_flying_object_get_heading(GWP_FLYING_OBJECT(ship));
   if(h != -1) {
-    gchar *hstr = gwp_flying_object_get_heading_str(GWP_FLYING_OBJECT(ship))->str;
+    gchar *hstr = gwp_flying_object_get_heading_str(GWP_FLYING_OBJECT(ship));
     tmp = g_strdup_printf("%d\302\260 (%s)", h, hstr);
   } else {
     tmp = g_strdup_printf(_("not moving"));
@@ -1184,12 +1184,12 @@ void update_ship_panel_with (GwpShip *ship)
   
   /* Update Hull Type */
   tmp = g_strdup_printf ("<i>%s</i>", 
-			 gwp_ship_get_hull_name_trunc(ship, 20)->str);
+			 gwp_ship_get_hull_name_trunc(ship, 20));
   gtk_label_set_markup (hull, tmp);
   g_free(tmp);
 
   /* Update owner */
-  tmp = g_strdup_printf ("%s", gwp_ship_get_owner_name(ship)->str);
+  tmp = g_strdup_printf ("%s", gwp_ship_get_owner_name(ship));
   gtk_label_set_text (owner, tmp);
   g_free (tmp);
 
@@ -1263,7 +1263,7 @@ void update_ship_panel (GtkWidget * gwp, GwpLocation * location)
       gtk_list_store_append (store, &iter);
       gtk_list_store_set (store, &iter,
 			  0, gwp_object_get_id (GWP_OBJECT(ship)),
-			  1, g_strdup_printf("%s", gwp_object_get_name(GWP_OBJECT(ship))->str),
+			  1, g_strdup_printf("%s", gwp_object_get_name(GWP_OBJECT(ship))),
 			  -1);
     }
   }
@@ -1530,7 +1530,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
     /* Add planet names */
     gnome_canvas_item_new (starchart_get_grp_planet_names (), 
 			   GNOME_TYPE_CANVAS_TEXT,
-			   "text", gwp_object_get_name(GWP_OBJECT(planet))->str,
+			   "text", gwp_object_get_name(GWP_OBJECT(planet)),
 			   "x", xi,
 			   "y", yi + 10,
 			   "fill_color", "white",
@@ -2572,7 +2572,7 @@ GString * starchart_get_location_name (gint x, gint y)
   objects_nearby = starchart_get_surrounding_quads (gwp_planets_per_quad, q);
 
   if ((obj = (GwpObject *)starchart_find_planet(objects_nearby, x, y))) {
-    ret = g_string_new(gwp_object_get_name(obj)->str);
+    ret = g_string_new(gwp_object_get_name(obj));
   } else {
     ret = g_string_new(g_strdup_printf("(%d , %d)", x, y));
   }

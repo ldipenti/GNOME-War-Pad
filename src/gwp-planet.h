@@ -68,7 +68,7 @@ GwpPlanet * gwp_planet_new (void);
 /**********************/
 /* High-level methods */
 /**********************/
-GString * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self);
+gchar * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self);
 gint gwp_planet_get_def_sys_beams_type (GwpPlanet *self);
 gint gwp_planet_get_def_sys_beams_nr(GwpPlanet *self);
 gint gwp_planet_get_def_sys_fighters_nr(GwpPlanet *self);
@@ -112,8 +112,8 @@ GwpStarbase * gwp_planet_get_starbase (GwpPlanet *self);
 
 gint16 gwp_planet_get_owner (GwpPlanet *self);
 void gwp_planet_set_owner (GwpPlanet *self, gint16 o);
-GString * gwp_planet_get_fcode (GwpPlanet *self);
-void gwp_planet_set_fcode (GwpPlanet *self, GString *fcode);
+gchar * gwp_planet_get_fcode (GwpPlanet *self);
+void gwp_planet_set_fcode (GwpPlanet *self, gchar *fcode);
 gint16 gwp_planet_get_mines (GwpPlanet *self);
 void gwp_planet_set_mines (GwpPlanet *self, gint16 m);
 gint16 gwp_planet_get_factories (GwpPlanet *self);

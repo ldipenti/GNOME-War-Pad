@@ -259,7 +259,7 @@ GwpPlanet * gwp_planet_new (void)
  * @param self a GwpPlanet.
  * @return The name of the beam weapon type.
  */
-GString * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self)
+gchar * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
 
@@ -271,12 +271,12 @@ GString * gwp_planet_get_def_sys_beams_type_str (GwpPlanet *self)
     beam = g_slist_nth_data (beamspec_list, beam_type - 1);
     g_assert (GWP_IS_BEAMSPEC(beam));
 
-    ret = g_string_new (gwp_beamspec_get_name(beam)->str);
+    ret = g_string_new (gwp_beamspec_get_name(beam));
   } else {
     ret = g_string_new (_("No beam weapon"));
   }
 
-  return ret;
+  return ret->str;
 }
 
 /**
@@ -928,17 +928,21 @@ void gwp_planet_set_owner (GwpPlanet *self, gint16 o)
   self->priv->owner = o;
 }
 
-GString * gwp_planet_get_fcode (GwpPlanet *self)
+gchar * gwp_planet_get_fcode (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  return g_string_new(self->priv->fcode->str);
+  GString *ret = g_string_new(self->priv->fcode->str);
+
+  return ret->str;
 }
 
-void gwp_planet_set_fcode (GwpPlanet *self, GString *fcode)
+void gwp_planet_set_fcode (GwpPlanet *self, gchar *fcode)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (fcode->len <= 3);
-  self->priv->fcode = g_string_new (fcode->str);
+  
+  if (strlen(fcode) <= 3) {
+    self->priv->fcode = g_string_new (fcode);
+  }
 }
 
 gint16 gwp_planet_get_mines (GwpPlanet *self)

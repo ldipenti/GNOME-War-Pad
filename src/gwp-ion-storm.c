@@ -158,9 +158,11 @@ gint gwp_ion_storm_get_class (GwpIonStorm *self)
   return ret;
 }
 
-GString * gwp_ion_storm_get_class_str (GwpIonStorm *self)
+gchar * gwp_ion_storm_get_class_str (GwpIonStorm *self)
 {
   g_assert (GWP_IS_ION_STORM(self));
+  
+  GString *ret;
 
   /* Storm class names */
   gchar * class_names[] = {
@@ -174,7 +176,9 @@ GString * gwp_ion_storm_get_class_str (GwpIonStorm *self)
   gint storm_class = gwp_ion_storm_get_class (self);
   g_assert (storm_class >= 0 && storm_class <= sizeof(class_names) - 1);
 
-  return g_string_new (class_names[storm_class]);
+  ret = g_string_new (class_names[storm_class]);
+
+  return ret->str;
 }
 
 gboolean gwp_ion_storm_is_valid (GwpIonStorm *self)

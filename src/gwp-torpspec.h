@@ -68,8 +68,8 @@ GwpTorpSpec *gwp_torpspec_new (void);
 /**************************/
 gint gwp_torpspec_get_id (GwpTorpSpec *self);
 void gwp_torpspec_set_id (GwpTorpSpec *self, gint id);
-GString * gwp_torpspec_get_name (GwpTorpSpec *self);
-void gwp_torpspec_set_name (GwpTorpSpec *self, GString *name);
+gchar * gwp_torpspec_get_name (GwpTorpSpec *self);
+void gwp_torpspec_set_name (GwpTorpSpec *self, gchar *name);
 gint gwp_torpspec_get_torpedo_cost (GwpTorpSpec *self);
 void gwp_torpspec_set_torpedo_cost (GwpTorpSpec *self, gint tc);
 gint gwp_torpspec_get_launcher_cost (GwpTorpSpec *self);

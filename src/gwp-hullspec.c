@@ -148,18 +148,18 @@ GwpHullSpec * gwp_hullspec_new (void)
  * @param len the maximum name length accepted.
  * @return A string containing the truncated name.
  */
-GString * gwp_hullspec_get_name_trunc (GwpHullSpec *self, gint len)
+gchar * gwp_hullspec_get_name_trunc (GwpHullSpec *self, gint len)
 {
   g_return_val_if_fail ((GWP_IS_HULLSPEC(self) && len > 0), NULL);
 
   /* ...truncate hull name if it's too long */
-  GString *tmp_str = g_string_new(gwp_hullspec_get_name(self)->str);
+  GString *tmp_str = g_string_new(gwp_hullspec_get_name(self));
   if (tmp_str->len > len) {
     tmp_str = g_string_truncate (tmp_str, len);
     tmp_str = g_string_append (tmp_str, "...");
   }
 
-  return tmp_str;
+  return tmp_str->str;
 }
 
 /***************************/
@@ -181,18 +181,20 @@ void gwp_hullspec_set_id (GwpHullSpec *self, gint id)
   self->priv->id = id;
 }
 
-GString * gwp_hullspec_get_name (GwpHullSpec *self)
+gchar * gwp_hullspec_get_name (GwpHullSpec *self)
 {
   g_assert (GWP_IS_HULLSPEC(self));
-  return g_string_new (self->priv->name->str);
+  GString *ret = g_string_new (self->priv->name->str);
+
+  return ret->str;
 }
 
-void gwp_hullspec_set_name (GwpHullSpec *self, GString *name)
+void gwp_hullspec_set_name (GwpHullSpec *self, gchar *name)
 {
   g_assert (GWP_IS_HULLSPEC(self));
-  g_assert (name != NULL && name->len <= 30);
+  g_assert (name != NULL); /* FIXME: name->len <= 30 */
 
-  self->priv->name = g_string_assign (self->priv->name, name->str);
+  self->priv->name = g_string_assign (self->priv->name, name);
 }
 
 gint gwp_hullspec_get_picture (GwpHullSpec *self)

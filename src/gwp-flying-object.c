@@ -109,7 +109,7 @@ GwpFlyingObject * gwp_flying_object_new (void)
 /**********************/
 /* High-Level methods */
 /**********************/
-GString *gwp_flying_object_get_heading_str (GwpFlyingObject *self)
+gchar *gwp_flying_object_get_heading_str (GwpFlyingObject *self)
 {
   g_assert (GWP_IS_FLYING_OBJECT(self));
 
@@ -125,7 +125,7 @@ GString *gwp_flying_object_get_heading_str (GwpFlyingObject *self)
   else if (h == 270) hstr = g_string_new(_("W"));
   else hstr = g_string_new(_("NW"));
 
-  return hstr;
+  return hstr->str;
 }
 
 /*******************/

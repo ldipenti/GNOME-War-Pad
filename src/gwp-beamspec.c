@@ -141,19 +141,20 @@ void gwp_beamspec_set_id (GwpBeamSpec *self, gint id)
   self->priv->id = id;
 }
 
-GString * gwp_beamspec_get_name (GwpBeamSpec *self)
+gchar * gwp_beamspec_get_name (GwpBeamSpec *self)
 {
   g_assert (GWP_IS_BEAMSPEC(self));
-  
-  return g_string_new (self->priv->name->str);
+  GString *ret = g_string_new (self->priv->name->str);
+
+  return ret->str;
 }
 
-void gwp_beamspec_set_name (GwpBeamSpec *self, GString *name)
+void gwp_beamspec_set_name (GwpBeamSpec *self, gchar *name)
 {
   g_assert (GWP_IS_BEAMSPEC(self));
-  g_assert (name != NULL && name->len <= 20);
+  g_assert (name != NULL); /* FIXME: name->len <= 20 */
 
-  self->priv->name = g_string_assign (self->priv->name, name->str);
+  self->priv->name = g_string_assign (self->priv->name, name);
 }
 
 gint gwp_beamspec_get_cost (GwpBeamSpec *self)

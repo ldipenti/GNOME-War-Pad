@@ -7,7 +7,6 @@
 #line 3 "src/gwp-py-mappings.override"
 #include <Python.h>
 #include <pygobject.h>
-#include "global.h"
 #include "gwp-engspec.h"
 #include "gwp-hullspec.h"
 #include "gwp-beamspec.h"
@@ -20,6 +19,7 @@
 #include "gwp-starbase.h"
 #include "gwp-location.h"
 #include "gwp-minefield.h"
+#include "gwp-py-functions.h"
 #line 24 "src/gwp-py-mappings.c"
 
 
@@ -73,6 +73,34 @@ _wrap_gwp_beamspec_set_id(PyGObject *self, PyObject *args, PyObject *kwargs)
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpBeamSpec.set_id", kwlist, &id))
         return NULL;
     gwp_beamspec_set_id(GWP_BEAM_SPEC(self->obj), id);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_beamspec_get_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_beamspec_get_name(GWP_BEAM_SPEC(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_beamspec_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", NULL };
+    char *name;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpBeamSpec.set_name", kwlist, &name))
+        return NULL;
+    gwp_beamspec_set_name(GWP_BEAM_SPEC(self->obj), name);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -256,6 +284,8 @@ _wrap_gwp_beamspec_set_damage_value(PyGObject *self, PyObject *args, PyObject *k
 static PyMethodDef _PyGwpBeamSpec_methods[] = {
     { "get_id", (PyCFunction)_wrap_gwp_beamspec_get_id, METH_NOARGS },
     { "set_id", (PyCFunction)_wrap_gwp_beamspec_set_id, METH_VARARGS|METH_KEYWORDS },
+    { "get_name", (PyCFunction)_wrap_gwp_beamspec_get_name, METH_NOARGS },
+    { "set_name", (PyCFunction)_wrap_gwp_beamspec_set_name, METH_VARARGS|METH_KEYWORDS },
     { "get_cost", (PyCFunction)_wrap_gwp_beamspec_get_cost, METH_NOARGS },
     { "set_cost", (PyCFunction)_wrap_gwp_beamspec_set_cost, METH_VARARGS|METH_KEYWORDS },
     { "get_tritanium", (PyCFunction)_wrap_gwp_beamspec_get_tritanium, METH_NOARGS },
@@ -355,6 +385,34 @@ _wrap_gwp_engspec_set_id(PyGObject *self, PyObject *args, PyObject *kwargs)
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpEngSpec.set_id", kwlist, &id))
         return NULL;
     gwp_engspec_set_id(GWP_ENG_SPEC(self->obj), id);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_engspec_get_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_engspec_get_name(GWP_ENG_SPEC(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_engspec_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", NULL };
+    char *name;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpEngSpec.set_name", kwlist, &name))
+        return NULL;
+    gwp_engspec_set_name(GWP_ENG_SPEC(self->obj), name);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -498,6 +556,8 @@ static PyMethodDef _PyGwpEngSpec_methods[] = {
     { "get_fuel_usage_full", (PyCFunction)_wrap_gwp_engspec_get_fuel_usage_full, METH_VARARGS|METH_KEYWORDS },
     { "get_id", (PyCFunction)_wrap_gwp_engspec_get_id, METH_NOARGS },
     { "set_id", (PyCFunction)_wrap_gwp_engspec_set_id, METH_VARARGS|METH_KEYWORDS },
+    { "get_name", (PyCFunction)_wrap_gwp_engspec_get_name, METH_NOARGS },
+    { "set_name", (PyCFunction)_wrap_gwp_engspec_set_name, METH_VARARGS|METH_KEYWORDS },
     { "get_cost", (PyCFunction)_wrap_gwp_engspec_get_cost, METH_NOARGS },
     { "set_cost", (PyCFunction)_wrap_gwp_engspec_set_cost, METH_VARARGS|METH_KEYWORDS },
     { "get_tritanium", (PyCFunction)_wrap_gwp_engspec_get_tritanium, METH_NOARGS },
@@ -563,6 +623,25 @@ PyTypeObject PyGwpEngSpec_Type = {
 /* ----------- GwpHullSpec ----------- */
 
 static PyObject *
+_wrap_gwp_hullspec_get_name_trunc(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "len", NULL };
+    int len;
+    gchar *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpHullSpec.get_name_trunc", kwlist, &len))
+        return NULL;
+    ret = gwp_hullspec_get_name_trunc(GWP_HULL_SPEC(self->obj), len);
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
 _wrap_gwp_hullspec_get_id(PyGObject *self)
 {
     int ret;
@@ -580,6 +659,34 @@ _wrap_gwp_hullspec_set_id(PyGObject *self, PyObject *args, PyObject *kwargs)
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpHullSpec.set_id", kwlist, &id))
         return NULL;
     gwp_hullspec_set_id(GWP_HULL_SPEC(self->obj), id);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_hullspec_get_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_hullspec_get_name(GWP_HULL_SPEC(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_hullspec_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", NULL };
+    char *name;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpHullSpec.set_name", kwlist, &name))
+        return NULL;
+    gwp_hullspec_set_name(GWP_HULL_SPEC(self->obj), name);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -893,8 +1000,11 @@ _wrap_gwp_hullspec_set_cost(PyGObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyMethodDef _PyGwpHullSpec_methods[] = {
+    { "get_name_trunc", (PyCFunction)_wrap_gwp_hullspec_get_name_trunc, METH_VARARGS|METH_KEYWORDS },
     { "get_id", (PyCFunction)_wrap_gwp_hullspec_get_id, METH_NOARGS },
     { "set_id", (PyCFunction)_wrap_gwp_hullspec_set_id, METH_VARARGS|METH_KEYWORDS },
+    { "get_name", (PyCFunction)_wrap_gwp_hullspec_get_name, METH_NOARGS },
+    { "set_name", (PyCFunction)_wrap_gwp_hullspec_set_name, METH_VARARGS|METH_KEYWORDS },
     { "get_picture", (PyCFunction)_wrap_gwp_hullspec_get_picture, METH_NOARGS },
     { "set_picture", (PyCFunction)_wrap_gwp_hullspec_set_picture, METH_VARARGS|METH_KEYWORDS },
     { "get_tritanium", (PyCFunction)_wrap_gwp_hullspec_get_tritanium, METH_NOARGS },
@@ -1005,6 +1115,25 @@ _wrap_gwp_object_valid_coords(PyGObject *self)
 }
 
 static PyObject *
+_wrap_gwp_object_get_name_trunc(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "len", NULL };
+    int len;
+    gchar *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpObject.get_name_trunc", kwlist, &len))
+        return NULL;
+    ret = gwp_object_get_name_trunc(GWP_OBJECT(self->obj), len);
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
 _wrap_gwp_object_get_x_coord(PyGObject *self)
 {
     int ret;
@@ -1070,14 +1199,45 @@ _wrap_gwp_object_set_id(PyGObject *self, PyObject *args, PyObject *kwargs)
     return Py_None;
 }
 
+static PyObject *
+_wrap_gwp_object_get_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_object_get_name(GWP_OBJECT(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_object_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", NULL };
+    char *name;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpObject.set_name", kwlist, &name))
+        return NULL;
+    gwp_object_set_name(GWP_OBJECT(self->obj), name);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef _PyGwpObject_methods[] = {
     { "valid_coords", (PyCFunction)_wrap_gwp_object_valid_coords, METH_NOARGS },
+    { "get_name_trunc", (PyCFunction)_wrap_gwp_object_get_name_trunc, METH_VARARGS|METH_KEYWORDS },
     { "get_x_coord", (PyCFunction)_wrap_gwp_object_get_x_coord, METH_NOARGS },
     { "set_x_coord", (PyCFunction)_wrap_gwp_object_set_x_coord, METH_VARARGS|METH_KEYWORDS },
     { "get_y_coord", (PyCFunction)_wrap_gwp_object_get_y_coord, METH_NOARGS },
     { "set_y_coord", (PyCFunction)_wrap_gwp_object_set_y_coord, METH_VARARGS|METH_KEYWORDS },
     { "get_id", (PyCFunction)_wrap_gwp_object_get_id, METH_NOARGS },
     { "set_id", (PyCFunction)_wrap_gwp_object_set_id, METH_VARARGS|METH_KEYWORDS },
+    { "get_name", (PyCFunction)_wrap_gwp_object_get_name, METH_NOARGS },
+    { "set_name", (PyCFunction)_wrap_gwp_object_set_name, METH_VARARGS|METH_KEYWORDS },
     { NULL, NULL, 0 }
 };
 
@@ -1414,6 +1574,21 @@ _wrap_gwp_flying_object_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyObject *
+_wrap_gwp_flying_object_get_heading_str(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_flying_object_get_heading_str(GWP_FLYING_OBJECT(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
 _wrap_gwp_flying_object_get_heading(PyGObject *self)
 {
     int ret;
@@ -1458,6 +1633,7 @@ _wrap_gwp_flying_object_set_speed(PyGObject *self, PyObject *args, PyObject *kwa
 }
 
 static PyMethodDef _PyGwpFlyingObject_methods[] = {
+    { "get_heading_str", (PyCFunction)_wrap_gwp_flying_object_get_heading_str, METH_NOARGS },
     { "get_heading", (PyCFunction)_wrap_gwp_flying_object_get_heading, METH_NOARGS },
     { "set_heading", (PyCFunction)_wrap_gwp_flying_object_set_heading, METH_VARARGS|METH_KEYWORDS },
     { "get_speed", (PyCFunction)_wrap_gwp_flying_object_get_speed, METH_NOARGS },
@@ -1541,6 +1717,21 @@ _wrap_gwp_ion_storm_get_class(PyGObject *self)
 }
 
 static PyObject *
+_wrap_gwp_ion_storm_get_class_str(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ion_storm_get_class_str(GWP_ION_STORM(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
 _wrap_gwp_ion_storm_is_valid(PyGObject *self)
 {
     int ret;
@@ -1598,6 +1789,7 @@ _wrap_gwp_ion_storm_set_voltage(PyGObject *self, PyObject *args, PyObject *kwarg
 
 static PyMethodDef _PyGwpIonStorm_methods[] = {
     { "get_class", (PyCFunction)_wrap_gwp_ion_storm_get_class, METH_NOARGS },
+    { "get_class_str", (PyCFunction)_wrap_gwp_ion_storm_get_class_str, METH_NOARGS },
     { "is_valid", (PyCFunction)_wrap_gwp_ion_storm_is_valid, METH_NOARGS },
     { "get_radius", (PyCFunction)_wrap_gwp_ion_storm_get_radius, METH_NOARGS },
     { "set_radius", (PyCFunction)_wrap_gwp_ion_storm_set_radius, METH_VARARGS|METH_KEYWORDS },
@@ -1670,6 +1862,21 @@ _wrap_gwp_planet_new(PyGObject *self, PyObject *args, PyObject *kwargs)
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
+}
+
+static PyObject *
+_wrap_gwp_planet_get_def_sys_beams_type_str(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_planet_get_def_sys_beams_type_str(GWP_PLANET(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 static PyObject *
@@ -2015,6 +2222,34 @@ _wrap_gwp_planet_set_owner(PyGObject *self, PyObject *args, PyObject *kwargs)
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpPlanet.set_owner", kwlist, &o))
         return NULL;
     gwp_planet_set_owner(GWP_PLANET(self->obj), o);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_planet_get_fcode(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_planet_get_fcode(GWP_PLANET(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_planet_set_fcode(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "fcode", NULL };
+    char *fcode;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpPlanet.set_fcode", kwlist, &fcode))
+        return NULL;
+    gwp_planet_set_fcode(GWP_PLANET(self->obj), fcode);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -2614,6 +2849,7 @@ _wrap_gwp_planet_set_build_base(PyGObject *self, PyObject *args, PyObject *kwarg
 }
 
 static PyMethodDef _PyGwpPlanet_methods[] = {
+    { "get_def_sys_beams_type_str", (PyCFunction)_wrap_gwp_planet_get_def_sys_beams_type_str, METH_NOARGS },
     { "get_def_sys_beams_type", (PyCFunction)_wrap_gwp_planet_get_def_sys_beams_type, METH_NOARGS },
     { "get_def_sys_beams_nr", (PyCFunction)_wrap_gwp_planet_get_def_sys_beams_nr, METH_NOARGS },
     { "get_def_sys_fighters_nr", (PyCFunction)_wrap_gwp_planet_get_def_sys_fighters_nr, METH_NOARGS },
@@ -2648,6 +2884,8 @@ static PyMethodDef _PyGwpPlanet_methods[] = {
     { "get_starbase", (PyCFunction)_wrap_gwp_planet_get_starbase, METH_NOARGS },
     { "get_owner", (PyCFunction)_wrap_gwp_planet_get_owner, METH_NOARGS },
     { "set_owner", (PyCFunction)_wrap_gwp_planet_set_owner, METH_VARARGS|METH_KEYWORDS },
+    { "get_fcode", (PyCFunction)_wrap_gwp_planet_get_fcode, METH_NOARGS },
+    { "set_fcode", (PyCFunction)_wrap_gwp_planet_set_fcode, METH_VARARGS|METH_KEYWORDS },
     { "get_mines", (PyCFunction)_wrap_gwp_planet_get_mines, METH_NOARGS },
     { "set_mines", (PyCFunction)_wrap_gwp_planet_set_mines, METH_VARARGS|METH_KEYWORDS },
     { "get_factories", (PyCFunction)_wrap_gwp_planet_get_factories, METH_NOARGS },
@@ -2796,6 +3034,70 @@ _wrap_gwp_ship_has_torp_weapons(PyGObject *self)
 }
 
 static PyObject *
+_wrap_gwp_ship_get_primary_enemy_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_primary_enemy_name(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_get_mission_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_mission_name(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_get_owner_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_owner_name(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_get_hull_name_trunc(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "len", NULL };
+    int len;
+    gchar *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpShip.get_hull_name_trunc", kwlist, &len))
+        return NULL;
+    ret = gwp_ship_get_hull_name_trunc(GWP_SHIP(self->obj), len);
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
 _wrap_gwp_ship_get_hull_cargo(PyGObject *self)
 {
     int ret;
@@ -2865,6 +3167,51 @@ _wrap_gwp_ship_get_hull_picture(PyGObject *self)
 
     ret = gwp_ship_get_hull_picture(GWP_SHIP(self->obj));
     return PyInt_FromLong(ret);
+}
+
+static PyObject *
+_wrap_gwp_ship_get_engine_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_engine_name(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_get_beams_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_beams_name(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_get_torps_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_torps_name(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 static PyObject *
@@ -3019,6 +3366,34 @@ _wrap_gwp_ship_set_mass_if_unknown(PyGObject *self, PyObject *args, PyObject *kw
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:GwpShip.set_mass_if_unknown", kwlist, &mass))
         return NULL;
     gwp_ship_set_mass_if_unknown(GWP_SHIP(self->obj), mass);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_get_fcode(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_ship_get_fcode(GWP_SHIP(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_ship_set_fcode(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "fcode", NULL };
+    char *fcode;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpShip.set_fcode", kwlist, &fcode))
+        return NULL;
+    gwp_ship_set_fcode(GWP_SHIP(self->obj), fcode);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -3862,6 +4237,10 @@ _wrap_gwp_ship_set_megacredits(PyGObject *self, PyObject *args, PyObject *kwargs
 static PyMethodDef _PyGwpShip_methods[] = {
     { "has_beam_weapons", (PyCFunction)_wrap_gwp_ship_has_beam_weapons, METH_NOARGS },
     { "has_torp_weapons", (PyCFunction)_wrap_gwp_ship_has_torp_weapons, METH_NOARGS },
+    { "get_primary_enemy_name", (PyCFunction)_wrap_gwp_ship_get_primary_enemy_name, METH_NOARGS },
+    { "get_mission_name", (PyCFunction)_wrap_gwp_ship_get_mission_name, METH_NOARGS },
+    { "get_owner_name", (PyCFunction)_wrap_gwp_ship_get_owner_name, METH_NOARGS },
+    { "get_hull_name_trunc", (PyCFunction)_wrap_gwp_ship_get_hull_name_trunc, METH_VARARGS|METH_KEYWORDS },
     { "get_hull_cargo", (PyCFunction)_wrap_gwp_ship_get_hull_cargo, METH_NOARGS },
     { "get_hull_fuel_tank", (PyCFunction)_wrap_gwp_ship_get_hull_fuel_tank, METH_NOARGS },
     { "get_hull_crew", (PyCFunction)_wrap_gwp_ship_get_hull_crew, METH_NOARGS },
@@ -3870,6 +4249,9 @@ static PyMethodDef _PyGwpShip_methods[] = {
     { "get_hull_torp_launchers", (PyCFunction)_wrap_gwp_ship_get_hull_torp_launchers, METH_NOARGS },
     { "get_hull_fighter_bays", (PyCFunction)_wrap_gwp_ship_get_hull_fighter_bays, METH_NOARGS },
     { "get_hull_picture", (PyCFunction)_wrap_gwp_ship_get_hull_picture, METH_NOARGS },
+    { "get_engine_name", (PyCFunction)_wrap_gwp_ship_get_engine_name, METH_NOARGS },
+    { "get_beams_name", (PyCFunction)_wrap_gwp_ship_get_beams_name, METH_NOARGS },
+    { "get_torps_name", (PyCFunction)_wrap_gwp_ship_get_torps_name, METH_NOARGS },
     { "calculate_heading", (PyCFunction)_wrap_gwp_ship_calculate_heading, METH_NOARGS },
     { "valid_coords", (PyCFunction)_wrap_gwp_ship_valid_coords, METH_NOARGS },
     { "is_mine", (PyCFunction)_wrap_gwp_ship_is_mine, METH_NOARGS },
@@ -3885,6 +4267,8 @@ static PyMethodDef _PyGwpShip_methods[] = {
     { "set_owner", (PyCFunction)_wrap_gwp_ship_set_owner, METH_VARARGS|METH_KEYWORDS },
     { "get_mass_if_unknown", (PyCFunction)_wrap_gwp_ship_get_mass_if_unknown, METH_NOARGS },
     { "set_mass_if_unknown", (PyCFunction)_wrap_gwp_ship_set_mass_if_unknown, METH_VARARGS|METH_KEYWORDS },
+    { "get_fcode", (PyCFunction)_wrap_gwp_ship_get_fcode, METH_NOARGS },
+    { "set_fcode", (PyCFunction)_wrap_gwp_ship_set_fcode, METH_VARARGS|METH_KEYWORDS },
     { "get_x_to_waypoint", (PyCFunction)_wrap_gwp_ship_get_x_to_waypoint, METH_NOARGS },
     { "set_x_to_waypoint", (PyCFunction)_wrap_gwp_ship_set_x_to_waypoint, METH_VARARGS|METH_KEYWORDS },
     { "get_y_to_waypoint", (PyCFunction)_wrap_gwp_ship_get_y_to_waypoint, METH_NOARGS },
@@ -4695,6 +5079,34 @@ _wrap_gwp_torpspec_set_id(PyGObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyObject *
+_wrap_gwp_torpspec_get_name(PyGObject *self)
+{
+    gchar *ret;
+
+    ret = gwp_torpspec_get_name(GWP_TORP_SPEC(self->obj));
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
+_wrap_gwp_torpspec_set_name(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", NULL };
+    char *name;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:GwpTorpSpec.set_name", kwlist, &name))
+        return NULL;
+    gwp_torpspec_set_name(GWP_TORP_SPEC(self->obj), name);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject *
 _wrap_gwp_torpspec_get_torpedo_cost(PyGObject *self)
 {
     int ret;
@@ -4895,6 +5307,8 @@ _wrap_gwp_torpspec_set_damage_value(PyGObject *self, PyObject *args, PyObject *k
 static PyMethodDef _PyGwpTorpSpec_methods[] = {
     { "get_id", (PyCFunction)_wrap_gwp_torpspec_get_id, METH_NOARGS },
     { "set_id", (PyCFunction)_wrap_gwp_torpspec_set_id, METH_VARARGS|METH_KEYWORDS },
+    { "get_name", (PyCFunction)_wrap_gwp_torpspec_get_name, METH_NOARGS },
+    { "set_name", (PyCFunction)_wrap_gwp_torpspec_set_name, METH_VARARGS|METH_KEYWORDS },
     { "get_torpedo_cost", (PyCFunction)_wrap_gwp_torpspec_get_torpedo_cost, METH_NOARGS },
     { "set_torpedo_cost", (PyCFunction)_wrap_gwp_torpspec_set_torpedo_cost, METH_VARARGS|METH_KEYWORDS },
     { "get_launcher_cost", (PyCFunction)_wrap_gwp_torpspec_get_launcher_cost, METH_NOARGS },
@@ -4979,22 +5393,37 @@ _wrap_gwp_planet_get_ground_percent(PyObject *self, PyObject *args, PyObject *kw
 }
 
 static PyObject *
-_wrap_gwp_ship_get_by_id(PyObject *self, PyObject *args, PyObject *kwargs)
+_wrap_ship_get_by_id(PyObject *self, PyObject *args, PyObject *kwargs)
 {
-    static char *kwlist[] = { "ship_id", NULL };
-    int ship_id;
+    static char *kwlist[] = { "id", NULL };
+    int id;
     GwpShip *ret;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:gwp_ship_get_by_id", kwlist, &ship_id))
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:ship_get_by_id", kwlist, &id))
         return NULL;
-    ret = gwp_ship_get_by_id(ship_id);
+    ret = ship_get_by_id(id);
+    /* pygobject_new handles NULL checking */
+    return pygobject_new((GObject *)ret);
+}
+
+static PyObject *
+_wrap_planet_get_by_id(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "id", NULL };
+    int id;
+    GwpPlanet *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "i:planet_get_by_id", kwlist, &id))
+        return NULL;
+    ret = planet_get_by_id(id);
     /* pygobject_new handles NULL checking */
     return pygobject_new((GObject *)ret);
 }
 
 PyMethodDef gwp_functions[] = {
     { "gwp_planet_get_ground_percent", (PyCFunction)_wrap_gwp_planet_get_ground_percent, METH_VARARGS|METH_KEYWORDS },
-    { "gwp_ship_get_by_id", (PyCFunction)_wrap_gwp_ship_get_by_id, METH_VARARGS|METH_KEYWORDS },
+    { "ship_get_by_id", (PyCFunction)_wrap_ship_get_by_id, METH_VARARGS|METH_KEYWORDS },
+    { "planet_get_by_id", (PyCFunction)_wrap_planet_get_by_id, METH_VARARGS|METH_KEYWORDS },
     { NULL, NULL, 0 }
 };
 
@@ -5020,7 +5449,7 @@ gwp_register_classes(PyObject *d)
     }
 
 
-#line 5024 "src/gwp-py-mappings.c"
+#line 5453 "src/gwp-py-mappings.c"
     pygobject_register_class(d, "GwpBeamSpec", GWP_TYPE_BEAM_SPEC, &PyGwpBeamSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpEngSpec", GWP_TYPE_ENG_SPEC, &PyGwpEngSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));
     pygobject_register_class(d, "GwpHullSpec", GWP_TYPE_HULL_SPEC, &PyGwpHullSpec_Type, Py_BuildValue("(O)", &PyGObject_Type));

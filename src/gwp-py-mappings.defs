@@ -109,7 +109,7 @@
 (define-method get_name_trunc
   (of-object "GwpObject")
   (c-name "gwp_object_get_name_trunc")
-  (return-type "GString*")
+  (return-type "gchar*")
   (parameters
     '("gint" "len")
   )
@@ -163,7 +163,7 @@
 (define-method get_name
   (of-object "GwpObject")
   (c-name "gwp_object_get_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_name
@@ -171,7 +171,7 @@
   (c-name "gwp_object_set_name")
   (return-type "none")
   (parameters
-    '("GString*" "name")
+    '("gchar*" "name")
   )
 )
 
@@ -193,7 +193,7 @@
 (define-method get_heading_str
   (of-object "GwpFlyingObject")
   (c-name "gwp_flying_object_get_heading_str")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_heading
@@ -244,7 +244,7 @@
 (define-method get_def_sys_beams_type_str
   (of-object "GwpPlanet")
   (c-name "gwp_planet_get_def_sys_beams_type_str")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_def_sys_beams_type
@@ -480,7 +480,7 @@
 (define-method get_fcode
   (of-object "GwpPlanet")
   (c-name "gwp_planet_get_fcode")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_fcode
@@ -488,7 +488,7 @@
   (c-name "gwp_planet_set_fcode")
   (return-type "none")
   (parameters
-    '("GString*" "fcode")
+    '("gchar*" "fcode")
   )
 )
 
@@ -927,25 +927,25 @@
 (define-method get_primary_enemy_name
   (of-object "GwpShip")
   (c-name "gwp_ship_get_primary_enemy_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_mission_name
   (of-object "GwpShip")
   (c-name "gwp_ship_get_mission_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_owner_name
   (of-object "GwpShip")
   (c-name "gwp_ship_get_owner_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_hull_name_trunc
   (of-object "GwpShip")
   (c-name "gwp_ship_get_hull_name_trunc")
-  (return-type "GString*")
+  (return-type "gchar*")
   (parameters
     '("gint" "len")
   )
@@ -1002,19 +1002,19 @@
 (define-method get_engine_name
   (of-object "GwpShip")
   (c-name "gwp_ship_get_engine_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_beams_name
   (of-object "GwpShip")
   (c-name "gwp_ship_get_beams_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method get_torps_name
   (of-object "GwpShip")
   (c-name "gwp_ship_get_torps_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method calculate_heading
@@ -1028,14 +1028,6 @@
   (return-type "GwpShip*")
   (parameters
     '("GHashTable*" "list")
-    '("gint" "ship_id")
-  )
-)
-
-(define-function gwp_ship_get_by_id
-  (c-name "gwp_ship_get_by_id")
-  (return-type "GwpShip*")
-  (parameters
     '("gint" "ship_id")
   )
 )
@@ -1146,7 +1138,7 @@
 (define-method get_fcode
   (of-object "GwpShip")
   (c-name "gwp_ship_get_fcode")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_fcode
@@ -1154,7 +1146,7 @@
   (c-name "gwp_ship_set_fcode")
   (return-type "none")
   (parameters
-    '("GString*" "fcode")
+    '("gchar*" "fcode")
   )
 )
 
@@ -1752,7 +1744,7 @@
 (define-method get_class_str
   (of-object "GwpIonStorm")
   (c-name "gwp_ion_storm_get_class_str")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method is_valid
@@ -1835,7 +1827,7 @@
 (define-method get_name
   (of-object "GwpEngSpec")
   (c-name "gwp_engspec_get_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_name
@@ -1843,7 +1835,7 @@
   (c-name "gwp_engspec_set_name")
   (return-type "none")
   (parameters
-    '("GString*" "name")
+    '("gchar*" "name")
   )
 )
 
@@ -1974,7 +1966,7 @@
 (define-method get_name
   (of-object "GwpTorpSpec")
   (c-name "gwp_torpspec_get_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_name
@@ -1982,7 +1974,7 @@
   (c-name "gwp_torpspec_set_name")
   (return-type "none")
   (parameters
-    '("GString*" "name")
+    '("gchar*" "name")
   )
 )
 
@@ -2154,7 +2146,7 @@
 (define-method get_name
   (of-object "GwpBeamSpec")
   (c-name "gwp_beamspec_get_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_name
@@ -2162,7 +2154,7 @@
   (c-name "gwp_beamspec_set_name")
   (return-type "none")
   (parameters
-    '("GString*" "name")
+    '("gchar*" "name")
   )
 )
 
@@ -2304,7 +2296,7 @@
 (define-method get_name_trunc
   (of-object "GwpHullSpec")
   (c-name "gwp_hullspec_get_name_trunc")
-  (return-type "GString*")
+  (return-type "gchar*")
   (parameters
     '("gint" "len")
   )
@@ -2328,7 +2320,7 @@
 (define-method get_name
   (of-object "GwpHullSpec")
   (c-name "gwp_hullspec_get_name")
-  (return-type "GString*")
+  (return-type "gchar*")
 )
 
 (define-method set_name
@@ -2336,7 +2328,7 @@
   (c-name "gwp_hullspec_set_name")
   (return-type "none")
   (parameters
-    '("GString*" "name")
+    '("gchar*" "name")
   )
 )
 
@@ -3041,6 +3033,26 @@
   (return-type "none")
   (parameters
     '("gint" "owner")
+  )
+)
+
+
+
+;; From src/gwp-py-functions.h
+
+(define-function ship_get_by_id
+  (c-name "ship_get_by_id")
+  (return-type "GwpShip*")
+  (parameters
+    '("gint" "id")
+  )
+)
+
+(define-function planet_get_by_id
+  (c-name "planet_get_by_id")
+  (return-type "GwpPlanet*")
+  (parameters
+    '("gint" "id")
   )
 )
 

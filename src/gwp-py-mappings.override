@@ -2,7 +2,6 @@
 headers
 #include <Python.h>
 #include <pygobject.h>
-#include "global.h"
 #include "gwp-engspec.h"
 #include "gwp-hullspec.h"
 #include "gwp-beamspec.h"
@@ -15,6 +14,7 @@ headers
 #include "gwp-starbase.h"
 #include "gwp-location.h"
 #include "gwp-minefield.h"
+#include "gwp-py-functions.h"
 %%
 modulename gwp
 %%

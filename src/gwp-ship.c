@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002, 2003 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -421,7 +421,7 @@ gboolean gwp_ship_has_torp_weapons (GwpShip *self)
  * @param self a GwpShip.
  * @return A string with the primary enemy race name.
  */
-GString * gwp_ship_get_primary_enemy_name (GwpShip *self)
+gchar * gwp_ship_get_primary_enemy_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
 
@@ -433,7 +433,7 @@ GString * gwp_ship_get_primary_enemy_name (GwpShip *self)
     ret = g_string_new (race_get_name(gwp_ship_get_primary_enemy(self)));
   }
 
-  return ret;
+  return ret->str;
 }
 
 /**
@@ -445,7 +445,7 @@ GString * gwp_ship_get_primary_enemy_name (GwpShip *self)
  * @param self a GwpShip.
  * @return A string with the mission's name.
  */
-GString * gwp_ship_get_mission_name (GwpShip *self)
+gchar * gwp_ship_get_mission_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
   
@@ -457,7 +457,7 @@ GString * gwp_ship_get_mission_name (GwpShip *self)
     ret = g_string_new (mission_special_get_name(game_get_race(game_state)));
   }
 
-  return ret;
+  return ret->str;
 }
 
 /**
@@ -466,10 +466,12 @@ GString * gwp_ship_get_mission_name (GwpShip *self)
  * @param self a GwpShip.
  * @return A string with the owner race name.
  */
-GString * gwp_ship_get_owner_name (GwpShip *self)
+gchar * gwp_ship_get_owner_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
-  return g_string_new (race_get_name(gwp_ship_get_owner(self)));
+  GString *ret = g_string_new (race_get_name(gwp_ship_get_owner(self)));
+
+  return ret->str;
 }
 
 /**
@@ -482,7 +484,7 @@ GString * gwp_ship_get_owner_name (GwpShip *self)
  * @return A string containing the hull name truncated if necessary.
  * @see gwp_hullspec_get_name_trunc
  */
-GString * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len)
+gchar * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len)
 {
   g_assert (GWP_IS_SHIP(self));
   return gwp_hullspec_get_name_trunc (gwp_ship_get_hullspec(self), len);
@@ -600,10 +602,10 @@ gint gwp_ship_get_hull_picture (GwpShip *self)
  * @return The engine's name.
  * @see gwp_engspec_get_name
  */
-GString * gwp_ship_get_engine_name (GwpShip *self)
+gchar * gwp_ship_get_engine_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
-  return g_string_new (gwp_engspec_get_name(gwp_ship_get_engspec(self))->str);
+  return gwp_engspec_get_name(gwp_ship_get_engspec(self));
 }
 
 /**
@@ -613,10 +615,10 @@ GString * gwp_ship_get_engine_name (GwpShip *self)
  * @return The beam's name.
  * @see gwp_beamspec_get_name
  */
-GString * gwp_ship_get_beams_name (GwpShip *self)
+gchar * gwp_ship_get_beams_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
-  return g_string_new(gwp_beamspec_get_name(gwp_ship_get_beamspec(self))->str);
+  return gwp_beamspec_get_name(gwp_ship_get_beamspec(self));
 }
 
 /**
@@ -626,10 +628,10 @@ GString * gwp_ship_get_beams_name (GwpShip *self)
  * @return The torps' name.
  * @see gwp_torpspec_get_name
  */
-GString * gwp_ship_get_torps_name (GwpShip *self)
+gchar * gwp_ship_get_torps_name (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
-  return g_string_new(gwp_torpspec_get_name(gwp_ship_get_torpspec(self))->str);
+  return gwp_torpspec_get_name(gwp_ship_get_torpspec(self));
 }
 
 /**
@@ -689,11 +691,6 @@ gint gwp_ship_calculate_heading (GwpShip *self)
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id) 
 {
   return (GwpShip *) g_hash_table_lookup(list, (gconstpointer)ship_id);
-}
-
-GwpShip * gwp_ship_get_by_id (gint ship_id) 
-{
-  return gwp_ship_get(ship_list, ship_id);
 }
 
 /**
@@ -909,7 +906,7 @@ gint gwp_ship_calculate_lay_mines_torps (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
 
-  gchar *fc = gwp_ship_get_fcode (self)->str;
+  gchar *fc = gwp_ship_get_fcode (self);
   gint torps = gwp_ship_get_torps (self);
   gint torps_burned = 0;
   
@@ -995,18 +992,22 @@ void gwp_ship_set_mass_if_unknown (GwpShip *self, gint mass)
   self->priv->mass_if_unknown = mass;
 }
 
-GString *gwp_ship_get_fcode (GwpShip *self)
+gchar *gwp_ship_get_fcode (GwpShip *self)
 {
   g_assert (GWP_IS_SHIP(self));
-  return g_string_new (self->priv->fcode->str);
+  GString *ret = g_string_new (self->priv->fcode->str);
+
+  return ret->str;
 }
 
-void gwp_ship_set_fcode (GwpShip *self, GString *fcode)
+void gwp_ship_set_fcode (GwpShip *self, gchar *fcode)
 {
   g_assert (GWP_IS_SHIP(self));
-  g_assert (fcode->len <= 3);
-  g_string_free (self->priv->fcode, TRUE);
-  self->priv->fcode = g_string_new (fcode->str);
+
+  if (strlen(fcode) <= 3) {
+    g_string_free (self->priv->fcode, TRUE);
+    self->priv->fcode = g_string_new (fcode);
+  }
 }
 
 gint16 gwp_ship_get_x_to_waypoint (GwpShip *self)

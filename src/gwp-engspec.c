@@ -203,19 +203,20 @@ void gwp_engspec_set_id (GwpEngSpec *self, gint id)
   self->priv->id = id;
 }
 
-GString * gwp_engspec_get_name (GwpEngSpec *self)
+gchar * gwp_engspec_get_name (GwpEngSpec *self)
 {
   g_assert (GWP_IS_ENGSPEC(self));
+  GString *ret = g_string_new (self->priv->name->str);
 
-  return g_string_new (self->priv->name->str);
+  return ret->str;
 }
 
-void gwp_engspec_set_name (GwpEngSpec *self, GString *name)
+void gwp_engspec_set_name (GwpEngSpec *self, gchar *name)
 {
   g_assert (GWP_IS_ENGSPEC(self));
-  g_assert (name != NULL && name->len <= 20);
+  g_assert (name != NULL); /* FIXME:  name->len <= 20 */
 
-  self->priv->name = g_string_assign (self->priv->name, name->str);
+  self->priv->name = g_string_assign (self->priv->name, name);
 }
 
 gint gwp_engspec_get_cost (GwpEngSpec *self)

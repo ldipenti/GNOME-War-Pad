@@ -65,7 +65,7 @@ GwpObject *gwp_object_new (void);
 /* High-Level methods */
 /**********************/
 gboolean gwp_object_valid_coords (GwpObject *self);
-GString * gwp_object_get_name_trunc (GwpObject *self, gint len);
+gchar * gwp_object_get_name_trunc (GwpObject *self, gint len);
 
 /*******************/
 /* Get-Set methods */
@@ -76,8 +76,8 @@ gint gwp_object_get_y_coord (GwpObject *self);
 void gwp_object_set_y_coord (GwpObject *self, gint y);
 gint gwp_object_get_id (GwpObject *self);
 void gwp_object_set_id (GwpObject *self, gint id);
-GString * gwp_object_get_name (GwpObject *self);
-void gwp_object_set_name (GwpObject *self, GString *name);
+gchar * gwp_object_get_name (GwpObject *self);
+void gwp_object_set_name (GwpObject *self, gchar *name);
 
 /*
  * Standard defines.

@@ -53,6 +53,8 @@ gwp_SOURCES =				\
 	gwp-messages.c			\
 	gwp-messages.h			\
 	gwp-specs.h			\
+	gwp-py-functions.c		\
+	gwp-py-functions.h		\
 	callbacks.c			\
 	callbacks.h			\
 	support.c			\

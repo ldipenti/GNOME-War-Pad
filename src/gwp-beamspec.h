@@ -68,8 +68,8 @@ GwpBeamSpec *gwp_beamspec_new (void);
 
 gint gwp_beamspec_get_id (GwpBeamSpec *self);
 void gwp_beamspec_set_id (GwpBeamSpec *self, gint id);
-GString * gwp_beamspec_get_name (GwpBeamSpec *self);
-void gwp_beamspec_set_name (GwpBeamSpec *self, GString *name);
+gchar * gwp_beamspec_get_name (GwpBeamSpec *self);
+void gwp_beamspec_set_name (GwpBeamSpec *self, gchar *name);
 gint gwp_beamspec_get_cost (GwpBeamSpec *self);
 void gwp_beamspec_set_cost (GwpBeamSpec *self, gint cost);
 gint gwp_beamspec_get_tritanium (GwpBeamSpec *self);

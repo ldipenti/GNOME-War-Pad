@@ -2758,7 +2758,7 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
     for( i=0; i<n; i++ )
     {
       beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
-      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams ) );
       idlista[0]++;
     }
   }
@@ -2781,7 +2781,7 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
     for( i=0; i<n; i++ )
     {
       beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
-      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams ) );
       idlistb[0]++;
     }
   }
@@ -2804,7 +2804,7 @@ void vcr_populate_beamspec_lists( GtkWidget *widget, gpointer user_data )
     for( i=0; i<n; i++ )
     {
       beams = GWP_BEAMSPEC( g_slist_nth_data( beamspec_list, i ) );
-      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams )->str );
+      gtk_combo_box_append_text( box, gwp_beamspec_get_name( beams ) );
       idlistp[0]++;
     }
   }
@@ -2896,7 +2896,7 @@ void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data )
     for( i=0; i<n; i++ )
     {
       torp = GWP_TORPSPEC( g_slist_nth_data( torpspec_list, i ) );
-      gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+      gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp ) );
       idlista[0]++;
     }
     gtk_combo_box_append_text( box, "Fighters" );
@@ -2918,7 +2918,7 @@ void vcr_populate_torps_lists( GtkWidget *widget, gpointer user_data )
     for( i=0; i<n; i++ )
     {
       torp = GWP_TORPSPEC( g_slist_nth_data( torpspec_list, i ) );
-      gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp )->str );
+      gtk_combo_box_append_text( box, gwp_torpspec_get_name( torp ) );
       idlistb[0]++;
     }
     gtk_combo_box_append_text( box, "Fighters" );
@@ -3057,7 +3057,7 @@ void vcr_ship_a_race_selected( GtkWidget *widget, gpointer user_data )
     id = truehull[race][i];
     do {
       hull = GWP_HULLSPEC( g_slist_nth_data( hullspec_list, id-1 ) );
-      gtk_combo_box_append_text( box, str2low( gwp_hullspec_get_name_trunc( hull, 30 )->str ) );
+      gtk_combo_box_append_text( box, str2low( gwp_hullspec_get_name_trunc( hull, 30 ) ) );
       idlist[0]++;
       i++;
       idlist[i] = id;
@@ -3117,7 +3117,7 @@ void vcr_ship_b_race_selected( GtkWidget *widget, gpointer user_data )
     id = truehull[race][i];
     do {
       hull = GWP_HULLSPEC( g_slist_nth_data( hullspec_list, id-1 ) );
-      gtk_combo_box_append_text( box, str2low( gwp_hullspec_get_name_trunc( hull, 30 )->str ) );
+      gtk_combo_box_append_text( box, str2low( gwp_hullspec_get_name_trunc( hull, 30 ) ) );
       idlist[0]++;
       i++;
       idlist[i] = id;

@@ -64,11 +64,11 @@ GwpShip *gwp_ship_new (void);
 gboolean gwp_ship_has_beam_weapons (GwpShip *self);
 gboolean gwp_ship_has_torp_weapons (GwpShip *self);
 
-GString * gwp_ship_get_primary_enemy_name (GwpShip *self);
-GString * gwp_ship_get_mission_name (GwpShip *self);
-GString * gwp_ship_get_owner_name (GwpShip *self);
+gchar * gwp_ship_get_primary_enemy_name (GwpShip *self);
+gchar * gwp_ship_get_mission_name (GwpShip *self);
+gchar * gwp_ship_get_owner_name (GwpShip *self);
 
-GString * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len);
+gchar * gwp_ship_get_hull_name_trunc (GwpShip *self, gint len);
 gint gwp_ship_get_hull_cargo (GwpShip *self);
 gint gwp_ship_get_hull_fuel_tank (GwpShip *self);
 gint gwp_ship_get_hull_crew (GwpShip *self);
@@ -78,14 +78,13 @@ gint gwp_ship_get_hull_torp_launchers (GwpShip *self);
 gint gwp_ship_get_hull_fighter_bays (GwpShip *self);
 gint gwp_ship_get_hull_picture (GwpShip *self);
 
-GString * gwp_ship_get_engine_name (GwpShip *self);
-GString * gwp_ship_get_beams_name (GwpShip *self);
-GString * gwp_ship_get_torps_name (GwpShip *self);
+gchar * gwp_ship_get_engine_name (GwpShip *self);
+gchar * gwp_ship_get_beams_name (GwpShip *self);
+gchar * gwp_ship_get_torps_name (GwpShip *self);
 
 gint gwp_ship_calculate_heading (GwpShip *self);
 
 GwpShip * gwp_ship_get (GHashTable *list, gint ship_id);
-GwpShip * gwp_ship_get_by_id (gint ship_id);
 
 gboolean gwp_ship_valid_coords(GwpShip *self);
 gboolean gwp_ship_is_mine(GwpShip *self);
@@ -111,8 +110,8 @@ void gwp_ship_set_owner (GwpShip *self, gint owner);
 gint gwp_ship_get_mass_if_unknown (GwpShip *self);
 void gwp_ship_set_mass_if_unknown (GwpShip *self, gint mass);
 
-GString *gwp_ship_get_fcode (GwpShip *self);
-void gwp_ship_set_fcode (GwpShip *self, GString *fcode);
+gchar *gwp_ship_get_fcode (GwpShip *self);
+void gwp_ship_set_fcode (GwpShip *self, gchar *fcode);
 
 gint16 gwp_ship_get_x_to_waypoint (GwpShip *self);
 void gwp_ship_set_x_to_waypoint (GwpShip *self, gint16 xw);

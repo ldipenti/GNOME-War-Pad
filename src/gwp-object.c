@@ -152,18 +152,18 @@ gboolean gwp_object_valid_coords (GwpObject *self)
  * @param len the maximum name length accepted.
  * @return A string containing the truncated name.
  */
-GString * gwp_object_get_name_trunc (GwpObject *self, gint len)
+gchar * gwp_object_get_name_trunc (GwpObject *self, gint len)
 {
   g_return_val_if_fail ((GWP_IS_OBJECT(self) && len > 0), NULL);
 
   /* ...truncate object name if it's too long */
-  GString *tmp_str = g_string_new(gwp_object_get_name(self)->str);
+  GString *tmp_str = g_string_new(gwp_object_get_name(self));
   if (tmp_str->len > len) {
     tmp_str = g_string_truncate (tmp_str, len);
     tmp_str = g_string_append (tmp_str, "...");
   }
 
-  return tmp_str;
+  return tmp_str->str;
 }
 
 /*******************/
@@ -214,19 +214,22 @@ void gwp_object_set_id (GwpObject *self, gint id)
   self->priv->id = id;
 }
 
-GString * gwp_object_get_name (GwpObject *self)
+gchar * gwp_object_get_name (GwpObject *self)
 {
   g_assert (GWP_IS_OBJECT(self));
+  GString *ret;
+
   /* CP437 (DOS format) to UTF-8 conversion is done */
-  return g_string_new (g_convert(self->priv->name->str, 
-				 strlen(self->priv->name->str), 
-				 "UTF-8", "CP437", NULL, NULL, NULL));
+  ret = g_string_new (g_convert(self->priv->name->str, 
+				strlen(self->priv->name->str), 
+				"UTF-8", "CP437", NULL, NULL, NULL));
+  return ret->str;
 }
 
-void gwp_object_set_name (GwpObject *self, GString *name)
+void gwp_object_set_name (GwpObject *self, gchar *name)
 {
   g_assert (GWP_IS_OBJECT(self));
   g_assert (name != NULL);
   g_string_free (self->priv->name, TRUE);
-  self->priv->name = g_string_new(name->str);
+  self->priv->name = g_string_new(name);
 }

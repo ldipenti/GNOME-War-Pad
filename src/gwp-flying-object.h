@@ -65,7 +65,7 @@ GType gwp_flying_object_get_type (void);
 GwpFlyingObject * gwp_flying_object_new (void);
 
 /* high-level methods */
-GString *gwp_flying_object_get_heading_str (GwpFlyingObject *self);
+gchar *gwp_flying_object_get_heading_str (GwpFlyingObject *self);
 
 /* get-set methods */
 gint gwp_flying_object_get_heading (GwpFlyingObject *self);
