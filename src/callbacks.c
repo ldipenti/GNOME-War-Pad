@@ -151,6 +151,9 @@ starchart_event_button                 (GtkWidget       *widget,
     ps_planet = s_planet;
     s_planet = starchart_select_nearest_planet(GTK_WIDGET(gwp_ptr), 
 					       planets_nearby, wx, wy);
+
+    /* When a planet is selected, emit the corresponding signal */
+    g_signal_emit_by_name (s_planet, "selected");
   } 
   /* Open Planet panel (double-click) */
   else if((event->type == GDK_2BUTTON_PRESS) && (event->button == 1)) {
