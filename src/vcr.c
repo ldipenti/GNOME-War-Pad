@@ -104,8 +104,8 @@ void vcr_start_combat( GtkWidget *widget, gpointer  user_data )
     cdata.p_nmb_pdefense = vcr_get( widget, user_data, PLANET, NMB_DEF, VAL_CUR );
     cdata.p_nmb_bdefense = vcr_get( widget, user_data, BASE, NMB_DEF, VAL_CUR );
     cdata.p_nmb_fighter = vcr_get( widget, user_data, BASE, NMB_TORPFIG, VAL_CUR );
-    cdata.b_shield = 0;
-    cdata.b_hull = 0;
+    cdata.b_shield = vcr_get( widget, user_data, PLANET, PRC_SHIELD, VAL_CUR );
+    cdata.b_hull = 100; // TODO ... maybe allowing damage ...
     cdata.b_crew = 0;
     cdata.b_typ_hull = 0;
     cdata.b_nmb_beams = 0;
@@ -1465,7 +1465,8 @@ gint vcr_get( GtkWidget *widget, gpointer user_data,
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
               break;
             case VAL_CUR:
-              g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );
+                range = GTK_RANGE( lookup_widget( "vcr_hscale_shi_p" ) );
+                retval = (gint)gtk_range_get_value( range );
               break;
             case VAL_MAX:
               g_message( "VCR: TODO: vcr_get( %d, %d, %d )", source, value, what );

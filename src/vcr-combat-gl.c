@@ -1218,6 +1218,8 @@ void vcrcgl_create_gl_callists( void )
 void vcrcgl_init( void )
 {
   /* don't initialize the gtkglext a second time */
+  static gboolean vcrcgl_is_initialized;
+
   if( vcrcgl_is_initialized )
     return;
 
