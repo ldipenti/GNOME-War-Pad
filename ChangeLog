@@ -1,3 +1,414 @@
+2005-03-01 00:26  ldipenti
+
+	* CHANGES, Doxyfile, VERSION, configure.in, debian/changelog,
+	  package/gwp-fedora.spec, package/gwp-mdk.spec, po/Makefile.in.in,
+	  scripts/plugins/finder.py, src/callbacks.c, src/starchart.c:
+	  Release 0.3.6 commit, yeah!
+
+2005-02-28 19:19  cristian
+
+	* scripts/plugins/quark.py: Corregidos bugs de control de limite de
+	  poblacion y reactivacion del icono al seleccionar un planeta
+	  despues de una nave.
+
+2005-02-25 02:59  ldipenti
+
+	* scripts/plugins/finder.py: Feature: new cool features to finder
+	  plugin by Nicolas!!!
+
+2005-02-24 16:51  cristian
+
+	* scripts/plugins/quark_files/Makefile.am: Missing tips file
+
+2005-02-24 16:38  ldipenti
+
+	* src/starchart.c: Bugfix: When natives=0, we don't need to show
+	  happiness data on the panel
+
+2005-02-24 16:20  ldipenti
+
+	* src/vp_utils.c: Bugfix: Natives SPI sometimes came != 0 when
+	  natives=0...check done!
+
+2005-02-24 15:58  ldipenti
+
+	* help/C/figures/message-reader.png: Bugfix: missing help figure
+	  added
+
+2005-02-22 10:24  cristian
+
+	* scripts/plugins/quark.py: Solucionado conflicto con el reporte en
+	  ventana
+
+2005-02-20 18:14  cristian
+
+	* scripts/plugins/quark.py: Constantes
+
+2005-02-20 18:12  cristian
+
+	* scripts/plugins/quark_utils.py: Agregado de algunas constantes
+
+2005-02-01 09:42  cristian
+
+	* scripts/plugins/quark_files/quark_tips.txt: Consejos para el area
+	  de notificacion.
+
+2005-01-31 11:54  cristian
+
+	* scripts/plugins/quark.py: Agregado y corregido el chequeo de
+	  temperatura de los planetas.
+
+2005-01-31 09:57  cristian
+
+	* scripts/plugins/: quark.py, quark_utils.py: Reestructuración del
+	  sistema de creacion de reportes. Muchos cambios.
+
+2005-01-28 11:14  cristian
+
+	* scripts/plugins/: quark.py, quark_utils.py: Fusionado del reporte
+	  en ventana y notificacion
+
+2005-01-27 12:16  cristian
+
+	* scripts/plugins/quark.py: Arreglado el calculo de max income
+	  natives
+
+2005-01-27 11:17  cristian
+
+	* scripts/plugins/quark.glade: Desabilitados los controles de
+	  edicion de datos
+
+2005-01-27 09:28  ldipenti
+
+	* src/gwp-starchart.c: Bugfix: when selecting a planet, it emits a
+	  "selected" signal
+
+2005-01-27 08:36  cristian
+
+	* scripts/plugins/: quark.glade, quark.py, quark_utils.py: Uso del
+	  Notification area listo!
+
+2005-01-26 20:42  ldipenti
+
+	* scripts/: inittab.py, plugins/magallanes.py, plugins/quark.py:
+	  Bugfix: all plugins should call their parent's constructor at
+	  their own constructor. This was causing the segfault on signal
+	  connection
+
+2005-01-26 14:16  cristian
+
+	* scripts/plugins/: quark.py, quark_utils.py: Listo el uso del area
+	  de notificacion
+
+2005-01-26 12:31  ldipenti
+
+	* scripts/inittab.py: Temp fix: registered signal connection from
+	  plugi manager when registering a plugin causes a segfault,
+	  commented out
+
+2005-01-26 11:52  ldipenti
+
+	* scripts/plugins/quark_files/Makefile.am: Oops, missed file!
+
+2005-01-26 11:31  ldipenti
+
+	* scripts/inittab.py: Typo: event hub notificatons change: - for _
+
+2005-01-26 11:29  ldipenti
+
+	* scripts/inittab.py: Bugfix: plugin manager routes events through
+	  its HUB when plugins are registered/unregistered
+
+2005-01-26 10:05  ldipenti
+
+	* configure.in, scripts/plugins/Makefile.am: Added control files to
+	  automatically install Quark plugin
+
+2005-01-26 09:49  cristian
+
+	* scripts/plugins/quark_utils.py: Agregado de algunas constantes
+
+2005-01-26 09:39  cristian
+
+	* scripts/plugins/quark_files/: quark_amarillo.gif, quark_rojo.gif,
+	  quark_transp.gif, quark_verde.gif: Iconos del plugin Quark para
+	  el area de notificacion
+
+2005-01-25 17:04  ldipenti
+
+	* src/: gwp-game-state.c, gwp-game-state.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs: Several host settings getters functions
+	  added to GwpGameState. More in the works!
+
+2005-01-25 13:03  cristian
+
+	* scripts/plugins/quark.py: Minor fix
+
+2005-01-24 20:21  ldipenti
+
+	* src/: gwp-game-state.c, gwp-game-state.h, gwp-planet.c,
+	  gwp-py-mappings.c, gwp-py-mappings.defs: Bugfix: Max population
+	  calculation now uses host settings when the climate is extreme
+
+2005-01-24 13:36  cristian
+
+	* scripts/plugins/quark.py: Agregado el chequeo de los planetas
+	  inospitos, falta terminar
+
+2005-01-24 00:11  ldipenti
+
+	* scripts/: inittab.py, plugins/notification_area.py: Feature:
+	  Plugin class now is a GObject subclass that emits an
+	  'unregistered' signal when it's eliminated from the plugin
+	  system, allowing other plugins to be noticed when this happens.
+
+2005-01-20 16:34  ldipenti
+
+	* scripts/: inittab.py, plugins/Makefile.am,
+	  plugins/notification_area.py: Feature: New plugin
+	  'NotificationArea', to allow other plugins to publish their own
+	  alerts to the user. Added some utility methods to PluginManager
+	  to get reference of active plugins, check plugin states, etc...
+
+2005-01-20 12:04  ldipenti
+
+	* src/gwp.glade: Feature: plugin slots now support multiple
+	  "applets"
+
+2005-01-20 10:59  ldipenti
+
+	* src/gwp-python.c: Bugfix: slot names shortened
+
+2005-01-19 20:33  ldipenti
+
+	* scripts/inittab.py, src/gwp-python.c, src/gwp.glade: Feature:
+	  Added two more slots: plugin_slot_left and ..._right. Added
+	  remove_plugin_slot() method to PluginManager.
+
+2005-01-19 13:35  cristian
+
+	* scripts/plugins/quark.py: Agregado la notificacion de planetas
+	  orbitado pero sin dueño, con errores.
+
+2005-01-19 12:40  ldipenti
+
+	* scripts/inittab.py, src/gwp-python.c, src/gwp.glade: Feature:
+	  Added basic plugin UI slots addition to main GWP's UI
+
+2005-01-19 11:46  cristian
+
+	* scripts/plugins/quark.py: minor changes
+
+2005-01-15 15:05  cristian
+
+	* scripts/plugins/quark.py: [no log message]
+
+2005-01-14 18:50  ldipenti
+
+	* src/: gwp-py-mappings.c, gwp-py-mappings.defs, gwp-ship.c,
+	  gwp-ship.h: Feature working: GameState can be retrieved from
+	  Python. Current planet and ship selected can be obtained using
+	  GwpGameState's new methods get_selected_[planet|ship].
+
+2005-01-14 18:40  ldipenti
+
+	* src/: gwp-game-state.c, gwp-game-state.h: Feature: added methods
+	  to game state to store current selected planet and ship, not
+	  working ... fixing ...
+
+2005-01-14 13:21  ldipenti
+
+	* generate_py_mappings.sh, src/gwp-py-functions.c,
+	  src/gwp-py-functions.h, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs: Feature: GwpGameState exported to
+	  Python. Added method to obtain actual game_state object to gwp
+	  module.
+
+2005-01-14 13:03  ldipenti
+
+	* src/: gwp-game-state.c, gwp-game-state.h, vp_utils.c: Feature:
+	  GwpGameState now stores the current selected planet and ship IDs
+
+2005-01-14 12:51  ldipenti
+
+	* src/callbacks.c: Bugfix: ship selection signal emission was not
+	  in the correct place
+
+2005-01-13 20:48  cristian
+
+	* scripts/plugins/quark.py: Ordenado de las funciones y agregado de
+	  la verificacion de happ para los colonos.
+
+2005-01-13 13:15  cristian
+
+	* scripts/plugins/quark.py: Desconeccion de las señales al
+	  desregistrar el plugin y arreglado de los mensajes de estado de
+	  felicidad.
+
+2005-01-12 14:11  cristian
+
+	* scripts/plugins/quark.py: Agregada la emision de señales y
+	  comienzo del manejo de msjs para el area de notificacion, por
+	  ahora la salida es al stdout
+
+2005-01-11 12:46  cristian
+
+	* scripts/plugins/quark.py: Now Quark center the starchart in the
+	  planet selected from his list of planets in the Quark window.
+
+2005-01-11 12:17  ldipenti
+
+	* generate_py_mappings.sh, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-py-mappings.override,
+	  src/gwp-starchart.c, src/gwp-starchart.h: Feature: Added some
+	  starchart wrapper functions to GwpStarchart to be able to do
+	  basic things on the starchart from Python
+
+2005-01-10 20:13  ldipenti
+
+	* src/gwp-planet.c: Agh, more errors squashed!
+
+2005-01-10 20:05  ldipenti
+
+	* src/gwp-planet.c: More calc corrections on tax collection
+
+2005-01-10 19:42  ldipenti
+
+	* src/starchart.c: Some dumb errors corrected (capo Cristian!)
+
+2005-01-10 19:28  ldipenti
+
+	* src/starchart.c: oops! bad comparison
+
+2005-01-10 19:24  ldipenti
+
+	* src/starchart.c: Bugfix: natives tax earnings miscalculated, now
+	  it takes into account the colonists tax collection capacity,
+	  depending on the race. Thanks Cristian!
+
+2005-01-10 19:18  ldipenti
+
+	* src/: gwp-planet.c, starchart.c, vp_utils.c: Bugfix: Unowned
+	  planets with (own) ships orbiting didn't showed any data on the
+	  extra panel. Thanks Cristian!
+
+2005-01-10 18:43  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs, starchart.c: Bugfix: Unowned planets with
+	  (own) ships orbitin didn't showed the data on the panel. Thanks
+	  Cristian!
+
+2005-01-10 01:50  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, starchart.c, starchart.h: Enhanced
+	  mini starchart feature - still buggy though...
+
+2005-01-10 00:45  ldipenti
+
+	* scripts/inittab.py: Disabled debugging msg
+
+2005-01-09 21:22  ldipenti
+
+	* src/vp_utils.c: removed output spanish message
+
+2005-01-09 20:18  cristian
+
+	* scripts/plugins/quark.py, src/gwp-planet.c, src/gwp-planet.h,
+	  src/gwp-py-mappings.c, src/gwp-py-mappings.defs, src/vp_utils.c:
+	  Fixed 2 functions of tax_rate, and 1 deleted, Several changes in
+	  Quark plugin
+
+2005-01-07 17:25  ldipenti
+
+	* src/: gwp_types.c, gwp_types.h, starchart.c: Little bugfix:
+	  sensor sweep area in its own canvas group, so now can be seen
+	  correctly
+
+2005-01-07 15:38  ldipenti
+
+	* src/global.h: Changed scanner colors
+
+2005-01-07 15:36  ldipenti
+
+	* src/gwp_types.h: updated header
+
+2005-01-07 15:36  ldipenti
+
+	* src/gwp_types.h: cleaned unused code
+
+2005-01-07 12:41  cristian
+
+	* scripts/plugins/quark.py: Agregado de las funciones de mining
+	  rate y tax rate.
+
+2005-01-07 12:09  ldipenti
+
+	* src/gwp-planet.c: Bugfix: amorphous' tax rate is 0
+
+2005-01-06 19:27  ldipenti
+
+	* src/gwp-planet.c: Some code cleanups
+
+2005-01-06 12:49  cristian
+
+	* scripts/plugins/quark.py: Agregado de comentarios y renombrado de
+	  algunas funciones.
+
+2005-01-06 10:32  ldipenti
+
+	* src/: gwp-planet.c, gwp-planet.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs: Bugfix: corrected a calculation problem
+	  entered with on the last commit
+
+2005-01-05 21:04  ldipenti
+
+	* src/: gwp-planet.c, race.c, race.h: Bugfix: tax rates taken from
+	  the host config data, it was hardcoded.
+
+2005-01-04 14:54  ldipenti
+
+	* src/: global.h, gwp-game-state.c, gwp-game-state.h, starchart.c:
+	  Feature: Added sensors sweep area to "scanner area feature" in a
+	  lighter blue color
+
+2005-01-04 00:30  ldipenti
+
+	* src/: gwp-game-state.c, gwp-game-state.h, gwp-planet.c,
+	  gwp-planet.h, gwp-py-mappings.c, gwp-py-mappings.defs: Added Host
+	  default settings values to GwpGameState and some functions to
+	  GwpPlanet querying those values
+
+2005-01-03 00:24  ldipenti
+
+	* debian/files, debian/gwp.substvars, po/de.po, po/es.po, po/fr.po,
+	  po/gwp.pot, po/pt_BR.po: Nonsense...this modifications were made
+	  by the automatic super-duper releaser script.
+
+2005-01-03 00:20  ldipenti
+
+	* src/gwp-game-state.c: Added variables to store host configuration
+	  parameters...wow they're a lot!
+
+2005-01-02 17:04  cristian
+
+	* scripts/plugins/: quark.glade, quark.py, quark_utils.py: Several
+	  fixes
+
+2005-01-02 16:13  ldipenti
+
+	* configure.in: Fixed typo on PCRE cflags
+
+2005-01-02 16:08  ldipenti
+
+	* src/callbacks.c: Updated credits in "about..." dialog
+
+2005-01-02 02:31  ldipenti
+
+	* CHANGES, ChangeLog, Doxyfile, Makefile.am, VERSION, configure.in,
+	  debian/changelog, package/gwp-fedora.spec, package/gwp-mdk.spec:
+	  Release 0.3.5 commit, yeah!
+
 2005-01-02 01:43  ldipenti
 
 	* src/: global.h, gwp-planet.c, starchart.c, vp_utils.c: Bugfix:
