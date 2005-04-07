@@ -121,8 +121,16 @@ void on_game_close_activate (GtkWidget *widget,
 
 void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 				     gpointer user_data);
-void on_hscale_tax_natives_value_changed (GtkRange *scale, gpointer user_data);
-void on_hscale_tax_colonists_value_changed (GtkRange *scale, gpointer user_data);
+
+gboolean on_hscale_tax_natives_change_value  (GtkRange      *scale, 
+					      GtkScrollType  scroll,
+					      gdouble        value,
+					      gpointer       user_data);
+gboolean  on_hscale_tax_colonists_change_value  (GtkRange      *scale, 
+						 GtkScrollType  scroll,
+						 gdouble        value,
+						 gpointer       user_data);
+
 gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value);
 
 void on_online_help_activate (GtkWidget *widget,

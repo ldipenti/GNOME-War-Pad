@@ -39,6 +39,20 @@ static GnomeCanvasPoints *distance_p;
 static GnomeCanvasLine *distance_line;
 
 /**
+ * Planet data update notification
+ */
+static void
+update_planet_notification (GObject *obj, gpointer data)
+{
+  GwpPlanet *planet = GWP_PLANET(obj);
+
+  update_planet_panel (gwp, planet);
+  table_population_update(planet);
+  update_global_defense_panel(planet);
+  update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet)));
+}
+
+/**
  * Notifications from game_state that should be taken seriously
  */
 static void
@@ -2054,6 +2068,14 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::y-coord",
 		    G_CALLBACK(starchart_update_distance_calc),
 		    NULL);
+  /* Planets signals */
+  static void planet_conn (gpointer key, gpointer value, gpointer data) {
+    g_signal_connect (GWP_PLANET(value),
+		      "property-changed",
+		      G_CALLBACK(update_planet_notification),
+		      NULL);
+  }
+  g_hash_table_foreach (planet_list, (GHFunc) planet_conn, NULL);
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)

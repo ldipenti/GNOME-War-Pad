@@ -708,23 +708,26 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 /**
  * Tax change callback - natives.
  */
-void
-on_hscale_tax_natives_value_changed (GtkRange *scale, 
-				     gpointer  user_data)
+gboolean
+on_hscale_tax_natives_change_value  (GtkRange      *scale, 
+				     GtkScrollType  scroll,
+				     gdouble        value,
+				     gpointer       user_data)
 {
-  gint value = (gint)gtk_range_get_value(scale);
   GwpPlanet *splanet = gwp_game_state_get_selected_planet (game_state);
-  g_message("Planeta: %s - %d", gwp_object_get_name(GWP_OBJECT(splanet)), value);
-  gwp_planet_set_tax_natives (splanet, value);
+  gwp_planet_set_tax_natives (splanet, (gint)rint(value));
+
+  return FALSE;
 }
 /**
- * Tax change callback - natives.
+ * Tax change callback - colonists.
  */
-void
-on_hscale_tax_colonists_value_changed (GtkRange *scale, 
-				       gpointer  user_data)
+gboolean
+on_hscale_tax_colonists_change_value  (GtkRange      *scale, 
+				       GtkScrollType  scroll,
+				       gdouble        value,
+				       gpointer       user_data)
 {
-  gint value = (gint)gtk_range_get_value(scale);
   GwpPlanet *splanet = gwp_game_state_get_selected_planet (game_state);
   gwp_planet_set_tax_colonists (splanet, value);
 }
@@ -732,7 +735,7 @@ on_hscale_tax_colonists_value_changed (GtkRange *scale,
 /* CB to format the hscale widgets value */
 gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value)
 {
-  return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), value);
+  return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), rint(value));
 }
 
 /* Show online help */

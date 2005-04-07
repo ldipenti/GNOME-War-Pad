@@ -30,6 +30,11 @@
 gint gwp_planet_mineral_extraction_rate(GwpPlanet *self, gint density, gint mineral);
 gint gwp_planet_mineral_turns_left(gint mineral, gint extraction_rate);
 
+enum {
+  PROP_0,
+  PROP_TAX_NATIVES,
+  PROP_TAX_COLONISTS,
+};
 
 /**
  * Private data structure for the GwpPlanet type.
@@ -198,6 +203,60 @@ static void gwp_planet_init (GTypeInstance *instance,
   self->priv->build_base = 0;
 }
 
+/**
+ * Property setters
+ */
+static void
+gwp_planet_set_property (GObject      *object,
+			 guint         property_id,
+			 const GValue *value,
+			 GParamSpec   *pspec)
+{
+  GwpPlanet *self = (GwpPlanet *) object;
+
+  switch (property_id) {
+  case PROP_TAX_NATIVES:
+    self->priv->tax_natives = g_value_get_int (value);
+    break;
+  case PROP_TAX_COLONISTS:
+    self->priv->tax_colonists = g_value_get_int (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+  /* global update notification */
+  g_signal_emit_by_name (self, "property-changed", NULL);
+
+  /* Emit a notify signal with the changed property name */
+  g_signal_emit_by_name (self, g_strconcat("property-changed::",
+					   pspec->name, NULL));
+}
+
+/**
+ * Property getters
+ */
+static void
+gwp_planet_get_property (GObject    *object,
+			 guint       property_id,
+			 GValue     *value,
+			 GParamSpec *pspec)
+{
+  GwpPlanet *self = (GwpPlanet *) object;
+
+  switch (property_id) {
+  case PROP_TAX_NATIVES:
+    g_value_set_boolean (value, self->priv->tax_natives);
+    break;
+  case PROP_TAX_COLONISTS:
+    g_value_set_boolean (value, self->priv->tax_colonists);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;    
+  }
+}
+
 static void gwp_planet_dispose (GwpPlanet *self)
 {
   if (self->priv->dispose_has_run) {
@@ -244,6 +303,37 @@ static void gwp_planet_class_init (GwpPlanetClass *klass)
 		 G_TYPE_NONE /* return_type */,
 		 0     /* n_params */,
 		 NULL  /* param_types */);
+
+  g_signal_newv ("property-changed",
+		 G_TYPE_FROM_CLASS (klass),
+		 G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED,
+		 NULL /* class closure */,
+		 NULL /* accumulator */,
+		 NULL /* accu_data */,
+		 g_cclosure_marshal_VOID__VOID,
+		 G_TYPE_NONE /* return_type */,
+		 0     /* n_params */,
+		 NULL  /* param_types */);
+
+  /* Property get/set methods */
+  gobject_class->set_property = gwp_planet_set_property;
+  gobject_class->get_property = gwp_planet_get_property;
+
+  /* Properties registrations */
+  g_object_class_install_property (gobject_class, PROP_TAX_NATIVES,
+				   g_param_spec_int ("tax-natives",
+						     "Tax-Natives",
+						     "Native's Taxes",
+						     0, 100, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_TAX_COLONISTS,
+				   g_param_spec_int ("tax-colonists",
+						     "Tax-Colonists",
+						     "Colonists's Taxes",
+						     0, 100, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
 }
 
 /**
@@ -255,6 +345,7 @@ GwpPlanet * gwp_planet_new (void)
 {
   return g_object_new (gwp_planet_get_type(), NULL);
 }
+
 
 /**********************/
 /* High-level methods */
@@ -1310,8 +1401,11 @@ gint16 gwp_planet_get_tax_colonists (GwpPlanet *self)
 void gwp_planet_set_tax_colonists (GwpPlanet *self, gint16 tc)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (tc >= 0);
-  self->priv->tax_colonists = tc;
+  g_object_set (self, 
+		"tax-colonists", tc, 
+		NULL);
+/*   g_return_if_fail (tc >= 0 && tc <= 100); */
+/*   self->priv->tax_colonists = tc; */
 }
 
 gint16 gwp_planet_get_tax_natives (GwpPlanet *self)
@@ -1323,8 +1417,11 @@ gint16 gwp_planet_get_tax_natives (GwpPlanet *self)
 void gwp_planet_set_tax_natives (GwpPlanet *self, gint16 tn)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (tn >= 0);
-  self->priv->tax_natives = tn;
+  g_object_set (self,
+		"tax-natives", tn,
+		NULL);
+/*   g_return_if_fail (tn >= 0 && tn <= 100); */
+/*   self->priv->tax_natives = tn; */
 }
 
 gint16 gwp_planet_get_happiness_colonists (GwpPlanet *self)

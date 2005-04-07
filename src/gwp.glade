@@ -2086,7 +2086,7 @@
 				      <property name="inverted">False</property>
 				      <property name="adjustment">0 0 100 1 5 0</property>
 				      <signal name="format_value" handler="on_hscale_tax_format_value" last_modification_time="Wed, 06 Apr 2005 15:37:46 GMT"/>
-				      <signal name="value_changed" handler="on_hscale_tax_colonists_value_changed" last_modification_time="Wed, 06 Apr 2005 15:39:39 GMT"/>
+				      <signal name="change_value" handler="on_hscale_tax_colonists_change_value" last_modification_time="Thu, 07 Apr 2005 15:43:34 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -2171,9 +2171,9 @@
 				      <property name="digits">0</property>
 				      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 				      <property name="inverted">False</property>
-				      <property name="adjustment">0 0 100 1 5 0</property>
+				      <property name="adjustment">5 0 100 1 5 0</property>
 				      <signal name="format_value" handler="on_hscale_tax_format_value" last_modification_time="Wed, 06 Apr 2005 15:37:59 GMT"/>
-				      <signal name="value_changed" handler="on_hscale_tax_natives_value_changed" last_modification_time="Wed, 06 Apr 2005 15:52:24 GMT"/>
+				      <signal name="change_value" handler="on_hscale_tax_natives_change_value" last_modification_time="Thu, 07 Apr 2005 15:43:20 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
