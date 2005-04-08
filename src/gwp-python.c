@@ -135,6 +135,15 @@ void gwp_python_inittab (void)
 			      plugin_slot_pyobj,
 			      NULL);
   Py_DECREF (plugin_slot_pyobj);
+  /* Down panel slot */
+  plugin_slot = lookup_widget ("plugin_slot_down");
+  plugin_slot_pyobj = pygobject_new ((GObject *)plugin_slot);
+  PyObject_CallMethodObjArgs (plugin_mgr,
+			      PyString_FromString("_PluginManager__set_plugin_slot"),
+			      PyString_FromString("down"),
+			      plugin_slot_pyobj,
+			      NULL);
+  Py_DECREF (plugin_slot_pyobj);
 
   /* Load and register 'navigator' plugin */
   script = fopen (GWP_SCRIPTS_DIR"/navigator.py", "r");
