@@ -355,7 +355,7 @@ void update_ship_extra_panel (GwpShip *ship)
   static GtkProgressBar *cargo_col = NULL;
   static GtkProgressBar *cargo_sup = NULL;
   static GtkProgressBar *cargo_money = NULL;
-  static GtkCombo *ship_fc = NULL;
+  static GtkComboBoxEntry *ship_fc = NULL;
   static GtkLabel *mission = NULL;
   static GtkLabel *mission_param = NULL;
   static GtkLabel *enemy = NULL;
@@ -386,7 +386,7 @@ void update_ship_extra_panel (GwpShip *ship)
     cargo_sup = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_sup");
     cargo_money = (GtkProgressBar *) lookup_widget("progressbar_ship_cargo_money");
 
-    ship_fc = (GtkCombo *) lookup_widget("combo_ship_fc");
+    ship_fc = (GtkComboBoxEntry *) lookup_widget("combo_ship_fc");
 
     mission = (GtkLabel *) lookup_widget("label_ship_other_mission");
     mission_param = (GtkLabel *) lookup_widget("label_ship_other_mission_param");
@@ -583,7 +583,7 @@ void update_ship_extra_panel (GwpShip *ship)
 
     /*** Friendly Code ***/
     tmp = g_strdup_printf ("%s", gwp_ship_get_fcode(ship));
-    gtk_entry_set_text (GTK_ENTRY(ship_fc->entry), tmp);
+    gtk_entry_set_text (GTK_ENTRY(GTK_BIN(ship_fc)->child), tmp);
     g_free(tmp);
 
     /*** Mission ***/
@@ -715,7 +715,7 @@ void update_ship_extra_panel (GwpShip *ship)
     gtk_progress_bar_set_text (cargo_money, _("-- MC"));
 
     /* Friendly Code */
-    gtk_entry_set_text (GTK_ENTRY(ship_fc->entry), "???");
+    gtk_entry_set_text (GTK_ENTRY(GTK_BIN(ship_fc)->child), "???");
 
     /* Mission */
     gtk_label_set_text (mission, _("--"));
@@ -731,7 +731,7 @@ void update_ship_extra_panel (GwpShip *ship)
 void update_planet_extra_panel(gint16 planet_id)
 {
   static gboolean loaded = FALSE;
-  static GtkCombo *planet_fc = NULL;
+  static GtkComboBoxEntry *planet_fc = NULL;
   static GtkProgressBar *neu_ground = NULL;
   static GtkProgressBar *neu_density = NULL;
   static GtkProgressBar *mol_ground = NULL;
@@ -756,7 +756,7 @@ void update_planet_extra_panel(gint16 planet_id)
     loaded = TRUE;
     
     btn_fc = (GtkButton *) lookup_widget("button_planet_fc_rand");
-    planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");
+    planet_fc = (GtkComboBoxEntry *) lookup_widget("combo_planet_fc");
     
     neu_ground = (GtkProgressBar *) lookup_widget("progressbar_neu_ground");
     neu_density = (GtkProgressBar *) lookup_widget("progressbar_neu_density");
@@ -787,7 +787,7 @@ void update_planet_extra_panel(gint16 planet_id)
       /*** Friendly Code ***/
       gtk_widget_set_sensitive (GTK_WIDGET(btn_fc), TRUE);
       tmp = g_strdup_printf ("%s", gwp_planet_get_fcode(a_planet));
-      gtk_entry_set_text (GTK_ENTRY(planet_fc->entry), tmp);
+      gtk_entry_set_text (GTK_ENTRY(GTK_BIN(planet_fc)->child), tmp);
       g_free(tmp);
       
       /*** Neutronium ***/
@@ -899,7 +899,7 @@ void update_planet_extra_panel(gint16 planet_id)
     }
     /* Reset panel */
     else {
-      gtk_entry_set_text(GTK_ENTRY(planet_fc->entry), "   ");
+      gtk_entry_set_text(GTK_ENTRY(GTK_BIN(planet_fc)->child), "   ");
       
       gtk_progress_bar_set_fraction(neu_ground, 0.0);
       gtk_progress_bar_set_text(neu_ground, _("-- kT"));

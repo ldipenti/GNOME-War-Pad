@@ -371,8 +371,6 @@
 			      <property name="width_request">200</property>
 			      <property name="height_request">200</property>
 			      <property name="visible">True</property>
-			      <property name="can_default">True</property>
-			      <property name="has_default">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="has_focus">True</property>
 			      <property name="events">GDK_POINTER_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_KEY_PRESS_MASK</property>
@@ -1874,49 +1872,25 @@
 				  </child>
 
 				  <child>
-				    <widget class="GtkCombo" id="combo_planet_fc">
+				    <widget class="GtkAlignment" id="alignment11">
+				      <property name="border_width">6</property>
 				      <property name="visible">True</property>
-				      <property name="value_in_list">False</property>
-				      <property name="allow_empty">False</property>
-				      <property name="case_sensitive">True</property>
-				      <property name="enable_arrow_keys">True</property>
-				      <property name="enable_arrows_always">False</property>
+				      <property name="xalign">0.5</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xscale">1</property>
+				      <property name="yscale">1</property>
+				      <property name="top_padding">0</property>
+				      <property name="bottom_padding">0</property>
+				      <property name="left_padding">0</property>
+				      <property name="right_padding">0</property>
 
-				      <child internal-child="entry">
-					<widget class="GtkEntry" id="combo-entry4">
-					  <property name="width_request">70</property>
+				      <child>
+					<widget class="GtkComboBoxEntry" id="combo_planet_fc">
+					  <property name="width_request">95</property>
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="editable">True</property>
-					  <property name="visibility">True</property>
-					  <property name="max_length">3</property>
-					  <property name="text" translatable="yes"></property>
-					  <property name="has_frame">True</property>
-					  <property name="invisible_char">*</property>
-					  <property name="activates_default">False</property>
-					</widget>
-				      </child>
-
-				      <child internal-child="list">
-					<widget class="GtkList" id="combo-list1">
-					  <property name="visible">True</property>
-					  <property name="selection_mode">GTK_SELECTION_BROWSE</property>
-
-					  <child>
-					    <widget class="GtkListItem" id="listitem14">
-					      <property name="visible">True</property>
-					      <property name="can_focus">True</property>
-					      <property name="label" translatable="yes">ATT</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkListItem" id="listitem15">
-					      <property name="visible">True</property>
-					      <property name="can_focus">True</property>
-					      <property name="label" translatable="yes">NUK</property>
-					    </widget>
-					  </child>
+					  <property name="items">ATT
+NUK</property>
 					</widget>
 				      </child>
 				    </widget>
@@ -2177,7 +2151,7 @@
 					  <property name="digits">0</property>
 					  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
 					  <property name="inverted">False</property>
-					  <property name="adjustment">5 0 100 1 5 0</property>
+					  <property name="adjustment">0 0 100 1 5 0</property>
 					  <signal name="format_value" handler="on_hscale_tax_format_value" last_modification_time="Wed, 06 Apr 2005 15:37:59 GMT"/>
 					  <signal name="change_value" handler="on_hscale_tax_natives_change_value" last_modification_time="Thu, 07 Apr 2005 15:43:20 GMT"/>
 					</widget>
@@ -3092,7 +3066,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label135">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Planet/SB</property>
+			  <property name="label">Planet/SB</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3908,49 +3882,32 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkCombo" id="combo_ship_fc">
+				<widget class="GtkAlignment" id="alignment12">
+				  <property name="border_width">6</property>
+				  <property name="width_request">95</property>
 				  <property name="visible">True</property>
-				  <property name="value_in_list">False</property>
-				  <property name="allow_empty">False</property>
-				  <property name="case_sensitive">True</property>
-				  <property name="enable_arrow_keys">True</property>
-				  <property name="enable_arrows_always">False</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xscale">1</property>
+				  <property name="yscale">1</property>
+				  <property name="top_padding">0</property>
+				  <property name="bottom_padding">0</property>
+				  <property name="left_padding">0</property>
+				  <property name="right_padding">0</property>
 
-				  <child internal-child="entry">
-				    <widget class="GtkEntry" id="entry6">
-				      <property name="width_request">70</property>
+				  <child>
+				    <widget class="GtkComboBoxEntry" id="combo_ship_fc">
 				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="editable">True</property>
-				      <property name="visibility">True</property>
-				      <property name="max_length">3</property>
-				      <property name="text" translatable="yes"></property>
-				      <property name="has_frame">True</property>
-				      <property name="invisible_char">*</property>
-				      <property name="activates_default">False</property>
-				    </widget>
-				  </child>
-
-				  <child internal-child="list">
-				    <widget class="GtkList" id="list1">
-				      <property name="visible">True</property>
-				      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
-
-				      <child>
-					<widget class="GtkListItem" id="listitem16">
-					  <property name="visible">True</property>
-					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">ATT</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkListItem" id="listitem17">
-					  <property name="visible">True</property>
-					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">NUK</property>
-					</widget>
-				      </child>
+				      <property name="items">md1
+md2
+md3
+md4
+md5
+md6
+md7
+md8
+md9
+md0</property>
 				    </widget>
 				  </child>
 				</widget>
@@ -4218,7 +4175,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label140">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Starship</property>
+			  <property name="label">Starship</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4339,7 +4296,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label127">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">(</property>
+				  <property name="label">(</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4360,7 +4317,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label_x_coord">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">X</property>
+				  <property name="label">X</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4381,7 +4338,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label129">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">,</property>
+				  <property name="label">,</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4402,7 +4359,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label_y_coord">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Y</property>
+				  <property name="label">Y</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4423,7 +4380,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label132">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">)</property>
+				  <property name="label">)</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4502,7 +4459,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label194">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Mini SC</property>
+		      <property name="label">Mini SC</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4535,7 +4492,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label195">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Planet</property>
+		      <property name="label">Planet</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4568,7 +4525,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label244">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Ship</property>
+		      <property name="label">Ship</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5648,7 +5605,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label4">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Planet</property>
+		      <property name="label">Planet</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6242,7 +6199,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label5">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Ships</property>
+		      <property name="label">Ships</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6265,7 +6222,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label6">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Misc</property>
+		      <property name="label">Misc</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
