@@ -865,6 +865,13 @@ void update_planet_extra_panel(gint16 planet_id)
 			  (gdouble)gwp_planet_get_tax_colonists(a_planet));
       gtk_range_set_value(GTK_RANGE(tax_nat),
 			  (gdouble)gwp_planet_get_tax_natives(a_planet));
+
+      /* If no natives on planet, disable widget */
+      if (!(gwp_planet_get_natives(a_planet) > 0)) {
+	gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), FALSE);
+      } else {
+	gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), TRUE);
+      }
       
       /* Tax earned */
       if(gwp_planet_get_tax_collected_natives(a_planet) ==
