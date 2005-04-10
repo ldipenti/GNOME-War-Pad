@@ -748,13 +748,15 @@ void update_planet_extra_panel(gint16 planet_id)
   static GtkLabel *tri_rate = NULL;
   static GtkLabel *tax_nat_earned = NULL;
   static GtkLabel *tax_col_earned = NULL;
+  static GtkButton *btn_fc = NULL;
   GwpPlanet *a_planet;
   gchar *tmp;
 
   if (!loaded) {
     loaded = TRUE;
     
-    planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");  
+    btn_fc = (GtkButton *) lookup_widget("button_planet_fc_rand");
+    planet_fc = (GtkCombo *) lookup_widget("combo_planet_fc");
     
     neu_ground = (GtkProgressBar *) lookup_widget("progressbar_neu_ground");
     neu_density = (GtkProgressBar *) lookup_widget("progressbar_neu_density");
@@ -783,6 +785,7 @@ void update_planet_extra_panel(gint16 planet_id)
     if ((a_planet = gwp_planet_get (planet_list, planet_id)) != NULL &&
 	gwp_planet_is_mine (a_planet)) {
       /*** Friendly Code ***/
+      gtk_widget_set_sensitive (GTK_WIDGET(btn_fc), TRUE);
       tmp = g_strdup_printf ("%s", gwp_planet_get_fcode(a_planet));
       gtk_entry_set_text (GTK_ENTRY(planet_fc->entry), tmp);
       g_free(tmp);
@@ -866,6 +869,8 @@ void update_planet_extra_panel(gint16 planet_id)
       gtk_range_set_value(GTK_RANGE(tax_nat),
 			  (gdouble)gwp_planet_get_tax_natives(a_planet));
 
+      gtk_widget_set_sensitive (GTK_WIDGET(tax_col), TRUE);
+
       /* If no natives on planet, disable widget */
       if (!(gwp_planet_get_natives(a_planet) > 0)) {
 	gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), FALSE);
@@ -891,7 +896,7 @@ void update_planet_extra_panel(gint16 planet_id)
       gtk_label_set_text(tax_col_earned, tmp);
       g_free(tmp);
       
-    } 
+    }
     /* Reset panel */
     else {
       gtk_entry_set_text(GTK_ENTRY(planet_fc->entry), "   ");
@@ -926,6 +931,11 @@ void update_planet_extra_panel(gint16 planet_id)
       
       gtk_label_set_text(tax_nat_earned, _("-- MC"));
       gtk_label_set_text(tax_col_earned, _("-- MC"));
+
+      /* Widgets disabled */
+      gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), FALSE);
+      gtk_widget_set_sensitive (GTK_WIDGET(tax_col), FALSE);
+      gtk_widget_set_sensitive (GTK_WIDGET(btn_fc), FALSE);
 
       /* If we know the planet and isn't owned */
       if (gwp_planet_is_known(a_planet) && gwp_planet_is_unowned (a_planet)) {
