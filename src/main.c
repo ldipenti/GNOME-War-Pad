@@ -57,6 +57,9 @@ int main (int argc, char *argv[]) {
   gwp_python_init (argv[0]);
 #endif
 
+  /* Random number generation init */
+  srand ((guint32) time(NULL));
+
   gwp = NULL;
   game_mgr = NULL;
   game_mgr_properties = NULL;

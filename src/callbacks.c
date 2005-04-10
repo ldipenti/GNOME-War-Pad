@@ -694,7 +694,7 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
     gnome_file_entry_get_full_path((GnomeFileEntry *)
 				   lookup_widget("game_mgr_game_dir"),
 				   FALSE);
-  // Unpack this game
+  /* Unpack this game */
   vp_unpack(game_dir, *race);
 
   /* Disable button if all ok */
@@ -703,6 +703,28 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
       lookup_widget("game_mgr_btn_unpack");
     gtk_widget_set_sensitive(btn_unpack, FALSE);    
   }
+}
+
+/**
+ * Generate random planet Friendly Code
+ */
+void
+on_button_planet_fc_rand_clicked (GtkWidget *widget,
+				  gpointer   data)
+{
+  gchar *fc = g_malloc0 (sizeof(gchar)*4);
+  GwpPlanet *planet = gwp_game_state_get_selected_planet (game_state);
+  gint i;
+
+  for (i = 0; i < 3; i++) {
+    /* Random number between Space (32) and ~ (126) */
+    fc[i] = 32+(int) (94.0*rand()/(RAND_MAX+1.0));
+
+  }
+  fc[3] = '\0'; /* string termination */
+
+  gwp_planet_set_fcode (planet, fc);
+  g_free (fc);
 }
 
 /**
@@ -730,15 +752,21 @@ on_hscale_tax_colonists_change_value  (GtkRange      *scale,
 {
   GwpPlanet *splanet = gwp_game_state_get_selected_planet (game_state);
   gwp_planet_set_tax_colonists (splanet, value);
+
+  return FALSE;
 }
 
-/* CB to format the hscale widgets value */
+/**
+ * Callback to format the hscale widgets value 
+ */
 gchar* on_hscale_tax_format_value(GtkScale *scale, gdouble value)
 {
   return g_strdup_printf("%0.*f%%", gtk_scale_get_digits(scale), rint(value));
 }
 
-/* Show online help */
+/**
+ * Show online help 
+ */
 void on_online_help_activate (GtkWidget *widget,
 			      gpointer user_data)
 {
@@ -769,7 +797,9 @@ void on_button_zoom_out_clicked (GtkWidget *wodget,
   starchart_mini_update_zone_size ();
 }
 
-/* Zoom in */
+/**
+ * Zoom in 
+ */
 void 
 on_zoom_in (GtkWidget *widget,
 	    gpointer user_data)
@@ -780,7 +810,9 @@ on_zoom_in (GtkWidget *widget,
   starchart_mini_update_zone_size ();
 }
 
-/* Zoom out */
+/**
+ * Zoom out 
+ */
 void 
 on_zoom_out (GtkWidget *widget,
 	    gpointer user_data)
@@ -803,7 +835,9 @@ on_view_grid_toggle (GtkCheckMenuItem *menuitem,
 		NULL);
 }
 
-/* Hides/Shows the planet names on starchart */
+/**
+ * Hides/Shows the planet names on starchart 
+ */
 void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 			      gpointer user_data)
 {
@@ -812,7 +846,9 @@ void on_view_pnames_activate (GtkCheckMenuItem *menuitem,
 		NULL);
 }
 
-/* Hides/Shows the scanner area on starchart */
+/**
+ * Hides/Shows the scanner area on starchart 
+ */
 void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
 				    gpointer user_data)
 {
@@ -821,7 +857,9 @@ void on_view_scanner_area_activate (GtkCheckMenuItem *menuitem,
 		NULL);  
 }
 
-/* Hides/Shows the minefields on starchart */
+/**
+ * Hides/Shows the minefields on starchart 
+ */
 void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data)
 {
@@ -830,7 +868,9 @@ void on_view_minefields_activate (GtkCheckMenuItem *menuitem,
 		NULL);
 }
 
-/* Hides/Shows the ion storms on starchart */
+/**
+ * Hides/Shows the ion storms on starchart 
+ */
 void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 				  gpointer user_data)
 {
@@ -839,7 +879,9 @@ void on_view_ion_storms_activate (GtkCheckMenuItem *menuitem,
 		NULL);
 }
 
-/* Hides/Shows the constellations on starchart */
+/**
+ * Hides/Shows the constellations on starchart 
+ */
 void on_view_constellations_activate (GtkCheckMenuItem *menuitem,
 				      gpointer user_data)
 {

@@ -34,6 +34,7 @@ enum {
   PROP_0,
   PROP_TAX_NATIVES,
   PROP_TAX_COLONISTS,
+  PROP_FCODE,
 };
 
 /**
@@ -221,6 +222,10 @@ gwp_planet_set_property (GObject      *object,
   case PROP_TAX_COLONISTS:
     self->priv->tax_colonists = g_value_get_int (value);
     break;
+  case PROP_FCODE:
+    if (strlen (g_value_get_string(value)) == 3)
+      self->priv->fcode = g_string_new (g_value_get_string(value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -250,6 +255,9 @@ gwp_planet_get_property (GObject    *object,
     break;
   case PROP_TAX_COLONISTS:
     g_value_set_boolean (value, self->priv->tax_colonists);
+    break;
+  case PROP_FCODE:
+    g_value_set_string (value, self->priv->fcode->str);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -334,6 +342,12 @@ static void gwp_planet_class_init (GwpPlanetClass *klass)
 						     0, 100, /* min/max */
 						     0, /* default */
 						     G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_FCODE,
+				   g_param_spec_string ("fcode",
+							"fc",
+							"Friendly Code",
+							"GWP", /* default */
+							G_PARAM_READWRITE));
 }
 
 /**
@@ -1144,18 +1158,21 @@ void gwp_planet_set_owner (GwpPlanet *self, gint16 o)
 gchar * gwp_planet_get_fcode (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  GString *ret = g_string_new(self->priv->fcode->str);
+  gchar *ret = NULL;
+  
+  g_object_get (self,
+		"fcode", &ret,
+		NULL);
 
-  return ret->str;
+  return g_strdup(ret);
 }
 
 void gwp_planet_set_fcode (GwpPlanet *self, gchar *fcode)
 {
   g_assert (GWP_IS_PLANET(self));
-  
-  if (strlen(fcode) <= 3) {
-    self->priv->fcode = g_string_new (fcode);
-  }
+  g_object_set (self,
+		"fcode", g_strdup(fcode),
+		NULL);
 }
 
 gint16 gwp_planet_get_mines (GwpPlanet *self)
@@ -1404,8 +1421,6 @@ void gwp_planet_set_tax_colonists (GwpPlanet *self, gint16 tc)
   g_object_set (self, 
 		"tax-colonists", tc, 
 		NULL);
-/*   g_return_if_fail (tc >= 0 && tc <= 100); */
-/*   self->priv->tax_colonists = tc; */
 }
 
 gint16 gwp_planet_get_tax_natives (GwpPlanet *self)
@@ -1420,8 +1435,6 @@ void gwp_planet_set_tax_natives (GwpPlanet *self, gint16 tn)
   g_object_set (self,
 		"tax-natives", tn,
 		NULL);
-/*   g_return_if_fail (tn >= 0 && tn <= 100); */
-/*   self->priv->tax_natives = tn; */
 }
 
 gint16 gwp_planet_get_happiness_colonists (GwpPlanet *self)

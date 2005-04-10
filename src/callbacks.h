@@ -122,6 +122,9 @@ void on_game_close_activate (GtkWidget *widget,
 void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 				     gpointer user_data);
 
+void on_button_planet_fc_rand_clicked (GtkWidget *widget,
+				       gpointer   data);
+
 gboolean on_hscale_tax_natives_change_value  (GtkRange      *scale, 
 					      GtkScrollType  scroll,
 					      gdouble        value,
