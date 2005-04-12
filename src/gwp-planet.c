@@ -35,6 +35,9 @@ enum {
   PROP_TAX_NATIVES,
   PROP_TAX_COLONISTS,
   PROP_FCODE,
+  PROP_MINES,
+  PROP_FACTORIES,
+  PROP_DEFENSE_POSTS,
 };
 
 /**
@@ -52,10 +55,11 @@ struct _GwpPlanetPrivate {
   gint16 owner; /**< Owner's race number. Range 1..11. 0 = unowned, -1
 		   = unknown */
   GString *fcode; /**< Planet's friendly Code. Max 3 chars. */
-  gint16 mines; /**< Mineral mines on planet. */
-  gint16 factories; /**< Supplies factories on planet. */
+  gint16 mines; /**< Mineral mines on planet. (0..~516) */
+  gint16 factories; /**< Supplies factories on planet. (0..~416) */
   gint16 defense_posts; /**< Defense posts on planet. If 15 or more,
-			   planet activity's visibility goes to 0% */
+			   planet activity's visibility goes to 0%. 
+			   (0..~366) */
   gint32 mined_neutronium; /**< Neutronium on surface. Specified in KT. */
   gint32 mined_tritanium; /**< Tritanium on surface. Specified in KT. */
   gint32 mined_duranium; /**< Duranium on surface. Specified in KT. */
@@ -226,6 +230,15 @@ gwp_planet_set_property (GObject      *object,
     if (strlen (g_value_get_string(value)) <= 3)
       self->priv->fcode = g_string_new (g_value_get_string(value));
     break;
+  case PROP_MINES:
+    self->priv->mines = g_value_get_int (value);
+    break;
+  case PROP_FACTORIES:
+    self->priv->factories = g_value_get_int (value);
+    break;
+  case PROP_DEFENSE_POSTS:
+    self->priv->defense_posts = g_value_get_int (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -255,6 +268,15 @@ gwp_planet_get_property (GObject    *object,
     break;
   case PROP_FCODE:
     g_value_set_string (value, self->priv->fcode->str);
+    break;
+  case PROP_MINES:
+    g_value_set_int (value, self->priv->mines);
+    break;
+  case PROP_FACTORIES:
+    g_value_set_int (value, self->priv->factories);
+    break;
+  case PROP_DEFENSE_POSTS:
+    g_value_set_int (value, self->priv->defense_posts);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -345,6 +367,27 @@ static void gwp_planet_class_init (GwpPlanetClass *klass)
 							"Friendly Code",
 							"GWP", /* default */
 							G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_MINES,
+				   g_param_spec_int ("mines",
+						     "Mines",
+						     "Mineral mines",
+						     0, 516, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_FACTORIES,
+				   g_param_spec_int ("factories",
+						     "Factories",
+						     "Supplies factories",
+						     0, 416, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_DEFENSE_POSTS,
+				   g_param_spec_int ("defense-posts",
+						     "Defense-Posts",
+						     "Defense Posts",
+						     0, 366, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
 }
 
 /**
@@ -1175,40 +1218,61 @@ void gwp_planet_set_fcode (GwpPlanet *self, gchar *fcode)
 gint16 gwp_planet_get_mines (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  return self->priv->mines;
+  gint mines;
+  
+  g_object_get (self,
+		"mines", &mines,
+		NULL);
+
+  return mines;
 }
 
 void gwp_planet_set_mines (GwpPlanet *self, gint16 m)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (m >= 0 && m <= 516);
-  self->priv->mines = m;
+  g_object_set (self,
+		"mines", m,
+		NULL);
 }
 
 gint16 gwp_planet_get_factories (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  return self->priv->factories;
+  gint factories;
+
+  g_object_get (self,
+		"factories", &factories,
+		NULL);
+
+  return factories;
 }
 
 void gwp_planet_set_factories (GwpPlanet *self, gint16 f)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (f >= 0 && f <= 416);
-  self->priv->factories = f;
+  g_object_set (self,
+		"factories", f,
+		NULL);
 }
 
 gint16 gwp_planet_get_defense_posts (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  return self->priv->defense_posts;
+  gint defense_posts;
+
+  g_object_get (self,
+		"defense-posts", &defense_posts,
+		NULL);
+
+  return defense_posts;
 }
 
 void gwp_planet_set_defense_posts (GwpPlanet *self, gint16 d)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_assert (d >= 0 && d <= 366);
-  self->priv->defense_posts = d;
+  g_object_set (self,
+		"defense-posts", d,
+		NULL);
 }
 
 gint32 gwp_planet_get_mined_neutronium (GwpPlanet *self)

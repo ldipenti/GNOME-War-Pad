@@ -34,7 +34,7 @@
   <refnamediv>
     <refname>&dhpackage;</refname>
 
-    <refpurpose>is a VGA Planets client for GNOME.</refpurpose>
+    <refpurpose>a VGA Planets client for GNOME.</refpurpose>
 
   </refnamediv>
   <refsynopsisdiv>
@@ -54,7 +54,7 @@ fanatics all over the world for some years now, is very addictive and
 there are several servers on the Internet that host various kinds of
 this games.</para>
 
-<para>There is plenty online documentationo the GNOME's Yelp help
+<para>There is plenty online documentation on the GNOME's Yelp help
 system, please execute &dhpackage; and press F1 for more
 information.</para>
 
