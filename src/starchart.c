@@ -875,7 +875,9 @@ void update_planet_extra_panel(gint16 planet_id)
       gtk_widget_set_sensitive (GTK_WIDGET(tax_col), TRUE);
 
       /* If no natives on planet, disable widget */
-      if (!(gwp_planet_get_natives(a_planet) > 0)) {
+      if ((gwp_planet_get_natives(a_planet) <= 0) ||
+	  (gwp_planet_get_natives_race(a_planet) == NATIVE_NONE)) {
+
 	gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), FALSE);
 	gtk_range_set_value (GTK_RANGE(tax_nat), 0.0);
 	tmp = g_strdup (_("-- MC"));
