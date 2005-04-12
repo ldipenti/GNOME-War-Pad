@@ -223,16 +223,13 @@ gwp_planet_set_property (GObject      *object,
     self->priv->tax_colonists = g_value_get_int (value);
     break;
   case PROP_FCODE:
-    if (strlen (g_value_get_string(value)) == 3)
+    if (strlen (g_value_get_string(value)) <= 3)
       self->priv->fcode = g_string_new (g_value_get_string(value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
-  /* global update notification */
-  g_signal_emit_by_name (self, "property-changed", NULL);
-
   /* Emit a notify signal with the changed property name */
   g_signal_emit_by_name (self, g_strconcat("property-changed::",
 					   pspec->name, NULL));
@@ -1170,6 +1167,7 @@ gchar * gwp_planet_get_fcode (GwpPlanet *self)
 void gwp_planet_set_fcode (GwpPlanet *self, gchar *fcode)
 {
   g_assert (GWP_IS_PLANET(self));
+  g_message ("Nuevo FC: '%s'", fcode);
   g_object_set (self,
 		"fcode", g_strdup(fcode),
 		NULL);
@@ -1412,14 +1410,20 @@ void gwp_planet_set_dens_molybdenum (GwpPlanet *self, gint16 dm)
 gint16 gwp_planet_get_tax_colonists (GwpPlanet *self)
 {
   g_assert (GWP_IS_PLANET(self));
-  return self->priv->tax_colonists;
+  gint ret;
+
+  g_object_get (self,
+		"tax_colonists", &ret,
+		NULL);
+
+  return ret;
 }
 
 void gwp_planet_set_tax_colonists (GwpPlanet *self, gint16 tc)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_object_set (self, 
-		"tax-colonists", tc, 
+  g_object_set (self,
+		"tax-colonists", tc,
 		NULL);
 }
 

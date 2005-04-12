@@ -66,6 +66,7 @@ static void setWord (gchar * buf, gint16 p);
 static void setDWord (gchar * buf, gint32 p);
 static gint32 getDWord(guchar* p);
 static GHashTable *target_list;
+static gchar *padstr(gchar *str, gint qty);
 
 #ifdef USE_PYTHON
 static gboolean python_loaded = FALSE;
@@ -1700,7 +1701,7 @@ ghfunc_dump_planet_data (gpointer key, gpointer value, gpointer user_data)
     /* Fill the 85 byte record */
     setWord (planet_reg+0, gwp_game_state_get_race_nr(game_state));
     setWord (planet_reg+2, gwp_object_get_id(GWP_OBJECT(planet)));
-    memcpy (planet_reg+4, gwp_planet_get_fcode(planet), 3);
+    memcpy (planet_reg+4, padstr(gwp_planet_get_fcode(planet), 3), 3);
     setWord (planet_reg+7, gwp_planet_get_mines(planet));
     setWord (planet_reg+9, gwp_planet_get_factories(planet));
     setWord (planet_reg+11, gwp_planet_get_defense_posts(planet));
@@ -1744,7 +1745,7 @@ ghfunc_dump_ship_data (gpointer key, gpointer value, gpointer user_data)
     /* Fill the 107 byte record */
     setWord (ship_reg+0, gwp_object_get_id(GWP_OBJECT(ship)));
     setWord (ship_reg+2, gwp_game_state_get_race_nr(game_state));
-    memcpy (ship_reg+4, gwp_ship_get_fcode(ship), 3);
+    memcpy (ship_reg+4, padstr(gwp_ship_get_fcode(ship), 3), 3);
     setWord (ship_reg+7, gwp_flying_object_get_speed(GWP_FLYING_OBJECT(ship)));
     setWord (ship_reg+9, gwp_ship_get_x_to_waypoint(ship));
     setWord (ship_reg+11, gwp_ship_get_y_to_waypoint(ship));
@@ -1774,9 +1775,7 @@ ghfunc_dump_ship_data (gpointer key, gpointer value, gpointer user_data)
     setWord (ship_reg+39, gwp_ship_get_damage(ship));
     setWord (ship_reg+41, gwp_ship_get_crew(ship));
     setWord (ship_reg+43, gwp_ship_get_colonists(ship));
-    memset (ship_reg+45, ' ', 20);
-    memcpy (ship_reg+45, gwp_object_get_name(GWP_OBJECT(ship)), 
-	    strlen(gwp_object_get_name(GWP_OBJECT(ship))));
+    memcpy (ship_reg+45, padstr(gwp_object_get_name(GWP_OBJECT(ship)),20), 20);
     setWord (ship_reg+65, gwp_ship_get_neutronium(ship));
     setWord (ship_reg+67, gwp_ship_get_tritanium(ship));
     setWord (ship_reg+69, gwp_ship_get_duranium(ship));
@@ -1987,4 +1986,19 @@ scan_messages_planet_scanned (const gchar *msg_body)
       }
     }
   }
+}
+
+static 
+gchar *padstr (gchar *str, 
+	       gint   qty)
+{
+  gchar *ret = g_malloc(qty);
+
+  memset (ret, ' ', qty);
+  if (strlen(str) < qty)
+    memcpy (ret, str, strlen(str));
+  else
+    memcpy (ret, str, qty);
+
+  return ret;
 }

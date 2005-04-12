@@ -1891,6 +1891,7 @@
 					  <property name="can_focus">True</property>
 					  <property name="items">ATT
 NUK</property>
+					  <signal name="changed" handler="on_combo_planet_fc_changed" last_modification_time="Sun, 10 Apr 2005 20:12:02 GMT"/>
 					</widget>
 				      </child>
 				    </widget>

@@ -717,7 +717,7 @@ on_button_planet_fc_rand_clicked (GtkWidget *widget,
   gint i;
 
   for (i = 0; i < 3; i++) {
-    /* Random number between Space (32) and ~ (126) */
+    /* Random character between Space (32) and '~' (126) */
     fc[i] = 32+(int) (94.0*rand()/(RAND_MAX+1.0));
 
   }
@@ -995,12 +995,24 @@ g_message( "### 2: '%s'", gtk_tree_model_get_string_from_iter( model, &iter ) );
 */
 }
 
+/**
+ * Callback called when Friendly Code changed from main UI.
+ */
+void
+on_combo_planet_fc_changed (GtkComboBox *combobox,
+			    gpointer     user_data)
+{
+  GwpPlanet *planet = gwp_game_state_get_selected_planet (game_state);
+  GtkEntry *entry = GTK_ENTRY(GTK_BIN(combobox)->child);
+  g_message ("Cambioooo!! '%s'", gtk_entry_get_text(entry));
+  gwp_planet_set_fcode (planet, g_strdup(gtk_entry_get_text(entry)));
+}
 
 /* Ship list double-click to open extra panels */
-void on_ships_list_row_activated (GtkTreeView *ships_l,
-				  GtkTreePath *path,
+void on_ships_list_row_activated (GtkTreeView       *ships_l,
+				  GtkTreePath       *path,
 				  GtkTreeViewColumn *col,
-				  gpointer user_data)
+				  gpointer           user_data)
 {
   GtkTreeModel *model = NULL;
   GtkTreeIter iter;

@@ -116,6 +116,7 @@ int main (int argc, char *argv[]) {
 void gwp_init(void) 
 {
   GtkWidget *notebk;
+  GtkEntry *entry;
 
   /* Hide all tabs on notebooks */
   notebk = lookup_widget("extra_info_panel");
@@ -133,6 +134,12 @@ void gwp_init(void)
 
   /* Game Properties Dialog Init */
   game_mgr_init();
+
+  /* Configure FC's GtkEntrys (max 3 chars) */
+  entry = GTK_ENTRY (GTK_BIN(lookup_widget ("combo_planet_fc"))->child);
+  gtk_entry_set_max_length (entry, 3);
+  entry = GTK_ENTRY (GTK_BIN(lookup_widget ("combo_ship_fc"))->child);
+  gtk_entry_set_max_length (entry, 3);
     
   /* Tables Init */
   table_all_init();

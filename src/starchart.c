@@ -45,11 +45,16 @@ static void
 update_planet_notification (GObject *obj, gpointer data)
 {
   GwpPlanet *planet = GWP_PLANET(obj);
+  GwpPlanet *s_planet = gwp_game_state_get_selected_planet(game_state);
 
-  update_planet_panel (gwp, planet);
-  table_population_update(planet);
-  update_global_defense_panel(planet);
-  update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet)));
+  /* Update panels only when planet is selected */
+  if (gwp_object_get_id (GWP_OBJECT(s_planet)) == 
+      gwp_object_get_id (GWP_OBJECT(planet))) {
+    update_planet_panel (gwp, planet);
+    table_population_update(planet);
+    update_global_defense_panel(planet);
+    update_planet_extra_panel(gwp_object_get_id(GWP_OBJECT(planet)));
+  }
 }
 
 /**
@@ -866,27 +871,30 @@ void update_planet_extra_panel(gint16 planet_id)
       /*** TAXES ***/
       gtk_range_set_value(GTK_RANGE(tax_col), 
 			  (gdouble)gwp_planet_get_tax_colonists(a_planet));
-      gtk_range_set_value(GTK_RANGE(tax_nat),
-			  (gdouble)gwp_planet_get_tax_natives(a_planet));
 
       gtk_widget_set_sensitive (GTK_WIDGET(tax_col), TRUE);
 
       /* If no natives on planet, disable widget */
       if (!(gwp_planet_get_natives(a_planet) > 0)) {
 	gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), FALSE);
+	gtk_range_set_value (GTK_RANGE(tax_nat), 0.0);
+	tmp = g_strdup (_("-- MC"));
       } else {
 	gtk_widget_set_sensitive (GTK_WIDGET(tax_nat), TRUE);
-      }
-      
-      /* Tax earned */
-      if(gwp_planet_get_tax_collected_natives(a_planet) ==
-	 gwp_planet_get_tax_collected_natives_max(a_planet)) {
-	tmp = g_strdup_printf(_("%d MC"), 
-			      gwp_planet_get_tax_collected_natives(a_planet));
-      } else {
-	tmp = g_strdup_printf(_("%d <span foreground=\"red\">(%d)</span> MC"),
-			      gwp_planet_get_tax_collected_natives(a_planet),
-			      gwp_planet_get_tax_collected_natives_max(a_planet));
+
+	gtk_range_set_value(GTK_RANGE(tax_nat),
+			    (gdouble)gwp_planet_get_tax_natives(a_planet));
+
+	/* Tax earned */
+	if(gwp_planet_get_tax_collected_natives(a_planet) ==
+	   gwp_planet_get_tax_collected_natives_max(a_planet)) {
+	  tmp = g_strdup_printf(_("%d MC"), 
+				gwp_planet_get_tax_collected_natives(a_planet));
+	} else {
+	  tmp = g_strdup_printf(_("%d <span foreground=\"red\">(%d)</span> MC"),
+				gwp_planet_get_tax_collected_natives(a_planet),
+				gwp_planet_get_tax_collected_natives_max(a_planet));
+	}
       }
       gtk_label_set_markup(tax_nat_earned, tmp);
       g_free(tmp);
@@ -2085,7 +2093,9 @@ void init_starchart (GtkWidget * gwp)
 		    "property-changed::y-coord",
 		    G_CALLBACK(starchart_update_distance_calc),
 		    NULL);
+  /*******************/
   /* Planets signals */
+  /*******************/
   static void planet_conn (gpointer key, gpointer value, gpointer data) {
     g_signal_connect (GWP_PLANET(value),
 		      "property-changed",

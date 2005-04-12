@@ -181,6 +181,8 @@ void on_message_treeview_row_activated( GtkWidget *widget,
 				     gpointer user_data);
 void on_message_treeview_cursor_changed( GtkWidget *widget,
 				     gpointer user_data);
+void on_combo_planet_fc_changed (GtkComboBox *combobox,
+				 gpointer     user_data);
 void on_ships_list_row_activated (GtkTreeView *ships_list,
 				  GtkTreePath *path,
 				  GtkTreeViewColumn *col,
