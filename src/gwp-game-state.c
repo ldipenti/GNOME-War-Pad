@@ -1052,6 +1052,9 @@ GwpPlanet *
 gwp_game_state_get_selected_planet (GwpGameState *self)
 {
   g_assert (GWP_IS_GAME_STATE(self));
+  g_message ("Planeta seleccionado ahora: %s (#%d)",
+	     gwp_object_get_name (GWP_OBJECT(self->priv->selected_planet)),
+	     gwp_object_get_id (GWP_OBJECT(self->priv->selected_planet)));
   return self->priv->selected_planet;
 }
 
