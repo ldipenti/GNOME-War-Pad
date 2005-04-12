@@ -248,10 +248,10 @@ gwp_planet_get_property (GObject    *object,
 
   switch (property_id) {
   case PROP_TAX_NATIVES:
-    g_value_set_boolean (value, self->priv->tax_natives);
+    g_value_set_int (value, self->priv->tax_natives);
     break;
   case PROP_TAX_COLONISTS:
-    g_value_set_boolean (value, self->priv->tax_colonists);
+    g_value_set_int (value, self->priv->tax_colonists);
     break;
   case PROP_FCODE:
     g_value_set_string (value, self->priv->fcode->str);
@@ -1167,7 +1167,6 @@ gchar * gwp_planet_get_fcode (GwpPlanet *self)
 void gwp_planet_set_fcode (GwpPlanet *self, gchar *fcode)
 {
   g_assert (GWP_IS_PLANET(self));
-  g_message ("Nuevo FC: '%s'", fcode);
   g_object_set (self,
 		"fcode", g_strdup(fcode),
 		NULL);

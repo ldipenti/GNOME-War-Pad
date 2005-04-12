@@ -1004,7 +1004,6 @@ on_combo_planet_fc_changed (GtkComboBox *combobox,
 {
   GwpPlanet *planet = gwp_game_state_get_selected_planet (game_state);
   GtkEntry *entry = GTK_ENTRY(GTK_BIN(combobox)->child);
-  g_message ("Cambioooo!! '%s'", gtk_entry_get_text(entry));
   gwp_planet_set_fcode (planet, g_strdup(gtk_entry_get_text(entry)));
 }
 
