@@ -44,7 +44,7 @@ class PluginManager:
         #
         for planet in gwp.planet_get_list().values():
             planet.connect ("selected", self.__event_hub, "planet-selected")
-            planet.connect ("property-changed", self.__event_hub, "property-changed")
+            planet.connect ("property-changed", self.__event_hub, "planet-property-changed")
         ###
 
     # Event Hub: This concentrates and propagates all events (except the
