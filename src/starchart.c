@@ -34,6 +34,7 @@
 static void starchart_zoom (GnomeCanvas *starchart, gdouble zoom);
 static void init_starchart_constellations(void);
 static void starchart_update_distance_calc (GObject *gs, gpointer user_data);
+static void starchart_select_planet_notification (GObject *obj, gpointer data);
 /* Private data */
 static GnomeCanvasPoints *distance_p;
 static GnomeCanvasLine *distance_line;
@@ -2103,6 +2104,10 @@ void init_starchart (GtkWidget * gwp)
 		      "property-changed",
 		      G_CALLBACK(update_planet_notification),
 		      NULL);
+    g_signal_connect (GWP_PLANET(value),
+		      "selected",
+		      G_CALLBACK(starchart_select_planet_notification),
+		      NULL);
   }
   g_hash_table_foreach (planet_list, (GHFunc) planet_conn, NULL);
 }
@@ -2240,11 +2245,25 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
 					    gdouble wx, gdouble wy)
 {
   GwpPlanet *planet_data;
+  
+  planet_data = (GwpPlanet *)starchart_find_nearest_object (planets_nearby, wx, wy);
+
+  return planet_data;
+}
+
+/**
+ * Callback called when a planet emits its "selected" signal.
+ */
+static void
+starchart_select_planet_notification (GObject *obj, 
+				      gpointer user_data)
+{
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
   static GtkNotebook *extra_info_panel_planet = NULL;
   static GtkNotebook *mini = NULL;
-
+  GwpPlanet *planet_data = GWP_PLANET(obj);
+  
   if (!loaded) {
     loaded = TRUE;
 
@@ -2252,8 +2271,6 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
     extra_info_panel_planet = (GtkNotebook *) lookup_widget("extra_info_panel_planet");
     mini = (GtkNotebook *) lookup_widget("notebook_mini");
   }
-  
-  planet_data = (GwpPlanet *)starchart_find_nearest_object (planets_nearby, wx, wy);
 
   if (GWP_IS_PLANET(planet_data)) {
     starchart_mark_planet(planet_data);
@@ -2277,10 +2294,6 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
       /* If extra panel isn't open, reset the inner notebook to planet view */
       gtk_notebook_set_current_page(extra_info_panel_planet, EXTRA_PANEL_PLANET_INNER_PLANET_PAGE);
     }
-
-    return planet_data;
-  } else {
-    return NULL;
   }
 }
 
