@@ -243,7 +243,7 @@ echo Build Configuration:
 echo
 
 if test "$HAVE_PYTHON" != ""; then
-  echo - Python scripting support, version $HAVE_PYTHON.
+  echo - Python scripting support, version $PY_VERSION.
 else
   echo - No Python scripting support. If you want to compile this feature, you should install the Python development package.
 fi
