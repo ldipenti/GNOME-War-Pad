@@ -24,9 +24,8 @@ class Uhura(gwp.Plugin):
     def add_model(self, nombre, descripcion, modelo):
         entrada = {'nombre': nombre, 'descripcion': descripcion, 'modelo': modelo}
         self.modelos[ entrada['nombre'] ] = entrada
-        #self.filtro.append_text(modelo['nombre'])
-        self.filtro_model.append(modelo ['nombre'])
-        
+        self.filtro_model.append([entrada['nombre']])
+
     #--------------------------------------------------------------------------
     def get_lista_modelos(self):
         return self.modelos.keys()
@@ -39,9 +38,11 @@ class Uhura(gwp.Plugin):
     #--------------------------------------------------------------------------
     def set_model_active(self, nombre):
         modelo = self.get_model(nombre)
+
+        #self.filtro.set_active_iter(iter)
         
-        #self.descripcion.set_text(modelo['descripcion'])
-        #self.store_items = modelo ['modelo']
+        self.set_filter_description (nombre)
+        self.set_items (nombre)
 
         #filtro_model = self.filtro.get_model()
         # No se si aparecen en el orden cargados (planetas primero)
@@ -49,10 +50,10 @@ class Uhura(gwp.Plugin):
         self.treeselection_items.select_path((0,)) # FALTA RECORDAR
 
     #--------------------------------------------------------------------------
-    def load_items(self, filter_name):
+    def set_items(self, filter_name):
         modelo = self.modelos [ filter_name ]
-        self.store_items = modelo ['modelo']
-    
+        self.item_list.set_model(modelo ['modelo'])
+        
     #--------------------------------------------------------------------------
     def load_mensaje(self, item):
         self.buf.set_text (item ['texto'])
@@ -72,7 +73,7 @@ class Uhura(gwp.Plugin):
         self.filtro = gtk.ComboBox(self.filtro_model)
         cell = gtk.CellRendererText()
         self.filtro.pack_start(cell, True)
-        #self.filtro.add_attribute(cell, 'text', self.FILTRO_TEXTO )
+        self.filtro.add_attribute(cell, 'text', self.FILTRO_TEXTO )
   
         self.descripcion = gtk.Label()
 
@@ -158,8 +159,9 @@ class Uhura(gwp.Plugin):
     #--------------------------------------------------------------------------
     def filter_selected(self, filtro, data=None):
         filter_name = self.get_filter_active_name (filtro)
-        self.load_filter_description (filter_name)
-        self.load_items (filter_name)
+        self.set_filter_description (filter_name)
+        self.set_items (filter_name)
+        print "Filter Selected: " + filter_name
 
     #--------------------------------------------------------------------------
     def get_filter_active_name(self):
@@ -170,7 +172,7 @@ class Uhura(gwp.Plugin):
         return model[active][ self.FILTRO_TEXTO ]
     
     #--------------------------------------------------------------------------    
-    def load_filter_description (self, nombre):
+    def set_filter_description (self, nombre):
         modelo = self.get_model(nombre)
         self.descripcion.set_text(modelo['descripcion'])
         
@@ -178,22 +180,22 @@ class Uhura(gwp.Plugin):
     def item_selected(self, treeselection, data=None):
         try:
             item = self.get_item_active()
-            print "Eligio: " + item ['nombre']
+            #print "Eligio: " + item ['nombre']
             self.load_mensaje (item)
         except TypeError:
-            #print "Type Error al elegir item" 
+            print "Type Error al elegir item" 
             pass
     #--------------------------------------------------------------------------
     def get_item_active(self):
-        (model, iter) = treeselection.get_selected()
+        (model, iter) = self.treeselection_items.get_selected()
         try:
-            ret = []
-            ret['id'] = self.store_items.get_value(iter, self.ITEMS_ID)
-            ret['nombre'] = self.store_items.get_value(iter, self.ITEMS_NOMBRE)
-            ret['texto'] = self.store_items.get_value(iter, self.ITEMS_TEXTO)
+            ret = {}
+            ret['id'] = model.get_value(iter, self.ITEMS_ID)
+            ret['nombre'] = model.get_value(iter, self.ITEMS_NOMBRE)
+            ret['texto'] = model.get_value(iter, self.ITEMS_TEXTO)
             return ret
         except TypeError:
-            #print "Type Error al pedir item" 
+            print "Type Error al pedir item" 
             pass
     #--------------------------------------------------------------------------    
     # Hide window but not terminate plugin
@@ -217,7 +219,7 @@ class Uhura(gwp.Plugin):
         # All PyGTK applications must have a gtk.main(). Control ends here
         # and waits for an event to occur (like a key press or mouse event).
         #self.window.show_all()
-        #gtk.main()
+        gtk.main()
         pass
 
     def register(self, pm):
@@ -229,16 +231,6 @@ class Uhura(gwp.Plugin):
 
     # Cleaning up
     def unregister(self, pm):
-
-        vb = self.ventana.get_parent()
-        print vb
-        vp = vb.get_parent()
-        vp.set_position(1000)
-        print vp
-        c1 = vp.get_child1()
-        print c1
-        c1.set_size_request(-1, 768)
-        
         pm.remove_plugin_slot("down", self.ventana)
-        pass
+
 
