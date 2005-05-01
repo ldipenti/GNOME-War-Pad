@@ -191,7 +191,6 @@ int gwp_messages_readFileAny( GwpMessages *self )
 
   if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny called" );
   GString *filename = NULL;
-  int i;
   FILE *testfile;
   
   /* check if file could be opened */
