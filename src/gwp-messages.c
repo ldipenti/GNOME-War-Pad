@@ -190,80 +190,29 @@ int gwp_messages_readFileAny( GwpMessages *self )
   g_assert (GWP_IS_MESSAGES(self));
 
   if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny called" );
-  char *filename = (char *)malloc(1024*sizeof(char));
+  GString *filename = NULL;
   int i;
   FILE *testfile;
   
   /* check if file could be opened */
-  filename[0] = '\0';
-  //    strcat( filename, g_strdup_printf("MDATA%d.DAT", game_get_race(game_state)) );
-  strcat( filename, "MDATA" );
-  filename[strlen(filename)+1] = '\0';
-  if( gwp_game_state_get_race(game_state) < 10 )
-    filename[strlen(filename)+0] = gwp_game_state_get_race(game_state) + 48;
-  else
-    filename[strlen(filename)+0] = gwp_game_state_get_race(game_state) + 55;
-  strcat( filename, ".DAT" );
-  testfile = fopen( gwp_game_state_get_full_path(game_state, filename), "rb" );
-  g_message( "### Trying '%s'", gwp_game_state_get_full_path(game_state, filename) );
+  filename = g_string_new(g_strdup_printf("MDATA%d.DAT", gwp_game_state_get_race_nr(game_state)));
+  testfile = fopen( gwp_game_state_get_full_path(game_state, filename->str), "rb" );
+  g_message( "### Trying '%s'", gwp_game_state_get_full_path(game_state, filename->str) );
   
   /* If not worked, check for lowercase */
   if (! testfile) {
-    GString *lc = g_string_new(filename);
-    filename = g_string_down(lc)->str;
-    testfile = fopen( gwp_game_state_get_full_path(game_state, filename), "rb" );
-    g_message( "### Trying '%s'", gwp_game_state_get_full_path(game_state, filename) );
-    g_string_free(lc, FALSE);
+    filename = g_string_down(filename);
+    testfile = fopen( gwp_game_state_get_full_path(game_state, filename->str), "rb" );
+    g_message( "### Trying '%s'", gwp_game_state_get_full_path(game_state, filename->str) );
   }
   
   if( testfile ) {
     fclose( testfile );
-    gwp_messages_readFile( self, gwp_game_state_get_full_path(game_state, filename) );
-    free( filename );
+    gwp_messages_readFile( self, gwp_game_state_get_full_path(game_state, filename->str) );
+    g_string_free(filename, FALSE);
     if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny finished" );
     return( EXIT_SUCCESS );
   }
-  
-  /* no filename has been given, trying in current dir with default names */
-  //    g_message( "# Warning: GwpFileMdatax::readFile() called without filename\n" );
-  for( i=1; i<12; i++ )
-    {
-      /* construct default filenames to check */
-      filename[0] = '\0';
-      strcat( filename, WORKING_PATH );
-      strcat( filename, "mdata" );
-      if( i<10 )
-        {
-	  filename[ strlen(filename)+1 ] = '\0';
-	  filename[ strlen(filename)   ] = 48+i;
-        }
-      else
-        {
-	  filename[ strlen(filename)+2 ] = '\0';
-	  filename[ strlen(filename)+1 ] = 48+ i-10;
-	  filename[ strlen(filename)   ] = 48 + 1;
-        }
-      strcat( filename, ".dat" );
-      //        g_message( "  - trying '%s'  ...  ", filename );
-      
-      /* check if file could be opened */
-      testfile = fopen( filename, "rb" );
-      if( testfile )
-        {
-	  /* success */
-	  //            g_message( "OK, using this one\n" );
-	  fclose( testfile );
-	  gwp_messages_readFile( self, filename );
-	  break;
-        }
-      else
-        {
-	  /* failure */
-	  //            g_message( "no\n" );
-        }
-    }
-    
-  free( filename );
   
   if( DEBUGOUTPUT ) g_message("DEBUG: readFileAny finished" );
   return( EXIT_SUCCESS );
