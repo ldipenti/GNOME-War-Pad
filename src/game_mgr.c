@@ -200,6 +200,10 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
     lookup_widget("game_mgr_trn_dir");
   GnomeFileEntry *rst_dir = (GnomeFileEntry *)
     lookup_widget("game_mgr_rst_dir");
+  GtkRadioButton *radio_thost = 
+    (GtkRadioButton *) lookup_widget("radio_thost");
+  GtkRadioButton *radio_phost = 
+    (GtkRadioButton *) lookup_widget("radio_phost");
   gchar *game_name_str = g_strdup_printf("%s", gwp_game_state_get_name(settings));
 
   game_mgr_game_name_demangle(game_name_str);
@@ -221,8 +225,14 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
   g_object_set_data(G_OBJECT(game_name),
 		    "old_game_name", g_strdup(gwp_game_state_get_name(settings)));
 
-  /* FIXME: Remember host type!!! */
-  
+  /* Host type: 0 is for old games */
+  if ((gwp_game_state_get_host_type(settings) == 0) ||
+      (gwp_game_state_get_host_type(settings) == 
+       GWP_GAME_STATE_HOST_TYPE_THOST))
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(radio_thost), TRUE);
+  else
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(radio_phost), TRUE);
+      
   /* Do some validations... */
   if(game_mgr_properties_dlg_all_ok(FALSE, -1)) {
     return TRUE;
@@ -233,9 +243,9 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
 }
 
 
-/* 
+/**
  * Callback function connected to OK button on the game
- * properties dialog when using it as an edit game dialog
+ * properties dialog when using it as an edit game dialog.
  */
 void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 {
@@ -277,7 +287,7 @@ void game_mgr_cb_edit_game(GtkWidget *widget, GtkWidget *iconlist)
 
 /**
  * Callback function connected to OK button on the game 
- * properties dialog when using it as a new game dialog 
+ * properties dialog when using it as a new game dialog.
  */
 void game_mgr_cb_new_game(GtkWidget *widget, gpointer iconlist)
 {
@@ -332,6 +342,8 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
     (GtkEntry *) lookup_widget("game_mgr_entry_host_email");
   GtkEntry *race_name =
     (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
+  GtkRadioButton *radio_thost = 
+    (GtkRadioButton *) lookup_widget("radio_thost");
   gint *race_num = NULL;
   gchar *name;
   
@@ -351,7 +363,11 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
 				   g_strdup(gtk_entry_get_text(player_email)));
   gwp_game_state_set_host_email (settings, 
 				 g_strdup(gtk_entry_get_text(host_email)));
-  /* FIXME: settings->host_type = */
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_thost))) {
+    gwp_game_state_set_host_type (settings, GWP_GAME_STATE_HOST_TYPE_THOST);
+  } else {
+    gwp_game_state_set_host_type (settings, GWP_GAME_STATE_HOST_TYPE_PHOST);   
+  }
   race_num = (gint *) g_object_get_data(G_OBJECT(race_name),
 					"race_number");
   g_assert(race_num != NULL);

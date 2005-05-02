@@ -6999,7 +6999,6 @@ md0</property>
 		      <child>
 			<widget class="GtkRadioButton" id="radio_thost">
 			  <property name="visible">True</property>
-			  <property name="sensitive">False</property>
 			  <property name="tooltip" translatable="yes">Select this if the game is hosted by a THost (classic) host type</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">THost</property>
@@ -7020,7 +7019,6 @@ md0</property>
 		      <child>
 			<widget class="GtkRadioButton" id="radio_phost">
 			  <property name="visible">True</property>
-			  <property name="sensitive">False</property>
 			  <property name="tooltip" translatable="yes">Select this if the game is hosted by a PHost (alternative) host type</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">PHost</property>

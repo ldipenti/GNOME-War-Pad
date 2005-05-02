@@ -159,4 +159,13 @@ gboolean gwp_game_state_get_host_lizard_hiss_mission (GwpGameState *self);
 #define GWP_IS_GAME_STATE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GWP_TYPE_GAME_STATE))
 #define GWP_GAME_STATE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GWP_TYPE_GAME_STATE, GwpGameStateClass))
 
+/**
+ * Host type enumeration
+ */
+enum {
+  GWP_GAME_STATE_HOST_TYPE_0,
+  GWP_GAME_STATE_HOST_TYPE_THOST,
+  GWP_GAME_STATE_HOST_TYPE_PHOST,
+};
+
 #endif

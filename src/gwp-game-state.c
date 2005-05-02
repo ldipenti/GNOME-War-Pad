@@ -59,7 +59,8 @@ struct _GwpGameStatePrivate {
   gchar *rst_dir;
   gchar *player_email;
   gchar *host_email;
-  gint host_type; /* 1=THost ; 2=PHost */
+  gint host_type; /* GWP_GAME_STATE_HOST_TYPE_THOST or 
+		     GWP_GAME_STATE_HOST_TYPE_PHOST */
   gint race;
   /* General State */
   gdouble starchart_zoom;
@@ -420,7 +421,7 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->rst_dir = "";
   self->priv->player_email = "";
   self->priv->host_email = "";
-  self->priv->host_type = 0;
+  self->priv->host_type = GWP_GAME_STATE_HOST_TYPE_THOST;
   self->priv->race = 0;
   self->priv->starchart_zoom = 1.0;
   self->priv->last_x_coord = 0;
