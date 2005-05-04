@@ -1,7 +1,7 @@
 # German Translation.
-# Copyright (C) 2004
+# Copyright (C) 2004,2005
 # This file is distributed under the same license as the GWP package.
-# Stefan Reuther <Streu@gmx.de>, February + October 2004.
+# Stefan Reuther <Streu@gmx.de>, February + October 2004, May 2005.
 #
 # Some notes: German words are inevitably longer than their English
 # counterparts. Some vocabulary:
@@ -175,7 +175,7 @@ msgstr "<b>Existierender Planet: </b>"
 
 #: ../src/gwp.glade.h:30
 msgid "<b>Existing Ship: </b>"
-msgstr "<b>Existierendes Schiff:</b>"
+msgstr "<b>Existierendes Schiff: </b>"
 
 #: ../src/gwp.glade.h:31
 msgid "<b>FC:</b>"
@@ -793,9 +793,8 @@ msgid "Zoom Out"
 msgstr "Verkleinern"
 
 #: ../src/gwp.glade.h:182
-#, fuzzy
 msgid "_Constellations"
-msgstr "Bau"
+msgstr "_Konstellationen"
 
 #: ../src/gwp.glade.h:183
 msgid "_Delete"
@@ -821,9 +820,10 @@ msgstr "_Gitternetz"
 msgid "_Ion storms"
 msgstr "_Ionenstürme"
 
+# I leave that English, because it's a proper name, I think.
 #: ../src/gwp.glade.h:189
 msgid "_Make turn"
-msgstr ""
+msgstr "_Maketurn"
 
 #: ../src/gwp.glade.h:190
 msgid "_Mine fields"
@@ -892,12 +892,11 @@ msgid "Are you sure you want to delete '%s'?"
 msgstr "Möchtest du '%s' wirklich löschen?"
 
 #: ../src/callbacks.c:618
-#, fuzzy
 msgid ""
 "(C) 2002-2005 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
 msgstr ""
-"(C) 2002-2004 Lucas Di Pentima\n"
+"(C) 2002-2005 Lucas Di Pentima\n"
 "Diese Software steht unter der GNU GPL."
 
 #: ../src/callbacks.c:619
@@ -914,6 +913,8 @@ msgid ""
 "Turn ready!\n"
 "%d commands done."
 msgstr ""
+"Turn erstellt!\n"
+"%d Befehle."
 
 #: ../src/callbacks.c:1155
 msgid "No Python support enabled."
@@ -933,226 +934,226 @@ msgstr ""
 msgid "Couldn't find pixmap file: %s"
 msgstr "Bilddatei konnte nicht geladen werden: %s"
 
+# This one may be ambiguous, but I think most will know what it means :)
 #: ../src/main.c:169
 msgid "<i>Attack ships with fuel in orbit</i>"
-msgstr ""
+msgstr "<i>Greife Schiffe mit Treibstoff an</i>"
 
 #: ../src/main.c:170
 msgid "<i>Attack any ship in orbit</i>"
-msgstr ""
+msgstr "<i>Greife alle Schiffe im Orbit an</i>"
 
 #: ../src/main.c:171
 msgid "<i>Beam up megacredits</i>"
-msgstr ""
+msgstr "<i>Lade Geld auf</i>"
 
 #: ../src/main.c:172
 msgid "<i>Get Host configuration settings</i>"
-msgstr ""
+msgstr "<i>Anforderung der Host-Einstellungen</i>"
 
 #: ../src/main.c:176
 msgid "<i>Beam down megacredits</i>"
-msgstr ""
+msgstr "<i>Lade Geld ab</i>"
 
 #: ../src/main.c:177
 msgid "<i>Transfer fighters to ships at this location</i>"
-msgstr ""
+msgstr "<i>Übergib Jäger an andere Schiffe an dieser Position</i>"
 
 #: ../src/main.c:178
 msgid "<i>Transfer MC to ships at this location</i>"
-msgstr ""
+msgstr "<i>Übergib Geld an andere Schiffe an dieser Position</i>"
 
 #: ../src/main.c:179
 msgid "<i>Transfer torpedoes to ships at this location</i>"
-msgstr ""
+msgstr "<i>Übergib Torpedos an andere Schiffe an dieser Position</i>"
 
 #: ../src/main.c:180
 msgid "<i>Use 10 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 10 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:181
 msgid "<i>Use 20 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 20 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:182
 msgid "<i>Use 30 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 30 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:183
 msgid "<i>Use 40 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 40 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:184
 msgid "<i>Use 50 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 50 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:185
 msgid "<i>Use 60 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 60 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:186
 msgid "<i>Use 70 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 70 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:187
 msgid "<i>Use 80 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 80 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:188
 msgid "<i>Use 90 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 90 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:189
 msgid "<i>Use 100 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Verwende 100 Torpedos für Minenfeld</i>"
 
 #: ../src/main.c:190
 msgid "<i>Cancel alliance with The Feds</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Feds</i>"
 
 #: ../src/main.c:191
 msgid "<i>Cancel alliance with The Lizards</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Lizards</i>"
 
 #: ../src/main.c:192
 msgid "<i>Cancel alliance with The Bird Men</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Bird Men</i>"
 
 #: ../src/main.c:193
 msgid "<i>Cancel alliance with The Fascists</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Fascists</i>"
 
 #: ../src/main.c:194
 msgid "<i>Cancel alliance with The Privateers</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Privateers</i>"
 
 #: ../src/main.c:195
 msgid "<i>Cancel alliance with The Cyborgs</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Cyborgs</i>"
 
 #: ../src/main.c:196
 msgid "<i>Cancel alliance with The Crystal People</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Crystal People</i>"
 
 #: ../src/main.c:197
 msgid "<i>Cancel alliance with The Evil Empire</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit dem Evil Empire</i>"
 
 #: ../src/main.c:198
 msgid "<i>Cancel alliance with The Robots</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Robots</i>"
 
 #: ../src/main.c:199
 msgid "<i>Cancel alliance with The Rebels</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Rebels</i>"
 
 #: ../src/main.c:200
 msgid "<i>Cancel alliance with The Colonies</i>"
-msgstr ""
+msgstr "<i>Storniere Allianz mit den Colonies</i>"
 
 #: ../src/main.c:201
 msgid "<i>Offer/accept alliance with The Feds</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Feds</i>"
 
 #: ../src/main.c:202
 msgid "<i>Offer/accept alliance with The Lizards</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Lizards</i>"
 
 #: ../src/main.c:203
 msgid "<i>Offer/accept alliance with The Bird Men</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Bird Men</i>"
 
 #: ../src/main.c:204
 msgid "<i>Offer/accept alliance with The Fascists</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Fascists</i>"
 
 #: ../src/main.c:205
 msgid "<i>Offer/accept alliance with The Privateers</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Privateers</i>"
 
 #: ../src/main.c:206
 msgid "<i>Offer/accept alliance with The Cyborgs</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Cyborgs</i>"
 
 #: ../src/main.c:207
 msgid "<i>Offer/accept alliance with The Crystal People</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Crystal People</i>"
 
 #: ../src/main.c:208
 msgid "<i>Offer/accept alliance with The Evil Empire</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit dem Evil Empire</i>"
 
 #: ../src/main.c:209
 msgid "<i>Offer/accept alliance with The Robots</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Robots</i>"
 
 #: ../src/main.c:210
 msgid "<i>Offer/accept alliance with The Rebels</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Rebels</i>"
 
 #: ../src/main.c:211
 msgid "<i>Offer/accept alliance with The Colonies</i>"
-msgstr ""
+msgstr "<i>Biete/akzeptiere Allianz mit den Colonies</i>"
 
 #: ../src/main.c:212
 msgid "<i>Give ship to The Feds</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Feds</i>"
 
 #: ../src/main.c:213
 msgid "<i>Give ship to The Lizards</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Lizards</i>"
 
 #: ../src/main.c:214
 msgid "<i>Give ship to The Bird Men</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Bird Men</i>"
 
 #: ../src/main.c:215
 msgid "<i>Give ship to The Fascists</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Fascists</i>"
 
 #: ../src/main.c:216
 msgid "<i>Give ship to The Privateers</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Privateers</i>"
 
 #: ../src/main.c:217
 msgid "<i>Give ship to The Cyborgs</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Cyborgs</i>"
 
 #: ../src/main.c:218
 msgid "<i>Give ship to The Crystal People</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Crystal People</i>"
 
 #: ../src/main.c:219
-#, fuzzy
 msgid "<i>Give ship to The Evil Empire</i>"
-msgstr "The Evil Empire"
+msgstr "<i>Übergib Schiff an das Evil Empire</i>"
 
 #: ../src/main.c:220
 msgid "<i>Give ship to The Robots</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Robots</i>"
 
 #: ../src/main.c:221
 msgid "<i>Give ship to The Rebels</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Rebels</i>"
 
 #: ../src/main.c:222
 msgid "<i>Give ship to The Colonies</i>"
-msgstr ""
+msgstr "<i>Übergib Schiff an die Colonies</i>"
 
 #: ../src/main.c:223
 msgid "<i>Activate Hyperdrive</i>"
-msgstr ""
+msgstr "<i>Benutze Hyperdrive</i>"
 
 #: ../src/main.c:224
 msgid "<i>Don't use fighters or torps in battle</i>"
-msgstr ""
+msgstr "<i>Verwende im Kampf keine Torpedos oder Jäger</i>"
 
 #: ../src/main.c:225
 msgid "<i>Explode Glory Device after movement</i>"
-msgstr ""
+msgstr "<i>Zünde Glory Device nach der Bewegung</i>"
 
 #: ../src/main.c:226
 msgid "<i>Explode Glory Device when detecting a cloaked ship</i>"
-msgstr ""
+msgstr "<i>Zünde Glory Device, wenn ein getarntes Schiff detektiert wird</i>"
 
 #: ../src/starchart.c:139 ../src/starchart.c:145 ../src/starchart.c:151
 #: ../src/starchart.c:157
@@ -1291,7 +1292,7 @@ msgstr "kein"
 
 #: ../src/starchart.c:1244
 msgid "Nobody"
-msgstr ""
+msgstr "Niemand"
 
 #. Update distance
 #: ../src/starchart.c:1347
@@ -1339,7 +1340,7 @@ msgstr "%d %s in %s"
 #: ../src/starchart.c:2498
 #, c-format
 msgid "Distance: %.2f LY"
-msgstr ""
+msgstr "Entfernung: %.2f LY"
 
 #: ../src/starchart.c:2563
 msgid "Name"
@@ -1350,17 +1351,14 @@ msgstr "Name"
 msgid "KORE%d.DAT not found, some data will be missing."
 msgstr "KORE%d.DAT nicht gefunden, einige Daten werden nicht angezeigt."
 
+# ??? The "couldn't be found in this case" seems to be "duplicate"
 #: ../src/vp_utils.c:942
-#, fuzzy
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
 "about ion storms and minefields, but couldn't be found in this case. This is "
 "not a fatal error, GWP will continue loading but this data won't appear on "
 "the game."
-msgstr ""
-"KOREx.DAT enthält Informationen über Ionenstürme und Minenfelder. Diese "
-"Datei konnte nicht gefunden werden. Das ist kein schwerer Fehler, GWP wird "
-"das Spiel also laden, aber die entsprechenden Daten werden nicht angezeigt."
+msgstr "Wahrscheinlich verwendest du das DOS-Result-Format. Die fehlende Datei enthält Informationen über Ionenstürme und Minenfelder. Das ist kein schwerer Fehler, GWP wird das Spiel also laden, aber die entsprechenden Daten werden nicht angezeigt."
 
 #: ../src/game_mgr.c:89
 msgid "Your game definitions will be deleted."
@@ -1875,7 +1873,7 @@ msgstr "_Plugins"
 
 #: ../scripts/plugins/magallanes.py:12
 msgid "Utility for viewing the ships characteristics"
-msgstr ""
+msgstr "Programm zum Anschauen der Schiffs-Daten"
 
 #. Columns Lista Naves
 #: ../scripts/plugins/magallanes.py:448
@@ -1884,278 +1882,252 @@ msgstr "Schiffe"
 
 #. Columns Comparacion
 #: ../scripts/plugins/magallanes.py:450
-#, fuzzy
 msgid "Race"
-msgstr "Volk: "
+msgstr "Volk"
 
 #: ../scripts/plugins/magallanes.py:452
 msgid "Mass"
-msgstr ""
+msgstr "Masse"
 
 #: ../scripts/plugins/magallanes.py:454
-#, fuzzy
 msgid "Beam (tech)"
-msgstr "Geschütz-Tech: "
+msgstr "Geschütz (Tech)"
 
 #: ../scripts/plugins/magallanes.py:455
 msgid "T/F (tech)"
-msgstr ""
+msgstr "T/F (Tech)"
 
 #: ../scripts/plugins/magallanes.py:457
-#, fuzzy
 msgid "Fuel"
-msgstr "Feudal"
+msgstr "Treibstoff"
 
 #: ../scripts/plugins/magallanes.py:458
 msgid "Eng (wp)"
-msgstr ""
+msgstr "Triebw. (wp)"
 
 #: ../scripts/plugins/magallanes.py:459
-#, fuzzy
 msgid "MC"
-msgstr "0 MC"
+msgstr "MC"
 
 #: ../scripts/plugins/magallanes.py:460
-#, fuzzy
 msgid "Tri"
-msgstr "Tribal"
+msgstr "Tri"
 
 #: ../scripts/plugins/magallanes.py:461
 msgid "Dur"
-msgstr ""
+msgstr "Dur"
 
 #: ../scripts/plugins/magallanes.py:462
 msgid "Mol"
-msgstr ""
+msgstr "Mol"
 
 #: ../scripts/plugins/magallanes.glade.h:1
 msgid "1"
-msgstr ""
-
-#: ../scripts/plugins/magallanes.glade.h:2
-#, fuzzy
-msgid "<b>Beams: </b>"
-msgstr "<b>Geschütze:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:3
-#, fuzzy
-msgid "<b>Beams</b>"
-msgstr "<b>Geschütze:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:4
-#, fuzzy
-msgid "<b>Cargo</b>"
-msgstr "<b>Kol:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:5
-#, fuzzy
-msgid "<b>Comparative table</b>"
-msgstr "<b>Eingeb. zahlen:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:6
-#, fuzzy
-msgid "<b>Crew</b>"
-msgstr "<b>Crew:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:7
-#, fuzzy
-msgid "<b>Dur</b>"
-msgstr "<b>Dur:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:8
-#, fuzzy
-msgid "<b>Engines: </b>"
-msgstr "<b>Triebwerke:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:9
-#, fuzzy
-msgid "<b>Engines</b>"
-msgstr "<b>Triebwerke:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:10
-#, fuzzy
-msgid "<b>Fuel</b>"
-msgstr "<b>Sprit:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:12
-#, fuzzy
-msgid "<b>Mass</b>"
-msgstr "<b>Masse:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:13
-#, fuzzy
-msgid "<b>Mol</b>"
-msgstr "<b>Mol:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:14
-#, fuzzy
-msgid "<b>Races available</b>"
-msgstr "<b>Volk:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:15
-#, fuzzy
-msgid "<b>Special Functions: </b>"
-msgstr "<b>Warp-Faktor:</b>"
-
-#: ../scripts/plugins/magallanes.glade.h:16
-#, fuzzy
-msgid "<b>TP/F</b>"
-msgstr "<b>FC:</b>"
+msgstr "1"
 
 # ??? dupe
-#: ../scripts/plugins/magallanes.glade.h:17
-#, fuzzy
-msgid "<b>Tech Level:  </b>"
-msgstr "<b>Verteidigung: </b>"
+#: ../scripts/plugins/magallanes.glade.h:2
+msgid "<b>Beams: </b>"
+msgstr "<b>Geschütze: </b>"
 
+#: ../scripts/plugins/magallanes.glade.h:3
+msgid "<b>Beams</b>"
+msgstr "<b>Geschütze</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:4
+msgid "<b>Cargo</b>"
+msgstr "<b>Fracht</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:5
+msgid "<b>Comparative table</b>"
+msgstr "<b>Vergleichstabelle</b>"
+
+# ??? dupe
+#: ../scripts/plugins/magallanes.glade.h:6
+msgid "<b>Crew</b>"
+msgstr "<b>Crew</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:7
+msgid "<b>Dur</b>"
+msgstr "<b>Dur</b>"
+
+# ??? dupe
+#: ../scripts/plugins/magallanes.glade.h:8
+msgid "<b>Engines: </b>"
+msgstr "<b>Triebwerke: </b>"
+
+# ??? dupe
+#: ../scripts/plugins/magallanes.glade.h:9
+msgid "<b>Engines</b>"
+msgstr "<b>Triebwerke</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:10
+msgid "<b>Fuel</b>"
+msgstr "<b>Treibstoff</b>"
+
+# ??? dupe
+#: ../scripts/plugins/magallanes.glade.h:12
+msgid "<b>Mass</b>"
+msgstr "<b>Masse</b>"
+
+# ??? dupe
+#: ../scripts/plugins/magallanes.glade.h:13
+msgid "<b>Mol</b>"
+msgstr "<b>Mol</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:14
+msgid "<b>Races available</b>"
+msgstr "<b>Völker</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:15
+msgid "<b>Special Functions: </b>"
+msgstr "<b>Spezialfunktionen: </b>"
+
+#: ../scripts/plugins/magallanes.glade.h:16
+msgid "<b>TP/F</b>"
+msgstr "<b>TP/F</b>"
+
+#: ../scripts/plugins/magallanes.glade.h:17
+msgid "<b>Tech Level:  </b>"
+msgstr "<b>Tech Level:  </b>"
+
+# ??? dupe
 #: ../scripts/plugins/magallanes.glade.h:18
-#, fuzzy
 msgid "<b>Torps: </b>"
-msgstr "<b>Torps:</b>"
+msgstr "<b>Torps: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:19
-#, fuzzy
 msgid "<b>Total Cost: </b>"
-msgstr "<b>Pos.:</b>"
+msgstr "<b>Gesamtkosten: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:20
-#, fuzzy
 msgid "<b>Tri</b>"
-msgstr "<b>Tri:</b>"
+msgstr "<b>Tri</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:21
 msgid "Birds"
-msgstr ""
+msgstr "Birds"
 
 #: ../scripts/plugins/magallanes.glade.h:22
 msgid "Borgs"
-msgstr ""
+msgstr "Borgs"
 
 #: ../scripts/plugins/magallanes.glade.h:23
-#, fuzzy
 msgid "Colonies"
-msgstr "Kolonisieren"
+msgstr "Colonies"
 
 #: ../scripts/plugins/magallanes.glade.h:24
-#, fuzzy
 msgid "Crystals"
-msgstr "The Crystalline"
+msgstr "Crystals"
 
+# ??? ya ne govoryu ispanskij yasik
 #: ../scripts/plugins/magallanes.glade.h:25
 msgid "Esta raza posee la nave actual"
 msgstr ""
 
 #: ../scripts/plugins/magallanes.glade.h:26
 msgid "Evils"
-msgstr ""
+msgstr "Evils"
 
 #: ../scripts/plugins/magallanes.glade.h:27
-#, fuzzy
 msgid "Fascists"
-msgstr "The Fascists"
+msgstr "Fascists"
 
 #: ../scripts/plugins/magallanes.glade.h:28
-#, fuzzy
 msgid "Feds"
-msgstr "Feudal"
+msgstr "Feds"
 
 #: ../scripts/plugins/magallanes.glade.h:29
-#, fuzzy
 msgid "Lizards"
-msgstr "The Lizards"
+msgstr "Lizards"
 
 #: ../scripts/plugins/magallanes.glade.h:30
 msgid "Magallanes 0.2"
-msgstr ""
+msgstr "Magallanes 0.2"
 
 #: ../scripts/plugins/magallanes.glade.h:32
-#, fuzzy
 msgid "Privateers"
-msgstr "The Privateers"
+msgstr "Privateers"
 
 #: ../scripts/plugins/magallanes.glade.h:33
-#, fuzzy
 msgid "Rebels"
-msgstr "The Rebels"
+msgstr "Rebels"
 
 #: ../scripts/plugins/magallanes.glade.h:34
-#, fuzzy
 msgid "Robots"
-msgstr "The Robots"
+msgstr "Robots"
 
 #: ../scripts/plugins/magallanes.glade.h:35
 msgid "Ship"
 msgstr "Schiff"
 
 #: ../scripts/plugins/magallanes.glade.h:36
-#, fuzzy
 msgid "Ship & Parts"
-msgstr "Daten zu Schiff"
+msgstr "Schiff & Teile"
 
 #: ../scripts/plugins/vp_utils.py:68
 msgid "Advanced Cloak"
-msgstr ""
+msgstr "Verbesserte Tarnung"
 
 #: ../scripts/plugins/vp_utils.py:69
-#, fuzzy
 msgid "Anti-Cloak"
-msgstr "Tarnen"
+msgstr "Enttarnen"
 
 #: ../scripts/plugins/vp_utils.py:70
 msgid "BioScan"
-msgstr ""
+msgstr "Bioscanner"
 
 #: ../scripts/plugins/vp_utils.py:71
 msgid "Cools down to 50 degrees"
-msgstr ""
+msgstr "Kühlt auf 50 Grad"
 
 #: ../scripts/plugins/vp_utils.py:72
 msgid "Warms up to 50 degrees"
-msgstr ""
+msgstr "Heizt auf 50 Grad"
 
 #: ../scripts/plugins/vp_utils.py:73
 msgid "Warms up to 100 degrees"
-msgstr ""
+msgstr "Heizt auf 100 Grad"
 
 #: ../scripts/plugins/vp_utils.py:74
 msgid "Glory Device High Damage"
-msgstr ""
+msgstr "Glory Device High Damage"
 
 #: ../scripts/plugins/vp_utils.py:75
 msgid "Glory Device Low Damage"
-msgstr ""
+msgstr "Glory Device Low Damage"
 
 #: ../scripts/plugins/vp_utils.py:76
 msgid "Generate MCs"
-msgstr ""
+msgstr "Produziert Gewinn"
 
 #: ../scripts/plugins/vp_utils.py:77
 msgid "Cloak and Gravitronic Acelerators"
-msgstr ""
+msgstr "Tarnung und Gravitonenbeschleuniger"
 
 #: ../scripts/plugins/vp_utils.py:78
 msgid "Chunnel"
-msgstr ""
+msgstr "Chunnel"
 
 #: ../scripts/plugins/vp_utils.py:79
 msgid "Hyperdrive"
-msgstr ""
+msgstr "Hyperdrive"
 
 #: ../scripts/plugins/vp_utils.py:80
 msgid "Imperial Assault"
-msgstr ""
+msgstr "Imperial Assault"
 
 #: ../scripts/plugins/vp_utils.py:81
 msgid "Ramscoop, Bioscanner"
-msgstr ""
+msgstr "Ramscoop, Bioscanner"
 
 #: ../scripts/plugins/vp_utils.py:82 ../scripts/plugins/vp_utils.py:83
 msgid "Fuel Alchemy"
-msgstr ""
+msgstr "Treibstoffsynthese (Alchemie)"
 
 #: ../scripts/plugins/vp_utils.py:84
 msgid "Minerals Alchemy"
-msgstr ""
+msgstr "Mineralsynthese (Alchemie)"
 
 #~ msgid "("
 #~ msgstr "("
@@ -2330,3 +2302,4 @@ msgstr ""
 
 #~ msgid "n/a kT"
 #~ msgstr "n/a kt"
+
