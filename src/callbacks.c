@@ -454,12 +454,11 @@ void on_ships_list_cursor_changed (GtkWidget *widget,
 void on_game_mgr_edit_game(GtkWidget *widget,
 			   gpointer user_data)
 {
-  GtkWidget *iconlist = NULL;
+  GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
   GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
   GwpGameState *state = NULL;
   GList *selections = NULL;
 
-  iconlist = lookup_widget("game_mgr_iconlist");
   selections = gnome_icon_list_get_selection(GNOME_ICON_LIST(iconlist));
   if(selections) {
     state = (GwpGameState *) 
@@ -644,7 +643,6 @@ gboolean delete_event (GtkWidget *widget,
 
 /**
  * Callback called when user wants to generate the TRN file.
- *
  */
 void on_maketurn_activate (GtkWidget *widget,
 			   gpointer user_data)
@@ -681,6 +679,52 @@ void on_maketurn_activate (GtkWidget *widget,
 				g_strdup_printf(_("Turn ready!\n%d commands done."), commands));
   gtk_dialog_run(GTK_DIALOG(info));
   gtk_widget_destroy(info);
+}
+
+/**
+ * Show game settings within GWP's main screen
+ */
+void
+on_game_settings_activate (GtkWidget *widget,
+			   gpointer   user_data)
+{
+  GtkWidget *ok_button = lookup_widget("game_mgr_button_ok");
+  GtkWidget *iconlist = lookup_widget("game_mgr_iconlist");
+  GtkWidget *btn_unpack = lookup_widget("game_mgr_btn_unpack");
+  GtkWidget *game_dir_entry = lookup_widget("game_mgr_game_dir");
+  GtkWidget *race_list = lookup_widget("game_mgr_properties_race_list");
+
+  if(game_mgr_properties_dlg_fill(game_state)) {
+    /* 
+     * Connect callback to OK button, so that works as 
+     * an "edit game" dialog. 
+     */
+      g_signal_connect(G_OBJECT(ok_button), 
+		       "clicked", 
+		       G_CALLBACK(game_mgr_cb_edit_game), 
+		       iconlist);
+      gtk_window_set_transient_for(GTK_WINDOW(game_mgr_properties), 
+				   GTK_WINDOW(gwp));
+      gtk_window_set_title(GTK_WINDOW(game_mgr_properties), 
+			   _("Edit Game Properties"));
+      
+      /* Disable some widgets that don't have to be changed */
+      gtk_widget_set_sensitive(btn_unpack, FALSE);
+      gtk_widget_set_sensitive(game_dir_entry, FALSE);
+      gtk_widget_set_sensitive(race_list, FALSE);
+      
+      gtk_widget_show(game_mgr_properties);
+  } else {
+    GtkWidget *warn;
+    
+    warn = gtk_message_dialog_new((GtkWindow*) game_mgr,
+				  GTK_DIALOG_DESTROY_WITH_PARENT,
+				  GTK_MESSAGE_WARNING,
+				  GTK_BUTTONS_CLOSE,
+				  _("Oops! there is some problem with this game"));
+    gtk_dialog_run(GTK_DIALOG(warn));
+    gtk_widget_destroy(warn);
+  }  
 }
 
 /*

@@ -1468,9 +1468,11 @@ GSList * load_beamspec (void)
 void
 dump_to_dat_files (void)
 {
+  g_message ("Writing data files...");
   dump_to_ship_dat_file ();
   dump_to_pdata_dat_file ();
   dump_to_bdata_dat_file ();
+  g_message ("...writing done!");
 }
 
 /**

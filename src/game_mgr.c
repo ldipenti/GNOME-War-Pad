@@ -519,6 +519,7 @@ void game_mgr_properties_dlg_clean(void)
 
   race_list = (GtkTreeView*) lookup_widget("game_mgr_properties_race_list");
   store = (GtkListStore*) gtk_tree_view_get_model(race_list);
+  gtk_widget_set_sensitive (GTK_WIDGET(race_list), TRUE);
   g_assert(store != NULL);
   gtk_list_store_clear(store);
   
@@ -542,6 +543,7 @@ void game_mgr_properties_dlg_clean(void)
 
   fentry = (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
   gnome_file_entry_set_filename(fentry, "");
+  gtk_widget_set_sensitive (GTK_WIDGET(fentry), TRUE);
 }
 
 /**
