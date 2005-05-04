@@ -44,7 +44,9 @@ enum {
   PROP_DISTANCE_CALC,
   PROP_X_COORD,
   PROP_Y_COORD,
-  PROP_WARN_KOREFILE, 
+  PROP_WARN_KOREFILE,
+  PROP_APPLY_CHANGES,
+  PROP_WARN_APPLY_CHANGES,
 };
 
 /*
@@ -267,8 +269,13 @@ struct _GwpGameStatePrivate {
   gboolean grid;
   gboolean distance_calc; /**< This flag tell the system if the user is 
 			     measuring distance from the starchart. */
-  gboolean warn_korefile; /**< Give the user a warning about missing 
+  gboolean warn_korefile; /**< Give the player a warning about missing 
 			     KOREx.DAT. TRUE means warn the user. */
+  gboolean apply_changes; /**< Save player actions to data files when 
+			     exiting, making possible the turn creation. */
+  gboolean warn_apply_changes; /**< Give the player a warning about possible
+				  data corruption while using GWP. TRUE means 
+				  warn the user.*/
 #ifdef USE_PYTHON
   /* Pointer to Python object: PluginManager */
   void *plugin_mgr;
@@ -347,6 +354,12 @@ gwp_game_state_set_property (GObject      *object,
   case PROP_WARN_KOREFILE:
     self->priv->warn_korefile = g_value_get_boolean (value);
     break;
+  case PROP_APPLY_CHANGES:
+    self->priv->apply_changes = g_value_get_boolean (value);
+    break;
+  case PROP_WARN_APPLY_CHANGES:
+    self->priv->warn_apply_changes = g_value_get_boolean (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -398,6 +411,12 @@ gwp_game_state_get_property (GObject    *object,
   case PROP_WARN_KOREFILE:
     g_value_set_boolean (value, self->priv->warn_korefile);
     break;
+  case PROP_APPLY_CHANGES:
+    g_value_set_boolean (value, self->priv->apply_changes);
+    break;
+  case PROP_WARN_APPLY_CHANGES:
+    g_value_set_boolean (value, self->priv->warn_apply_changes);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -437,6 +456,8 @@ gwp_game_state_init (GTypeInstance *instance,
   self->priv->selected_planet = NULL;
   self->priv->selected_ship = NULL;
   self->priv->warn_korefile = TRUE;
+  self->priv->apply_changes = FALSE;
+  self->priv->warn_apply_changes = TRUE;
 #ifdef USE_PYTHON
   self->priv->plugin_mgr = NULL;
 #endif
@@ -607,51 +628,65 @@ gwp_game_state_class_init (GwpGameStateClass *klass)
 				   g_param_spec_boolean ("planet-names",
 							 "Planet-Names",
 							 "Whether show the planet names or not",
-							 TRUE,
+							 TRUE, /* default */
 							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_SCANNER_AREA,
 				   g_param_spec_boolean ("scanner-area",
 							 "Scanner-Area",
 							 "Whether show the scanner area or not",
-							 TRUE,
+							 TRUE, /* default */
 							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_MINEFIELDS,
 				   g_param_spec_boolean ("minefields", 
 							 "Minefields",
 							 "Whether show minefields or not",
-							 TRUE, 
+							 TRUE,  /* default */
 							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_ION_STORMS,
 				   g_param_spec_boolean ("ion-storms",
 							 "Ion-Storms",
 							 "Whether show ion storms or not",
-							 TRUE,
+							 TRUE, /* default */
 							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_GRID,
 				   g_param_spec_boolean ("grid",
 							 "Grid",
 							 "Whether show the grid or not",
-							 TRUE,
+							 TRUE, /* default */
 							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_CONSTELLATIONS,
 				   g_param_spec_boolean ("constellations",
 							 "Constellations",
 							 "Whether show the constellations or not",
-							 TRUE,
+							 TRUE, /* default */
 							 G_PARAM_READWRITE));
 
   g_object_class_install_property (gobject_class, PROP_DISTANCE_CALC,
 				   g_param_spec_boolean ("distance-calc",
 							 "Distance-Calc",
 							 "Whether show the distance calculator or not",
-							 TRUE,
+							 TRUE, /* default */
 							 G_PARAM_READWRITE));
 
   g_object_class_install_property (gobject_class, PROP_WARN_KOREFILE,
 				   g_param_spec_boolean ("warn-korefile",
 							 "Warn-Korefile",
 							 "Whether warn the user about the missing kore file or not",
-							 TRUE,
+							 TRUE, /* default */
+							 G_PARAM_READWRITE));
+
+  g_object_class_install_property (gobject_class, PROP_WARN_APPLY_CHANGES,
+				   g_param_spec_boolean ("warn-apply-changes",
+							 "Warn-Apply-Changes",
+							 "Whether warn the user about possible data corruption using GWP or not",
+							 TRUE, /* default */
+							 G_PARAM_READWRITE));
+
+  g_object_class_install_property (gobject_class, PROP_APPLY_CHANGES,
+				   g_param_spec_boolean ("apply-changes",
+							 "Apply-Changes",
+							 "Whether save player actions to data files or not",
+							 FALSE, /* default */
 							 G_PARAM_READWRITE));
 
   g_object_class_install_property (gobject_class, PROP_X_COORD,
@@ -685,7 +720,7 @@ GwpGameState * gwp_game_state_new (void)
  * The game state object requires a double initialization: first
  * it set ups several data required to load the game, later on it 
  * must have all the game data loaded to do extra stuff (like
- * connectin to planets and ships signals).
+ * connecting to planets and ships signals).
  */
 void
 gwp_game_state_postinit (GwpGameState *self)

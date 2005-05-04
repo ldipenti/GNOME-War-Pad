@@ -47,7 +47,7 @@
 		    <widget class="GtkMenu" id="file1_menu">
 
 		      <child>
-			<widget class="GtkImageMenuItem" id="maketurn">
+			<widget class="GtkImageMenuItem" id="game_maketurn_menu">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">_Make turn</property>
 			  <property name="use_underline">True</property>
@@ -55,9 +55,31 @@
 			  <accelerator key="T" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image142">
+			    <widget class="GtkImage" id="image147">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-convert</property>
+			      <property name="icon_size">1</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkImageMenuItem" id="game_settings_menu">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">S_ettings</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_game_settings_activate" last_modification_time="Wed, 04 May 2005 04:07:52 GMT"/>
+			  <accelerator key="E" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+
+			  <child internal-child="image">
+			    <widget class="GtkImage" id="image148">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-preferences</property>
 			      <property name="icon_size">1</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
@@ -185,7 +207,7 @@
 			  <accelerator key="KP_Add" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image143">
+			    <widget class="GtkImage" id="image149">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-zoom-in</property>
 			      <property name="icon_size">1</property>
@@ -207,7 +229,7 @@
 			  <accelerator key="KP_Subtract" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image144">
+			    <widget class="GtkImage" id="image150">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-zoom-out</property>
 			      <property name="icon_size">1</property>
@@ -277,7 +299,7 @@
 			  <accelerator key="F1" modifiers="0" signal="activate"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image145">
+			    <widget class="GtkImage" id="image151">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-help</property>
 			      <property name="icon_size">1</property>
@@ -6683,9 +6705,9 @@ md0</property>
 	<widget class="GtkFrame" id="frame9">
 	  <property name="border_width">1</property>
 	  <property name="visible">True</property>
-	  <property name="label_xalign">0.019999999553</property>
+	  <property name="label_xalign">0</property>
 	  <property name="label_yalign">0.5</property>
-	  <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+	  <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 	  <child>
 	    <widget class="GnomeFileEntry" id="game_mgr_game_dir">
@@ -6719,9 +6741,9 @@ md0</property>
 	  <child>
 	    <widget class="GtkLabel" id="label52">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Game Directory</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Game Directory&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
+	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
@@ -6754,7 +6776,7 @@ md0</property>
 	      <property name="visible">True</property>
 	      <property name="label_xalign">0</property>
 	      <property name="label_yalign">0.5</property>
-	      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+	      <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 	      <child>
 		<widget class="GtkScrolledWindow" id="scrolledwindow2">
@@ -6784,9 +6806,9 @@ md0</property>
 	      <child>
 		<widget class="GtkLabel" id="label46">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Available Races</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Available Races&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
+		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
@@ -6812,13 +6834,13 @@ md0</property>
 	      <property name="visible">True</property>
 	      <property name="label_xalign">0</property>
 	      <property name="label_yalign">0.5</property>
-	      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+	      <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 	      <child>
 		<widget class="GtkTable" id="table1">
 		  <property name="border_width">2</property>
 		  <property name="visible">True</property>
-		  <property name="n_rows">7</property>
+		  <property name="n_rows">8</property>
 		  <property name="n_columns">2</property>
 		  <property name="homogeneous">False</property>
 		  <property name="row_spacing">1</property>
@@ -7050,9 +7072,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label43">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Host Type:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;Host Type&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7073,9 +7095,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label44">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Game Name:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;Game Name&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7096,9 +7118,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label45">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Race Name:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;Race Name&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7119,9 +7141,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label47">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">TRN Dir:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;TRN Dir&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7142,9 +7164,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label48">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">RST Dir:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;RST Dir&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7165,9 +7187,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label50">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Player Email:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;Player Email&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7188,9 +7210,9 @@ md0</property>
 		  <child>
 		    <widget class="GtkLabel" id="label49">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Host Email:</property>
+		      <property name="label" translatable="yes">&lt;i&gt;Host Email&lt;/i&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -7207,15 +7229,150 @@ md0</property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
+
+		  <child>
+		    <widget class="GtkFrame" id="frame51">
+		      <property name="visible">True</property>
+		      <property name="label_xalign">0</property>
+		      <property name="label_yalign">0.5</property>
+		      <property name="shadow_type">GTK_SHADOW_NONE</property>
+
+		      <child>
+			<widget class="GtkAlignment" id="alignment13">
+			  <property name="visible">True</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xscale">1</property>
+			  <property name="yscale">1</property>
+			  <property name="top_padding">0</property>
+			  <property name="bottom_padding">0</property>
+			  <property name="left_padding">12</property>
+			  <property name="right_padding">0</property>
+
+			  <child>
+			    <widget class="GtkVBox" id="vbox40">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">0</property>
+
+			      <child>
+				<widget class="GtkCheckButton" id="game_mgr_checkbutton_apply_changes">
+				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Activate if you want to modify your game data. Use at your own risk!</property>
+				  <property name="can_focus">True</property>
+				  <property name="relief">GTK_RELIEF_NORMAL</property>
+				  <property name="focus_on_click">True</property>
+				  <property name="active">False</property>
+				  <property name="inconsistent">False</property>
+				  <property name="draw_indicator">True</property>
+
+				  <child>
+				    <widget class="GtkAlignment" id="alignment14">
+				      <property name="visible">True</property>
+				      <property name="xalign">0.5</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xscale">0</property>
+				      <property name="yscale">0</property>
+				      <property name="top_padding">0</property>
+				      <property name="bottom_padding">0</property>
+				      <property name="left_padding">0</property>
+				      <property name="right_padding">0</property>
+
+				      <child>
+					<widget class="GtkHBox" id="hbox50">
+					  <property name="visible">True</property>
+					  <property name="homogeneous">False</property>
+					  <property name="spacing">2</property>
+
+					  <child>
+					    <widget class="GtkImage" id="image146">
+					      <property name="visible">True</property>
+					      <property name="stock">gtk-save</property>
+					      <property name="icon_size">4</property>
+					      <property name="xalign">0.5</property>
+					      <property name="yalign">0.5</property>
+					      <property name="xpad">0</property>
+					      <property name="ypad">0</property>
+					    </widget>
+					    <packing>
+					      <property name="padding">0</property>
+					      <property name="expand">False</property>
+					      <property name="fill">False</property>
+					    </packing>
+					  </child>
+
+					  <child>
+					    <widget class="GtkLabel" id="label383">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">Apply data modifications</property>
+					      <property name="use_underline">True</property>
+					      <property name="use_markup">False</property>
+					      <property name="justify">GTK_JUSTIFY_LEFT</property>
+					      <property name="wrap">False</property>
+					      <property name="selectable">False</property>
+					      <property name="xalign">0.5</property>
+					      <property name="yalign">0.5</property>
+					      <property name="xpad">0</property>
+					      <property name="ypad">0</property>
+					    </widget>
+					    <packing>
+					      <property name="padding">0</property>
+					      <property name="expand">False</property>
+					      <property name="fill">False</property>
+					    </packing>
+					  </child>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label382">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Options&lt;/b&gt;</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">True</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="type">label_item</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="left_attach">0</property>
+		      <property name="right_attach">2</property>
+		      <property name="top_attach">7</property>
+		      <property name="bottom_attach">8</property>
+		      <property name="x_options">fill</property>
+		    </packing>
+		  </child>
 		</widget>
 	      </child>
 
 	      <child>
 		<widget class="GtkLabel" id="label42">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Game Properties</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Game Properties&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
+		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>

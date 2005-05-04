@@ -204,6 +204,9 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
     (GtkRadioButton *) lookup_widget("radio_thost");
   GtkRadioButton *radio_phost = 
     (GtkRadioButton *) lookup_widget("radio_phost");
+  GtkCheckButton *chkbtn_apply_changes = 
+    (GtkCheckButton *) lookup_widget("game_mgr_checkbutton_apply_changes");
+  gboolean apply_changes = FALSE;
   gchar *game_name_str = g_strdup_printf("%s", gwp_game_state_get_name(settings));
 
   game_mgr_game_name_demangle(game_name_str);
@@ -233,6 +236,13 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
   else
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(radio_phost), TRUE);
       
+  /* GWP should apply player's actions? */
+  g_object_get (G_OBJECT(settings), 
+		"apply-changes", &apply_changes,
+		NULL);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(chkbtn_apply_changes),
+				apply_changes);
+
   /* Do some validations... */
   if(game_mgr_properties_dlg_all_ok(FALSE, -1)) {
     return TRUE;
@@ -344,6 +354,8 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
     (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
   GtkRadioButton *radio_thost = 
     (GtkRadioButton *) lookup_widget("radio_thost");
+  GtkCheckButton *chkbtn_apply_changes = 
+    (GtkCheckButton *) lookup_widget("game_mgr_checkbutton_apply_changes");
   gint *race_num = NULL;
   gchar *name;
   
@@ -372,6 +384,11 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
 					"race_number");
   g_assert(race_num != NULL);
   gwp_game_state_set_race (settings, *race_num);
+
+  /* Apply changes setting */
+  g_object_set (G_OBJECT(settings),
+		"apply-changes", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(chkbtn_apply_changes)),
+		NULL);
 }
 
 /* Several dialog validations */
@@ -613,12 +630,13 @@ void game_mgr_play_game(GwpGameState *state)
   gchar *tmp;
   GtkLabel *race = 
     (GtkLabel *) lookup_widget("label_race_name");
+  gboolean warn_apply_changes = TRUE;
 
   /* If none game selected, notice the user */
   if (!state) {
     GtkWidget *warn;
 
-    warn = gwp_warning_dialog_new (game_mgr_properties,
+    warn = gwp_warning_dialog_new (game_mgr,
 				   _("No game selected, please select one."),
 				   _("If you don't have any game on your game manager, you should add one with the \"New\" button, adding the necessary game data."));
     gtk_dialog_run(GTK_DIALOG(warn));
@@ -627,6 +645,27 @@ void game_mgr_play_game(GwpGameState *state)
   }
 
   game_state = state;
+
+  /* 
+   * Warn the player once about the new data modification features, 
+   * they may corrupt the game.
+   * FIXME: This should be temporary until it's finished and tested.
+   */
+  g_object_get (G_OBJECT(game_state),
+		"warn-apply-changes", &warn_apply_changes,
+		NULL);
+  if (warn_apply_changes) {
+    GtkWidget *warn;
+    warn = gwp_warning_dialog_new (game_mgr,
+				   _("GWP won't apply your actions by default."),
+				   _("New features are being added to GWP that allow to make some actions on the game.\nIt's possible that some bug can cause data corruption on your game, so this actions aren't being applied to the game files by default.\nYou can activate this by editing the game's properties, use this at your own risk!"));
+    gtk_dialog_run (GTK_DIALOG(warn));
+    gtk_widget_destroy (warn);
+    /* Do not bother the user again */
+    g_object_set (G_OBJECT(game_state),
+		  "warn-apply-changes", FALSE,
+		  NULL);
+  }
 
   /* Check for new RST */
   if (vp_can_unpack(gwp_game_state_get_dir(game_state), 
@@ -889,14 +928,41 @@ GwpGameState * game_mgr_load_game_state (gchar *games_path, gchar *game_name)
 				      NULL),
 		NULL);
 
-  g_object_set (game, 
-		"warn-korefile", 
-		gconf_client_get_bool(gwp_gconf, 
-				      g_strconcat (path, 
-						   "warn-korefile", 
-						   NULL),
-				      NULL),
-		NULL);
+  /* If key is present, assign its value, if not...let the default be! */
+  if (gconf_client_get(gwp_gconf, g_strconcat(path, "warn-korefile", NULL), NULL)) {
+    g_object_set (game, 
+		  "warn-korefile", 
+		  gconf_client_get_bool(gwp_gconf, 
+					g_strconcat (path, 
+						     "warn-korefile", 
+						     NULL),
+					NULL),
+		  NULL);
+  }
+
+  /* If key is present, assign its value, if not...let the default be! */
+  if (gconf_client_get(gwp_gconf, g_strconcat(path, "apply-changes", NULL), NULL)) {
+    g_object_set (game, 
+		  "apply-changes", 
+		  gconf_client_get_bool(gwp_gconf, 
+					g_strconcat (path, 
+						     "apply-changes", 
+						     NULL),
+					NULL),
+		  NULL);
+  }
+
+  /* If key is present, assign its value, if not...let the default be! */
+  if (gconf_client_get(gwp_gconf, g_strconcat(path, "warn-apply-changes", NULL), NULL)) {
+    g_object_set (game, 
+		  "warn-apply-changes", 
+		  gconf_client_get_bool(gwp_gconf, 
+					g_strconcat (path, 
+						     "warn-apply-changes", 
+						     NULL),
+					NULL),
+		  NULL);
+  }
 
   /* Registered plugins */
   GSList *plugins = gconf_client_get_list (gwp_gconf,
@@ -979,6 +1045,15 @@ void game_mgr_save_game_state (GwpGameState *state, gboolean closing_game)
   gconf_client_set_bool (gwp_gconf, g_strconcat(path, "warn-korefile", NULL),
 			 tmp_bool, NULL);
 
+  g_object_get (G_OBJECT(state), "apply-changes", &tmp_bool, NULL);
+  gconf_client_set_bool (gwp_gconf, g_strconcat(path, "apply-changes", NULL),
+			 tmp_bool, NULL);
+
+  g_object_get (G_OBJECT(state), "warn-apply-changes", &tmp_bool, NULL);
+  gconf_client_set_bool (gwp_gconf, 
+			 g_strconcat(path, "warn-apply-changes", NULL),
+			 tmp_bool, NULL);
+
 #ifdef USE_PYTHON
   if (closing_game) {
     /* Registered plugins */
@@ -1034,13 +1109,19 @@ void game_mgr_close_game(GwpGameState *game_state)
 {
   if(game_state) {
     gint x, y, i;
+    gboolean apply_changes;
 
     /* Save game state */
     gnome_canvas_get_scroll_offsets(starchart_get_canvas(), &x, &y);
     gwp_game_state_set_last_coords(game_state, x, y);
 
-    dump_to_dat_files(); /* Generate VP data */
-
+    /* Check if it's ok to apply changes to data files!! */
+    g_object_get (G_OBJECT(game_state),
+		  "apply-changes", &apply_changes,
+		  NULL);
+    if (apply_changes)
+      dump_to_dat_files();
+    
     game_mgr_save_game_state(game_state, TRUE);
 
     /******************************/

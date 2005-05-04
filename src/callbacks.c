@@ -651,12 +651,29 @@ void on_maketurn_activate (GtkWidget *widget,
 {
   gint commands;
   GtkWidget *info;
+  gboolean apply_changes;
 
-  dump_to_dat_files();
+  g_object_get (G_OBJECT(game_state),
+		"apply-changes", &apply_changes,
+		NULL);
+
+  /* Check if it's ok to apply changes to data files!! */
+  if (apply_changes) {
+    dump_to_dat_files();
+  } else {
+    GtkWidget *warn;
+    warn = gwp_warning_dialog_new (gwp,
+				   _("GWP won't apply your actions."),
+				   _("Although the turn file will be generated, your actions won't be reflected on it. You should change the appropriate setting on this game for this to happen."));
+    gtk_dialog_run (GTK_DIALOG(warn));
+    gtk_widget_destroy (warn);
+  }
+
+  /* Make the turn, baby yeaaahh! */
   commands = vp_maketurn(gwp_game_state_get_dir(game_state),
 			 gwp_game_state_get_race_nr(game_state),
 			 gwp_game_state_get_trn_dir(game_state));
-      
+  
   info = gtk_message_dialog_new((GtkWindow*) gwp,
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_INFO,
