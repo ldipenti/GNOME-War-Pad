@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GWP 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-09 09:04-0300\n"
-"PO-Revision-Date: 2004-08-29 19:17-0300\n"
+"PO-Revision-Date: 2005-05-13 21:43+0000\n"
 "Last-Translator: fermier <fermier@gmx.co.uk>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -81,13 +81,12 @@ msgid "<b>--</b>"
 msgstr "<b>--</b>"
 
 #: ../src/gwp.glade.h:12
-#, fuzzy
 msgid "<b>Available Races</b>"
-msgstr "Races disponibles"
+msgstr "<b>Races disponibles</b>"
 
 #: ../src/gwp.glade.h:13
 msgid "<b>Battle Mass:</b>"
-msgstr "<b>:Masse de Bataille</b>"
+msgstr "<b>Masse de Bataille:</b>"
 
 #: ../src/gwp.glade.h:14
 msgid "<b>Beams Type:</b>"
@@ -107,11 +106,11 @@ msgstr "<b>Colonialistes Payent:</b>"
 
 #: ../src/gwp.glade.h:18
 msgid "<b>Command</b>"
-msgstr "<b>Commande:</b>"
+msgstr "<b>Commande</b>"
 
 #: ../src/gwp.glade.h:19
 msgid "<b>Coords:</b>"
-msgstr "<b>coords:</b>"
+msgstr "<b>Coords:</b>"
 
 #: ../src/gwp.glade.h:20
 msgid "<b>Crew:</b>"
@@ -131,7 +130,7 @@ msgstr "<b>Défenses:</b>"
 
 #: ../src/gwp.glade.h:24
 msgid "<b>Defenses</b>"
-msgstr "<b>Défenses:</b>"
+msgstr "<b>Défenses</b>"
 
 #: ../src/gwp.glade.h:25
 msgid "<b>Distance:</b>"
@@ -151,7 +150,7 @@ msgstr "<b>Moteurs:</b>"
 
 #: ../src/gwp.glade.h:29
 msgid "<b>Equipment</b>"
-msgstr "<b>Provisions:</b>"
+msgstr "<b>Provisions</b>"
 
 #: ../src/gwp.glade.h:30
 msgid "<b>Existing Planet: </b>"
@@ -171,7 +170,7 @@ msgstr "<b>Usines:</b>"
 
 #: ../src/gwp.glade.h:34
 msgid "<b>Factories</b>"
-msgstr "<b>Usines:</b>"
+msgstr "<b>Usines</b>"
 
 #: ../src/gwp.glade.h:35
 msgid "<b>Fighter Bays:</b>"
@@ -190,14 +189,12 @@ msgid "<b>Fuel:</b>"
 msgstr "<b>Carb.:</b>"
 
 #: ../src/gwp.glade.h:39
-#, fuzzy
 msgid "<b>Game Directory</b>"
-msgstr "Répertoire des jeux"
+msgstr "<b>Répertoire de la partie</b>"
 
 #: ../src/gwp.glade.h:40
-#, fuzzy
 msgid "<b>Game Properties</b>"
-msgstr "Propriétés du jeu"
+msgstr "<b>Propriétés de la partie</b>"
 
 #: ../src/gwp.glade.h:41
 msgid "<b>Gov:</b>"
@@ -217,7 +214,7 @@ msgstr "<b>Coques:</b>"
 
 #: ../src/gwp.glade.h:45
 msgid "<b>Loading game data, please wait...</b>"
-msgstr "<b>Chargement de données du jeu, :</b>"
+msgstr "<b>Chargement des données de la partie, patientez...</b>"
 
 #: ../src/gwp.glade.h:46
 msgid "<b>MC:</b>"
@@ -237,7 +234,7 @@ msgstr "<b>Mines:</b>"
 
 #: ../src/gwp.glade.h:50
 msgid "<b>Mines</b>"
-msgstr "<b>Mines:</b>"
+msgstr "<b>Mines</b>"
 
 #: ../src/gwp.glade.h:51
 msgid "<b>Mission:</b>"
@@ -277,6 +274,7 @@ msgid "<b>Owner:</b>"
 msgstr "<b>Propriétaire:</b>"
 
 #: ../src/gwp.glade.h:60
+#, fuzzy
 msgid "<b>P. Enemy:</b>"
 msgstr "<b>Ennemi:</b>"
 
@@ -330,7 +328,7 @@ msgstr "<b>Vitesse:</b>"
 
 #: ../src/gwp.glade.h:73
 msgid "<b>Starbase</b>"
-msgstr "<b>Base d'étoile</b>"
+msgstr "<b>Base stellaire</b>"
 
 #: ../src/gwp.glade.h:74
 msgid "<b>Status</b>"
@@ -373,51 +371,46 @@ msgid "<b>Weapons</b>"
 msgstr "<b>Armements</b>"
 
 #: ../src/gwp.glade.h:84
-#, fuzzy
 msgid "<i>Game Name</i>"
-msgstr "Nom du jeu:"
+msgstr "<i>Nom de la partie</i>"
 
 #: ../src/gwp.glade.h:85
-#, fuzzy
 msgid "<i>Host Email</i>"
-msgstr "Email du host:"
+msgstr "<i>Email de l'hôte</i>"
 
 #: ../src/gwp.glade.h:86
-#, fuzzy
 msgid "<i>Host Type</i>"
-msgstr "Type de host:"
+msgstr "<i>Type d'hôte</i>"
 
 #: ../src/gwp.glade.h:87
-#, fuzzy
 msgid "<i>Player Email</i>"
-msgstr "Email du joueur"
+msgstr "<i>Email du joueur</i>"
 
 #: ../src/gwp.glade.h:88
-#, fuzzy
 msgid "<i>RST Dir</i>"
-msgstr "<i>Pas de vaisseaux</i>"
+msgstr "<i>Répertoire des RST</i>"
 
 #: ../src/gwp.glade.h:89
-#, fuzzy
 msgid "<i>Race Name</i>"
-msgstr "Nom de la race:"
+msgstr "<i>Nom de la race</i>"
 
 #: ../src/gwp.glade.h:90
-#, fuzzy
 msgid "<i>TRN Dir</i>"
-msgstr "<i>Pas de vaisseaux</i>"
+msgstr "<i>Répertoire des TRN</i>"
 
 #: ../src/gwp.glade.h:91
 msgid "Activate if you want to modify your game data. Use at your own risk!"
 msgstr ""
+"Activez si vous voulez modifier les données de la partie. A vos risques et "
+"périls !"
 
 #: ../src/gwp.glade.h:92
 msgid "Apply data modifications"
-msgstr ""
+msgstr "Appliquer les modifications aux données"
 
 #: ../src/gwp.glade.h:93
 msgid "Beam Tech: "
-msgstr "Tech. du rayon:"
+msgstr "Tech. du rayon: "
 
 #: ../src/gwp.glade.h:94
 msgid "Beams: "
@@ -453,11 +446,11 @@ msgstr "Défenses:"
 
 #: ../src/gwp.glade.h:102
 msgid "Delete Game"
-msgstr "Supprimer Jeu"
+msgstr "Supprimer partie"
 
 #: ../src/gwp.glade.h:103
 msgid "Delete this game configuration"
-msgstr "Supprimer la configuration de ce jeu"
+msgstr "Supprimer la configuration de cette partie"
 
 #: ../src/gwp.glade.h:104
 msgid "Density:"
@@ -465,15 +458,15 @@ msgstr "Densité:"
 
 #: ../src/gwp.glade.h:105
 msgid "Edit Game"
-msgstr "Rédiger Jeu"
+msgstr "Configurer la partie"
 
 #: ../src/gwp.glade.h:106
 msgid "Edit Game Preferences"
-msgstr "Rédiger les préférences du jeu"
+msgstr "Modifier les préférences de la partie"
 
 #: ../src/gwp.glade.h:107
 msgid "Engine Type"
-msgstr "Type de propulsion"
+msgstr "Type de moteur"
 
 #: ../src/gwp.glade.h:108
 msgid "Estimated Growth"
@@ -489,7 +482,7 @@ msgstr "Chasseurs / Tropilles"
 
 #: ../src/gwp.glade.h:111
 msgid "Fighters: "
-msgstr "Chasseurs"
+msgstr "Chasseurs: "
 
 #: ../src/gwp.glade.h:112
 msgid "First message"
@@ -505,19 +498,19 @@ msgstr "GNOME War Pad"
 
 #: ../src/gwp.glade.h:115
 msgid "GWP Game Manager"
-msgstr "Gestionnaire des Jeux de GWP"
+msgstr "Gestionnaire de parties de GWP"
 
 #: ../src/gwp.glade.h:116
 msgid "Game Properties"
-msgstr "Propriétés du jeu"
+msgstr "Propriétés de la partie"
 
 #: ../src/gwp.glade.h:117
 msgid "Generate a random Friendly Code"
-msgstr "Trouver un code d'alliance aléatoire"
+msgstr "Générer un code d'alliance aléatoire"
 
 #: ../src/gwp.glade.h:118
 msgid "Global Defense Systems"
-msgstr "Systèmes de défenses globales"
+msgstr "Systèmes de Défenses Globales"
 
 #: ../src/gwp.glade.h:119
 msgid "Ground:"
@@ -533,7 +526,7 @@ msgstr "Dernier message"
 
 #: ../src/gwp.glade.h:122
 msgid "Loading..."
-msgstr "Chargement en route..."
+msgstr "Chargement..."
 
 #: ../src/gwp.glade.h:123
 msgid "Log"
@@ -549,7 +542,7 @@ msgstr "Lecteur de messages"
 
 #: ../src/gwp.glade.h:126
 msgid "Message _reader"
-msgstr "Lecte_r de messages"
+msgstr "Lecteur de _messages"
 
 #: ../src/gwp.glade.h:127
 msgid "Mining"
@@ -557,7 +550,7 @@ msgstr "Miner"
 
 #: ../src/gwp.glade.h:128
 msgid "New Game"
-msgstr "Nouveau jeu"
+msgstr "Nouvelle partie"
 
 #: ../src/gwp.glade.h:129
 msgid "Next message"
@@ -569,7 +562,7 @@ msgstr "Aide en ligne"
 
 #: ../src/gwp.glade.h:131
 msgid "Orders"
-msgstr "Commandes"
+msgstr "Ordres"
 
 #: ../src/gwp.glade.h:132
 msgid "Other Settings"
@@ -585,11 +578,11 @@ msgstr "Planète"
 
 #: ../src/gwp.glade.h:135
 msgid "Play Game"
-msgstr "Jouer le jeu"
+msgstr "Jouer la partie"
 
 #: ../src/gwp.glade.h:136
 msgid "Play Selected Game"
-msgstr "Jouer le jeu selectionné"
+msgstr "Jouer la partie selectionnée"
 
 #: ../src/gwp.glade.h:137
 msgid "Population"
@@ -597,15 +590,15 @@ msgstr "Population"
 
 #: ../src/gwp.glade.h:138
 msgid "Previous message"
-msgstr "Message ultérieur"
+msgstr "Message précédent"
 
 #: ../src/gwp.glade.h:139
 msgid "Python Console"
-msgstr "Console de Python"
+msgstr "Console Python"
 
 #: ../src/gwp.glade.h:140
 msgid "Python console"
-msgstr "Console de Python"
+msgstr "Console Python"
 
 #: ../src/gwp.glade.h:141
 msgid "Race selected"
@@ -619,7 +612,7 @@ msgstr "Race: "
 msgid ""
 "Races available at this particular game directory, pick one by clicking on it"
 msgstr ""
-"Races disponibles dans ce répertoire, sélectionner par clicker dessus"
+"Races disponibles dans ce répertoire, sélectionner en cliquant dessus"
 
 #: ../src/gwp.glade.h:144
 msgid "Resources (KT)"
@@ -628,7 +621,7 @@ msgstr "Resources (kT)"
 #: ../src/gwp.glade.h:145
 #, fuzzy
 msgid "S_ettings"
-msgstr "Autres configurations"
+msgstr "C_onfigurations"
 
 #: ../src/gwp.glade.h:146
 msgid "Select"
@@ -648,23 +641,23 @@ msgstr "Sélectionner le répertoire du jeu"
 
 #: ../src/gwp.glade.h:150
 msgid "Select if you want to edit this game's properties"
-msgstr "Sélectionner pour rédiger les propriétés du jeu"
+msgstr "Sélectionner pour éditer les propriétés de la partie"
 
 #: ../src/gwp.glade.h:151
 msgid "Select if you want to play this game"
-msgstr "Sélectionner pour jouer ce jeu"
+msgstr "Sélectionner pour jouer cette partie"
 
 #: ../src/gwp.glade.h:152
 msgid "Select this if the game is hosted by a PHost (alternative) host type"
-msgstr "A sélectionner en cas d'un jeu par PHost (host alternatif)"
+msgstr "Sélectionner en cas d'une partie par PHost (hôte alternatif)"
 
 #: ../src/gwp.glade.h:153
 msgid "Select this if the game is hosted by a THost (classic) host type"
-msgstr "A sélectionner en cas d'un jeu par THost (host classique)"
+msgstr "Sélectionner en cas d'une partie par THost (hôte classique)"
 
 #: ../src/gwp.glade.h:154
 msgid "Setup a new game"
-msgstr "Configurer un nouveau jeu"
+msgstr "Configurer une nouvelle partie"
 
 #: ../src/gwp.glade.h:155
 msgid "Shield"
@@ -672,7 +665,7 @@ msgstr "Bouclier"
 
 #: ../src/gwp.glade.h:156
 msgid "Shield Bonus"
-msgstr "Renforcement du bouclier"
+msgstr "Bonus de bouclier"
 
 #: ../src/gwp.glade.h:157
 msgid "Ship Data"
@@ -692,11 +685,11 @@ msgstr "Spécifications"
 
 #: ../src/gwp.glade.h:161
 msgid "Starbase"
-msgstr "Base d'étoile"
+msgstr "Base stellaire"
 
 #: ../src/gwp.glade.h:162
 msgid "Starbase Defense Systems"
-msgstr "Systèmes de défense de la base d'étoile"
+msgstr "Systèmes de défense de la base"
 
 #: ../src/gwp.glade.h:163
 msgid "Starship"
@@ -720,7 +713,7 @@ msgstr "Impôts"
 
 #: ../src/gwp.glade.h:168
 msgid "Technology Levels"
-msgstr "Niveau de la technologie"
+msgstr "Niveau de technologie"
 
 #: ../src/gwp.glade.h:169
 msgid "Test"
@@ -732,15 +725,15 @@ msgstr "Répertoir pour sauvegarder les tours"
 
 #: ../src/gwp.glade.h:171
 msgid "The directory where GWP will search for host results"
-msgstr "Répertoire pour chercher les résultats du host"
+msgstr "Répertoire pour chercher les résultats de l'hôte"
 
 #: ../src/gwp.glade.h:172
 msgid "The host's email address, to send your turns"
-msgstr "L'adresse du host, pour envoyer les tours"
+msgstr "L'adresse de l'hôte, pour envoyer les tours"
 
 #: ../src/gwp.glade.h:173
 msgid "The label this game will have in the game manager"
-msgstr "Le nom du jeu comme afficher par le gestionnaire des jeux"
+msgstr "Le nom du jeu dans le gestionnaire de partie"
 
 #: ../src/gwp.glade.h:174
 msgid "Toggle mine fields"
@@ -756,11 +749,11 @@ msgstr "Torp/Chass"
 
 #: ../src/gwp.glade.h:177
 msgid "Torps: "
-msgstr "Torps: "
+msgstr "Torp: "
 
 #: ../src/gwp.glade.h:178
 msgid "Total cargo capacity"
-msgstr "La capacité totale de cargaison"
+msgstr "Capacité totale de cargaison"
 
 #: ../src/gwp.glade.h:179
 msgid "Type: "
@@ -768,7 +761,7 @@ msgstr "Type: "
 
 #: ../src/gwp.glade.h:180
 msgid "Unpack the new RST file"
-msgstr "Décomprimer le nouveau fichier RST"
+msgstr "Décompresser le nouveau fichier RST"
 
 #: ../src/gwp.glade.h:181
 msgid "Visual Combat Recorder"
@@ -780,11 +773,11 @@ msgstr "Enregistrements visuels des combats"
 
 #: ../src/gwp.glade.h:183
 msgid "Where the game data files reside"
-msgstr "Répertoire pour stocker les fichiers de données du jeu"
+msgstr "Répertoire pour stocker les fichiers de données de la partie"
 
 #: ../src/gwp.glade.h:184
 msgid "Your email address, to send your turns to the host"
-msgstr "Votre adresse email, pour envoyer les tours aux hosts"
+msgstr "Votre adresse email, pour envoyer les tours à l'hôte"
 
 #: ../src/gwp.glade.h:185
 #, fuzzy
@@ -794,12 +787,11 @@ msgstr "Agrandir"
 #: ../src/gwp.glade.h:186
 #, fuzzy
 msgid "Zoom Out"
-msgstr "Diminuer"
+msgstr "Réduire"
 
 #: ../src/gwp.glade.h:187
-#, fuzzy
 msgid "_Constellations"
-msgstr "Construction"
+msgstr "_Constellations"
 
 #: ../src/gwp.glade.h:188
 msgid "_Delete"
@@ -807,20 +799,19 @@ msgstr "_Supprimer"
 
 #: ../src/gwp.glade.h:189
 msgid "_Delete Game"
-msgstr "_Supprimer le jeu"
+msgstr "_Supprimer la partie"
 
 #: ../src/gwp.glade.h:190
 msgid "_Edit"
-msgstr "_Rédiger"
+msgstr "_Editer"
 
 #: ../src/gwp.glade.h:191
 msgid "_Edit Game"
-msgstr "_Rédiger le jeu"
+msgstr "_Editer la partie"
 
 #: ../src/gwp.glade.h:192
-#, fuzzy
 msgid "_Grid"
-msgstr "Grille"
+msgstr "_Grille"
 
 #: ../src/gwp.glade.h:193
 msgid "_Ion storms"
@@ -828,7 +819,7 @@ msgstr "_Orages d'ions"
 
 #: ../src/gwp.glade.h:194
 msgid "_Make turn"
-msgstr ""
+msgstr "_Générer le tour"
 
 #: ../src/gwp.glade.h:195
 msgid "_Mine fields"
@@ -840,7 +831,7 @@ msgstr "_Nouveau"
 
 #: ../src/gwp.glade.h:197
 msgid "_New Game"
-msgstr "_Nouveau jeu"
+msgstr "_Nouvelle partie"
 
 #: ../src/gwp.glade.h:198
 msgid "_Online Help"
@@ -856,7 +847,7 @@ msgstr "_Jouer"
 
 #: ../src/gwp.glade.h:201
 msgid "_Play Game"
-msgstr "_Jouer le jeu"
+msgstr "_Jouer la partie"
 
 #: ../src/gwp.glade.h:202
 msgid "_Random"
@@ -864,11 +855,11 @@ msgstr "_Aléatoire"
 
 #: ../src/gwp.glade.h:203
 msgid "_Scanner area"
-msgstr "_Scanner l'endroit"
+msgstr "_Scanner la zone"
 
 #: ../src/gwp.glade.h:204
 msgid "_Unpack"
-msgstr "_Décomprimer"
+msgstr "_Décompresser"
 
 #: ../src/gwp.glade.h:205
 msgid "n/a kT/turn"
@@ -878,43 +869,44 @@ msgstr "p/a kT/tour"
 msgid "n/m"
 msgstr "n/m"
 
+# Propriété de la nouvelle partie ?
 #: ../src/callbacks.c:308
+#, fuzzy
 msgid "New Game Properties"
 msgstr "Nouveau propriétés du jeu"
 
 #: ../src/callbacks.c:482 ../src/callbacks.c:709
 msgid "Edit Game Properties"
-msgstr "Rédiger les propriétés du jeu"
+msgstr "Editer les propriétés de la partie"
 
 #: ../src/callbacks.c:504 ../src/callbacks.c:724
 msgid "Oops! there is some problem with this game"
-msgstr "Houp! Il y a un problème avec ce jeu"
+msgstr "Houps! Il y a un problème avec ce jeu"
 
 #: ../src/callbacks.c:538
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
-msgstr "Vraiment supprimer «%s»?"
+msgstr "Voulez vous vraiment supprimer «%s»?"
 
 #: ../src/callbacks.c:617
-#, fuzzy
 msgid ""
 "(C) 2002-2005 Lucas Di Pentima\n"
 "This software is released under the GNU GPL License"
 msgstr ""
-"(C) 2002-2004 Lucas Di Pentima\n"
-"Ce logiciel est distribuer sous la licence GNU GPL"
+"(C) 2002-2005 Lucas Di Pentima\n"
+"Ce logiciel est distribué sous licence GNU GPL"
 
 #: ../src/callbacks.c:618
 msgid ""
 "A VGA Planets client for the GNOME platform.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
 msgstr ""
-"Un logiciel client pour VGA Planets sous la base de GNOME.\n"
+"Un client VGA Planets pour GNOME.\n"
 "http://www.lunix.com.ar/~ldipenti/gwp/"
 
 #: ../src/callbacks.c:664
 msgid "GWP won't apply your actions."
-msgstr ""
+msgstr "GWP n'appliquera pas vos actions"
 
 #: ../src/callbacks.c:665
 msgid ""
@@ -922,6 +914,9 @@ msgid ""
 "it. You should change the appropriate setting on this game for this to "
 "happen."
 msgstr ""
+"Alors que le fichier de tour serat généré, vos actions ne seront pas "
+"présentes. Vous devez changez les préférences de cette partie pour que ce "
+"soit le cas."
 
 #: ../src/callbacks.c:679
 #, c-format
@@ -929,19 +924,21 @@ msgid ""
 "Turn ready!\n"
 "%d commands done."
 msgstr ""
+"Le tour est prêt !\n"
+"%d Ordres appliqués."
 
 #: ../src/callbacks.c:1216
 msgid "No Python support enabled."
-msgstr "Support pour Python pas engagé"
+msgstr "Support pour Python non activé"
 
 #: ../src/callbacks.c:1217
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
 msgstr ""
-"En cas la fonctionnalité Python scripting est souhaité, prier de "
-"recompiler le logiciel après avoir installé les paquetages de "
-"développement Python pour votre distribution."
+"Au cas où vous avez besoin de Python, vous devez recompiler le logiciel "
+"après avoir installé les paquetages de développement Python de votre "
+"distribution."
 
 #: ../src/support.c:63 ../src/support.c:88
 #, c-format
@@ -950,216 +947,227 @@ msgstr "Le fichier pixmap est introuvable: %s"
 
 #: ../src/main.c:169
 msgid "<i>Attack ships with fuel in orbit</i>"
-msgstr ""
+msgstr "<i>Attaquer des vaisseau avec carburant en orbite</i>"
 
 #: ../src/main.c:170
 msgid "<i>Attack any ship in orbit</i>"
-msgstr ""
+msgstr "<i>Attaquer n'importe quel vaisseau en orbite</i>"
 
 #: ../src/main.c:171
 msgid "<i>Beam up megacredits</i>"
-msgstr ""
+msgstr "<i>Récupérer megacrédits</i>"
 
 #: ../src/main.c:172
 msgid "<i>Get Host configuration settings</i>"
-msgstr ""
+msgstr "<i>Récupérer les paramètres de configuration de l'hôte</i>"
 
 #: ../src/main.c:176
 msgid "<i>Beam down megacredits</i>"
 msgstr ""
 
+# trouver une meilleur traduction pour "at this location"
 #: ../src/main.c:177
+#, fuzzy
 msgid "<i>Transfer fighters to ships at this location</i>"
-msgstr ""
+msgstr "<i>Transférer des chasseurs aux vaisseaus à cet endroit</i>"
 
 #: ../src/main.c:178
+#, fuzzy
 msgid "<i>Transfer MC to ships at this location</i>"
-msgstr ""
+msgstr "<i>Transférer des MC aux vaisseaus à cet endroit</i>"
 
 #: ../src/main.c:179
+#, fuzzy
 msgid "<i>Transfer torpedoes to ships at this location</i>"
-msgstr ""
+msgstr "<i>Transférer des torpilles aux vaisseaus à cet endroit</i>"
 
 #: ../src/main.c:180
 msgid "<i>Use 10 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 10 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:181
 msgid "<i>Use 20 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 20 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:182
 msgid "<i>Use 30 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 30 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:183
 msgid "<i>Use 40 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 40 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:184
 msgid "<i>Use 50 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 50 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:185
 msgid "<i>Use 60 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 60 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:186
 msgid "<i>Use 70 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 70 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:187
 msgid "<i>Use 80 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 80 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:188
 msgid "<i>Use 90 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 90 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:189
 msgid "<i>Use 100 torpedoes to lay mine field</i>"
-msgstr ""
+msgstr "<i>Utiliser 100 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:190
+#, fuzzy
 msgid "<i>Cancel alliance with The Feds</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Féodaux</i>"
 
 #: ../src/main.c:191
 msgid "<i>Cancel alliance with The Lizards</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Lézards</i>"
 
 #: ../src/main.c:192
+#, fuzzy
 msgid "<i>Cancel alliance with The Bird Men</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Hommes Oiseaux</i>"
 
 #: ../src/main.c:193
 msgid "<i>Cancel alliance with The Fascists</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Fascistes</i>"
 
 #: ../src/main.c:194
 msgid "<i>Cancel alliance with The Privateers</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Pirates</i>"
 
 #: ../src/main.c:195
 msgid "<i>Cancel alliance with The Cyborgs</i>"
-msgstr ""
+msgstr "<i>Annuer l'aliance avec les Cyborgs</i>"
 
 #: ../src/main.c:196
+#, fuzzy
 msgid "<i>Cancel alliance with The Crystal People</i>"
-msgstr ""
+msgstr "<i>Annuler l'aliance avec les Hommes de verre</i>"
 
 #: ../src/main.c:197
 msgid "<i>Cancel alliance with The Evil Empire</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec l'Empire du Mal</i>"
 
 #: ../src/main.c:198
 msgid "<i>Cancel alliance with The Robots</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Robots</i>"
 
 #: ../src/main.c:199
 msgid "<i>Cancel alliance with The Rebels</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Rebelles</i>"
 
 #: ../src/main.c:200
 msgid "<i>Cancel alliance with The Colonies</i>"
-msgstr ""
+msgstr "<i>Annuler l'alliance avec les Colonies</i>"
 
 #: ../src/main.c:201
 msgid "<i>Offer/accept alliance with The Feds</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Féodaux</i>"
 
 #: ../src/main.c:202
 msgid "<i>Offer/accept alliance with The Lizards</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Lézards</i>"
 
 #: ../src/main.c:203
+#, fuzzy
 msgid "<i>Offer/accept alliance with The Bird Men</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Hommes Oiseaux</i>"
 
 #: ../src/main.c:204
 msgid "<i>Offer/accept alliance with The Fascists</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Fascistes</i>"
 
 #: ../src/main.c:205
 msgid "<i>Offer/accept alliance with The Privateers</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Pirates</i>"
 
 #: ../src/main.c:206
 msgid "<i>Offer/accept alliance with The Cyborgs</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Cyborgs</i>"
 
 #: ../src/main.c:207
+#, fuzzy
 msgid "<i>Offer/accept alliance with The Crystal People</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Hommes Oiseaux</i>"
 
 #: ../src/main.c:208
 msgid "<i>Offer/accept alliance with The Evil Empire</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec l'Empire du Mal</i>"
 
 #: ../src/main.c:209
 msgid "<i>Offer/accept alliance with The Robots</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Robots</i>"
 
 #: ../src/main.c:210
 msgid "<i>Offer/accept alliance with The Rebels</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Rebelles</i>"
 
 #: ../src/main.c:211
 msgid "<i>Offer/accept alliance with The Colonies</i>"
-msgstr ""
+msgstr "<i>Proposer/accepter une alliance avec les Colonies</i>"
 
 #: ../src/main.c:212
 msgid "<i>Give ship to The Feds</i>"
-msgstr ""
+msgstr "<i> Donner le vaisseau aux Féodaux</i>"
 
 #: ../src/main.c:213
 msgid "<i>Give ship to The Lizards</i>"
-msgstr ""
+msgstr "<i> Donner le vaisseau aux Lézards</i>"
 
 #: ../src/main.c:214
+#, fuzzy
 msgid "<i>Give ship to The Bird Men</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Hommes Oiseaux</i>"
 
 #: ../src/main.c:215
 msgid "<i>Give ship to The Fascists</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Fascistes</i>"
 
 #: ../src/main.c:216
 msgid "<i>Give ship to The Privateers</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Pirates</i>"
 
 #: ../src/main.c:217
 msgid "<i>Give ship to The Cyborgs</i>"
-msgstr ""
+msgstr "<i> Donner le vaisseau aux Cyborgs</i>"
 
 #: ../src/main.c:218
+#, fuzzy
 msgid "<i>Give ship to The Crystal People</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Hommes de verre</i>"
 
 #: ../src/main.c:219
-#, fuzzy
 msgid "<i>Give ship to The Evil Empire</i>"
-msgstr "L'Empire d'enfer"
+msgstr "<i>Donner le vaisseau à l'Empire du Mal</i>"
 
 #: ../src/main.c:220
 msgid "<i>Give ship to The Robots</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Robots</i>"
 
 #: ../src/main.c:221
 msgid "<i>Give ship to The Rebels</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Rebelles</i>"
 
 #: ../src/main.c:222
 msgid "<i>Give ship to The Colonies</i>"
-msgstr ""
+msgstr "<i>Donner le vaisseau aux Colonies</i>"
 
 #: ../src/main.c:223
+#, fuzzy
 msgid "<i>Activate Hyperdrive</i>"
-msgstr ""
+msgstr "<i>Activer l'hyper poussé</i>"
 
 #: ../src/main.c:224
 msgid "<i>Don't use fighters or torps in battle</i>"
-msgstr ""
+msgstr "<i>Ne pas utiliser de combattants ou de torpilles dans la bataille"
 
 #: ../src/main.c:225
 msgid "<i>Explode Glory Device after movement</i>"
@@ -1261,7 +1269,7 @@ msgstr "%d MC"
 
 #: ../src/starchart.c:612
 msgid "<i>No ship</i>"
-msgstr "<i>Pas de vaisseaux</i>"
+msgstr "<i>Pas de vaisseau</i>"
 
 #. Engines
 #: ../src/starchart.c:637 ../src/starchart.c:644
@@ -1303,7 +1311,7 @@ msgstr "aucune"
 
 #: ../src/starchart.c:1244
 msgid "Nobody"
-msgstr ""
+msgstr "Personne"
 
 #. Update distance
 #: ../src/starchart.c:1347
@@ -1350,7 +1358,7 @@ msgstr "%d %s in %s"
 #: ../src/starchart.c:2498
 #, c-format
 msgid "Distance: %.2f LY"
-msgstr ""
+msgstr "Distance: %.2f AL"
 
 #: ../src/starchart.c:2563
 msgid "Name"
@@ -1359,20 +1367,20 @@ msgstr "Nom"
 #: ../src/vp_utils.c:940
 #, c-format
 msgid "KORE%d.DAT not found, some data will be missing."
-msgstr "KORE%d.DAT pas trouvé, il y aura de données manquantes."
+msgstr "KORE%d.DAT introuvable, il y aura des données manquantes."
 
 #: ../src/vp_utils.c:942
-#, fuzzy
 msgid ""
 "It seems that you use the DOS RST format. The missing file provides the data "
 "about ion storms and minefields, but couldn't be found in this case. This is "
 "not a fatal error, GWP will continue loading but this data won't appear on "
 "the game."
 msgstr ""
-"Ce fichier contient les données concernants les orages d'ion et les champs "
-"de mines, mais il reste introuvable dans ce cas.  Ce n'est pas une erreur "
-"fatale.  GWP continuera le chargement du jeu, mais ces données ne seront "
-"pas affichées dans le jeu."
+"Il semble que vous utilisez le format RST DOS. Le fichier manquant contient "
+"les données concernants les orages d'ion et les champs de mines, mais il "
+"reste introuvable dans ce cas.  Ce n'est pas une erreur fatale.  GWP "
+"continuera le chargement de la partie, mais ces données ne seront pas "
+"affichées."
 
 #: ../src/game_mgr.c:89
 msgid "Your game definitions will be deleted."
@@ -1392,42 +1400,42 @@ msgstr ""
 #: ../src/game_mgr.c:419
 #, c-format
 msgid "Game directory '%s' doesn't exist"
-msgstr "Répertoire du jeu «%s» n'existe pas"
+msgstr "Répertoire de la partie «%s» n'existe pas"
 
 #: ../src/game_mgr.c:435
 msgid "Please provide a name for this game"
-msgstr "Prier de définir un nom pour ce jeu"
+msgstr "S'il vous plaît, donner un nom pour cette partie"
 
 #: ../src/game_mgr.c:468
 #, c-format
 msgid "A game named '%s' already exist, please select another name"
-msgstr "Un jeu nommé «%s» existe déjà, prier de choisir un nom différent"
+msgstr ""
+"Une partie nommé «%s» existe déjà, prier de choisir un nom différent"
 
 #: ../src/game_mgr.c:488
 msgid "Please select a race"
 msgstr "Prier de sélectionner une race"
 
 #: ../src/game_mgr.c:572
-#, fuzzy
 msgid "turn "
-msgstr "Tour"
+msgstr "Tour "
 
 #: ../src/game_mgr.c:642
 msgid "No game selected, please select one."
-msgstr "Pas de jeu sélectionné, prier de sélectionner un"
+msgstr "Pas de partie sélectionnée, prier d'en sélectionner une"
 
 #: ../src/game_mgr.c:643
 msgid ""
 "If you don't have any game on your game manager, you should add one with the "
 "\"New\" button, adding the necessary game data."
 msgstr ""
-"Quand il n'y pas de jeux dans le gestionnaire des jeux, prier d'en y ajouter "
-"un en utilisant le bouton \"Nouveau\", et en ajoutant les données du jeu "
-"requises."
+"Quand il n'y pas de jeux dans le gestionnaire de partie, vous pouvez en y "
+"ajouter une en utilisant le bouton \"Nouveau\", et en ajoutant les données "
+"nécéssaires."
 
 #: ../src/game_mgr.c:662
 msgid "GWP won't apply your actions by default."
-msgstr ""
+msgstr "GWP n'appliquera pas vos actions pas défaut"
 
 #: ../src/game_mgr.c:663
 msgid ""
@@ -1438,10 +1446,18 @@ msgid ""
 "You can activate this by editing the game's properties, use this at your own "
 "risk!"
 msgstr ""
+"De nouvelles fonctionnalités ont été ajouté à GWP qui permettent des "
+"actions sur la parties.\n"
+"Il est possible que des bigs puissent la corruption des données de vôtre "
+"partie, donc ces actions ne seront pas appliquées aux fichiers de vôtre "
+"partie par défaut.\n"
+"Vous pouvez les activer en éditant les propriétés de la partie, utilisez "
+"les à vos risques et périls !"
 
 #: ../src/game_mgr.c:682
 msgid "A new RST file was found. Do you want to unpack it?"
-msgstr "Un nouveau fichier RST a été trouvé. Désirez-vous le décomprimer?"
+msgstr ""
+"Un nouveau fichier RST a été trouvé. Désirez-vous le décompresser ?"
 
 #: ../src/game_mgr.c:711
 #, c-format
@@ -1450,15 +1466,16 @@ msgstr "Tour: %d"
 
 #: ../src/game_mgr.c:767
 msgid "Error creating the message history directory."
-msgstr "Il y a une erreur d'établir le répertoire de journal des messages."
+msgstr "Erreur en créant le répertoire de l'historique des messages."
 
 #: ../src/game_mgr.c:768
 msgid ""
 "A file already exists with the name 'message-history', please remove or "
 "rename this file so that the message history feature can work correctly."
 msgstr ""
-"Un fichier nommé 'message-history' existe déjà, prier le renommer ou "
-"déplacer pour que le journal de messages puisse fonctionner correctement."
+"Un fichier nommé 'message-history' existe déjà, prier de le renommer ou "
+"de le déplacer pour que le journal de messages puisse fonctionner "
+"correctement."
 
 #: ../src/game_mgr.c:805
 msgid "Message data file not found."
@@ -1470,22 +1487,20 @@ msgid ""
 "check your VGA Planets installation."
 msgstr ""
 "Le fichier MDATA est introuvable. Ce fichier est nécessaire pour lire les "
-"messages du jeu, prier de vérifier votre installation de VGA Planets."
+"messages de la partie, prier de vérifier votre installation de VGA Planets."
 
 #: ../src/game_mgr.c:1217
-#, fuzzy
 msgid "no games"
-msgstr "Nom inconnu"
+msgstr "Pas de partie"
 
 #: ../src/game_mgr.c:1219
-#, fuzzy
 msgid "1 game"
-msgstr "Nom"
+msgstr "1 partie"
 
 #: ../src/game_mgr.c:1221
-#, fuzzy, c-format
+#, c-format
 msgid "%d games"
-msgstr "%d chasseurs"
+msgstr "%d parties"
 
 #: ../src/race.c:28 ../scripts/plugins/magallanes.glade.h:31
 #: ../scripts/plugins/vp_utils.py:85
@@ -1522,7 +1537,7 @@ msgstr "Les Cristallines"
 
 #: ../src/race.c:52
 msgid "The Evil Empire"
-msgstr "L'Empire d'enfer"
+msgstr "L'Empire du Mal"
 
 #: ../src/race.c:55
 msgid "The Robots"
@@ -1534,7 +1549,7 @@ msgstr "Les Rebelles"
 
 #: ../src/race.c:61
 msgid "The Colonies"
-msgstr "Les Colonialistes"
+msgstr "Les Colonies"
 
 #: ../src/tables.c:67
 msgid "Turn"
@@ -1546,7 +1561,7 @@ msgstr "Colonialistes"
 
 #: ../src/tables.c:79
 msgid "C Happ"
-msgstr "Heureux C"
+msgstr "Joie C"
 
 #: ../src/tables.c:85
 msgid "C Growth"
@@ -1558,11 +1573,11 @@ msgstr "Indigènes"
 
 #: ../src/tables.c:97
 msgid "N Happ"
-msgstr "Heureux I"
+msgstr "Joie N"
 
 #: ../src/tables.c:103
 msgid "N Growth"
-msgstr "Croissance I"
+msgstr "Croissance N"
 
 #: ../src/gwp-object.c:76
 msgid "Unknown name"
@@ -1674,7 +1689,7 @@ msgstr "Anarchie"
 
 #: ../src/gwp-planet.c:911
 msgid "Pre-Tribal"
-msgstr "Avant-Tribale"
+msgstr "Pré-Tribale"
 
 #: ../src/gwp-planet.c:912
 msgid "Early-Tribal"
@@ -1758,7 +1773,7 @@ msgstr "Auto-réparer"
 
 #: ../src/mission.c:49
 msgid "Lay Web Mines"
-msgstr "Poser les mines toile"
+msgstr "Larguer les mines de toile"
 
 #: ../src/mission.c:52
 msgid "Dark Sense"
@@ -1782,7 +1797,7 @@ msgstr "Balayer mines"
 
 #: ../src/mission.c:81
 msgid "Lay mines"
-msgstr "Poser des mines"
+msgstr "Larguer des mines"
 
 #: ../src/mission.c:84
 msgid "Kill"
@@ -1811,7 +1826,7 @@ msgstr "Spéciale"
 #. Special Function description
 #: ../src/mission.c:102 ../scripts/plugins/vp_utils.py:67
 msgid "Cloak"
-msgstr "Tanner"
+msgstr "Camoufler"
 
 #: ../src/mission.c:105
 msgid "Beam up fuel"
@@ -1843,7 +1858,7 @@ msgstr "Maximiser les défenses"
 
 #: ../src/mission.c:137
 msgid "Load torpedoes on ships"
-msgstr "Charger vaisseaux avec des torpilles"
+msgstr "Charger le vaisseaux avec des torpilles"
 
 #: ../src/mission.c:140
 msgid "Unload ships"
@@ -1851,7 +1866,7 @@ msgstr "Décharger vaisseaux"
 
 #: ../src/mission.c:143
 msgid "Repair starbase"
-msgstr "Réparer base d'étoile"
+msgstr "Réparer base stellaire"
 
 #: ../src/mission.c:146
 msgid "Force a surrender"
@@ -1859,7 +1874,7 @@ msgstr "Forcer une reddition"
 
 #: ../src/vcr-combat-gl.c:1236
 msgid "Welcome to the Visual Combat Simulator\n"
-msgstr "Bienvenue au simulateur de combat visuelle\n"
+msgstr "Bienvenue au simulateur de combat visuel\n"
 
 #: ../src/vcr-combat-gl.c:1237 ../src/vcr-combat-gl.c:1240
 #: ../src/vcr-combat-gl.c:1243
@@ -1868,7 +1883,7 @@ msgstr "\n"
 
 #: ../src/vcr-combat-gl.c:1238
 msgid "If you can read this message your GWP is not able to show\n"
-msgstr "Quand vous voyez ce message votre GWP ne peut pas afficher\n"
+msgstr "Si vous voyez ce message votre GWP ne peut pas afficher\n"
 
 #: ../src/vcr-combat-gl.c:1239
 msgid "any 3D-animated combat simulations - which is quite a pity :-).\n"
@@ -1884,15 +1899,15 @@ msgstr "http://gtkglext.sourceforge.net/\n"
 
 #: ../src/vcr-combat-gl.c:1244
 msgid "Good luck ...\n"
-msgstr "Bonne chance\n"
+msgstr "Bonne chance...\n"
 
 #: ../src/gwp-python.c:79
 msgid "_Plugins"
-msgstr ""
+msgstr "_Greffons"
 
 #: ../scripts/plugins/magallanes.py:12
 msgid "Utility for viewing the ships characteristics"
-msgstr ""
+msgstr "Utilitaire pour voir les caractéristiques des vaisseaux"
 
 #. Columns Lista Naves
 #: ../scripts/plugins/magallanes.py:448
@@ -1901,156 +1916,138 @@ msgstr "Vaisseaux"
 
 #. Columns Comparacion
 #: ../scripts/plugins/magallanes.py:450
-#, fuzzy
 msgid "Race"
-msgstr "Race: "
+msgstr "Race"
 
 #: ../scripts/plugins/magallanes.py:452
 msgid "Mass"
-msgstr ""
+msgstr "Masse"
 
 #: ../scripts/plugins/magallanes.py:454
-#, fuzzy
 msgid "Beam (tech)"
-msgstr "Tech. du rayon:"
+msgstr "Rayon (tech)"
 
+# fuzzy tant que je sait pas ce que ca veux dire
 #: ../scripts/plugins/magallanes.py:455
+#, fuzzy
 msgid "T/F (tech)"
-msgstr ""
+msgstr "T/F (tech)"
 
 #: ../scripts/plugins/magallanes.py:457
-#, fuzzy
 msgid "Fuel"
-msgstr "Féodale"
+msgstr "Carburant"
 
+# Fuzzy tant que wp c'est pas ce que c'est
 #: ../scripts/plugins/magallanes.py:458
+#, fuzzy
 msgid "Eng (wp)"
-msgstr ""
+msgstr "Eng (wp)"
 
 #: ../scripts/plugins/magallanes.py:459
-#, fuzzy
 msgid "MC"
-msgstr "0 MC"
+msgstr "MC"
 
 #: ../scripts/plugins/magallanes.py:460
-#, fuzzy
 msgid "Tri"
-msgstr "Tribale"
+msgstr "Tri"
 
 #: ../scripts/plugins/magallanes.py:461
 msgid "Dur"
-msgstr ""
+msgstr "Dur"
 
 #: ../scripts/plugins/magallanes.py:462
 msgid "Mol"
-msgstr ""
+msgstr "Mol"
 
 #: ../scripts/plugins/magallanes.glade.h:1
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../scripts/plugins/magallanes.glade.h:2
-#, fuzzy
 msgid "<b>Beams: </b>"
-msgstr "<b>Rayons:</b>"
+msgstr "<b>Rayons: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:3
-#, fuzzy
 msgid "<b>Beams</b>"
-msgstr "<b>Rayons:</b>"
+msgstr "<b>Rayons</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:4
-#, fuzzy
 msgid "<b>Cargo</b>"
-msgstr "<b>Col:</b>"
+msgstr "<b>Chargement</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:5
-#, fuzzy
 msgid "<b>Comparative table</b>"
-msgstr "<b>Indigènes payent:</b>"
+msgstr "<b>Tableau comparatif</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:6
-#, fuzzy
 msgid "<b>Crew</b>"
-msgstr "<b>Équipage:</b>"
+msgstr "<b>Équipage</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:7
-#, fuzzy
 msgid "<b>Dur</b>"
-msgstr "<b>Dur:</b>"
+msgstr "<b>Dur</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:8
-#, fuzzy
 msgid "<b>Engines: </b>"
-msgstr "<b>Moteurs:</b>"
+msgstr "<b>Moteurs: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:9
-#, fuzzy
 msgid "<b>Engines</b>"
-msgstr "<b>Moteurs:</b>"
+msgstr "<b>Moteurs</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:10
-#, fuzzy
 msgid "<b>Fuel</b>"
-msgstr "<b>Carb.:</b>"
+msgstr "<b>Carb.</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:12
-#, fuzzy
 msgid "<b>Mass</b>"
-msgstr "<b>Masse:</b>"
+msgstr "<b>Masse</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:13
-#, fuzzy
 msgid "<b>Mol</b>"
-msgstr "<b>Mol:</b>"
+msgstr "<b>Mol</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:14
-#, fuzzy
 msgid "<b>Races available</b>"
-msgstr "<b>Race:</b>"
+msgstr "<b>Races possibles</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:15
-#, fuzzy
 msgid "<b>Special Functions: </b>"
-msgstr "<b>Cons. de carb.:</b>"
+msgstr "<b>Capacitées spéciales: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:16
 #, fuzzy
 msgid "<b>TP/F</b>"
-msgstr "<b>CI:</b>"
+msgstr "<b>TP/F</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:17
-#, fuzzy
 msgid "<b>Tech Level:  </b>"
-msgstr "<b>Défense: </b>"
+msgstr "<b>Niveau tech.:  </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:18
-#, fuzzy
 msgid "<b>Torps: </b>"
-msgstr "<b>Torpilles:</b>"
+msgstr "<b>Torpilles: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:19
-#, fuzzy
 msgid "<b>Total Cost: </b>"
-msgstr "<b>coords:</b>"
+msgstr "<b>Coût total: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:20
-#, fuzzy
 msgid "<b>Tri</b>"
-msgstr "<b>Tri:</b>"
+msgstr "<b>Tri</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:21
+#, fuzzy
 msgid "Birds"
-msgstr ""
+msgstr "Oisseaux"
 
 #: ../scripts/plugins/magallanes.glade.h:22
 msgid "Borgs"
-msgstr ""
+msgstr "Cyborgs"
 
 #: ../scripts/plugins/magallanes.glade.h:23
-#, fuzzy
 msgid "Colonies"
-msgstr "Coloniser"
+msgstr "Colonies"
 
 #: ../scripts/plugins/magallanes.glade.h:24
 #, fuzzy
@@ -2063,75 +2060,68 @@ msgstr ""
 
 #: ../scripts/plugins/magallanes.glade.h:26
 msgid "Evils"
-msgstr ""
+msgstr "Le Mal"
 
 #: ../scripts/plugins/magallanes.glade.h:27
-#, fuzzy
 msgid "Fascists"
-msgstr "Les Fascistes"
+msgstr "Fascistes"
 
 #: ../scripts/plugins/magallanes.glade.h:28
-#, fuzzy
 msgid "Feds"
-msgstr "Féodale"
+msgstr "Féodaux"
 
 #: ../scripts/plugins/magallanes.glade.h:29
-#, fuzzy
 msgid "Lizards"
-msgstr "Les Lézards"
+msgstr "Lézards"
 
 #: ../scripts/plugins/magallanes.glade.h:30
 msgid "Magallanes 0.2"
-msgstr ""
+msgstr "Magallanes 0.2"
 
 #: ../scripts/plugins/magallanes.glade.h:32
-#, fuzzy
 msgid "Privateers"
-msgstr "Les Pirates"
+msgstr "Pirates"
 
 #: ../scripts/plugins/magallanes.glade.h:33
-#, fuzzy
 msgid "Rebels"
-msgstr "Les Rebelles"
+msgstr "Rebelles"
 
 #: ../scripts/plugins/magallanes.glade.h:34
-#, fuzzy
 msgid "Robots"
-msgstr "Les Robots"
+msgstr "Robots"
 
 #: ../scripts/plugins/magallanes.glade.h:35
 msgid "Ship"
 msgstr "Vaisseau"
 
 #: ../scripts/plugins/magallanes.glade.h:36
-#, fuzzy
 msgid "Ship & Parts"
-msgstr "Données du vaisseau"
+msgstr "Vaisseau & Composants"
 
 #: ../scripts/plugins/vp_utils.py:68
 msgid "Advanced Cloak"
-msgstr ""
+msgstr "Camouflage avancé"
 
 #: ../scripts/plugins/vp_utils.py:69
 #, fuzzy
 msgid "Anti-Cloak"
-msgstr "Tanner"
+msgstr "Anti Camouflage"
 
 #: ../scripts/plugins/vp_utils.py:70
 msgid "BioScan"
-msgstr ""
+msgstr "BioScan"
 
 #: ../scripts/plugins/vp_utils.py:71
 msgid "Cools down to 50 degrees"
-msgstr ""
+msgstr "Refroidir de 50 degrés"
 
 #: ../scripts/plugins/vp_utils.py:72
 msgid "Warms up to 50 degrees"
-msgstr ""
+msgstr "Rechauffer de 50 degrés"
 
 #: ../scripts/plugins/vp_utils.py:73
 msgid "Warms up to 100 degrees"
-msgstr ""
+msgstr "Rechauffer de 100 degrés"
 
 #: ../scripts/plugins/vp_utils.py:74
 msgid "Glory Device High Damage"
@@ -2143,7 +2133,7 @@ msgstr ""
 
 #: ../scripts/plugins/vp_utils.py:76
 msgid "Generate MCs"
-msgstr ""
+msgstr "Générer les MCs"
 
 #: ../scripts/plugins/vp_utils.py:77
 msgid "Cloak and Gravitronic Acelerators"
@@ -2154,24 +2144,27 @@ msgid "Chunnel"
 msgstr ""
 
 #: ../scripts/plugins/vp_utils.py:79
+#, fuzzy
 msgid "Hyperdrive"
-msgstr ""
+msgstr "Hyper poussé"
 
 #: ../scripts/plugins/vp_utils.py:80
 msgid "Imperial Assault"
-msgstr ""
+msgstr "Assauts impérial"
 
 #: ../scripts/plugins/vp_utils.py:81
 msgid "Ramscoop, Bioscanner"
 msgstr ""
 
 #: ../scripts/plugins/vp_utils.py:82 ../scripts/plugins/vp_utils.py:83
+#, fuzzy
 msgid "Fuel Alchemy"
-msgstr ""
+msgstr "Chimie de l'essence"
 
 #: ../scripts/plugins/vp_utils.py:84
+#, fuzzy
 msgid "Minerals Alchemy"
-msgstr ""
+msgstr "Chimie des mineraux"
 
 #~ msgid "RST Dir:"
 #~ msgstr "Rep. de RST"
