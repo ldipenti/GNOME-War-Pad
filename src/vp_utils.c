@@ -1047,10 +1047,22 @@ void load_gen_data(void)
   FILE *gen_dat = NULL;
   GString *gen_file_name;
   gchar buffer[155];
+  gchar *fullpath = NULL;
 
   gen_file_name = g_string_new(g_strdup_printf("gen%d.dat", 
 					       gwp_game_state_get_race(game_state)));
-  gen_dat = fopen (gwp_game_state_get_full_path(game_state, gen_file_name->str), "r");
+
+  fullpath = gwp_game_state_get_full_path (game_state, gen_file_name->str);
+
+  if (g_file_test(fullpath, G_FILE_TEST_EXISTS)) {
+    gen_dat = fopen (fullpath, "r");
+  } else {
+    fullpath = gwp_game_state_get_full_path (game_state,
+					     g_string_ascii_up(gen_file_name)->str);
+    if (g_file_test(fullpath, G_FILE_TEST_EXISTS)) {
+      gen_dat = fopen (fullpath, "r");
+    }
+  }
   
   if(!gen_dat) {
     g_message("ERROR trying to open %s file.",
@@ -1093,6 +1105,21 @@ void load_gen_data(void)
 		gwp_game_state_get_full_path(game_state, bdata_dat_file->str));
       exit(-1);
     }
+  } else if(g_file_test(gwp_game_state_get_full_path(game_state, 
+						     g_string_ascii_up(bdata_dat_file)->str),
+			G_FILE_TEST_EXISTS)) {
+    if((bdata =
+	fopen(gwp_game_state_get_full_path(game_state, 
+					   g_string_ascii_up(bdata_dat_file)->str),
+	      "r")) == NULL) {
+      g_message("ERROR trying to open %s file.",
+		gwp_game_state_get_full_path(game_state, bdata_dat_file->str));
+      exit(-1);
+    }
+  } else {
+    g_message("ERROR trying to open %s file.",
+	      gwp_game_state_get_full_path(game_state, bdata_dat_file->str));
+    exit(-1);
   }
 
   rewind(bdata);
