@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GWP 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-09 09:04-0300\n"
-"PO-Revision-Date: 2005-05-13 21:43+0000\n"
+"PO-Revision-Date: 2005-05-23 20:19+0000\n"
 "Last-Translator: fermier <fermier@gmx.co.uk>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "<b>Vaisseau existant: </b>"
 
 #: ../src/gwp.glade.h:32
 msgid "<b>FC:</b>"
-msgstr "<b>CI:</b>"
+msgstr "<b>CF:</b>"
 
 #: ../src/gwp.glade.h:33
 msgid "<b>Factories:</b>"
@@ -400,9 +400,7 @@ msgstr "<i>Répertoire des TRN</i>"
 
 #: ../src/gwp.glade.h:91
 msgid "Activate if you want to modify your game data. Use at your own risk!"
-msgstr ""
-"Activez si vous voulez modifier les données de la partie. A vos risques et "
-"périls !"
+msgstr "Activez si vous voulez modifier les données de la partie. A vos risques et périls !"
 
 #: ../src/gwp.glade.h:92
 msgid "Apply data modifications"
@@ -506,7 +504,7 @@ msgstr "Propriétés de la partie"
 
 #: ../src/gwp.glade.h:117
 msgid "Generate a random Friendly Code"
-msgstr "Générer un code d'alliance aléatoire"
+msgstr "Générer un Code de Fonction aléatoire"
 
 #: ../src/gwp.glade.h:118
 msgid "Global Defense Systems"
@@ -611,8 +609,7 @@ msgstr "Race: "
 #: ../src/gwp.glade.h:143
 msgid ""
 "Races available at this particular game directory, pick one by clicking on it"
-msgstr ""
-"Races disponibles dans ce répertoire, sélectionner en cliquant dessus"
+msgstr "Races disponibles dans ce répertoire, sélectionner en cliquant dessus"
 
 #: ../src/gwp.glade.h:144
 msgid "Resources (KT)"
@@ -780,14 +777,12 @@ msgid "Your email address, to send your turns to the host"
 msgstr "Votre adresse email, pour envoyer les tours à l'hôte"
 
 #: ../src/gwp.glade.h:185
-#, fuzzy
 msgid "Zoom In"
-msgstr "Agrandir"
+msgstr "Zoom avant"
 
 #: ../src/gwp.glade.h:186
-#, fuzzy
 msgid "Zoom Out"
-msgstr "Réduire"
+msgstr "Zoom arrière"
 
 #: ../src/gwp.glade.h:187
 msgid "_Constellations"
@@ -913,10 +908,7 @@ msgid ""
 "Although the turn file will be generated, your actions won't be reflected on "
 "it. You should change the appropriate setting on this game for this to "
 "happen."
-msgstr ""
-"Alors que le fichier de tour serat généré, vos actions ne seront pas "
-"présentes. Vous devez changez les préférences de cette partie pour que ce "
-"soit le cas."
+msgstr "Alors que le fichier de tour serat généré, vos actions ne seront pas présentes. Vous devez changez les préférences de cette partie pour que ce soit le cas."
 
 #: ../src/callbacks.c:679
 #, c-format
@@ -935,10 +927,7 @@ msgstr "Support pour Python non activé"
 msgid ""
 "If you need the Python scripting feature, you should recompile the program "
 "after installing Python development packages on your distribution."
-msgstr ""
-"Au cas où vous avez besoin de Python, vous devez recompiler le logiciel "
-"après avoir installé les paquetages de développement Python de votre "
-"distribution."
+msgstr "Au cas où vous avez besoin de Python, vous devez recompiler le logiciel après avoir installé les paquetages de développement Python de votre distribution."
 
 #: ../src/support.c:63 ../src/support.c:88
 #, c-format
@@ -1171,11 +1160,11 @@ msgstr "<i>Ne pas utiliser de combattants ou de torpilles dans la bataille"
 
 #: ../src/main.c:225
 msgid "<i>Explode Glory Device after movement</i>"
-msgstr ""
+msgstr "<i>Faire exploser l'Engin de Gloire après le mouvement</i>"
 
 #: ../src/main.c:226
 msgid "<i>Explode Glory Device when detecting a cloaked ship</i>"
-msgstr ""
+msgstr "<i>Faire exploser l'Engin de Gloire lorsqu'un vaisseau occulté est detecté</i>"
 
 #: ../src/starchart.c:139 ../src/starchart.c:145 ../src/starchart.c:151
 #: ../src/starchart.c:157
@@ -1375,12 +1364,7 @@ msgid ""
 "about ion storms and minefields, but couldn't be found in this case. This is "
 "not a fatal error, GWP will continue loading but this data won't appear on "
 "the game."
-msgstr ""
-"Il semble que vous utilisez le format RST DOS. Le fichier manquant contient "
-"les données concernants les orages d'ion et les champs de mines, mais il "
-"reste introuvable dans ce cas.  Ce n'est pas une erreur fatale.  GWP "
-"continuera le chargement de la partie, mais ces données ne seront pas "
-"affichées."
+msgstr "Il semble que vous utilisez le format RST DOS. Le fichier manquant contient les données concernants les orages d'ion et les champs de mines, mais il reste introuvable dans ce cas.  Ce n'est pas une erreur fatale.  GWP continuera le chargement de la partie, mais ces données ne seront pas affichées."
 
 #: ../src/game_mgr.c:89
 msgid "Your game definitions will be deleted."
@@ -1409,8 +1393,7 @@ msgstr "S'il vous plaît, donner un nom pour cette partie"
 #: ../src/game_mgr.c:468
 #, c-format
 msgid "A game named '%s' already exist, please select another name"
-msgstr ""
-"Une partie nommé «%s» existe déjà, prier de choisir un nom différent"
+msgstr "Une partie nommé «%s» existe déjà, prier de choisir un nom différent"
 
 #: ../src/game_mgr.c:488
 msgid "Please select a race"
@@ -1428,10 +1411,7 @@ msgstr "Pas de partie sélectionnée, prier d'en sélectionner une"
 msgid ""
 "If you don't have any game on your game manager, you should add one with the "
 "\"New\" button, adding the necessary game data."
-msgstr ""
-"Quand il n'y pas de jeux dans le gestionnaire de partie, vous pouvez en y "
-"ajouter une en utilisant le bouton \"Nouveau\", et en ajoutant les données "
-"nécéssaires."
+msgstr "Quand il n'y pas de jeux dans le gestionnaire de partie, vous pouvez en y ajouter une en utilisant le bouton \"Nouveau\", et en ajoutant les données nécéssaires."
 
 #: ../src/game_mgr.c:662
 msgid "GWP won't apply your actions by default."
@@ -1446,18 +1426,13 @@ msgid ""
 "You can activate this by editing the game's properties, use this at your own "
 "risk!"
 msgstr ""
-"De nouvelles fonctionnalités ont été ajouté à GWP qui permettent des "
-"actions sur la parties.\n"
-"Il est possible que des bigs puissent la corruption des données de vôtre "
-"partie, donc ces actions ne seront pas appliquées aux fichiers de vôtre "
-"partie par défaut.\n"
-"Vous pouvez les activer en éditant les propriétés de la partie, utilisez "
-"les à vos risques et périls !"
+"De nouvelles fonctionnalités ont été ajouté à GWP qui permettent des actions sur la parties.\n"
+"Il est possible que des bigs puissent la corruption des données de vôtre partie, donc ces actions ne seront pas appliquées aux fichiers de vôtre partie par défaut.\n"
+"Vous pouvez les activer en éditant les propriétés de la partie, utilisez les à vos risques et périls !"
 
 #: ../src/game_mgr.c:682
 msgid "A new RST file was found. Do you want to unpack it?"
-msgstr ""
-"Un nouveau fichier RST a été trouvé. Désirez-vous le décompresser ?"
+msgstr "Un nouveau fichier RST a été trouvé. Désirez-vous le décompresser ?"
 
 #: ../src/game_mgr.c:711
 #, c-format
@@ -1472,10 +1447,7 @@ msgstr "Erreur en créant le répertoire de l'historique des messages."
 msgid ""
 "A file already exists with the name 'message-history', please remove or "
 "rename this file so that the message history feature can work correctly."
-msgstr ""
-"Un fichier nommé 'message-history' existe déjà, prier de le renommer ou "
-"de le déplacer pour que le journal de messages puisse fonctionner "
-"correctement."
+msgstr "Un fichier nommé 'message-history' existe déjà, prier de le renommer ou de le déplacer pour que le journal de messages puisse fonctionner correctement."
 
 #: ../src/game_mgr.c:805
 msgid "Message data file not found."
@@ -1485,9 +1457,7 @@ msgstr "Le fichier de données des messages est introuvable."
 msgid ""
 "The MDATA file was not found, it's needed to read the game messages, please "
 "check your VGA Planets installation."
-msgstr ""
-"Le fichier MDATA est introuvable. Ce fichier est nécessaire pour lire les "
-"messages de la partie, prier de vérifier votre installation de VGA Planets."
+msgstr "Le fichier MDATA est introuvable. Ce fichier est nécessaire pour lire les messages de la partie, prier de vérifier votre installation de VGA Planets."
 
 #: ../src/game_mgr.c:1217
 msgid "no games"
@@ -1826,7 +1796,7 @@ msgstr "Spéciale"
 #. Special Function description
 #: ../src/mission.c:102 ../scripts/plugins/vp_utils.py:67
 msgid "Cloak"
-msgstr "Camoufler"
+msgstr "Occultation"
 
 #: ../src/mission.c:105
 msgid "Beam up fuel"
@@ -2100,12 +2070,11 @@ msgstr "Vaisseau & Composants"
 
 #: ../scripts/plugins/vp_utils.py:68
 msgid "Advanced Cloak"
-msgstr "Camouflage avancé"
+msgstr "Occultation avancée"
 
 #: ../scripts/plugins/vp_utils.py:69
-#, fuzzy
 msgid "Anti-Cloak"
-msgstr "Anti Camouflage"
+msgstr "Anti-Occultation"
 
 #: ../scripts/plugins/vp_utils.py:70
 msgid "BioScan"
@@ -2113,23 +2082,23 @@ msgstr "BioScan"
 
 #: ../scripts/plugins/vp_utils.py:71
 msgid "Cools down to 50 degrees"
-msgstr "Refroidir de 50 degrés"
+msgstr "Refroidi jusqu'à 50 degrés"
 
 #: ../scripts/plugins/vp_utils.py:72
 msgid "Warms up to 50 degrees"
-msgstr "Rechauffer de 50 degrés"
+msgstr "Rechauffe jusqu'à 50 degrés"
 
 #: ../scripts/plugins/vp_utils.py:73
 msgid "Warms up to 100 degrees"
-msgstr "Rechauffer de 100 degrés"
+msgstr "Rechauffe jusqu'à 100 degrés"
 
 #: ../scripts/plugins/vp_utils.py:74
 msgid "Glory Device High Damage"
-msgstr ""
+msgstr "Dommage élevés par Engin de Gloire"
 
 #: ../scripts/plugins/vp_utils.py:75
 msgid "Glory Device Low Damage"
-msgstr ""
+msgstr "Faibles dommages par Engins de Gloire"
 
 #: ../scripts/plugins/vp_utils.py:76
 msgid "Generate MCs"
@@ -2137,11 +2106,11 @@ msgstr "Générer les MCs"
 
 #: ../scripts/plugins/vp_utils.py:77
 msgid "Cloak and Gravitronic Acelerators"
-msgstr ""
+msgstr "Occultation et Accélérateur à Gravitons"
 
 #: ../scripts/plugins/vp_utils.py:78
 msgid "Chunnel"
-msgstr ""
+msgstr "Tunnel"
 
 #: ../scripts/plugins/vp_utils.py:79
 #, fuzzy
