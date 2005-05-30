@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GWP 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-09 09:04-0300\n"
-"PO-Revision-Date: 2005-05-23 20:19+0000\n"
+"PO-Revision-Date: 2005-05-28 16:47+0000\n"
 "Last-Translator: fermier <fermier@gmx.co.uk>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "<b>Col:</b>"
 
 #: ../src/gwp.glade.h:17
 msgid "<b>Colonists Pay:</b>"
-msgstr "<b>Colonialistes Payent:</b>"
+msgstr "<b>Les colons Payent:</b>"
 
 #: ../src/gwp.glade.h:18
 msgid "<b>Command</b>"
@@ -150,7 +150,7 @@ msgstr "<b>Moteurs:</b>"
 
 #: ../src/gwp.glade.h:29
 msgid "<b>Equipment</b>"
-msgstr "<b>Provisions</b>"
+msgstr "<b>Équipement</b>"
 
 #: ../src/gwp.glade.h:30
 msgid "<b>Existing Planet: </b>"
@@ -261,9 +261,8 @@ msgid "<b>Neu:</b>"
 msgstr "<b>Neu:</b>"
 
 #: ../src/gwp.glade.h:57
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "<b>Armements</b>"
+msgstr "<b>Options</b>"
 
 #: ../src/gwp.glade.h:58
 msgid "<b>Output</b>"
@@ -274,7 +273,6 @@ msgid "<b>Owner:</b>"
 msgstr "<b>Propriétaire:</b>"
 
 #: ../src/gwp.glade.h:60
-#, fuzzy
 msgid "<b>P. Enemy:</b>"
 msgstr "<b>Ennemi:</b>"
 
@@ -444,7 +442,7 @@ msgstr "Défenses:"
 
 #: ../src/gwp.glade.h:102
 msgid "Delete Game"
-msgstr "Supprimer partie"
+msgstr "Supprimer la partie"
 
 #: ../src/gwp.glade.h:103
 msgid "Delete this game configuration"
@@ -576,7 +574,7 @@ msgstr "Planète"
 
 #: ../src/gwp.glade.h:135
 msgid "Play Game"
-msgstr "Jouer la partie"
+msgstr "Lancer la partie"
 
 #: ../src/gwp.glade.h:136
 msgid "Play Selected Game"
@@ -616,7 +614,6 @@ msgid "Resources (KT)"
 msgstr "Resources (kT)"
 
 #: ../src/gwp.glade.h:145
-#, fuzzy
 msgid "S_ettings"
 msgstr "C_onfigurations"
 
@@ -718,15 +715,15 @@ msgstr "Test"
 
 #: ../src/gwp.glade.h:170
 msgid "The directory where GWP will save its turns"
-msgstr "Répertoir pour sauvegarder les tours"
+msgstr "Répertoire où GWP sauvegardera les tours"
 
 #: ../src/gwp.glade.h:171
 msgid "The directory where GWP will search for host results"
-msgstr "Répertoire pour chercher les résultats de l'hôte"
+msgstr "Répertoire où GWP cherchera les résultats de l'hôte"
 
 #: ../src/gwp.glade.h:172
 msgid "The host's email address, to send your turns"
-msgstr "L'adresse de l'hôte, pour envoyer les tours"
+msgstr "L'adresse de l'hôte, pour envoyer vos tours"
 
 #: ../src/gwp.glade.h:173
 msgid "The label this game will have in the game manager"
@@ -774,7 +771,7 @@ msgstr "Répertoire pour stocker les fichiers de données de la partie"
 
 #: ../src/gwp.glade.h:184
 msgid "Your email address, to send your turns to the host"
-msgstr "Votre adresse email, pour envoyer les tours à l'hôte"
+msgstr "Votre adresse email, pour envoyer vos tours à l'hôte"
 
 #: ../src/gwp.glade.h:185
 msgid "Zoom In"
@@ -798,11 +795,11 @@ msgstr "_Supprimer la partie"
 
 #: ../src/gwp.glade.h:190
 msgid "_Edit"
-msgstr "_Editer"
+msgstr "_Configurer"
 
 #: ../src/gwp.glade.h:191
 msgid "_Edit Game"
-msgstr "_Editer la partie"
+msgstr "_Configurer la partie"
 
 #: ../src/gwp.glade.h:192
 msgid "_Grid"
@@ -842,7 +839,7 @@ msgstr "_Jouer"
 
 #: ../src/gwp.glade.h:201
 msgid "_Play Game"
-msgstr "_Jouer la partie"
+msgstr "_Lancer la partie"
 
 #: ../src/gwp.glade.h:202
 msgid "_Random"
@@ -864,11 +861,9 @@ msgstr "p/a kT/tour"
 msgid "n/m"
 msgstr "n/m"
 
-# Propriété de la nouvelle partie ?
 #: ../src/callbacks.c:308
-#, fuzzy
 msgid "New Game Properties"
-msgstr "Nouveau propriétés du jeu"
+msgstr "Propriétés de la nouvelle partie"
 
 #: ../src/callbacks.c:482 ../src/callbacks.c:709
 msgid "Edit Game Properties"
@@ -876,7 +871,7 @@ msgstr "Editer les propriétés de la partie"
 
 #: ../src/callbacks.c:504 ../src/callbacks.c:724
 msgid "Oops! there is some problem with this game"
-msgstr "Houps! Il y a un problème avec ce jeu"
+msgstr "Houps! Il y a un problème avec ce jeu."
 
 #: ../src/callbacks.c:538
 #, c-format
@@ -944,7 +939,7 @@ msgstr "<i>Attaquer n'importe quel vaisseau en orbite</i>"
 
 #: ../src/main.c:171
 msgid "<i>Beam up megacredits</i>"
-msgstr "<i>Récupérer megacrédits</i>"
+msgstr "<i>Téléporter megacrédits</i>"
 
 #: ../src/main.c:172
 msgid "<i>Get Host configuration settings</i>"
@@ -952,23 +947,19 @@ msgstr "<i>Récupérer les paramètres de configuration de l'hôte</i>"
 
 #: ../src/main.c:176
 msgid "<i>Beam down megacredits</i>"
-msgstr ""
+msgstr "<i>Téléporter mégacrédits</i>"
 
-# trouver une meilleur traduction pour "at this location"
 #: ../src/main.c:177
-#, fuzzy
 msgid "<i>Transfer fighters to ships at this location</i>"
-msgstr "<i>Transférer des chasseurs aux vaisseaus à cet endroit</i>"
+msgstr "<i>Transférer des chasseurs aux vaisseaus situés ici</i>"
 
 #: ../src/main.c:178
-#, fuzzy
 msgid "<i>Transfer MC to ships at this location</i>"
-msgstr "<i>Transférer des MC aux vaisseaus à cet endroit</i>"
+msgstr "<i>Transférer des MC aux vaisseaus sités ici</i>"
 
 #: ../src/main.c:179
-#, fuzzy
 msgid "<i>Transfer torpedoes to ships at this location</i>"
-msgstr "<i>Transférer des torpilles aux vaisseaus à cet endroit</i>"
+msgstr "<i>Transférer des torpilles aux vaisseaus situés ici</i>"
 
 #: ../src/main.c:180
 msgid "<i>Use 10 torpedoes to lay mine field</i>"
@@ -1011,7 +1002,6 @@ msgid "<i>Use 100 torpedoes to lay mine field</i>"
 msgstr "<i>Utiliser 100 torpilles pour larguer un champ de mines</i>"
 
 #: ../src/main.c:190
-#, fuzzy
 msgid "<i>Cancel alliance with The Feds</i>"
 msgstr "<i>Annuler l'alliance avec les Féodaux</i>"
 
@@ -1020,7 +1010,6 @@ msgid "<i>Cancel alliance with The Lizards</i>"
 msgstr "<i>Annuler l'alliance avec les Lézards</i>"
 
 #: ../src/main.c:192
-#, fuzzy
 msgid "<i>Cancel alliance with The Bird Men</i>"
 msgstr "<i>Annuler l'alliance avec les Hommes Oiseaux</i>"
 
@@ -1037,9 +1026,8 @@ msgid "<i>Cancel alliance with The Cyborgs</i>"
 msgstr "<i>Annuer l'aliance avec les Cyborgs</i>"
 
 #: ../src/main.c:196
-#, fuzzy
 msgid "<i>Cancel alliance with The Crystal People</i>"
-msgstr "<i>Annuler l'aliance avec les Hommes de verre</i>"
+msgstr "<i>Annuler l'alliance avec les Hommes cristal</i>"
 
 #: ../src/main.c:197
 msgid "<i>Cancel alliance with The Evil Empire</i>"
@@ -1066,7 +1054,6 @@ msgid "<i>Offer/accept alliance with The Lizards</i>"
 msgstr "<i>Proposer/accepter une alliance avec les Lézards</i>"
 
 #: ../src/main.c:203
-#, fuzzy
 msgid "<i>Offer/accept alliance with The Bird Men</i>"
 msgstr "<i>Proposer/accepter une alliance avec les Hommes Oiseaux</i>"
 
@@ -1083,7 +1070,6 @@ msgid "<i>Offer/accept alliance with The Cyborgs</i>"
 msgstr "<i>Proposer/accepter une alliance avec les Cyborgs</i>"
 
 #: ../src/main.c:207
-#, fuzzy
 msgid "<i>Offer/accept alliance with The Crystal People</i>"
 msgstr "<i>Proposer/accepter une alliance avec les Hommes Oiseaux</i>"
 
@@ -1112,7 +1098,6 @@ msgid "<i>Give ship to The Lizards</i>"
 msgstr "<i> Donner le vaisseau aux Lézards</i>"
 
 #: ../src/main.c:214
-#, fuzzy
 msgid "<i>Give ship to The Bird Men</i>"
 msgstr "<i>Donner le vaisseau aux Hommes Oiseaux</i>"
 
@@ -1129,9 +1114,8 @@ msgid "<i>Give ship to The Cyborgs</i>"
 msgstr "<i> Donner le vaisseau aux Cyborgs</i>"
 
 #: ../src/main.c:218
-#, fuzzy
 msgid "<i>Give ship to The Crystal People</i>"
-msgstr "<i>Donner le vaisseau aux Hommes de verre</i>"
+msgstr "<i>Donner le vaisseau aux Hommes cristal</i>"
 
 #: ../src/main.c:219
 msgid "<i>Give ship to The Evil Empire</i>"
@@ -1150,7 +1134,6 @@ msgid "<i>Give ship to The Colonies</i>"
 msgstr "<i>Donner le vaisseau aux Colonies</i>"
 
 #: ../src/main.c:223
-#, fuzzy
 msgid "<i>Activate Hyperdrive</i>"
 msgstr "<i>Activer l'hyper poussé</i>"
 
@@ -1527,15 +1510,15 @@ msgstr "Tour"
 
 #: ../src/tables.c:73
 msgid "Colonists"
-msgstr "Colonialistes"
+msgstr "Colons"
 
 #: ../src/tables.c:79
 msgid "C Happ"
-msgstr "Joie C"
+msgstr "Joie des C"
 
 #: ../src/tables.c:85
 msgid "C Growth"
-msgstr "Croissance C"
+msgstr "Croissance des C"
 
 #: ../src/tables.c:91
 msgid "Natives"
@@ -1543,11 +1526,11 @@ msgstr "Indigènes"
 
 #: ../src/tables.c:97
 msgid "N Happ"
-msgstr "Joie N"
+msgstr "Joie des I"
 
 #: ../src/tables.c:103
 msgid "N Growth"
-msgstr "Croissance N"
+msgstr "Croissance des I"
 
 #: ../src/gwp-object.c:76
 msgid "Unknown name"
@@ -1897,21 +1880,17 @@ msgstr "Masse"
 msgid "Beam (tech)"
 msgstr "Rayon (tech)"
 
-# fuzzy tant que je sait pas ce que ca veux dire
 #: ../scripts/plugins/magallanes.py:455
-#, fuzzy
 msgid "T/F (tech)"
-msgstr "T/F (tech)"
+msgstr "T/C (tech)"
 
 #: ../scripts/plugins/magallanes.py:457
 msgid "Fuel"
 msgstr "Carburant"
 
-# Fuzzy tant que wp c'est pas ce que c'est
 #: ../scripts/plugins/magallanes.py:458
-#, fuzzy
 msgid "Eng (wp)"
-msgstr "Eng (wp)"
+msgstr "Eng (vit.)"
 
 #: ../scripts/plugins/magallanes.py:459
 msgid "MC"
@@ -1986,9 +1965,8 @@ msgid "<b>Special Functions: </b>"
 msgstr "<b>Capacitées spéciales: </b>"
 
 #: ../scripts/plugins/magallanes.glade.h:16
-#, fuzzy
 msgid "<b>TP/F</b>"
-msgstr "<b>TP/F</b>"
+msgstr "<b>TP/C</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:17
 msgid "<b>Tech Level:  </b>"
@@ -2007,9 +1985,8 @@ msgid "<b>Tri</b>"
 msgstr "<b>Tri</b>"
 
 #: ../scripts/plugins/magallanes.glade.h:21
-#, fuzzy
 msgid "Birds"
-msgstr "Oisseaux"
+msgstr "Oiseaux"
 
 #: ../scripts/plugins/magallanes.glade.h:22
 msgid "Borgs"
@@ -2020,9 +1997,8 @@ msgid "Colonies"
 msgstr "Colonies"
 
 #: ../scripts/plugins/magallanes.glade.h:24
-#, fuzzy
 msgid "Crystals"
-msgstr "Les Cristallines"
+msgstr "Cristaux"
 
 #: ../scripts/plugins/magallanes.glade.h:25
 msgid "Esta raza posee la nave actual"
@@ -2113,7 +2089,6 @@ msgid "Chunnel"
 msgstr "Tunnel"
 
 #: ../scripts/plugins/vp_utils.py:79
-#, fuzzy
 msgid "Hyperdrive"
 msgstr "Hyper poussé"
 
@@ -2126,96 +2101,12 @@ msgid "Ramscoop, Bioscanner"
 msgstr ""
 
 #: ../scripts/plugins/vp_utils.py:82 ../scripts/plugins/vp_utils.py:83
-#, fuzzy
 msgid "Fuel Alchemy"
 msgstr "Chimie de l'essence"
 
 #: ../scripts/plugins/vp_utils.py:84
-#, fuzzy
 msgid "Minerals Alchemy"
 msgstr "Chimie des mineraux"
 
-#~ msgid "RST Dir:"
-#~ msgstr "Rep. de RST"
 
-#~ msgid "TRN Dir:"
-#~ msgstr "Rép. du TRN:"
-
-#~ msgid "("
-#~ msgstr "("
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid ","
-#~ msgstr ","
-
-#~ msgid "ATT"
-#~ msgstr "ATT"
-
-#~ msgid "Mini SC"
-#~ msgstr "Mini SC"
-
-#~ msgid "Misc"
-#~ msgstr "Diver"
-
-#~ msgid "NUK"
-#~ msgstr "NUK"
-
-#~ msgid "Planet/SB"
-#~ msgstr "Planète/BE"
-
-#~ msgid "X"
-#~ msgstr "X"
-
-#~ msgid "Y"
-#~ msgstr "Y"
-
-#, fuzzy
-#~ msgid "<b>Costo Total: </b>"
-#~ msgstr "<b>Col:</b>"
-
-#, fuzzy
-#~ msgid "<b>Funciones Especiales: </b>"
-#~ msgstr "<b>Cons. de carb.:</b>"
-
-#, fuzzy
-#~ msgid "<b>Masa</b>"
-#~ msgstr "<b>Masse:</b>"
-
-#, fuzzy
-#~ msgid "<b>Motores</b>"
-#~ msgstr "<b>Usines:</b>"
-
-#, fuzzy
-#~ msgid "<b>Rayos: </b>"
-#~ msgstr "<b>Masse:</b>"
-
-#, fuzzy
-#~ msgid "<b>Rayos</b>"
-#~ msgstr "<b>Armements</b>"
-
-#, fuzzy
-#~ msgid "<b>Torpedos: </b>"
-#~ msgstr "<b>Torpilles:</b>"
-
-#, fuzzy
-#~ msgid "<b>Trip</b>"
-#~ msgstr "<b>Tri:</b>"
-
-#, fuzzy
-#~ msgid "Nave"
-#~ msgstr "Nom"
-
-#, fuzzy
-#~ msgid "ninguna"
-#~ msgstr "Miner"
-
-#~ msgid "*"
-#~ msgstr "*"
-
-#~ msgid "Toggle toolbar"
-#~ msgstr "Inverseur pour la trousse à outils"
-
-#~ msgid "_Toolbar"
-#~ msgstr "_Trousse à outils"
+!DSPAM:429b04a947032019014490!
