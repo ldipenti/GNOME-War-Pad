@@ -3860,64 +3860,43 @@
   (return-type "GwpPlanet*")
 )
 
-(define-method get_host_mining_rate
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_mining_rate")
-  (return-type "gint")
-  (parameters
-    '("gint" "race")
-  )
-)
-
-(define-method get_host_tax_rate
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_tax_rate")
-  (return-type "gint")
-  (parameters
-    '("gint" "race")
-  )
-)
-
-(define-method get_host_ships_visible_range
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_ships_visible_range")
-  (return-type "gint")
-)
-
-(define-method get_host_sensors_range
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_sensors_range")
-  (return-type "gint")
-)
-
-(define-method get_host_climate_death_rate
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_climate_death_rate")
-  (return-type "gint")
-)
-
-(define-method get_host_crystal_desert_adv
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_crystal_desert_adv")
-  (return-type "gboolean")
-)
-
-(define-method get_host_colonists_eat_supplies
-  (of-object "GwpGameState")
-  (c-name "gwp_game_state_get_host_colonists_eat_supplies")
-  (return-type "gboolean")
-)
-
 (define-method get_host_recycle_col_ship
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_recycle_col_ship")
   (return-type "gint")
 )
 
+(define-method set_host_recycle_col_ship
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_recycle_col_ship")
+  (return-type "none")
+  (parameters
+    '("gint" "percent")
+  )
+)
+
+(define-method set_host_large_meteor_impact
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_large_meteor_impact")
+  (return-type "none")
+  (parameters
+    '("gint" "percent")
+  )
+)
+
 (define-method get_host_large_meteor_impact
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_large_meteor_impact")
   (return-type "gint")
+)
+
+(define-method set_host_space_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_space_mines")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
 )
 
 (define-method get_host_space_mines
@@ -3932,10 +3911,28 @@
   (return-type "gboolean")
 )
 
+(define-method set_host_alchemy_ships
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_alchemy_ships")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
 (define-method get_host_delete_old_msgs
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_delete_old_msgs")
   (return-type "gboolean")
+)
+
+(define-method set_host_delete_old_msgs
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_delete_old_msgs")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
 )
 
 (define-method get_host_disable_pwd
@@ -3944,10 +3941,28 @@
   (return-type "gboolean")
 )
 
+(define-method set_host_disable_pwd
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_disable_pwd")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
 (define-method get_host_rebel_build_fighters
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_rebel_build_fighters")
   (return-type "gboolean")
+)
+
+(define-method set_host_rebel_build_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_rebel_build_fighters")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
 )
 
 (define-method get_host_colonial_build_fighters
@@ -3956,10 +3971,28 @@
   (return-type "gboolean")
 )
 
+(define-method set_host_colonial_build_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_colonial_build_fighters")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
 (define-method get_host_robots_build_fighters
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_robots_build_fighters")
   (return-type "gboolean")
+)
+
+(define-method set_host_robots_build_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_robots_build_fighters")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
 )
 
 (define-method get_host_cloak_failure
@@ -3968,16 +4001,43 @@
   (return-type "gint")
 )
 
+(define-method set_host_cloak_failure
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_cloak_failure")
+  (return-type "none")
+  (parameters
+    '("gint" "percent")
+  )
+)
+
 (define-method get_host_priv_rob_cloak
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_priv_rob_cloak")
   (return-type "gboolean")
 )
 
+(define-method set_host_priv_rob_cloak
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_priv_rob_cloak")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
 (define-method get_host_dark_sense_range
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_dark_sense_range")
   (return-type "gint")
+)
+
+(define-method set_host_dark_sense_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_dark_sense_range")
+  (return-type "none")
+  (parameters
+    '("gint" "percent")
+  )
 )
 
 (define-method get_host_ground_attack_ratio
@@ -3989,10 +4049,1020 @@
   )
 )
 
+(define-method set_host_ground_attack_ratio
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_ground_attack_ratio")
+  (return-type "none")
+  (parameters
+    '("gint" "race")
+    '("gint" "ratio")
+  )
+)
+
+(define-method get_host_ships_visible_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ships_visible_range")
+  (return-type "gint")
+)
+
+(define-method set_host_ships_visible_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_ships_visible_range")
+  (return-type "none")
+  (parameters
+    '("gint" "range")
+  )
+)
+
 (define-method get_host_lizard_hiss_mission
   (of-object "GwpGameState")
   (c-name "gwp_game_state_get_host_lizard_hiss_mission")
   (return-type "gboolean")
+)
+
+(define-method set_host_lizard_hiss_mission
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_lizard_hiss_mission")
+  (return-type "none")
+  (parameters
+    '("gboolean" "hiss")
+  )
+)
+
+(define-method get_host_rebel_ground_attack
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_rebel_ground_attack")
+  (return-type "gboolean")
+)
+
+(define-method set_host_rebel_ground_attack
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_rebel_ground_attack")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_fed_super_refit
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_fed_super_refit")
+  (return-type "gboolean")
+)
+
+(define-method set_host_fed_super_refit
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_fed_super_refit")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_crystal_web_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_crystal_web_mines")
+  (return-type "gboolean")
+)
+
+(define-method set_host_crystal_web_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_crystal_web_mines")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_ground_defense_ratio
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ground_defense_ratio")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method set_host_ground_defense_ratio
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_ground_defense_ratio")
+  (return-type "none")
+  (parameters
+    '("gint" "race")
+    '("gint" "ration")
+  )
+)
+
+(define-method get_host_cloak_fuel_use
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_cloak_fuel_use")
+  (return-type "gint")
+)
+
+(define-method set_host_cloak_fuel_use
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_cloak_fuel_use")
+  (return-type "none")
+  (parameters
+    '("gint" "use")
+  )
+)
+
+(define-method get_host_sensors_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_sensors_range")
+  (return-type "gint")
+)
+
+(define-method set_host_sensors_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_sensors_range")
+  (return-type "none")
+  (parameters
+    '("gint" "range")
+  )
+)
+
+(define-method get_host_new_natives
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_new_natives")
+  (return-type "gboolean")
+)
+
+(define-method set_host_new_natives
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_new_natives")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_planets_attack_ships
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_planets_attack_ships")
+  (return-type "gboolean")
+)
+
+(define-method set_host_planets_attack_ships
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_planets_attack_ships")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_borg_assimilation_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_borg_assimilation_rate")
+  (return-type "gint")
+)
+
+(define-method set_host_borg_assimilation_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_borg_assimilation_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_starbase_free_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_starbase_free_fighters")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method set_host_starbase_free_fighters
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_starbase_free_fighters")
+  (return-type "none")
+  (parameters
+    '("gint" "race")
+    '("gint" "free")
+  )
+)
+
+(define-method get_host_webmine_decay
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_webmine_decay")
+  (return-type "gint")
+)
+
+(define-method set_host_webmine_decay
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_webmine_decay")
+  (return-type "none")
+  (parameters
+    '("gint" "decay")
+  )
+)
+
+(define-method get_host_mine_decay
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mine_decay")
+  (return-type "gint")
+)
+
+(define-method set_host_mine_decay
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mine_decay")
+  (return-type "none")
+  (parameters
+    '("gint" "decay")
+  )
+)
+
+(define-method get_host_max_mine_radius
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_max_mine_radius")
+  (return-type "gint")
+)
+
+(define-method set_host_max_mine_radius
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_max_mine_radius")
+  (return-type "none")
+  (parameters
+    '("gint" "radius")
+  )
+)
+
+(define-method get_host_isotope_tudr
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_isotope_tudr")
+  (return-type "gint")
+)
+
+(define-method set_host_isotope_tudr
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_isotope_tudr")
+  (return-type "none")
+  (parameters
+    '("gint" "tudr")
+  )
+)
+
+(define-method get_host_structure_decay
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_structure_decay")
+  (return-type "gint")
+)
+
+(define-method set_host_structure_decay
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_structure_decay")
+  (return-type "none")
+  (parameters
+    '("gint" "decay")
+  )
+)
+
+(define-method get_host_mining_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mining_rate")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method set_host_mining_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mining_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "race")
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_colonists_eat_supplies
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_colonists_eat_supplies")
+  (return-type "gboolean")
+)
+
+(define-method set_host_colonists_eat_supplies
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_colonists_eat_supplies")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_zero_fuel_ships_move
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_zero_fuel_ships_move")
+  (return-type "gboolean")
+)
+
+(define-method set_host_zero_fuel_ships_move
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_zero_fuel_ships_move")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_mine_hit_odds
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mine_hit_odds")
+  (return-type "gint")
+)
+
+(define-method set_host_mine_hit_odds
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mine_hit_odds")
+  (return-type "none")
+  (parameters
+    '("gint" "ratio")
+  )
+)
+
+(define-method get_host_webmine_hit_odds
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_webmine_hit_odds")
+  (return-type "gint")
+)
+
+(define-method set_host_webmine_hit_odds
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_webmine_hit_odds")
+  (return-type "none")
+  (parameters
+    '("gint" "ratio")
+  )
+)
+
+(define-method get_host_mine_detect_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mine_detect_range")
+  (return-type "gint")
+)
+
+(define-method set_host_mine_detect_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mine_detect_range")
+  (return-type "none")
+  (parameters
+    '("gint" "range")
+  )
+)
+
+(define-method get_host_tax_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_tax_rate")
+  (return-type "gint")
+  (parameters
+    '("gint" "race")
+  )
+)
+
+(define-method set_host_tax_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_tax_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "race")
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_mines_destroy_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mines_destroy_mines")
+  (return-type "gboolean")
+)
+
+(define-method set_host_mines_destroy_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mines_destroy_mines")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_es_bonus
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_es_bonus")
+  (return-type "gboolean")
+)
+
+(define-method set_host_es_bonus
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_es_bonus")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_es_bonus_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_es_bonus_rate")
+  (return-type "gint")
+)
+
+(define-method set_host_es_bonus_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_es_bonus_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_colonial_sweep_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_colonial_sweep_rate")
+  (return-type "gint")
+)
+
+(define-method set_host_colonial_sweep_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_colonial_sweep_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_colonial_sweep_webs
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_colonial_sweep_webs")
+  (return-type "gboolean")
+)
+
+(define-method set_host_colonial_sweep_webs
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_colonial_sweep_webs")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_mine_sweep_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mine_sweep_rate")
+  (return-type "gint")
+)
+
+(define-method set_host_mine_sweep_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mine_sweep_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_webmine_sweep_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_webmine_sweep_rate")
+  (return-type "gint")
+)
+
+(define-method set_host_webmine_sweep_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_webmine_sweep_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_hiss_mission_effect
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_hiss_mission_effect")
+  (return-type "gint")
+)
+
+(define-method set_host_hiss_mission_effect
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_hiss_mission_effect")
+  (return-type "none")
+  (parameters
+    '("gint" "effect")
+  )
+)
+
+(define-method get_host_rob_mission_failure
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_rob_mission_failure")
+  (return-type "gint")
+)
+
+(define-method set_host_rob_mission_failure
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_rob_mission_failure")
+  (return-type "none")
+  (parameters
+    '("gint" "failure")
+  )
+)
+
+(define-method get_host_planet_attack_rebel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_planet_attack_rebel")
+  (return-type "gboolean")
+)
+
+(define-method set_host_planet_attack_rebel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_planet_attack_rebel")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_planet_attack_fascist
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_planet_attack_fascist")
+  (return-type "gboolean")
+)
+
+(define-method set_host_planet_attack_fascist
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_planet_attack_fascist")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_mine_sweep_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mine_sweep_range")
+  (return-type "gint")
+)
+
+(define-method set_host_mine_sweep_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mine_sweep_range")
+  (return-type "none")
+  (parameters
+    '("gint" "range")
+  )
+)
+
+(define-method get_host_webmine_sweep_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_webmine_sweep_range")
+  (return-type "gint")
+)
+
+(define-method set_host_webmine_sweep_range
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_webmine_sweep_range")
+  (return-type "none")
+  (parameters
+    '("gint" "range")
+  )
+)
+
+(define-method get_host_science_missions
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_science_missions")
+  (return-type "gboolean")
+)
+
+(define-method set_host_science_missions
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_science_missions")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_cloaked_mine_hit
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_cloaked_mine_hit")
+  (return-type "gdouble")
+)
+
+(define-method set_host_cloaked_mine_hit
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_cloaked_mine_hit")
+  (return-type "none")
+  (parameters
+    '("gdouble" "rate")
+  )
+)
+
+(define-method get_host_cloak_prevent_damage
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_cloak_prevent_damage")
+  (return-type "gint")
+)
+
+(define-method set_host_cloak_prevent_damage
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_cloak_prevent_damage")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_fed_crew_bonus
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_fed_crew_bonus")
+  (return-type "gboolean")
+)
+
+(define-method set_host_fed_crew_bonus
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_fed_crew_bonus")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_one_engine_tow
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_one_engine_tow")
+  (return-type "gboolean")
+)
+
+(define-method set_host_one_engine_tow
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_one_engine_tow")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_hyperdrive_ships
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_hyperdrive_ships")
+  (return-type "gboolean")
+)
+
+(define-method set_host_hyperdrive_ships
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_hyperdrive_ships")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_climate_death_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_climate_death_rate")
+  (return-type "gint")
+)
+
+(define-method set_host_climate_death_rate
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_climate_death_rate")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_gravity_well
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_gravity_well")
+  (return-type "gboolean")
+)
+
+(define-method set_host_gravity_well
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_gravity_well")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_crystal_desert_adv
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_crystal_desert_adv")
+  (return-type "gboolean")
+)
+
+(define-method set_host_crystal_desert_adv
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_crystal_desert_adv")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_mines_destroy_webs
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_mines_destroy_webs")
+  (return-type "gboolean")
+)
+
+(define-method set_host_mines_destroy_webs
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_mines_destroy_webs")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_climate_limit_pop
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_climate_limit_pop")
+  (return-type "gboolean")
+)
+
+(define-method set_host_climate_limit_pop
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_climate_limit_pop")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_max_planet_income
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_max_planet_income")
+  (return-type "gint")
+)
+
+(define-method set_host_max_planet_income
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_max_planet_income")
+  (return-type "none")
+  (parameters
+    '("gint" "max")
+  )
+)
+
+(define-method get_host_ion_storms
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ion_storms")
+  (return-type "gint")
+)
+
+(define-method set_host_ion_storms
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_ion_storms")
+  (return-type "none")
+  (parameters
+    '("gint" "storm")
+  )
+)
+
+(define-method get_host_firecloud_chunnel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_firecloud_chunnel")
+  (return-type "gboolean")
+)
+
+(define-method set_host_firecloud_chunnel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_firecloud_chunnel")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_superspy_deluxe
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_superspy_deluxe")
+  (return-type "gboolean")
+)
+
+(define-method set_host_superspy_deluxe
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_superspy_deluxe")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_storms_hide_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_storms_hide_mines")
+  (return-type "gboolean")
+)
+
+(define-method set_host_storms_hide_mines
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_storms_hide_mines")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_fascist_glory_device
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_fascist_glory_device")
+  (return-type "gboolean")
+)
+
+(define-method set_host_fascist_glory_device
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_fascist_glory_device")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_loki_anticloak
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_loki_anticloak")
+  (return-type "gboolean")
+)
+
+(define-method set_host_loki_anticloak
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_loki_anticloak")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_ladyroyale_gambling
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ladyroyale_gambling")
+  (return-type "gboolean")
+)
+
+(define-method set_host_ladyroyale_gambling
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_ladyroyale_gambling")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_cloaked_ships_attack
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_cloaked_ships_attack")
+  (return-type "gboolean")
+)
+
+(define-method set_host_cloaked_ships_attack
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_cloaked_ships_attack")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_ship_cloning
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_ship_cloning")
+  (return-type "gboolean")
+)
+
+(define-method set_host_ship_cloning
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_ship_cloning")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_boarding_party
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_boarding_party")
+  (return-type "gboolean")
+)
+
+(define-method set_host_boarding_party
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_boarding_party")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_imperial_assault
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_imperial_assault")
+  (return-type "gboolean")
+)
+
+(define-method set_host_imperial_assault
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_imperial_assault")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_cobol_fuel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_cobol_fuel")
+  (return-type "gint")
+)
+
+(define-method set_host_cobol_fuel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_cobol_fuel")
+  (return-type "none")
+  (parameters
+    '("gint" "rate")
+  )
+)
+
+(define-method get_host_hulltech_slowed_minehits
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_hulltech_slowed_minehits")
+  (return-type "gint")
+)
+
+(define-method set_host_hulltech_slowed_minehits
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_hulltech_slowed_minehits")
+  (return-type "none")
+  (parameters
+    '("gint" "tech")
+  )
+)
+
+(define-method get_host_aries_makes_fuel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_aries_makes_fuel")
+  (return-type "gboolean")
+)
+
+(define-method set_host_aries_makes_fuel
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_aries_makes_fuel")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_bioscanners
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_bioscanners")
+  (return-type "gboolean")
+)
+
+(define-method set_host_bioscanners
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_bioscanners")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_loki_decloak_birds
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_loki_decloak_birds")
+  (return-type "gboolean")
+)
+
+(define-method set_host_loki_decloak_birds
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_loki_decloak_birds")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
+)
+
+(define-method get_host_vpa_extras
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_get_host_vpa_extras")
+  (return-type "gboolean")
+)
+
+(define-method set_host_vpa_extras
+  (of-object "GwpGameState")
+  (c-name "gwp_game_state_set_host_vpa_extras")
+  (return-type "none")
+  (parameters
+    '("gboolean" "bool")
+  )
 )
 
 

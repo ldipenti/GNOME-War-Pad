@@ -17,6 +17,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+/* 
+   $Id$
+*/
+
 #include "global.h"
 #include "gwp-game-state.h"
 #include "game_mgr.h"
@@ -1105,6 +1109,464 @@ gwp_game_state_get_selected_ship (GwpGameState *self)
 /******* Host Settings Methods *******/
 /*************************************/
 
+/** 
+ * Return Host's Colonize recycle rate
+ * 
+ * @param self a GwpGameState object.
+ * 
+ * @return Colonize recycle rate in percent
+ */
+gint
+gwp_game_state_get_host_recycle_col_ship (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_recycle_col_ship;
+}
+
+/** 
+ * Set the host's colonize recycle rate.
+ * 
+ * @param self a GwpGameState object.
+ * @param percent the Colonize recycle rate.
+ */
+void
+gwp_game_state_set_host_recycle_col_ship (GwpGameState *self, gint percent)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_recycle_col_ship = percent;
+}
+
+gint
+gwp_game_state_get_host_large_meteor_impact (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_large_meteor_impact;
+}
+
+void
+gwp_game_state_set_host_large_meteor_impact (GwpGameState *self, gint percent)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_large_meteor_impact = percent;
+}
+
+gboolean
+gwp_game_state_get_host_space_mines (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_space_mines;
+}
+
+void
+gwp_game_state_set_host_space_mines (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_space_mines = bool;
+}
+
+gboolean
+gwp_game_state_get_host_alchemy_ships (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_alchemy_ships;
+}
+void
+gwp_game_state_set_host_alchemy_ships (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_alchemy_ships = bool;
+}
+
+gboolean
+gwp_game_state_get_host_delete_old_msgs (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_delete_old_msgs;
+}
+
+void
+gwp_game_state_set_host_delete_old_msgs (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_delete_old_msgs = bool;
+}
+
+gboolean
+gwp_game_state_get_host_disable_pwd (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_disable_pwd;
+}
+
+void
+gwp_game_state_set_host_disable_pwd (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_disable_pwd = bool;
+}
+
+gboolean
+gwp_game_state_get_host_rebel_build_fighters (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_rebel_build_fighters;
+}
+
+void
+gwp_game_state_set_host_rebel_build_fighters (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_rebel_build_fighters = bool;
+}
+
+gboolean
+gwp_game_state_get_host_colonial_build_fighters (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_colonial_build_fighters;
+}
+
+void
+gwp_game_state_set_host_colonial_build_fighters (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_colonial_build_fighters = bool;
+}
+
+gboolean
+gwp_game_state_get_host_robots_build_fighters (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_robots_build_fighters;
+}
+
+void
+gwp_game_state_set_host_robots_build_fighters (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_robots_build_fighters = bool;
+}
+
+gint
+gwp_game_state_get_host_cloak_failure (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_cloak_failure;
+}
+
+void
+gwp_game_state_set_host_cloak_failure (GwpGameState *self, gint percent)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_cloak_failure = percent;
+}
+
+gboolean
+gwp_game_state_get_host_priv_rob_cloak (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_priv_rob_cloak;
+}
+
+void
+gwp_game_state_set_host_priv_rob_cloak (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_priv_rob_cloak = bool;
+}
+
+gint
+gwp_game_state_get_host_dark_sense_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_dark_sense_range;
+}
+
+void
+gwp_game_state_set_host_dark_sense_range (GwpGameState *self, gint percent)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_dark_sense_range = percent;
+}
+
+/* 2 */
+
+gint
+gwp_game_state_get_host_ground_attack_ratio (GwpGameState *self, gint race)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  g_assert (race >= 1 && race <= 11);
+  return self->priv->host_ground_attack_ratio[race-1];
+}
+
+void
+gwp_game_state_set_host_ground_attack_ratio (GwpGameState *self, gint race, gint ratio)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  g_assert (race >= 1 && race <= 11);
+  self->priv->host_ground_attack_ratio[race-1] = ratio;
+}
+
+/**
+ * Return Host's ships visible range setting in LY.
+ *
+ * @param self a GwpGameState object.
+ * @return The ship vivble range in LY
+ */
+gint
+gwp_game_state_get_host_ships_visible_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_ships_visible_range;
+}
+
+void
+gwp_game_state_set_host_ships_visible_range (GwpGameState *self, gint range)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_ships_visible_range = range;
+}
+
+gboolean
+gwp_game_state_get_host_lizard_hiss_mission (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_lizard_hiss_mission;
+}
+
+void
+gwp_game_state_set_host_lizard_hiss_mission (GwpGameState *self, gboolean hiss)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_lizard_hiss_mission = hiss;
+}
+
+gboolean
+gwp_game_state_get_host_rebel_ground_attack(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_rebel_ground_attack;
+}
+
+void
+gwp_game_state_set_host_rebel_ground_attack(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_rebel_ground_attack = bool;
+}
+
+gboolean
+gwp_game_state_get_host_fed_super_refit(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_fed_super_refit;
+}
+
+void
+gwp_game_state_set_host_fed_super_refit(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_fed_super_refit = bool;
+}
+
+gboolean
+gwp_game_state_get_host_crystal_web_mines(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_crystal_web_mines;
+}
+
+void
+gwp_game_state_set_host_crystal_web_mines(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_crystal_web_mines = bool;
+}
+
+/* 3 */
+
+gint
+gwp_game_state_get_host_ground_defense_ratio(GwpGameState *self, gint race)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     g_assert (race >= 1 && race <= 11);
+     return self->priv->host_ground_attack_ratio[race-1];
+}
+
+void
+gwp_game_state_set_host_ground_defense_ratio(GwpGameState *self, gint race, gint ratio)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     g_assert (race >= 1 && race <= 11);
+     self->priv->host_ground_attack_ratio[race-1] = ratio;
+}
+
+gint
+gwp_game_state_get_host_cloak_fuel_use(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_cloak_fuel_use;
+}
+
+void
+gwp_game_state_set_host_cloak_fuel_use(GwpGameState *self, gint use)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_cloak_fuel_use = use;
+}
+
+/**
+ * Return Host's ships sensors range setting in LY.
+ *
+ * @param self a GwpGameState object.
+ *
+ * @return Host's ships sensors range in LY.
+ */
+gint
+gwp_game_state_get_host_sensors_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_sensors_range;
+}
+
+void
+gwp_game_state_set_host_sensors_range (GwpGameState *self, gint range)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_sensors_range = range;
+}
+
+gboolean
+gwp_game_state_get_host_new_natives(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_new_natives;
+}
+
+void
+gwp_game_state_set_host_new_natives(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_new_natives = bool;
+}
+
+gboolean
+gwp_game_state_get_host_planets_attack_ships(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_planets_attack_ships;
+}
+
+void
+gwp_game_state_set_host_planets_attack_ships(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_planets_attack_ships = bool;
+}
+
+gint
+gwp_game_state_get_host_borg_assimilation_rate(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_borg_assimilation_rate;
+}
+
+void
+gwp_game_state_set_host_borg_assimilation_rate(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_borg_assimilation_rate = rate;
+}
+
+/* 4 */
+
+gint
+gwp_game_state_get_host_starbase_free_fighters(GwpGameState *self, gint race)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     g_assert (race >= 1 && race <= 11);
+     return self->priv->host_starbase_free_fighters[race-1];
+}
+
+void
+gwp_game_state_set_host_starbase_free_fighters(GwpGameState *self, gint race, gint free)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     g_assert (race >= 1 && race <= 11);
+     self->priv->host_starbase_free_fighters[race-1] = free;
+}
+
+gint
+gwp_game_state_get_host_webmine_decay(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_webmine_decay;
+}
+
+void
+gwp_game_state_set_host_webmine_decay(GwpGameState *self, gint decay)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_webmine_decay = decay;
+}
+
+gint
+gwp_game_state_get_host_mine_decay(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_mine_decay;
+}
+
+void
+gwp_game_state_set_host_mine_decay(GwpGameState *self, gint decay)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_mine_decay = decay;
+}
+
+gint
+gwp_game_state_get_host_max_mine_radius(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_max_mine_radius;
+}
+
+void
+gwp_game_state_set_host_max_mine_radius(GwpGameState *self, gint radius)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_max_mine_radius = radius;
+}
+
+gint
+gwp_game_state_get_host_isotope_tudr(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_isotope_tudr;
+}
+void
+gwp_game_state_set_host_isotope_tudr(GwpGameState *self, gint tudr)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_isotope_tudr = tudr;
+}
+
+gint
+gwp_game_state_get_host_structure_decay(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_structure_decay;
+}
+
+void
+gwp_game_state_set_host_structure_decay(GwpGameState *self, gint decay)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_structure_decay = decay;
+}
+
+/* 5 */
+
 /**
  * Return Host's mining rate setting.
  *
@@ -1119,6 +1581,93 @@ gwp_game_state_get_host_mining_rate (GwpGameState *self, gint race)
   g_return_val_if_fail (race > 0 && race <= 11, 0);
   return self->priv->host_mining_rate[race-1];
 }
+
+void
+gwp_game_state_set_host_mining_rate (GwpGameState *self, gint race, gint rate)
+{
+  g_assert (GWP_IS_GAME_STATE (self));
+  g_return_if_fail (race > 0 && race <= 11);
+  self->priv->host_mining_rate[race-1] = rate;
+}
+
+/**
+ * Returns Host's "colonists eat supps" setting.
+ *
+ * @param self a GwpGameState object.
+ *
+ * @return Host's "colonists eat supps"
+ */
+gboolean
+gwp_game_state_get_host_colonists_eat_supplies (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_colonists_eat_supplies;
+}
+
+void
+gwp_game_state_set_host_colonists_eat_supplies (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_colonists_eat_supplies = bool;
+}
+
+gboolean
+gwp_game_state_get_host_zero_fuel_ships_move (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_zero_fuel_ships_move;
+}
+
+void
+gwp_game_state_set_host_zero_fuel_ships_move (GwpGameState *self, gboolean bool)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_zero_fuel_ships_move = bool;
+}
+
+gint
+gwp_game_state_get_host_mine_hit_odds (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_mine_hit_odds;
+}
+
+void
+gwp_game_state_set_host_mine_hit_odds (GwpGameState *self, gint ratio)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_mine_hit_odds = ratio;
+}
+
+gint
+gwp_game_state_get_host_webmine_hit_odds (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_webmine_hit_odds;
+}
+
+void
+gwp_game_state_set_host_webmine_hit_odds (GwpGameState *self, gint ratio)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_webmine_hit_odds = ratio;
+}
+
+gint
+gwp_game_state_get_host_mine_detect_range (GwpGameState *self)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  return self->priv->host_mine_detect_range;
+}
+
+void
+gwp_game_state_set_host_mine_detect_range (GwpGameState *self, gint range)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_mine_detect_range = range;
+}
+
+/* 6 */
 
 /**
  * Return Host's tax rate setting.
@@ -1135,29 +1684,291 @@ gwp_game_state_get_host_tax_rate (GwpGameState *self, gint race)
   return self->priv->host_tax_rate[race-1];
 }
 
-/**
- * Return Host's ships visible range setting in LY.
- */
-gint
-gwp_game_state_get_host_ships_visible_range (GwpGameState *self)
+void
+gwp_game_state_set_host_tax_rate (GwpGameState *self, gint race, gint rate)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_ships_visible_range;
+     g_assert (GWP_IS_GAME_STATE (self));
+     g_return_if_fail (race > 0 && race <= 11);
+     self->priv->host_tax_rate[race-1] = rate;
 }
 
-/**
- * Return Host's ships sensors range setting in LY.
- */
-gint 
-gwp_game_state_get_host_sensors_range (GwpGameState *self)
+gboolean
+gwp_game_state_get_host_mines_destroy_mines(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_sensors_range;  
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_mines_destroy_webs;
+}
+
+void
+gwp_game_state_set_host_mines_destroy_mines(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_mines_destroy_webs = bool;
+}
+
+gboolean
+gwp_game_state_get_host_es_bonus(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_es_bonus;
+}
+
+void
+gwp_game_state_set_host_es_bonus(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_es_bonus = bool;
+}
+
+gint
+gwp_game_state_get_host_es_bonus_rate(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_es_bonus_rate;
+}
+
+void
+gwp_game_state_set_host_es_bonus_rate(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_es_bonus_rate = rate;
+}
+
+/* 7 */
+
+gint
+gwp_game_state_get_host_colonial_sweep_rate(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_colonial_sweep_rate;
+}
+
+void
+gwp_game_state_set_host_colonial_sweep_rate(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_colonial_sweep_rate = rate;
+}
+
+gboolean
+gwp_game_state_get_host_colonial_sweep_webs(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_colonial_sweep_webs;
+}
+
+void
+gwp_game_state_set_host_colonial_sweep_webs(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_colonial_sweep_webs = bool;
+}
+
+gint
+gwp_game_state_get_host_mine_sweep_rate(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_mine_sweep_rate;
+}
+
+void
+gwp_game_state_set_host_mine_sweep_rate(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_mine_sweep_rate = rate;
+}
+
+gint
+gwp_game_state_get_host_webmine_sweep_rate(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_webmine_sweep_rate;
+}
+
+void
+gwp_game_state_set_host_webmine_sweep_rate(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_webmine_sweep_rate = rate;
+}
+
+gint
+gwp_game_state_get_host_hiss_mission_effect(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_hiss_mission_effect;
+}
+
+void
+gwp_game_state_set_host_hiss_mission_effect(GwpGameState *self, gint effect)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_hiss_mission_effect = effect;
+}
+
+gint
+gwp_game_state_get_host_rob_mission_failure(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_rob_mission_failure;
+}
+
+void
+gwp_game_state_set_host_rob_mission_failure(GwpGameState *self, gint failure)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_rob_mission_failure = failure;
+}
+
+gboolean
+gwp_game_state_get_host_planet_attack_rebel(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_planet_attack_rebel;
+}
+
+void
+gwp_game_state_set_host_planet_attack_rebel(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_planet_attack_rebel = bool;
+}
+
+gboolean
+gwp_game_state_get_host_planet_attack_fascist(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_planet_attack_fascist;
+}
+
+void
+gwp_game_state_set_host_planet_attack_fascist(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_planet_attack_fascist = bool;
+}
+
+gint
+gwp_game_state_get_host_mine_sweep_range(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_mine_sweep_range;
+}
+
+void
+gwp_game_state_set_host_mine_sweep_range(GwpGameState *self, gint range)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_mine_sweep_range = range;
+}
+
+gint
+gwp_game_state_get_host_webmine_sweep_range(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_webmine_sweep_range;
+}
+
+void
+gwp_game_state_set_host_webmine_sweep_range(GwpGameState *self, gint range)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_webmine_sweep_range = range;
+}
+
+gboolean
+gwp_game_state_get_host_science_missions(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_science_missions;
+}
+
+void
+gwp_game_state_set_host_science_missions(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_science_missions = bool;
+}
+
+gdouble
+gwp_game_state_get_host_cloaked_mine_hit(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_cloaked_mine_hit;
+}
+
+void
+gwp_game_state_set_host_cloaked_mine_hit(GwpGameState *self, gdouble rate)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_cloaked_mine_hit = rate;
+}
+
+gint
+gwp_game_state_get_host_cloak_prevent_damage(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_cloak_prevent_damage;
+}
+
+void
+gwp_game_state_set_host_cloak_prevent_damage(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_cloak_prevent_damage = rate;
+}
+
+gboolean
+gwp_game_state_get_host_fed_crew_bonus(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     return self->priv->host_fed_crew_bonus;
+}
+
+void
+gwp_game_state_set_host_fed_crew_bonus(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE (self));
+     self->priv->host_fed_crew_bonus = bool;
+}
+
+/* 8 */
+
+gboolean
+gwp_game_state_get_host_one_engine_tow(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_one_engine_tow;
+}
+
+void
+gwp_game_state_set_host_one_engine_tow(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_one_engine_tow = bool;
+}
+
+gboolean
+gwp_game_state_get_host_hyperdrive_ships(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_hyperdrive_ships;
+}
+
+void
+gwp_game_state_set_host_hyperdrive_ships(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_hyperdrive_ships = bool;
 }
 
 /**
  * Returns Host's climate death rate setting.
- */ 
+ *
+ * @param self a GwpGameState object.
+ *
+ * @return Host's climate death rate setting
+ */
 gint
 gwp_game_state_get_host_climate_death_rate (GwpGameState *self)
 {
@@ -1165,8 +1976,33 @@ gwp_game_state_get_host_climate_death_rate (GwpGameState *self)
   return self->priv->host_climate_death_rate;
 }
 
+void
+gwp_game_state_set_host_climate_death_rate (GwpGameState *self, gint rate)
+{
+  g_assert (GWP_IS_GAME_STATE(self));
+  self->priv->host_climate_death_rate = rate;
+}
+
+gboolean
+gwp_game_state_get_host_gravity_well(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_gravity_well;
+}
+
+void
+gwp_game_state_set_host_gravity_well(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_gravity_well = bool;
+}
+
 /**
  * Returns Host's "crystals like it hot" setting.
+ *
+ * @param self a GwpGameState object.
+ *
+ * @return Host's "crystals like it hot"
  */
 gboolean
 gwp_game_state_get_host_crystal_desert_adv (GwpGameState *self)
@@ -1175,112 +2011,293 @@ gwp_game_state_get_host_crystal_desert_adv (GwpGameState *self)
   return self->priv->host_crystal_desert_adv;
 }
 
-/**
- * Returns Host's "colonists eat supps" setting.
- */
-gboolean
-gwp_game_state_get_host_colonists_eat_supplies (GwpGameState *self)
+void
+gwp_game_state_set_host_crystal_desert_adv (GwpGameState *self, gboolean bool)
 {
   g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_colonists_eat_supplies;
+  self->priv->host_crystal_desert_adv = bool;
+}
+
+gboolean
+gwp_game_state_get_host_mines_destroy_webs(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_mines_destroy_webs;
+}
+
+void
+gwp_game_state_set_host_mines_destroy_webs(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_mines_destroy_webs = bool;
+}
+
+gboolean
+gwp_game_state_get_host_climate_limit_pop(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_climate_limit_pop;
+}
+
+void
+gwp_game_state_set_host_climate_limit_pop(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_climate_limit_pop = bool;
+}
+
+/* 9 */
+
+gint
+gwp_game_state_get_host_max_planet_income(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_max_planet_income;
+}
+
+void
+gwp_game_state_set_host_max_planet_income(GwpGameState *self, gint max)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_max_planet_income = max;
 }
 
 gint
-gwp_game_state_get_host_recycle_col_ship (GwpGameState *self)
+gwp_game_state_get_host_ion_storms(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_recycle_col_ship;
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_ion_storms;
+}
+
+void
+gwp_game_state_set_host_ion_storms(GwpGameState *self, gint storm)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_ion_storms = storm;
+}
+
+gboolean
+gwp_game_state_get_host_firecloud_chunnel(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_firecloud_chunnel;
+}
+
+void
+gwp_game_state_set_host_firecloud_chunnel(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_firecloud_chunnel = bool;
+}
+
+gboolean
+gwp_game_state_get_host_superspy_deluxe(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_superspy_deluxe;
+}
+
+void
+gwp_game_state_set_host_superspy_deluxe(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_superspy_deluxe = bool;
+}
+
+gboolean
+gwp_game_state_get_host_storms_hide_mines(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_storms_hide_mines;
+}
+
+void
+gwp_game_state_set_host_storms_hide_mines(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_storms_hide_mines = bool;
+}
+
+gboolean
+gwp_game_state_get_host_fascist_glory_device(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_fascist_glory_device;
+}
+
+void
+gwp_game_state_set_host_fascist_glory_device(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_fascist_glory_device = bool;
+}
+
+gboolean
+gwp_game_state_get_host_loki_anticloak(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_loki_anticloak;
+}
+
+void
+gwp_game_state_set_host_loki_anticloak(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_loki_anticloak = bool;
+}
+
+gboolean
+gwp_game_state_get_host_ladyroyale_gambling(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_ladyroyale_gambling;
+}
+
+void
+gwp_game_state_set_host_ladyroyale_gambling(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_ladyroyale_gambling = bool;
+}
+
+gboolean
+gwp_game_state_get_host_cloaked_ships_attack(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_cloaked_ships_attack;
+}
+
+void
+gwp_game_state_set_host_cloaked_ships_attack(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_cloaked_ships_attack = bool;
+}
+
+gboolean
+gwp_game_state_get_host_ship_cloning(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_ship_cloning;
+}
+
+void
+gwp_game_state_set_host_ship_cloning(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_ship_cloning = bool;
+}
+
+gboolean
+gwp_game_state_get_host_boarding_party(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_boarding_party;
+}
+
+void
+gwp_game_state_set_host_boarding_party(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_boarding_party = bool;
+}
+
+gboolean
+gwp_game_state_get_host_imperial_assault(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_imperial_assault;
+}
+
+void
+gwp_game_state_set_host_imperial_assault(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_imperial_assault = bool;
+}
+
+/* 10 */
+
+gint
+gwp_game_state_get_host_cobol_fuel(GwpGameState *self)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_cobol_fuel;
+}
+
+void
+gwp_game_state_set_host_cobol_fuel(GwpGameState *self, gint rate)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_cobol_fuel = rate;
 }
 
 gint
-gwp_game_state_get_host_large_meteor_impact (GwpGameState *self)
+gwp_game_state_get_host_hulltech_slowed_minehits(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_large_meteor_impact;
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_hulltech_slowed_minehits;
+}
+
+void
+gwp_game_state_set_host_hulltech_slowed_minehits(GwpGameState *self, gint tech)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_hulltech_slowed_minehits = tech;
 }
 
 gboolean
-gwp_game_state_get_host_space_mines (GwpGameState *self)
+gwp_game_state_get_host_aries_makes_fuel(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_space_mines;
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_aries_makes_fuel;
+}
+
+void
+gwp_game_state_set_host_aries_makes_fuel(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_aries_makes_fuel = bool;
 }
 
 gboolean
-gwp_game_state_get_host_alchemy_ships (GwpGameState *self)
+gwp_game_state_get_host_bioscanners(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_alchemy_ships;
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_bioscanners;
+}
+
+void
+gwp_game_state_set_host_bioscanners(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_bioscanners = bool;
 }
 
 gboolean
-gwp_game_state_get_host_delete_old_msgs (GwpGameState *self)
+gwp_game_state_get_host_loki_decloak_birds(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_delete_old_msgs;
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_loki_decloak_birds;
+}
+
+void
+gwp_game_state_set_host_loki_decloak_birds(GwpGameState *self, gboolean bool)
+{
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_loki_decloak_birds = bool;
 }
 
 gboolean
-gwp_game_state_get_host_disable_pwd (GwpGameState *self)
+gwp_game_state_get_host_vpa_extras(GwpGameState *self)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_disable_pwd;
+     g_assert (GWP_IS_GAME_STATE(self));
+     return self->priv->host_vpa_extras;
 }
 
-gboolean
-gwp_game_state_get_host_rebel_build_fighters (GwpGameState *self)
+void
+gwp_game_state_set_host_vpa_extras(GwpGameState *self, gboolean bool)
 {
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_rebel_build_fighters;
+     g_assert (GWP_IS_GAME_STATE(self));
+     self->priv->host_vpa_extras = bool;
 }
-
-gboolean
-gwp_game_state_get_host_colonial_build_fighters (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_colonial_build_fighters;
-}
-
-gboolean
-gwp_game_state_get_host_robots_build_fighters (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_robots_build_fighters;
-}
-
-gint
-gwp_game_state_get_host_cloak_failure (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_cloak_failure;
-}
-
-gboolean
-gwp_game_state_get_host_priv_rob_cloak (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_priv_rob_cloak;
-}
-
-gint
-gwp_game_state_get_host_dark_sense_range (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_dark_sense_range;
-}
-
-gint
-gwp_game_state_get_host_ground_attack_ratio (GwpGameState *self, gint race)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  g_assert (race >= 1 && race <= 11);
-  return self->priv->host_ground_attack_ratio[race-1];
-}
-
-gboolean
-gwp_game_state_get_host_lizard_hiss_mission (GwpGameState *self)
-{
-  g_assert (GWP_IS_GAME_STATE(self));
-  return self->priv->host_lizard_hiss_mission;
-}
-
