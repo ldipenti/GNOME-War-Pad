@@ -188,8 +188,8 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
 {
   GtkEntry *game_name = (GtkEntry *)
     lookup_widget("game_mgr_entry_game_name");
-  GtkEntry *race_name = (GtkEntry *)
-    lookup_widget("game_mgr_entry_race_name");
+  GtkTreeView *race_l = (GtkTreeView *) 
+    lookup_widget("game_mgr_properties_race_list");
   GtkEntry *player_email = (GtkEntry *)
     lookup_widget("game_mgr_entry_player_email");
   GtkEntry *host_email = (GtkEntry *)
@@ -208,6 +208,10 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
     (GtkCheckButton *) lookup_widget("game_mgr_checkbutton_apply_changes");
   gboolean apply_changes = FALSE;
   gchar *game_name_str = g_strdup_printf("%s", gwp_game_state_get_name(settings));
+  GtkTreeSelection *selection = NULL;
+  GtkTreePath *path = NULL;
+  GtkTreeModel *model = NULL;
+  GtkTreeIter iter;
 
   game_mgr_game_name_demangle(game_name_str);
 
@@ -218,15 +222,34 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
   gtk_entry_set_text(game_name, game_name_str);
   gtk_entry_set_text(player_email, gwp_game_state_get_player_email(settings));
   gtk_entry_set_text(host_email, gwp_game_state_get_host_email(settings));
-  /* This MUST be after the game_dir changed event :-) */
-  gtk_entry_set_text(race_name, race_get_name(gwp_game_state_get_race(settings)));
+
   /* FIXME: this sucks */
+  /* FIXME2: select the correct race in the race_l */
   gint *racenum = g_malloc(sizeof(gint));
   *racenum = gwp_game_state_get_race_nr (settings);
-  g_object_set_data(G_OBJECT(race_name),
+  g_object_set_data(G_OBJECT(race_l),
 		    "race_number", racenum);
   g_object_set_data(G_OBJECT(game_name),
 		    "old_game_name", g_strdup(gwp_game_state_get_name(settings)));
+
+  /* Select correct race */
+  model = gtk_tree_view_get_model (race_l);
+  /* If tree is not empty... */
+  gint *race = g_malloc(sizeof(gint));
+  if (gtk_tree_model_get_iter_first (model, &iter)) {
+    do {
+      gtk_tree_model_get (model, &iter, 
+			  1, race, 
+			  -1);
+      /* If found, select it! */
+      if (*race == *racenum) {
+	path = gtk_tree_model_get_path (model, &iter);
+	selection = gtk_tree_view_get_selection (race_l);
+	gtk_tree_selection_select_path (selection, path);
+	break;
+      }
+    } while (gtk_tree_model_iter_next (model, &iter));
+  }
 
   /* Host type: 0 is for old games */
   if ((gwp_game_state_get_host_type(settings) == 0) ||
@@ -350,8 +373,8 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
     (GtkEntry *) lookup_widget("game_mgr_entry_player_email");
   GtkEntry *host_email =
     (GtkEntry *) lookup_widget("game_mgr_entry_host_email");
-  GtkEntry *race_name =
-    (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
+  GtkTreeView *race_l = 
+    (GtkTreeView *) lookup_widget("game_mgr_properties_race_list");
   GtkRadioButton *radio_thost = 
     (GtkRadioButton *) lookup_widget("radio_thost");
   GtkCheckButton *chkbtn_apply_changes = 
@@ -380,7 +403,7 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
   } else {
     gwp_game_state_set_host_type (settings, GWP_GAME_STATE_HOST_TYPE_PHOST);   
   }
-  race_num = (gint *) g_object_get_data(G_OBJECT(race_name),
+  race_num = (gint *) g_object_get_data(G_OBJECT(race_l),
 					"race_number");
   g_assert(race_num != NULL);
   gwp_game_state_set_race (settings, *race_num);
@@ -399,8 +422,8 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
     (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
   GtkEntry *game_name = 
     (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
-  GtkEntry *race_name =
-    (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
+  GtkTreeView *race_l = 
+    (GtkTreeView *) lookup_widget("game_mgr_properties_race_list");
   GnomeFileEntry *trn_dir =
     (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
   GnomeFileEntry *rst_dir =
@@ -480,7 +503,7 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
   /*
    * Check if user selected a race 
    */
-  if(strlen(gtk_entry_get_text(race_name)) <= 0) {
+  if((gint)g_object_get_data(G_OBJECT(race_l), "race_number") <= 0) {
     if(show_warnings) {
       GtkWidget *warn;
       
@@ -524,9 +547,6 @@ void game_mgr_properties_dlg_clean(void)
   gtk_list_store_clear(store);
   
   entry = (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
-  gtk_entry_set_text(entry, "");
-
-  entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
   gtk_entry_set_text(entry, "");
 
   entry = (GtkEntry *) lookup_widget("game_mgr_entry_player_email");

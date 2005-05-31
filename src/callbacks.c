@@ -262,16 +262,11 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
 void on_game_mgr_game_dir_changed (GtkEditable *editable,
 				   gpointer user_data)
 {
-  GtkEntry *race_name_entry;
   char *dir;
   GtkWidget *btn_unpack = lookup_widget("game_mgr_btn_unpack");
 
   dir = gtk_editable_get_chars(editable, 0, -1);
   game_mgr_update_race_list(dir);
-
-  /* Clear the race name on the entry */
-  race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
-  gtk_entry_set_text(race_name_entry, "");
 
   /* Disable 'Unpack' Button */
   gtk_widget_set_sensitive(btn_unpack, FALSE);
@@ -377,13 +372,13 @@ void on_game_mgr_button_cancel_clicked (GtkWidget *widget,
 }
 
 /* Get the race number and assign it to the race name field */
-void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
-						     gpointer user_data)
+void 
+on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
+						gpointer   user_data)
 {
   GtkTreeView *race_l = NULL;
   GtkTreeSelection *sel = NULL;
   GtkTreeModel *model = NULL;
-  GtkEntry *race_name_entry = NULL;
   GtkTreeIter iter;
   gint *race = NULL;
   gchar *dir = NULL;
@@ -399,13 +394,9 @@ void on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
   race = g_malloc(sizeof(gint));
   gtk_tree_model_get(model, &iter, 1, race, -1);
 
-  /* Copy the race name on the entry */
-  race_name_entry = (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
-  gtk_entry_set_text(race_name_entry, race_get_name(*race));
-
   /* Bind its number (the really important data) */
-  g_object_set_data(G_OBJECT(race_name_entry),
-		      "race_number", race);
+  g_object_set_data(G_OBJECT(race_l),
+		    "race_number", race);
 
   /* Check if it's neccesary to activate the 'unpack' button */
   dir = gnome_file_entry_get_full_path((GnomeFileEntry *)
@@ -743,12 +734,12 @@ void on_game_close_activate (GtkWidget *widget,
 void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 				     gpointer user_data)
 {
-  GtkEntry *race_name_entry = 
-    (GtkEntry *) lookup_widget("game_mgr_entry_race_name");
   gint *race;
   gchar *game_dir;
+  GtkTreeView *race_l = (GtkTreeView *) 
+    lookup_widget("game_mgr_properties_race_list");
 
-  race = (gint *) g_object_get_data(G_OBJECT(race_name_entry),
+  race = (gint *) g_object_get_data(G_OBJECT(race_l),
 				    "race_number");
 
   game_dir = 
