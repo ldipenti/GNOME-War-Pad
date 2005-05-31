@@ -19,7 +19,10 @@
 
 /** \file
     $Id$
-    $log$
+    $Log$
+    Revision 1.25  2005/05/31 12:39:30  ldipenti
+    test cvs vars
+
 */
 
 #include "global.h"
