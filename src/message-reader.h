@@ -1,3 +1,13 @@
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.5  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
+
 #ifndef MESSAGE_READER_H
 #define MESSAGE_READER_H
 

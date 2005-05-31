@@ -1,3 +1,13 @@
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.3  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
+
 /* File: kmkturn.c
  *
  * K-MakeTurn is a newer and faster version for Tim Wisseman's VGA-Planets.

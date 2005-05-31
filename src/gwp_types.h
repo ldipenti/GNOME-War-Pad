@@ -17,6 +17,16 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.15  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
+
 /*
  * This file contains structures and datatypes that GWP uses to provide 
  * more functionality to VGA Planets. This datatypes are not provided

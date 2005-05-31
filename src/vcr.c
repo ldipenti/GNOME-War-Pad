@@ -1,3 +1,12 @@
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.20  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
 
 #include "vcr.h"
 

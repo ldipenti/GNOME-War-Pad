@@ -17,6 +17,16 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.14  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
+
 #ifndef GWP_PY_FUNCTIONS_H
 #define GWP_PY_FUNCTIONS_H
 

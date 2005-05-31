@@ -1,3 +1,13 @@
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.3  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
+
 /* Author: Kero van Gelder
    First version 16 IX 1995
    Last revision 15 XII 1995 */

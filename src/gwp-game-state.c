@@ -18,14 +18,13 @@
  */
 
 /** \file
-    Source file $Source$ - Revision $Revision$
+    $Source$ 
+    $Revision$
     
     $Log$
-    Revision 1.26  2005/05/31 12:45:42  ldipenti
-    Another cool test (cvs vars)
+    Revision 1.27  2005/05/31 13:17:38  ldipenti
+    Feature: Added CVS metadata on source files
 
-    Revision 1.25  2005/05/31 12:39:30  ldipenti
-    test cvs vars
 */
 
 #include "global.h"

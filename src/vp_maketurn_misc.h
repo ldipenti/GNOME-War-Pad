@@ -1,3 +1,13 @@
+/** \file
+    $Source$ 
+    $Revision$
+    
+    $Log$
+    Revision 1.2  2005/05/31 13:17:39  ldipenti
+    Feature: Added CVS metadata on source files
+
+*/
+
 /* Made by Rutger Nijlunsing (using Turbo Pascal 6.0)
      (including his ErrorH.pas)
    Translated by p2c (changing turbo pascal 5.0 *cry* )
