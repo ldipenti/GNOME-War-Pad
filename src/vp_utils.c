@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.76  2005/06/02 14:36:05  ldipenti
+    Feature: patched applied to parse host configuration messages, thanks François!!!
+
     Revision 1.75  2005/05/31 13:17:39  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -59,11 +62,30 @@
 #include "gwp-race.h"
 #include "gwp-messages.h"
 
+/* Macro use to type conversion :/. string to boolean */
+#define YES_OR_NO(x) (x == "YES" ? TRUE : FALSE)
+
 void load_target_dat_ext (GHashTable *target_list, gint race, char *e);
 
 void scan_messages (void);
 void scan_messages_planet_orbit (const gchar *msg_body);
 void scan_messages_planet_scanned (const gchar *msg_body);
+void scan_messages_recycle_rate(const gchar *msg_body);
+void scan_messages_att_rat(const gchar *msg_body);
+void scan_messages_def_rat(const gchar *msg_body);
+void scan_messages_fig_starb(const gchar *msg_body);
+void scan_messages_min_rat(const gchar *msg_body);
+void scan_messages_tax_rat(const gchar *msg_body);
+void scan_messages_min_sweep(const gchar *msg_body);
+void scan_messages_shipt_tow(const gchar *msg_body);
+void scan_messages_in_pla(const gchar *msg_body);
+void scan_messages_fuel_ly(const gchar *msg_body);
+void scan_messages_allies(const gchar *msg_body);
+
+int extract_from_message (const gchar *msg_body, const gchar *pattern, GList *info);
+void free_substring(GList *substring);
+
+
 static void dump_to_ship_dat_file (void);
 static void dump_to_pdata_dat_file (void);
 static void dump_to_bdata_dat_file (void);
@@ -1849,32 +1871,689 @@ ghfunc_dump_ship_data (gpointer key, gpointer value, gpointer user_data)
  * game's message system, so I have to scan them to show all the good stuff, 
  * cool isn't it?
  */
+
 void 
 scan_messages (void)
 {
-  GwpMessages *msg_store = (GwpMessages *)gwp_messages_new ();
-  gint qty = gwp_messages_getMessagesNumber (msg_store);
-  gint i;
+     GwpMessages *msg_store = (GwpMessages *)gwp_messages_new ();
+     gint qty = gwp_messages_getMessagesNumber (msg_store);
+     gint i;
 
-  for (i = 0; i < qty; i++) {
-    gchar *msg_hdr = g_strdup(gwp_messages_getMessageHeader (msg_store, i));
+     for (i = 0; i < qty; i++) {
+	  gchar *msg_hdr = g_strdup(gwp_messages_getMessageHeader (msg_store, i));
 
-    /* Scanner report on planets */
-    if (gwp_messages_grepMessage (msg_hdr, "-z0")) {
+	  /* Scanner report on planets */
+	  if (gwp_messages_grepMessage (msg_hdr, "-z0")) {
 
-      gchar *msg_body = g_strdup(gwp_messages_getMessageRaw (msg_store, i));
-      /* Search for enemy clans on planets below our ships */
-      if (gwp_messages_grepMessage (msg_body, "There are enemy colonists")) {
-	scan_messages_planet_orbit (msg_body);
-      } 
-      /* Search for enemy planets based on our sensor sweeps */
-      else if (gwp_messages_grepMessage (msg_body, "Sensors show there")) {
-	scan_messages_planet_scanned (msg_body);
-      }
-      g_free (msg_body);
-    }
-    g_free (msg_hdr);
-  }
+	       gchar *msg_body = g_strdup(gwp_messages_getMessageRaw (msg_store, i));
+	       /* Search for enemy clans on planets below our ships */
+	       if (gwp_messages_grepMessage (msg_body, "There are enemy colonists")) {
+		    scan_messages_planet_orbit (msg_body);
+	       } 
+	       /* Search for enemy planets based on our sensor sweeps */
+	       else if (gwp_messages_grepMessage (msg_body, "Sensors show there")) {
+		    scan_messages_planet_scanned (msg_body);
+	       }
+	       g_free (msg_body);
+	  }
+/* 	  Message from your Host */
+	  else if(gwp_messages_grepMessage (msg_hdr, "-g0") ||
+		  gwp_messages_grepMessage (msg_hdr, "og0"))
+	  {
+	       gchar *msg_body = g_strdup(gwp_messages_getMessageRaw (msg_store, i));
+
+	       if (gwp_messages_grepMessage (msg_body, "Colonize recycle rate"))
+		    scan_messages_recycle_rate(msg_body);
+	       else if (gwp_messages_grepMessage (msg_body, "Ground Attack Kill Ratio"))
+		    scan_messages_att_rat(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Ground Defense Kill Ratio"))
+		    scan_messages_def_rat(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Free fighters at starbases"))
+		    scan_messages_fig_starb(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Mining rates"))
+		    scan_messages_min_rat(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Tax rates"))
+		    scan_messages_tax_rat(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Col Fgtr Mine sweep"))
+		    scan_messages_min_sweep(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "One engine ships tow"))
+		    scan_messages_shipt_tow(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Max income per planet"))
+		    scan_messages_in_pla(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "Cobol fuel per LY"))
+		    scan_messages_fuel_ly(msg_body);
+	       else if(gwp_messages_grepMessage (msg_body, "FF / ff Allies"))
+		    scan_messages_allies(msg_body);
+	       else
+		    g_message("Host's config message unknown !");
+
+	       g_free (msg_body);
+	  }
+	  g_free (msg_hdr);
+     }
+}
+
+void scan_messages_recycle_rate(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *r_rate, *meteor, *space_mines, *chemy_ships;
+     const gchar *del_old_mess, *dis_pass, *re_b_f_spa, *co_b_f_spa;
+     const gchar *ro_b_f_spa, *clo_fail, *pri_rob_clo, *emp_sen_range;
+
+     substring = g_list_append(substring, &r_rate);
+     substring = g_list_append(substring, &meteor);
+     substring = g_list_append(substring, &space_mines);
+     substring = g_list_append(substring, &chemy_ships);
+     substring = g_list_append(substring, &del_old_mess);
+     substring = g_list_append(substring, &dis_pass);
+     substring = g_list_append(substring, &re_b_f_spa);
+     substring = g_list_append(substring, &co_b_f_spa);
+     substring = g_list_append(substring, &ro_b_f_spa);
+     substring = g_list_append(substring, &clo_fail);
+     substring = g_list_append(substring, &pri_rob_clo);
+     substring = g_list_append(substring, &emp_sen_range);
+
+     const gchar *regexp = ".*rate.*(\\b[0-9]+\\b).*meteor.*(\\b[0-9]+\\b).*mines.*(\\bYES|NO\\b).*ships.*(\\bYES|NO\\b).*Messages.*(\\bYES|NO\\b).*Passwords.*(\\bYES|NO\\b).*space.*(\\bYES|NO\\b).*space.*(\\bYES|NO\\b).*space.*(\\bYES|NO\\b).*failure.*(\\b[0-9]+\\b).*ships.*(\\bYES|NO\\b).*range.*(\\b\\d+\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(r_rate); */
+/* 	  g_message(meteor); */
+/* 	  g_message(space_mines); */
+/* 	  g_message(chemy_ships); */
+/* 	  g_message(del_old_mess); */
+/* 	  g_message(dis_pass); */
+/* 	  g_message(re_b_f_spa); */
+/* 	  g_message(co_b_f_spa); */
+/* 	  g_message(ro_b_f_spa); */
+/* 	  g_message(clo_fail); */
+/* 	  g_message(pri_rob_clo); */
+/* 	  g_message(emp_sen_range); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gwp_game_state_set_host_recycle_col_ship (game_state, atoi(r_rate));
+	  gwp_game_state_set_host_large_meteor_impact (game_state, atoi(meteor));
+	  gwp_game_state_set_host_space_mines (game_state, YES_OR_NO(space_mines));
+	  gwp_game_state_set_host_alchemy_ships (game_state, YES_OR_NO(chemy_ships));
+	  gwp_game_state_set_host_delete_old_msgs (game_state, YES_OR_NO(del_old_mess));
+	  gwp_game_state_set_host_disable_pwd (game_state, YES_OR_NO(dis_pass));
+	  gwp_game_state_set_host_rebel_build_fighters (game_state, YES_OR_NO(re_b_f_spa));
+	  gwp_game_state_set_host_colonial_build_fighters (game_state, YES_OR_NO(co_b_f_spa));
+	  gwp_game_state_set_host_robots_build_fighters (game_state, YES_OR_NO(ro_b_f_spa));
+	  gwp_game_state_set_host_cloak_failure (game_state, atoi(clo_fail));
+	  gwp_game_state_set_host_priv_rob_cloak (game_state, YES_OR_NO(pri_rob_clo));
+	  gwp_game_state_set_host_dark_sense_range (game_state, atoi(emp_sen_range));
+
+	  g_message("Host's config loaded 1");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_att_rat(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *ratio1, *ratio2, *ratio3, *ratio4, *ratio5;
+     const gchar *ratio6, *ratio7, *ratio8, *ratio9, *ratio10, *ratio11;
+     const gchar *visible, *hiss, *re_g_att, *fed_s_refit, *web_mines;
+
+     substring = g_list_append(substring, &ratio1);
+     substring = g_list_append(substring, &ratio2);
+     substring = g_list_append(substring, &ratio3);
+     substring = g_list_append(substring, &ratio4);
+     substring = g_list_append(substring, &ratio5);
+     substring = g_list_append(substring, &ratio6);
+     substring = g_list_append(substring, &ratio7);
+     substring = g_list_append(substring, &ratio8);
+     substring = g_list_append(substring, &ratio9);
+     substring = g_list_append(substring, &ratio10);
+     substring = g_list_append(substring, &ratio11);
+     substring = g_list_append(substring, &visible);
+     substring = g_list_append(substring, &hiss);
+     substring = g_list_append(substring, &re_g_att);
+     substring = g_list_append(substring, &fed_s_refit);
+     substring = g_list_append(substring, &web_mines);
+
+     const gchar *regexp = ".*Fed.*(\\b\\d+\\b).*:.*Lizard.*(\\b\\d+\\b).*:.*Bird Man.*(\\b\\d+\\b).*:.*Fascist.*(\\b\\d+\\b).*:.*Privateer.*(\\b\\d+\\b).*:.*Cyborg.*(\\b\\d+\\b).*:.*Crystalline.*(\\b\\d+\\b).*:.*Empire.*(\\b\\d+\\b).*:.*Robotic.*(\\b\\d+\\b).*:.*Rebel.*(\\b\\d+\\b).*:.*Colonial.*(\\b\\d+\\b).*:.*visible at.*(\\b\\d+\\b).*mission.*(\\bYES|NO\\b).*attack.*(\\bYES|NO\\b).*refit.*(\\bYES|NO\\b).*mines.*(\\bYES|NO\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(ratio1); */
+/* 	  g_message(ratio2); */
+/* 	  g_message(ratio3); */
+/* 	  g_message(ratio4); */
+/* 	  g_message(ratio5); */
+/* 	  g_message(ratio6); */
+/* 	  g_message(ratio7); */
+/* 	  g_message(ratio8); */
+/* 	  g_message(ratio9); */
+/* 	  g_message(ratio10); */
+/* 	  g_message(ratio11); */
+/* 	  g_message(visible); */
+/* 	  g_message(hiss); */
+/* 	  g_message(re_g_att); */
+/* 	  g_message(fed_s_refit); */
+/* 	  g_message(web_mines); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+	  gchar **tmp;
+	  gint i;
+	  for(i = 0; i < 11; i++) {
+	       tmp = g_list_nth_data(substring, i);
+	       gwp_game_state_set_host_ground_attack_ratio (game_state, i+1, atoi(*tmp));
+	  }
+
+	  gwp_game_state_set_host_ships_visible_range(game_state, atoi(visible));
+	  gwp_game_state_set_host_lizard_hiss_mission(game_state, YES_OR_NO(hiss));
+	  gwp_game_state_set_host_rebel_ground_attack(game_state, YES_OR_NO(re_g_att));
+	  gwp_game_state_set_host_fed_super_refit(game_state, YES_OR_NO(fed_s_refit));
+	  gwp_game_state_set_host_crystal_web_mines(game_state, YES_OR_NO(web_mines));
+
+	  g_message("Host's config loaded 2");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_def_rat(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *ratio1, *ratio2, *ratio3, *ratio4, *ratio5;
+     const gchar *ratio6, *ratio7, *ratio8, *ratio9, *ratio10, *ratio11;
+     const gchar *burn, *range, *natives, *pa_att_sh, *assimil;
+
+
+     substring = g_list_append(substring, &ratio1);
+     substring = g_list_append(substring, &ratio2);
+     substring = g_list_append(substring, &ratio3);
+     substring = g_list_append(substring, &ratio4);
+     substring = g_list_append(substring, &ratio5);
+     substring = g_list_append(substring, &ratio6);
+     substring = g_list_append(substring, &ratio7);
+     substring = g_list_append(substring, &ratio8);
+     substring = g_list_append(substring, &ratio9);
+     substring = g_list_append(substring, &ratio10);
+     substring = g_list_append(substring, &ratio11);
+     substring = g_list_append(substring, &burn);
+     substring = g_list_append(substring, &range);
+     substring = g_list_append(substring, &natives);
+     substring = g_list_append(substring, &pa_att_sh);
+     substring = g_list_append(substring, &assimil);
+
+     const gchar *regexp = ".*Fed.*(\\b\\d+\\b).*:.*Lizard.*(\\b\\d+\\b).*:.*Bird Man.*(\\b\\d+\\b).*:.*Fascist.*(\\b\\d+\\b).*:.*Privateer.*(\\b\\d+\\b).*:.*Cyborg.*(\\b\\d+\\b).*:.*Crystalline.*(\\b\\d+\\b).*:.*Empire.*(\\b\\d+\\b).*:.*Robotic.*(\\b\\d+\\b).*:.*Rebel.*(\\b\\d+\\b).*:.*Colonial.*(\\b\\d+\\b).*:.*100kt.*(\\b\\d+\\b).*sensors.*(\\b\\d+\\b).*Natives.*(\\bYES|NO\\b).*ships.*(\\bYES|NO\\b).*rate.*(\\b\\d+\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(ratio1); */
+/* 	  g_message(ratio2); */
+/* 	  g_message(ratio3); */
+/* 	  g_message(ratio4); */
+/* 	  g_message(ratio5); */
+/* 	  g_message(ratio6); */
+/* 	  g_message(ratio7); */
+/* 	  g_message(ratio8); */
+/* 	  g_message(ratio9); */
+/* 	  g_message(ratio10); */
+/* 	  g_message(ratio11); */
+/* 	  g_message(burn); */
+/* 	  g_message(range); */
+/* 	  g_message(natives); */
+/* 	  g_message(pa_att_sh); */
+/* 	  g_message(assimil); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+	  gchar **tmp;
+	  gint i;
+
+	  for(i = 0; i < 11; i++) {
+	       tmp = g_list_nth_data(substring, i);
+	       gwp_game_state_set_host_ground_defense_ratio(game_state, i+1, atoi(*tmp));
+	  }
+
+	  gwp_game_state_set_host_cloak_fuel_use(game_state, atoi(burn));
+	  gwp_game_state_set_host_sensors_range(game_state, atoi(range));
+	  gwp_game_state_set_host_new_natives(game_state, YES_OR_NO(natives));
+	  gwp_game_state_set_host_planets_attack_ships(game_state, YES_OR_NO(pa_att_sh));
+	  gwp_game_state_set_host_borg_assimilation_rate(game_state, YES_OR_NO(assimil));
+
+	  g_message("Host's config loaded 3");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_fig_starb(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *free1, *free2, *free3, *free4, *free5;
+     const gchar *free6, *free7, *free8, *free9, *free10, *free11;
+     const gchar *wm_decay, *m_decay, *mine_rad, *isotop, *struc_decay;
+
+     substring = g_list_append(substring, &free1);
+     substring = g_list_append(substring, &free2);
+     substring = g_list_append(substring, &free3);
+     substring = g_list_append(substring, &free4);
+     substring = g_list_append(substring, &free5);
+     substring = g_list_append(substring, &free6);
+     substring = g_list_append(substring, &free7);
+     substring = g_list_append(substring, &free8);
+     substring = g_list_append(substring, &free9);
+     substring = g_list_append(substring, &free10);
+     substring = g_list_append(substring, &free11);
+     substring = g_list_append(substring, &wm_decay);
+     substring = g_list_append(substring, &m_decay);
+     substring = g_list_append(substring, &mine_rad);
+     substring = g_list_append(substring, &isotop);
+     substring = g_list_append(substring, &struc_decay);
+
+     const gchar *regexp = ".*Fed.*(\\b\\d+\\b).*Lizard.*(\\b\\d+\\b).*Bird Man.*(\\b\\d+\\b).*Fascist.*(\\b\\d+\\b).*Privateer.*(\\b\\d+\\b).*Cyborg.*(\\b\\d+\\b).*Crystalline.*(\\b\\d+\\b).*Empire.*(\\b\\d+\\b).*Robotic.*(\\b\\d+\\b).*Rebel.*(\\b\\d+\\b).*Colonial.*(\\b\\d+\\b).*web mine decay.*(\\b\\d+\\b).*mine decay.*(\\b\\d+\\b).*radius.*(\\b\\d+\\b).*TUDR.*(\\b\\d+\\b).*decay.*(\\b\\d+\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(free1); */
+/* 	  g_message(free2); */
+/* 	  g_message(free3); */
+/* 	  g_message(free4); */
+/* 	  g_message(free5); */
+/* 	  g_message(free6); */
+/* 	  g_message(free7); */
+/* 	  g_message(free8); */
+/* 	  g_message(free9); */
+/* 	  g_message(free10); */
+/* 	  g_message(free11); */
+/* 	  g_message(wm_decay); */
+/* 	  g_message(m_decay); */
+/* 	  g_message(mine_rad); */
+/* 	  g_message(isotop); */
+/* 	  g_message(struc_decay); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gchar **tmp;
+	  gint i;
+	  for(i = 0; i < 11; i++) {
+	       tmp = g_list_nth_data(substring, i);
+	       gwp_game_state_set_host_starbase_free_fighters(game_state, i+1, atoi(*tmp));
+	  }
+
+	  gwp_game_state_set_host_webmine_decay(game_state, atoi(wm_decay));
+	  gwp_game_state_set_host_mine_decay(game_state, atoi(m_decay));
+	  gwp_game_state_set_host_max_mine_radius(game_state, atoi(mine_rad));
+	  gwp_game_state_set_host_isotope_tudr(game_state, atoi(isotop));
+	  gwp_game_state_set_host_structure_decay(game_state, atoi(struc_decay));
+
+	  g_message("Host's config loaded 4");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_min_rat(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *rate1, *rate2, *rate3, *rate4, *rate5;
+     const gchar *rate6, *rate7, *rate8, *rate9, *rate10, *rate11;
+     const gchar *eat, *move, *mine_ly, *wmine_ly, *range;
+
+     substring = g_list_append(substring, &rate1);
+     substring = g_list_append(substring, &rate2);
+     substring = g_list_append(substring, &rate3);
+     substring = g_list_append(substring, &rate4);
+     substring = g_list_append(substring, &rate5);
+     substring = g_list_append(substring, &rate6);
+     substring = g_list_append(substring, &rate7);
+     substring = g_list_append(substring, &rate8);
+     substring = g_list_append(substring, &rate9);
+     substring = g_list_append(substring, &rate10);
+     substring = g_list_append(substring, &rate11);
+     substring = g_list_append(substring, &eat);
+     substring = g_list_append(substring, &move);
+     substring = g_list_append(substring, &mine_ly);
+     substring = g_list_append(substring, &wmine_ly);
+     substring = g_list_append(substring, &range);
+
+     const gchar *regexp = ".*Fed.*(\\b\\d+\\b).*Lizard.*(\\b\\d+\\b).*Bird Man.*(\\b\\d+\\b).*Fascist.*(\\b\\d+\\b).*Privateer.*(\\b\\d+\\b).*Cyborg.*(\\b\\d+\\b).*Crystalline.*(\\b\\d+\\b).*Empire.*(\\b\\d+\\b).*Robotic.*(\\b\\d+\\b).*Rebel.*(\\b\\d+\\b).*Colonial.*(\\b\\d+\\b).*supplies?.*(\\bYES|NO\\b).*move?.*(\\bYES|NO\\b).*LY.*(\\b\\d+\\b).*LY.*(\\b\\d+\\b).*range.*(\\b\\d+\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(rate1); */
+/* 	  g_message(rate2); */
+/* 	  g_message(rate3); */
+/* 	  g_message(rate4); */
+/* 	  g_message(rate5); */
+/* 	  g_message(rate6); */
+/* 	  g_message(rate7); */
+/* 	  g_message(rate8); */
+/* 	  g_message(rate9); */
+/* 	  g_message(rate10); */
+/* 	  g_message(rate11); */
+/* 	  g_message(eat); */
+/* 	  g_message(move); */
+/* 	  g_message(mine_ly); */
+/* 	  g_message(wmine_ly); */
+/* 	  g_message(range); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gchar **tmp;
+	  gint i;
+	  for(i = 0; i < 11; i++) {
+	       tmp = g_list_nth_data(substring, i);
+	       gwp_game_state_set_host_mining_rate(game_state, i+1, atoi(*tmp));
+	  }
+
+	  gwp_game_state_set_host_colonists_eat_supplies (game_state, YES_OR_NO(eat));
+	  gwp_game_state_set_host_zero_fuel_ships_move (game_state, YES_OR_NO(move));
+	  gwp_game_state_set_host_mine_hit_odds (game_state, atoi(mine_ly));
+	  gwp_game_state_set_host_webmine_hit_odds(game_state, atoi(wmine_ly));
+	  gwp_game_state_set_host_mine_detect_range (game_state, atoi(range));
+
+	  g_message("Host's config loaded 5");
+     }
+
+     free_substring(substring);
+
+}
+
+void scan_messages_tax_rat(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *rate1, *rate2, *rate3, *rate4, *rate5;
+     const gchar *rate6, *rate7, *rate8, *rate9, *rate10, *rate11;
+     const gchar *m_des_mi, *es, *es_rate;
+
+     substring = g_list_append(substring, &rate1);
+     substring = g_list_append(substring, &rate2);
+     substring = g_list_append(substring, &rate3);
+     substring = g_list_append(substring, &rate4);
+     substring = g_list_append(substring, &rate5);
+     substring = g_list_append(substring, &rate6);
+     substring = g_list_append(substring, &rate7);
+     substring = g_list_append(substring, &rate8);
+     substring = g_list_append(substring, &rate9);
+     substring = g_list_append(substring, &rate10);
+     substring = g_list_append(substring, &rate11);
+     substring = g_list_append(substring, &m_des_mi);
+     substring = g_list_append(substring, &es);
+     substring = g_list_append(substring, &es_rate);
+
+     const gchar *regexp = ".*Fed.*(\\b\\d+\\b).*Lizard.*(\\b\\d+\\b).*Bird Man.*(\\b\\d+\\b).*Fascist.*(\\b\\d+\\b).*Privateer.*(\\b\\d+\\b).*Cyborg.*(\\b\\d+\\b).*Crystalline.*(\\b\\d+\\b).*Empire.*(\\b\\d+\\b).*Robotic.*(\\b\\d+\\b).*Rebel.*(\\b\\d+\\b).*Colonial.*(\\b\\d+\\b).*mines.*(\\bYES|NO\\b).*bonus.*(\\bYES|NO\\b).*rate.*(\\b\\d+\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(rate1); */
+/* 	  g_message(rate2); */
+/* 	  g_message(rate3); */
+/* 	  g_message(rate4); */
+/* 	  g_message(rate5); */
+/* 	  g_message(rate6); */
+/* 	  g_message(rate7); */
+/* 	  g_message(rate8); */
+/* 	  g_message(rate9); */
+/* 	  g_message(rate10); */
+/* 	  g_message(rate11); */
+/* 	  g_message(m_des_mi); */
+/* 	  g_message(es); */
+/* 	  g_message(es_rate); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gchar **tmp;
+	  gint i;
+	  for(i = 0; i < 11; i++) {
+	       tmp = g_list_nth_data(substring, i);
+	       gwp_game_state_set_host_tax_rate(game_state, i+1, atoi(*tmp));
+	  }
+
+	  gwp_game_state_set_host_mines_destroy_mines(game_state, YES_OR_NO(m_des_mi));
+	  gwp_game_state_set_host_es_bonus(game_state, YES_OR_NO(es));
+	  gwp_game_state_set_host_es_bonus_rate(game_state, atoi(es_rate));
+
+	  g_message("Host's config loaded 6");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_min_sweep(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *m_sweep, *wm_sweep, *m_rate, *wm_rate, *hiss;
+     const gchar *rob_fail, *at_reb, *att_fas, *m_range, *wm_range;
+     const gchar *science, *cloak_m, *cloak_prevent, *crew_bonus;
+
+     substring = g_list_append(substring, &m_sweep);
+     substring = g_list_append(substring, &wm_sweep);
+     substring = g_list_append(substring, &m_rate);
+     substring = g_list_append(substring, &wm_rate);
+     substring = g_list_append(substring, &hiss);
+     substring = g_list_append(substring, &rob_fail);
+     substring = g_list_append(substring, &at_reb);
+     substring = g_list_append(substring, &att_fas);
+     substring = g_list_append(substring, &m_range);
+     substring = g_list_append(substring, &wm_range);
+     substring = g_list_append(substring, &science);
+     substring = g_list_append(substring, &cloak_m);
+     substring = g_list_append(substring, &cloak_prevent);
+     substring = g_list_append(substring, &crew_bonus);
+
+     const gchar *regexp = ".*sweep.*(\\b\\d+\\b).*sweep.*(\\bYES|NO\\b).*Rate.*(\\b\\d+\\b).*Rate.*(\\b\\d+\\b).*ship.*(\\b\\d+\\b).*rate.*(\\b\\d+\\b).*Reb.*(\\bYES|NO\\b).*Fas.*(\\bYES|NO\\b).*Mine Sweep Range.*(\\b\\d+\\b).*Web Sweep Range.*(\\b\\d+\\b).*Missions.*(\\bYES|NO\\b).*Odds.*(\\d{0,2}\\.\\d+).*Damage.*(\\b\\d+\\b).*Bonus.*(\\bYES|NO\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(m_sweep); */
+/* 	  g_message(wm_sweep); */
+/* 	  g_message(m_rate); */
+/* 	  g_message(wm_rate); */
+/* 	  g_message(hiss); */
+/* 	  g_message(rob_fail); */
+/* 	  g_message(at_reb); */
+/* 	  g_message(att_fas); */
+/* 	  g_message(m_range); */
+/* 	  g_message(wm_range); */
+/* 	  g_message(science); */
+/* 	  g_message(cloak_m); */
+/* 	  g_message(cloak_prevent); */
+/* 	  g_message(crew_bonus); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gwp_game_state_set_host_colonial_sweep_rate(game_state, atoi(m_sweep));
+	  gwp_game_state_set_host_colonial_sweep_webs(game_state, YES_OR_NO(wm_sweep));
+	  gwp_game_state_set_host_mine_sweep_rate(game_state, atoi(m_range));
+	  gwp_game_state_set_host_webmine_sweep_rate(game_state, atoi(wm_rate));
+	  gwp_game_state_set_host_hiss_mission_effect(game_state, atoi(hiss));
+	  gwp_game_state_set_host_rob_mission_failure(game_state, atoi(rob_fail));
+	  gwp_game_state_set_host_planet_attack_rebel(game_state, YES_OR_NO(at_reb));
+	  gwp_game_state_set_host_planet_attack_fascist(game_state, YES_OR_NO(att_fas));
+	  gwp_game_state_set_host_mine_sweep_range(game_state, atoi(m_range));
+	  gwp_game_state_set_host_webmine_sweep_range(game_state, atoi(wm_range));
+	  gwp_game_state_set_host_science_missions(game_state, YES_OR_NO(science));
+	  gwp_game_state_set_host_cloaked_mine_hit(game_state, atof(cloak_m));
+	  gwp_game_state_set_host_cloak_prevent_damage(game_state, atoi(cloak_prevent));
+	  gwp_game_state_set_host_fed_crew_bonus(game_state, YES_OR_NO(crew_bonus));
+
+	  g_message("Host's config loaded 7");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_shipt_tow(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *s_tow, *h_drive, *death_rate, *grav_wells;
+     const gchar *crys_desert, *m_des_w, *clim_lim;
+
+     substring = g_list_append(substring, &s_tow);
+     substring = g_list_append(substring, &h_drive);
+     substring = g_list_append(substring, &death_rate);
+     substring = g_list_append(substring, &grav_wells);
+     substring = g_list_append(substring, &crys_desert);
+     substring = g_list_append(substring, &m_des_w);
+     substring = g_list_append(substring, &clim_lim);
+ 
+     const gchar *regexp = ".*tow.*(\\bYES|NO\\b).*ships.*(\\bYES|NO\\b).*Rate.*(\\b\\d+\\b).*wells.*(\\bYES|NO\\b).*advant.*(\\bYES|NO\\b).*webs.*(\\bYES|NO\\b).*pop.*(\\bYES|NO\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(s_tow); */
+/* 	  g_message(h_drive); */
+/* 	  g_message(death_rate); */
+/* 	  g_message(grav_wells); */
+/* 	  g_message(crys_desert); */
+/* 	  g_message(m_des_w); */
+/* 	  g_message(clim_lim); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gwp_game_state_set_host_one_engine_tow(game_state, YES_OR_NO(s_tow));
+	  gwp_game_state_set_host_hyperdrive_ships(game_state, YES_OR_NO(h_drive));
+	  gwp_game_state_set_host_climate_death_rate (game_state, atoi(death_rate));
+	  gwp_game_state_set_host_gravity_well(game_state, YES_OR_NO(grav_wells));
+	  gwp_game_state_set_host_crystal_desert_adv (game_state, YES_OR_NO(crys_desert));
+	  gwp_game_state_set_host_mines_destroy_webs(game_state, YES_OR_NO(m_des_w));
+	  gwp_game_state_set_host_climate_limit_pop(game_state, YES_OR_NO(clim_lim));
+
+
+	  g_message("Host's config loaded 8");
+     }
+
+     free_substring(substring);
+
+}
+
+void scan_messages_in_pla(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *max_in, *storms, *chunnel, *deluxe, *storms_hide;
+     const gchar *glory_dev, *anti_cloak, *gambling;
+     const gchar *cloak_att, *cloning, *boarding, *imp_ass;
+
+     substring = g_list_append(substring, &max_in);
+     substring = g_list_append(substring, &storms);
+     substring = g_list_append(substring, &chunnel);
+     substring = g_list_append(substring, &deluxe);
+     substring = g_list_append(substring, &storms_hide);
+     substring = g_list_append(substring, &glory_dev);
+     substring = g_list_append(substring, &anti_cloak);
+     substring = g_list_append(substring, &gambling);
+     substring = g_list_append(substring, &cloak_att);
+     substring = g_list_append(substring, &cloning);
+     substring = g_list_append(substring, &boarding);
+     substring = g_list_append(substring, &imp_ass);
+ 
+     const gchar *regexp = ".*planet.*(\\b\\d+\\b).*mc.*Storms.*(\\b\\d+\\b).*Chunnel.*(\\bYES|NO\\b).*Deluxe.*(\\bYES|NO\\b).*mines.*(\\bYES|NO\\b).*Device.*(\\bYES|NO\\b).*anti-cloak.*(\\bYES|NO\\b).*Gambling.*(\\bYES|NO\\b).*attack.*(\\bYES|NO\\b).*cloning.*(\\bYES|NO\\b).*Boarding.*(\\bYES|NO\\b).*Assault.*(\\bYES|NO\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(max_in); */
+/* 	  g_message(storms); */
+/* 	  g_message(chunnel); */
+/* 	  g_message(deluxe); */
+/* 	  g_message(storms_hide); */
+/* 	  g_message(glory_dev); */
+/* 	  g_message(anti_cloak); */
+/* 	  g_message(gambling); */
+/* 	  g_message(cloak_att); */
+/* 	  g_message(cloning); */
+/* 	  g_message(boarding); */
+/* 	  g_message(imp_ass); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gwp_game_state_set_host_max_planet_income(game_state, atoi(max_in));
+	  gwp_game_state_set_host_ion_storms(game_state, atoi(storms));
+	  gwp_game_state_set_host_firecloud_chunnel(game_state, YES_OR_NO(chunnel));
+	  gwp_game_state_set_host_superspy_deluxe(game_state, YES_OR_NO(deluxe));
+	  gwp_game_state_set_host_storms_hide_mines(game_state, YES_OR_NO(storms_hide));
+	  gwp_game_state_set_host_fascist_glory_device(game_state, YES_OR_NO(glory_dev));
+	  gwp_game_state_set_host_loki_anticloak(game_state, YES_OR_NO(anti_cloak));
+	  gwp_game_state_set_host_ladyroyale_gambling(game_state, YES_OR_NO(gambling));
+	  gwp_game_state_set_host_cloaked_ships_attack(game_state, YES_OR_NO(cloak_att));
+	  gwp_game_state_set_host_ship_cloning(game_state, YES_OR_NO(cloning));
+	  gwp_game_state_set_host_boarding_party(game_state, YES_OR_NO(boarding));
+	  gwp_game_state_set_host_imperial_assault(game_state, YES_OR_NO(imp_ass));
+
+	  g_message("Host's config loaded 9");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_fuel_ly(const gchar *msg_body)
+{
+     GList *substring = NULL;
+     const gchar *fuel_ly, *mine_slow, *aries_fuel, *bioscanners;
+     const gchar *loki_decloak, *extra_features;
+
+     substring = g_list_append(substring, &fuel_ly);
+     substring = g_list_append(substring, &mine_slow);
+     substring = g_list_append(substring, &aries_fuel);
+     substring = g_list_append(substring, &bioscanners);
+     substring = g_list_append(substring, &loki_decloak);
+     substring = g_list_append(substring, &extra_features);
+ 
+     const gchar *regexp = ".*LY.*(\\b\\d+\\b).*kt.*slow.*(\\b\\d+\\b).*fuel.*(\\bYES|NO\\b).*Bioscanners.*(\\bYES|NO\\b).*Birds.*(\\bYES|NO\\b).*Features.*(\\bYES|NO\\b)";
+
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+    
+     if (rc > 0)
+     {
+/* 	  g_message(fuel_ly); */
+/* 	  g_message(mine_slow); */
+/* 	  g_message(aries_fuel); */
+/* 	  g_message(bioscanners); */
+/* 	  g_message(loki_decloak); */
+/* 	  g_message(extra_features); */
+
+	  g_assert(GWP_IS_GAME_STATE(game_state));
+
+	  gwp_game_state_set_host_cobol_fuel(game_state, atoi(fuel_ly));
+	  gwp_game_state_set_host_hulltech_slowed_minehits(game_state, atoi(mine_slow));
+	  gwp_game_state_set_host_aries_makes_fuel(game_state, YES_OR_NO(aries_fuel));
+	  gwp_game_state_set_host_bioscanners(game_state, YES_OR_NO(bioscanners));
+	  gwp_game_state_set_host_loki_decloak_birds(game_state, YES_OR_NO(loki_decloak));
+	  gwp_game_state_set_host_vpa_extras(game_state, YES_OR_NO(extra_features));
+
+	  g_message("Host's config loaded 10");
+     }
+
+     free_substring(substring);
+}
+
+void scan_messages_allies(const gchar *msg_body)
+{
+
 }
 
 /**
@@ -1883,79 +2562,50 @@ scan_messages (void)
 void 
 scan_messages_planet_orbit (const gchar *msg_body)
 {
-  pcre *re;
-  const gchar *error;
-  gint erroffset;
-  const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
-  re = pcre_compile (regexp,         /* the pattern */
-		     PCRE_DOTALL,    /* options */
-		     &error,         /* for error message */
-		     &erroffset,     /* for error offset */
-		     NULL);          /* use default character tables */
-  if (error) {
-    g_message ("WARNING: %s - offset: %d", error, erroffset);
-  } else {
-    gint rc;
-    gint ovector[30];
-    rc = pcre_exec (re,               /* compiled regexp */
-		    NULL,             /* didn't study the pattern */
-		    msg_body,         /* subject string */
-		    strlen(msg_body), /* subject's length */
-		    0,                /* start at offset 0 */
-		    0,                /* default opts */
-		    ovector,          /* offsets vector*/
-		    30);              /* ovector size */
+     GList *substring = NULL;
+     const gchar *p_id, *p_temp, *p_race, *p_clans;
+
+     substring = g_list_append(substring, &p_id);
+     substring = g_list_append(substring, &p_temp);
+     substring = g_list_append(substring, &p_race);
+     substring = g_list_append(substring, &p_clans);
+
+     const gchar *regexp = "\\(-z0(.*)\\)<<<.*Temp:.*(\\b[0-9]+\\b).*(\\b\\w+\\b) race.*(\\b\\w+\\b) enemy clan";
+     
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
     
-    if (rc > 0) {
-      const gchar *p_id, *p_temp, *p_race, *p_clans;
-      GwpPlanet *planet;
+     if (rc > 0) {
+
+	  GwpPlanet *planet;
       
-      /* Get the data */
-      pcre_get_substring (msg_body, /* subject string */
-			  ovector,  /* offsets vector */
-			  rc,       /* total matches */
-			  1,        /* match number */
-			  &p_id);  /* output string */
-      pcre_get_substring (msg_body, /* subject string */
-			  ovector,  /* offsets vector */
-			  rc,       /* total matches */
-			  2,        /* match number */
-			  &p_temp);  /* output string */
-      pcre_get_substring (msg_body, /* subject string */
-			  ovector,  /* offsets vector */
-			  rc,       /* total matches */
-			  3,        /* match number */
-			  &p_race);  /* output string */
-      pcre_get_substring (msg_body, /* subject string */
-			  ovector,  /* offsets vector */
-			  rc,       /* total matches */
-			  4,        /* match number */
-			  &p_clans);  /* output string */
-      g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans);
+	  g_message ("MATCH: Planet #%s: %s - Temp: %s - %s clans", p_id, p_race, p_temp, p_clans);
+
+	  planet = (GwpPlanet *)g_hash_table_lookup (planet_list, 
+						     (gpointer)atoi(p_id));
+	  g_assert (GWP_IS_PLANET(planet));
+	  /* Assign known planet values */
+	  gwp_planet_set_is_known (planet, TRUE);
+	  gwp_planet_set_temperature (planet, 100-atoi(p_temp));
+	  gwp_planet_set_colonists (planet, atoi(p_clans));
       
-      planet = (GwpPlanet *)g_hash_table_lookup (planet_list, 
-						 (gpointer)atoi(p_id));
-      g_assert (GWP_IS_PLANET(planet));
-      /* Assign known planet values */
-      gwp_planet_set_is_known (planet, TRUE);
-      gwp_planet_set_temperature (planet, 100-atoi(p_temp));
-      gwp_planet_set_colonists (planet, atoi(p_clans));
-      
-      /* Compare func */
-      static gint compare_race (gconstpointer race, gconstpointer adj) {
-	gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
-	if (strncmp(race_str, adj, strlen(adj)) == 0) 
-	  return 0;
-	else
-	  return 1;
-      }
-      /* Search  for the correct race object */
-      GSList *race_e = g_slist_find_custom (race_list, p_race, compare_race);
-      if (race_e != NULL) {
-	gwp_planet_set_owner (planet, g_slist_position(race_list, race_e)+1);
-      }
-    }
-  }
+	  /* Compare func */
+	  static gint compare_race (gconstpointer race, gconstpointer adj) {
+	       gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
+	       if (strncmp(race_str, adj, strlen(adj)) == 0) 
+		    return 0;
+	       else
+		    return 1;
+	  }
+	  /* Search  for the correct race object */
+	  GSList *race_e = g_slist_find_custom (race_list, p_race, compare_race);
+	  if (race_e != NULL) {
+	       gwp_planet_set_owner (planet, g_slist_position(race_list, race_e)+1);
+ 
+	  }
+     }
+
+     free_substring(substring);
 }
 
 /**
@@ -1964,68 +2614,149 @@ scan_messages_planet_orbit (const gchar *msg_body)
 void
 scan_messages_planet_scanned (const gchar *msg_body)
 {
-  pcre *re;
-  const gchar *error;
-  gint erroffset;
-  const gchar *regexp = ".*Planet ID#.*(\\b[0-9]+\\b).*>>> (\\b\\w+\\b)";
-  re = pcre_compile (regexp,      /* the pattern */
-		     PCRE_DOTALL, /* options */
-		     &error,      /* for error message */
-		     &erroffset,  /* for error offset */
-		     NULL);       /* use default char tables */
-  if (error) {
-    g_message ("WARNING: %s - offset: %d", error, erroffset);
-  } else {
-    gint rc;
-    gint ovector[30];
-    rc = pcre_exec (re,               /* compiled regexp */
-		    NULL,             /* didn't study the pattern */
-		    msg_body,         /* subject string */
-		    strlen(msg_body), /* subject's length */
-		    0,                /* start at offset 0 */
-		    0,                /* default opts */
-		    ovector,          /* offset vectors */
-		    30);              /* vector size */
+     GList *substring = NULL;
+     const gchar *p_id, *p_race;
+     p_id = p_race = NULL;
 
-    if (rc > 0) {
-      const gchar *p_id, *p_race;
-      GwpPlanet *planet;
+     substring = g_list_append(substring, &p_id);
+     substring = g_list_append(substring, &p_race);
 
-      /* Get the data */
-      pcre_get_substring (msg_body, /* subject string */
-			  ovector,  /* offsets vector */
-			  rc,       /* total matches */
-			  1,        /* match number */
-			  &p_id);   /* output string */
+     const gchar *regexp = ".*Planet ID#.*(\\b[0-9]+\\b).*>>> (\\b\\w+\\b)";
 
-      pcre_get_substring (msg_body, /* subject string */
-			  ovector,  /* offsets vector */
-			  rc,       /* total matches */
-			  2,        /* match number */
-			  &p_race); /* output string */
-      g_message ("MATCH: Planet #%s: %s", p_id, p_race);
+     gint rc = 0;
+     rc = extract_from_message(msg_body, regexp, substring);
+
+     if (rc > 0) {
+
+	  GwpPlanet *planet;
+
+	  g_message ("MATCH: Planet #%s: %s", p_id, p_race);
       
-      planet = (GwpPlanet *)g_hash_table_lookup (planet_list, 
-						 (gpointer)atoi(p_id));
-      g_assert (GWP_IS_PLANET(planet));
+	  planet = (GwpPlanet *)g_hash_table_lookup (planet_list, 
+						     (gpointer)atoi(p_id));
+	  g_assert (GWP_IS_PLANET(planet));
 
-      /* Assign known planet values */
-      gwp_planet_set_is_known (planet, TRUE);
-      /* Compare func */
-      static gint compare_race (gconstpointer race, gconstpointer adj) {
-	gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
-	if (strncmp(race_str, adj, strlen(adj)) == 0) 
-	  return 0;
-	else
-	  return 1;
-      }
-      /* Search  for the correct race object */
-      GSList *race_e = g_slist_find_custom (race_list, p_race, compare_race);
-      if (race_e != NULL) {
-	gwp_planet_set_owner (planet, g_slist_position(race_list, race_e)+1);
-      }
-    }
-  }
+	  /* Assign known planet values */
+	  gwp_planet_set_is_known (planet, TRUE);
+	  /* Compare func */
+	  static gint compare_race (gconstpointer race, gconstpointer adj) {
+	       gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
+	       if (strncmp(race_str, adj, strlen(adj)) == 0) 
+		    return 0;
+	       else
+		    return 1;
+	  }
+	  /* Search  for the correct race object */
+	  GSList *race_e = g_slist_find_custom (race_list, p_race, compare_race);
+	  if (race_e != NULL) {
+	       gwp_planet_set_owner (planet, g_slist_position(race_list, race_e)+1);
+	  }
+     }
+
+     free_substring(substring);
+}
+
+
+/** 
+ * This fonction extract info in message with regex
+ *
+ * Given a string, a pattern and a GList of string, this function call
+ * pcre to extract and set the data. Don't forget to free sbstring
+ * since they are unused. For this you can use free_substring
+ * fonction.
+ *
+ * RQ: "." match all carac and newline.
+ * 
+ * @param msg_body the string to analyse
+ * @param pattern the pattern or regex (a string)
+ * @param info the list of **gchar
+ *
+ * @return number of substring match
+ */
+int extract_from_message (const gchar *msg_body, const gchar *pattern, GList *info)
+{
+     pcre *re;
+     const gchar *error;
+     gint erroffset;
+     gint rc = 0;
+
+     gint length;
+     length = g_list_length(info);
+     gint * ovector = malloc( ((length + 1) * 3) * sizeof(gint) );
+
+     g_assert(msg_body != NULL);
+     if(pattern == NULL)
+	  g_message("regex is null");
+
+     re = pcre_compile (pattern,      /* the pattern */
+			PCRE_DOTALL, /* options
+				      * "." match all carac and newline*/
+			&error,      /* for error message */
+			&erroffset,  /* for error offset */
+			NULL);       /* use default char tables */
+
+     if (error)
+	  g_message ("WARNING: %s - offset: %d", error, erroffset);
+     else 
+     {
+	  rc = pcre_exec (re,               /* compiled regexp */
+			  NULL,             /* didn't study the pattern */
+			  msg_body,         /* subject string */
+			  strlen(msg_body), /* subject's length */
+			  0,                /* start at offset 0 */
+			  0,                /* default opts */
+			  ovector,          /* offsets vector*/
+			  ((length + 1) * 3));              /* ovector size */
+    
+	  if (rc > 0)
+	  {
+	       gint i;
+
+	       for(i = 1; i <= g_list_length(info); i++)
+	       {
+      		    /* Get the data */
+		    pcre_get_substring (msg_body, /* subject string */
+					ovector,  /* offsets vector */
+					rc,       /* total matches */
+					i,        /* match number */
+					(g_list_nth_data(info, i-1)) /* output string */
+			 );
+	       }
+	  }
+	  else
+	       g_message("Error while maching message, nothing found.");
+     }
+
+     free(re);
+     free(ovector);
+     return rc;
+}
+
+/** 
+ * Free memory used by substring in a GList, and the GList.
+ *
+ * Free the substring in a GList created by extract_from_message()
+ * fonction. Free the GList to. If GList is NULL, simply return.
+ * 
+ * @param substring a GList of **gchar
+ */
+void free_substring(GList *substring)
+{
+     /* free substring */
+     gint i;
+     gchar **tmp;
+
+     if (substring == NULL)
+	  return;
+     /* free substring */
+     for(i = 0; i < g_list_length(substring); i++)
+     {
+	  tmp = g_list_nth_data(substring, i);
+	  g_free(*tmp);
+     }
+     
+     /* free Glist */
+     g_list_free(substring);
 }
 
 static 
