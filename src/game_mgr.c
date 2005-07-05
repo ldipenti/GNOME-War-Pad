@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002,2003 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002, 2005 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.63  2005/07/05 02:36:11  ldipenti
+    Feature: game property editor improved
+
     Revision 1.62  2005/05/31 13:17:38  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -234,7 +237,6 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
   gtk_entry_set_text(host_email, gwp_game_state_get_host_email(settings));
 
   /* FIXME: this sucks */
-  /* FIXME2: select the correct race in the race_l */
   gint *racenum = g_malloc(sizeof(gint));
   *racenum = gwp_game_state_get_race_nr (settings);
   g_object_set_data(G_OBJECT(race_l),
@@ -242,7 +244,7 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
   g_object_set_data(G_OBJECT(game_name),
 		    "old_game_name", g_strdup(gwp_game_state_get_name(settings)));
 
-  /* Select correct race */
+  /* Select correct race in available race list */
   model = gtk_tree_view_get_model (race_l);
   /* If tree is not empty... */
   gint *race = g_malloc(sizeof(gint));

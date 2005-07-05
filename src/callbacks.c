@@ -1,6 +1,6 @@
 /*
  *  Gnome War Pad: A VGA Planets Client for Gnome
- *  Copyright (C) 2002-2004 Lucas Di Pentima <lucas@lunix.com.ar>
+ *  Copyright (C) 2002-2005 Lucas Di Pentima <lucas@lunix.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.102  2005/07/05 02:36:11  ldipenti
+    Feature: game property editor improved
+
     Revision 1.101  2005/05/31 13:17:38  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -269,8 +272,15 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
   return FALSE;
 }
 
-void on_game_mgr_game_dir_changed (GtkEditable *editable,
-				   gpointer user_data)
+/**
+ * Callback called when game directory setting changes.
+ *
+ * When editing game's properties, if the user change the
+ * game directory prefix, this function is called.
+ */
+void 
+on_game_mgr_game_dir_changed (GtkEditable *editable,
+			      gpointer user_data)
 {
   char *dir;
   GtkWidget *btn_unpack = lookup_widget("game_mgr_btn_unpack");
@@ -605,18 +615,19 @@ void on_about_activate(GtkWidget *widget)
       "Sven Wergandt <summ@gmx.de>",
       "Cristian Abalos <abalosc@yahoo.com.ar>",
       "Nicolas Cesar <ncesar@lunix.com.ar>",
+      "François Orieux <francois@orieux.eu.org>",
       NULL
     };
     const gchar *documenters[] = {
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       NULL
     };
-    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nDavid Botha <fermier@gmx.co.uk> (French)\nCarlos Paulino <chgp@minaslivre.org> (Brazilian Portuguese)";
+    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nFrançois Orieux <francois@orieux.eu.org> (French)\nCarlos Paulino <chgp@minaslivre.org> (Brazilian Portuguese)";
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
 				_("(C) 2002-2005 Lucas Di Pentima\nThis software is released under the GNU GPL License"),
-				_("A VGA Planets client for the GNOME platform.\nhttp://www.lunix.com.ar/~ldipenti/gwp/"),
+				_("A VGA Planets client for the GNOME platform.\nhttp://gwp.lunix.com.ar"),
 				(const gchar **)authors,
 				(const gchar **)documenters,
 				(const gchar *)translators,
