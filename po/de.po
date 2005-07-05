@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: gwp 0.3.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-09 09:04-0300\n"
-"PO-Revision-Date: 2005-06-15 23:56-0300\n"
+"PO-Revision-Date: 2005-07-04 23:53-0300\n"
 "Last-Translator: Stefan Reuther <Streu@gmx.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -814,7 +814,7 @@ msgstr "Verzeichnis mit den Spiel-Dateien"
 
 #: ../src/gwp.glade.h:184
 msgid "Your email address, to send your turns to the host"
-msgstr "Deine Email-Adresse, mit der Turns an den Host gesendet werden"
+msgstr "Deine E-mail-Adresse, mit der Turns an den Host gesendet werden"
 
 #: ../src/gwp.glade.h:185
 msgid "Zoom In"
