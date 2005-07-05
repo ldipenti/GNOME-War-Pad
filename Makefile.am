@@ -16,8 +16,7 @@ EXTRA_DIST = $(gwpdoc_DATA)	\
         intltool-update.in	\
 	COPYING			\
 	INSTALL			\
-	COPYING-DOCS		\
-	ABOUT_NLS
+	COPYING-DOCS
 
 gnomemenudir = $(prefix)/@NO_PREFIX_PACKAGE_MENU_DIR@/Games
 gnomemenu_DATA = gwp.desktop

@@ -3,7 +3,7 @@ Maintainer: Lucas Di Pentima <lucas@lunix.com.ar>
 Section: contrib/games
 Priority: optional
 Build-Depends: debhelper (>= 4.0.0), gnome-core-devel, python-dev, libpcre3-dev, libgtkglext1-dev, scrollkeeper, python-gtk2-dev
-Standards-Version: 3.6.1.1
+Standards-Version: 3.6.2
 
 Package: gwp
 Architecture: i386
