@@ -12,7 +12,7 @@ Priority: optional
 Depends: python-gtk2, python, python-glade2, ${shlibs:Depends}
 Description: a VGA Planets strategy game client for GNOME
  GNOME War Pad is a VGA Planets client written in C for the GNOME
- desktop environment. It's design is very 'starchart centric',
+ desktop environment. Its design is very 'starchart centric',
  giving a global view of the game at all times.
  .
  VGA Planets is a space conquest, play-by-email, strategy game
