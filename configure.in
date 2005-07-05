@@ -1,5 +1,5 @@
 AC_PREREQ(2.52)
-AC_INIT(gwp, 0.3.6, https://bugzilla.lunix.com.ar/cgi-bin/bugzilla/enter_bug.cgi?product=GNOME%20War%20Pad)
+AC_INIT(gwp, 0.4.0, https://bugzilla.lunix.com.ar/cgi-bin/bugzilla/enter_bug.cgi?product=GNOME%20War%20Pad)
 
 AM_CONFIG_HEADER(config.h)
 

@@ -66,17 +66,17 @@ perl -p -i -e "s/%define version(.*)$/%define version $VERSION/" package/gwp-fed
 
 ###
 # debian changelog
-TMPFILE=/tmp/gwp.tmp
-rm -f $TMPFILE
-echo "gwp ($VERSION-1) unstable; urgency=low"                >> $TMPFILE
-echo                                                         >> $TMPFILE
-echo "  * New upstream release: $VERSION"                    >> $TMPFILE
-echo                                                         >> $TMPFILE
-echo " -- Lucas Di Pentima <lucas@lunix.com.ar>  `822-date`" >> $TMPFILE
-echo                                                         >> $TMPFILE
-cat $TMPFILE debian/changelog > debian/changelog.tmp
-mv debian/changelog.tmp debian/changelog
-rm $TMPFILE
+#TMPFILE=/tmp/gwp.tmp
+#rm -f $TMPFILE
+#echo "gwp ($VERSION-1) unstable; urgency=low"                >> $TMPFILE
+#echo                                                         >> $TMPFILE
+#echo "  * New upstream release: $VERSION"                    >> $TMPFILE
+#echo                                                         >> $TMPFILE
+#echo " -- Lucas Di Pentima <lucas@lunix.com.ar>  `822-date`" >> $TMPFILE
+#echo                                                         >> $TMPFILE
+#cat $TMPFILE debian/changelog > debian/changelog.tmp
+#mv debian/changelog.tmp debian/changelog
+#rm $TMPFILE
 
 ###
 # CHANGES version & date header
@@ -102,17 +102,17 @@ cvs -q tag Release-`echo $VERSION | tr . _`
 # API
 rm -rf docs/api/html/* ; doxygen Doxyfile ; cd docs/api/ ; tar -cvzf ../../gwp-$VERSION-api.tar.gz html/ ; cd -
 # DEB
-#fakeroot dpkg-buildpackage
-cp gwp-$VERSION.tar.gz ../gwp_$VERSION.orig.tar.gz
-cd ..
-tar xvzf gwp_$VERSION.orig.tar.gz
-cd gwp-$VERSION
-mkdir debian
-cp ../../gwp/debian/* .
-dpkg-buildpackage -rfakeroot -S -us -uc -klucas@lunix.com.ar
-cd ..
-debsign -klucas@lunix.com.ar gwp_$VERSION-1_source.changes
-cd gwp
+###fakeroot dpkg-buildpackage
+#cp gwp-$VERSION.tar.gz ../gwp_$VERSION.orig.tar.gz
+#cd ..
+#tar xvzf gwp_$VERSION.orig.tar.gz
+#cd gwp-$VERSION
+#mkdir debian
+#cp ../../gwp/debian/* .
+#dpkg-buildpackage -rfakeroot -S -us -uc -klucas@lunix.com.ar
+#cd ..
+#debsign -klucas@lunix.com.ar gwp_$VERSION-1_source.changes
+#cd gwp
 ####
 
 ### Package uploading

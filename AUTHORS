@@ -2,7 +2,7 @@ Authors:
 -------
 * Lucas Di Pentima <lucas@lunix.com.ar>: Main developer.
 * Sven Wergandt <summ@gmx.de>: VCR and Message Reader initial developments.
-* Cristian Abalos <abalosc75@yahoo.com.ar>: Quark and Magallanes plugins developer.
+* Cristian Abalos <abalosc75@yahoo.com.ar>: Quark, Magallanes and Uhuraplugins developer.
 * Nicolas Cesar <ncesar@lunix.com.ar>: Finder plugin enhancements.
 
 Other contributions:
@@ -16,3 +16,5 @@ Other contributions:
 * Ricardo Burone <ricardo@kernel.com.ar>: Logo & splash images.
 * Rafael Riedel <rafaelriedel@gmail.com>: Starbases artwork.
 * David Botha: French translation
+* Rafael Riedel: some images (planet & starbase)
+* François Orieux: French translation, some patches (host configuration seetings)

@@ -1,3 +1,458 @@
+2005-07-04 23:56  ldipenti
+
+	* debian/changelog: new changelog
+
+2005-07-04 23:54  ldipenti
+
+	* debian/control: Bugfix from Debian BTS: #304225
+
+2005-07-04 23:54  ldipenti
+
+	* po/de.po: Bugfix from Debian BTS: #314051
+
+2005-07-04 23:36  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, gwp.glade: Feature: game property
+	  editor improved
+
+2005-06-16 01:09  ldipenti
+
+	* po/de.po: Some minor corrections from Debian BTS
+
+2005-06-02 11:36  ldipenti
+
+	* src/vp_utils.c: Feature: patched applied to parse host
+	  configuration messages, thanks François!!!
+
+2005-05-31 10:17  ldipenti
+
+	* src/: callbacks.c, callbacks.h, game_mgr.c, global.h,
+	  gwp-beamspec.c, gwp-beamspec.h, gwp-engspec.c, gwp-engspec.h,
+	  gwp-flying-object.c, gwp-flying-object.h, gwp-game-state.c,
+	  gwp-game-state.h, gwp-hullspec.c, gwp-hullspec.h,
+	  gwp-ion-storm.c, gwp-ion-storm.h, gwp-location.c, gwp-location.h,
+	  gwp-messages.c, gwp-messages.h, gwp-minefield.c, gwp-minefield.h,
+	  gwp-object.c, gwp-object.h, gwp-planet.c, gwp-planet.h,
+	  gwp-py-functions.c, gwp-py-functions.h, gwp-python.c,
+	  gwp-python.h, gwp-race.c, gwp-race.h, gwp-ship.c, gwp-ship.h,
+	  gwp-specs.h, gwp-starbase.c, gwp-starbase.h, gwp-starchart.c,
+	  gwp-starchart.h, gwp-torpspec.c, gwp-torpspec.h, gwp-ui.c,
+	  gwp-ui.h, gwp-utils.c, gwp-utils.h, gwp-vcrfile.c, gwp-vcrfile.h,
+	  gwp_types.c, gwp_types.h, main.c, message-reader.c,
+	  message-reader.h, mission.c, mission.h, race.c, race.h,
+	  starchart.c, starchart.h, support.c, support.h, tables.c,
+	  tables.h, vcr-combat-gl.c, vcr-combat-gl.h, vcr-combat.c,
+	  vcr-combat.h, vcr.c, vcr.h, vp_maketurn.c, vp_maketurn.h,
+	  vp_maketurn_global.c, vp_maketurn_global.h,
+	  vp_maketurn_kmkturn.c, vp_maketurn_kmkturn.h, vp_maketurn_misc.c,
+	  vp_maketurn_misc.h, vp_maketurn_playerio.c,
+	  vp_maketurn_playerio.h, vp_types.h, vp_unpack.c, vp_unpack.h,
+	  vp_utils.c, vp_utils.h: Feature: Added CVS metadata on source
+	  files
+
+2005-05-31 09:45  ldipenti
+
+	* src/gwp-game-state.c: Another cool test (cvs vars)
+
+2005-05-31 09:39  ldipenti
+
+	* src/gwp-game-state.c: test cvs vars
+
+2005-05-31 09:37  ldipenti
+
+	* src/gwp-game-state.c: Another test
+
+2005-05-31 09:31  ldipenti
+
+	* src/gwp-game-state.c: Trying id file doc
+
+2005-05-31 09:23  ldipenti
+
+	* src/: gwp-game-state.c, gwp-game-state.h, gwp-py-mappings.c,
+	  gwp-py-mappings.defs: Feature: Added methods to GwpGameState to
+	  access all host configuration properties. Thanks François for
+	  your contribution!!!. Updated python methods.
+
+2005-05-31 02:15  ldipenti
+
+	* po/fr.po: Bugfix: DSPAM signature left by mistake on PO file,
+	  doh!
+
+2005-05-31 02:12  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, gwp.glade: Bugfix: Some UI design
+	  flaws on the game manager property dialog were fixed.
+
+2005-05-30 09:28  ldipenti
+
+	* po/fr.po: Updated French translation. Thanks François!!!
+
+2005-05-24 09:12  ldipenti
+
+	* po/fr.po: Updated French translation, thanks to François &
+	  David!
+
+2005-05-18 01:33  ldipenti
+
+	* src/vp_utils.c: Several case-related file loading bugs squashed
+
+2005-05-16 09:43  ldipenti
+
+	* po/fr.po: Feature: French translation updated, thanks
+	  François!!!
+
+2005-05-09 09:11  ldipenti
+
+	* po/: de.po, es.po, fr.po, gwp.pot, pt_BR.po: PO files updated to
+	  new strings
+
+2005-05-04 19:59  ldipenti
+
+	* po/de.po: German translation update, thanks Stefan!!!
+
+2005-05-04 01:34  ldipenti
+
+	* src/: callbacks.c, callbacks.h, game_mgr.c, vp_utils.c: Feature:
+	  Game settings can be accesed from GWP's main screen.
+
+2005-05-04 01:10  ldipenti
+
+	* src/: callbacks.c, game_mgr.c, gwp-game-state.c, gwp.glade:
+	  Feature: new game control setting to allow the player to indicate
+	  whether GWP should modify data files or not, disabled by default.
+
+2005-05-03 01:18  ldipenti
+
+	* po/: de.po, es.po, fr.po, gwp.pot, pt_BR.po: PO files updated
+
+2005-05-01 21:32  ldipenti
+
+	* src/: game_mgr.c, gwp-game-state.c, gwp-game-state.h, gwp.glade:
+	  Bugfix: Game Manager now stores host type.
+
+2005-05-01 19:41  ldipenti
+
+	* src/gwp-messages.c: Bugfix: unused var eliminate
+
+2005-05-01 19:39  ldipenti
+
+	* src/gwp-messages.c: Bugfix: MDATAx.DAT files were loaded
+	  incorrectly on races > 9, using letters instead of numbers for
+	  the race name
+
+2005-04-26 17:47  ldipenti
+
+	* AUTHORS: Trivial commit
+
+2005-04-26 17:45  cvs-max
+
+	* AUTHORS:
+	  Me a�adi como developer
+
+	  Max
+
+2005-04-23 17:13  cristian
+
+	* scripts/plugins/uhura.py: Terminado version 01, funcional!
+
+2005-04-21 22:44  cristian
+
+	* scripts/plugins/Makefile.am: Agregado de Uhura.py
+
+2005-04-21 22:43  cristian
+
+	* scripts/plugins/uhura.py: Plugin que se coloca en ele slot "down"
+	  y muestra reportes de otros plugins
+
+2005-04-19 09:49  ldipenti
+
+	* configure.in: Fixed typo
+
+2005-04-14 17:20  ldipenti
+
+	* src/main.c: Feature: added some standard friendly codes an their
+	  descriptions to the fc combo box selection
+
+2005-04-12 18:54  ldipenti
+
+	* debian/gwp.sgml, debian/watch, src/gwp-planet.c: Feature: New
+	  planet properties migrated to MVC format: mines, factories and
+	  defense_posts
+
+2005-04-12 17:57  ldipenti
+
+	* src/: gwp-game-state.c, starchart.c: Bugfix: The planet's panel
+	  update is being executed from the planet "selected" signal
+	  instead of being called from the click callback
+
+2005-04-12 17:53  ldipenti
+
+	* src/gwp-game-state.c: Bugfix: The planet's panel update is being
+	  executed from the planet "selected" signal instead of being
+	  called from the click callback
+
+2005-04-12 17:08  ldipenti
+
+	* scripts/inittab.py: Little mistake on event name corrected
+
+2005-04-12 16:57  ldipenti
+
+	* scripts/inittab.py: Feature: planet's property-changed signal
+	  added to PluginManager's event hub
+
+2005-04-12 15:08  ldipenti
+
+	* src/starchart.c: Added check for no-natives planet
+
+2005-04-12 14:53  ldipenti
+
+	* src/: callbacks.c, gwp-planet.c: Some messages eliminated
+
+2005-04-12 14:44  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp-planet.c, gwp.glade, main.c,
+	  starchart.c, vp_utils.c: Feature: Planet FC interface
+
+2005-04-10 16:56  ldipenti
+
+	* src/: gwp.glade, starchart.c: Bugfix: Planet & Ship ComboBox
+	  migrated from GtkCombo to GtkComboBoxEntry
+
+2005-04-09 21:42  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp-planet.c, gwp.glade, main.c:
+	  Feature: Friendly Code random modifications on planets
+
+2005-04-09 21:41  ldipenti
+
+	* src/starchart.c: Bugfix: planet extra panel widgets get
+	  enabled/disabled when necessary
+
+2005-04-09 21:35  ldipenti
+
+	* src/starchart.c: When no natives on planet, disable native's tax
+	  slider
+
+2005-04-08 00:01  cristian
+
+	* src/: gwp-python.c, gwp.glade: Agregado de un slot en la parte
+	  inferior de la ventana del gwp ("down")
+
+2005-04-07 18:10  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp-planet.c, gwp.glade,
+	  starchart.c: Feature: Natives and Colonist taxes modification
+
+2005-04-06 17:25  ldipenti
+
+	* src/callbacks.c: some more beta testings...
+
+2005-04-06 16:43  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp.glade: Some tests on data
+	  modifications
+
+2005-04-06 08:26  ldipenti
+
+	* src/callbacks.c:  Trying some callbacks
+
+2005-04-06 08:15  ldipenti
+
+	* src/gwp.glade: Activating data changes widgets (taxes hscales)
+
+2005-04-05 16:20  ldipenti
+
+	* po/: de.po, es.po, fr.po, gwp.pot, pt_BR.po: i18n strings updated
+
+2005-04-05 16:01  ldipenti
+
+	* src/: callbacks.c, callbacks.h, gwp.glade, vp_maketurn.c,
+	  vp_maketurn.h, vp_maketurn_global.c, vp_maketurn_kmkturn.c,
+	  vp_maketurn_kmkturn.h: Feature: finished integrating kmkturn into
+	  GWP!! cool!
+
+2005-04-05 13:26  ldipenti
+
+	* src/game_mgr.c: Bugfix: data dump function was called ofrom the
+	  wrong place
+
+2005-04-05 13:03  ldipenti
+
+	* src/vp_maketurn_global.c: code cleanups
+
+2005-04-05 09:21  ldipenti
+
+	* src/vp_maketurn_misc.c: Corrected syntax error
+
+2005-04-05 09:21  ldipenti
+
+	* src/vp_maketurn_playerio.c: added some prototypes
+
+2005-04-05 01:49  ldipenti
+
+	* src/: Makefile.am, vp_maketurn.c, vp_maketurn.h,
+	  vp_maketurn_global.c, vp_maketurn_global.h,
+	  vp_maketurn_kmkturn.c, vp_maketurn_kmkturn.h, vp_maketurn_misc.c,
+	  vp_maketurn_misc.h, vp_maketurn_playerio.c,
+	  vp_maketurn_playerio.h: Added kero's maketurn patched code,
+	  doesn't do a thing yet...
+
+2005-03-29 00:09  ldipenti
+
+	* contrib/gtksdl/: Makefile, README, gtksdl.c, gtksdl.h: Added
+	  GtkSDL project to contrib section: maybe we'll use it to replace
+	  GnomeCanvas based starchart
+
+2005-03-28 08:19  ldipenti
+
+	* pixmaps/gwp.xpm: Forgotten XPM icon
+
+2005-03-27 19:29  ldipenti
+
+	* src/: global.h, gwp-planet.c, gwp-py-mappings.c,
+	  gwp-py-mappings.defs, starchart.c, vp_utils.c: Feature: the end
+	  has come!! ships, starbases and planet data written to DAT files,
+	  hopefully in a correct manner, so that the Tim Continuum won't
+	  get mad :-)
+
+2005-03-27 16:47  ldipenti
+
+	* src/: game_mgr.c, gwp-game-state.c, gwp-game-state.h,
+	  gwp-object.c, gwp-ship.c, vp_utils.c, vp_utils.h: Feature: The
+	  end is coming! pick up your dead!! the end is coming!! started
+	  working on data writing: shipX.dat finished! diffs EQUAL against
+	  PCC's shipX.dat, cool huh?
+
+2005-03-25 20:02  ldipenti
+
+	* src/vp_utils.c: Some code cleaning and corrections on .DAT & .DIS
+	  files treatment
+
+2005-03-22 08:23  ldipenti
+
+	* releaser.sh, debian/README.Debian, debian/changelog,
+	  debian/control, debian/copyright, debian/gwp.manpages,
+	  debian/gwp.sgml, debian/rules: Last changes to make a Debian
+	  package
+
+2005-03-20 23:52  ldipenti
+
+	* debian/: files, gwp.postinst.debhelper, gwp.postrm.debhelper,
+	  gwp.substvars: Some additional cleaning. Don't forget: on the
+	  previous commit it leaked a contribution! Rafael Riedel sent a
+	  planet and starbase images!
+
+2005-03-20 23:49  ldipenti
+
+	* AUTHORS, CHANGES, Makefile.am, gwp.desktop.in, releaser.sh,
+	  debian/Makefile.am, debian/changelog, debian/conffiles.ex,
+	  debian/control, debian/copyright, debian/cron.d.ex,
+	  debian/emacsen-install.ex, debian/emacsen-remove.ex,
+	  debian/emacsen-startup.ex, debian/gwp-default.ex,
+	  debian/gwp.doc-base.EX, debian/init.d.ex, debian/manpage.1.ex,
+	  debian/manpage.sgml.ex, debian/manpage.xml.ex, debian/menu,
+	  debian/postinst.ex, debian/postrm.ex, debian/preinst.ex,
+	  debian/prerm.ex, debian/rules, debian/watch, debian/watch.ex,
+	  pixmaps/Makefile.am, pixmaps/planets/planet60-69.png,
+	  pixmaps/planets/sbase1.png, po/gwp.pot, scripts/gtkcons.py,
+	  scripts/plugins/magallanes.py, scripts/plugins/quark.py,
+	  src/Makefile.am: Lots of work done to make GWP Debian-friendly
+
+2005-03-20 22:19  ldipenti
+
+	* NEWS: new news!
+
+2005-03-20 22:18  ldipenti
+
+	* NEWS: temp remove
+
+2005-03-17 17:17  ldipenti
+
+	* debian/Makefile.am: Debian control files added to distribution
+
+2005-03-17 17:09  ldipenti
+
+	* debian/: changelog, control, copyright, menu, rules: Some
+	  corrections to make deb package compatible with Debian Policy
+	  Manual
+
+2005-03-11 12:10  ldipenti
+
+	* src/vp_unpack.c: oops, some logical mistake on the previous
+	  bugfix.
+
+2005-03-11 12:02  ldipenti
+
+	* src/vp_unpack.c: Bugfix: unpack now detects if RST is WinPlan or
+	  DOSPlan, and creates (or not) KOREx.DAT when necessary. Thanks
+	  Cristian!
+
+2005-03-11 09:20  ldipenti
+
+	* src/gwp-ship.c: Temporal fix: we have to know if it is a host999
+	  game or not, for now we check it hardcoded
+
+2005-03-09 10:42  ldipenti
+
+	* po/: de.po, es.po, fr.po, gwp.pot, pt_BR.po: .po updated
+
+2005-03-09 10:36  ldipenti
+
+	* scripts/inittab.py: Bugfix: add_plugin_slot() method didn't
+	  reparent the widget when necessary. Thanks Cristian for the
+	  report!
+
+2005-03-09 07:25  ldipenti
+
+	* po/pt_BR.po, src/callbacks.c: Updated pt_BR translation, thanks
+	  to Carlos Paulino!!
+
+2005-03-03 18:12  ldipenti
+
+	* scripts/plugins/finder.py: Feature: Finder now auto-hides its
+	  window when pressing ESC key, also the search entry widget
+	  regains focus when pressing Delete key
+
+2005-03-03 17:12  ldipenti
+
+	* scripts/plugins/finder.py, src/gwp-py-mappings.c,
+	  src/gwp-py-mappings.defs, src/gwp-starchart.c,
+	  src/gwp-starchart.h: Feature: when clicked on the Finder plugin
+	  planet list, the starchart selects the planet
+
+2005-03-03 12:12  cristian
+
+	* scripts/plugins/quark.py: Agregado la seleccion en la ventana de
+	  quark cuando se selcciona un planeta en el Starchar
+
+2005-03-02 19:23  cristian
+
+	* scripts/plugins/quark.py: Agregado la descripcion larga del
+	  plugin
+
+2005-03-02 10:17  ldipenti
+
+	* src/starchart.c: Bugfix: When waypoint set with Warp 0, GWP went
+	  down :-) no more... thanks Nico!
+
+2005-03-01 20:19  ncesar
+
+	* scripts/plugins/finder.py: minimal changes that afect
+	  performance... minimally
+
+2005-03-01 18:15  ncesar
+
+	* scripts/plugins/finder.py: Hide the box that's not in use
+
+2005-03-01 15:53  ldipenti
+
+	* ChangeLog, debian/files, debian/gwp.postinst.debhelper,
+	  debian/gwp.substvars: Misc Commit
+
+2005-03-01 08:45  ldipenti
+
+	* src/starchart.c: Disabled planet names
+
 2005-03-01 00:26  ldipenti
 
 	* CHANGES, Doxyfile, VERSION, configure.in, debian/changelog,

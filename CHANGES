@@ -1,3 +1,44 @@
+Version 0.4.0 (released 07-05-2005):
+
+	* Bugfix: minimal enhancements to Finder plugin. Thanks Nico!
+	* Feature: several misc improvements to Quark plugin. Thanks Cristian!
+	* Feature: when the player clicks on the Finder planet list, the 
+	  starchart selects the planet.
+	* Bugfix: Updated pt_BR translation. Thanks Carlos Paulino!
+	* Bugfix: add_plugin_slot() didn't reparent the widget when necessary,
+ 	  thanks Cristian for the report!
+	* Bugfix: unpack now detects if RST is winplan or dosplan type, and
+	  creates KOREx.DAT or not...thanks Cristian for the report!
+	* Bugfix: several changes on Debian's control files to comply to the 
+	  Debian Policy manual.
+	* Feature: Rafael Riedel contributed with a planet and starbase image,
+	  thanks a lot!
+	* Feature: first version on data writing: DAT files from planets, ships
+	  and starbases, use with caution! :-)
+	* Feature: Kero's kmkturn code integrated to GWP to generate turns.
+	* Feature: some UI modification to allow the player to change some
+	  data (planet's taxes and friendly code randomic generation)
+	* Bugfix: Some migrations from GtkCombo to GtkComboBoxEntry widgets.
+	* Feature: planet's property-changed signal added to PluginManager's
+	  event hub.
+	* Feature: added some standard friendly codes and their descriptions 
+	  to the FC combo box selection.
+	* Bugfix: MDATAx.DAT were loaded incorreclty on races > 9, using
+	  letters instead of numbers for the race name.
+	* Feature: Game Manager now stores a new data field on every game:
+	  the host's type.
+	* Feature: The game manager also stores a flag to indicate wether or
+	  not GWP should touch the game's data files, disabled by default.
+	* Feature: game settings can now be accesed from GWP's main screen.
+	* Bugfix: German translation updated, thanks Stefan!
+	* Bugfix: French translation updated, thanks François!
+	* Feature: added methods to GwpGameState to access all host config
+	  properties. Thanks François!
+	* Feature: Host configuration settings are now parsed from messages
+	  and loaded to GwpGameState, thanks François!
+	* Bugfix: Some bugfixes from Debian BTS. (#314051, #304225)
+	* Bugfix: Spanish translation updated.
+
 Version 0.3.6 (released 03-01-2005):
 	* Bugfix: Updated credits on "About..." dialog.
 	* Bugfix: Fixed typo on PCRE flags.
