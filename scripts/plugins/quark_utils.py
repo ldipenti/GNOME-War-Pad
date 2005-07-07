@@ -105,7 +105,7 @@ def get_tip(self):
 #--------------------------------------------------------------------------
 def init_tips(self):
     self.tips = []
-    f=open(self.quark_utils.RUTA_QUARK_FILES + 'quark_tips.txt', 'r+')
+    f=open(self.quark_utils.RUTA_QUARK_FILES + 'quark_tips.txt', 'r')
     for line in f:
         if not line[0:1] == '#': # Si no es un comentario
             if line[-1:] == "\n": # si el ultimo caracter es un "enter"
