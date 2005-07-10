@@ -22,6 +22,10 @@
     $Revision$
     
     $Log$
+    Revision 1.112  2005/07/10 19:54:15  ldipenti
+    Feature: selected ships now draw a line showing its heading and
+    possible waypoint
+
     Revision 1.111  2005/07/10 15:59:27  ldipenti
     Disabled planet names for new development cycle
 
@@ -51,9 +55,12 @@ static void starchart_zoom (GnomeCanvas *starchart, gdouble zoom);
 static void init_starchart_constellations(void);
 static void starchart_update_distance_calc (GObject *gs, gpointer user_data);
 static void starchart_select_planet_notification (GObject *obj, gpointer data);
+static void starchart_select_ship_notification (GObject *obj, gpointer data);
 /* Private data */
 static GnomeCanvasPoints *distance_p;
 static GnomeCanvasLine *distance_line;
+static GnomeCanvasPoints *heading_p;
+static GnomeCanvasLine *heading_line;
 
 /**
  * Planet data update notification
@@ -1768,7 +1775,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 		  gwp_object_get_y_coord(GWP_OBJECT(planet)), &xi, &yi);
     
     /* Add planet names */
-    /* FIXME: TOOOOOOO SLOOOOOOOOOOOOOOOWWWWWWWW!!! 
+    /* FIXME: TOOOOOOO SLOOOOOOOOOOOOOOOWWWWWWWW!!! */
     gnome_canvas_item_new (pnames_group, 
 			   GNOME_TYPE_CANVAS_TEXT,
 			   "text", gwp_object_get_name(GWP_OBJECT(planet)),
@@ -1776,7 +1783,7 @@ void draw_planet (gpointer key, gpointer value, gpointer user_data)
 			   "y", yi + 10,
 			   "fill_color", "white",
 			   NULL);
-    */
+    
     if (gwp_planet_is_mine(planet)) {
 
       /* Add planet scanner range */
@@ -1968,6 +1975,20 @@ void init_starchart (GtkWidget * gwp)
 					 NULL);
   gnome_canvas_item_hide ((GnomeCanvasItem *)distance_line);
 
+  /* Draw ship heading line */
+  heading_p = gnome_canvas_points_new (2);
+  heading_p->coords[0] = 1500.0;
+  heading_p->coords[1] = 1500.0;
+  heading_p->coords[2] = 1600.0;
+  heading_p->coords[3] = 1600.0;
+  heading_line = gnome_canvas_item_new (starchart_get_grp_ships(),
+					 GNOME_TYPE_CANVAS_LINE,
+					 "fill_color", "yellow",
+					 "width_pixels", 1, 
+					 "points", heading_p, 
+					 NULL);
+  gnome_canvas_item_hide ((GnomeCanvasItem *)heading_line);
+
 
   /* Loads Planets on Starchart */
   g_message("Loading planets...");
@@ -2125,6 +2146,17 @@ void init_starchart (GtkWidget * gwp)
 		      NULL);
   }
   g_hash_table_foreach (planet_list, (GHFunc) planet_conn, NULL);
+
+  /*****************/
+  /* Ships signals */
+  /*****************/
+  static void ship_conn (gpointer key, gpointer value, gpointer data) {
+    g_signal_connect (GWP_SHIP(value),
+		      "selected",
+		      G_CALLBACK(starchart_select_ship_notification),
+		      NULL);
+  }
+  g_hash_table_foreach (ship_list, (GHFunc) ship_conn, NULL);
 }
 
 void starchart_scroll (gint scroll_x, gint scroll_y)
@@ -2267,11 +2299,65 @@ GwpPlanet* starchart_select_nearest_planet (GtkWidget * gwp,
 }
 
 /**
+ * Callback called when a ship emits its "selected" signal.
+ */
+static void
+starchart_select_ship_notification (GObject *obj,
+				    gpointer data)
+{
+  GwpShip *ship = GWP_SHIP(obj);
+  gint x, y, ly;
+  gdouble ax, ay, bx, by, h;
+
+  g_return_if_fail (GWP_IS_SHIP(ship));
+  
+  x = gwp_object_get_x_coord (GWP_OBJECT(ship));
+  y = gwp_object_get_y_coord (GWP_OBJECT(ship));
+  vp_coord_v2w (x, y, &ax, &ay);
+
+  /* Starting point */
+  heading_p->coords[0] = ax;
+  heading_p->coords[1] = ay;
+
+  if (gwp_flying_object_get_heading(GWP_FLYING_OBJECT(ship)) == -1) {
+
+    /* Not moving... */
+    gnome_canvas_item_hide ((GnomeCanvasItem *)heading_line);
+
+  } else {
+
+    if (gwp_ship_is_mine(ship)) {
+      /* Use simple calculations */
+      bx = ax + gwp_ship_get_x_to_waypoint(ship);
+      by = ay - gwp_ship_get_y_to_waypoint(ship);
+    } else {
+      ly = gwp_flying_object_get_speed (GWP_FLYING_OBJECT(ship));
+      /* degrees -> radians */
+      h = gwp_flying_object_get_heading(GWP_FLYING_OBJECT(ship)) * 0.01745;
+
+      /* Here we need some trigonometry */
+      bx = ax + (cos(h - (3.14159/2)) * (ly*ly));
+      by = ay + (sin(h - (3.14159/2)) * (ly*ly));
+    }
+
+    /* Ending point */
+    heading_p->coords[2] = bx;
+    heading_p->coords[3] = by;
+    
+    g_object_set (heading_line,
+		  "points", heading_p,
+		  NULL);
+    
+    gnome_canvas_item_show ((GnomeCanvasItem *)heading_line);
+  }
+}
+
+/**
  * Callback called when a planet emits its "selected" signal.
  */
 static void
 starchart_select_planet_notification (GObject *obj, 
-				      gpointer user_data)
+				      gpointer data)
 {
   static gboolean loaded = FALSE;
   static GtkNotebook *extra_info_panel = NULL;
