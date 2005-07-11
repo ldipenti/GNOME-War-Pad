@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.114  2005/07/11 15:19:47  ldipenti
+    Bugfix: gcc-4 compile errors fixed
+
     Revision 1.113  2005/07/10 20:45:16  ldipenti
     Feature: starchart ship & planet selection mark unified, they don't
     need to be different marks
@@ -2139,7 +2142,7 @@ void init_starchart (GtkWidget * gwp)
   /*******************/
   /* Planets signals */
   /*******************/
-  static void planet_conn (gpointer key, gpointer value, gpointer data) {
+  void planet_conn (gpointer key, gpointer value, gpointer data) {
     g_signal_connect (GWP_PLANET(value),
 		      "property-changed",
 		      G_CALLBACK(update_planet_notification),
@@ -2154,7 +2157,7 @@ void init_starchart (GtkWidget * gwp)
   /*****************/
   /* Ships signals */
   /*****************/
-  static void ship_conn (gpointer key, gpointer value, gpointer data) {
+  void ship_conn (gpointer key, gpointer value, gpointer data) {
     g_signal_connect (GWP_SHIP(value),
 		      "selected",
 		      G_CALLBACK(starchart_select_ship_notification),
@@ -3218,7 +3221,7 @@ init_starchart_constellations (void)
   gdouble wx, wy;
   gdouble ax, ay, bx, by, zoom;
 
-  static void add_item (gpointer key, gpointer value, gpointer user_data) {
+  void add_item (gpointer key, gpointer value, gpointer user_data) {
     /*    GSList *p_list = (GSList *)user_data; */
     planets = g_slist_append (planets, value);
   }

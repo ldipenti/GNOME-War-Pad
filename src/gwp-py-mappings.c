@@ -8743,7 +8743,7 @@ _wrap_ship_get_list (PyObject *self)
 {
   PyObject *ret = PyDict_New();
 
-  static void add_ship (gpointer key, gpointer value, gpointer user_data) {
+  void add_ship (gpointer key, gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
     GwpShip *ship = GWP_SHIP(value);
 
@@ -8765,7 +8765,7 @@ _wrap_planet_get_list (PyObject *self)
 {
   PyObject *ret = PyDict_New();
 
-  static void add_planet (gpointer key, gpointer value, gpointer user_data) {
+  void add_planet (gpointer key, gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
     GwpPlanet *planet = GWP_PLANET(value);
 
@@ -8787,7 +8787,7 @@ _wrap_hullspec_get_list (PyObject *self)
 {
   PyObject *ret = PyDict_New();
 
-  static void add_hullspec (gpointer value, gpointer user_data) {
+  void add_hullspec (gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
     GwpHullSpec *hullspec = GWP_HULLSPEC(value);
 
@@ -8809,7 +8809,7 @@ _wrap_engspec_get_list (PyObject *self)
 {
   PyObject *ret = PyDict_New();
 
-  static void add_engspec (gpointer value, gpointer user_data) {
+  void add_engspec (gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
     GwpEngSpec *engspec = GWP_ENGSPEC(value);
 
@@ -8831,7 +8831,7 @@ _wrap_beamspec_get_list (PyObject *self)
 {
   PyObject *ret = PyDict_New();
 
-  static void add_beamspec (gpointer value, gpointer user_data) {
+  void add_beamspec (gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
     GwpBeamSpec *beamspec = GWP_BEAMSPEC(value);
 
@@ -8853,7 +8853,7 @@ _wrap_torpspec_get_list (PyObject *self)
 {
   PyObject *ret = PyDict_New();
 
-  static void add_torpspec (gpointer value, gpointer user_data) {
+  void add_torpspec (gpointer value, gpointer user_data) {
     PyObject *dict = (PyObject *)user_data;
     GwpTorpSpec *torpspec = GWP_TORPSPEC(value);
 

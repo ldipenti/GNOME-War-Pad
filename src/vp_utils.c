@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.77  2005/07/11 15:19:48  ldipenti
+    Bugfix: gcc-4 compile errors fixed
+
     Revision 1.76  2005/06/02 14:36:05  ldipenti
     Feature: patched applied to parse host configuration messages, thanks François!!!
 
@@ -2590,7 +2593,7 @@ scan_messages_planet_orbit (const gchar *msg_body)
 	  gwp_planet_set_colonists (planet, atoi(p_clans));
       
 	  /* Compare func */
-	  static gint compare_race (gconstpointer race, gconstpointer adj) {
+	  gint compare_race (gconstpointer race, gconstpointer adj) {
 	       gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
 	       if (strncmp(race_str, adj, strlen(adj)) == 0) 
 		    return 0;
@@ -2639,7 +2642,7 @@ scan_messages_planet_scanned (const gchar *msg_body)
 	  /* Assign known planet values */
 	  gwp_planet_set_is_known (planet, TRUE);
 	  /* Compare func */
-	  static gint compare_race (gconstpointer race, gconstpointer adj) {
+	  gint compare_race (gconstpointer race, gconstpointer adj) {
 	       gchar *race_str = gwp_race_get_adjective(GWP_RACE(race));
 	       if (strncmp(race_str, adj, strlen(adj)) == 0) 
 		    return 0;

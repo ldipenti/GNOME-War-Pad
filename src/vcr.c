@@ -3,6 +3,9 @@
     $Revision$
     
     $Log$
+    Revision 1.21  2005/07/11 15:19:48  ldipenti
+    Bugfix: gcc-4 compile errors fixed
+
     Revision 1.20  2005/05/31 13:17:39  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -2692,7 +2695,7 @@ void vcr_populate_ship_a_list( GtkWidget *widget, gpointer user_data )
 {
   gchar *name;
   gint *idlist;
-  static void foreach_func( gpointer key, gpointer value, gpointer user_data );
+  /*void foreach_func( gpointer key, gpointer value, gpointer user_data );*/
 
   /* test if list is already populated */
   idlist = (gint *)g_object_get_data(G_OBJECT(lookup_widget("vcr_comboboxentry_sel_ext_shp_a")), "shipidlist");

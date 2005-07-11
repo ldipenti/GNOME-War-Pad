@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.28  2005/07/11 15:19:47  ldipenti
+    Bugfix: gcc-4 compile errors fixed
+
     Revision 1.27  2005/05/31 13:17:38  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -749,7 +752,7 @@ gwp_game_state_postinit (GwpGameState *self)
   /* Connect to interesting signals */
   /**********************************/
   /* Selected planets */
-  static void planet_conn (gpointer key, gpointer value, gpointer self) {
+  void planet_conn (gpointer key, gpointer value, gpointer self) {
     g_signal_connect (GWP_PLANET(value),
 		      "selected",
 		      G_CALLBACK(selected_planet_notification),
@@ -757,7 +760,7 @@ gwp_game_state_postinit (GwpGameState *self)
   }
   g_hash_table_foreach (planet_list, (GHFunc) planet_conn, self);
   /* Selected ships */
-  static void ship_conn (gpointer key, gpointer value, gpointer self) {
+  void ship_conn (gpointer key, gpointer value, gpointer self) {
     g_signal_connect (GWP_SHIP(value),
 		      "selected",
 		      G_CALLBACK(selected_ship_notification),
