@@ -44,6 +44,7 @@ gwp_SOURCES =						\
 	gwp-minefield.h		gwp-minefield.c		\
 	gwp-ion-storm.h		gwp-ion-storm.c		\
 	gwp-starchart.h		gwp-starchart.c		\
+	gwp-marker.h		gwp-marker.c		\
 	gwp-ui.h		gwp-ui.c		\
 	gwp-game-state.h	gwp-game-state.c	\
 	gwp-messages.h		gwp-messages.c		\

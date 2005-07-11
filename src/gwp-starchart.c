@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.7  2005/07/11 11:24:49  ldipenti
+    Started to work on starchart's markers
+
     Revision 1.6  2005/05/31 13:17:39  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -42,7 +45,6 @@
 #include "gwp-starchart.h"
 #include "starchart.h"
 #include "vp_utils.h"
-
 
 /* Private methods prototypes. */
 static void gwp_starchart_set_object_per_quad (GwpStarchart *self,
@@ -544,4 +546,24 @@ gwp_starchart_select_planet (GwpStarchart *self,
   } else {
     return NULL;
   }
+}
+
+/****************/
+/* Marker stuff */
+/****************/
+
+void
+gwp_starchart_add_marker (GwpStarchart *self,
+			  GwpMarker *marker)
+{
+  g_return_if_fail (GWP_IS_STARCHART(self) && GWP_IS_MARKER(marker));
+
+  GnomeCanvasItem *marker_view = NULL;
+
+  marker_view = gwp_marker_get_view (marker, starchart_get_grp_misc());
+
+  g_return_if_fail (GNOME_IS_CANVAS_ITEM(marker_view));
+
+  gnome_canvas_item_raise_to_top (marker_view);
+  gnome_canvas_item_show (marker_view);
 }

@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.33  2005/07/11 11:24:49  ldipenti
+    Started to work on starchart's markers
+
     Revision 1.32  2005/05/31 13:17:39  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -75,8 +78,7 @@ GwpShip * starchart_select_nearest_ship (GtkWidget* gwp, GSList *ships_nearby, g
 void starchart_center_around (GwpObject *obj);
 void starchart_zoom_in (GnomeCanvas *starchart);
 void starchart_zoom_out (GnomeCanvas *starchart);
-void starchart_mark_planet (GwpPlanet *a_planet);
-void starchart_mark_ship (gint x, gint y);
+void starchart_mark_object (GwpObject *obj);
 
 /* Moving functions */
 void starchart_scroll (gint scroll_x, gint scroll_y);

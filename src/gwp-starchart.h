@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.6  2005/07/11 11:24:49  ldipenti
+    Started to work on starchart's markers
+
     Revision 1.5  2005/05/31 13:17:39  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -44,6 +47,7 @@
 #include "gwp-planet.h"
 #include "gwp-ship.h"
 #include "gwp-location.h"
+#include "gwp-marker.h"
 
 /*
  * Type macros.
@@ -117,6 +121,8 @@ GwpPlanet *gwp_starchart_select_planet (GwpStarchart *self, gint planet_id);
 /* Wrapper functions to starchart.c */
 void gwp_starchart_center_around (GwpStarchart *self, GwpObject *obj);
 
+/* Markers */
+void gwp_starchart_add_marker (GwpStarchart *self, GwpMarker *marker);
 
 /*
  * Stardard defines.

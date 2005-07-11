@@ -42,6 +42,13 @@
   (gtype-id "GWP_TYPE_MINEFIELD")
 )
 
+(define-object Marker
+  (in-module "Gwp")
+  (parent "GwpObject")
+  (c-name "GwpMarker")
+  (gtype-id "GWP_TYPE_MARKER")
+)
+
 (define-object Location
   (in-module "Gwp")
   (parent "GwpObject")
@@ -3513,6 +3520,15 @@
   )
 )
 
+(define-method add_marker
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_add_marker")
+  (return-type "none")
+  (parameters
+    '("GwpMarker*" "marker")
+  )
+)
+
 
 
 ;; From src/gwp-game-state.h
@@ -5062,6 +5078,30 @@
   (return-type "none")
   (parameters
     '("gboolean" "bool")
+  )
+)
+
+
+
+;; From src/gwp-marker.h
+
+(define-function gwp_marker_get_type
+  (c-name "gwp_marker_get_type")
+  (return-type "GType")
+)
+
+(define-function gwp_marker_new
+  (c-name "gwp_marker_new")
+  (is-constructor-of "GwpMarker")
+  (return-type "GwpMarker*")
+)
+
+(define-method get_view
+  (of-object "GwpMarker")
+  (c-name "gwp_marker_get_view")
+  (return-type "GnomeCanvasItem*")
+  (parameters
+    '("GnomeCanvasGroup*" "layer")
   )
 )
 

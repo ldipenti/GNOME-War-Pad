@@ -19,6 +19,7 @@ headers
 #include "gwp-py-functions.h"
 #include "gwp-race.h"
 #include "gwp-starchart.h"
+#include "gwp-marker.h"
 %%
 modulename gwp
 %%
