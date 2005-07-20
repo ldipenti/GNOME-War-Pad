@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.9  2005/07/20 16:11:05  ldipenti
+    Feature: First working prototype with starchart markers (cool!)
+
     Revision 1.8  2005/07/20 14:17:18  ldipenti
     Almost finished the first draft about starchart markers
 
@@ -56,11 +59,12 @@ static void gwp_starchart_set_object_per_quad (GwpStarchart *self,
 static gint
 gwp_starchart_register_marker (GwpStarchart *self,
 			       GnomeCanvasItem *item);
+
 static GnomeCanvasItem *
 gwp_starchart_draw_line_on_group (GwpStarchart *self,
 				  GnomeCanvasGroup *group,
-				  gint from_x, gint from_y,
-				  gint to_x, gint to_y,
+				  gdouble from_x, gdouble from_y,
+				  gdouble to_x, gdouble to_y,
 				  gchar *color);
 
 /*
@@ -570,15 +574,6 @@ gwp_starchart_select_planet (GwpStarchart *self,
 /* Marker stuff */
 /****************/
 
-/* void */
-/* gwp_starchart_add_marker (GwpStarchart *self, */
-/* 			  GwpMarker *marker) */
-/* { */
-/*   g_return_if_fail (GWP_IS_STARCHART(self) && GWP_IS_MARKER(marker)); */
-
-/*   gwp_marker_draw (marker, self); */
-/* } */
-
 gint
 gwp_starchart_draw_line (GwpStarchart *self,
 			 gint from_x, gint from_y,
@@ -588,11 +583,17 @@ gwp_starchart_draw_line (GwpStarchart *self,
   g_return_val_if_fail (GWP_IS_STARCHART(self), 0);
 
   GnomeCanvasItem *item = NULL;
+  gdouble wx1, wy1, wx2, wy2;
 
+  /* Coordinate conversion */
+  vp_coord_v2w (from_x, from_y, &wx1, &wy1);
+  vp_coord_v2w (to_x, to_y, &wx2, &wy2);
+
+  
   item = gwp_starchart_draw_line_on_group (self,
 					   starchart_get_grp_misc(),
-					   from_x, from_y,
-					   to_x, to_y,
+					   wx1, wy1,
+					   wx2, wy2,
 					   color);
   if (item) {
     return gwp_starchart_register_marker (self, item);
@@ -601,6 +602,20 @@ gwp_starchart_draw_line (GwpStarchart *self,
   }
 }
 
+/**
+ * Draws a line into a given marker.
+ *
+ * This marker has to be a group, so that several drawings can be placed
+ * inside the same group, allowing the possibility to make complex markers.
+ *
+ * @param self a GwpStarchart.
+ * @param marker the GwpMarker's id
+ * @param from_x the initial X coordinate (relative to the marker's group)
+ * @param from_y the initial Y coordinate (relative to the marker's group)
+ * @param to_x the final X coordinate (relative to the marker's group)
+ * @param to_y the final Y coordinate (relative to the marker's group)
+ * @param color the line's color name (ie: "white", "red", ...)
+ */
 void
 gwp_starchart_draw_line_on_marker (GwpStarchart *self,
 				   gint marker,
@@ -616,46 +631,72 @@ gwp_starchart_draw_line_on_marker (GwpStarchart *self,
   if (GNOME_IS_CANVAS_GROUP(group)) {
     gwp_starchart_draw_line_on_group (self,
 				      group,
-				      from_x, from_y,
-				      to_x, to_y,
-				      color);    
+				      (gdouble)from_x, (gdouble)from_y,
+				      (gdouble)to_x, (gdouble)to_y,
+				      color);
   }
 }
 
+/**
+ * Draws a line on a canvas group.
+ *
+ * This method is private to the class, because it depends on the
+ * drawing technology (now GnomeCanvas, tomorrow...who knows!). The 
+ * coordinates are passed in the World System, so translations (if
+ * necessary) should be made before calling this.
+ *
+ * @param self a GwpStarchart
+ * @param group a canvas group where to put the line item (usually added 
+ * with gwp_starchart_draw_group())
+ * @param from_x starting X coordinate (in world coord system)
+ * @param from_x starting Y coordinate (in world coord system)
+ * @param to_x final X coordinate (in world coord system)
+ * @param to_y final Y coordinate (in world coord system)
+ * @param color the line's color name (if NULL, white is used by default)
+ */
 static GnomeCanvasItem *
 gwp_starchart_draw_line_on_group (GwpStarchart *self,
 				  GnomeCanvasGroup *group,
-				  gint from_x, gint from_y,
-				  gint to_x, gint to_y,
+				  gdouble from_x, gdouble from_y,
+				  gdouble to_x, gdouble to_y,
 				  gchar *color)
 {
   g_return_val_if_fail (GWP_IS_STARCHART(self), NULL);
   g_return_val_if_fail (GNOME_IS_CANVAS_GROUP(group), NULL);
 
-  gdouble wx1, wy1, wx2, wy2;
   GnomeCanvasPoints *points = gnome_canvas_points_new (2);
   GnomeCanvasItem *item = NULL;
-
-  /* Coordinate conversion */
-  vp_coord_v2w (from_x, from_y, &wx1, &wy1);
-  vp_coord_v2w (to_x, to_y, &wx2, &wy2);
 
   /* Color by default: white */
   if (!color) color = "white";
 
-  points->coords[0] = wx1;
-  points->coords[1] = wy1;
-  points->coords[2] = wx2;
-  points->coords[3] = wy2;
+  points->coords[0] = from_x;
+  points->coords[1] = from_y;
+  points->coords[2] = to_x;
+  points->coords[3] = to_y;
 
   item = gnome_canvas_item_new (group, 
 				GNOME_TYPE_CANVAS_LINE,
 				"fill_color", color,
 				"width_pixels", 1,
-				"points", points, NULL);
+				"points", points, 
+				NULL);
   return item;
 }
 
+/**
+ * Adds a group to the starchart
+ *
+ * This has to be done because the actual gnome canvas needs some canvas
+ * items known as groups, the other items are grouped together inside
+ * this kind of group...the starchart will manipulate the group as a whole
+ * when moving, deleting, etc.
+ *
+ * @param self a GwpStarchart
+ * @param x the group's X coordinate (in VGAP coord system)
+ * @param y the group's Y coordinate (in VGAP coord system)
+ * @return the marker's id number (or 0, if error)
+ */
 gint
 gwp_starchart_draw_group (GwpStarchart *self,
 			  gint x, gint y)
@@ -681,6 +722,13 @@ gwp_starchart_draw_group (GwpStarchart *self,
   }
 }
 
+/**
+ * Deletes the marker's drawing
+ *
+ * @param self a GwpStarchart
+ * @param idx the marker's id number, used to indentificate the registered
+ * item in the starchart
+ */
 void
 gwp_starchart_delete_draw (GwpStarchart *self,
 			   gint idx)
@@ -713,3 +761,4 @@ gwp_starchart_register_marker (GwpStarchart *self,
 		       (gpointer)item);
   return idx;
 }
+

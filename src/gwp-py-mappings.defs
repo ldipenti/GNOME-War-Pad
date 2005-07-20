@@ -5131,14 +5131,8 @@
   (c-name "gwp_marker_new")
   (is-constructor-of "GwpMarker")
   (return-type "GwpMarker*")
-)
-
-(define-method get_view
-  (of-object "GwpMarker")
-  (c-name "gwp_marker_get_view")
-  (return-type "GnomeCanvasItem*")
   (parameters
-    '("GnomeCanvasGroup*" "layer")
+    '("GwpStarchart*" "starchart")
   )
 )
 
@@ -5146,9 +5140,12 @@
   (of-object "GwpMarker")
   (c-name "gwp_marker_draw")
   (return-type "none")
-  (parameters
-    '("GwpStarchart*" "sc")
-  )
+)
+
+(define-method delete
+  (of-object "GwpMarker")
+  (c-name "gwp_marker_delete")
+  (return-type "none")
 )
 
 

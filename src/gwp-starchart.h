@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.8  2005/07/20 16:11:05  ldipenti
+    Feature: First working prototype with starchart markers (cool!)
+
     Revision 1.7  2005/07/20 14:17:18  ldipenti
     Almost finished the first draft about starchart markers
 
@@ -124,8 +127,6 @@ GwpPlanet *gwp_starchart_select_planet (GwpStarchart *self, gint planet_id);
 void gwp_starchart_center_around (GwpStarchart *self, GwpObject *obj);
 
 /* Markers */
-/*void gwp_starchart_add_marker (GwpStarchart *self, GwpMarker *marker);*/
-
 gint
 gwp_starchart_draw_line (GwpStarchart *self,
 			 gint from_x, gint from_y,
@@ -143,7 +144,6 @@ gwp_starchart_draw_group (GwpStarchart *self,
 void
 gwp_starchart_delete_draw (GwpStarchart *self,
 			   gint idx);
-
 
 /*
  * Stardard defines.

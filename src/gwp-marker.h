@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.3  2005/07/20 16:11:05  ldipenti
+    Feature: First working prototype with starchart markers (cool!)
+
     Revision 1.2  2005/07/20 14:17:18  ldipenti
     Almost finished the first draft about starchart markers
 
@@ -65,11 +68,10 @@ GType gwp_marker_get_type (void);
 /*
  * Public method definitions.
  */
-GwpMarker * gwp_marker_new (void);
+GwpMarker * gwp_marker_new (GwpStarchart *starchart);
 
-GnomeCanvasItem *gwp_marker_get_view (GwpMarker *self, GnomeCanvasGroup *layer);
-void gwp_marker_draw (GwpMarker *self, GwpStarchart *sc);
-
+void gwp_marker_draw (GwpMarker *self);
+void gwp_marker_delete (GwpMarker *self);
 
 /*
  * Standard defines.

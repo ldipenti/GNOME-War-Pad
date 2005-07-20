@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.3  2005/07/20 16:11:05  ldipenti
+    Feature: First working prototype with starchart markers (cool!)
+
     Revision 1.2  2005/07/20 14:17:18  ldipenti
     Almost finished the first draft about starchart markers
 
@@ -49,6 +52,7 @@ struct _GwpMarkerPrivate {
   GString *comment; /**< An optional comment on the marker. */
   GString *color; /**< The marker's color. White by default */
   gboolean comment_visible; /**< TRUE if the comment should be showed. FALSE by default. */
+  GwpStarchart *starchart; /**< The starchart related to this marker, it's passed at instantiation time. */
 };
 
 /*
@@ -89,8 +93,9 @@ static void gwp_marker_init (GTypeInstance *instance,
   /* Attributes initializacion */
   self->priv->visible = TRUE;
   self->priv->comment = g_string_new ("");
-  self->priv->color = g_string_new ("");
+  self->priv->color = g_string_new ("white");
   self->priv->comment_visible = FALSE;
+  self->priv->starchart = NULL;
 }
 
 /**
@@ -167,6 +172,8 @@ static void gwp_marker_dispose (GwpMarker *self)
   /*
    * Here I have to unref all members on which I own a reference.
    */
+  gwp_starchart_delete_draw (self->priv->starchart,
+			     gwp_object_get_id(GWP_OBJECT(self)));
   g_string_free (self->priv->comment, TRUE);
   g_string_free (self->priv->color, TRUE);
 }
@@ -237,62 +244,65 @@ static void gwp_marker_class_init (GwpMarkerClass *klass)
  */
 
 GwpMarker *
-gwp_marker_new (void)
+gwp_marker_new (GwpStarchart *starchart)
 {
-  return g_object_new (gwp_marker_get_type(), NULL);
+  g_return_val_if_fail (GWP_IS_STARCHART(starchart), NULL);
+
+  GwpMarker *new_marker = g_object_new (gwp_marker_get_type(), NULL);
+  new_marker->priv->starchart = starchart;
+
+  return new_marker;
 }
 
+/**
+ * Draws the marker's representation on the related starchart
+ *
+ * @param self a GwpMarker
+ */
 void
-gwp_marker_draw (GwpMarker *self,
-		 GwpStarchart *sc)
+gwp_marker_draw (GwpMarker *self)
 {
-  g_return_if_fail (GWP_IS_MARKER(self) && GWP_IS_STARCHART(sc));
+  g_return_if_fail (GWP_IS_MARKER(self));
+
+
+  /* Do nothing if this marker had been already been drawn */
+  if (gwp_object_get_id(GWP_OBJECT(self)) != 0) return;
 
   gint marker_id = 0;
 
-  marker_id = gwp_starchart_draw_group (sc, 1300, 1500);
-  gwp_starchart_draw_line_on_marker(sc, marker_id,
-				    10, 10, 
-				    100, 100,
-				    "red");
-  gwp_starchart_draw_line_on_marker(sc, marker_id,
-				    10, 100, 
-				    100, 10,
-				    "red");
+  marker_id = 
+    gwp_starchart_draw_group (self->priv->starchart, 
+			      gwp_object_get_x_coord(GWP_OBJECT(self)),
+			      gwp_object_get_y_coord(GWP_OBJECT(self)));
   gwp_object_set_id (GWP_OBJECT(self), marker_id);
+
+  gwp_starchart_draw_line_on_marker(self->priv->starchart, 
+				    marker_id,
+				    0, 0, 
+				    10, 10,
+				    "red");
+  gwp_starchart_draw_line_on_marker(self->priv->starchart, 
+				    marker_id,
+				    0, 10, 
+				    10, 0,
+				    "red");
 }
 
-GnomeCanvasItem *
-gwp_marker_get_view (GwpMarker        *self,
-		     GnomeCanvasGroup *layer)
+/**
+ * Delete the marker's representation from the related starchart.
+ *
+ * @param self a GwpMarker
+ */
+void
+gwp_marker_delete (GwpMarker *self)
 {
-  g_return_val_if_fail (GWP_IS_MARKER(self), NULL);
-  g_return_val_if_fail (GNOME_IS_CANVAS_GROUP(layer), NULL);
+  g_return_if_fail (GWP_IS_MARKER(self));
 
-  GnomeCanvasGroup *marker = NULL;
-  GnomeCanvasItem *circle = NULL;
-/*   GnomeCanvasItem *cross_v = NULL; */
-/*   GnomeCanvasItem *cross_h = NULL; */
-  gint x, y;
-  gdouble wx, wy;
-
-  x = gwp_object_get_x_coord (GWP_OBJECT(self));
-  y = gwp_object_get_y_coord (GWP_OBJECT(self));
-  vp_coord_v2w (x, y, &wx, &wy);
-
-  marker = GNOME_CANVAS_GROUP (gnome_canvas_item_new(layer, 
-						     GNOME_TYPE_CANVAS_GROUP,
-						     "x", wx, "y", wy,
-						     NULL));
-  circle = gnome_canvas_item_new (marker,
-				  GNOME_TYPE_CANVAS_ELLIPSE,
-				  "outline_color", "white",
-				  "fill_color", "white",
-				  "x1", 0.0, "y1", 0.0,
-				  "x2", 500.0, "y2", 500.0,
-				  "width_pixels", 10,
-				  NULL);
-
-  gnome_canvas_item_show (circle);
-  return GNOME_CANVAS_ITEM(marker);
+  /* Do nothing if this marker had been already deleted */
+  if (gwp_object_get_id(GWP_OBJECT(self)) == 0) return;
+  
+  gwp_starchart_delete_draw (self->priv->starchart,
+			     gwp_object_get_id(GWP_OBJECT(self)));
+  /* Reset the ID */
+  gwp_object_set_id (GWP_OBJECT(self), 0);
 }
