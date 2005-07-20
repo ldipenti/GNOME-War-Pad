@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.7  2005/07/20 14:17:18  ldipenti
+    Almost finished the first draft about starchart markers
+
     Revision 1.6  2005/07/11 11:24:49  ldipenti
     Started to work on starchart's markers
 
@@ -47,7 +50,6 @@
 #include "gwp-planet.h"
 #include "gwp-ship.h"
 #include "gwp-location.h"
-#include "gwp-marker.h"
 
 /*
  * Type macros.
@@ -122,7 +124,26 @@ GwpPlanet *gwp_starchart_select_planet (GwpStarchart *self, gint planet_id);
 void gwp_starchart_center_around (GwpStarchart *self, GwpObject *obj);
 
 /* Markers */
-void gwp_starchart_add_marker (GwpStarchart *self, GwpMarker *marker);
+/*void gwp_starchart_add_marker (GwpStarchart *self, GwpMarker *marker);*/
+
+gint
+gwp_starchart_draw_line (GwpStarchart *self,
+			 gint from_x, gint from_y,
+			 gint to_x, gint to_y,
+			 gchar *color);
+void
+gwp_starchart_draw_line_on_marker (GwpStarchart *self,
+				   gint marker,
+				   gint from_x, gint from_y,
+				   gint to_x, gint to_y,
+				   gchar *color);
+gint
+gwp_starchart_draw_group (GwpStarchart *self,
+			  gint x, gint y);
+void
+gwp_starchart_delete_draw (GwpStarchart *self,
+			   gint idx);
+
 
 /*
  * Stardard defines.

@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.2  2005/07/20 14:17:18  ldipenti
+    Almost finished the first draft about starchart markers
+
     Revision 1.1  2005/07/11 11:24:48  ldipenti
     Started to work on starchart's markers
 
@@ -237,6 +240,26 @@ GwpMarker *
 gwp_marker_new (void)
 {
   return g_object_new (gwp_marker_get_type(), NULL);
+}
+
+void
+gwp_marker_draw (GwpMarker *self,
+		 GwpStarchart *sc)
+{
+  g_return_if_fail (GWP_IS_MARKER(self) && GWP_IS_STARCHART(sc));
+
+  gint marker_id = 0;
+
+  marker_id = gwp_starchart_draw_group (sc, 1300, 1500);
+  gwp_starchart_draw_line_on_marker(sc, marker_id,
+				    10, 10, 
+				    100, 100,
+				    "red");
+  gwp_starchart_draw_line_on_marker(sc, marker_id,
+				    10, 100, 
+				    100, 10,
+				    "red");
+  gwp_object_set_id (GWP_OBJECT(self), marker_id);
 }
 
 GnomeCanvasItem *

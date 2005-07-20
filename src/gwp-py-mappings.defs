@@ -3520,12 +3520,49 @@
   )
 )
 
-(define-method add_marker
+(define-method draw_line
   (of-object "GwpStarchart")
-  (c-name "gwp_starchart_add_marker")
+  (c-name "gwp_starchart_draw_line")
+  (return-type "gint")
+  (parameters
+    '("gint" "from_x")
+    '("gint" "from_y")
+    '("gint" "to_x")
+    '("gint" "to_y")
+    '("gchar*" "color")
+  )
+)
+
+(define-method draw_line_on_marker
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_draw_line_on_marker")
   (return-type "none")
   (parameters
-    '("GwpMarker*" "marker")
+    '("gint" "marker")
+    '("gint" "from_x")
+    '("gint" "from_y")
+    '("gint" "to_x")
+    '("gint" "to_y")
+    '("gchar*" "color")
+  )
+)
+
+(define-method draw_group
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_draw_group")
+  (return-type "gint")
+  (parameters
+    '("gint" "x")
+    '("gint" "y")
+  )
+)
+
+(define-method delete_draw
+  (of-object "GwpStarchart")
+  (c-name "gwp_starchart_delete_draw")
+  (return-type "none")
+  (parameters
+    '("gint" "idx")
   )
 )
 
@@ -5102,6 +5139,15 @@
   (return-type "GnomeCanvasItem*")
   (parameters
     '("GnomeCanvasGroup*" "layer")
+  )
+)
+
+(define-method draw
+  (of-object "GwpMarker")
+  (c-name "gwp_marker_draw")
+  (return-type "none")
+  (parameters
+    '("GwpStarchart*" "sc")
   )
 )
 

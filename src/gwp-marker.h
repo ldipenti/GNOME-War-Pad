@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.2  2005/07/20 14:17:18  ldipenti
+    Almost finished the first draft about starchart markers
+
     Revision 1.1  2005/07/11 11:24:48  ldipenti
     Started to work on starchart's markers
 
@@ -33,6 +36,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include "gwp-object.h"
+#include "gwp-starchart.h"
 
 /*
  * Type macros.
@@ -64,6 +68,7 @@ GType gwp_marker_get_type (void);
 GwpMarker * gwp_marker_new (void);
 
 GnomeCanvasItem *gwp_marker_get_view (GwpMarker *self, GnomeCanvasGroup *layer);
+void gwp_marker_draw (GwpMarker *self, GwpStarchart *sc);
 
 
 /*

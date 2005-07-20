@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.8  2005/07/20 14:17:18  ldipenti
+    Almost finished the first draft about starchart markers
+
     Revision 1.7  2005/07/11 11:24:49  ldipenti
     Started to work on starchart's markers
 
@@ -50,6 +53,15 @@
 static void gwp_starchart_set_object_per_quad (GwpStarchart *self,
 					       GHashTable *list, 
 					       GwpObject *obj);
+static gint
+gwp_starchart_register_marker (GwpStarchart *self,
+			       GnomeCanvasItem *item);
+static GnomeCanvasItem *
+gwp_starchart_draw_line_on_group (GwpStarchart *self,
+				  GnomeCanvasGroup *group,
+				  gint from_x, gint from_y,
+				  gint to_x, gint to_y,
+				  gchar *color);
 
 /*
  * Private members.
@@ -66,6 +78,9 @@ struct _GwpStarchartPrivate {
   GHashTable *planets_per_quad; /**< Planet list per quadrant. */
   GHashTable *ships_per_quad; /**< Ship list per quadrant. */
   GHashTable *locations_per_quad; /**< Location list per quadrant. */
+  GHashTable *markers; /**< The marker collection. */
+  gint markers_idx; /**< The next marker key in the previous hash table */
+  GnomeCanvas *canvas; /**< The real canvas implementation. */
 };
 
 /*
@@ -115,6 +130,9 @@ static void gwp_starchart_init (GTypeInstance *instance,
   self->priv->planets_per_quad = g_hash_table_new (NULL, NULL);
   self->priv->ships_per_quad = g_hash_table_new (NULL, NULL);
   self->priv->locations_per_quad = g_hash_table_new (NULL, NULL);
+  self->priv->markers = g_hash_table_new (NULL, NULL);
+  self->priv->markers_idx = 1;
+  self->priv->canvas = starchart_get_canvas ();
 }
 
 static void gwp_starchart_dispose (GwpStarchart *self)
@@ -552,18 +570,146 @@ gwp_starchart_select_planet (GwpStarchart *self,
 /* Marker stuff */
 /****************/
 
-void
-gwp_starchart_add_marker (GwpStarchart *self,
-			  GwpMarker *marker)
+/* void */
+/* gwp_starchart_add_marker (GwpStarchart *self, */
+/* 			  GwpMarker *marker) */
+/* { */
+/*   g_return_if_fail (GWP_IS_STARCHART(self) && GWP_IS_MARKER(marker)); */
+
+/*   gwp_marker_draw (marker, self); */
+/* } */
+
+gint
+gwp_starchart_draw_line (GwpStarchart *self,
+			 gint from_x, gint from_y,
+			 gint to_x, gint to_y,
+			 gchar *color)
 {
-  g_return_if_fail (GWP_IS_STARCHART(self) && GWP_IS_MARKER(marker));
+  g_return_val_if_fail (GWP_IS_STARCHART(self), 0);
 
-  GnomeCanvasItem *marker_view = NULL;
+  GnomeCanvasItem *item = NULL;
 
-  marker_view = gwp_marker_get_view (marker, starchart_get_grp_misc());
+  item = gwp_starchart_draw_line_on_group (self,
+					   starchart_get_grp_misc(),
+					   from_x, from_y,
+					   to_x, to_y,
+					   color);
+  if (item) {
+    return gwp_starchart_register_marker (self, item);
+  } else {
+    return 0;
+  }
+}
 
-  g_return_if_fail (GNOME_IS_CANVAS_ITEM(marker_view));
+void
+gwp_starchart_draw_line_on_marker (GwpStarchart *self,
+				   gint marker,
+				   gint from_x, gint from_y,
+				   gint to_x, gint to_y,
+				   gchar *color)
+{
+  g_return_if_fail (GWP_IS_STARCHART(self) || marker == 0);
+  
+  GnomeCanvasGroup *group = GNOME_CANVAS_GROUP(g_hash_table_lookup
+					       (self->priv->markers,
+						(gconstpointer)marker));
+  if (GNOME_IS_CANVAS_GROUP(group)) {
+    gwp_starchart_draw_line_on_group (self,
+				      group,
+				      from_x, from_y,
+				      to_x, to_y,
+				      color);    
+  }
+}
 
-  gnome_canvas_item_raise_to_top (marker_view);
-  gnome_canvas_item_show (marker_view);
+static GnomeCanvasItem *
+gwp_starchart_draw_line_on_group (GwpStarchart *self,
+				  GnomeCanvasGroup *group,
+				  gint from_x, gint from_y,
+				  gint to_x, gint to_y,
+				  gchar *color)
+{
+  g_return_val_if_fail (GWP_IS_STARCHART(self), NULL);
+  g_return_val_if_fail (GNOME_IS_CANVAS_GROUP(group), NULL);
+
+  gdouble wx1, wy1, wx2, wy2;
+  GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+  GnomeCanvasItem *item = NULL;
+
+  /* Coordinate conversion */
+  vp_coord_v2w (from_x, from_y, &wx1, &wy1);
+  vp_coord_v2w (to_x, to_y, &wx2, &wy2);
+
+  /* Color by default: white */
+  if (!color) color = "white";
+
+  points->coords[0] = wx1;
+  points->coords[1] = wy1;
+  points->coords[2] = wx2;
+  points->coords[3] = wy2;
+
+  item = gnome_canvas_item_new (group, 
+				GNOME_TYPE_CANVAS_LINE,
+				"fill_color", color,
+				"width_pixels", 1,
+				"points", points, NULL);
+  return item;
+}
+
+gint
+gwp_starchart_draw_group (GwpStarchart *self,
+			  gint x, gint y)
+{
+  g_return_val_if_fail (GWP_IS_STARCHART(self), 0);
+
+  GnomeCanvasGroup *group = NULL;
+  gdouble wx, wy;
+
+  /* Coordinate conversion */
+  vp_coord_v2w (x, y, &wx, &wy);
+
+  group = GNOME_CANVAS_GROUP (gnome_canvas_item_new 
+			      (starchart_get_grp_misc(),
+			       GNOME_TYPE_CANVAS_GROUP, 
+			       "x", wx, "y", wy,
+			       NULL));
+
+  if (GNOME_IS_CANVAS_GROUP(group)) {
+    return gwp_starchart_register_marker (self, GNOME_CANVAS_ITEM(group));
+  } else {
+    return 0;
+  }
+}
+
+void
+gwp_starchart_delete_draw (GwpStarchart *self,
+			   gint idx)
+{
+  g_return_if_fail (GWP_IS_STARCHART(self));
+
+  GnomeCanvasItem *item = NULL;
+
+  item = GNOME_CANVAS_ITEM(g_hash_table_lookup(self->priv->markers,
+					       (gconstpointer)idx));
+
+  if (item) {
+    g_hash_table_remove (self->priv->markers,
+			 (gconstpointer)idx);
+    gtk_object_destroy (GTK_OBJECT(item));
+  }
+}
+
+static gint
+gwp_starchart_register_marker (GwpStarchart *self,
+			       GnomeCanvasItem *item)
+{
+  g_return_val_if_fail (GWP_IS_STARCHART(self), 0);
+  g_return_val_if_fail (GNOME_IS_CANVAS_ITEM(item), 0);
+
+  gint idx = self->priv->markers_idx++;
+
+  g_hash_table_insert (self->priv->markers,
+		       (gpointer)idx,
+		       (gpointer)item);
+  return idx;
 }
