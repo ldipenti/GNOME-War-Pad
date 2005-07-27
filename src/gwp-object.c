@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.17  2005/07/27 03:56:10  ldipenti
+    Feature: GwpObject migrated to GObject's properties, GwpMarker cleaned up a little...property-changed signal is inherited from GwpObject
+
     Revision 1.16  2005/05/31 13:17:38  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -31,6 +34,14 @@
 
 #include "global.h"
 #include "gwp-object.h"
+
+enum {
+  PROP_0,
+  PROP_X_COORD,
+  PROP_Y_COORD,
+  PROP_ID,
+  PROP_NAME,
+};
 
 /*
  * Private members.
@@ -80,11 +91,78 @@ static void gwp_object_init (GTypeInstance *instance,
   self->priv->dispose_has_run = FALSE;
 
   /* Private members init */
-  self->priv->x_coord = 0;
-  self->priv->y_coord = 0;
-  self->priv->id = 0;
-  self->priv->name = g_string_new(_("Unknown name"));
-  /* g_message("GwpObject init"); */
+  self->priv->name = g_string_new(_("Unknown name")); 
+}
+
+/**
+ * Property setters
+ */
+static void
+gwp_object_set_property (GObject      *object,
+			 guint         property_id,
+			 const GValue *value,
+			 GParamSpec   *pspec)
+{
+  GwpObject *self = (GwpObject *) object;
+  gboolean changed = TRUE;
+
+  switch (property_id) {
+  case PROP_X_COORD:
+    self->priv->x_coord = g_value_get_int (value);
+    break;
+  case PROP_Y_COORD:
+    self->priv->y_coord = g_value_get_int (value);
+    break;
+  case PROP_NAME:
+    if (strlen(g_value_get_string(value)) >= 1 &&
+	strlen(g_value_get_string(value)) <= 21) {
+      g_string_free (self->priv->name, TRUE);
+      self->priv->name = g_string_new (g_value_get_string(value));
+    } else {
+      changed = FALSE;
+    }
+    break;
+  case PROP_ID:
+    self->priv->id = g_value_get_int (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+  /* Emit a notify signal with the changed property name */
+  if (changed)
+    g_signal_emit_by_name (self, g_strconcat ("property-changed::",
+					      pspec->name, NULL));
+}
+
+/**
+ * Property getters
+ */
+static void
+gwp_object_get_property (GObject    *object,
+			 guint       property_id,
+			 GValue     *value,
+			 GParamSpec *pspec)
+{
+  GwpObject *self = (GwpObject *) object;
+
+  switch (property_id) {
+  case PROP_X_COORD:
+    g_value_set_int (value, self->priv->x_coord);
+    break;
+  case PROP_Y_COORD:
+    g_value_set_int (value, self->priv->y_coord);
+    break;
+  case PROP_NAME:
+    g_value_set_string (value, self->priv->name->str);
+    break;
+  case PROP_ID:
+    g_value_set_int (value, self->priv->id);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;    
+  }
 }
 
 static void gwp_object_dispose (GwpObject *self)
@@ -106,17 +184,62 @@ static void gwp_object_finalize (GwpObject *self)
   /*
    * Here, complete object destruction.
    */
-  /*g_message("GwpObject finalize"); */
   g_free (self->priv);
 }
 
 static void gwp_object_class_init (GwpObjectClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  /* g_message("GwpObjectClass init"); */
   /* Register destructor methods. */
   gobject_class->dispose = (void *)gwp_object_dispose;
   gobject_class->finalize = (void *)gwp_object_finalize;
+
+  /*
+   * Signals
+   */
+  g_signal_newv ("property-changed",
+		 G_TYPE_FROM_CLASS (klass),
+		 G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED,
+		 NULL /* class closure */,
+		 NULL /* accumulator */,
+		 NULL /* accu_data */,
+		 g_cclosure_marshal_VOID__VOID,
+		 G_TYPE_NONE /* return_type */,
+		 0     /* n_params */,
+		 NULL  /* param_types */);
+
+  /* Property get/set methods */
+  gobject_class->set_property = gwp_object_set_property;
+  gobject_class->get_property = gwp_object_get_property;
+
+  /* Properties registrations */
+  g_object_class_install_property (gobject_class, PROP_X_COORD,
+				   g_param_spec_int ("x-coord",
+						     "X-Coord",
+						     "X coordinate in the starchart",
+						     0, 4000, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_Y_COORD,
+				   g_param_spec_int ("y-coord",
+						     "Y-Coord",
+						     "Y coordinate in the starchart",
+						     0, 4000, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_NAME,
+				   g_param_spec_string ("name",
+							"Name",
+							"Object's Name",
+							"Unkown name", /* default */
+							G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_ID,
+				   g_param_spec_int ("id",
+						     "ID",
+						     "Object's ID number",
+						     0, 65535, /* min/max */
+						     0, /* default */
+						     G_PARAM_READWRITE));
 }
 
 /* 
@@ -190,11 +313,9 @@ gint gwp_object_get_x_coord (GwpObject *self)
 void gwp_object_set_x_coord (GwpObject *self, gint x)
 {
   g_assert (GWP_IS_OBJECT(self));
-  if (x >= 0 && x <= 4000) {
-    self->priv->x_coord = x;
-  } else {
-    self->priv->x_coord = 0;
-  }
+  g_object_set (self,
+		"x_coord", x,
+		NULL);
 }
 
 gint gwp_object_get_y_coord (GwpObject *self)
@@ -206,11 +327,9 @@ gint gwp_object_get_y_coord (GwpObject *self)
 void gwp_object_set_y_coord (GwpObject *self, gint y)
 {
   g_assert (GWP_IS_OBJECT(self));
-  if (y >= 0 && y <= 4000) {
-    self->priv->y_coord = y;
-  } else {
-    self->priv->y_coord = 0;
-  }
+  g_object_set (self,
+		"y_coord", y,
+		NULL);
 }
 
 gint gwp_object_get_id (GwpObject *self)
@@ -222,7 +341,9 @@ gint gwp_object_get_id (GwpObject *self)
 void gwp_object_set_id (GwpObject *self, gint id)
 {
   g_assert(GWP_IS_OBJECT(self));
-  self->priv->id = id;
+  g_object_set (self,
+		"id", id, 
+		NULL);
 }
 
 gchar * gwp_object_get_name (GwpObject *self)
@@ -240,9 +361,7 @@ gchar * gwp_object_get_name (GwpObject *self)
 void gwp_object_set_name (GwpObject *self, gchar *name)
 {
   g_assert (GWP_IS_OBJECT(self));
-  g_assert (name != NULL);
-  g_return_if_fail (strlen(name) > 0);
-  g_return_if_fail (strlen(name) <= 21);
-  g_string_free (self->priv->name, TRUE);
-  self->priv->name = g_string_new(name);
+  g_object_set(self,
+	       "name", g_strdup(name),
+	       NULL);
 }

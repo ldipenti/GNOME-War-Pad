@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.4  2005/07/27 03:56:10  ldipenti
+    Feature: GwpObject migrated to GObject's properties, GwpMarker cleaned up a little...property-changed signal is inherited from GwpObject
+
     Revision 1.3  2005/07/20 16:11:05  ldipenti
     Feature: First working prototype with starchart markers (cool!)
 
@@ -194,19 +197,11 @@ static void gwp_marker_class_init (GwpMarkerClass *klass)
   gobject_class->dispose = (void *) gwp_marker_dispose;
   gobject_class->finalize = (void *) gwp_marker_finalize;
 
-  /*
-   * Signals
-   */
-  g_signal_newv ("property-changed",
-		 G_TYPE_FROM_CLASS (klass),
-		 G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED,
-		 NULL /* class closure */,
-		 NULL /* accumulator */,
-		 NULL /* accu_data */,
-		 g_cclosure_marshal_VOID__VOID,
-		 G_TYPE_NONE /* return_type */,
-		 0     /* n_params */,
-		 NULL  /* param_types */);
+  /* 
+     NOTE on signal registration: we don't need to register the 
+     'property-changed' signal because it's already registered
+     in GwpObject class.
+  */
 
   /* Property get/set methods */
   gobject_class->set_property = gwp_marker_set_property;
