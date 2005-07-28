@@ -5148,4 +5148,10 @@
   (return-type "none")
 )
 
+(define-method update
+  (of-object "GwpMarker")
+  (c-name "gwp_marker_update")
+  (return-type "none")
+)
+
 

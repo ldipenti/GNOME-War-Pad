@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.4  2005/07/28 03:17:34  ldipenti
+    Feature: update() method implemented, when coords change, the draw get updated
+
     Revision 1.3  2005/07/20 16:11:05  ldipenti
     Feature: First working prototype with starchart markers (cool!)
 
@@ -72,6 +75,7 @@ GwpMarker * gwp_marker_new (GwpStarchart *starchart);
 
 void gwp_marker_draw (GwpMarker *self);
 void gwp_marker_delete (GwpMarker *self);
+void gwp_marker_update (GwpMarker *self);
 
 /*
  * Standard defines.

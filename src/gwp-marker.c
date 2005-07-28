@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.5  2005/07/28 03:16:21  ldipenti
+    Feature: update() method implemented, when coords change, the draw get updated
+
     Revision 1.4  2005/07/27 03:56:10  ldipenti
     Feature: GwpObject migrated to GObject's properties, GwpMarker cleaned up a little...property-changed signal is inherited from GwpObject
 
@@ -94,7 +97,7 @@ static void gwp_marker_init (GTypeInstance *instance,
   self->priv = g_new0 (GwpMarkerPrivate, 1);
   self->priv->dispose_has_run = FALSE;
   /* Attributes initializacion */
-  self->priv->visible = TRUE;
+  self->priv->visible = FALSE;
   self->priv->comment = g_string_new ("");
   self->priv->color = g_string_new ("white");
   self->priv->comment_visible = FALSE;
@@ -212,7 +215,7 @@ static void gwp_marker_class_init (GwpMarkerClass *klass)
 				   g_param_spec_boolean ("visible",
 							 "Visible",
 							 "Whether show the marker or not",
-							 TRUE, /* default */
+							 FALSE, /* default */
 							 G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_COMMENT_VISIBLE,
 				   g_param_spec_boolean ("comment-visible",
@@ -245,6 +248,16 @@ gwp_marker_new (GwpStarchart *starchart)
 
   GwpMarker *new_marker = g_object_new (gwp_marker_get_type(), NULL);
   new_marker->priv->starchart = starchart;
+
+  /* Auto-connect to update signal */
+  g_signal_connect (new_marker,
+		    "property-changed::x-coord",
+		    G_CALLBACK(gwp_marker_update),
+		    NULL);
+  g_signal_connect (new_marker,
+		    "property-changed::y-coord",
+		    G_CALLBACK(gwp_marker_update),
+		    NULL);
 
   return new_marker;
 }
@@ -281,6 +294,9 @@ gwp_marker_draw (GwpMarker *self)
 				    0, 10, 
 				    10, 0,
 				    "red");
+  g_object_set (self,
+		"visible", TRUE,
+		NULL);
 }
 
 /**
@@ -300,4 +316,29 @@ gwp_marker_delete (GwpMarker *self)
 			     gwp_object_get_id(GWP_OBJECT(self)));
   /* Reset the ID */
   gwp_object_set_id (GWP_OBJECT(self), 0);
+
+  g_object_set (self,
+		"visible", FALSE,
+		NULL);
+}
+
+/**
+ * Updates marker's drawing
+ *
+ * @param self a GwpMarker
+ */
+void
+gwp_marker_update (GwpMarker *self)
+{
+  g_return_if_fail (GWP_IS_MARKER(self));
+
+  gboolean visible;
+  g_object_get (self,
+		"visible", &visible,
+		NULL);
+
+  if (visible) {
+    gwp_marker_delete (self);
+    gwp_marker_draw (self);
+  }
 }
