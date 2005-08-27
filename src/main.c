@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.32  2005/08/27 11:03:49  ldipenti
+    Bugfix: some typing mistake on ship's FC names
+
     Revision 1.31  2005/05/31 13:17:39  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -188,15 +191,15 @@ init_fc_widgets (void)
     {"btm", "<b>btm</b> ", _("<i>Transfer MC to ships at this location</i>")},
     {"btt", "<b>btt</b> ", _("<i>Transfer torpedoes to ships at this location</i>")},
     {"md1", "<b>md1</b> ", _("<i>Use 10 torpedoes to lay mine field</i>")},
-    {"md2", "<b>md1</b> ", _("<i>Use 20 torpedoes to lay mine field</i>")},
-    {"md3", "<b>md1</b> ", _("<i>Use 30 torpedoes to lay mine field</i>")},
-    {"md4", "<b>md1</b> ", _("<i>Use 40 torpedoes to lay mine field</i>")},
-    {"md5", "<b>md1</b> ", _("<i>Use 50 torpedoes to lay mine field</i>")},
-    {"md6", "<b>md1</b> ", _("<i>Use 60 torpedoes to lay mine field</i>")},
-    {"md7", "<b>md1</b> ", _("<i>Use 70 torpedoes to lay mine field</i>")},
-    {"md8", "<b>md1</b> ", _("<i>Use 80 torpedoes to lay mine field</i>")},
-    {"md9", "<b>md1</b> ", _("<i>Use 90 torpedoes to lay mine field</i>")},
-    {"md0", "<b>md1</b> ", _("<i>Use 100 torpedoes to lay mine field</i>")},
+    {"md2", "<b>md2</b> ", _("<i>Use 20 torpedoes to lay mine field</i>")},
+    {"md3", "<b>md3</b> ", _("<i>Use 30 torpedoes to lay mine field</i>")},
+    {"md4", "<b>md4</b> ", _("<i>Use 40 torpedoes to lay mine field</i>")},
+    {"md5", "<b>md5</b> ", _("<i>Use 50 torpedoes to lay mine field</i>")},
+    {"md6", "<b>md6</b> ", _("<i>Use 60 torpedoes to lay mine field</i>")},
+    {"md7", "<b>md7</b> ", _("<i>Use 70 torpedoes to lay mine field</i>")},
+    {"md8", "<b>md8</b> ", _("<i>Use 80 torpedoes to lay mine field</i>")},
+    {"md9", "<b>md9</b> ", _("<i>Use 90 torpedoes to lay mine field</i>")},
+    {"md0", "<b>md0</b> ", _("<i>Use 100 torpedoes to lay mine field</i>")},
     {"ee1", "<b>ee1</b> ", _("<i>Cancel alliance with The Feds</i>")},
     {"ee2", "<b>ee2</b> ", _("<i>Cancel alliance with The Lizards</i>")},
     {"ee3", "<b>ee3</b> ", _("<i>Cancel alliance with The Bird Men</i>")},
