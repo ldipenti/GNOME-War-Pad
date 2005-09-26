@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.78  2005/09/26 17:53:09  ldipenti
+    Bugfix: when some regexp don't match when scanning messages, some empty glists were tried to be freed, this wasn't necessary.
+
     Revision 1.77  2005/07/11 15:19:48  ldipenti
     Bugfix: gcc-4 compile errors fixed
 
@@ -1997,6 +2000,11 @@ void scan_messages_recycle_rate(const gchar *msg_body)
      free_substring(substring);
 }
 
+/* 
+ * FIXME: Please check this kind of regexp's, because when a game is not being
+ * played by all 11 races, they don't match at all!
+ * !!Warning!!: there are 4 or 5  scan_messages_*() functions with this regexp.
+ */
 void scan_messages_att_rat(const gchar *msg_body)
 {
      GList *substring = NULL;
@@ -2025,7 +2033,6 @@ void scan_messages_att_rat(const gchar *msg_body)
 
      gint rc = 0;
      rc = extract_from_message(msg_body, regexp, substring);
-    
      if (rc > 0)
      {
 /* 	  g_message(ratio1); */
@@ -2060,9 +2067,8 @@ void scan_messages_att_rat(const gchar *msg_body)
 	  gwp_game_state_set_host_crystal_web_mines(game_state, YES_OR_NO(web_mines));
 
 	  g_message("Host's config loaded 2");
+	  free_substring(substring);
      }
-
-     free_substring(substring);
 }
 
 void scan_messages_def_rat(const gchar *msg_body)
@@ -2130,9 +2136,8 @@ void scan_messages_def_rat(const gchar *msg_body)
 	  gwp_game_state_set_host_borg_assimilation_rate(game_state, YES_OR_NO(assimil));
 
 	  g_message("Host's config loaded 3");
+	  free_substring(substring);
      }
-
-     free_substring(substring);
 }
 
 void scan_messages_fig_starb(const gchar *msg_body)
@@ -2199,9 +2204,8 @@ void scan_messages_fig_starb(const gchar *msg_body)
 	  gwp_game_state_set_host_structure_decay(game_state, atoi(struc_decay));
 
 	  g_message("Host's config loaded 4");
+	  free_substring(substring);
      }
-
-     free_substring(substring);
 }
 
 void scan_messages_min_rat(const gchar *msg_body)
@@ -2268,10 +2272,8 @@ void scan_messages_min_rat(const gchar *msg_body)
 	  gwp_game_state_set_host_mine_detect_range (game_state, atoi(range));
 
 	  g_message("Host's config loaded 5");
+	  free_substring(substring);
      }
-
-     free_substring(substring);
-
 }
 
 void scan_messages_tax_rat(const gchar *msg_body)
@@ -2332,9 +2334,8 @@ void scan_messages_tax_rat(const gchar *msg_body)
 	  gwp_game_state_set_host_es_bonus_rate(game_state, atoi(es_rate));
 
 	  g_message("Host's config loaded 6");
+	  free_substring(substring);
      }
-
-     free_substring(substring);
 }
 
 void scan_messages_min_sweep(const gchar *msg_body)
@@ -2678,6 +2679,7 @@ scan_messages_planet_scanned (const gchar *msg_body)
  */
 int extract_from_message (const gchar *msg_body, const gchar *pattern, GList *info)
 {
+  g_message(pattern);
      pcre *re;
      const gchar *error;
      gint erroffset;
