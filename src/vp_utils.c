@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.79  2005/09/26 18:03:14  ldipenti
+    Typo: some g_message() left behind... :-)
+
     Revision 1.78  2005/09/26 17:53:09  ldipenti
     Bugfix: when some regexp don't match when scanning messages, some empty glists were tried to be freed, this wasn't necessary.
 
@@ -2679,7 +2682,6 @@ scan_messages_planet_scanned (const gchar *msg_body)
  */
 int extract_from_message (const gchar *msg_body, const gchar *pattern, GList *info)
 {
-  g_message(pattern);
      pcre *re;
      const gchar *error;
      gint erroffset;
