@@ -58,7 +58,7 @@ class Magallanes(gwp.Plugin):
 
         self.lst_razas.set_popdown_strings(self.slist)
             
-        return gtk.TRUE 
+        return True 
 
     def cargar_lista_naves(self, nro_raza):
         if nro_raza:
@@ -76,7 +76,7 @@ class Magallanes(gwp.Plugin):
 
         self.cmb_tipos_motores.set_popdown_strings(self.slist)
             
-        return gtk.TRUE 
+        return True 
         
     def cargar_tipos_rayos(self):
         self.slist = []
@@ -85,7 +85,7 @@ class Magallanes(gwp.Plugin):
 
         self.cmb_tipos_rayos.set_popdown_strings(self.slist)
             
-        return gtk.TRUE
+        return True
         
     def cargar_tipos_torpedos(self):
         self.slist = []
@@ -94,7 +94,7 @@ class Magallanes(gwp.Plugin):
 
         self.cmb_tipos_torpedos.set_popdown_strings(self.slist)
             
-        return gtk.TRUE 
+        return True 
 
     def cargar_datos_nave(self, id):
         self.nave = self.hulls[id]
@@ -156,9 +156,9 @@ class Magallanes(gwp.Plugin):
                     break
             idx = nro_raza - 1
             if presente:
-                r.append(gtk.TRUE)
+                r.append(True)
             else:
-                r.append(gtk.FALSE)
+                r.append(False)
         #seteo los botones
         self.setear_posesion(r)
 
@@ -341,7 +341,7 @@ class Magallanes(gwp.Plugin):
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
 	self.window.hide()
-        return gtk.TRUE
+        return True
 
     # Another callback
     def destroy(self, widget, data=None):

@@ -28,7 +28,7 @@ class PluginNavigator(gwp.Plugin):
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
         self.window.hide()
-        return gtk.TRUE
+        return True
 
     # Another callback
     def destroy(self, widget, data=None):
@@ -46,7 +46,7 @@ class PluginNavigator(gwp.Plugin):
             self.details_btn.set_label("_Show details >>")
     
     def __create_details_table(self):
-        table = gtk.Table (4, 2, gtk.FALSE)
+        table = gtk.Table (4, 2, False)
         ## Attach labels
         # Plugin Name
         table.attach (gtk.Label("Name:"),
@@ -94,7 +94,7 @@ class PluginNavigator(gwp.Plugin):
     
         # Widgets
         self.vbox = gtk.VBox()
-        self.vbox.set_homogeneous(gtk.FALSE)
+        self.vbox.set_homogeneous(False)
         self.list_scroll = gtk.ScrolledWindow()
         self.list_scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.list = gtk.TreeView()
@@ -107,13 +107,13 @@ class PluginNavigator(gwp.Plugin):
         self.details_author_lbl = gtk.Label("n/a")
         self.details_license_lbl = gtk.Label("n/a")
         self.details_desc_lbl = gtk.Label("n/a")
-        self.details_desc_lbl.set_line_wrap(gtk.TRUE)
+        self.details_desc_lbl.set_line_wrap(True)
 
         self.details_table = self.__create_details_table()
         # additions
-        self.vbox.pack_start(self.list_scroll, gtk.TRUE, gtk.TRUE, 0)
-        self.vbox.pack_start(self.details_frame, gtk.FALSE, gtk.TRUE, 0)
-        self.vbox.pack_start(self.details_btn, gtk.FALSE, gtk.TRUE, 0)
+        self.vbox.pack_start(self.list_scroll, True, True, 0)
+        self.vbox.pack_start(self.details_frame, False, True, 0)
+        self.vbox.pack_start(self.details_btn, False, True, 0)
         self.details_frame.add(self.details_table)
         self.list_scroll.add(self.list)
         self.window.add(self.vbox)

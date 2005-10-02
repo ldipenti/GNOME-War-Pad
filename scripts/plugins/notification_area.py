@@ -55,8 +55,8 @@ class NotificationArea(gwp.Plugin):
     # Create the interface
     def __create_gui(self):
         self.__toolbar = gtk.Toolbar()
-        self.__toolbar.set_tooltips(gtk.TRUE)
-        self.__toolbar.set_show_arrow(gtk.TRUE)
+        self.__toolbar.set_tooltips(True)
+        self.__toolbar.set_show_arrow(True)
         self.__toolbar.set_orientation(gtk.ORIENTATION_HORIZONTAL)
 
     # Add itself to the plugin slot

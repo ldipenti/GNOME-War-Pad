@@ -633,7 +633,7 @@ class Quark(gwp.Plugin):
     def delete_event(self, widget, event, data=None):
         """Hide window but not terminate plugin"""
         self.window.hide()
-        return gtk.TRUE
+        return True
 
     #--------------------------------------------------------------------------
     def register(self, pm):

@@ -66,7 +66,7 @@ class Uhura(gwp.Plugin):
         self.cabecera = gtk.HBox()
         self.cuerpo = gtk.HBox()
         self.msg_mgr = gtk.HBox()
-        #ventana.set_homogeneous(gtk.FALSE)
+        #ventana.set_homogeneous(False)
 
         # Widgets
         self.filtro_model = gtk.ListStore(str)
@@ -83,7 +83,7 @@ class Uhura(gwp.Plugin):
 
         self.item_list = gtk.TreeView()
         self.treeselection_items = self.item_list.get_selection()
-        self.item_list.set_headers_visible(gtk.FALSE)
+        self.item_list.set_headers_visible(False)
         self.store_items = gtk.ListStore(int, str, str)
         renderer = gtk.CellRendererText()
         col_planets = gtk.TreeViewColumn(None, renderer, text=1)
@@ -104,18 +104,18 @@ class Uhura(gwp.Plugin):
         self.botonera = gtk.VButtonBox()
 
         # Contenedores
-        self.cabecera.pack_start(self.filtro, gtk.FALSE, gtk.TRUE, 2)
-        self.cabecera.pack_start(self.descripcion, gtk.TRUE, gtk.TRUE, 2)
+        self.cabecera.pack_start(self.filtro, False, True, 2)
+        self.cabecera.pack_start(self.descripcion, True, True, 2)
 
 
-        self.msg_mgr.pack_start(self.text_scroll, gtk.TRUE, gtk.TRUE, 2)
-        self.msg_mgr.pack_start(self.botonera, gtk.FALSE, gtk.FALSE, 2)
+        self.msg_mgr.pack_start(self.text_scroll, True, True, 2)
+        self.msg_mgr.pack_start(self.botonera, False, False, 2)
 
-        self.cuerpo.pack_start(self.list_scroll, gtk.TRUE, gtk.TRUE, 2)
-        self.cuerpo.pack_start(self.msg_mgr, gtk.TRUE, gtk.TRUE, 2)
+        self.cuerpo.pack_start(self.list_scroll, True, True, 2)
+        self.cuerpo.pack_start(self.msg_mgr, True, True, 2)
 
-        self.ventana.pack_start(self.cabecera, gtk.FALSE, gtk.FALSE, 0)
-        self.ventana.pack_start(self.cuerpo, gtk.TRUE, gtk.TRUE, 0)
+        self.ventana.pack_start(self.cabecera, False, False, 0)
+        self.ventana.pack_start(self.cuerpo, True, True, 0)
 
         # Cargo datos
         #self.filtro.append_text("Planetas")
@@ -201,7 +201,7 @@ class Uhura(gwp.Plugin):
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
 	#self.window.hide()
-        return gtk.TRUE
+        return True
 
     # Another callback
     def destroy(self, widget, data=None):

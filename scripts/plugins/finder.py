@@ -210,7 +210,7 @@ class Finder(gwp.Plugin):
     # Hide window but not terminate plugin
     def delete_event(self, widget, event, data=None):
         self.window.hide()
-        return gtk.TRUE
+        return True
 
     # Another callback
     def destroy(self, widget, data=None):
@@ -232,17 +232,17 @@ class Finder(gwp.Plugin):
         # Widgets
         self.vbox = gtk.VBox()
         self.hbox = gtk.HBox()
-        self.vbox.set_homogeneous(gtk.FALSE)
+        self.vbox.set_homogeneous(False)
         self.search = gtk.Entry(1024)
         self.list_scroll = gtk.ScrolledWindow()
         self.list_scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.list = gtk.TreeView()
         self.btn = gtk.Button('Search')
         # additions
-        self.hbox.pack_start(self.search, gtk.TRUE, gtk.TRUE, 2)
-        self.hbox.pack_start(self.btn, gtk.FALSE, gtk.FALSE, 2)
-        self.vbox.pack_start(self.hbox, gtk.FALSE, gtk.FALSE, 0)
-        self.vbox.pack_start(self.list_scroll, gtk.TRUE, gtk.TRUE, 0)
+        self.hbox.pack_start(self.search, True, True, 2)
+        self.hbox.pack_start(self.btn, False, False, 2)
+        self.vbox.pack_start(self.hbox, False, False, 0)
+        self.vbox.pack_start(self.list_scroll, True, True, 0)
         self.list_scroll.add(self.list)
         self.window.add(self.vbox)
         # callbacks
@@ -254,13 +254,13 @@ class Finder(gwp.Plugin):
         # ID Column
         col_id = gtk.TreeViewColumn('#', renderer, text=0)
         col_id.set_sort_column_id(0)
-        col_id.set_sort_indicator(gtk.TRUE)        
+        col_id.set_sort_indicator(True)        
         # Name Column
         col_name = gtk.TreeViewColumn('Name', renderer, text=1)
         # Neu Column
         col_neu = gtk.TreeViewColumn('Neu', renderer, text=2)
         col_neu.set_sort_column_id(2)
-        col_neu.set_sort_indicator(gtk.TRUE)
+        col_neu.set_sort_indicator(True)
         # Add columns to model
         self.list.append_column(col_id)
         self.list.append_column(col_name)
@@ -272,7 +272,7 @@ class Finder(gwp.Plugin):
         self.list2 = gtk.TreeView()
         self.list2.get_selection().connect("changed", self.__on_planet_selected, None)
         # additions
-        self.vbox.pack_start(self.list2_scroll, gtk.TRUE, gtk.TRUE, 0)
+        self.vbox.pack_start(self.list2_scroll, True, True, 0)
         self.list2_scroll.add(self.list2)
         # treeview setup
         self.store2 = gtk.ListStore(int, str, int)
@@ -280,13 +280,13 @@ class Finder(gwp.Plugin):
         # ID Column
         col_id = gtk.TreeViewColumn('#', renderer, text=0)
         col_id.set_sort_column_id(0)
-        col_id.set_sort_indicator(gtk.TRUE)        
+        col_id.set_sort_indicator(True)        
         # Name Column
         col_name = gtk.TreeViewColumn('Name', renderer, text=1)
         # Colonos
         col_col = gtk.TreeViewColumn('Col', renderer, text=2)
         col_col.set_sort_column_id(2)
-        col_col.set_sort_indicator(gtk.TRUE)
+        col_col.set_sort_indicator(True)
         # Add columns to model
         self.list2.append_column(col_id)
         self.list2.append_column(col_name)
@@ -310,16 +310,16 @@ class Finder(gwp.Plugin):
         # Hide the window
         if event.keyval == gtk.gdk.keyval_from_name('Escape'):
             self.window.hide()
-            return gtk.TRUE
+            return True
         # A new search: grab focus on the search entry
         elif event.keyval == gtk.gdk.keyval_from_name('Delete'):
             if self.search.is_focus():
-                return gtk.FALSE
+                return False
             else:
                 self.search.grab_focus()
-                return gtk.TRUE
+                return True
         else:
-            return gtk.FALSE
+            return False
 
     # Dummy wrapper to real method
     def __main_menu_cb (self, widget, data=None):
