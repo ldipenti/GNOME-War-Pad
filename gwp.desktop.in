@@ -1,8 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=GNOME War Pad
-Comment=A VGA Planets client for GNOME
-Comment[es]=Un cliente VGA Planets para GNOME
+Comment=Conquest the Echo Cluster and extend your galactic empire
+Comment[es]=Conquista el Echo Cluster y extiende tu imperio galáctico
 Exec=gwp
 Icon=gwp.xpm
 Terminal=false
