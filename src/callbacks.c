@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.104  2005/10/03 11:06:19  ldipenti
+    Bugfix: Corrected about translator string
+
     Revision 1.103  2005/10/03 03:35:02  ldipenti
     Feature: all trail of deprecated GnomeFileEntry widgets from game manager are gone :-)
 
@@ -622,7 +625,8 @@ void on_about_activate(GtkWidget *widget)
       "Lucas Di Pentima <lucas@lunix.com.ar>",
       NULL
     };
-    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nFrançois Orieux <francois@orieux.eu.org> (French)\nCarlos Paulino <chgp@minaslivre.org> (Brazilian Portuguese)";
+    const gchar *translators = _("translator-name");
+    /*    const gchar *translators = "Lucas Di Pentima <lucas@lunix.com.ar> (Spanish)\nStefan Reuther <streu@gmx.de> (German)\nFrançois Orieux <francois@orieux.eu.org> (French)\nCarlos Paulino <chgp@minaslivre.org> (Brazilian Portuguese)"; */
 
     about_gwp = gnome_about_new(PACKAGE_NAME,
 				PACKAGE_VERSION,
