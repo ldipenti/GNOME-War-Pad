@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.42  2005/10/03 03:35:02  ldipenti
+    Feature: all trail of deprecated GnomeFileEntry widgets from game manager are gone :-)
+
     Revision 1.41  2005/05/31 13:17:38  ldipenti
     Feature: Added CVS metadata on source files
 
@@ -78,7 +81,7 @@ on_gwp_destroy_event                   (GtkWidget       *widget,
                                         GdkEvent        *event,
                                         gpointer         user_data);
 
-void on_game_mgr_game_dir_changed (GtkEditable *editable,
+void on_game_mgr_game_dir_changed (GtkFileChooser *chooser,
 				   gpointer user_data);
 
 void on_game_mgr_new_game (GtkWidget *widget,

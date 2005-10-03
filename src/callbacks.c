@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.103  2005/10/03 03:35:02  ldipenti
+    Feature: all trail of deprecated GnomeFileEntry widgets from game manager are gone :-)
+
     Revision 1.102  2005/07/05 02:36:11  ldipenti
     Feature: game property editor improved
 
@@ -279,14 +282,12 @@ starchart_event_pointer_motion         (GtkWidget       *widget,
  * game directory prefix, this function is called.
  */
 void 
-on_game_mgr_game_dir_changed (GtkEditable *editable,
+on_game_mgr_game_dir_changed (GtkFileChooser *chooser,
 			      gpointer user_data)
 {
-  char *dir;
   GtkWidget *btn_unpack = lookup_widget("game_mgr_btn_unpack");
 
-  dir = gtk_editable_get_chars(editable, 0, -1);
-  game_mgr_update_race_list(dir);
+  game_mgr_update_race_list(gtk_file_chooser_get_current_folder(chooser));
 
   /* Disable 'Unpack' Button */
   gtk_widget_set_sensitive(btn_unpack, FALSE);
@@ -419,9 +420,8 @@ on_game_mgr_properties_race_list_row_activated (GtkWidget *widget,
 		    "race_number", race);
 
   /* Check if it's neccesary to activate the 'unpack' button */
-  dir = gnome_file_entry_get_full_path((GnomeFileEntry *)
-				       lookup_widget("game_mgr_game_dir"),
-				       FALSE);
+  dir = gtk_file_chooser_get_current_folder ((GtkFileChooser *)
+					     lookup_widget("game_mgr_game_dir"));
   if(vp_can_unpack(dir, *race)) {
     GtkWidget *btn_unpack =
       lookup_widget("game_mgr_btn_unpack");
@@ -764,9 +764,8 @@ void on_game_mgr_btn_unpack_clicked (GtkWidget *widget,
 				    "race_number");
 
   game_dir = 
-    gnome_file_entry_get_full_path((GnomeFileEntry *)
-				   lookup_widget("game_mgr_game_dir"),
-				   FALSE);
+    gtk_file_chooser_get_current_folder ((GtkFileChooser *)
+					 lookup_widget("game_mgr_game_dir"));
   /* Unpack this game */
   vp_unpack(game_dir, *race);
 

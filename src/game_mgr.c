@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.65  2005/10/03 03:35:02  ldipenti
+    Feature: all trail of deprecated GnomeFileEntry widgets from game manager are gone :-)
+
     Revision 1.64  2005/10/03 01:13:54  ldipenti
     Feature: Some GnomeFileEntry widgets migrated to new ones in the game manager
 
@@ -210,11 +213,11 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
     lookup_widget("game_mgr_entry_player_email");
   GtkEntry *host_email = (GtkEntry *)
     lookup_widget("game_mgr_entry_host_email");
-  GnomeFileEntry *game_dir = (GnomeFileEntry *)
+  GtkFileChooserButton *game_dir = (GtkFileChooserButton *)
     lookup_widget("game_mgr_game_dir");
-  GnomeFileEntry *trn_dir = (GnomeFileEntry *)
+  GtkFileChooserButton *trn_dir = (GtkFileChooserButton *)
     lookup_widget("game_mgr_trn_dir");
-  GnomeFileEntry *rst_dir = (GnomeFileEntry *)
+  GtkFileChooserButton *rst_dir = (GtkFileChooserButton *)
     lookup_widget("game_mgr_rst_dir");
   GtkRadioButton *radio_thost = 
     (GtkRadioButton *) lookup_widget("radio_thost");
@@ -231,7 +234,8 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
 
   game_mgr_game_name_demangle(game_name_str);
 
-  gnome_file_entry_set_filename(game_dir, gwp_game_state_get_dir(settings));
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(game_dir), 
+				       gwp_game_state_get_dir(settings));
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(trn_dir),
 				       gwp_game_state_get_trn_dir(settings));
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(rst_dir),
@@ -378,12 +382,12 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
 {
   g_assert (GWP_IS_GAME_STATE(settings));
 
-  GnomeFileEntry *game_dir = 
-    (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
-  GnomeFileEntry *trn_dir = 
-    (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
-  GnomeFileEntry *rst_dir =
-    (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
+  GtkFileChooserButton *game_dir = 
+    (GtkFileChooserButton *) lookup_widget("game_mgr_game_dir");
+  GtkFileChooserButton *trn_dir = 
+    (GtkFileChooserButton *) lookup_widget("game_mgr_trn_dir");
+  GtkFileChooserButton *rst_dir =
+    (GtkFileChooserButton *) lookup_widget("game_mgr_rst_dir");
   GtkEntry *game_name = 
     (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
   GtkEntry *player_email =
@@ -400,7 +404,7 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
   gchar *name;
   
   gwp_game_state_set_dir(settings,
-			 gnome_file_entry_get_full_path(game_dir, FALSE));
+			 gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(game_dir)));
   
   name = g_strdup (gtk_entry_get_text(game_name));
   /* Tranform "game name" to "game_name" */
@@ -435,28 +439,29 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
 gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 					const gint icon_number)
 {
-  GnomeFileEntry *game_dir = 
-    (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
+  GtkFileChooserButton *game_dir = 
+    (GtkFileChooserButton *) lookup_widget("game_mgr_game_dir");
   GtkEntry *game_name = 
     (GtkEntry *) lookup_widget("game_mgr_entry_game_name");
   GtkTreeView *race_l = 
     (GtkTreeView *) lookup_widget("game_mgr_properties_race_list");
-  GnomeFileEntry *trn_dir =
-    (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
-  GnomeFileEntry *rst_dir =
-    (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
+  GtkFileChooserButton *trn_dir =
+    (GtkFileChooserButton *) lookup_widget("game_mgr_trn_dir");
+  GtkFileChooserButton *rst_dir =
+    (GtkFileChooserButton *) lookup_widget("game_mgr_rst_dir");
   gchar *game_name_str;
 
   /*
    * Check if game dir exists
    */
-  if(! g_file_test(gnome_file_entry_get_full_path(game_dir, FALSE), 
+  if(! g_file_test(gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(game_dir)), 
 		   G_FILE_TEST_IS_DIR)) {
     if(show_warnings) {
       GtkWidget *warn;
       
       warn = gwp_warning_dialog_new (game_mgr_properties,
-				     g_strdup_printf(_("Game directory '%s' doesn't exist"), gnome_file_entry_get_full_path(game_dir, FALSE)),
+				     g_strdup_printf(_("Game directory '%s' doesn't exist"),
+						     gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(game_dir))),
 				     NULL);
 
       gtk_dialog_run(GTK_DIALOG(warn));
@@ -536,13 +541,11 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
   /* auto-validations */
   if (!gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(trn_dir))) {
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(trn_dir),
-					 gnome_file_entry_get_full_path(game_dir,
-									FALSE));
+					 gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(game_dir)));
   }
   if (!gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(rst_dir))) {
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(rst_dir),
-					 gnome_file_entry_get_full_path(game_dir,
-									FALSE));
+					 gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(game_dir)));
   }
 
   /* All ok!, lets continue... */
@@ -552,7 +555,7 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
 void game_mgr_properties_dlg_clean(void)
 {
   GtkEntry *entry;
-  GnomeFileEntry *fentry;
+  GtkFileChooserButton *fentry;
   GtkTreeView *race_list;
   GtkListStore *store;
 
@@ -571,14 +574,14 @@ void game_mgr_properties_dlg_clean(void)
   entry = (GtkEntry *) lookup_widget("game_mgr_entry_host_email");
   gtk_entry_set_text(entry, "");
 
-  fentry = (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
+  fentry = (GtkFileChooserButton *) lookup_widget("game_mgr_trn_dir");
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(fentry), "");
 
-  fentry = (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
+  fentry = (GtkFileChooserButton *) lookup_widget("game_mgr_rst_dir");
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(fentry), "");
 
-  fentry = (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
-  gnome_file_entry_set_filename(fentry, "");
+  fentry = (GtkFileChooserButton *) lookup_widget("game_mgr_game_dir");
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(fentry), "");
   gtk_widget_set_sensitive (GTK_WIDGET(fentry), TRUE);
 }
 
