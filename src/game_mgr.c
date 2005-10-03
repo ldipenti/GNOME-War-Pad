@@ -22,6 +22,9 @@
     $Revision$
     
     $Log$
+    Revision 1.64  2005/10/03 01:13:54  ldipenti
+    Feature: Some GnomeFileEntry widgets migrated to new ones in the game manager
+
     Revision 1.63  2005/07/05 02:36:11  ldipenti
     Feature: game property editor improved
 
@@ -156,8 +159,8 @@ void game_mgr_update_race_list(char *dir_param)
     rst_dir = (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
     
     /* Set default dir to some controls */
-    gnome_file_entry_set_default_path(trn_dir, dir);
-    gnome_file_entry_set_default_path(rst_dir, dir);
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(trn_dir), dir);
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(rst_dir), dir);
 
     for (i = 1; i <= 11; i++) {
       pdata = g_string_new ("pdata");
@@ -229,8 +232,10 @@ gboolean game_mgr_properties_dlg_fill(GwpGameState *settings)
   game_mgr_game_name_demangle(game_name_str);
 
   gnome_file_entry_set_filename(game_dir, gwp_game_state_get_dir(settings));
-  gnome_file_entry_set_filename(trn_dir, gwp_game_state_get_trn_dir(settings));
-  gnome_file_entry_set_filename(rst_dir, gwp_game_state_get_rst_dir(settings));
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(trn_dir),
+				       gwp_game_state_get_trn_dir(settings));
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(rst_dir),
+				       gwp_game_state_get_rst_dir(settings));
 
   gtk_entry_set_text(game_name, game_name_str);
   gtk_entry_set_text(player_email, gwp_game_state_get_player_email(settings));
@@ -403,9 +408,9 @@ void game_mgr_properties_dlg_get_settings(GwpGameState *settings)
   gwp_game_state_set_name (settings, name);
   
   gwp_game_state_set_trn_dir (settings,
-			      gnome_file_entry_get_full_path(trn_dir, FALSE));
+			      gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(trn_dir)));
   gwp_game_state_set_rst_dir (settings,
-			      gnome_file_entry_get_full_path(rst_dir, FALSE));
+			      gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(rst_dir)));
   gwp_game_state_set_player_email (settings, 
 				   g_strdup(gtk_entry_get_text(player_email)));
   gwp_game_state_set_host_email (settings, 
@@ -529,16 +534,15 @@ gboolean game_mgr_properties_dlg_all_ok(gboolean show_warnings,
   }
 
   /* auto-validations */
-  if(! gnome_file_entry_get_full_path(trn_dir, FALSE)) {
-    gnome_file_entry_set_filename(trn_dir,
-				  gnome_file_entry_get_full_path(game_dir,
-								 FALSE));
+  if (!gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(trn_dir))) {
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(trn_dir),
+					 gnome_file_entry_get_full_path(game_dir,
+									FALSE));
   }
-
-  if(! gnome_file_entry_get_full_path(rst_dir, FALSE)) {
-    gnome_file_entry_set_filename(rst_dir,
-				  gnome_file_entry_get_full_path(game_dir,
-								 FALSE));
+  if (!gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(rst_dir))) {
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(rst_dir),
+					 gnome_file_entry_get_full_path(game_dir,
+									FALSE));
   }
 
   /* All ok!, lets continue... */
@@ -568,10 +572,10 @@ void game_mgr_properties_dlg_clean(void)
   gtk_entry_set_text(entry, "");
 
   fentry = (GnomeFileEntry *) lookup_widget("game_mgr_trn_dir");
-  gnome_file_entry_set_filename(fentry, "");
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(fentry), "");
 
   fentry = (GnomeFileEntry *) lookup_widget("game_mgr_rst_dir");
-  gnome_file_entry_set_filename(fentry, "");
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(fentry), "");
 
   fentry = (GnomeFileEntry *) lookup_widget("game_mgr_game_dir");
   gnome_file_entry_set_filename(fentry, "");
