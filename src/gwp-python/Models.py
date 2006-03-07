@@ -3,6 +3,10 @@
 from gtkmvc.model import Model
 
 class Starchart(Model):
+    '''
+    This class represents the Echo Cluster, a piece of the Universe where
+    lots of things happen everyday...
+    '''
     __properties__ = {
         }
     # Coordinate bounds
@@ -38,3 +42,76 @@ class Starchart(Model):
         return
 
     pass # End of Starchart class
+
+# The good old GwpObject class...reloaded!
+class FloatingObject(Model):
+    '''
+    This class represents any object that floats in the cold and dark
+    universe, and can be showed in the Starchart. This class is meant to
+    be an abstract class
+    '''
+    id = None
+    name = None
+    x = 0
+    y = 0
+    
+    def __init__(self, x, y):
+        Model.__init__(self)
+        self.x = x
+        self.y = y
+        return
+
+    def __setattr__(self, name, value):
+        '''
+        Some constrains on attribute settings
+        '''
+        # Coordinates shouldn't be negative
+        if name == 'x':
+            if value < 0:
+                raise ValueError
+            else:
+                Model.__setattr__(self, 'x', value)
+        elif name == 'y':
+            if value < 0:
+                raise ValueError
+            else:
+                Model.__setattr__(self, 'y', value)
+        else:
+            Model.__setattr__(self, name, value)
+        return
+    
+    pass # End of FloatingObject class
+
+
+class FlyingObject(FloatingObject):
+    '''
+    Any object in space that moves (ships, meteors, storms, etc...)
+    '''
+    heading = 0 # 0 - 360 degrees
+    speed = 0 # warp speed: 0 - 9
+    
+    def __init__(self, x, y, heading, speed):
+        FloatingObject.__init__(self, x, y)
+        self.heading = heading
+        self.speed = speed
+        return
+
+    def __setattr__(self, name, value):
+        '''
+        Custom attribute constrains
+        '''
+        if name == 'heading':
+            if value < 0 or value > 360:
+                raise ValueError
+            else:
+                FloatingObject.__setattr__(self, 'heading', value)
+        elif name == 'speed':
+            if value < 0 or value > 9:
+                raise ValueError
+            else:
+                FloatingObject.__setattr__(self, 'speed', value)
+        else:
+            FloatingObject.__setattr__(self, name, value)
+        return
+
+    pass # End of FlyingObject class
