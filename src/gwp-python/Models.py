@@ -115,3 +115,13 @@ class FlyingObject(FloatingObject):
         return
 
     pass # End of FlyingObject class
+
+class Ship(FlyingObject):
+    '''
+    A starship object
+    '''
+    def __init__(self, x, y, heading, speed):
+        FlyingObject.__init__(x, y, heading, speed)
+        return
+
+    pass # End of Ship class
