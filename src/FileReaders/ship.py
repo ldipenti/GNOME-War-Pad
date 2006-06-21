@@ -25,7 +25,7 @@ class ShipFile(file):
                 'id' : a[0],
                 'owner' : a[1],
                 'fcode' : a[2],
-                'warp' : a[3],
+                'speed' : a[3],
                 'x_to_waypoint' : a[4],
                 'y_to_waypoint' : a[5],
                 'x' : a[6],

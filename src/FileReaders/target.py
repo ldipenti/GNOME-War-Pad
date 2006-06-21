@@ -24,7 +24,7 @@ class TargetFile(file):
             target = {
                 'id' : a[0],
                 'owner' : a[1],
-                'warp' : a[2],
+                'speed' : a[2],
                 'x' : a[3],
                 'y' : a[4],
                 'hull_type' : a[5],
