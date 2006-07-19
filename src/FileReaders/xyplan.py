@@ -23,6 +23,13 @@ class XYPlanFile(gnomevfs.Handle):
                             'y' : a[1],
                             'owner' : a[2],
                             }
-            ret[planet_id] = planet_coord
+            # Let us check if this planet should be loaded...
+            # either or both coordinates must be in range 1..8999
+            if planet_coord['x'] > 0 and planet_coord['x'] <= 9000:
+                ret[planet_id] = planet_coord
+            elif planet_coord['y'] > 0 and planet_coord['y'] <= 9000:
+                ret[planet_id] = planet_coord
+            else:
+                continue
         return ret
     pass
