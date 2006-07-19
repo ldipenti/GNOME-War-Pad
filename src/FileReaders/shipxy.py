@@ -2,9 +2,9 @@
 # Ship coordinates
 
 import struct
-import os.path
+import gnomevfs
 
-class ShipXYFile(file):
+class ShipXYFile(gnomevfs.Handle):
     '''
     Ship coordinates file reader
     
@@ -18,14 +18,14 @@ class ShipXYFile(file):
     ship_nr = 0
 
     def __init__(self, filename):
-        if os.path.getsize(filename) == 4010:
+        super(ShipXYFile, self).__init__(gnomevfs.URI(filename))
+        
+        if self.get_file_info().size == 4010:
             self.ship_nr = 500
-        elif os.path.getsize(filename) == 8002:
+        elif self.get_file_info().size == 8002:
             self.ship_nr = 999
         else:
             raise "Wrong file size reading file '%s'" % filename
-
-        file.__init__(self, filename, 'r')
         return
 
     def read(self):

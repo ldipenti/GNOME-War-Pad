@@ -1,15 +1,16 @@
 # PDATAx.DAT/DIS file reader
 
 import struct
+import gnomevfs
 
-class PDataFile(file):
+class PDataFile(gnomevfs.Handle):
     '''
     Planets data file: Handles the pdata.dis/dat file format abstraction
     '''
     pdata_size = 85 # Planet register size
     
     def __init__(self, filename):
-        file.__init__(self, filename, 'r')
+        super(PDataFile, self).__init__(gnomevfs.URI(filename))
         return
 
     def read(self):

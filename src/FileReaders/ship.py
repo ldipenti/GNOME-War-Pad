@@ -2,15 +2,16 @@
 # My ships data
 
 import struct
+import gnomevfs
 
-class ShipFile(file):
+class ShipFile(gnomevfs.Handle):
     '''
     Ship data file reader
     '''
     reg_size = 107
 
     def __init__(self, filename):
-        file.__init__(self, filename, 'r')
+        super(ShipFile, self).__init__(gnomevfs.URI(filename))
         return
 
     def read(self):
