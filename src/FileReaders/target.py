@@ -2,16 +2,16 @@
 # Enemy contacts data
 
 import struct
-import gnomevfs
+import FileReaders
 
-class TargetFile(gnomevfs.Handle):
+class TargetFile(FileReaders.CaseInsensitiveFile):
     '''
     Enemy ships file reader
     '''
     reg_size = 34
 
     def __init__(self, filename):
-        super(TargetFile, self).__init__(gnomevfs.URI(filename))
+        super(TargetFile, self).__init__(filename)
         return
 
     def read(self):

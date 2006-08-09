@@ -2,9 +2,9 @@
 # Ship coordinates
 
 import struct
-import gnomevfs
+import FileReaders
 
-class ShipXYFile(gnomevfs.Handle):
+class ShipXYFile(FileReaders.CaseInsensitiveFile):
     '''
     Ship coordinates file reader
     
@@ -18,7 +18,7 @@ class ShipXYFile(gnomevfs.Handle):
     ship_nr = 0
 
     def __init__(self, filename):
-        super(ShipXYFile, self).__init__(gnomevfs.URI(filename))
+        super(ShipXYFile, self).__init__(filename)
         
         if self.get_file_info().size == 4010:
             self.ship_nr = 500

@@ -1,16 +1,16 @@
 # BDATAx.DAT/DIS file reader
 
 import struct
-import gnomevfs
+import FileReaders
 
-class BDataFile(gnomevfs.Handle):
+class BDataFile(FileReaders.CaseInsensitiveFile):
     '''
     Starbase data file: Handles the bdata.dis/dat file format abstraction
     '''
     bdata_size = 156 # Starbase register size
     
     def __init__(self, filename):
-        super(BDataFile, self).__init__(gnomevfs.URI(filename))
+        super(BDataFile, self).__init__(filename)
         return
 
     def read(self):

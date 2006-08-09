@@ -1,15 +1,15 @@
 # RACE.NM file reader
 
 import struct
-import gnomevfs
+import FileReaders
 
-class RaceNMFile(gnomevfs.Handle):
+class RaceNMFile(FileReaders.CaseInsensitiveFile):
     '''
     Race Names file: Handles the race.nm file format abstraction
     '''
     
     def __init__(self, filename):
-        super(RaceNMFile, self).__init__(gnomevfs.URI(filename))
+        super(RaceNMFile, self).__init__(filename)
         return
 
     def read(self, racenum=None):

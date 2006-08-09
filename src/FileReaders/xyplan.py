@@ -1,15 +1,15 @@
 # XYPLAN.DAT file reader
 
 import struct
-import gnomevfs
+import FileReaders
 
-class XYPlanFile(gnomevfs.Handle):
+class XYPlanFile(FileReaders.CaseInsensitiveFile):
     '''
     Planets coordinates file reader
     '''
     reg_size = 6
     def __init__(self, filename):
-        super(XYPlanFile, self).__init__(gnomevfs.URI(filename))
+        super(XYPlanFile, self).__init__(filename)
         return
 
     def read(self):

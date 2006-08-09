@@ -1,9 +1,9 @@
 # KOREx.DAT file reader
 
 import struct
-import gnomevfs
+import FileReaders
 
-class KoreFile(gnomevfs.Handle):
+class KoreFile(FileReaders.CaseInsensitiveFile):
     '''
     Additional contacts file reader
     '''
@@ -12,7 +12,7 @@ class KoreFile(gnomevfs.Handle):
     contact_reg_size = 34
     
     def __init__(self, filename):
-        super(KoreFile, self).__init__(gnomevfs.URI(filename))
+        super(KoreFile, self).__init__(filename)
         return
 
     def read(self):
