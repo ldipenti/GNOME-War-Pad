@@ -12,7 +12,7 @@ class CaseInsensitiveFile(gnomevfs.Handle):
         uri = gnomevfs.URI(filename)
         # Get parent dir contents
         files = []
-        for f in gnomevfs.DirectoryHandle(uri.dirname):
+        for f in gnomevfs.DirectoryHandle(uri.parent):
             files.append(f)
         # Collect similar file names
         matches = []
@@ -23,7 +23,7 @@ class CaseInsensitiveFile(gnomevfs.Handle):
         # Check for unique match
         if len(matches) == 1:
             print "Found: " + matches[0].name
-            real_uri = gnomevfs.URI(uri.dirname + '/' + matches[0].name)
+            real_uri = gnomevfs.URI(str(uri.parent) + '/' + matches[0].name)
             super(CaseInsensitiveFile, self).__init__(real_uri)
         else:
             print "OUCH! found " + str(len(matches)) + " matches"
