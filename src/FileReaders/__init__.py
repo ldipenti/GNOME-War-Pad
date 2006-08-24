@@ -9,5 +9,6 @@ from shipxy import ShipXYFile
 from ship import ShipFile
 from target import TargetFile
 from kore import KoreFile
+from planetnm import PlanetNMFile
 
-__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile"]
+__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile"]
