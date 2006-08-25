@@ -116,6 +116,7 @@ class FlyingObject(FloatingObject):
 
     pass # End of FlyingObject class
 
+
 class Ship(FlyingObject):
     '''
     A starship object
@@ -125,3 +126,59 @@ class Ship(FlyingObject):
         return
 
     pass # End of Ship class
+
+
+class Planet(FloatingObject):
+    '''
+    A rock in the sky
+    '''
+    is_known = False
+    ground_dur = 0
+    happ_colonists = 0
+    owner = -1
+    natives_race = -1
+    id = 0
+    temperature = -1
+    mined_tri = 0
+    mines = 0
+    fcode = 0
+    ground_mol = 0
+    colonists = -1
+    tax_colonists = 0
+    supplies = 0
+    dens_mol = 0
+    happ_natives = 0
+    megacredits = 0
+    dens_dur = 0
+    ground_neu = 0
+    defenses = 0
+    mined_neu = 0
+    mined_mol = 0
+    tax_natives = 0
+    factories = 0
+    ground_tri = 0
+    mined_dur = 0
+    build_base = 0
+    natives_spi = 0
+    dens_neu = 0
+    dens_tri = 0
+    natives = 0
+
+    def __init__(self, x, y, name, pdata=None):
+        super(Planet, self).__init__(x, y)
+        self.name = name
+        if pdata != None:
+            self.is_known = True
+            # Load all other data coming from PDATAx.DAT file reader class
+            attrs = ['ground_dur', 'happ_colonists', 'owner', 'natives_race',
+                     'id', 'temperature', 'mined_tri', 'mines', 'fcode',
+                     'ground_mol', 'colonists', 'tax_colonists', 'supplies',
+                     'dens_mol', 'happ_natives', 'megacredits', 'dens_dur',
+                     'ground_neu', 'defenses', 'mined_neu', 'mined_mol',
+                     'tax_natives', 'factories', 'ground_tri', 'mined_dur',
+                     'build_base', 'natives_spi', 'dens_neu', 'dens_tri',
+                     'natives']
+            for a in attrs:
+                setattr(self, a, pdata[a])
+        return
+    pass
