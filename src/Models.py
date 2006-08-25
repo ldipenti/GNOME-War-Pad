@@ -163,6 +163,7 @@ class Planet(FloatingObject):
     dens_neu = 0
     dens_tri = 0
     natives = 0
+    selected = False
 
     def __init__(self, x, y, name, pdata=None):
         super(Planet, self).__init__(x, y)
