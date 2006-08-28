@@ -25,7 +25,30 @@ BORDER_WIDTH = 10
 import Collections
 import random
 
-planetas = Collections.PlanetCollection('/home/ldipenti/VP/ARGF4/', 8).values()
+class StarchartFloatingObject(object):
+    '''
+    A drawable object in the starchart
+    '''
+    def __init__(self, obj):
+        super(StarchartFloatingObject, self).__init__()
+        self.obj = obj
+        return
+
+    def __getattr__(self, attr):
+        if attr == 'x':
+            return self.getX()
+        elif attr == 'y':
+            return self.getY()
+        else:
+            return self.obj.__getattribute__(attr)
+        return
+
+    def getX(self):
+        return self.obj.x - 1000
+
+    def getY(self):
+        return (self.obj.y - 3000) * -1
+    pass # End of class
 
 class Point:
     def __init__(self,x,y):
@@ -34,6 +57,9 @@ class Point:
 
     def __repr__(self):
         return str((self.x, self.y))
+
+planetas = Collections.PlanetCollection('/home/ldipenti/VP/ARGF4/', 8).values()
+planetas = map(lambda x: StarchartFloatingObject(x), planetas)
 
 viewport = [Point(850.0,850.0),Point(1150.0,1150.0)]
 viewport_prev = [Point(850.0,850.0),Point(1150.0,1150.0)]
@@ -127,8 +153,9 @@ class PyGtkWidget(gtk.DrawingArea):
         self.start.y = e.y
 
         #detect the planet.
-        (x, y) = convertCoords(viewport, w, e.x, e.y)
-        pid = find_closest_planet(x,y)
+        #(x, y) = convertCoords(viewport, w, e.x, e.y)
+        pid = find_closest_planet(e.x,e.y)
+        print pid
         planetas[pid].selected = not planetas[pid].selected
         self.draw()
         #Redibujamos el widget
@@ -212,28 +239,28 @@ class PyGtkWidget(gtk.DrawingArea):
             cr.set_source_rgba(1, 0.5, 0.5, 0.7) 
             cr.set_line_width (5)
             cr.move_to(my_x+15,my_y)
-            h = p.ground_neu * 0.2
+            h = p.ground_neu * (30.0 / 20000.0)
             cr.line_to(my_x+15,my_y - h)
             cr.stroke()
             #tri
             cr.set_source_rgba(0.5, 1, 0.5, 0.7) 
             cr.set_line_width (5)
             cr.move_to(my_x+20,my_y)
-            h = p.ground_tri * 0.2
+            h = p.ground_tri * (30.0 / 20000.0)
             cr.line_to(my_x+20,my_y - h)
             cr.stroke()
             #dur
             cr.set_source_rgba(0.5, 0.5, 1, 0.7) 
             cr.set_line_width (5)
             cr.move_to(my_x+25,my_y)
-            h = p.ground_dur * 0.2
+            h = p.ground_dur * (30.0 / 20000.0)
             cr.line_to(my_x+25,my_y - h)
             cr.stroke()
             #mol
             cr.set_source_rgba(1, 1, 1, 0.7) 
             cr.set_line_width (5)
             cr.move_to(my_x+30,my_y)
-            h = p.ground_mol * 0.2
+            h = p.ground_mol * (30.0 / 20000.0)
             cr.line_to(my_x+30,my_y - h)
             cr.stroke()
 
