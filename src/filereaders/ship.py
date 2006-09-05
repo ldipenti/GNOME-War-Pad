@@ -2,9 +2,9 @@
 # My ships data
 
 import struct
-import FileReaders
+import filereaders
 
-class ShipFile(FileReaders.CaseInsensitiveFile):
+class ShipFile(filereaders.CaseInsensitiveFile):
     '''
     Ship data file reader
     '''

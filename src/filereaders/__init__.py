@@ -1,4 +1,4 @@
-# FileReaders module initialization
+# filereaders module initialization
 
 from casefile import CaseInsensitiveFile
 from pdata import PDataFile
@@ -10,5 +10,7 @@ from ship import ShipFile
 from target import TargetFile
 from kore import KoreFile
 from planetnm import PlanetNMFile
+from beamspec import BeamspecFile
+from engspec import EngspecFile
 
-__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile"]
+__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile", "BeamspecFile", "EngspecFile"]

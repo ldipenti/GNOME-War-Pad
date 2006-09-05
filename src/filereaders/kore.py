@@ -1,9 +1,9 @@
 # KOREx.DAT file reader
 
 import struct
-import FileReaders
+import filereaders
 
-class KoreFile(FileReaders.CaseInsensitiveFile):
+class KoreFile(filereaders.CaseInsensitiveFile):
     '''
     Additional contacts file reader
     '''

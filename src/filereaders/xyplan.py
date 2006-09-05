@@ -1,9 +1,9 @@
 # XYPLAN.DAT file reader
 
 import struct
-import FileReaders
+import filereaders
 
-class XYPlanFile(FileReaders.CaseInsensitiveFile):
+class XYPlanFile(filereaders.CaseInsensitiveFile):
     '''
     Planets coordinates file reader
     '''

@@ -2,9 +2,9 @@
 # Ship coordinates
 
 import struct
-import FileReaders
+import filereaders
 
-class ShipXYFile(FileReaders.CaseInsensitiveFile):
+class ShipXYFile(filereaders.CaseInsensitiveFile):
     '''
     Ship coordinates file reader
     

@@ -1,9 +1,9 @@
 # PDATAx.DAT/DIS file reader
 
 import struct
-import FileReaders
+import filereaders
 
-class PDataFile(FileReaders.CaseInsensitiveFile):
+class PDataFile(filereaders.CaseInsensitiveFile):
     '''
     Planets data file: Handles the pdata.dis/dat file format abstraction
     '''

@@ -1,9 +1,9 @@
 # Several collections
 
-from FileReaders import RaceNMFile
-from FileReaders import XYPlanFile
-from FileReaders import PlanetNMFile
-from FileReaders import PDataFile
+from filereaders import RaceNMFile
+from filereaders import XYPlanFile
+from filereaders import PlanetNMFile
+from filereaders import PDataFile
 from Models import Planet
 
 class RaceList(list):

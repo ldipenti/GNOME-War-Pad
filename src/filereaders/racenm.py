@@ -1,9 +1,9 @@
 # RACE.NM file reader
 
 import struct
-import FileReaders
+import filereaders
 
-class RaceNMFile(FileReaders.CaseInsensitiveFile):
+class RaceNMFile(filereaders.CaseInsensitiveFile):
     '''
     Race Names file: Handles the race.nm file format abstraction
     '''

@@ -2,9 +2,9 @@
 # Enemy contacts data
 
 import struct
-import FileReaders
+import filereaders
 
-class TargetFile(FileReaders.CaseInsensitiveFile):
+class TargetFile(filereaders.CaseInsensitiveFile):
     '''
     Enemy ships file reader
     '''
