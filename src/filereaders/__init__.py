@@ -12,5 +12,8 @@ from kore import KoreFile
 from planetnm import PlanetNMFile
 from beamspec import BeamspecFile
 from engspec import EngspecFile
+from torpspec import TorpspecFile
+from hullspec import HullspecFile
+from truehull import TruehullFile
 
-__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile", "BeamspecFile", "EngspecFile"]
+__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile", "BeamspecFile", "EngspecFile", "TorpspecFile", "HullspecFile", "TruehullFile"]

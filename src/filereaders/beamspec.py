@@ -9,7 +9,7 @@ class BeamspecFile(filereaders.CaseInsensitiveFile):
     Beam weapons specs
     
     A beamspec record:
-     +0  20 BYTEs   Name
+      +0  20 BYTEs   Name
      +20     WORD    Cost (mc)
      +22     WORD    Tritanium needed
      +24     WORD    Duranium needed
@@ -28,7 +28,7 @@ class BeamspecFile(filereaders.CaseInsensitiveFile):
     def read(self):
         self.seek(0)
         ret = []
-        for beam_nr in range (10):
+        for beam_nr in range(10):
             a = struct.unpack("<20s 8H",
                               super(BeamspecFile, self).read(self.reg_size))
             beamspec = {
