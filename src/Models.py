@@ -183,3 +183,55 @@ class Planet(FloatingObject):
                 setattr(self, a, pdata[a])
         return
     pass
+
+class Hull:
+    '''
+    A starship hull
+    '''
+    def __init__(self, hullspec):
+        # Load all hullspec data from file reader class
+        attrs = ['name', 'pic_nr', 'tri', 'dur', 'mol', 'fuel', 'crew',
+                 'engines', 'mass', 'tech', 'cargo', 'fighter_bays',
+                 'torp_launchers', 'beam_weapons', 'cost']
+        for a in attrs:
+            setattr(self, a, hullspec[a])
+        return
+    pass # End of Hull class
+
+class Beam:
+    '''
+    A starship beam weapon
+    '''
+    def __init__(self, beamspec):
+        # Load all beamspec data from file reader class
+        attrs = ['name', 'cost', 'tri', 'dur', 'mol', 'mass', 'tech',
+                 'kill', 'damage']
+        for a in attrs:
+            setattr(self, a, beamspec[a])
+        return
+    pass # End of Beam class
+
+class Engine:
+    '''
+    A starship engine
+    '''
+    def __init__(self, engspec):
+        # Load all engspec data from file reader class
+        attrs = ['name', 'cost', 'tri', 'dur', 'mol', 'tech', 'fuel_use']
+        for a in attrs:
+            setattr(self, a, engspec[a])
+        return
+    pass # End of Engine class
+
+class Torpedo:
+    '''
+    A starship torpedo launcher weapon
+    '''
+    def __init__(self, torpspec):
+        # Load all torpspec data from file reader class
+        attrs = ['name', 'torp_cost', 'launcher_cost', 'tri', 'dur', 'mol',
+                 'mass', 'tech', 'kill', 'damage']
+        for a in attrs:
+            setattr(self, a, torpspec[a])
+        return
+    pass # End of Torpedo class

@@ -4,7 +4,15 @@ from filereaders import RaceNMFile
 from filereaders import XYPlanFile
 from filereaders import PlanetNMFile
 from filereaders import PDataFile
+from filereaders import HullspecFile
+from filereaders import BeamspecFile
+from filereaders import TorpspecFile
+from filereaders import EngspecFile
 from Models import Planet
+from Models import Hull
+from Models import Beam
+from Models import Torpedo
+from Models import Engine
 
 class RaceList(list):
     '''
@@ -74,3 +82,63 @@ class PlanetCollection(dict):
                 self[xy].id = xy
         return
     pass
+
+class HullCollection(list):
+    '''
+    The entire collection of starship hulls on the game
+    '''
+    def __init__(self, gamedir):
+        list.__init__(self)
+        # data loading
+        hulls = HullspecFile(gamedir + 'hullspec.dat')
+        for hulldata in hulls.read():
+            hull = Hull(hulldata)
+            self.append(hull)
+        hulls.close()
+        return
+    pass # End of HullCollection class
+
+class BeamCollection(list):
+    '''
+    The entire collection of starship beam weapons on the game
+    '''
+    def __init__(self, gamedir):
+        list.__init__(self)
+        # data loading
+        beams = BeamspecFile(gamedir + 'beamspec.dat')
+        for beamdata in beams.read():
+            beam = Beam(beamdata)
+            self.append(beam)
+        beams.close()
+        return
+    pass # End of BeamCollection class
+
+class TorpedoCollection(list):
+    '''
+    The entire collection of starship torpedo weapons on the game
+    '''
+    def __init__(self, gamedir):
+        list.__init__(self)
+        # data loading
+        torpedos = TorpspecFile(gamedir + 'torpspec.dat')
+        for torpedodata in torpedos.read():
+            torpedo = Torpedo(torpedodata)
+            self.append(torpedo)
+        torpedos.close()
+        return
+    pass # End of TorpedoCollection class
+
+class EngineCollection(list):
+    '''
+    The entire collection of starship engines on the game
+    '''
+    def __init__(self, gamedir):
+        list.__init__(self)
+        # data loading
+        engines = EngspecFile(gamedir + 'engspec.dat')
+        for enginedata in engines.read():
+            engine = Engine(enginedata)
+            self.append(engine)
+        engines.close()
+        return
+    pass # End of EngineCollection class
