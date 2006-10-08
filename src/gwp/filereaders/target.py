@@ -2,9 +2,9 @@
 # Enemy contacts data
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class TargetFile(filereaders.CaseInsensitiveFile):
+class TargetFile(CaseInsensitiveFile):
     '''
     Enemy ships file reader
     '''

@@ -2,9 +2,9 @@
 # Race -> Hulls assignments
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class TruehullFile(filereaders.CaseInsensitiveFile):
+class TruehullFile(CaseInsensitiveFile):
     '''
     Race -> Starship hulls assignments
 

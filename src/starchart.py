@@ -22,7 +22,7 @@ if gtk.pygtk_version < (2,7,99):
 TEXT = 'cairo'
 BORDER_WIDTH = 10
 
-import collections
+import gwp.collections
 import random
 
 class StarchartFloatingObject(object):
@@ -58,7 +58,7 @@ class Point:
     def __repr__(self):
         return str((self.x, self.y))
 
-planetas = collections.PlanetCollection('/home/ldipenti/VP/ARGF4/', 8).values()
+planetas = gwp.collections.PlanetCollection('/home/ldipenti/VP/ARGF4/', 8).values()
 planetas = map(lambda x: StarchartFloatingObject(x), planetas)
 
 viewport = [Point(850.0,850.0),Point(1150.0,1150.0)]

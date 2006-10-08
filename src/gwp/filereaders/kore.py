@@ -1,9 +1,9 @@
 # KOREx.DAT file reader
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class KoreFile(filereaders.CaseInsensitiveFile):
+class KoreFile(CaseInsensitiveFile):
     '''
     Additional contacts file reader
     '''

@@ -1,9 +1,9 @@
 # BDATAx.DAT/DIS file reader
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class BDataFile(filereaders.CaseInsensitiveFile):
+class BDataFile(CaseInsensitiveFile):
     '''
     Starbase data file: Handles the bdata.dis/dat file format abstraction
     '''

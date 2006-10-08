@@ -2,9 +2,9 @@
 # My ships data
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class ShipFile(filereaders.CaseInsensitiveFile):
+class ShipFile(CaseInsensitiveFile):
     '''
     Ship data file reader
     '''

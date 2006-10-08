@@ -2,9 +2,9 @@
 # Beam weapons specifications
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class BeamspecFile(filereaders.CaseInsensitiveFile):
+class BeamspecFile(CaseInsensitiveFile):
     '''
     Beam weapons specs
     

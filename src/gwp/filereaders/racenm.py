@@ -1,9 +1,9 @@
 # RACE.NM file reader
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class RaceNMFile(filereaders.CaseInsensitiveFile):
+class RaceNMFile(CaseInsensitiveFile):
     '''
     Race Names file: Handles the race.nm file format abstraction
     '''

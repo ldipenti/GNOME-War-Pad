@@ -2,9 +2,9 @@
 # Ship hulls specifications
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class HullspecFile(filereaders.CaseInsensitiveFile):
+class HullspecFile(CaseInsensitiveFile):
     '''
     Ship hulls specs
 

@@ -1,18 +1,18 @@
 # Several collections
 
-from filereaders import RaceNMFile
-from filereaders import XYPlanFile
-from filereaders import PlanetNMFile
-from filereaders import PDataFile
-from filereaders import HullspecFile
-from filereaders import BeamspecFile
-from filereaders import TorpspecFile
-from filereaders import EngspecFile
-from Models import Planet
-from Models import Hull
-from Models import Beam
-from Models import Torpedo
-from Models import Engine
+from gwp.filereaders import RaceNMFile
+from gwp.filereaders import XYPlanFile
+from gwp.filereaders import PlanetNMFile
+from gwp.filereaders import PDataFile
+from gwp.filereaders import HullspecFile
+from gwp.filereaders import BeamspecFile
+from gwp.filereaders import TorpspecFile
+from gwp.filereaders import EngspecFile
+from gwp.Models import Planet
+from gwp.Models import Hull
+from gwp.Models import Beam
+from gwp.Models import Torpedo
+from gwp.Models import Engine
 
 class RaceList(list):
     '''

@@ -2,9 +2,9 @@
 # Engines specifications
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class EngspecFile(filereaders.CaseInsensitiveFile):
+class EngspecFile(CaseInsensitiveFile):
     '''
     Engines specs
     

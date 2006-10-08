@@ -1,9 +1,9 @@
 # PLANET.NM file reader
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class PlanetNMFile(filereaders.CaseInsensitiveFile):
+class PlanetNMFile(CaseInsensitiveFile):
     '''
     Planet Names file: Handles the planet.nm file format abstraction
     '''

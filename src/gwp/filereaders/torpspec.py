@@ -2,9 +2,9 @@
 # Torpedo weapons specifications
 
 import struct
-import filereaders
+from gwp.filereaders import CaseInsensitiveFile
 
-class TorpspecFile(filereaders.CaseInsensitiveFile):
+class TorpspecFile(CaseInsensitiveFile):
     '''
     Torpedo weapons specs
 
