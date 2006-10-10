@@ -1,0 +1,168 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://gazpacho.sicem.biz/gazpacho-0.1.dtd">
+<glade-interface>
+    <widget class="GtkWindow" id="planetview">
+        <property name="default_height">250</property>
+        <property name="default_width">440</property>
+        <property name="title" context="yes" translatable="yes">Known Planets</property>
+        <child>
+            <widget class="GtkHPaned" id="hpaned1">
+                <property name="position">160</property>
+                <property name="position_set">True</property>
+                <property name="visible">True</property>
+                <child>
+                    <widget class="GtkEventBox" id="eventbox1">
+                        <property name="visible">True</property>
+                        <child>
+                            <widget class="GtkVBox" id="list_placeholder">
+                                <property name="visible">True</property>
+                                <child>
+                                    <placeholder/>
+                                </child>
+                            </widget>
+                        </child>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkVBox" id="vbox1">
+                        <property name="visible">True</property>
+                        <child>
+                            <widget class="ProxyLabel" id="name">
+                                <property name="label" context="yes" translatable="yes">&lt;b&gt;A Planet&lt;/b&gt;</property>
+                                <property name="visible">True</property>
+                            </widget>
+                            <packing>
+                                <property name="expand">False</property>
+                                <property name="padding">2</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <widget class="GtkFrame" id="frame1">
+                                <property name="label" context="yes" translatable="yes">Planet data</property>
+                                <property name="visible">True</property>
+                                <child>
+                                    <widget class="GtkTable" id="table1">
+                                        <property name="n_columns">2</property>
+                                        <property name="n_rows">4</property>
+                                        <property name="visible">True</property>
+                                        <child>
+                                            <widget class="ProxyLabel" id="kiwilabel1">
+                                                <property name="label" context="yes" translatable="yes">&lt;b&gt;Tritanium:&lt;/b&gt;</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">1.0</property>
+                                                <property name="xpad">2</property>
+                                            </widget>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="kiwilabel2">
+                                                <property name="label" context="yes" translatable="yes">&lt;b&gt;Duranium:&lt;/b&gt;</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">1.0</property>
+                                                <property name="xpad">2</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="bottom_attach">2</property>
+                                                <property name="top_attach">1</property>
+                                            </packing>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="kiwilabel3">
+                                                <property name="label" context="yes" translatable="yes">&lt;b&gt;Molybdenum:&lt;/b&gt;</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">1.0</property>
+                                                <property name="xpad">2</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="bottom_attach">3</property>
+                                                <property name="top_attach">2</property>
+                                            </packing>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="kiwilabel4">
+                                                <property name="label" context="yes" translatable="yes">&lt;b&gt;Owner:&lt;/b&gt;</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">1.0</property>
+                                                <property name="xpad">2</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="bottom_attach">4</property>
+                                                <property name="top_attach">3</property>
+                                            </packing>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="tri">
+                                                <property name="label" context="yes" translatable="yes">n/a</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0.0</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                            </packing>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="dur">
+                                                <property name="label" context="yes" translatable="yes">n/a</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0.0</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="bottom_attach">2</property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">1</property>
+                                            </packing>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="mol">
+                                                <property name="label" context="yes" translatable="yes">n/a</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0.0</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="bottom_attach">3</property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">2</property>
+                                            </packing>
+                                        </child>
+                                        <child>
+                                            <widget class="ProxyLabel" id="owner">
+                                                <property name="label" context="yes" translatable="yes">n/a</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0.0</property>
+                                            </widget>
+                                            <packing>
+                                                <property name="bottom_attach">4</property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">3</property>
+                                            </packing>
+                                        </child>
+                                    </widget>
+                                </child>
+                            </widget>
+                            <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <widget class="ProxyButton" id="btn_close">
+                                <property name="data_type">str</property>
+                                <property name="label" context="yes" translatable="yes">kiwibutton1</property>
+                                <property name="visible">True</property>
+                            </widget>
+                            <packing>
+                                <property name="position">2</property>
+                            </packing>
+                        </child>
+                    </widget>
+                    <packing>
+                        <property name="resize">True</property>
+                    </packing>
+                </child>
+            </widget>
+        </child>
+    </widget>
+</glade-interface>
