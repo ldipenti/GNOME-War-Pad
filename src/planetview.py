@@ -10,16 +10,8 @@ from kiwi.ui.objectlist import Column, ObjectList
 
 class PlanetList(SlaveDelegate):
     def __init__(self):
-        planets = PlanetCollection('/home/ldipenti/VP/ARGF4/', 8)
-        plist = ObjectList([Column('id', data_type=int),
-                            Column('name', data_type=str),
-                            Column('megacredits', data_type=int),
-                            Column('supplies', data_type=int)])
-        for planet in planets.values():
-            plist.append(planet)
         SlaveDelegate.__init__(self, toplevel=plist)
 
-slave = PlanetList()
 
 class Shell(Delegate):
     my_widgets = ["name", "tri", "dur", "mol", "owner"]
@@ -27,9 +19,22 @@ class Shell(Delegate):
         Delegate.__init__(self, gladefile="planetview",
                           widgets=self.my_widgets,
                           delete_handler=quit_if_last)
+        # Inside list
+        plist = ObjectList([Column('id', data_type=int),
+                            Column('name', data_type=str),
+                            Column('megacredits', data_type=int),
+                            Column('supplies', data_type=int)])
+        planets = PlanetCollection('/home/ldipenti/VP/ARGF4/', 8)
+        for planet in planets.values():
+            plist.append(planet)
+        plist.connect('row-activated', self.slave_row_activated)
+        slave = SlaveDelegate(toplevel=plist)
         self.attach_slave("list_placeholder", slave)
         slave.focus_toplevel()
         self.slave = slave
+
+    def slave_row_activated(self, *args):
+        print "GUACA"
 
 app = Shell()
 app.show_all()

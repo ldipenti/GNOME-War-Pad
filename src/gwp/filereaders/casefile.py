@@ -3,8 +3,11 @@
 
 import gnomevfs
 import sre
+import os.path
+import os
 
-class CaseInsensitiveFile(gnomevfs.Handle):
+# Buggy code, maybe GnomeVFS's fault??
+class CaseInsensitiveFileVFS(gnomevfs.Handle):
     '''
     Search for a file name which can be case swapped
     '''
@@ -28,5 +31,25 @@ class CaseInsensitiveFile(gnomevfs.Handle):
         else:
             print "OUCH! found " + str(len(matches)) + " matches"
             raise gnomevfs.NotFoundError, "There were zero or more than one matches on your file name"
+        return
+    pass
+
+class CaseInsensitiveFile(file):
+    def __init__(self, filename):
+        files = os.listdir(os.path.dirname(filename))
+
+        matches = []
+        for f in files:
+            regex = os.path.basename(filename).replace('.', '\.')
+            if sre.search(regex, f, sre.IGNORECASE):
+                matches.append(f)
+        # Check for unique match
+        if len(matches) == 1:
+            print "Found: " + matches[0]
+            real_uri = os.path.dirname(filename) + '/' + matches[0]
+            super(CaseInsensitiveFile, self).__init__(real_uri)
+        else:
+            print "OUCH! found " + str(len(matches)) + " matches"
+            raise NotFoundError, "There were zero or more than one matches on your file name"
         return
     pass
