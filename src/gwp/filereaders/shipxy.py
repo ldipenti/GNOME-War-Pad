@@ -20,9 +20,9 @@ class ShipXYFile(CaseInsensitiveFile):
     def __init__(self, filename):
         super(ShipXYFile, self).__init__(filename)
         
-        if self.get_file_info().size == 4010:
+        if self.size == 4010:
             self.ship_nr = 500
-        elif self.get_file_info().size == 8002:
+        elif self.size == 8002:
             self.ship_nr = 999
         else:
             raise "Wrong file size reading file '%s'" % filename

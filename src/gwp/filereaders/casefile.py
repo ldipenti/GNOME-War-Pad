@@ -28,13 +28,14 @@ class CaseInsensitiveFileVFS(gnomevfs.Handle):
             print "Found: " + matches[0].name
             real_uri = gnomevfs.URI(str(uri.parent) + '/' + matches[0].name)
             super(CaseInsensitiveFile, self).__init__(real_uri)
+            self.size = self.get_file_info().size
         else:
             print "OUCH! found " + str(len(matches)) + " matches"
             raise gnomevfs.NotFoundError, "There were zero or more than one matches on your file name"
         return
     pass
 
-class CaseInsensitiveFile(file):
+class CaseInsensitiveFileNOVFS(file):
     def __init__(self, filename):
         files = os.listdir(os.path.dirname(filename))
 
@@ -47,9 +48,17 @@ class CaseInsensitiveFile(file):
         if len(matches) == 1:
             print "Found: " + matches[0]
             real_uri = os.path.dirname(filename) + '/' + matches[0]
-            super(CaseInsensitiveFile, self).__init__(real_uri)
+            super(CaseInsensitiveFileNOVFS, self).__init__(real_uri)
+            self.size = os.path.getsize(real_uri)
         else:
             print "OUCH! found " + str(len(matches)) + " matches"
             raise NotFoundError, "There were zero or more than one matches on your file name"
         return
+    pass
+
+class CaseInsensitiveFile(CaseInsensitiveFileNOVFS):
+    '''
+    Abstract class: VFS version is not working correctly (gnomevfs broken?),
+    so we will provide a similar version accessing local files only
+    '''
     pass

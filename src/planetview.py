@@ -20,16 +20,19 @@ class Shell(Delegate):
                             Column('megacredits', data_type=int),
                             Column('supplies', data_type=int)])
         planets = PlanetCollection('/home/ldipenti/VP/ARGF4/', 8)
-        for planet in planets.values():
-            plist.append(planet)
+        plist.extend(planets.values())
         plist.connect('row-activated', self.slave_row_activated)
         slave = SlaveDelegate(toplevel=plist)
         self.attach_slave("list_placeholder", slave)
         slave.focus_toplevel()
         self.slave = slave
 
-    def slave_row_activated(self, *args):
-        print "GUACA"
+    def slave_row_activated(self, list, planet):
+        self.name.set_text("<b>#%d - %s</b>" % (planet.id, planet.name))
+        self.tri.set_text(str(planet.mined_tri))
+        self.dur.set_text(str(planet.mined_dur))
+        self.mol.set_text(str(planet.mined_mol))
+        self.owner.set_text(str(planet.owner))
 
 app = Shell()
 app.show_all()
