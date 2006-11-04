@@ -8,11 +8,15 @@ from gwp.filereaders import HullspecFile
 from gwp.filereaders import BeamspecFile
 from gwp.filereaders import TorpspecFile
 from gwp.filereaders import EngspecFile
+from gwp.filereaders import ShipXYFile
+from gwp.filereaders import ShipFile
+from gwp.filereaders import TargetFile
 from gwp.Models import Planet
 from gwp.Models import Hull
 from gwp.Models import Beam
 from gwp.Models import Torpedo
 from gwp.Models import Engine
+from gwp.Models import Ship
 
 class RaceList(list):
     '''
@@ -54,7 +58,7 @@ class PlanetCollection(dict):
     A collection of planets
     '''
     def __init__(self, gamedir, racenum):
-        dict.__init__(self)
+        super(PlanetCollection, self).__init__(self)
         # data loading
         planetnm = PlanetNMFile(gamedir + 'planet.nm')
         xyplan = XYPlanFile(gamedir + 'xyplan' + str(racenum) + '.dat')
@@ -142,3 +146,49 @@ class EngineCollection(list):
         engines.close()
         return
     pass # End of EngineCollection class
+
+class ShipCollection(dict):
+    '''
+    A collection of ships
+    '''
+    def __init__(self, gamedir, racenum):
+        super(ShipCollection, self).__init__(self)
+        # data loading (shipxy)
+        shipxy = ShipXYFile(gamedir + 'shipxy' + str(racenum) + '.dat')
+        ship_coords = shipxy.read()
+        shipxy.close()
+        # data loading (targetX)
+        target_file = TargetFile("%starget%d.dat" % (gamedir, racenum))
+        targets = target_file.read()
+        target_file.close()
+        # data loading (shipX)
+        my_ships_file = ShipFile("%sship%d.dat" % (gamedir, racenum))
+        my_ships = my_ships_file.read()
+        my_ships_file.close()
+        # data assembly (own ships)
+        for (ship_id, ship_data) in my_ships.items():
+            self[ship_id] = Ship(ship_data['x'],
+                                 ship_data['y'],
+                                 racenum,
+                                 0, 0,
+                                 ship_data)
+        # data assembly (other ships)
+        for (ship_id, ship_data) in ship_coords.items():
+            # Avoid non-existing ships
+            if ship_data['x'] == ship_data['y'] == 0:
+                continue
+            
+            # Use data from SHIPXY
+            if not ship_id in self.keys():
+                self[ship_id] = Ship(ship_data['x'],
+                                     ship_data['y'],
+                                     ship_data['owner'])
+                self[ship_id].mass = ship_data['mass']
+                
+            # Complete with data from TARGETx
+            if ship_id in targets.keys():
+                self[ship_id].name = targets[ship_id]['name']
+                self[ship_id].speed = targets[ship_id]['speed']
+                self[ship_id].hull_type = targets[ship_id]['hull_type']
+        return
+    pass # End of ShipCollection class

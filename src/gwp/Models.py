@@ -1,6 +1,7 @@
 # Models.py: Model classes
 
 from gtkmvc.model import Model
+import math
 
 class Starchart(Model):
     '''
@@ -46,9 +47,9 @@ class Starchart(Model):
 # The good old GwpObject class...reloaded!
 class FloatingObject(Model):
     '''
-    This class represents any object that floats in the cold and dark
-    universe, and can be showed in the Starchart. This class is meant to
-    be an abstract class
+    This class represents any object that floats in the cold and dark void
+    called Universe, and can be showed in the Starchart. This class is meant
+    to be an abstract class.
     '''
     id = None
     name = None
@@ -65,14 +66,15 @@ class FloatingObject(Model):
         '''
         Some constrains on attribute settings
         '''
-        # Coordinates shouldn't be negative
+        # Coordinates: from 1000,1000 to 3000,3000 with a 50 LY margin
+        # coordinates shouldn't be negative
         if name == 'x':
-            if value < 0:
+            if value < 0 or value > 3050:
                 raise ValueError
             else:
                 Model.__setattr__(self, 'x', value)
         elif name == 'y':
-            if value < 0:
+            if value < 0 or value > 3050:
                 raise ValueError
             else:
                 Model.__setattr__(self, 'y', value)
@@ -101,7 +103,7 @@ class FlyingObject(FloatingObject):
         Custom attribute constrains
         '''
         if name == 'heading':
-            if value < 0 or value > 360:
+            if value < -1 or value > 360:
                 raise ValueError
             else:
                 FloatingObject.__setattr__(self, 'heading', value)
@@ -121,10 +123,90 @@ class Ship(FlyingObject):
     '''
     A starship object
     '''
-    def __init__(self, x, y, heading, speed):
-        FlyingObject.__init__(x, y, heading, speed)
+    beams = 0
+    beams_type = 0
+    colonists = 0
+    crew = 0
+    damage = 0
+    dur = 0
+    engines_type = 0
+    fcode = 0
+    fighter_bays = 0
+    hull_type = 0
+    id = 0
+    intercept_ship_id = 0
+    megacredits = 0
+    mission = 0
+    mol = 0
+    name = 0
+    neu = 0
+    owner = 0
+    primary_enemy = 0
+    speed = 0
+    supp = 0
+    torps_fighters_nr = 0
+    torps_launchers = 0
+    torps_type = 0
+    tow_ship_id = 0
+    transfer_col = 0
+    transfer_dur = 0
+    transfer_mol = 0
+    transfer_neu = 0
+    transfer_ship_id = 0
+    transfer_supp = 0
+    transfer_tri = 0
+    tri = 0
+    unload_col = 0
+    unload_dur = 0
+    unload_mol = 0
+    unload_neu = 0
+    unload_planet_id = 0
+    unload_supp = 0
+    unload_tri = 0
+    x = 0
+    x_to_waypoint = 0
+    y = 0
+    y_to_waypoint = 0
+    
+    def __init__(self, x, y, owner, heading=0, speed=0, sdata=None):
+        super(Ship, self).__init__(x, y, heading, speed)
+        self.owner = owner
+        if sdata != None:
+            attrs = ['beams', 'beams_type', 'colonists', 'crew', 'damage',
+                     'dur', 'engines_type', 'fcode', 'fighter_bays',
+                     'hull_type', 'id', 'intercept_ship_id', 'megacredits',
+                     'mission', 'mol', 'name', 'neu', 'owner', 'primary_enemy',
+                     'speed', 'supp', 'torps_fighters_nr', 'torps_launchers',
+                     'torps_type', 'tow_ship_id', 'transfer_col',
+                     'transfer_dur', 'transfer_mol', 'transfer_neu',
+                     'transfer_ship_id', 'transfer_supp', 'transfer_tri',
+                     'tri', 'unload_col', 'unload_dur', 'unload_mol',
+                     'unload_neu', 'unload_planet_id', 'unload_supp',
+                     'unload_tri', 'x', 'x_to_waypoint', 'y', 'y_to_waypoint']
+            for a in attrs:
+                setattr(self, a, sdata[a])
+            self.update_heading()
         return
 
+    def update_heading(self):
+        # Calculate heading from waypoint coords
+        dx = self.x_to_waypoint
+        dy = self.y_to_waypoint
+        if dx == dy == 0:
+            self.heading = -1 # Ship not moving
+        else:
+            hyp = int(round(math.hypot(dx, dy)))
+            if hyp != 0:
+                heading = math.asin(dy/hyp)
+                h = int(round(heading * (360 / (2 * math.pi))))
+                if dx >= 0:
+                    h = 90 + (h * -1)
+                else:
+                    h += 270
+            else:
+                h = 0
+            self.heading = h
+        return        
     pass # End of Ship class
 
 
@@ -163,7 +245,7 @@ class Planet(FloatingObject):
     dens_neu = 0
     dens_tri = 0
     natives = 0
-    selected = False
+    selected = False # delete this
 
     def __init__(self, x, y, name, pdata=None):
         super(Planet, self).__init__(x, y)
