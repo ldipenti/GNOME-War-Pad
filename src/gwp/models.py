@@ -188,6 +188,7 @@ class Ship(FlyingObject):
             self.update_heading()
         return
 
+    # FIXME: This is not working right!
     def update_heading(self):
         # Calculate heading from waypoint coords
         dx = self.x_to_waypoint
@@ -206,7 +207,8 @@ class Ship(FlyingObject):
             else:
                 h = 0
             self.heading = h
-        return        
+        return
+    
     pass # End of Ship class
 
 

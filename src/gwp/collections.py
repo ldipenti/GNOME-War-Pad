@@ -11,12 +11,12 @@ from gwp.filereaders import EngspecFile
 from gwp.filereaders import ShipXYFile
 from gwp.filereaders import ShipFile
 from gwp.filereaders import TargetFile
-from gwp.Models import Planet
-from gwp.Models import Hull
-from gwp.Models import Beam
-from gwp.Models import Torpedo
-from gwp.Models import Engine
-from gwp.Models import Ship
+from gwp.models import Planet
+from gwp.models import Hull
+from gwp.models import Beam
+from gwp.models import Torpedo
+from gwp.models import Engine
+from gwp.models import Ship
 
 class RaceList(list):
     '''
