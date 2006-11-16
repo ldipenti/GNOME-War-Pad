@@ -20,7 +20,7 @@ class ShipFile(CaseInsensitiveFile):
                                  super(ShipFile, self).read(2))[0]
         ret = {}
         for ship in range(ships_nr):
-            a = struct.unpack("<2H 3s 19H 20s 21H",
+            a = struct.unpack("<2H 3s 1H 2h 16H 20s 21H",
                               super(ShipFile, self).read(self.reg_size))
             ship = {
                 'id' : a[0],
