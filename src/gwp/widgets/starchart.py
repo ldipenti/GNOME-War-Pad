@@ -211,19 +211,23 @@ class Starchart(gtk.DrawingArea):
                                 self.layout)
 
     def _draw_a_ship(self, cr, s):
+        cr.save()
         # FIXME: my_x and my_y  las debe devolver convertCoords()
         x, y, w, h = self.allocation
         viewport_width = viewport[1].x - viewport[0].x
         viewport_height = viewport[1].y - viewport[0].y
-        my_x = (p.x  - viewport[0].x) / viewport_width * w
-        my_y = (p.y  - viewport[0].y) / viewport_height * h
+        my_x = (s.x  - viewport[0].x) / viewport_width * w
+        my_y = (s.y  - viewport[0].y) / viewport_height * h
 
         # Red ships
-        cr.set_source_rgba(1, 0, 0, 0.9) 
-        cr.polygon((my_x-1, my_y-1),
-                   (my_x+1, my_y-1),
-                   (my_x, my_y+1))
+        cr.set_source_rgba(1, 0, 0, 0.9)
+        unit = 3
+        cr.line_to(my_x+unit, my_y+unit)
+        cr.line_to(my_x-unit, my_y+unit)
+        cr.line_to(my_x, my_y-unit)
+        cr.close_path()
         cr.fill()
+        cr.restore()
 
     def _draw_a_planet(self, cr, p, radius):
         # FIXME: my_x and my_y  las debe devolver convertCoords()
@@ -313,9 +317,9 @@ class Starchart(gtk.DrawingArea):
         for i in range(0, len(self.ships) - 1):
             s = self.ships[i]
             # FIXME: my_x and my_y  las debe devolver convertCoords()
-            my_x = (p.x  - viewport[0].x) / viewport_width * w
-            my_y = (p.y  - viewport[0].y) / viewport_height * h
-            if p.x > viewport[0].x and p.x < viewport[1].x and p.y > viewport[0].y and p.y < viewport[1].y:
+            my_x = (s.x  - viewport[0].x) / viewport_width * w
+            my_y = (s.y  - viewport[0].y) / viewport_height * h
+            if s.x > viewport[0].x and s.x < viewport[1].x and s.y > viewport[0].y and s.y < viewport[1].y:
                 # FIXME: draw_a_ship deberia estar completa aca
                 self._draw_a_ship(cr, s)
         
@@ -364,6 +368,7 @@ class Starchart(gtk.DrawingArea):
             self.context.stroke()
             
             self._draw_planets(self.context)
+            self._draw_ships(self.context)
             fontw, fonth = self.layout.get_pixel_size()
             self.context.move_to((w - fontw - 4), (h - fonth ))
             self.context.update_layout(self.layout)
