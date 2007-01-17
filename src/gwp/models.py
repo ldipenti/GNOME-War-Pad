@@ -1,9 +1,8 @@
-# Models.py: Model classes
+# models.py: Model classes
 
-from gtkmvc.model import Model
 import math
 
-class Starchart(Model):
+class Starchart:
     '''
     This class represents the Echo Cluster, a piece of the Universe where
     lots of things happen everyday...
@@ -20,7 +19,6 @@ class Starchart(Model):
     ships = []
     
     def __init__(self, min_x, min_y, max_x, max_y):
-        Model.__init__(self)
         self.min_x = min_x
         self.min_y = min_y
         self.max_x = max_x
@@ -45,7 +43,7 @@ class Starchart(Model):
     pass # End of Starchart class
 
 # The good old GwpObject class...reloaded!
-class FloatingObject(Model):
+class FloatingObject:
     '''
     This class represents any object that floats in the cold and dark void
     called Universe, and can be showed in the Starchart. This class is meant
@@ -57,7 +55,6 @@ class FloatingObject(Model):
     y = 0
     
     def __init__(self, x, y):
-        Model.__init__(self)
         self.x = x
         self.y = y
         return
@@ -72,14 +69,14 @@ class FloatingObject(Model):
             if value < 0 or value > 3050:
                 raise ValueError
             else:
-                Model.__setattr__(self, 'x', value)
+                self.__setattr__(self, 'x', value)
         elif name == 'y':
             if value < 0 or value > 3050:
                 raise ValueError
             else:
-                Model.__setattr__(self, 'y', value)
+                self.__setattr__(self, 'y', value)
         else:
-            Model.__setattr__(self, name, value)
+            self.__setattr__(self, name, value)
         return
     
     pass # End of FloatingObject class

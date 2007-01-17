@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#!/usr/bin/python
 
 from gwp.collections import PlanetCollection
 from gwp.collections import ShipCollection
