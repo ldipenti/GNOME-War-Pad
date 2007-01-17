@@ -43,7 +43,7 @@ class Starchart:
     pass # End of Starchart class
 
 # The good old GwpObject class...reloaded!
-class FloatingObject:
+class FloatingObject(object):
     '''
     This class represents any object that floats in the cold and dark void
     called Universe, and can be showed in the Starchart. This class is meant
@@ -69,14 +69,14 @@ class FloatingObject:
             if value < 0 or value > 3050:
                 raise ValueError
             else:
-                self.__setattr__(self, 'x', value)
+                super(FloatingObject, self).__setattr__('x', value)
         elif name == 'y':
             if value < 0 or value > 3050:
                 raise ValueError
             else:
-                self.__setattr__(self, 'y', value)
+                super(FloatingObject, self).__setattr__('y', value)
         else:
-            self.__setattr__(self, name, value)
+            super(FloatingObject, self).__setattr__(name, value)
         return
     
     pass # End of FloatingObject class
