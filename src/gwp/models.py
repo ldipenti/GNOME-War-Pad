@@ -185,27 +185,25 @@ class Ship(FlyingObject):
             self.update_heading()
         return
 
-    # FIXME: This is not working right!
     def update_heading(self):
         # Calculate heading from waypoint coords
         dx = self.x_to_waypoint
         dy = self.y_to_waypoint
-        if dx == dy == 0:
+        if dx == 0 and dy == 0:
             self.heading = -1 # Ship not moving
         else:
-            hyp = int(round(math.hypot(dx, dy)))
+            hyp = math.hypot(dx, dy)
             if hyp != 0:
                 heading = math.asin(dy/hyp)
-                h = int(round(heading * (360 / (2 * math.pi))))
+                h = heading * (360 / (2 * math.pi))
                 if dx >= 0:
                     h = 90 + (h * -1)
                 else:
                     h += 270
             else:
                 h = 0
-            self.heading = h
+            self.heading = int(round(h))
         return
-    
     pass # End of Ship class
 
 
