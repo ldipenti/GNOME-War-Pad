@@ -245,6 +245,7 @@ class PlanetDrawable(Drawable):
 
     pass # End of PlanetDrawable class
 
+
 class ShipDrawable(Drawable):
     '''
     How to draw a ship
@@ -258,6 +259,15 @@ class ShipDrawable(Drawable):
 
         # Avoid ship being too tiny on zoom-out
         if zoom < 1: zoom = 1
+
+        # Show destination when zoom is enough
+        if zoom > 1.2:
+            dx = self.obj.x_to_waypoint * zoom
+            dy = self.obj.y_to_waypoint * zoom
+            print dx, dy
+            context.set_source_rgb(0.0, 1.0, 0.0)
+            context.move_to(self.x * zoom, self.y * zoom)
+            context.rel_line_to(dx, dy)
 
         # Triangle data
         angle = -1.0 * self.obj.heading
@@ -286,6 +296,7 @@ class ShipDrawable(Drawable):
         # Apply buffer on starchart
         context.set_source_surface(img, self.x - w/2, self.y - h/2)
         context.paint()
-    pass
+
+    pass # End of ShipDrawable class
 
 
