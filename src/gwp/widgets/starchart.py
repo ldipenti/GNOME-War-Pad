@@ -210,6 +210,7 @@ class Drawable:
         Here goes the actual cairo drawing
         '''
         pass
+
     pass # End of Drawable class
 
 class PlanetDrawable(Drawable):
@@ -259,15 +260,6 @@ class ShipDrawable(Drawable):
 
         # Avoid ship being too tiny on zoom-out
         if zoom < 1: zoom = 1
-
-        # Show destination when zoom is enough
-        if zoom > 1.2:
-            dx = self.obj.x_to_waypoint * zoom
-            dy = self.obj.y_to_waypoint * zoom
-            print dx, dy
-            context.set_source_rgb(0.0, 1.0, 0.0)
-            context.move_to(self.x * zoom, self.y * zoom)
-            context.rel_line_to(dx, dy)
 
         # Triangle data
         angle = -1.0 * self.obj.heading
