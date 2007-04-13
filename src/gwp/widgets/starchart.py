@@ -169,7 +169,7 @@ class Starchart(gtk.DrawingArea):
             for obj in self.__obj_in_viewport(obj_list.values()):
                 x, y = self.coord_v2c(obj.x, obj.y)
                 Drawable(x, y, obj).draw(self.cr, self.zoom)
-        self.cr.stroke()
+            self.cr.stroke()
 
     def __obj_in_viewport(self, obj_list):
         '''
@@ -191,6 +191,53 @@ class Starchart(gtk.DrawingArea):
         '''
         return obj.x >= x1 and obj.x <= x2 and obj.y >= y1 and obj.y <= y2
 
+    #####
+    # Drawing primitives
+    #####
+
+    # Line (from, to)
+    def line(self, x1, y1, x2, y2, rgb=(1, 1, 1)):
+        '''
+        Draws a line on the starchart
+        '''
+        x_from, y_from = self.coord_v2c(x1, y1)
+        x_to, y_to = self.coord_v2c(x2, y2)
+
+        self.cr.save()
+        self.cr.set_source_rgb(*rgb)
+        self.cr.move_to(x_from, y_from)
+        self.cr.line_to(x_to, y_to)
+        self.cr.stroke()
+        self.cr.restore()
+    
+    # Circle (center, radius)
+    def circle(self, x, y, radius, rgb=(1, 1, 1), filled=False):
+        '''
+        Draws a circle based on center coords and radius
+        '''
+        xc, yc = self.coord_v2c(x, y)
+        r = radius * self.zoom
+
+        self.cr.save()
+        self.cr.set_source_rgb(*rgb)
+        self.cr.arc(xc, yc, r, 0, 2 * math.pi)
+        if filled: self.cr.fill()
+        self.cr.stroke()
+        self.cr.restore()
+
+    # Rectangle (1st corner, 2nd corner)
+    def rectangle(self, x1, y1, x2, y2, rgb=(1, 1, 1), filled=False):
+        x, y = self.coord_v2c(x1, y1)
+        width = (x2 - x1) * self.zoom
+        height = (y2 - y1) * self.zoom
+
+        self.cr.save()
+        self.cr.set_source_rgb(*rgb)
+        self.cr.rectangle(x, y, width, height)
+        if filled: self.cr.fill()
+        self.cr.stroke()
+        self.cr.restore()
+        
     pass # End of Starchart class
 
 class Drawable:
