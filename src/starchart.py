@@ -16,7 +16,7 @@ def run(Widget):
     ships = ShipCollection('/home/ldipenti/VP/ARGF4/', 8)
     screen = Widget()
     screen.add_drawings(planets, PlanetDrawable)
-    screen.add_drawings(ships, ShipDrawable)
+    #screen.add_drawings(ships, ShipDrawable)
     screen.show()
     window.add(screen)
     window.present()

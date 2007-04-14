@@ -108,6 +108,10 @@ class Starchart(gtk.DrawingArea):
         self.cr.scale(1.0, -1.0)
         self.cr.translate(0, -1.0 * height)
 
+        # NOTE: Actual drawings go below this line!!!
+        self.text(2500, 2500, "Hola mi amor!!! :-*", size=10, scale=True)
+        self.circle(2500, 2500, 50, (1, 0, 0))
+
         # Drawing groups
         self.__draw_drawings()
 
@@ -167,8 +171,9 @@ class Starchart(gtk.DrawingArea):
     def __draw_drawings(self):
         for obj_list, Drawable in self.drawings:
             for obj in self.__obj_in_viewport(obj_list.values()):
-                x, y = self.coord_v2c(obj.x, obj.y)
-                Drawable(x, y, obj).draw(self.cr, self.zoom)
+                self.cr.save()
+                Drawable(obj).draw(self)
+                self.cr.restore()
             self.cr.stroke()
 
     def __obj_in_viewport(self, obj_list):
@@ -227,6 +232,9 @@ class Starchart(gtk.DrawingArea):
 
     # Rectangle (1st corner, 2nd corner)
     def rectangle(self, x1, y1, x2, y2, rgb=(1, 1, 1), filled=False):
+        '''
+        Draws a rectangle from two points
+        '''
         x, y = self.coord_v2c(x1, y1)
         width = (x2 - x1) * self.zoom
         height = (y2 - y1) * self.zoom
@@ -237,6 +245,29 @@ class Starchart(gtk.DrawingArea):
         if filled: self.cr.fill()
         self.cr.stroke()
         self.cr.restore()
+
+    # Text
+    def text(self, x, y, text, rgb=(1, 1, 1), size=5, scale=False):
+        '''
+        Draws text strings on the starchart
+        '''
+        xt, yt = self.coord_v2c(x, y)
+        if scale:
+            text_size = int(round(size * self.zoom))
+        else:
+            text_size = int(round(size))
+
+        self.cr.save()
+        self.cr.set_source_rgb(*rgb)
+        layout = self.cr.create_layout()
+        layout.set_text(text)
+        layout.set_font_description(pango.FontDescription("sans serif " + str(text_size)))
+        fontw, fonth = layout.get_pixel_size()
+        self.cr.move_to(xt - fontw / 2, yt + fonth / 2)
+        self.cr.scale(1.0, -1.0)
+        self.cr.show_layout(layout)
+        self.cr.stroke()
+        self.cr.restore()
         
     pass # End of Starchart class
 
@@ -244,15 +275,13 @@ class Drawable:
     '''
     Abstract class to represent any drawable object on the screen
     '''
-    def __init__(self, x, y, obj=None):
+    def __init__(self, obj=None):
         '''
-        Coordinate initialisation
+        Initialisation
         '''
-        self.x = x
-        self.y = y
         self.obj = obj
         
-    def draw(self, context, zoom=1):
+    def draw(self, starchart):
         '''
         Here goes the actual cairo drawing
         '''
@@ -264,33 +293,25 @@ class PlanetDrawable(Drawable):
     '''
     How to draw a planet
     '''
-    def __init__(self, x, y, obj=None):
-        Drawable.__init__(self, x, y, obj)
+    def __init__(self, obj=None):
+        Drawable.__init__(self, obj)
 
-    def draw(self, context, zoom=1):
-        # Avoid planet being too tiny on zoom-out
-        if zoom < 1: zoom = 1
-
+    def draw(self, starchart):
+        # Avoid planets to be shown too small on zoom out
+        if starchart.zoom < 0.8:
+            size = 2 / starchart.zoom
+        else:
+            size = 2
+            
         # Draw planet
-        context.set_source_rgb(0.2, 0.2, 0.8)
-        context.move_to(self.x, self.y)
-        context.arc(self.x, self.y, 2 * zoom, 0, 2 * math.pi)
-        context.fill()
+        starchart.circle(self.obj.x, self.obj.y, size,
+                         rgb=(0.3, 0.3, 0.9), filled=True)
 
         # Show planet's name when zooming
-        if zoom > 1.2:
-            context.set_source_rgb(0.6, 0.6, 0.6)
-            layout = context.create_layout()
-            layout.set_text(self.obj.name)
-            layout.set_font_description(pango.FontDescription("sans serif 8"))
-            fontw, fonth = layout.get_pixel_size()
-            context.move_to(self.x - fontw / 2, self.y - fonth)
-            # Flip coordinates so text isn't wrong
-            context.scale(1.0, -1.0)
-            context.show_layout(layout)
-            # Flip coordinates again
-            context.scale(1.0, -1.0)
-
+        if starchart.zoom > 1.2:
+            starchart.text(self.obj.x, self.obj.y - 8,
+                           self.obj.name,
+                           rgb=(0.6, 0.6, 0.6), size=8)
     pass # End of PlanetDrawable class
 
 
