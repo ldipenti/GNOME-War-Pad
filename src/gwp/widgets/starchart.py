@@ -5,6 +5,22 @@ import math
 
 from gwp.collections import PlanetCollection, ShipCollection
 
+class Group:
+    def __init__(self, width, height, zoom):
+        self.width = int(round(width * zoom))
+        self.height = int(round(height * zoom))
+        self.zoom = zoom
+        self.drawings = []
+        self.img = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+                                      self.width, self.height)
+        self.ctx = cairo.Context(self.img)
+
+    def add(self, draw):
+        self.drawings.append(draw)
+
+    def draw(self, starchart):
+        pass
+
 class Starchart(gtk.DrawingArea):
     __gsignals__ = {
         "expose-event" : "override",
@@ -21,6 +37,7 @@ class Starchart(gtk.DrawingArea):
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK |
                         gtk.gdk.SCROLL_MASK |
                         gtk.gdk.BUTTON1_MOTION_MASK)
+        self.layout = None
 
         # Viewport attrs
         self.x = 1900
@@ -109,8 +126,7 @@ class Starchart(gtk.DrawingArea):
         self.cr.translate(0, -1.0 * height)
 
         # NOTE: Actual drawings go below this line!!!
-        self.text(2500, 2500, "Hola mi amor!!! :-*", size=10, scale=True)
-        self.circle(2500, 2500, 50, (1, 0, 0))
+        self.line(2000, 2000, 2500, 2500)
 
         # Drawing groups
         self.__draw_drawings()
@@ -182,19 +198,26 @@ class Starchart(gtk.DrawingArea):
         the viewport\'s boundaries
         '''
         margin = 5
-        # Viewport boundaries in "units"
-        x1 = self.x - margin
-        y1 = self.y - margin
-        x2 = self.x + margin + self.allocation.width / self.zoom
-        y2 = self.y + margin + self.allocation.height / self.zoom
         # Filter
-        return [obj for obj in obj_list if self.__is_in_viewport(obj, x1, y1, x2, y2)]
+        return [obj for obj in obj_list if self.__in_viewport(obj.x-margin, obj.y-margin, obj.x+margin, obj.y+margin)]
 
-    def __is_in_viewport(self, obj, x1, y1, x2, y2):
+    def __in_viewport(self, x1, y1, x2, y2):
         '''
-        Returns if the object is within the viewport limits, passed as params
+        Returns True if rectangle described by (x1, y1) and (x2, y2) is totally
+        or partially in the viewport.
         '''
-        return obj.x >= x1 and obj.x <= x2 and obj.y >= y1 and obj.y <= y2
+        # Viewport boundaries in "units"
+        v_x1 = self.x
+        v_y1 = self.y
+        v_x2 = self.x + self.allocation.width / self.zoom
+        v_y2 = self.y + self.allocation.height / self.zoom
+
+        if (v_x1 < x1 and v_x1 < x2 and v_x2 < x1 and v_x2 < x2) or (v_x1 > x1 and v_x1 > x2 and v_x2 > x1 and v_x2 > x2):
+            return False
+        elif (v_y1 < y1 and v_y1 < y2 and v_y2 < y1 and v_y2 < y2) or (v_y1 > y1 and v_y1 > y2 and v_y2 > y1 and v_y2 > y2):
+            return False
+        else:
+            return True
 
     #####
     # Drawing primitives
@@ -205,46 +228,49 @@ class Starchart(gtk.DrawingArea):
         '''
         Draws a line on the starchart
         '''
-        x_from, y_from = self.coord_v2c(x1, y1)
-        x_to, y_to = self.coord_v2c(x2, y2)
+        if self.__in_viewport(x1, y1, x2, y2):
+            x_from, y_from = self.coord_v2c(x1, y1)
+            x_to, y_to = self.coord_v2c(x2, y2)
 
-        self.cr.save()
-        self.cr.set_source_rgb(*rgb)
-        self.cr.move_to(x_from, y_from)
-        self.cr.line_to(x_to, y_to)
-        self.cr.stroke()
-        self.cr.restore()
+            self.cr.save()
+            self.cr.set_source_rgb(*rgb)
+            self.cr.move_to(x_from, y_from)
+            self.cr.line_to(x_to, y_to)
+            self.cr.stroke()
+            self.cr.restore()
     
     # Circle (center, radius)
     def circle(self, x, y, radius, rgb=(1, 1, 1), filled=False):
         '''
         Draws a circle based on center coords and radius
         '''
-        xc, yc = self.coord_v2c(x, y)
-        r = radius * self.zoom
+        if self.__in_viewport(x-radius, y-radius, x+radius, y+radius):
+            xc, yc = self.coord_v2c(x, y)
+            r = radius * self.zoom
 
-        self.cr.save()
-        self.cr.set_source_rgb(*rgb)
-        self.cr.arc(xc, yc, r, 0, 2 * math.pi)
-        if filled: self.cr.fill()
-        self.cr.stroke()
-        self.cr.restore()
+            self.cr.save()
+            self.cr.set_source_rgb(*rgb)
+            self.cr.arc(xc, yc, r, 0, 2 * math.pi)
+            if filled: self.cr.fill()
+            self.cr.stroke()
+            self.cr.restore()
 
     # Rectangle (1st corner, 2nd corner)
     def rectangle(self, x1, y1, x2, y2, rgb=(1, 1, 1), filled=False):
         '''
         Draws a rectangle from two points
         '''
-        x, y = self.coord_v2c(x1, y1)
-        width = (x2 - x1) * self.zoom
-        height = (y2 - y1) * self.zoom
+        if self.__in_viewport(x1, y1, x2, y2):
+            x, y = self.coord_v2c(x1, y1)
+            width = (x2 - x1) * self.zoom
+            height = (y2 - y1) * self.zoom
 
-        self.cr.save()
-        self.cr.set_source_rgb(*rgb)
-        self.cr.rectangle(x, y, width, height)
-        if filled: self.cr.fill()
-        self.cr.stroke()
-        self.cr.restore()
+            self.cr.save()
+            self.cr.set_source_rgb(*rgb)
+            self.cr.rectangle(x, y, width, height)
+            if filled: self.cr.fill()
+            self.cr.stroke()
+            self.cr.restore()
 
     # Text
     def text(self, x, y, text, rgb=(1, 1, 1), size=5, scale=False):
@@ -257,17 +283,27 @@ class Starchart(gtk.DrawingArea):
         else:
             text_size = int(round(size))
 
-        self.cr.save()
-        self.cr.set_source_rgb(*rgb)
-        layout = self.cr.create_layout()
-        layout.set_text(text)
-        layout.set_font_description(pango.FontDescription("sans serif " + str(text_size)))
-        fontw, fonth = layout.get_pixel_size()
-        self.cr.move_to(xt - fontw / 2, yt + fonth / 2)
-        self.cr.scale(1.0, -1.0)
-        self.cr.show_layout(layout)
-        self.cr.stroke()
-        self.cr.restore()
+        # Avoid memory leaks, one layout is enough
+        if self.layout == None:
+            self.layout = self.cr.create_layout()
+        
+        self.layout.set_text(text)
+        self.layout.set_font_description(pango.FontDescription("sans serif " + str(text_size)))
+        fontw, fonth = self.layout.get_pixel_size()
+        
+        x1 = x - fontw / self.zoom / 2
+        y1 = y - fonth / self.zoom / 2
+        x2 = x + fontw / self.zoom / 2
+        y2 = y + fonth / self.zoom / 2
+
+        if self.__in_viewport(x1, y1, x2, y2):
+            self.cr.save()
+            self.cr.set_source_rgb(*rgb)
+            self.cr.move_to(xt - fontw / 2, yt + fonth / 2)
+            self.cr.scale(1.0, -1.0)
+            self.cr.show_layout(self.layout)
+            self.cr.stroke()
+            self.cr.restore()
         
     pass # End of Starchart class
 
