@@ -5,15 +5,17 @@ pygtk.require('2.0')
 import gtk, gobject, cairo, pango
 import math
 
-from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line
-from gwp.collections import PlanetCollection, ShipCollection
+from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, MinefieldDrawable
+from gwp.collections import PlanetCollection, ShipCollection, MinefieldCollection
 
 def run(Widget):
     window = gtk.Window()
     window.connect("delete-event", gtk.main_quit)
     planets = PlanetCollection('/home/ldipenti/VP/ARGF4/', 8)
     ships = ShipCollection('/home/ldipenti/VP/ARGF4/', 8)
+    minefields = MinefieldCollection('/home/ldipenti/VP/ARGF4/', 8)
     screen = Widget()
+    screen.add_drawables(minefields, MinefieldDrawable)
     screen.add_drawables(planets, PlanetDrawable)
     screen.add_drawables(ships, ShipDrawable)
 

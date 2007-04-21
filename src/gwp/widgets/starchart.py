@@ -189,20 +189,11 @@ class Starchart(gtk.DrawingArea):
 
     def __draw_drawables(self):
         for obj_list, Drawable in self.drawables:
-            for obj in self.__obj_in_viewport(obj_list.values()):
+            for obj in obj_list.values():
                 self.cr.save()
                 Drawable(obj).draw(self)
                 self.cr.restore()
             self.cr.stroke()
-
-    def __obj_in_viewport(self, obj_list):
-        '''
-        Filters obj_list returning only those objects included within
-        the viewport\'s boundaries
-        '''
-        margin = 5
-        # Filter
-        return [obj for obj in obj_list if self.__in_viewport(obj.x-margin, obj.y-margin, obj.x+margin, obj.y+margin)]
 
     def __in_viewport(self, x1, y1, x2, y2):
         '''
@@ -227,7 +218,7 @@ class Starchart(gtk.DrawingArea):
     #####
 
     # Line (from, to)
-    def line(self, x1, y1, x2, y2, rgb=(1, 1, 1)):
+    def line(self, x1, y1, x2, y2, rgba=(1, 1, 1, 1)):
         '''
         Draws a line on the starchart
         '''
@@ -236,14 +227,14 @@ class Starchart(gtk.DrawingArea):
             x_to, y_to = self.coord_v2c(x2, y2)
 
             self.cr.save()
-            self.cr.set_source_rgb(*rgb)
+            self.cr.set_source_rgba(*rgba)
             self.cr.move_to(x_from, y_from)
             self.cr.line_to(x_to, y_to)
             self.cr.stroke()
             self.cr.restore()
     
     # Circle (center, radius)
-    def circle(self, x, y, radius, rgb=(1, 1, 1), filled=False):
+    def circle(self, x, y, radius, rgba=(1, 1, 1, 1), filled=False):
         '''
         Draws a circle based on center coords and radius
         '''
@@ -252,14 +243,14 @@ class Starchart(gtk.DrawingArea):
             r = radius * self.zoom
 
             self.cr.save()
-            self.cr.set_source_rgb(*rgb)
+            self.cr.set_source_rgba(*rgba)
             self.cr.arc(xc, yc, r, 0, 2 * math.pi)
             if filled: self.cr.fill()
             self.cr.stroke()
             self.cr.restore()
 
     # Rectangle (1st corner, 2nd corner)
-    def rectangle(self, x1, y1, x2, y2, rgb=(1, 1, 1), filled=False):
+    def rectangle(self, x1, y1, x2, y2, rgba=(1, 1, 1, 1), filled=False):
         '''
         Draws a rectangle from two points
         '''
@@ -269,14 +260,14 @@ class Starchart(gtk.DrawingArea):
             height = (y2 - y1) * self.zoom
 
             self.cr.save()
-            self.cr.set_source_rgb(*rgb)
+            self.cr.set_source_rgba(*rgba)
             self.cr.rectangle(x, y, width, height)
             if filled: self.cr.fill()
             self.cr.stroke()
             self.cr.restore()
 
     # Text
-    def text(self, x, y, text, rgb=(1, 1, 1), size=5, scale=False):
+    def text(self, x, y, text, rgba=(1, 1, 1, 1), size=5, scale=False):
         '''
         Draws text strings on the starchart
         '''
@@ -301,7 +292,7 @@ class Starchart(gtk.DrawingArea):
 
         if self.__in_viewport(x1, y1, x2, y2):
             self.cr.save()
-            self.cr.set_source_rgb(*rgb)
+            self.cr.set_source_rgba(*rgba)
             self.cr.move_to(xt - fontw / 2, yt + fonth / 2)
             self.cr.scale(1.0, -1.0)
             self.cr.show_layout(self.layout)
@@ -309,7 +300,7 @@ class Starchart(gtk.DrawingArea):
             self.cr.restore()
 
     # Polygon defined by a list of points
-    def polygon(self, points, rgb=(1, 1, 1), filled=False):
+    def polygon(self, points, rgba=(1, 1, 1, 1), filled=False):
         '''
         Draws a polygon from a list of points
         '''
@@ -330,7 +321,7 @@ class Starchart(gtk.DrawingArea):
             self.cr.move_to(x, y)
             # The rest
             self.cr.save()
-            self.cr.set_source_rgb(*rgb)
+            self.cr.set_source_rgba(*rgba)
             for (vx, vy) in points[1:]:
                 cx, cy = self.coord_v2c(vx, vy)
                 self.cr.line_to(cx, cy)
@@ -371,7 +362,7 @@ class Drawable:
         '''
         Here goes the actual cairo drawing
         '''
-        pass
+        raise NotImplementedError
 
     pass # End of Drawable class
 
@@ -391,13 +382,13 @@ class PlanetDrawable(Drawable):
             
         # Draw planet
         starchart.circle(self.obj.x, self.obj.y, size,
-                         rgb=(0.3, 0.3, 0.9), filled=True)
+                         rgba=(0.3, 0.3, 0.9, 1), filled=True)
 
         # Show planet's name when zooming
-        if starchart.zoom > 1.2:
+        if starchart.zoom > 1.4:
             starchart.text(self.obj.x, self.obj.y - 8,
                            self.obj.name,
-                           rgb=(0.6, 0.6, 0.6), size=8)
+                           rgba=(0.6, 0.6, 0.6, 1), size=8)
     pass # End of PlanetDrawable class
 
 class ShipDrawable(Drawable):
@@ -409,60 +400,82 @@ class ShipDrawable(Drawable):
         starchart.polygon([(self.obj.x-1, self.obj.y-1),
                            (self.obj.x+1, self.obj.y-1),
                            (self.obj.x, self.obj.y+2)],
-                          rgb=(0, 1, 0), filled=True)
+                          rgba=(0, 1, 0, 1), filled=True)
     pass # End of ShipDrawable class
 
-class Line:
-    def __init__(self, x1, y1, x2, y2, rgb=(1, 1, 1)):
+class MinefieldDrawable(Drawable):
+    def __init__(self, obj):
+        Drawable.__init__(self, obj)
+
+    def draw(self, starchart):
+        starchart.circle(self.obj.x, self.obj.y, self.obj.radius,
+                         rgba=(1, 1, 0, 0.2), filled=True)
+    pass # End of MinefieldDrawable class
+
+#####
+# Primitive mapping classes
+#####
+class Drawing:
+    '''
+    A drawing normally that has a 1 to 1 relationship with some
+    drawing primitive on the starchart
+    '''
+    def draw(self, starchart):
+        raise NotImplementedError
+    pass
+
+class Line(Drawing):
+    def __init__(self, x1, y1, x2, y2, rgba=(1, 1, 1, 1)):
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-        self.rgb = rgb
+        self.rgba = rgba
 
     def draw(self, starchart):
-        starchart.line(self.x1, self.y1, self.x2, self.y2, self.rgb)
+        starchart.line(self.x1, self.y1, self.x2, self.y2, self.rgba)
 
     pass
 
-class Circle:
-    def __init__(self, x, y, radius, rgb=(1, 1, 1), filled=False):
+class Circle(Drawing):
+    def __init__(self, x, y, radius, rgba=(1, 1, 1, 1), filled=False):
         self.x = x
         self.y = y
         self.radius = radius
-        self.rgb = rgb
+        self.rgba = rgba
         self.filled
     def draw(self, starchart):
-        starchart.circle(self.x, self.y, self.radius, self.rgb, self.filled)
+        starchart.circle(self.x, self.y, self.radius, self.rgba, self.filled)
 
-class Rectangle:
-    def __init__(self, x1, y1, x2, y2, rgb=(1, 1, 1), filled=False):
+class Rectangle(Drawing):
+    def __init__(self, x1, y1, x2, y2, rgba=(1, 1, 1, 1), filled=False):
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-        self.rgb = rgb
+        self.rgba = rgba
         self.filled = filled
     def draw(self, starchart):
         starchart.rectangle(self.x1, self.y1,
-                            self.x2, self.y2, self.rgb, self.filled)
+                            self.x2, self.y2, self.rgba, self.filled)
 
-class Text:
-    def __init__(self, x, y, text, rgb=(1, 1, 1), size=5, scale=False):
+class Text(Drawing):
+    def __init__(self, x, y, text, rgba=(1, 1, 1, 1), size=5, scale=False):
         self.x = x
         self.y = y
         self.text = text
-        self.rgb = rgb
+        self.rgba = rgba
         self.size = size
         self.scale = scale
     def draw(self, starchart):
-        starchart.text(self.x, self.y, self.text, self.rgb, self.size, self.scale)
+        starchart.text(self.x, self.y, self.text, self.rgba,
+                       self.size, self.scale)
 
-class Polygon:
-    def __init__(self, points, rgb=(1, 1, 1), filled=False):
+class Polygon(Drawing):
+    def __init__(self, points, rgba=(1, 1, 1, 1), filled=False):
         self.points = points
-        self.rgb = rgb
+        self.rgba = rgba
         self.filled = filled
     def draw(self, starchart):
-        starchart.polygon(self.points, self.rgb, self.filled)
+        starchart.polygon(self.points, self.rgba, self.filled)
 

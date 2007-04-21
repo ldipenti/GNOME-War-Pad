@@ -11,12 +11,14 @@ from gwp.filereaders import EngspecFile
 from gwp.filereaders import ShipXYFile
 from gwp.filereaders import ShipFile
 from gwp.filereaders import TargetFile
+from gwp.filereaders import KoreFile
 from gwp.models import Planet
 from gwp.models import Hull
 from gwp.models import Beam
 from gwp.models import Torpedo
 from gwp.models import Engine
 from gwp.models import Ship
+from gwp.models import Minefield
 
 class RaceList(list):
     '''
@@ -190,5 +192,22 @@ class ShipCollection(dict):
                 self[ship_id].name = targets[ship_id]['name']
                 self[ship_id].speed = targets[ship_id]['speed']
                 self[ship_id].hull_type = targets[ship_id]['hull_type']
+        return
+    pass # End of ShipCollection class
+
+class MinefieldCollection(dict):
+    '''
+    A collection of minefields
+    '''
+    def __init__(self, gamedir, racenum):
+        super(MinefieldCollection, self).__init__(self)
+        # data loading (kore)
+        kore_file = KoreFile(gamedir + 'kore' + str(racenum) + '.dat')
+        minefields = kore_file.read()['minefields']
+        # data assembly
+        for (id, data) in minefields.items():
+            if data['owner'] != 0:
+                self[id] = Minefield(data['x'], data['y'],
+                                     data['radius'], data['owner'])
         return
     pass # End of ShipCollection class

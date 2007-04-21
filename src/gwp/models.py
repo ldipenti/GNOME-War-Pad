@@ -2,46 +2,6 @@
 
 import math
 
-class Starchart:
-    '''
-    This class represents the Echo Cluster, a piece of the Universe where
-    lots of things happen everyday...
-    '''
-    __properties__ = {
-        }
-    # Coordinate bounds
-    min_x = 0
-    min_y = 0
-    max_x = 0
-    max_y = 0
-    # Contents
-    planets = []
-    ships = []
-    
-    def __init__(self, min_x, min_y, max_x, max_y):
-        self.min_x = min_x
-        self.min_y = min_y
-        self.max_x = max_x
-        self.max_y = max_y
-        return
-
-    def add_planet(self, planet):
-        '''
-        Adds a planet to the collection
-        '''
-        self.planets.append(planet)
-        return
-
-    def remove_planet(self, planet):
-        '''
-        Removes a planet from the collection
-        '''
-        if planet in self.planets:
-            self.planets.remove(planet)
-        return
-
-    pass # End of Starchart class
-
 # The good old GwpObject class...reloaded!
 class FloatingObject(object):
     '''
@@ -312,5 +272,17 @@ class Torpedo:
                  'mass', 'tech', 'kill', 'damage']
         for a in attrs:
             setattr(self, a, torpspec[a])
+        return
+    pass # End of Torpedo class
+
+class Minefield:
+    '''
+    A mine field on space
+    '''
+    def __init__(self, x, y, radius, owner):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.owner = owner
         return
     pass # End of Torpedo class
