@@ -5,22 +5,6 @@ import math
 
 from gwp.collections import PlanetCollection, ShipCollection
 
-class Group:
-    def __init__(self, width, height, zoom):
-        self.width = int(round(width * zoom))
-        self.height = int(round(height * zoom))
-        self.zoom = zoom
-        self.drawings = []
-        self.img = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                      self.width, self.height)
-        self.ctx = cairo.Context(self.img)
-
-    def add(self, draw):
-        self.drawings.append(draw)
-
-    def draw(self, starchart):
-        pass
-
 class Starchart(gtk.DrawingArea):
     __gsignals__ = {
         "expose-event" : "override",
@@ -28,6 +12,8 @@ class Starchart(gtk.DrawingArea):
         "button-press-event" : "override",
         "motion-notify-event" : "override",
         "scroll-event" : "override",
+        "selected" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+                      (gobject.TYPE_FLOAT, gobject.TYPE_FLOAT,))
         }
 
     def __init__(self):
@@ -49,6 +35,7 @@ class Starchart(gtk.DrawingArea):
 
         # Objects to draw
         self.drawings = []
+        self.drawables = []
 
     def coord_c2v(self, x, y):
         '''
@@ -68,10 +55,14 @@ class Starchart(gtk.DrawingArea):
 
     # Mouse events
     def do_button_press_event(self, event):
-        self.x_tmp = self.x
-        self.y_tmp = self.y
-        self.drag_x = event.x
-        self.drag_y = event.y
+        if event.button == 3:
+            x, y = self.coord_c2v(event.x, event.y)
+            self.emit('selected', x, y)
+        elif event.button == 1:
+            self.x_tmp = self.x
+            self.y_tmp = self.y
+            self.drag_x = event.x
+            self.drag_y = event.y
 
     def do_motion_notify_event(self, event):
         self.x = self.x_tmp + (self.drag_x - event.x) / self.zoom
@@ -125,10 +116,12 @@ class Starchart(gtk.DrawingArea):
         self.cr.scale(1.0, -1.0)
         self.cr.translate(0, -1.0 * height)
 
+        self.cr.set_line_width(1)
+
         # NOTE: Actual drawings go below this line!!!
-        self.line(2000, 2000, 2500, 2500)
 
         # Drawing groups
+        self.__draw_drawables()
         self.__draw_drawings()
 
     def __pan(self, x_factor, y_factor):
@@ -177,15 +170,25 @@ class Starchart(gtk.DrawingArea):
         # Redraw
         self.queue_draw()
 
-    def add_drawings(self, obj_list, Drawable):
+    def add(self, drawing):
+        self.drawings.append(drawing)
+
+    def __draw_drawings(self):
+        for drawing in self.drawings:
+            self.cr.save()
+            drawing.draw(self)
+            self.cr.restore()
+        self.cr.stroke()
+
+    def add_drawables(self, obj_list, Drawable):
         '''
         Adds a list of tuples, containing the object list and the method
         to draw those objects.
         '''
-        self.drawings.append((obj_list, Drawable))
+        self.drawables.append((obj_list, Drawable))
 
-    def __draw_drawings(self):
-        for obj_list, Drawable in self.drawings:
+    def __draw_drawables(self):
+        for obj_list, Drawable in self.drawables:
             for obj in self.__obj_in_viewport(obj_list.values()):
                 self.cr.save()
                 Drawable(obj).draw(self)
@@ -304,8 +307,55 @@ class Starchart(gtk.DrawingArea):
             self.cr.show_layout(self.layout)
             self.cr.stroke()
             self.cr.restore()
+
+    # Polygon defined by a list of points
+    def polygon(self, points, rgb=(1, 1, 1), filled=False):
+        '''
+        Draws a polygon from a list of points
+        '''
+        if len(points) < 3:
+            print "Error: Polygon needs at least 3 points"
+            return
+
+        # Check visibility
+        lx = []
+        ly = []
+        for x, y in points:
+            lx.append(x)
+            ly.append(y)
+        if self.__in_viewport(min(lx), min(ly), max(lx), max(ly)):
+            # Initial point
+            ix, iy = points[0]
+            x, y = self.coord_v2c(ix, iy)
+            self.cr.move_to(x, y)
+            # The rest
+            self.cr.save()
+            self.cr.set_source_rgb(*rgb)
+            for (vx, vy) in points[1:]:
+                cx, cy = self.coord_v2c(vx, vy)
+                self.cr.line_to(cx, cy)
+            self.cr.close_path()
+            if filled: self.cr.fill()
+            self.cr.stroke()
+            self.cr.restore()
+
+    #####
+    # Other primitives
+    #####
+    # Rotate the following drawings
+    def rotate(self, x, y, angle):
+        '''
+        Rotate using (x, y) as rotation point, and angle in degrees
+        '''
+        rx, ry = self.coord_v2c(x, y)
+        # Translate to the center, rotate, and un-translate
+        self.cr.translate(rx, ry)
+        self.cr.rotate(-1 * angle * math.pi / 180)
+        self.cr.translate(-1.0 * rx, -1.0 * ry)
         
     pass # End of Starchart class
+
+gobject.type_register(Starchart)
 
 class Drawable:
     '''
@@ -329,7 +379,7 @@ class PlanetDrawable(Drawable):
     '''
     How to draw a planet
     '''
-    def __init__(self, obj=None):
+    def __init__(self, obj):
         Drawable.__init__(self, obj)
 
     def draw(self, starchart):
@@ -350,49 +400,69 @@ class PlanetDrawable(Drawable):
                            rgb=(0.6, 0.6, 0.6), size=8)
     pass # End of PlanetDrawable class
 
-
 class ShipDrawable(Drawable):
-    '''
-    How to draw a ship
-    '''
-    def __init__(self, x, y, obj=None):
-        Drawable.__init__(self, x, y, obj)
+    def __init__(self, obj):
+        Drawable.__init__(self, obj)
 
-    def draw(self, context, zoom=1):
-        # mini canvas size
-        w, h = (5 * zoom, 5 * zoom)
-
-        # Avoid ship being too tiny on zoom-out
-        if zoom < 1: zoom = 1
-
-        # Triangle data
-        angle = -1.0 * self.obj.heading
-        base = 2 * zoom
-        top = base * 2
-
-        # Create new drawing buffer
-        img = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                 int(round(w * zoom)),
-                                 int(round(h * zoom)))
-        ctx = cairo.Context(img)
-
-        # Matrix transformation apply from bottom to top!
-        ctx.translate(w / 2, h / 2)
-        ctx.rotate(angle * math.pi / 180)
-
-        # Draw ship
-        ctx.set_source_rgb(0.0, 1.0, 0.0)
-        ctx.move_to(-1 * base / 2, -1 * top / 2)
-        ctx.rel_line_to(base, 0)
-        ctx.rel_line_to(-1 * base / 2, top)
-        ctx.close_path()
-        ctx.fill()
-        ctx.stroke()
-
-        # Apply buffer on starchart
-        context.set_source_surface(img, self.x - w/2, self.y - h/2)
-        context.paint()
-
+    def draw(self, starchart):
+        starchart.rotate(self.obj.x, self.obj.y, self.obj.heading)
+        starchart.polygon([(self.obj.x-1, self.obj.y-1),
+                           (self.obj.x+1, self.obj.y-1),
+                           (self.obj.x, self.obj.y+2)],
+                          rgb=(0, 1, 0), filled=True)
     pass # End of ShipDrawable class
 
+class Line:
+    def __init__(self, x1, y1, x2, y2, rgb=(1, 1, 1)):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.rgb = rgb
+
+    def draw(self, starchart):
+        starchart.line(self.x1, self.y1, self.x2, self.y2, self.rgb)
+
+    pass
+
+class Circle:
+    def __init__(self, x, y, radius, rgb=(1, 1, 1), filled=False):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.rgb = rgb
+        self.filled
+    def draw(self, starchart):
+        starchart.circle(self.x, self.y, self.radius, self.rgb, self.filled)
+
+class Rectangle:
+    def __init__(self, x1, y1, x2, y2, rgb=(1, 1, 1), filled=False):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.rgb = rgb
+        self.filled = filled
+    def draw(self, starchart):
+        starchart.rectangle(self.x1, self.y1,
+                            self.x2, self.y2, self.rgb, self.filled)
+
+class Text:
+    def __init__(self, x, y, text, rgb=(1, 1, 1), size=5, scale=False):
+        self.x = x
+        self.y = y
+        self.text = text
+        self.rgb = rgb
+        self.size = size
+        self.scale = scale
+    def draw(self, starchart):
+        starchart.text(self.x, self.y, self.text, self.rgb, self.size, self.scale)
+
+class Polygon:
+    def __init__(self, points, rgb=(1, 1, 1), filled=False):
+        self.points = points
+        self.rgb = rgb
+        self.filled = filled
+    def draw(self, starchart):
+        starchart.polygon(self.points, self.rgb, self.filled)
 
