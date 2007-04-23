@@ -1,6 +1,6 @@
 import pygtk
 pygtk.require('2.0')
-import gtk, gobject, cairo, pango
+import gtk, gobject, pango
 import math
 
 from gwp.collections import PlanetCollection, ShipCollection
@@ -37,6 +37,16 @@ class Starchart(gtk.DrawingArea):
         self.drawings = []
         self.drawables = []
 
+        # Draw grid
+        self.__init_grid()
+
+    def __init_grid(self):
+        cnt = 1000
+        while cnt <= 3000:
+            self.add(Line(cnt, 1000, cnt, 3000, rgba=(0.3, 0.3, 0.3, 1)))
+            self.add(Line(1000, cnt, 3000, cnt, rgba=(0.3, 0.3, 0.3, 1)))
+            cnt += 100
+        
     def coord_c2v(self, x, y):
         '''
         Convert coordinates from Cairo system to VGAP system
@@ -409,11 +419,11 @@ class MinefieldDrawable(Drawable):
 
     def draw(self, starchart):
         starchart.circle(self.obj.x, self.obj.y, self.obj.radius,
-                         rgba=(1, 1, 0, 0.2), filled=True)
+                         rgba=(0.3, 0.3, 0, 0.3), filled=True)
     pass # End of MinefieldDrawable class
 
 #####
-# Primitive mapping classes
+# Drawing primitive mapping classes
 #####
 class Drawing:
     '''
