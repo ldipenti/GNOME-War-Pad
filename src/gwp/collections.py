@@ -44,7 +44,7 @@ class RaceList(list):
         ret = []
         map(lambda (l,s,a): ret.append(s), self)
         return ret
-    
+
     def get_adj(self):
         '''
         Return a list of races adjectives
@@ -52,8 +52,18 @@ class RaceList(list):
         ret = []
         map(lambda (l,s,a): ret.append(a), self)
         return ret
-    pass
 
+    def get_short_and_number(self):
+        '''
+        Return a list of tuplas (races short descriptions, race number)
+        '''
+        names = self.get_short()
+        ret = []
+        i = 1
+        for s in names:
+            ret.append ([s,i])
+            i = i + 1
+        return ret
 
 class PlanetCollection(dict):
     '''
