@@ -4,7 +4,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gobject, cairo, pango
 import math
-import profile
+#import profile
 
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, MinefieldDrawable
 from gwp.collections import PlanetCollection, ShipCollection, MinefieldCollection
