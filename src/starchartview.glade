@@ -70,8 +70,9 @@
                 </child>
                 <child>
                     <widget class="GtkVBox" id="vbox2">
+                        <property name="border_width">2</property>
                         <property name="visible">True</property>
-                        <property name="width_request">100</property>
+                        <property name="width_request">150</property>
                         <child>
                             <widget class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
@@ -80,9 +81,11 @@
                                         <property name="label" context="yes" translatable="yes">n/a</property>
                                         <property name="visible">True</property>
                                         <property name="xalign">0.0</property>
+                                        <property name="xpad">5</property>
                                     </widget>
                                     <packing>
                                         <property name="expand">False</property>
+                                        <property name="padding">3</property>
                                     </packing>
                                 </child>
                                 <child>
@@ -90,15 +93,27 @@
                                         <property name="label" context="yes" translatable="yes">0</property>
                                         <property name="visible">True</property>
                                         <property name="xalign">0.0</property>
+                                        <property name="xpad">5</property>
                                     </widget>
                                     <packing>
                                         <property name="expand">False</property>
+                                        <property name="padding">3</property>
                                         <property name="position">1</property>
                                     </packing>
                                 </child>
                             </widget>
                             <packing>
                                 <property name="expand">False</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <widget class="GtkHSeparator" id="hseparator1">
+                                <property name="visible">True</property>
+                            </widget>
+                            <packing>
+                                <property name="expand">False</property>
+                                <property name="padding">7</property>
+                                <property name="position">1</property>
                             </packing>
                         </child>
                         <child>
@@ -109,7 +124,7 @@
                                 </child>
                             </widget>
                             <packing>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                             </packing>
                         </child>
                         <child>
@@ -128,11 +143,12 @@
                                 </child>
                             </widget>
                             <packing>
-                                <property name="position">2</property>
+                                <property name="position">3</property>
                             </packing>
                         </child>
                     </widget>
                     <packing>
+                        <property name="expand">False</property>
                         <property name="position">1</property>
                     </packing>
                 </child>

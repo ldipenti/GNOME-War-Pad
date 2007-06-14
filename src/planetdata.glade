@@ -55,12 +55,14 @@
                         <child>
                             <widget class="ProxyEntry" id="name">
                                 <property name="data_type">str</property>
+                                <property name="is_focus">True</property>
                                 <property name="model_attribute">name</property>
                                 <property name="visible">True</property>
                             </widget>
                             <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
+                                <property name="x_options"></property>
                                 <property name="y_options">fill</property>
                             </packing>
                         </child>
@@ -76,6 +78,7 @@
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
                                 <property name="top_attach">1</property>
+                                <property name="x_options"></property>
                                 <property name="y_options">fill</property>
                             </packing>
                         </child>
@@ -93,6 +96,7 @@
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
                                 <property name="top_attach">2</property>
+                                <property name="x_options"></property>
                                 <property name="y_options">fill</property>
                             </packing>
                         </child>

@@ -15,10 +15,17 @@ from kiwi.ui.objectlist import Column, ObjectList
 
 import os.path
 
-class GameData:
+class Singleton:
+    __single = None
+    def __init__( self ):
+        if Singleton.__single:
+            raise Singleton.__single
+        Singleton.__single = self    
+
+class GameData (Singleton):
     path = None
     racenum = None
-    racelist = None
+    race_list = None
     state = False
     
     def __init__(self):
@@ -35,20 +42,29 @@ class GameData:
 
             # Set gral data
             self.state = True
-            self.racelist = RaceList( self.get_path() )
+            self.race_list = RaceList( self.get_path() )
 
     def get_path(self):
         return self.path
 
-    def get_racenum(self):
-        # TODO: read the data from path
+    def get_race_num(self):
+        # TODO: get from player data
         return 7
 
-    def get_racelist(self):
-        return self.racelist
+    def get_race_name(self):
+        # TODO: get from player data
+        return "Los Simios"
+        
+    def get_turn_number(self):
+        # TODO: get from player data
+        return 38
+
+    def get_race_list(self):
+        return self.race_list
+    pass
 
 class Shell(Delegate):
-    my_widgets = ["entry_dir", "button_open"]
+    my_widgets = ["entry_dir", "button_open", "race_name", "turn_number"]
     planets = None
     ships = None
     starchart = None
@@ -74,8 +90,8 @@ class Shell(Delegate):
         if path != "" and os.path.isdir(path):
             gd = GameData()
             gd.set_path(path)
-            self.planets = PlanetCollection( gd.get_path(), gd.get_racenum() )
-            self.ships = ShipCollection( gd.get_path(), gd.get_racenum() )
+            self.planets = PlanetCollection( gd.get_path(), gd.get_race_num() )
+            self.ships = ShipCollection( gd.get_path(), gd.get_race_num() )
             self.starchart = Starchart()
             self.starchart.add_drawables(self.planets, PlanetDrawable)
             self.starchart.add_drawables(self.ships, ShipDrawable)
@@ -87,8 +103,12 @@ class Shell(Delegate):
             slave.focus_toplevel()
             self.slave = slave
 
+            # Game data
+            self.race_name.set_text( gd.get_race_name() )
+            self.turn_number.set_text( "Turn " +  str(gd.get_turn_number()) )
+
             # object data
-            self.planetslave = PlanetData(gd)
+            self.planetslave = PlanetData()
             self.attach_slave("eventbox2", self.planetslave)
 
 
@@ -115,13 +135,14 @@ class Shell(Delegate):
         
         self.objlist.clear()
         self.objlist.extend(objlist)
-
+    pass
 
 class PlanetData(SlaveDelegate):
     planetwidgets = ["name", "owner", "id"]
     proxy = None
     
-    def __init__(self, gd):
+    def __init__(self):
+        gd = GameData()
         SlaveDelegate.__init__(self, gladefile="planetdata",
                                toplevel_name="window1",
                                widgets=self.planetwidgets)
@@ -130,11 +151,12 @@ class PlanetData(SlaveDelegate):
         races = []
 
         if gd.is_valid():
-            racelist = gd.get_racelist()
+            racelist = gd.get_race_list()
             races = racelist.get_short_and_number()
             races.append ( ("desconocido", -1) )
             
         self.owner.prefill( races )
+    pass
 
 
 
