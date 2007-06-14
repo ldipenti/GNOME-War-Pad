@@ -5,8 +5,6 @@ import math
 
 from gwp.collections import PlanetCollection, ShipCollection
 
-shown = 0
-
 class Starchart(gtk.DrawingArea):
     __gsignals__ = {
         "expose-event" : "override",
@@ -24,7 +22,7 @@ class Starchart(gtk.DrawingArea):
         self.set_flags(gtk.CAN_FOCUS)
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK |
                         gtk.gdk.SCROLL_MASK |
-                        gtk.gdk.BUTTON1_MOTION_MASK)
+                        gtk.gdk.BUTTON3_MOTION_MASK)
         self.layout = None
 
         # Viewport attrs
@@ -69,10 +67,10 @@ class Starchart(gtk.DrawingArea):
 
     # Mouse events
     def do_button_press_event(self, event):
-        if event.button == 3:
+        if event.button == 1:
             x, y = self.coord_c2v(event.x, event.y)
             self.emit('selected', x, y)
-        elif event.button == 1:
+        elif event.button == 3:
             self.x_tmp = self.x
             self.y_tmp = self.y
             self.drag_x = event.x
@@ -112,14 +110,18 @@ class Starchart(gtk.DrawingArea):
         else:
             print "Unhandled Key: '" + k + "'"
 
+    # Move viewport (relative to actual position)
+    def move(self, x, y):
+        self.x += x
+        self.y += y
+        self.queue_draw()
+
     # Handle contents redraw
     def do_expose_event(self, event):
         self.cr = self.window.cairo_create()
         self.cr.rectangle(event.area.x, event.area.y,
                           event.area.width, event.area.height)
         self.cr.clip()
-        global shown
-        shown = 0
         self.draw(*self.window.get_size())
 
     def draw(self, width, height):
@@ -140,8 +142,6 @@ class Starchart(gtk.DrawingArea):
         self.__draw_drawables()
         self.__draw_drawings()
 
-        global shown
-        print "Shown/Total objs: %d/%d" % (shown, self.objs)
 
     def __pan(self, x_factor, y_factor):
         '''
@@ -254,8 +254,6 @@ class Starchart(gtk.DrawingArea):
             self.cr.stroke()
             self.cr.restore()
 
-            global shown
-            shown += 1
     
     # Circle (center, radius)
     def circle(self, x, y, radius, rgba=(1, 1, 1, 1), filled=False):
@@ -273,8 +271,6 @@ class Starchart(gtk.DrawingArea):
             self.cr.stroke()
             self.cr.restore()
 
-            global shown
-            shown += 1
             
     # Rectangle (1st corner, 2nd corner)
     def rectangle(self, x1, y1, x2, y2, rgba=(1, 1, 1, 1), filled=False):
@@ -293,8 +289,6 @@ class Starchart(gtk.DrawingArea):
             self.cr.stroke()
             self.cr.restore()
 
-            global shown
-            shown += 1
 
     # Text
     def text(self, x, y, text, rgba=(1, 1, 1, 1), size=5, scale=False):
@@ -329,8 +323,6 @@ class Starchart(gtk.DrawingArea):
             self.cr.stroke()
             self.cr.restore()
 
-            global shown
-            shown += 1
 
     # Polygon defined by a list of points
     def polygon(self, points, rgba=(1, 1, 1, 1), filled=False):
@@ -363,8 +355,6 @@ class Starchart(gtk.DrawingArea):
             self.cr.stroke()
             self.cr.restore()
 
-            global shown
-            shown += 1
 
     #####
     # Other primitives

@@ -1,0 +1,105 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://gazpacho.sicem.biz/gazpacho-0.1.dtd">
+<glade-interface>
+    <widget class="GtkWindow" id="starchartview">
+        <property name="default_height">250</property>
+        <property name="default_width">440</property>
+        <property name="title" context="yes" translatable="yes">Starchart View</property>
+        <child>
+            <widget class="GtkHBox" id="hbox1">
+                <property name="visible">True</property>
+                <child>
+                    <widget class="GtkVBox" id="vbox1">
+                        <property name="visible">True</property>
+                        <child>
+                            <widget class="GtkHBox" id="hbox2">
+                                <property name="visible">True</property>
+                                <child>
+                                    <widget class="ProxyLabel" id="kiwilabel1">
+                                        <property name="label" context="yes" translatable="yes">Game dir:</property>
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.0</property>
+                                    </widget>
+                                    <packing>
+                                        <property name="expand">False</property>
+                                        <property name="padding">2</property>
+                                    </packing>
+                                </child>
+                                <child>
+                                    <widget class="ProxyEntry" id="entry_dir">
+                                        <property name="text" context="yes" translatable="yes">/home/cristian/VP/ARGF4</property>
+                                        <property name="visible">True</property>
+                                    </widget>
+                                    <packing>
+                                        <property name="padding">2</property>
+                                        <property name="position">1</property>
+                                    </packing>
+                                </child>
+                                <child>
+                                    <widget class="ProxyButton" id="button_open">
+                                        <property name="data_type">str</property>
+                                        <property name="is_focus">True</property>
+                                        <property name="label">gtk-open</property>
+                                        <property name="use_stock">True</property>
+                                        <property name="visible">True</property>
+                                    </widget>
+                                    <packing>
+                                        <property name="expand">False</property>
+                                        <property name="padding">2</property>
+                                        <property name="position">2</property>
+                                    </packing>
+                                </child>
+                            </widget>
+                            <packing>
+                                <property name="expand">False</property>
+                                <property name="padding">1</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <widget class="GtkEventBox" id="eventbox1">
+                                <property name="visible">True</property>
+                                <child>
+                                    <placeholder/>
+                                </child>
+                            </widget>
+                            <packing>
+                                <property name="position">1</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <widget class="GtkEventBox" id="eventbox2">
+                                <property name="visible">True</property>
+                                <child>
+                                    <placeholder/>
+                                </child>
+                            </widget>
+                            <packing>
+                                <property name="expand">False</property>
+                                <property name="position">2</property>
+                            </packing>
+                        </child>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkFrame" id="frame1">
+                        <property name="label" context="yes" translatable="yes">Objects</property>
+                        <property name="shadow">none</property>
+                        <property name="shadow_type">none</property>
+                        <property name="visible">True</property>
+                        <child>
+                            <widget class="GtkEventBox" id="eventbox3">
+                                <property name="visible">True</property>
+                                <child>
+                                    <placeholder/>
+                                </child>
+                            </widget>
+                        </child>
+                    </widget>
+                    <packing>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
+            </widget>
+        </child>
+    </widget>
+</glade-interface>

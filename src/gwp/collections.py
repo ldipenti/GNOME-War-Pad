@@ -186,6 +186,7 @@ class ShipCollection(dict):
                                      ship_data['y'],
                                      ship_data['owner'])
                 self[ship_id].mass = ship_data['mass']
+                self[ship_id].id = ship_data['id']
                 
             # Complete with data from TARGETx
             if ship_id in targets.keys():
