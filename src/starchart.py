@@ -4,6 +4,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gobject, cairo, pango
 import math
+import profile
 
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, MinefieldDrawable
 from gwp.collections import PlanetCollection, ShipCollection, MinefieldCollection
@@ -41,4 +42,5 @@ def myCallback(obj, x, y, data=None):
 
 if __name__ == "__main__":
     run(Starchart)
+    #profile.run('run(Starchart)')
 
