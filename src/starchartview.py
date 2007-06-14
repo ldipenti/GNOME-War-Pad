@@ -87,7 +87,11 @@ class Shell(Delegate):
                                    ])
         slave = SlaveDelegate(toplevel=self.objlist)
         self.attach_slave("eventbox3", slave)
-            
+	self.objlist.connect("selection-changed", self.on_objlist_selected)
+
+    def on_objlist_selected(self, widget, obj):
+        self.planetslave.proxy.set_model(None)
+        self.planetslave.proxy.set_model(obj)	    
 
     def on_button_open__clicked(self, widget):
         path = self.entry_dir.get_text()
