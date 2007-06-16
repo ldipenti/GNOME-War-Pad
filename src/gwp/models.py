@@ -164,6 +164,13 @@ class Ship(FlyingObject):
                 h = 0
             self.heading = int(round(h))
         return
+
+    def is_ship(self):
+        return True
+
+    def is_planet(self):
+        return False
+
     pass # End of Ship class
 
 
@@ -221,6 +228,12 @@ class Planet(FloatingObject):
             for a in attrs:
                 setattr(self, a, pdata[a])
         return
+
+    def is_ship(self):
+        return False
+
+    def is_planet(self):
+        return True
     pass
 
 class Hull:
