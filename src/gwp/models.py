@@ -1,6 +1,6 @@
 # models.py: Model classes
 
-import math
+import math, os.path
 
 # The good old GwpObject class...reloaded!
 class FloatingObject(object):
@@ -299,3 +299,35 @@ class Minefield:
         self.owner = owner
         return
     pass # End of Torpedo class
+
+class Singleton(object):
+        def __new__(cls, *args, **kwds):
+            it = cls.__dict__.get("__it__")
+            if it is not None:
+                return it
+            cls.__it__ = it = object.__new__(cls)
+            it.init(*args, **kwds)
+            return it
+        def init(self, *args, **kwds):
+            pass
+
+class Game (Singleton):
+    path = None
+    race = None
+    
+    def __init__(self):
+        super(Game, self).__init__(self)
+
+    def __setattr__(self, name, value):
+        if name == 'path':
+            if value != None and os.path.isdir(value):
+                # TODO : verify path
+                value += '/'
+                super(Game, self).__setattr__(name, value)
+            else:
+                raise ValueError
+        else:
+            super(Game, self).__setattr__(name, value)
+
+    pass
+
