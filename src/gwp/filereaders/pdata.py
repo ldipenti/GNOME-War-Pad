@@ -20,7 +20,7 @@ class PDataFile(CaseInsensitiveFile):
         for reg in range(planets):
             # Format beginning with "<" as little-endian (Intel-based systems)
             # http://docs.python.org/lib/module-struct.html
-            a = struct.unpack("<2H 3s 3H 11L 9H L 3H",
+            a = struct.unpack("<2H 3s 3H 11L 6H 2h H L 3H",
                               super(PDataFile, self).read(self.pdata_size))
             pdata = {'owner' : a[0],
                      'id' : a[1],
