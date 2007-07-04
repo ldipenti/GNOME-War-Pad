@@ -177,6 +177,12 @@ class ShipCollection(dict):
         my_ships_file = ShipFile("%sship%d.dat" % (gamedir, racenum))
         my_ships = my_ships_file.read()
         my_ships_file.close()
+
+        # data loading (korex)
+        kore_file = KoreFile(gamedir + 'kore' + str(racenum) + '.dat')
+        contacts = kore_file.read()['contacts']
+        kore_file.close()
+        
         # data assembly (own ships)
         for (ship_id, ship_data) in my_ships.items():
             self[ship_id] = Ship(ship_data['x'],
@@ -203,6 +209,14 @@ class ShipCollection(dict):
                 self[ship_id].name = targets[ship_id]['name']
                 self[ship_id].speed = targets[ship_id]['speed']
                 self[ship_id].hull_type = targets[ship_id]['hull_type']
+
+            # Complete with data from KOREx
+            if ship_id in contacts.keys():
+                self[ship_id].name = contacts[ship_id]['name']
+                self[ship_id].speed = contacts[ship_id]['speed']
+                self[ship_id].hull_type = contacts[ship_id]['hull_type']
+                self[ship_id].headng = contacts[ship_id]['heading']
+                
         return
     pass # End of ShipCollection class
 
@@ -215,6 +229,7 @@ class MinefieldCollection(dict):
         # data loading (kore)
         kore_file = KoreFile(gamedir + 'kore' + str(racenum) + '.dat')
         minefields = kore_file.read()['minefields']
+        kore_file.close()
         # data assembly
         for (id, data) in minefields.items():
             if data['owner'] != 0:
