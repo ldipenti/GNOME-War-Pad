@@ -87,7 +87,7 @@ class Ship(FlyingObject):
     damage = 0
     dur = 0
     engines_type = 0
-    fcode = 0
+    fcode = '???'
     fighter_bays = 0
     hull_type = 0
     id = 0
@@ -95,7 +95,7 @@ class Ship(FlyingObject):
     megacredits = 0
     mission = 0
     mol = 0
-    name = 0
+    name = 'Unknown Name'
     neu = 0
     owner = 0
     primary_enemy = 0
@@ -189,7 +189,7 @@ class Planet(FloatingObject):
     mines = 0
     fcode = 0
     ground_mol = 0
-    colonists = -1
+    colonists = -1L
     tax_colonists = 0
     supplies = 0
     dens_mol = 0
@@ -208,7 +208,7 @@ class Planet(FloatingObject):
     natives_spi = 0
     dens_neu = 0
     dens_tri = 0
-    natives = 0
+    natives = 0L
     selected = False # delete this
 
     def __init__(self, x, y, name, pdata=None):
@@ -314,6 +314,9 @@ class Singleton(object):
 class Game (Singleton):
     path = None
     race = None
+    race_num = 7
+    turn_number = 38
+    race_name_adj = "Simios"
     
     def __init__(self):
         super(Game, self).__init__(self)

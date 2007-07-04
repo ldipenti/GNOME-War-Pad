@@ -4,6 +4,7 @@ import gtk, gobject, pango
 import math
 
 from gwp.collections import PlanetCollection, ShipCollection
+from gwp.models import Game
 
 class Starchart(gtk.DrawingArea):
     __gsignals__ = {
@@ -423,10 +424,15 @@ class ShipDrawable(Drawable):
     
     def draw(self, starchart):
         starchart.rotate(self.obj.x, self.obj.y, self.obj.heading)
+        if self.obj.owner == Game().race_num:
+            color = (0, 1, 0, 1)
+        else:
+            color = (1, 0, 0, 1)
+            
         starchart.polygon([(self.obj.x-1, self.obj.y-1),
                            (self.obj.x+1, self.obj.y-1),
                            (self.obj.x, self.obj.y+2)],
-                          rgba=(0, 1, 0, 1), filled=True)
+                          rgba=color, filled=True)
     pass # End of ShipDrawable class
 
 class MinefieldDrawable(Drawable):

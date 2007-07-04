@@ -8,65 +8,13 @@ import math
 
 from gwp.collections import PlanetCollection, ShipCollection, RaceList
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line
+from gwp.models import Game
 
 from kiwi.ui.delegates import SlaveDelegate, Delegate
 from kiwi.ui.gadgets import quit_if_last
 from kiwi.ui.objectlist import Column, ObjectList
 
 import os.path
-
-class Singleton(object):
-        def __new__(cls, *args, **kwds):
-            it = cls.__dict__.get("__it__")
-            if it is not None:
-                return it
-            cls.__it__ = it = object.__new__(cls)
-            it.init(*args, **kwds)
-            return it
-        def init(self, *args, **kwds):
-            pass
-
-
-class GameData (Singleton):
-    path = None
-    racenum = None
-    race_list = None
-    state = False
-    
-    def __init__(self):
-        pass
-
-    def is_valid(self):
-        return self.state
-
-    def set_path(self, path):
-        if path != "" and os.path.isdir(path):
-            # TODO : verify path
-            path += '/'
-            self.path = path
-
-            # Set gral data
-            self.state = True
-            self.race_list = RaceList( self.get_path() )
-
-    def get_path(self):
-        return self.path
-
-    def get_race_num(self):
-        # TODO: get from player data
-        return 7
-
-    def get_race_name_adj(self):
-        # TODO: get from player data
-        return "Simios"
-        
-    def get_turn_number(self):
-        # TODO: get from player data
-        return 38
-
-    def get_race_list(self):
-        return self.race_list
-    pass
 
 class Shell(Delegate):
     my_widgets = ["entry_dir", "button_open", "race_name", "turn_number"]
@@ -112,11 +60,11 @@ class Shell(Delegate):
         path = self.entry_dir.get_text()
         
         if path != "" and os.path.isdir(path):
-            gd = GameData()
-            gd.set_path(path)
+            gd = Game()
+            gd.path = path
             # Read user data
-            self.planets = PlanetCollection( gd.get_path(), gd.get_race_num() )
-            self.ships = ShipCollection( gd.get_path(), gd.get_race_num() )
+            self.planets = PlanetCollection( gd.path, gd.race_num )
+            self.ships = ShipCollection( gd.path, gd.race_num )
             # Prepare the starchart
             self.starchart = Starchart()
             self.starchart.add_drawables(self.planets, PlanetDrawable)
@@ -130,8 +78,8 @@ class Shell(Delegate):
             self.slave = slave
 
             # Show game data
-            self.race_name.set_text( "We are <b>" + gd.get_race_name_adj() + "</b>" )
-            self.turn_number.set_text( "Turn " +  str(gd.get_turn_number()) )
+            self.race_name.set_text( "We are <b>" + gd.race_name_adj + "</b>" )
+            self.turn_number.set_text( "Turn " +  str(gd.turn_number) )
 
             # Attach planet frame
             self.planet_slave = PlanetData()
@@ -172,6 +120,8 @@ class Shell(Delegate):
                 objlist.append(obj)
 
         self.starchart.move(ret.x - x, ret.y - y)
+
+        #print "ID: %d" % ret.id
 
         # Hide/show ships frame
         if objlist == []:
@@ -223,7 +173,7 @@ class PlanetData(SlaveDelegate):
     proxy = None
     
     def __init__(self):
-        gd = GameData()
+        gd = Game()
         SlaveDelegate.__init__(self, gladefile="planet_data",
                                toplevel_name="planet_data",
                                widgets=self.planetwidgets)
@@ -244,7 +194,7 @@ class ShipData(SlaveDelegate):
     proxy = None
     
     def __init__(self):
-        gd = GameData()
+        gd = Game()
         SlaveDelegate.__init__(self, gladefile="ship_data",
                                toplevel_name="ship_data",
                                widgets=self.planetwidgets)
