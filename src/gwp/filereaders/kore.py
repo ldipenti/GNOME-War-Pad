@@ -52,27 +52,32 @@ class KoreFile(CaseInsensitiveFile):
         ret['storms'] = ret_storms
         # Additional visual contacts (if there is any...)
         self.seek(12702)
-        contact_signature = struct.unpack("<4s", super(KoreFile, self).read(4))
+        contact_signature = struct.unpack("<4s", super(KoreFile, self).read(4))[0]
         
         # This suck, thanks to Tim
-        if contact_signature == '1211':
-            self.seek(12706)
-            contacts_nr = struct.unpack("<H", super(KoreFile, self).read(2))[0]
+        if contact_signature == '1120':
+            ret['target_extra'] = True
+        else:
+            ret['target_extra'] = False
             
-            for contact in range(contacts_nr):
-                a = struct.unpack("<7h 20s",
-                                  super(KoreFile, self).read(self.contact_reg_size))
-                contact = {
-                    'id' : a[0],
-                    'owner' : a[1],
-                    'speed' : a[2],
-                    'x' : a[3],
-                    'y' : a[4],
-                    'hull_type' : a[5],
-                    'heading' : a[6],
-                    'name' : a[7],
-                    }
-                ret_contacts[contact['id']] = contact
+        self.seek(12706)
+        contacts_nr = struct.unpack("<H", super(KoreFile, self).read(2))[0]
+        print "contactsssss: %d" % contacts_nr
+            
+        for contact in range(contacts_nr):
+            a = struct.unpack("<7h 20s",
+                              super(KoreFile, self).read(self.contact_reg_size))
+            contact = {
+                'id' : a[0],
+                'owner' : a[1],
+                'speed' : a[2],
+                'x' : a[3],
+                'y' : a[4],
+                'hull_type' : a[5],
+                'heading' : a[6],
+                'name' : a[7],
+                }
+            ret_contacts[contact['id']] = contact
         ret['contacts'] = ret_contacts
         return ret
     pass

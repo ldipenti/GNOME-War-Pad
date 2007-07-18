@@ -180,8 +180,23 @@ class ShipCollection(dict):
 
         # data loading (korex)
         kore_file = KoreFile(gamedir + 'kore' + str(racenum) + '.dat')
-        contacts = kore_file.read()['contacts']
+        kore_data = kore_file.read()
+        contacts = kore_data['contacts']
+
+        # Tim, you rock!
+        targets_extra = None
+        if kore_data['target_extra']:
+            try:
+                # data loading (targetX)
+                target_file = TargetFile("%starget%d.ext" % (gamedir, racenum))
+            except:
+                pass
+            else:
+                targets_extra = target_file.read()
+                target_file.close()
+            
         kore_file.close()
+
         
         # data assembly (own ships)
         for (ship_id, ship_data) in my_ships.items():
@@ -209,6 +224,13 @@ class ShipCollection(dict):
                 self[ship_id].name = targets[ship_id]['name']
                 self[ship_id].speed = targets[ship_id]['speed']
                 self[ship_id].hull_type = targets[ship_id]['hull_type']
+
+            if targets_extra != None:
+                # Complete with data from TARGETx EXTRA
+                if ship_id in targets_extra.keys():
+                    self[ship_id].name = targets_extra[ship_id]['name']
+                    self[ship_id].speed = targets_extra[ship_id]['speed']
+                    self[ship_id].hull_type = targets_extra[ship_id]['hull_type']
 
             # Complete with data from KOREx
             if ship_id in contacts.keys():

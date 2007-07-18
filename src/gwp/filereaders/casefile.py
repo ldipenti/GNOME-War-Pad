@@ -35,6 +35,15 @@ import os
 #         return
 #     pass
 
+class NotFoundError(Exception):
+    def __init__(self, msg):
+        self.value = msg
+        return
+
+    def __str__(self):
+        return repr(self.value)
+    pass
+
 class CaseInsensitiveFileNOVFS(file):
     def __init__(self, filename):
         files = os.listdir(os.path.dirname(filename))
@@ -52,7 +61,7 @@ class CaseInsensitiveFileNOVFS(file):
             self.size = os.path.getsize(real_uri)
         else:
             print "OUCH! found " + str(len(matches)) + " matches"
-            raise NotFoundError, "There were zero or more than one matches on your file name"
+            raise NotFoundError, "There were zero or more than one matches on your file name: " + filename
         return
     pass
 

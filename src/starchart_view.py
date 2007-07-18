@@ -9,6 +9,7 @@ import math
 from gwp.collections import PlanetCollection, ShipCollection, RaceList
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line
 from gwp.models import Game
+from gwp.filereaders import GenFile
 
 from kiwi.ui.delegates import SlaveDelegate, Delegate
 from kiwi.ui.gadgets import quit_if_last
@@ -17,7 +18,7 @@ from kiwi.ui.objectlist import Column, ObjectList
 import os.path
 
 class Shell(Delegate):
-    my_widgets = ["entry_dir", "button_open", "race_name", "turn_number"]
+    my_widgets = ["entry_dir", "button_open", "race_name", "turn_number", "combobox_race"]
     planets = None
     ships = None
     starchart = None
@@ -37,7 +38,23 @@ class Shell(Delegate):
         slave = SlaveDelegate(toplevel=self.objlist)
         self.attach_slave("eventbox_ship_list", slave)
 	self.objlist.connect("selection-changed", self.on_objlist_selected)
-            
+
+    def on_entry_dir__activate(self, widget):
+        races = []
+        for race in range(1, 11+1):
+            filename = widget.get_text() + '/gen' + str(race) + '.dat'
+            try:
+                f = GenFile(filename)
+            except:
+                pass
+            else:
+                races.append(race)
+        racelist = RaceList(widget.get_text()).get_short()
+
+        self.combobox_race.clear()
+        for race in races:
+            self.combobox_race.append_item(racelist[race-1], race)
+        self.combobox_race.select_item_by_position(0)
 
     def on_objlist_selected(self, widget, obj):
         try:
@@ -58,10 +75,12 @@ class Shell(Delegate):
 
     def on_button_open__clicked(self, widget):
         path = self.entry_dir.get_text()
+        race = self.combobox_race.get_selected_data()
         
         if path != "" and os.path.isdir(path):
             gd = Game()
             gd.path = path
+            gd.race_num = race
             # Read user data
             self.planets = PlanetCollection( gd.path, gd.race_num )
             self.ships = ShipCollection( gd.path, gd.race_num )

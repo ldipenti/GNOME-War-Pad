@@ -15,6 +15,7 @@ from engspec import EngspecFile
 from torpspec import TorpspecFile
 from hullspec import HullspecFile
 from truehull import TruehullFile
+from genx import GenFile
 from util import UtilFile
 
-__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile", "BeamspecFile", "EngspecFile", "TorpspecFile", "HullspecFile", "TruehullFile", "UtilFile"]
+__all__ = ["PDataFile", "RaceNMFile", "XYPlanFile", "BDataFile", "ShipXYFile", "ShipFile", "TargetFile", "KoreFile", "CaseInsensitiveFile", "PlanetNMFile", "BeamspecFile", "EngspecFile", "TorpspecFile", "HullspecFile", "TruehullFile", "UtilFile", "GenFile"]
