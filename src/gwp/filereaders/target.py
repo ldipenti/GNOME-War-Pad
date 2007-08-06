@@ -18,7 +18,7 @@ class TargetFile(CaseInsensitiveFile):
         self.seek(0)
         target_nr = struct.unpack("<H",
                                  super(TargetFile, self).read(2))[0]
-        print "TARGET!!!!!!!!!!!!! %d" % target_nr
+
         ret = {}
         for target in range(target_nr):
             a = struct.unpack("<7h 20s",

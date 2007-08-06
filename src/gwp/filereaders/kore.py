@@ -60,12 +60,11 @@ class KoreFile(CaseInsensitiveFile):
         else:
             ret['target_extra'] = False
             
-        self.seek(12706)
-        contacts_nr = struct.unpack("<H", super(KoreFile, self).read(2))[0]
-        print "contactsssss: %d" % contacts_nr
+        self.seek(12722)
+        contacts_nr = struct.unpack("<I", super(KoreFile, self).read(4))[0]
             
         for contact in range(contacts_nr):
-            a = struct.unpack("<7h 20s",
+            a = struct.unpack("<7H 20s",
                               super(KoreFile, self).read(self.contact_reg_size))
             contact = {
                 'id' : a[0],
@@ -75,9 +74,16 @@ class KoreFile(CaseInsensitiveFile):
                 'y' : a[4],
                 'hull_type' : a[5],
                 'heading' : a[6],
-                'name' : a[7],
+                'name' : self._decode_name(a[7]),
                 }
             ret_contacts[contact['id']] = contact
         ret['contacts'] = ret_contacts
+        return ret
+
+    # I wonder why Tim did this...
+    def _decode_name(self, name):
+        ret = ''
+        for i in range(len(name)):
+            ret += chr(ord(name[i]) ^ 155 - i - 1)
         return ret
     pass
