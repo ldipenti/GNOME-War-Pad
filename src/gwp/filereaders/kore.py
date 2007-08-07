@@ -64,7 +64,7 @@ class KoreFile(CaseInsensitiveFile):
         contacts_nr = struct.unpack("<I", super(KoreFile, self).read(4))[0]
             
         for contact in range(contacts_nr):
-            a = struct.unpack("<7H 20s",
+            a = struct.unpack("<6H 1h 20s",
                               super(KoreFile, self).read(self.contact_reg_size))
             contact = {
                 'id' : a[0],

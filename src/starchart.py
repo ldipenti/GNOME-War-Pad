@@ -9,12 +9,15 @@ import math
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, MinefieldDrawable
 from gwp.collections import PlanetCollection, ShipCollection, MinefieldCollection
 
+path = "/home/cristian/VP/ARGF4/"
+racenum = 7
+
 def run(Widget):
     window = gtk.Window()
     window.connect("delete-event", gtk.main_quit)
-    planets = PlanetCollection('/home/ldipenti/VP/ARGF4/', 8)
-    ships = ShipCollection('/home/ldipenti/VP/ARGF4/', 8)
-    minefields = MinefieldCollection('/home/ldipenti/VP/ARGF4/', 8)
+    planets = PlanetCollection(path, racenum)
+    ships = ShipCollection(path, racenum)
+    minefields = MinefieldCollection(path, racenum)
     screen = Widget()
     screen.add_drawables(minefields, MinefieldDrawable)
     screen.add_drawables(planets, PlanetDrawable)

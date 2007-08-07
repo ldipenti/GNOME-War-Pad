@@ -224,6 +224,7 @@ class ShipCollection(dict):
                 self[ship_id].name = targets[ship_id]['name']
                 self[ship_id].speed = targets[ship_id]['speed']
                 self[ship_id].hull_type = targets[ship_id]['hull_type']
+                self[ship_id].heading = targets[ship_id]['heading']
 
             if targets_extra != None:
                 # Complete with data from TARGETx EXTRA
@@ -231,13 +232,14 @@ class ShipCollection(dict):
                     self[ship_id].name = targets_extra[ship_id]['name']
                     self[ship_id].speed = targets_extra[ship_id]['speed']
                     self[ship_id].hull_type = targets_extra[ship_id]['hull_type']
+                    self[ship_id].heading = targets_extra[ship_id]['heading']
 
             # Complete with data from KOREx
             if ship_id in contacts.keys():
                 self[ship_id].name = contacts[ship_id]['name']
                 self[ship_id].speed = contacts[ship_id]['speed']
                 self[ship_id].hull_type = contacts[ship_id]['hull_type']
-                self[ship_id].headng = contacts[ship_id]['heading']
+                self[ship_id].heading = contacts[ship_id]['heading']
                 
         return
     pass # End of ShipCollection class

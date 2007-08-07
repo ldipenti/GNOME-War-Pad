@@ -171,6 +171,9 @@ class Ship(FlyingObject):
     def is_planet(self):
         return False
 
+    def waypoint_distance(self):
+        return math.sqrt((self.x_to_waypoint ** 2) + (self.y_to_waypoint ** 2))
+    
     pass # End of Ship class
 
 
@@ -234,6 +237,7 @@ class Planet(FloatingObject):
 
     def is_planet(self):
         return True
+
     pass
 
 class Hull:

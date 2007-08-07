@@ -34,7 +34,9 @@ class Starchart(gtk.DrawingArea):
         self.zoom_min = 0.3
         self.zoom_step = 0.15
 
-        self.objs = 0
+        # Layers
+        self.layers = []
+        self.add_layer('grid', description='The Grid')
         
         # Objects to draw
         self.drawings = []
@@ -46,8 +48,8 @@ class Starchart(gtk.DrawingArea):
     def __init_grid(self):
         cnt = 1000
         while cnt <= 3000:
-            self.add(Line(cnt, 1000, cnt, 3000, rgba=(0.3, 0.3, 0.3, 1)))
-            self.add(Line(1000, cnt, 3000, cnt, rgba=(0.3, 0.3, 0.3, 1)))
+            self.add(Line(cnt, 1000, cnt, 3000, rgba=(0.3, 0.3, 0.3, 1)), layer='grid')
+            self.add(Line(1000, cnt, 3000, cnt, rgba=(0.3, 0.3, 0.3, 1)), layer='grid')
             cnt += 100
         
     def coord_c2v(self, x, y):
@@ -65,6 +67,59 @@ class Starchart(gtk.DrawingArea):
         x = self.zoom * (x - self.x)
         y = self.zoom * (y - self.y)
         return x, y
+
+    # Layer methods
+    def add_layer(self, name, enabled=True, description=''):
+        '''
+        Create a new layer where objects can be added
+        '''
+        if description == '': description = name
+        self.layers.append({'name': name,
+                            'enabled' : enabled,
+                            'description': description,
+                            'objects': []})
+
+    def is_layer(self, name):
+        '''
+        Return True if named layer exists
+        '''
+        return name in map(lambda x: x['name'], self.layers)
+
+    def __get_layer(self, name):
+        if self.is_layer(name):
+            return filter(lambda x: x['name'] == name, self.layers)[0]
+        else:
+            return None
+
+    def __add_to_layer(self, name, obj):
+        '''
+        Add some object to some layer
+        '''
+        try:
+            self.__get_layer(name)['objects'].append(obj)
+        except:
+            # FIXME: What should we do here??
+            raise
+
+    def get_enabled_layers(self):
+        return filter(lambda x: x['enabled'] == True, self.layers)
+
+    def enable_layer(self, name, enabled):
+        '''
+        Turns on/off some layer
+        '''
+        self.__get_layer(name)['enabled'] = enabled
+        # Force redraw
+        self.queue_draw()
+
+    def get_layer_list(self):
+        '''
+        Return some tuple list with layer information
+        '''
+        return map(lambda x: {'name': x['name'],
+                              'description': x['description'],
+                              'enabled': x['enabled']},
+                   self.layers)
 
     # Mouse events
     def do_button_press_event(self, event):
@@ -139,8 +194,6 @@ class Starchart(gtk.DrawingArea):
 
         # NOTE: Actual drawings go below this line!!!
 
-        # Drawing groups
-        self.__draw_drawables()
         self.__draw_drawings()
 
 
@@ -190,30 +243,28 @@ class Starchart(gtk.DrawingArea):
         # Redraw
         self.queue_draw()
 
-    def add(self, drawing):
-        self.objs += 1
-        self.drawings.append(drawing)
+    def add(self, drawing, layer):
+        '''
+        Add a simple drawing (primitive) to the starchart
+        '''
+        self.__add_to_layer(layer, drawing)
 
-    def __draw_drawings(self):
-        for drawing in self.drawings:
-            self.cr.save()
-            drawing.draw(self)
-            self.cr.restore()
-        self.cr.stroke()
-
-    def add_drawables(self, obj_list, Drawable):
+    def add_drawables(self, obj_list, Drawable, layer):
         '''
         Adds a list of tuples, containing the object list and the method
         to draw those objects.
         '''
-        self.objs += len(obj_list)
-        self.drawables.append((obj_list, Drawable))
+        for obj in obj_list.values():
+            self.__add_to_layer(layer, Drawable(obj))
 
-    def __draw_drawables(self):
-        for obj_list, Drawable in self.drawables:
-            for obj in obj_list.values():
+    def __draw_drawings(self):
+        '''
+        The actual drawing loop!
+        '''
+        for layer in self.get_enabled_layers():
+            for drawing in layer['objects']:
                 self.cr.save()
-                Drawable(obj).draw(self)
+                drawing.draw(self)
                 self.cr.restore()
             self.cr.stroke()
 
@@ -426,13 +477,22 @@ class ShipDrawable(Drawable):
         starchart.rotate(self.obj.x, self.obj.y, self.obj.heading)
         if self.obj.owner == Game().race_num:
             color = (0, 1, 0, 1)
+            starchart.line(self.obj.x, self.obj.y,
+                           self.obj.x, self.obj.y + self.obj.waypoint_distance(),
+                           rgba=(0, 1, 0, 0.4))
         else:
             color = (1, 0, 0, 1)
+            h_color = (1, 0, 0, 0.4)
+            if self.obj.heading != -1:
+                starchart.line(self.obj.x, self.obj.y,
+                               self.obj.x, self.obj.y + (self.obj.speed ** 2),
+                               rgba=h_color)
             
         starchart.polygon([(self.obj.x-1, self.obj.y-1),
                            (self.obj.x+1, self.obj.y-1),
                            (self.obj.x, self.obj.y+2)],
                           rgba=color, filled=True)
+
     pass # End of ShipDrawable class
 
 class MinefieldDrawable(Drawable):

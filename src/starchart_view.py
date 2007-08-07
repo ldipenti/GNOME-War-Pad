@@ -29,7 +29,7 @@ class Shell(Delegate):
     def __init__(self):
         Delegate.__init__(self, gladefile="starchart_view",
                           widgets=self.my_widgets,
-                          delete_handler=quit_if_last)
+                          delete_handler=self.quit_if_last)
      
         # object list
         self.objlist = ObjectList([Column('id', data_type=int, sorted=True),
