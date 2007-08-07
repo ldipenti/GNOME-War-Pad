@@ -17,7 +17,7 @@ class Shell(GladeDelegate):
 
     def __init__(self):
         super(Shell, self).__init__(gladefile="shell",
-                                    delete_handler=quit_if_last)
+                                    delete_handler=self.quit_if_last)
         self.__init_starchart()
 
 
