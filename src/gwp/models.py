@@ -172,7 +172,7 @@ class Ship(FlyingObject):
         return False
 
     def waypoint_distance(self):
-        return math.sqrt((self.x_to_waypoint ** 2) + (self.y_to_waypoint ** 2))
+        return math.hypot(self.x_to_waypoint, self.y_to_waypoint)
     
     pass # End of Ship class
 

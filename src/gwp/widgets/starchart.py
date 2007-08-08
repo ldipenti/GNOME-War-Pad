@@ -38,10 +38,6 @@ class Starchart(gtk.DrawingArea):
         self.layers = []
         self.add_layer('grid', description='The Grid')
         
-        # Objects to draw
-        self.drawings = []
-        self.drawables = []
-
         # Draw grid
         self.__init_grid()
 
