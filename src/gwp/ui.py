@@ -8,16 +8,19 @@ import gtk, math
 from kiwi.ui.delegates import GladeDelegate, SlaveDelegate
 from kiwi.ui.gadgets import quit_if_last
 
+import gwp
 from gwp.models import Game
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line
 from gwp.collections import PlanetCollection, ShipCollection
+from gwp.widgets import pycons
 
 class Shell(GladeDelegate):
-    starchart = None
-
     def __init__(self):
         super(Shell, self).__init__(gladefile="shell",
                                     delete_handler=self.quit_if_last)
+        self.console = None
+        self.starchart = None
+        
         self.__init_starchart()
         self.__init_menu()
 
@@ -34,6 +37,23 @@ class Shell(GladeDelegate):
         
         self.menubar.append(layers_menu)
 
+    def do_show_console(self, action):
+        '''
+        Sets up a python console with useful live objects within its scope
+        to do debugging.
+        '''
+        if self.console == None:
+            self.console = pycons.ConsoleWindow({'__builtins__': __builtins__,
+                                                 'starchart': self.starchart,
+                                                 'game': Game(),
+                                                 'gwp': gwp,
+                                                 '__doc__': None},
+                                                title = 'GWP Debugging Console')
+            self.console.win.connect('delete-event', self.__do_remove_console)
+        
+    def __do_remove_console(self, w, data):
+        self.console = None
+        
     def __do_toggle_layer(self, checkmenuitem, layer):
         '''
         Callback to update layer status

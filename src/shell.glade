@@ -5,9 +5,20 @@
         <child>
             <widget class="GtkActionGroup" id="DefaultActions">
                 <child>
+                    <widget class="GtkAction" id="console">
+                        <property name="name">console</property>
+                        <property name="label" translatable="yes">_Console</property>
+                        <property name="is_important">True</property>
+                        <property name="tooltip" translatable="yes">Debugging python console</property>
+                        <property name="stock_id">gtk-preferences</property>
+                        <signal handler="do_show_console" name="activate"/>
+                        <property name="accelerator">&lt;Control&gt;c</property>
+                    </widget>
+                </child>
+                <child>
                     <widget class="GtkAction" id="game">
                         <property name="name">game</property>
-                        <property name="label" translatable="yes">Game</property>
+                        <property name="label" translatable="yes">_Game</property>
                         <property name="is_important">True</property>
                         <property name="accelerator">&lt;Alt&gt;g</property>
                     </widget>
@@ -15,7 +26,6 @@
                 <child>
                     <widget class="GtkAction" id="quit">
                         <property name="name">quit</property>
-                        <property name="label" translatable="yes">Quit</property>
                         <property name="is_important">True</property>
                         <property name="stock_id">gtk-quit</property>
                     </widget>
@@ -23,7 +33,7 @@
             </widget>
         </child>
         <ui id="initial-state"><![CDATA[<ui>
-<menubar action="menubar" name="menubar"><menu action="game" name="game"><menuitem action="quit" name="quit"/></menu></menubar>
+<menubar action="menubar" name="menubar"><menu action="game" name="game"><menuitem action="quit" name="quit"/><menuitem action="console" name="console"/></menu></menubar>
 </ui>]]></ui>
     </widget>
     <widget class="GtkWindow" id="shell">
