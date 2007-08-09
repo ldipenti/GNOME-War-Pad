@@ -28,6 +28,7 @@
                         <property name="name">quit</property>
                         <property name="is_important">True</property>
                         <property name="stock_id">gtk-quit</property>
+                        <signal handler="do_quit" name="activate"/>
                     </widget>
                 </child>
             </widget>

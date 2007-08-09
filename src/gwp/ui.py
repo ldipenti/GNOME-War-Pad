@@ -17,7 +17,7 @@ from gwp.widgets import pycons
 class Shell(GladeDelegate):
     def __init__(self):
         super(Shell, self).__init__(gladefile="shell",
-                                    delete_handler=self.quit_if_last)
+                                    delete_handler=self.do_quit)
         self.console = None
         self.starchart = None
         
@@ -37,6 +37,13 @@ class Shell(GladeDelegate):
         
         self.menubar.append(layers_menu)
 
+    def do_quit(self, *args):
+        '''
+        Quits GWP
+        '''
+        print "Bye bye!"
+        gtk.main_quit()
+        
     def do_show_console(self, action):
         '''
         Sets up a python console with useful live objects within its scope
