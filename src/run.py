@@ -13,7 +13,7 @@ from gwp.ui import Shell
 # Simply, a little stub code to run this...
 
 game = Game()
-game.path = os.path.expanduser('~/VP/ARGF4')
+game.path = os.path.expanduser('~/VP/ARGF4/')
 game.race = 7
 
 shell = Shell()

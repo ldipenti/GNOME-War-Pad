@@ -14,7 +14,7 @@ class UtilFile(CaseInsensitiveFile):
         super(UtilFile, self).__init__(filename)
         return
 
-    def read(self, type_req):
+    def read(self):
         pointer = 0
         record_type = 0
         data_size = 0
@@ -79,55 +79,42 @@ class UtilFile(CaseInsensitiveFile):
              56 : "Repair Report [PHost 4.0i+]",
              57 : "Special Function Definition [PHost 4.0i+]",
             }
-        
-        ret = []
+        registers = { 0 : [[2, 'id', 'h'],
+                           [2, 'x', 'h'],
+                           [2, 'y', 'h'],
+                           [2, 'owner', 'h'],
+                           [4, 'mine_units', 'i'],
+                           [2, 'type', 'h'],
+                           [2, 'id_planet', 'h'],
+                           [2, 'report_cause', 'h'],
+                           ],
+                      }
+        ret = {}
         while record_type <> 30:
             self.seek(pointer)
             record_type, data_size = struct.unpack("<2H", super(UtilFile, self).read(4))
-            pointer = pointer + 4 + data_size
-            if type_req == record_type:
-                print "TYPE: %s (%d) - SIZE: %d" %  (types[record_type], record_type, data_size)
-                if record_type == 5:
-                    a = struct.unpack("<3h 1i 1h",
-                                      super(UtilFile, self).read(data_size))
-                    planet = {
-                        'id': a[0],
-                        'temperature': a[1],
-                        'owner': a[2],
-                        'colonists': a[3] / 100,
-                        'starbase': a[4],
-                        }
-                    ret.append(planet)
-                elif record_type == 10:
-                    a = struct.unpack("<7h 20s",
-                                      super(UtilFile, self).read(self.contact_reg_size))
-                    contact = {
-                        'id' : a[0],
-                        'owner' : a[1],
-                        'speed' : a[2],
-                        'x' : a[3],
-                        'y' : a[4],
-                        'hull_type' : a[5],
-                        'heading' : a[6],
-                        'name' : a[7].strip(),
-                        }
-                    ret.append(contact)
-                elif record_type == 13:
-                    a = struct.unpack("<18s 2h 2B 8I 32s 1c",
-                                      super(UtilFile, self).read(data_size))
-                    control = {
-                        'timestamp': a[0],
-                        'turn': a[1],
-                        'player': a[2],
-                        'major_version': a[3],
-                        'minor_version': a[4],
-                        'game_name': a[13].replace('\x00',''),
-                        'release_code': a[14],
-                        }
-                    ret.append(control)
-                    return ret
-                else:
-                    return None
-            return None
-        pass
+            pointer = pointer + 4
+
+            if record_type in registers:
+                reg_size = 0
+                reg_data = {}
+
+                for field in registers[record_type]:
+                    if reg_size < data_size:
+
+                        reg_size += field[0]
+                        a = struct.unpack("<"+field[2],
+                                          super(UtilFile, self).read(field[0]))
+                        reg_data[field[1]] = a[0]
+                        pointer += field[0]
+                try:
+                    ret[types[record_type]].append(reg_data)
+                except KeyError:
+                    ret[types[record_type]] = [reg_data]
+
+                pointer += data_size - reg_size
+            else:
+                pointer += data_size            
+        return ret
+
         

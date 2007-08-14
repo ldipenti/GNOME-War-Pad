@@ -592,7 +592,7 @@ class StarchartDelegate(SlaveDelegate):
         self.proxy = self.add_proxy(model=None, widgets=self.sc_widgets)
     pass
 
-class ProxyStarchart(Starchart, PropertyObject, ProxyWidgetMixin):
+class ProxyStarchart(PropertyObject, Starchart, ProxyWidgetMixin):
     __gtype_name__ = 'ProxyStarchart'
     
     allowed_data_types = (str,)
