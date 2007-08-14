@@ -6,6 +6,10 @@ import math
 from gwp.collections import PlanetCollection, ShipCollection
 from gwp.models import Game
 
+from kiwi.ui.delegates import SlaveDelegate
+from kiwi.ui.proxywidget import ProxyWidgetMixin
+from kiwi.utils import gsignal, PropertyObject, type_register
+
 class Starchart(gtk.DrawingArea):
     __gsignals__ = {
         "expose-event" : "override",
@@ -579,4 +583,37 @@ class Polygon(Drawing):
 
     pass
 
+class StarchartDelegate(SlaveDelegate):
+    sc_widgets = ['selected_ship', 'selected_planet', 'pointer']
+    def __init__(self, toplevel):
+        SlaveDelegate.__init__(self,
+                               widgets=self.sc_widgets,
+                               toplevel=toplevel)
+        self.proxy = self.add_proxy(model=None, widgets=self.sc_widgets)
+    pass
 
+class ProxyStarchart(Starchart, PropertyObject, ProxyWidgetMixin):
+    __gtype_name__ = 'ProxyStarchart'
+    
+    allowed_data_types = (str,)
+    def __init__(self, data_type=None):
+        Starchart.__init__(self)
+        PropertyObject.__init__(self, data_type=data_type)
+        ProxyWidgetMixin.__init__(self)
+        self.connect('selected', self._handle_selected)
+
+    def _handle_selected(self, w, x, y):
+        self.selected = (x, y)
+        self.emit('content-changed')
+                         
+    def read(self):
+        print "Read: %s" % str(self.selected)
+        return self.selected
+
+    def update(self, data):
+        print "Update: %s" % str(data)
+        
+    def notify(self, attr):
+        print "Notify: %s" % attr
+    pass
+type_register(ProxyStarchart)

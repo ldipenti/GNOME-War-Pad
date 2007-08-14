@@ -1,6 +1,7 @@
 # models.py: Model classes
 
 import math, os.path
+from kiwi.model import Model
 
 # The good old GwpObject class...reloaded!
 class FloatingObject(object):
@@ -315,15 +316,23 @@ class Singleton(object):
         def init(self, *args, **kwds):
             pass
 
-class Game (Singleton):
+class Game(Singleton, Model):
     path = None
     race = None
     race_num = 7
     turn_number = 38
     race_name_adj = "Simios"
+    selected_ship = None
+    selected_planet = None
+    pointer = None
     
     def __init__(self):
-        super(Game, self).__init__(self)
+        Singleton.__init__(self)
+        Model.__init__(self)
+
+    def set_pointer(self, data):
+        print "SET model: %s" % str(data)
+        self.pointer = data
 
     def __setattr__(self, name, value):
         if name == 'path':
@@ -335,6 +344,8 @@ class Game (Singleton):
                 raise ValueError
         else:
             super(Game, self).__setattr__(name, value)
+        print "notify"
+        self.notify_proxies(name)
 
     pass
 

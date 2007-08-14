@@ -86,8 +86,9 @@ class Shell(Delegate):
             self.ships = ShipCollection( gd.path, gd.race_num )
             # Prepare the starchart
             self.starchart = Starchart()
-            self.starchart.add_drawables(self.planets, PlanetDrawable)
-            self.starchart.add_drawables(self.ships, ShipDrawable)
+            self.starchart.add_layer('p')
+            self.starchart.add_drawables(self.planets, PlanetDrawable, 'p')
+            self.starchart.add_drawables(self.ships, ShipDrawable, 'p')
             self.starchart.connect("selected", self.on_starchart_selected)
             self.starchart.show()
             # Put the startchart in place

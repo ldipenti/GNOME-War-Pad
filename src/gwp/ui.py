@@ -10,7 +10,7 @@ from kiwi.ui.gadgets import quit_if_last
 
 import gwp
 from gwp.models import Game
-from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line
+from gwp.widgets import ProxyStarchart, StarchartDelegate, PlanetDrawable, ShipDrawable, Line
 from gwp.collections import PlanetCollection, ShipCollection
 from gwp.widgets import pycons
 
@@ -73,7 +73,7 @@ class Shell(GladeDelegate):
         game.ships = ShipCollection(game.path, game.race)
 
         # Init starchart
-        self.starchart = Starchart()
+        self.starchart = ProxyStarchart(data_type=str)
         self.starchart.add_layer('planets', description='The planets')
         self.starchart.add_layer('ships', description='The ships')
         self.starchart.add_layer('constellations', description='Planet constellations')
@@ -85,6 +85,10 @@ class Shell(GladeDelegate):
 
         # Locate starchart in UI
         slave = SlaveDelegate(toplevel=self.starchart)
+        # We prefer the name 'pointer' to 'toplevel'
+        slave.pointer = slave.toplevel
+        proxy = slave.add_proxy(model=game, widgets=['pointer'])
+
         self.attach_slave("eventbox_starchart", slave)
         slave.focus_toplevel()
 
@@ -98,6 +102,7 @@ class Shell(GladeDelegate):
                 if distance <= 84:
                     self.starchart.add(Line(planet_a.x, planet_a.y, planet_b.x, planet_b.y,
                                             (0.4, 0.4, 0.4)), layer='constellations')
+
         return
     pass # End of Shell class
 
