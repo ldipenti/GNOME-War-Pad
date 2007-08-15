@@ -120,7 +120,7 @@ class UtilFile(CaseInsensitiveFile):
                            [2, 'native_gov', 'h'],
                            [4, 'natives', 'i'],
                            [4, 'mined_neu', 'i'],
-                           [4, 'mined_tru', 'i'],
+                           [4, 'mined_tri', 'i'],
                            [4, 'mined_dur', 'i'],
                            [4, 'mined_mol', 'i'],
                            [4, 'colonists', 'i'],
@@ -140,7 +140,16 @@ class UtilFile(CaseInsensitiveFile):
                            [4, 'digest_pconfig', 'i'],
                            [4, 'digest_racenm', 'i'],
                            [32, 'game_name', '32s'],
-                           [1, 'phost_release_code', 'c']]
+                           [1, 'phost_release_code', 'c']],
+                      17: [[2, 'id', 'h'],                # Ion storm
+                           [2, 'x', 'h'],
+                           [2, 'y', 'h'],
+                           [2, 'voltage', 'h'],
+                           [2, 'heading', 'h'],
+                           [2, 'speed', 'h'],
+                           [2, 'radius', 'h'],
+                           [2, 'class', 'h'],
+                           [2, 'growth', 'h']],
                       }
         ret = {}
         while record_type <> 30:
