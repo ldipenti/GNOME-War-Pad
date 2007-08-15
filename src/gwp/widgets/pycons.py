@@ -461,7 +461,7 @@ class Console (gtk.ScrolledWindow):
 
     def quit (self, *args):
         """ Default handler on quit """
-        gtk.main_quit();
+        gtk.main_quit()
         return True
 
     def on_drag_data_received (self, 
@@ -570,8 +570,6 @@ class ConsoleWindow:
         self.win = gtk.Window()
         self.win.set_default_size (640, 400)
         self.win.set_border_width (3)
-        #self.win.connect ("destroy", lambda w: gtk.main_quit())
-        #self.win.connect ("delete_event", lambda w,e: gtk.main_quit())
         self.win.set_title (title)
         self.console = Console (namespace=ns)
         self.win.add (self.console)

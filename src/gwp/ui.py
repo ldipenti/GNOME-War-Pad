@@ -10,7 +10,7 @@ from kiwi.ui.gadgets import quit_if_last
 
 import gwp
 from gwp.models import Game
-from gwp.widgets import ProxyStarchart, StarchartDelegate, PlanetDrawable, ShipDrawable, Line
+from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, Rectangle
 from gwp.collections import PlanetCollection, ShipCollection
 from gwp.widgets import pycons
 
@@ -73,11 +73,19 @@ class Shell(GladeDelegate):
         game.ships = ShipCollection(game.path, game.race)
 
         # Init starchart
-        self.starchart = ProxyStarchart(data_type=str)
+        self.starchart = Starchart()
         self.starchart.add_layer('planets', description='The planets')
         self.starchart.add_layer('ships', description='The ships')
         self.starchart.add_layer('constellations', description='Planet constellations')
+        # FIXME: This layer shouldn't be in the "layers" menu...maybe we
+        # should implement layer groups?
+        self.starchart.add_layer('selection', description='Selection area')
 
+        # Signals
+        self.starchart.connect('selected', self._do_starchart_selected)
+        self.starchart.connect('selected-area', self._do_starchart_selected_area)
+        self.starchart.connect('selecting-area', self._do_starchart_selecting_area)
+        
         # Object addition
         self.starchart.add_drawables(game.planets, PlanetDrawable, layer='planets')
         self.starchart.add_drawables(game.ships, ShipDrawable, layer='ships')
@@ -85,10 +93,6 @@ class Shell(GladeDelegate):
 
         # Locate starchart in UI
         slave = SlaveDelegate(toplevel=self.starchart)
-        # We prefer the name 'pointer' to 'toplevel'
-        slave.pointer = slave.toplevel
-        proxy = slave.add_proxy(model=game, widgets=['pointer'])
-
         self.attach_slave("eventbox_starchart", slave)
         slave.focus_toplevel()
 
@@ -103,6 +107,27 @@ class Shell(GladeDelegate):
                     self.starchart.add(Line(planet_a.x, planet_a.y, planet_b.x, planet_b.y,
                                             (0.4, 0.4, 0.4)), layer='constellations')
 
+        # Selection area
+        self.selection = Rectangle(0, 0, 0, 0)
+        self.starchart.add(self.selection, layer='selection')
         return
+
+    def _do_starchart_selected(self, w, x, y):
+        print "Selected Point: (%d, %d)" % (x, y)
+
+    def _do_starchart_selecting_area(self, w, x1, y1, x2, y2):
+        print "Selecting Area: (%d, %d) - (%d, %d)" % (x1, y1, x2, y2)
+        self.selection.x1 = x1
+        self.selection.y1 = y1
+        self.selection.x2 = x2
+        self.selection.y2 = y2
+
+    def _do_starchart_selected_area(self, w, x1, y1, x2, y2):
+        print "Selected Area: (%d, %d) - (%d, %d)" % (x1, y1, x2, y2)
+        self.selection.x1 = 0
+        self.selection.y1 = 0
+        self.selection.x2 = 0
+        self.selection.y2 = 0
+
     pass # End of Shell class
 

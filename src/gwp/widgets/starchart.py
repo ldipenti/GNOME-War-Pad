@@ -6,10 +6,6 @@ import math
 from gwp.collections import PlanetCollection, ShipCollection
 from gwp.models import Game
 
-from kiwi.ui.delegates import SlaveDelegate
-from kiwi.ui.proxywidget import ProxyWidgetMixin
-from kiwi.utils import gsignal, PropertyObject, type_register
-
 class Starchart(gtk.DrawingArea):
     __gsignals__ = {
         "expose-event" : "override",
@@ -17,8 +13,15 @@ class Starchart(gtk.DrawingArea):
         "button-press-event" : "override",
         "motion-notify-event" : "override",
         "scroll-event" : "override",
+        "button-release-event" : "override",
         "selected" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-                      (gobject.TYPE_FLOAT, gobject.TYPE_FLOAT,))
+                      (gobject.TYPE_FLOAT, gobject.TYPE_FLOAT)),
+        "selected-area" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+                           (gobject.TYPE_FLOAT, gobject.TYPE_FLOAT,
+                            gobject.TYPE_FLOAT, gobject.TYPE_FLOAT)),
+        "selecting-area" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+                            (gobject.TYPE_FLOAT, gobject.TYPE_FLOAT,
+                             gobject.TYPE_FLOAT, gobject.TYPE_FLOAT)),
         }
 
     def __init__(self):
@@ -27,7 +30,9 @@ class Starchart(gtk.DrawingArea):
         self.set_flags(gtk.CAN_FOCUS)
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK |
                         gtk.gdk.SCROLL_MASK |
-                        gtk.gdk.BUTTON3_MOTION_MASK)
+                        gtk.gdk.BUTTON_MOTION_MASK |
+                        gtk.gdk.BUTTON3_MOTION_MASK |
+                        gtk.gdk.BUTTON_RELEASE_MASK)
         self.layout = None
 
         # Viewport attrs
@@ -38,6 +43,15 @@ class Starchart(gtk.DrawingArea):
         self.zoom_min = 0.3
         self.zoom_step = 0.15
 
+        # Mouse button status
+        self.buttons = { 1: False, 2: False, 3: False }
+        self.button_press = { 1: 0, 2: 0, 3: 0 }
+        self.button_release = { 1: 0, 2: 0, 3: 0 }
+
+        # Selection area
+        self.selection = { 'x1': 0, 'y1': 0,
+                           'x2': 0, 'y2': 0}
+        
         # Layers
         self.layers = []
         self.add_layer('grid', description='The Grid')
@@ -121,11 +135,39 @@ class Starchart(gtk.DrawingArea):
                               'enabled': x['enabled']},
                    self.layers)
 
+    ###
     # Mouse events
-    def do_button_press_event(self, event):
+    ###
+    def do_button_release_event(self, event):
+        self.buttons[event.button] = False
+        self.button_release[event.button] = event.time
+        self.selection['x2'], self.selection['y2'] = self.coord_c2v(event.x, event.y)
+
+        # In miliseconds
+        click_time = self.button_release[event.button] - self.button_press[event.button]
+
         if event.button == 1:
-            x, y = self.coord_c2v(event.x, event.y)
-            self.emit('selected', x, y)
+            # Decide which signal to emit.
+            # FIXME: 150 miliseconds is a very ad-hoc value, this should
+            # be improved, later...
+            if click_time < 150:
+                self.emit('selected',
+                          self.selection['x2'], self.selection['y2'])
+            else:
+                self.emit('selected-area',
+                          self.selection['x1'], self.selection['y1'],
+                          self.selection['x2'], self.selection['y2'])
+                # Force redraw
+                self.queue_draw()  
+
+    def do_button_press_event(self, event):
+        self.buttons[event.button] = True
+        self.button_press[event.button] = event.time
+        
+        if event.button == 1:
+            # Reset selection area
+            self.selection['x2'] = self.selection['y2'] = 0
+            self.selection['x1'], self.selection['y1'] = self.coord_c2v(event.x, event.y)
         elif event.button == 3:
             self.x_tmp = self.x
             self.y_tmp = self.y
@@ -133,10 +175,20 @@ class Starchart(gtk.DrawingArea):
             self.drag_y = event.y
 
     def do_motion_notify_event(self, event):
-        self.x = self.x_tmp + (self.drag_x - event.x) / self.zoom
-        self.y = self.y_tmp - (self.drag_y - event.y) / self.zoom
-        # Force redraw
-        self.queue_draw()
+        if self.buttons[1]:
+            # Drag selection event...
+            self.selection['x2'], self.selection['y2'] = self.coord_c2v(event.x, event.y)
+            self.emit('selecting-area',
+                      self.selection['x1'], self.selection['y1'],
+                      self.selection['x2'], self.selection['y2'])
+            # Force redraw
+            self.queue_draw()  
+        elif self.buttons[3]:
+            # Panning
+            self.x = self.x_tmp + (self.drag_x - event.x) / self.zoom
+            self.y = self.y_tmp - (self.drag_y - event.y) / self.zoom
+            # Force redraw
+            self.queue_draw()  
 
     def do_scroll_event(self, event):
         if event.direction == gtk.gdk.SCROLL_UP:
@@ -582,38 +634,3 @@ class Polygon(Drawing):
         starchart.polygon(self.points, self.rgba, self.filled)
 
     pass
-
-class StarchartDelegate(SlaveDelegate):
-    sc_widgets = ['selected_ship', 'selected_planet', 'pointer']
-    def __init__(self, toplevel):
-        SlaveDelegate.__init__(self,
-                               widgets=self.sc_widgets,
-                               toplevel=toplevel)
-        self.proxy = self.add_proxy(model=None, widgets=self.sc_widgets)
-    pass
-
-class ProxyStarchart(PropertyObject, Starchart, ProxyWidgetMixin):
-    __gtype_name__ = 'ProxyStarchart'
-    
-    allowed_data_types = (str,)
-    def __init__(self, data_type=None):
-        Starchart.__init__(self)
-        PropertyObject.__init__(self, data_type=data_type)
-        ProxyWidgetMixin.__init__(self)
-        self.connect('selected', self._handle_selected)
-
-    def _handle_selected(self, w, x, y):
-        self.selected = (x, y)
-        self.emit('content-changed')
-                         
-    def read(self):
-        print "Read: %s" % str(self.selected)
-        return self.selected
-
-    def update(self, data):
-        print "Update: %s" % str(data)
-        
-    def notify(self, attr):
-        print "Notify: %s" % attr
-    pass
-type_register(ProxyStarchart)

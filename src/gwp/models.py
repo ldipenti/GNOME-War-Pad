@@ -77,7 +77,7 @@ class FlyingObject(FloatingObject):
     pass # End of FlyingObject class
 
 
-class Ship(FlyingObject):
+class Ship(FlyingObject, Model):
     '''
     A starship object
     '''
@@ -127,7 +127,8 @@ class Ship(FlyingObject):
     y_to_waypoint = 0
     
     def __init__(self, x, y, owner, heading=0, speed=0, sdata=None):
-        super(Ship, self).__init__(x, y, heading, speed)
+        FlyingObject.__init__(self, x, y, heading, speed)
+        Model.__init__(self)
         self.owner = owner
         if sdata != None:
             attrs = ['beams', 'beams_type', 'colonists', 'crew', 'damage',
@@ -316,7 +317,7 @@ class Singleton(object):
         def init(self, *args, **kwds):
             pass
 
-class Game(Singleton, Model):
+class Game(Singleton):
     path = None
     race = None
     race_num = 7
@@ -324,15 +325,9 @@ class Game(Singleton, Model):
     race_name_adj = "Simios"
     selected_ship = None
     selected_planet = None
-    pointer = None
     
     def __init__(self):
         Singleton.__init__(self)
-        Model.__init__(self)
-
-    def set_pointer(self, data):
-        print "SET model: %s" % str(data)
-        self.pointer = data
 
     def __setattr__(self, name, value):
         if name == 'path':
@@ -344,8 +339,5 @@ class Game(Singleton, Model):
                 raise ValueError
         else:
             super(Game, self).__setattr__(name, value)
-        print "notify"
-        self.notify_proxies(name)
-
     pass
 
