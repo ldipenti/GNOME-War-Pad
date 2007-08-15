@@ -79,15 +79,68 @@ class UtilFile(CaseInsensitiveFile):
              56 : "Repair Report [PHost 4.0i+]",
              57 : "Special Function Definition [PHost 4.0i+]",
             }
-        registers = { 0 : [[2, 'id', 'h'],
+        # Every register have several fields, the first value is the field
+        # size, the second is the field name, and the third the struct
+        # string to read the data from the file.
+        registers = { 0 : [[2, 'id', 'h'],               # Minefield
                            [2, 'x', 'h'],
                            [2, 'y', 'h'],
                            [2, 'owner', 'h'],
                            [4, 'mine_units', 'i'],
                            [2, 'type', 'h'],
                            [2, 'id_planet', 'h'],
-                           [2, 'report_cause', 'h'],
-                           ],
+                           [2, 'report_cause', 'h']],
+                      1 : [[2, 'x', 'h'],                # Explosion
+                           [2, 'y', 'h'],
+                           [2, 'ship_id', 'h'],
+                           [20, 'ship_name', '20s']],
+                      2 : [[2, 'ship_id', 'h'],          # Mine hit
+                           [2, 'x', 'h'],
+                           [2, 'y', 'h'],
+                           [2, 'damage', 'h'],
+                           [20, 'ship_name', '20s']],
+                      5 : [[2, 'id', 'h'],               # Planet
+                           [2, 'temperature', 'h'],
+                           [2, 'owner', 'h'],
+                           [4, 'colonists', 'i'],
+                           [2, 'starbase', 'h']],
+                      10: [[2, 'id', 'h'],               # Visual Contact
+                           [2, 'owner', 'h'],
+                           [2, 'speed', 'h'],
+                           [2, 'x', 'h'],
+                           [2, 'y', 'h'],
+                           [2, 'hull_type', 'h'],
+                           [2, 'heading', 'h'],
+                           [20, 'name', '20s']],
+                      11: [[2, 'id', 'h'],               # Allied starbase
+                           [2, 'owner', 'h']],
+                      12: [[2, 'id', 'h'],               # Allied planet
+                           [2, 'owner', 'h'],
+                           [2, 'temperature', 'h'],
+                           [2, 'native_gov', 'h'],
+                           [4, 'natives', 'i'],
+                           [4, 'mined_neu', 'i'],
+                           [4, 'mined_tru', 'i'],
+                           [4, 'mined_dur', 'i'],
+                           [4, 'mined_mol', 'i'],
+                           [4, 'colonists', 'i'],
+                           [4, 'supplies', 'i'],
+                           [4, 'megacredits', 'i']],
+                      13: [[18, 'timestamp', '18s'],     # Control record
+                           [2, 'turn_nr', 'h'],
+                           [2, 'player_nr', 'h'],
+                           [1, 'phost_major_version', 'c'],
+                           [1, 'phost_minor_version', 'c'],
+                           [4, 'digest_hullspec', 'i'],
+                           [4, 'digest_engspec', 'i'],
+                           [4, 'digest_beamspec', 'i'],
+                           [4, 'digest_torpspec', 'i'],
+                           [4, 'digest_truehull', 'i'],
+                           [4, 'digest_xyplan', 'i'],
+                           [4, 'digest_pconfig', 'i'],
+                           [4, 'digest_racenm', 'i'],
+                           [32, 'game_name', '32s'],
+                           [1, 'phost_release_code', 'c']]
                       }
         ret = {}
         while record_type <> 30:
