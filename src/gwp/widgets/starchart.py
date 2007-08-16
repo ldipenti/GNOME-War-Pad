@@ -53,8 +53,8 @@ class Starchart(gtk.DrawingArea):
                            'x2': 0, 'y2': 0}
         
         # Layers
-        self.layers = []
-        self.add_layer('grid', description='The Grid')
+        self.layers = {}
+        self.add_layer('grid', group='shell', description='The Grid')
         
         # Draw grid
         self.__init_grid()
@@ -62,8 +62,8 @@ class Starchart(gtk.DrawingArea):
     def __init_grid(self):
         cnt = 1000
         while cnt <= 3000:
-            self.add(Line(cnt, 1000, cnt, 3000, rgba=(0.3, 0.3, 0.3, 1)), layer='grid')
-            self.add(Line(1000, cnt, 3000, cnt, rgba=(0.3, 0.3, 0.3, 1)), layer='grid')
+            self.add(Line(cnt, 1000, cnt, 3000, rgba=(0.3, 0.3, 0.3, 1)), layer='grid', group='shell')
+            self.add(Line(1000, cnt, 3000, cnt, rgba=(0.3, 0.3, 0.3, 1)), layer='grid', group='shell')
             cnt += 100
         
     def coord_c2v(self, x, y):
@@ -83,57 +83,68 @@ class Starchart(gtk.DrawingArea):
         return x, y
 
     # Layer methods
-    def add_layer(self, name, enabled=True, description=''):
+    def add_layer(self, name, group, enabled=True, description=''):
         '''
         Create a new layer where objects can be added
         '''
         if description == '': description = name
-        self.layers.append({'name': name,
-                            'enabled' : enabled,
-                            'description': description,
-                            'objects': []})
 
-    def is_layer(self, name):
-        '''
-        Return True if named layer exists
-        '''
-        return name in map(lambda x: x['name'], self.layers)
+        # Set up new group if necessary
+        if not group in self.layers.keys():
+            self.layers[group] = []
+        
+        self.layers[group].append({'name': name,
+                                   'enabled' : enabled,
+                                   'description': description,
+                                   'objects': []})
 
-    def __get_layer(self, name):
-        if self.is_layer(name):
-            return filter(lambda x: x['name'] == name, self.layers)[0]
+    def is_layer(self, name, group):
+        '''
+        Return True if named layer and group exists
+        '''
+        if group in self.layers.keys():
+            return name in map(lambda x: x['name'], self.layers[group])
+        else:
+            return False
+
+    def __get_layer(self, name, group):
+        if self.is_layer(name, group):
+            return filter(lambda x: x['name'] == name, self.layers[group])[0]
         else:
             return None
 
-    def __add_to_layer(self, name, obj):
+    def __add_to_layer(self, name, group, obj):
         '''
         Add some object to some layer
         '''
         try:
-            self.__get_layer(name)['objects'].append(obj)
+            self.__get_layer(name, group)['objects'].append(obj)
         except:
             # FIXME: What should we do here??
             raise
 
-    def get_enabled_layers(self):
-        return filter(lambda x: x['enabled'] == True, self.layers)
+    def get_enabled_layers(self, group):
+        return filter(lambda x: x['enabled'] == True, self.layers[group])
 
-    def enable_layer(self, name, enabled):
+    def get_enabled_groups(self):
+        return self.layers.keys()
+
+    def enable_layer(self, name, group, enabled):
         '''
         Turns on/off some layer
         '''
-        self.__get_layer(name)['enabled'] = enabled
+        self.__get_layer(name, group)['enabled'] = enabled
         # Force redraw
         self.queue_draw()
 
-    def get_layer_list(self):
+    def get_layer_list(self, group):
         '''
         Return some tuple list with layer information
         '''
         return map(lambda x: {'name': x['name'],
                               'description': x['description'],
                               'enabled': x['enabled']},
-                   self.layers)
+                   self.layers[group])
 
     ###
     # Mouse events
@@ -295,30 +306,31 @@ class Starchart(gtk.DrawingArea):
         # Redraw
         self.queue_draw()
 
-    def add(self, drawing, layer):
+    def add(self, drawing, layer, group):
         '''
         Add a simple drawing (primitive) to the starchart
         '''
-        self.__add_to_layer(layer, drawing)
+        self.__add_to_layer(layer, group, drawing)
 
-    def add_drawables(self, obj_list, Drawable, layer):
+    def add_drawables(self, obj_list, Drawable, layer, group):
         '''
         Adds a list of tuples, containing the object list and the method
         to draw those objects.
         '''
         for obj in obj_list.values():
-            self.__add_to_layer(layer, Drawable(obj))
+            self.__add_to_layer(layer, group, Drawable(obj))
 
     def __draw_drawings(self):
         '''
         The actual drawing loop!
         '''
-        for layer in self.get_enabled_layers():
-            for drawing in layer['objects']:
-                self.cr.save()
-                drawing.draw(self)
-                self.cr.restore()
-            self.cr.stroke()
+        for group in self.get_enabled_groups():
+            for layer in self.get_enabled_layers(group):
+                for drawing in layer['objects']:
+                    self.cr.save()
+                    drawing.draw(self)
+                    self.cr.restore()
+                self.cr.stroke()
 
     def __in_viewport(self, x1, y1, x2, y2):
         '''
@@ -605,8 +617,8 @@ class Rectangle(Drawing):
 
     def draw(self, starchart):
         starchart.rectangle(self.x1, self.y1,
-                            self.x2, self.y2, self.rgba, self.filled)
-
+                            self.x2, self.y2,
+                            self.rgba, self.filled)
     pass
 
 class Text(Drawing):

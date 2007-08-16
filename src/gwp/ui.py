@@ -29,7 +29,7 @@ class Shell(GladeDelegate):
         layers_menu = gtk.MenuItem('_Layers', True)
         layers_menu.set_submenu(m)
 
-        for l in self.starchart.get_layer_list():
+        for l in self.starchart.get_layer_list('shell'):
             item = gtk.CheckMenuItem(l['description'])
             item.set_active(l['enabled'])
             item.connect('toggled', self.__do_toggle_layer, l['name'])
@@ -65,7 +65,7 @@ class Shell(GladeDelegate):
         '''
         Callback to update layer status
         '''
-        self.starchart.enable_layer(layer, checkmenuitem.active)
+        self.starchart.enable_layer(layer, 'shell', checkmenuitem.active)
 
     def __init_starchart(self):
         game = Game()
@@ -74,12 +74,16 @@ class Shell(GladeDelegate):
 
         # Init starchart
         self.starchart = Starchart()
-        self.starchart.add_layer('planets', description='The planets')
-        self.starchart.add_layer('ships', description='The ships')
-        self.starchart.add_layer('constellations', description='Planet constellations')
+        self.starchart.add_layer('planets', group='shell',
+                                 description='The planets')
+        self.starchart.add_layer('ships', group='shell',
+                                 description='The ships')
+        self.starchart.add_layer('constellations', group='shell',
+                                 description='Planet constellations')
         # FIXME: This layer shouldn't be in the "layers" menu...maybe we
         # should implement layer groups?
-        self.starchart.add_layer('selection', description='Selection area')
+        self.starchart.add_layer('selection', group='system',
+                                 description='Selection area')
 
         # Signals
         self.starchart.connect('selected', self._do_starchart_selected)
@@ -87,8 +91,10 @@ class Shell(GladeDelegate):
         self.starchart.connect('selecting-area', self._do_starchart_selecting_area)
         
         # Object addition
-        self.starchart.add_drawables(game.planets, PlanetDrawable, layer='planets')
-        self.starchart.add_drawables(game.ships, ShipDrawable, layer='ships')
+        self.starchart.add_drawables(game.planets, PlanetDrawable,
+                                     layer='planets', group='shell')
+        self.starchart.add_drawables(game.ships, ShipDrawable,
+                                     layer='ships', group='shell')
         self.starchart.show()
 
         # Locate starchart in UI
@@ -105,11 +111,13 @@ class Shell(GladeDelegate):
                                            planet_b.y - planet_a.y))
                 if distance <= 84:
                     self.starchart.add(Line(planet_a.x, planet_a.y, planet_b.x, planet_b.y,
-                                            (0.4, 0.4, 0.4)), layer='constellations')
+                                            (0.4, 0.4, 0.4)), layer='constellations', group='shell')
 
         # Selection area
-        self.selection = Rectangle(0, 0, 0, 0)
-        self.starchart.add(self.selection, layer='selection')
+        self.selection = Rectangle(0, 0, 0, 0,
+                                   rgba=(0.1, 0.1, 1, 0.3),
+                                   filled=True)
+        self.starchart.add(self.selection, layer='selection', group='system')
         return
 
     def _do_starchart_selected(self, w, x, y):
