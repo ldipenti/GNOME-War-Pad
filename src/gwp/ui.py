@@ -69,8 +69,6 @@ class Shell(GladeDelegate):
 
     def __init_starchart(self):
         game = Game()
-        game.planets = PlanetCollection(game.path, game.race)
-        game.ships = ShipCollection(game.path, game.race)
 
         # Init starchart
         self.starchart = Starchart()
@@ -80,8 +78,6 @@ class Shell(GladeDelegate):
                                  description='The ships')
         self.starchart.add_layer('constellations', group='shell',
                                  description='Planet constellations')
-        # FIXME: This layer shouldn't be in the "layers" menu...maybe we
-        # should implement layer groups?
         self.starchart.add_layer('selection', group='system',
                                  description='Selection area')
 

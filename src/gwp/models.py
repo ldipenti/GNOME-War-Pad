@@ -3,6 +3,7 @@
 import math, os.path
 from kiwi.model import Model
 
+
 # The good old GwpObject class...reloaded!
 class FloatingObject(object):
     '''
@@ -320,14 +321,32 @@ class Singleton(object):
 class Game(Singleton):
     path = None
     race = None
-    race_num = 7
-    turn_number = 38
-    race_name_adj = "Simios"
+    turn_number = None
+    race_name_adj = None
     selected_ship = None
     selected_planet = None
     
-    def __init__(self):
-        Singleton.__init__(self)
+    def __init__(self, *args, **kwds):
+        Singleton.__init__(self, *args, **kwds)
+
+    def init(self, path, race):
+        self.path = path
+        self.race = race
+        # Data objects
+        from gwp.collections import PlanetCollection, ShipCollection
+        self.planets = PlanetCollection(self.path, self.race)
+        self.ships = ShipCollection(self.path, self.race)
+        # PHOST Configuration
+        from gwp.filereaders import PConfigFile
+        self.pconfig = PConfigFile(self.path + 'pconfig.src').read()
+        # Race names loading
+        from gwp.collections import RaceList
+        self.races = RaceList(self.path)
+        # Turn number
+        from gwp.filereaders import UtilFile
+        util = UtilFile(self.path + 'util' + str(self.race) + '.dat')
+        # FIXME: puaj [0]
+        self.turn_number = util.read()['Control record - File Header'][0]['turn_nr']
 
     def __setattr__(self, name, value):
         if name == 'path':

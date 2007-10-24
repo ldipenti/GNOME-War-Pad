@@ -83,7 +83,7 @@ class Starchart(gtk.DrawingArea):
         return x, y
 
     # Layer methods
-    def add_layer(self, name, group, enabled=True, description=''):
+    def add_layer(self, name, group='default', enabled=True, description=''):
         '''
         Create a new layer where objects can be added
         '''
@@ -306,13 +306,13 @@ class Starchart(gtk.DrawingArea):
         # Redraw
         self.queue_draw()
 
-    def add(self, drawing, layer, group):
+    def add(self, drawing, layer, group='default'):
         '''
         Add a simple drawing (primitive) to the starchart
         '''
         self.__add_to_layer(layer, group, drawing)
 
-    def add_drawables(self, obj_list, Drawable, layer, group):
+    def add_drawables(self, obj_list, Drawable, layer, group='default'):
         '''
         Adds a list of tuples, containing the object list and the method
         to draw those objects.
@@ -539,7 +539,7 @@ class ShipDrawable(Drawable):
     
     def draw(self, starchart):
         starchart.rotate(self.obj.x, self.obj.y, self.obj.heading)
-        if self.obj.owner == Game().race_num:
+        if self.obj.owner == Game().race:
             color = (0, 1, 0, 1)
             starchart.line(self.obj.x, self.obj.y,
                            self.obj.x, self.obj.y + self.obj.waypoint_distance(),

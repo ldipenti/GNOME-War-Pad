@@ -78,12 +78,10 @@ class Shell(Delegate):
         race = self.combobox_race.get_selected_data()
         
         if path != "" and os.path.isdir(path):
-            gd = Game()
-            gd.path = path
-            gd.race_num = race
+            gd = Game(path, race)
             # Read user data
-            self.planets = PlanetCollection( gd.path, gd.race_num )
-            self.ships = ShipCollection( gd.path, gd.race_num )
+            self.planets = PlanetCollection( gd.path, gd.race )
+            self.ships = ShipCollection( gd.path, gd.race )
             # Prepare the starchart
             self.starchart = Starchart()
             self.starchart.add_layer('p')
@@ -98,7 +96,7 @@ class Shell(Delegate):
             self.slave = slave
 
             # Show game data
-            self.race_name.set_text( "We are <b>" + gd.race_name_adj + "</b>" )
+            self.race_name.set_text( "We are <b>" + gd.races.get_short()[gd.race-1] + "</b>" )
             self.turn_number.set_text( "Turn " +  str(gd.turn_number) )
 
             # Attach planet frame
@@ -118,7 +116,7 @@ class Shell(Delegate):
                                                planet_b.y - planet_a.y))
                     if distance <= 84:
                         self.starchart.add(Line(planet_a.x, planet_a.y, planet_b.x, planet_b.y,
-                                                (0.4, 0.4, 0.4)))
+                                                (0.4, 0.4, 0.4)), layer='delorto')
             # Hide empty frames
             self.planet_slave.get_widget("frame_planet").hide()
             self.ship_slave.get_widget("frame_ship").hide()

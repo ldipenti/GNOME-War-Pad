@@ -60,7 +60,7 @@ class CaseInsensitiveFileNOVFS(file):
             super(CaseInsensitiveFileNOVFS, self).__init__(real_uri)
             self.size = os.path.getsize(real_uri)
         else:
-            print "OUCH! found " + str(len(matches)) + " matches"
+            print "OUCH! found " + str(len(matches)) + " matches on: " + filename
             raise NotFoundError, "There were zero or more than one matches on your file name: " + filename
         return
     pass
