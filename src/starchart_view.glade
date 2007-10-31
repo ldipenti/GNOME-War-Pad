@@ -39,7 +39,7 @@
                                             <widget class="GtkEntry" id="entry_dir">
                                                 <property name="is_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="text" context="yes" translatable="yes">/home/lucas/VP/ARGF4</property>
+                                                <property name="text" context="yes" translatable="yes">/home/cristian/VP/ARGF4</property>
                                                 <property name="visible">True</property>
                                             </widget>
                                         </child>
