@@ -29,33 +29,33 @@ class RaceList(list):
         map(lambda x: self.append(x), RaceNMFile(gamedir + '/race.nm').read())
         return
 
-    def get_long(self):
+    def get_long(self, nr):
         '''
-        Return a list of races long descriptions
+        Return the race long description for a player number
         '''
         ret = []
         map(lambda (l,s,a): ret.append(l), self)
-        return ret
+        return ret[nr - 1]
     
-    def get_short(self):
+    def get_short(self, nr):
         '''
-        Return a list of races short descriptions
+        Return the race short description for a player number
         '''
         ret = []
         map(lambda (l,s,a): ret.append(s), self)
-        return ret
+        return ret[nr - 1]
 
-    def get_adj(self):
+    def get_adj(self, nr):
         '''
-        Return a list of races adjectives
+        Return the race adjective for a player number
         '''
         ret = []
         map(lambda (l,s,a): ret.append(a), self)
-        return ret
+        return ret[nr - 1]
 
     def get_short_and_number(self):
         '''
-        Return a list of tuplas (races short descriptions, race number)
+        Return a list of tuples (races short descriptions, race number)
         '''
         names = self.get_short()
         ret = []

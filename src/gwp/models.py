@@ -10,13 +10,10 @@ class FloatingObject(object):
     This class represents any object that floats in the cold and dark void
     called Universe, and can be showed in the Starchart. This class is meant
     to be an abstract class.
-    '''
-    id = None
-    name = None
-    x = 0
-    y = 0
-    
+    '''    
     def __init__(self, x, y):
+        self.id = None
+        self.name = None
         self.x = x
         self.y = y
         return
@@ -78,7 +75,7 @@ class FlyingObject(FloatingObject):
     pass # End of FlyingObject class
 
 
-class Ship(FlyingObject, Model):
+class Ship(FlyingObject):
     '''
     A starship object
     '''
@@ -129,7 +126,6 @@ class Ship(FlyingObject, Model):
     
     def __init__(self, x, y, owner, heading=0, speed=0, sdata=None):
         FlyingObject.__init__(self, x, y, heading, speed)
-        Model.__init__(self)
         self.owner = owner
         if sdata != None:
             attrs = ['beams', 'beams_type', 'colonists', 'crew', 'damage',
@@ -180,7 +176,7 @@ class Ship(FlyingObject, Model):
     pass # End of Ship class
 
 
-class Planet(FloatingObject):
+class Planet(FloatingObject, Model):
     '''
     A rock in the sky
     '''
@@ -218,7 +214,9 @@ class Planet(FloatingObject):
     selected = False # delete this
 
     def __init__(self, x, y, name, pdata=None):
-        super(Planet, self).__init__(x, y)
+        #super(Planet, self).__init__(x, y)
+        FloatingObject.__init__(self, x, y)
+        Model.__init__(self)
         self.name = name
         if pdata != None:
             self.is_known = True
@@ -234,6 +232,10 @@ class Planet(FloatingObject):
             for a in attrs:
                 setattr(self, a, pdata[a])
         return
+
+    def get_owner(self):
+        if self.owner: return 'Unknown'
+        return Game().races.get_short(self.owner)
 
     def is_ship(self):
         return False
@@ -332,6 +334,9 @@ class Game(Singleton):
     def init(self, path, race):
         self.path = path
         self.race = race
+        # Race names loading
+        from gwp.collections import RaceList
+        self.races = RaceList(self.path)
         # Data objects
         from gwp.collections import PlanetCollection, ShipCollection
         self.planets = PlanetCollection(self.path, self.race)
@@ -339,9 +344,6 @@ class Game(Singleton):
         # PHOST Configuration
         from gwp.filereaders import PConfigFile
         self.pconfig = PConfigFile(self.path + 'pconfig.src').read()
-        # Race names loading
-        from gwp.collections import RaceList
-        self.races = RaceList(self.path)
         # Turn number
         from gwp.filereaders import UtilFile
         util = UtilFile(self.path + 'util' + str(self.race) + '.dat')

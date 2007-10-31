@@ -5,7 +5,7 @@ pygtk.require('2.0')
 
 import gtk, math
 
-from kiwi.ui.delegates import GladeDelegate, SlaveDelegate
+from kiwi.ui.delegates import GladeDelegate, SlaveDelegate, GladeSlaveDelegate
 from kiwi.ui.gadgets import quit_if_last
 
 import gwp
@@ -23,6 +23,10 @@ class Shell(GladeDelegate):
         
         self.__init_starchart()
         self.__init_menu()
+
+        # Planet data UI component
+        self.planet_slave = PlanetData()
+        self.attach_slave("eventbox_slot_right", self.planet_slave)
 
     def __init_menu(self):
         m = gtk.Menu()
@@ -118,6 +122,18 @@ class Shell(GladeDelegate):
 
     def _do_starchart_selected(self, w, x, y):
         print "Selected Point: (%d, %d)" % (x, y)
+        # Find the nearest object
+        g = Game()
+        min_dist = 99999
+        ret = None
+        objects = g.planets.values()
+        for obj in objects:
+            distance = abs(math.hypot(obj.x - x, obj.y - y))
+            if distance < min_dist:
+                min_dist = distance
+                ret = obj
+        self.starchart.move(ret.x - x, ret.y - y)
+        self.planet_slave.proxy.set_model(ret)
 
     def _do_starchart_selecting_area(self, w, x1, y1, x2, y2):
         print "Selecting Area: (%d, %d) - (%d, %d)" % (x1, y1, x2, y2)
@@ -135,3 +151,18 @@ class Shell(GladeDelegate):
 
     pass # End of Shell class
 
+class PlanetData(GladeSlaveDelegate):
+    planetwidgets = ["name", "owner", "id", "temperature", "colonists",
+                     "happ_colonists", "tax_colonists", "natives",
+                     "happ_natives", "tax_natives", "natives_race",
+                     "natives_spi", "factories", "mines", "defenses"]
+    def __init__(self):
+        gd = Game()
+        GladeSlaveDelegate.__init__(self, gladefile="planet_data",
+                               toplevel_name="planet_data")
+
+        # Widget customizations
+        self.get_widget('name').set_bold(True)
+
+        self.proxy = self.add_proxy(model=None, widgets=self.planetwidgets)
+    pass
