@@ -3,7 +3,7 @@
 import pygtk
 pygtk.require('2.0')
 
-import gtk, math
+import gtk, math, os, ConfigParser
 
 from kiwi.ui.delegates import GladeDelegate, SlaveDelegate, GladeSlaveDelegate
 from kiwi.ui.gadgets import quit_if_last
@@ -166,3 +166,27 @@ class PlanetData(GladeSlaveDelegate):
 
         self.proxy = self.add_proxy(model=None, widgets=self.planetwidgets)
     pass
+
+class GameManager(GladeDelegate):
+    def __init__(self):
+        super(GameManager, self).__init__(gladefile="game-manager",
+                                          delete_handler=self.do_quit)
+        self.__init_config()
+        self.__init_ui()
+
+    def __init_config(self):
+        # Create GWP's user directory if necessary
+        confdir = os.path.expanduser('~/.gwp')
+        if not os.path.exists(confdir):
+            os.mkdir(confdir)
+        # Attempt to load game list
+        conf_file = confdir + '/config'
+        self.config = ConfigParser.SafeConfigParser()
+        self.config.read(conf_file)
+
+    def __init_ui(self):
+        model = gtk.ListStore(str, gtk.gdk.Pixbuf)
+        self.iconview.set_model(model)
+        self.iconview.set_text_column(0)
+        self.iconview.set_pixbuf_column(1)
+        

@@ -20,7 +20,7 @@
                         <property name="name">game</property>
                         <property name="label" translatable="yes">_Game</property>
                         <property name="is_important">True</property>
-                        <property name="accelerator">&lt;Alt&gt;g</property>
+                        <property name="accelerator">&lt;Control&gt;g</property>
                     </widget>
                 </child>
                 <child>

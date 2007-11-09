@@ -1,0 +1,119 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://gazpacho.sicem.biz/gazpacho-0.1.dtd">
+<glade-interface>
+    <widget class="GtkUIManager" id="uimanager">
+        <child>
+            <widget class="GtkActionGroup" id="DefaultActions">
+                <child>
+                    <widget class="GtkAction" id="delete">
+                        <property name="name">delete</property>
+                        <property name="label" translatable="yes">Delete</property>
+                        <property name="tooltip" translatable="yes">Delete game from the manager</property>
+                        <property name="stock_id">gtk-delete</property>
+                        <signal handler="do_delete" name="activate"/>
+                        <property name="accelerator">&lt;Control&gt;d</property>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkAction" id="edit">
+                        <property name="name">edit</property>
+                        <property name="label" translatable="yes">Edit</property>
+                        <property name="tooltip" translatable="yes">Edit options</property>
+                        <property name="stock_id">gtk-properties</property>
+                        <signal handler="do_edit" name="activate"/>
+                        <property name="accelerator">&lt;Control&gt;p</property>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkAction" id="help">
+                        <property name="name">help</property>
+                        <property name="label" translatable="yes">Help</property>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkAction" id="manager">
+                        <property name="name">manager</property>
+                        <property name="label" translatable="yes">Manager</property>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkAction" id="new">
+                        <property name="name">new</property>
+                        <property name="label" translatable="yes">New</property>
+                        <property name="tooltip" translatable="yes">Add game to the manager</property>
+                        <property name="stock_id">gtk-new</property>
+                        <signal handler="do_new" name="activate"/>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkAction" id="play">
+                        <property name="name">play</property>
+                        <property name="label" translatable="yes">Play</property>
+                        <property name="is_important">True</property>
+                        <property name="tooltip" translatable="yes">Play game</property>
+                        <property name="stock_id">gtk-execute</property>
+                        <signal handler="do_play" name="activate"/>
+                        <property name="accelerator">&lt;Control&gt;p</property>
+                    </widget>
+                </child>
+                <child>
+                    <widget class="GtkAction" id="quit">
+                        <property name="name">quit</property>
+                        <property name="label" translatable="yes">Quit</property>
+                        <property name="tooltip" translatable="yes">Quit GWP</property>
+                        <property name="stock_id">gtk-quit</property>
+                        <signal handler="do_quit" name="activate"/>
+                    </widget>
+                </child>
+            </widget>
+        </child>
+        <ui id="initial-state"><![CDATA[<ui>
+<menubar action="menubar1" name="menubar1"><menu action="manager" name="manager"><menuitem action="quit" name="quit"/></menu><menu action="help" name="help"/></menubar><toolbar action="toolbar1" name="toolbar1"><toolitem action="new" name="new"/><toolitem action="delete" name="delete"/><toolitem action="edit" name="edit"/><toolitem action="play" name="play"/></toolbar>
+</ui>]]></ui>
+    </widget>
+    <widget class="GtkWindow" id="game-manager">
+        <property name="default_height">250</property>
+        <property name="default_width">440</property>
+        <property name="title" context="yes" translatable="yes">GWP Game Manager</property>
+        <child>
+            <widget class="GtkVBox" id="vbox1">
+                <property name="visible">True</property>
+                <child>
+                    <widget constructor="initial-state" class="GtkMenuBar" id="menubar1">
+                        <property name="visible">True</property>
+                    </widget>
+                    <packing>
+                        <property name="expand">False</property>
+                    </packing>
+                </child>
+                <child>
+                    <widget constructor="initial-state" class="GtkToolbar" id="toolbar1">
+                        <property name="toolbar_style">both-horiz</property>
+                        <property name="visible">True</property>
+                    </widget>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
+                <child>
+                    <widget class="GtkIconView" id="iconview">
+                        <property name="visible">True</property>
+                    </widget>
+                    <packing>
+                        <property name="position">2</property>
+                    </packing>
+                </child>
+                <child>
+                    <widget class="GtkStatusbar" id="statusbar1">
+                        <property name="visible">True</property>
+                    </widget>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="position">3</property>
+                    </packing>
+                </child>
+            </widget>
+        </child>
+    </widget>
+</glade-interface>
