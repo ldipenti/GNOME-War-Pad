@@ -14,6 +14,4 @@ game = Game(os.path.expanduser('~/VP/ARGF4/'), 7)
 up = UP()
 up.show_all()
 
-#shell = Shell()
-#shell.show_all()
 gtk.main()

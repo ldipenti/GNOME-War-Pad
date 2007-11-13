@@ -245,7 +245,7 @@ class Planet(FloatingObject, Model):
 
     pass
 
-class Hull:
+class Hull(object, Model):
     '''
     A starship hull
     '''
