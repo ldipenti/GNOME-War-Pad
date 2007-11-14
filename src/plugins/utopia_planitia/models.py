@@ -87,11 +87,15 @@ class ShipProyect(Model):
         self.update_beams_costs()
 
     def update_beams_costs(self):
-        self.beams_cost = self.beam.cost * self.beam_quantity
-        self.beams_tri = self.beam.tri * self.beam_quantity
-        self.beams_dur = self.beam.dur * self.beam_quantity
-        self.beams_mol = self.beam.mol * self.beam_quantity
-        self.update_cost()
+        try:
+            self.beams_cost = self.beam.cost * self.beam_quantity
+            self.beams_tri = self.beam.tri * self.beam_quantity
+            self.beams_dur = self.beam.dur * self.beam_quantity
+            self.beams_mol = self.beam.mol * self.beam_quantity
+            self.update_cost()
+        except AttributeError:
+            # There is no selected a beam type
+            pass
 
     # Tubes
     def set_tube(self, id):
@@ -103,11 +107,15 @@ class ShipProyect(Model):
         self.update_tubes_costs()
 
     def update_tubes_costs(self):
-        self.tubes_cost = self.tube.launcher_cost * self.tube_quantity
-        self.tubes_tri = self.tube.tri * self.tube_quantity
-        self.tubes_dur = self.tube.dur * self.tube_quantity
-        self.tubes_mol = self.tube.mol * self.tube_quantity
-        self.update_cost()
+        try:
+            self.tubes_cost = self.tube.launcher_cost * self.tube_quantity
+            self.tubes_tri = self.tube.tri * self.tube_quantity
+            self.tubes_dur = self.tube.dur * self.tube_quantity
+            self.tubes_mol = self.tube.mol * self.tube_quantity
+            self.update_cost()
+        except AttributeError:
+            # There is no selected a beam type
+            pass
 
     # Totals
     def update_cost(self):

@@ -763,10 +763,12 @@
                                                             </packing>
                                                         </child>
                                                         <child>
-                                                            <widget class="ProxySpinButton" id="beam_quantity">
+                                                            <widget class="ProxySpinButton" id="spin_beam_quantity">
                                                                 <property name="adjustment">0 0 20 1 10 0</property>
                                                                 <property name="data_type">int</property>
+                                                                <property name="is_focus">True</property>
                                                                 <property name="model_attribute">beam_quantity</property>
+                                                                <property name="numeric">True</property>
                                                                 <property name="text" context="yes" translatable="yes">0</property>
                                                                 <property name="visible">True</property>
                                                                 <property name="width_chars">2</property>
@@ -778,9 +780,10 @@
                                                             </packing>
                                                         </child>
                                                         <child>
-                                                            <widget class="ProxySpinButton" id="tube_quantity">
-                                                                <property name="adjustment">0 0 20 1 10 0</property>
+                                                            <widget class="ProxySpinButton" id="spin_tube_quantity">
+                                                                <property name="adjustment">0 0 100 1 10 0</property>
                                                                 <property name="data_type">int</property>
+                                                                <property name="is_focus">True</property>
                                                                 <property name="model_attribute">tube_quantity</property>
                                                                 <property name="text" context="yes" translatable="yes">0</property>
                                                                 <property name="visible">True</property>

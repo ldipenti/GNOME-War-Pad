@@ -14,7 +14,7 @@ from models import ShipProyect
 from gwp.collections import RaceList, TrueHullCollection, HullCollection, BeamCollection, TorpedoCollection, EngineCollection
 
 class UP(GladeDelegate):
-    ship_widgets = ["total_mc","total_tri","total_dur","total_mol", "hull_mc", "hull_tri", "hull_dur", "hull_mol", "engine_quantity", "beam_quantity", "tube_quantity", "engine_mc", "engine_tri", "engine_dur", "engine_mol", "beam_mc", "beam_tri", "beam_dur", "beam_mol", "tube_mc", "tube_tri", "tube_dur", "tube_mol", "torp_mc"]
+    ship_widgets = ["total_mc","total_tri","total_dur","total_mol", "hull_mc", "hull_tri", "hull_dur", "hull_mol", "engine_quantity", "spin_beam_quantity", "spin_tube_quantity", "engine_mc", "engine_tri", "engine_dur", "engine_mol", "beam_mc", "beam_tri", "beam_dur", "beam_mol", "tube_mc", "tube_tri", "tube_dur", "tube_mol", "torp_mc"]
 
     def __init__(self):
         super(UP, self).__init__(gladefile="utopia_planitia",
@@ -53,19 +53,26 @@ class UP(GladeDelegate):
             self.btn_add.set_sensitive(True)
         else:
             self.ship_proyect.set_hull(id)
+            # Update BEAM Combo
+            if self.ship_proyect.beam_quantity:
+                self.combo_beams.set_sensitive(True)
+            else:
+                self.combo_beams.set_sensitive(False)
+            # Update TORP Combo
+            if self.ship_proyect.tube_quantity:
+                self.combo_tubes.set_sensitive(True)
+            else:
+                self.combo_tubes.set_sensitive(False)
+
         
         if self.combo_engines.get_selected_data() == None:
             self.combo_engines.select_item_by_data(9) # Fix: use last
 
-        print self.ship_proyect.beam_quantity
-        print self.beam_quantity.get_range()
-
-        self.beam_quantity.set_range(0, self.ship_proyect.beam_quantity)
-        self.tube_quantity.set_range(0, self.ship_proyect.tube_quantity)
-
-        print self.ship_proyect.beam_quantity
-        print self.beam_quantity.get_range()
-
+        self.spin_beam_quantity.set_range(0, self.ship_proyect.beam_quantity)
+        self.spin_tube_quantity.set_range(0, self.ship_proyect.tube_quantity)
+        # Workaround to update after doing set range
+        self.spin_beam_quantity.update(self.ship_proyect.beam_quantity)
+        self.spin_tube_quantity.update(self.ship_proyect.tube_quantity)
 
     def on_combo_engines__content_changed(self, widget):
         id = widget.get_selected_data() - 1 # array begins in 0
@@ -79,10 +86,10 @@ class UP(GladeDelegate):
         id = widget.get_selected_data() - 1 # array begins in 0
         self.ship_proyect.set_tube(id)
 
-    def on_beam_quantity__value_changed(self, widget):
+    def on_spin_beam_quantity__value_changed(self, widget):
         self.ship_proyect.set_beam_quantity( widget.get_value_as_int() )
 
-    def on_tube_quantity__value_changed(self, widget):
+    def on_spin_tube_quantity__value_changed(self, widget):
         self.ship_proyect.set_tube_quantity( widget.get_value_as_int() )
 
     def on_btn_reset__clicked(self,widget):
@@ -93,7 +100,7 @@ class UP(GladeDelegate):
         self.btn_add.set_sensitive(False)
 
     def on_btn_use_favorite__clicked(self,widget):
-        print self.beam_quantity.get_value_as_int()
+        print self.spin_beam_quantity.get_value_as_int()
 
         pass
 
