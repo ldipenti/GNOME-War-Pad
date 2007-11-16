@@ -504,7 +504,7 @@
                                                                         <child>
                                                                             <widget class="ProxyLabel" id="beam_weapons">
                                                                                 <property name="data_type">int</property>
-                                                                                <property name="model_attribute">beam_weapons</property>
+                                                                                <property name="model_attribute">beam_quantity</property>
                                                                                 <property name="visible">True</property>
                                                                                 <property name="width_chars">1</property>
                                                                                 <property name="xalign">1.0</property>
@@ -526,7 +526,7 @@
                                                                             <widget class="ProxyLabel" id="torp_launchers">
                                                                                 <property name="data_type">int</property>
                                                                                 <property name="max_width_chars">1</property>
-                                                                                <property name="model_attribute">torp_launchers</property>
+                                                                                <property name="model_attribute">tube_quantity</property>
                                                                                 <property name="visible">True</property>
                                                                                 <property name="xalign">1.0</property>
                                                                             </widget>
@@ -549,7 +549,7 @@
                                                                         <child>
                                                                             <widget class="ProxyLabel" id="fighter_bays">
                                                                                 <property name="max_width_chars">1</property>
-                                                                                <property name="model_attribute">fighter_bays</property>
+                                                                                <property name="model_attribute">bay_quantity</property>
                                                                                 <property name="visible">True</property>
                                                                                 <property name="xalign">0.0</property>
                                                                             </widget>

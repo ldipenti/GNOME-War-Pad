@@ -1,6 +1,7 @@
 # models.py: Model classes for Utopia Planitia plugin
 
 from kiwi.model import Model
+from kiwi.datatypes import ValidationError
 from gwp.models import Game
 
 class ShipProyect(Model):
@@ -12,11 +13,20 @@ class ShipProyect(Model):
     beam = None
     tube = None
 
+    # Spec
     engine_quantity = 0
     beam_quantity = 0
     tube_quantity = 0
     torp_quantity = 0
+    bay_quantity = 0
+    
+    mass = 0
+    crew = 0
+    cargo = 0
+    fuel = 0
+    picture_nr = 0
 
+    # Costs
     hull_cost = 0
     hull_tri = 0
     hull_dur = 0
@@ -47,14 +57,23 @@ class ShipProyect(Model):
     # Hull
     def set_hull(self, id):
         self.hull = self.game.hulls[id]
+        # Spec
+        self.engine_quantity = self.hull.engines
+        self.beam_quantity = self.hull.beam_weapons
+        self.tube_quantity = self.hull.torp_launchers
+        self.bay_quantity = self.hull.fighter_bays
+
+        self.mass = self.hull.mass
+        self.crew = self.hull.crew
+        self.cargo = self.hull.cargo
+        self.fuel = self.hull.fuel
+        self.picture_nr = self.hull.pic_nr
+
+        # Costs
         self.hull_cost = self.hull.cost
         self.hull_tri = self.hull.tri
         self.hull_dur = self.hull.dur
         self.hull_mol = self.hull.mol
-
-        self.engine_quantity = self.hull.engines
-        self.beam_quantity = self.hull.beam_weapons
-        self.tube_quantity = self.hull.torp_launchers
 
         if self.engine:
             self.update_engine_costs()
@@ -132,5 +151,13 @@ class ShipProyect(Model):
 
     pass # End of ShipProyect class
 
+# Validations ----------------------------------------------------------------------------------
 
+    def beam_quantity_validate(self, data):
+        if data < 0 or data > self.hull.beam_weapons:
+            return ValidationError("The data is out of range")
+
+    def tube_quantity_validate(self, data):
+        if data < 0 or data > self.hull.torp_launchers:
+            return ValidationError("The data is out of range")
         
