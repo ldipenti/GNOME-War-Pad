@@ -171,8 +171,8 @@ class GameManager(GladeDelegate):
     def __init__(self):
         super(GameManager, self).__init__(gladefile="game-manager",
                                           delete_handler=self.do_quit)
-        self.__init_config()
         self.__init_ui()
+        self.__init_config()
 
     def __init_config(self):
         # Create GWP's user directory if necessary
@@ -183,10 +183,25 @@ class GameManager(GladeDelegate):
         conf_file = confdir + '/config'
         self.config = ConfigParser.SafeConfigParser()
         self.config.read(conf_file)
+        # Populate iconview
+        model = self.iconview.get_model()
+        for game in self.config.sections():
+            if 'game_' in game:
+                model.append((
+                    self.config.get(game, 'name'),
+                    gtk.gdk.pixbuf_new_from_file('/usr/local/games/gwp/game_icon.png'), # FIXME: hardcoded path
+                    ))
 
     def __init_ui(self):
         model = gtk.ListStore(str, gtk.gdk.Pixbuf)
         self.iconview.set_model(model)
         self.iconview.set_text_column(0)
         self.iconview.set_pixbuf_column(1)
+        
+    def do_quit(self, *args):
+        '''
+        Quits GWP
+        '''
+        print "Bye bye!"
+        gtk.main_quit()
         

@@ -71,7 +71,7 @@
 <menubar action="menubar1" name="menubar1"><menu action="manager" name="manager"><menuitem action="quit" name="quit"/></menu><menu action="help" name="help"/></menubar><toolbar action="toolbar1" name="toolbar1"><toolitem action="new" name="new"/><toolitem action="delete" name="delete"/><toolitem action="edit" name="edit"/><toolitem action="play" name="play"/></toolbar>
 </ui>]]></ui>
     </widget>
-    <widget class="GtkWindow" id="game-manager">
+    <widget class="GtkWindow" id="game_manager">
         <property name="default_height">250</property>
         <property name="default_width">440</property>
         <property name="title" context="yes" translatable="yes">GWP Game Manager</property>
@@ -98,6 +98,7 @@
                 </child>
                 <child>
                     <widget class="GtkIconView" id="iconview">
+                        <property name="is_focus">True</property>
                         <property name="visible">True</property>
                     </widget>
                     <packing>
