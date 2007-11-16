@@ -14,7 +14,7 @@ from models import ShipProyect
 from gwp.collections import RaceList, TrueHullCollection, HullCollection, BeamCollection, TorpedoCollection, EngineCollection
 
 class UP(GladeDelegate):
-    ship_widgets = ["total_mc","total_tri","total_dur","total_mol", "hull_mc", "hull_tri", "hull_dur", "hull_mol", "engine_quantity", "spin_beam_quantity", "spin_tube_quantity", "engine_mc", "engine_tri", "engine_dur", "engine_mol", "beam_mc", "beam_tri", "beam_dur", "beam_mol", "tube_mc", "tube_tri", "tube_dur", "tube_mol", "torp_mc"]
+    ship_widgets = ["total_mc","total_tri","total_dur","total_mol", "hull_mc", "hull_tri", "hull_dur", "hull_mol", "engine_quantity", "spin_beam_quantity", "spin_tube_quantity", "engine_mc", "engine_tri", "engine_dur", "engine_mol", "beam_mc", "beam_tri", "beam_dur", "beam_mol", "tube_mc", "tube_tri", "tube_dur", "tube_mol", "torp_mc", "mass", "crew", "cargo", "fuel"]
 
     def __init__(self):
         super(UP, self).__init__(gladefile="utopia_planitia",
@@ -64,15 +64,12 @@ class UP(GladeDelegate):
             else:
                 self.combo_tubes.set_sensitive(False)
 
-        
         if self.combo_engines.get_selected_data() == None:
             self.combo_engines.select_item_by_data(9) # Fix: use last
 
-        self.spin_beam_quantity.set_range(0, self.ship_proyect.beam_quantity)
-        self.spin_tube_quantity.set_range(0, self.ship_proyect.tube_quantity)
-        # Workaround to update after doing set range
-        self.spin_beam_quantity.update(self.ship_proyect.beam_quantity)
-        self.spin_tube_quantity.update(self.ship_proyect.tube_quantity)
+        self.ship_image.set_from_file('/usr/local/games/gwp/ships/vpl' + str(self.ship_proyect.picture_nr) + '.jpg')
+        self.ship_image.show()
+
 
     def on_combo_engines__content_changed(self, widget):
         id = widget.get_selected_data() - 1 # array begins in 0
@@ -104,6 +101,14 @@ class UP(GladeDelegate):
 
         pass
 
+# Validations ----------------------------------------------------------------------------------
+    def on_spin_beam_quantity__validate(self, widget, data):
+        return self.ship_proyect.beam_quantity_validate(data)
+
+    def on_spin_tube_quantity__validate(self, widget, data):
+        return self.ship_proyect.tube_quantity_validate(data)
+
+# Private methods ------------------------------------------------------------------------------
     def __populate_combo(self, widget, list):
         i = 1
         for object in list:
