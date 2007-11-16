@@ -67,6 +67,7 @@ class UP(GladeDelegate):
         if self.combo_engines.get_selected_data() == None:
             self.combo_engines.select_item_by_data(9) # Fix: use last
 
+        # Fix Path
         self.ship_image.set_from_file('/usr/local/games/gwp/ships/vpl' + str(self.ship_proyect.picture_nr) + '.jpg')
         self.ship_image.show()
 
