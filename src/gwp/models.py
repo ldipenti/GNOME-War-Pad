@@ -245,7 +245,7 @@ class Planet(FloatingObject, Model):
 
     pass
 
-class Hull:
+class Hull(object, Model):
     '''
     A starship hull
     '''
@@ -341,6 +341,14 @@ class Game(Singleton):
         from gwp.collections import PlanetCollection, ShipCollection
         self.planets = PlanetCollection(self.path, self.race)
         self.ships = ShipCollection(self.path, self.race)
+        # Data loading for Hulls, engines, beams, tubes
+        from gwp.collections import TrueHullCollection, HullCollection, EngineCollection, BeamCollection, TorpedoCollection
+        self.truehull = TrueHullCollection(self.path)
+        self.hulls = HullCollection(self.path)
+        self.engines = EngineCollection(self.path)
+        self.beams = BeamCollection(self.path)
+        self.tubes = TorpedoCollection(self.path)
+
         # PHOST Configuration
         from gwp.filereaders import PConfigFile
         self.pconfig = PConfigFile(self.path + 'pconfig.src').read()

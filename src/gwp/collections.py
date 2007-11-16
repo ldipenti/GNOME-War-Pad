@@ -4,6 +4,7 @@ from gwp.filereaders import RaceNMFile
 from gwp.filereaders import XYPlanFile
 from gwp.filereaders import PlanetNMFile
 from gwp.filereaders import PDataFile
+from gwp.filereaders import TruehullFile
 from gwp.filereaders import HullspecFile
 from gwp.filereaders import BeamspecFile
 from gwp.filereaders import TorpspecFile
@@ -98,6 +99,20 @@ class PlanetCollection(dict):
                 self[xy].id = xy
         return
     pass
+
+class TrueHullCollection(list):
+    '''
+    The collection of starship hulls asignment for each race
+    '''
+    def __init__(self, gamedir):
+        list.__init__(self)
+        # data loading
+        true_hulls = TruehullFile(gamedir + 'truehull.dat')
+        for true_hull_data in true_hulls.read():
+            self.append(true_hull_data)
+        true_hulls.close()
+        return
+    pass # End of HullCollection class
 
 class HullCollection(list):
     '''
