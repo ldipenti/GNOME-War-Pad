@@ -148,9 +148,6 @@ class ShipProyect(Model):
         self.total_mol = self.hull_mol + self.engines_mol + self.beams_mol + self.tubes_mol
         # TODO Count torps
 
-
-    pass # End of ShipProyect class
-
 # Validations ----------------------------------------------------------------------------------
 
     def beam_quantity_validate(self, data):
@@ -160,4 +157,22 @@ class ShipProyect(Model):
     def tube_quantity_validate(self, data):
         if data < 0 or data > self.hull.torp_launchers:
             return ValidationError("The data is out of range")
+
+    pass # End of ShipProyect class
+
+
+       
+
+class BeamSpec(Model):
+    name = "n/a"
+    kill = 0
+    damage = 0
+    cost = 0
+
+    def __init__(self, beam):
+        self.name = beam.name
+        self.kill = beam.kill
+        self.damage = beam.damage
+        self.cost = beam.cost
         
+    pass

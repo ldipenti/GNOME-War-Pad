@@ -402,13 +402,13 @@
                             </packing>
                         </child>
                         <child>
-                            <widget class="GtkFrame" id="frame1">
+                            <widget class="GtkFrame" id="frame_components">
                                 <property name="label" context="yes" translatable="yes">Components Specifications</property>
                                 <property name="shadow">in</property>
                                 <property name="shadow_type">in</property>
                                 <property name="visible">True</property>
                                 <child>
-                                    <widget class="ObjectList" id="objectlist3">
+                                    <widget class="ObjectList" id="spec_list">
                                         <property name="visible">True</property>
                                     </widget>
                                 </child>
