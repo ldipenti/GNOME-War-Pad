@@ -310,15 +310,15 @@ class Minefield:
     pass # End of Torpedo class
 
 class Singleton(object):
-        def __new__(cls, *args, **kwds):
-            it = cls.__dict__.get("__it__")
-            if it is not None:
-                return it
-            cls.__it__ = it = object.__new__(cls)
-            it.init(*args, **kwds)
+    def __new__(cls, *args, **kwds):
+        it = cls.__dict__.get("__it__")
+        if it is not None:
             return it
-        def init(self, *args, **kwds):
-            pass
+        cls.__it__ = it = object.__new__(cls)
+        it.init(*args, **kwds)
+        return it
+    def init(self, *args, **kwds):
+        pass
 
 class Game(Singleton):
     path = None
@@ -370,3 +370,13 @@ class Game(Singleton):
             super(Game, self).__setattr__(name, value)
     pass
 
+class GameConfig(object):
+    def __init__(self, id):
+        self.player = None
+        self.path = None
+        self.name = None
+        self.player_email = None
+        self.host_email = None
+        self.trn_dir = None
+        self.rst_dir = None
+        self.id = id

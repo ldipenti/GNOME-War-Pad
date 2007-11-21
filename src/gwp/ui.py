@@ -9,9 +9,10 @@ from kiwi.ui.delegates import GladeDelegate, SlaveDelegate, GladeSlaveDelegate
 from kiwi.ui.gadgets import quit_if_last
 
 import gwp
-from gwp.models import Game
+from gwp.models import Game, GameConfig
 from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, Rectangle
-from gwp.collections import PlanetCollection, ShipCollection
+from gwp.collections import PlanetCollection, ShipCollection, RaceList
+from gwp.filereaders import GenFile
 from gwp.widgets import pycons
 
 class Shell(GladeDelegate):
@@ -171,24 +172,34 @@ class GameManager(GladeDelegate):
     def __init__(self):
         super(GameManager, self).__init__(gladefile="game-manager",
                                           delete_handler=self.do_quit)
+        self.games = []
         self.__init_ui()
         self.__init_config()
 
     def __init_config(self):
         # Create GWP's user directory if necessary
-        confdir = os.path.expanduser('~/.gwp')
-        if not os.path.exists(confdir):
-            os.mkdir(confdir)
+        self.conf_dir = os.path.expanduser('~/.gwp')
+        if not os.path.exists(self.conf_dir):
+            os.mkdir(self.conf_dir)
         # Attempt to load game list
-        conf_file = confdir + '/config'
+        self.conf_file = self.conf_dir + '/config'
         self.config = ConfigParser.SafeConfigParser()
-        self.config.read(conf_file)
-        # Populate iconview
-        model = self.iconview.get_model()
+        self.config.read(self.conf_file)
+
+        # Load game configurations
         for game in self.config.sections():
             if 'game_' in game:
+                g = GameConfig(game)
+                g.path = self.config.get(game, 'path')
+                g.name = self.config.get(game, 'name')
+                g.player = self.config.get(game, 'player')
+                self.games.append(g)
+
+        # Populate iconview
+        model = self.iconview.get_model()
+        for game in self.games:
                 model.append((
-                    self.config.get(game, 'name'),
+                    game.name,
                     gtk.gdk.pixbuf_new_from_file('/usr/local/games/gwp/game_icon.png'), # FIXME: hardcoded path
                     ))
 
@@ -202,6 +213,69 @@ class GameManager(GladeDelegate):
         '''
         Quits GWP
         '''
+        self.__save()
         print "Bye bye!"
         gtk.main_quit()
+
+    def do_edit(self, *args):
+        item_nr =  self.iconview.get_selected_items()[0][0]
+        game_edit = GameEdit(self.games[item_nr])
+        game_edit.set_parent(self)
+        game_edit.show_all()
+
+    def __save(self):
+        for game in self.games:
+            if game.id != 'game_' + game.name:
+                self.config.remove_section(game.id)
+                section = 'game_' + game.name
+                self.config.add_section(section)
+            else:
+                section = game.id
+                
+            self.config.set(section, 'name', game.name)
+            self.config.set(section, 'path', game.path)
+            self.config.set(section, 'player', game.player)
+        configfile = open(self.conf_file, 'w')
+        self.config.write(configfile)
+        configfile.close()
         
+class GameEdit(GladeDelegate):
+    def __init__(self, game_config):
+        super(GameEdit, self).__init__(gladefile="game-manager",
+                                       toplevel_name="game_edit",
+                                       delete_handler=self.do_close)
+        self.gc = game_config
+        self.__init_ui(self.gc)
+        
+    def on_game_dir__selection_changed(self, widget):
+        races = []
+        for race in range(1, 11+1):
+            filename = widget.get_current_folder() + '/gen' + str(race) + '.dat'
+            try:
+                f = GenFile(filename)
+            except:
+                pass
+            else:
+                races.append(race)
+        racelist = RaceList(widget.get_current_folder())
+
+        self.game_player.clear()
+        for race in races:
+            self.game_player.append_item(racelist.get_short(race), str(race))
+        self.game_player.select_item_by_data(self.gc.player)
+
+    def __init_ui(self, gc):
+        self.game_name.set_text(gc.name)
+        self.game_dir.set_current_folder(gc.path)
+
+    def do_close(self, *args):
+        self.hide()
+    
+    def on_btn_cancel__clicked(self, *args):
+        self.do_close()
+        
+    def on_btn_ok__clicked(self, *args):
+        self.gc.name = self.game_name.get_text()
+        self.gc.path = self.game_dir.get_current_folder()
+        self.gc.player = self.game_player.get_selected_data()
+        self.hide()
