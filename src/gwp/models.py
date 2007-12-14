@@ -282,6 +282,33 @@ class Engine:
         for a in attrs:
             setattr(self, a, engspec[a])
         return
+
+    # TODO: check the values returned by this method
+    def fuel_trip(self, dist, speed, mass):
+        assert(dist >= 0.0)
+        assert(speed >= 0 and speed <= 9)
+        assert(mass > 0)
+
+        if speed == 0: 
+            return 0
+
+        ret = 0
+        usage = 0
+        distrest = dist
+        sspeed = speed*speed
+        turns = int(dist / sspeed) + 1
+        
+        while distrest >= sspeed :
+            usage = int(self.fuel_use[speed-1]) * mass / 100000.0
+            mass -= usage
+            ret += usage
+            distrest -= sspeed
+
+        if distrest:
+            ret += int(self.fuel_use[speed-1]) * mass * distrest / (sspeed * 100000.0)
+
+        return ret
+
     pass # End of Engine class
 
 class Torpedo:

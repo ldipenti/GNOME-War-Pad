@@ -426,19 +426,6 @@
                     <widget class="GtkHBox" id="hbox2">
                         <property name="visible">True</property>
                         <child>
-                            <widget class="GtkFrame" id="frame2">
-                                <property name="label" context="yes" translatable="yes">Queue List</property>
-                                <property name="shadow">none</property>
-                                <property name="shadow_type">none</property>
-                                <property name="visible">True</property>
-                                <child>
-                                    <widget class="ObjectList" id="objectlist1">
-                                        <property name="visible">True</property>
-                                    </widget>
-                                </child>
-                            </widget>
-                        </child>
-                        <child>
                             <widget class="GtkVBox" id="vbox8">
                                 <property name="visible">True</property>
                                 <child>
@@ -448,162 +435,22 @@
                                         <property name="shadow_type">in</property>
                                         <property name="visible">True</property>
                                         <child>
-                                            <widget class="GtkVBox" id="vbox9">
+                                            <widget class="GtkHBox" id="hbox3">
                                                 <property name="visible">True</property>
                                                 <child>
-                                                    <widget class="GtkHBox" id="hbox3">
+                                                    <widget class="GtkVBox" id="vbox2">
                                                         <property name="visible">True</property>
                                                         <child>
                                                             <widget class="GtkImage" id="ship_image">
                                                                 <property name="visible">True</property>
+                                                                <property name="yalign">0.0</property>
                                                             </widget>
                                                         </child>
                                                         <child>
                                                             <widget class="GtkTable" id="table2">
-                                                                <property name="n_columns">6</property>
+                                                                <property name="n_columns">4</property>
                                                                 <property name="n_rows">3</property>
                                                                 <property name="visible">True</property>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel17">
-                                                                        <property name="label" context="yes" translatable="yes">Weapons: </property>
-                                                                        <property name="model_attribute">kiwilabel17</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="x_options">fill</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel18">
-                                                                        <property name="label" context="yes" translatable="yes">Cargo: </property>
-                                                                        <property name="model_attribute">kiwilabel18</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="bottom_attach">2</property>
-                                                                        <property name="top_attach">1</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel25">
-                                                                        <property name="label" context="yes" translatable="yes">Specials:</property>
-                                                                        <property name="model_attribute">kiwilabel25</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="bottom_attach">3</property>
-                                                                        <property name="top_attach">2</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="GtkHBox" id="hbox5">
-                                                                        <property name="visible">True</property>
-                                                                        <child>
-                                                                            <widget class="ProxyLabel" id="beam_weapons">
-                                                                                <property name="data_type">int</property>
-                                                                                <property name="model_attribute">beam_quantity</property>
-                                                                                <property name="visible">True</property>
-                                                                                <property name="width_chars">1</property>
-                                                                                <property name="xalign">1.0</property>
-                                                                            </widget>
-                                                                        </child>
-                                                                        <child>
-                                                                            <widget class="ProxyLabel" id="kiwilabel23">
-                                                                                <property name="label" context="yes" translatable="yes">B</property>
-                                                                                <property name="model_attribute">kiwilabel23</property>
-                                                                                <property name="visible">True</property>
-                                                                                <property name="xalign">0.0</property>
-                                                                            </widget>
-                                                                            <packing>
-                                                                                <property name="expand">False</property>
-                                                                                <property name="position">1</property>
-                                                                            </packing>
-                                                                        </child>
-                                                                        <child>
-                                                                            <widget class="ProxyLabel" id="torp_launchers">
-                                                                                <property name="data_type">int</property>
-                                                                                <property name="max_width_chars">1</property>
-                                                                                <property name="model_attribute">tube_quantity</property>
-                                                                                <property name="visible">True</property>
-                                                                                <property name="xalign">1.0</property>
-                                                                            </widget>
-                                                                            <packing>
-                                                                                <property name="position">2</property>
-                                                                            </packing>
-                                                                        </child>
-                                                                        <child>
-                                                                            <widget class="ProxyLabel" id="kiwilabel24">
-                                                                                <property name="label" context="yes" translatable="yes">T</property>
-                                                                                <property name="model_attribute">kiwilabel24</property>
-                                                                                <property name="visible">True</property>
-                                                                                <property name="xalign">0.0</property>
-                                                                            </widget>
-                                                                            <packing>
-                                                                                <property name="expand">False</property>
-                                                                                <property name="position">3</property>
-                                                                            </packing>
-                                                                        </child>
-                                                                        <child>
-                                                                            <widget class="ProxyLabel" id="fighter_bays">
-                                                                                <property name="max_width_chars">1</property>
-                                                                                <property name="model_attribute">bay_quantity</property>
-                                                                                <property name="visible">True</property>
-                                                                                <property name="xalign">0.0</property>
-                                                                            </widget>
-                                                                            <packing>
-                                                                                <property name="position">4</property>
-                                                                            </packing>
-                                                                        </child>
-                                                                        <child>
-                                                                            <widget class="ProxyLabel" id="kiwilabel34">
-                                                                                <property name="label" context="yes" translatable="yes">F</property>
-                                                                                <property name="model_attribute">kiwilabel34</property>
-                                                                                <property name="visible">True</property>
-                                                                                <property name="xalign">0.0</property>
-                                                                            </widget>
-                                                                            <packing>
-                                                                                <property name="expand">False</property>
-                                                                                <property name="position">5</property>
-                                                                            </packing>
-                                                                        </child>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="left_attach">1</property>
-                                                                        <property name="right_attach">2</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="cargo">
-                                                                        <property name="data_type">int</property>
-                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                        <property name="model_attribute">cargo</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="bottom_attach">2</property>
-                                                                        <property name="left_attach">1</property>
-                                                                        <property name="right_attach">2</property>
-                                                                        <property name="top_attach">1</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel26">
-                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                        <property name="model_attribute">kiwilabel26</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">0.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="bottom_attach">3</property>
-                                                                        <property name="left_attach">1</property>
-                                                                        <property name="right_attach">6</property>
-                                                                        <property name="top_attach">2</property>
-                                                                    </packing>
-                                                                </child>
                                                                 <child>
                                                                     <widget class="ProxyLabel" id="kiwilabel20">
                                                                         <property name="label" context="yes" translatable="yes">Mass: </property>
@@ -612,51 +459,7 @@
                                                                         <property name="xalign">1.0</property>
                                                                     </widget>
                                                                     <packing>
-                                                                        <property name="left_attach">2</property>
-                                                                        <property name="right_attach">3</property>
-                                                                        <property name="x_options">fill</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel19">
-                                                                        <property name="label" context="yes" translatable="yes">Fuel: </property>
-                                                                        <property name="model_attribute">kiwilabel19</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="bottom_attach">2</property>
-                                                                        <property name="left_attach">2</property>
-                                                                        <property name="right_attach">3</property>
-                                                                        <property name="top_attach">1</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="mass">
-                                                                        <property name="data_type">int</property>
-                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                        <property name="model_attribute">mass</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="left_attach">3</property>
-                                                                        <property name="right_attach">4</property>
-                                                                    </packing>
-                                                                </child>
-                                                                <child>
-                                                                    <widget class="ProxyLabel" id="fuel">
-                                                                        <property name="data_type">int</property>
-                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                        <property name="model_attribute">fuel</property>
-                                                                        <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                    </widget>
-                                                                    <packing>
-                                                                        <property name="bottom_attach">2</property>
-                                                                        <property name="left_attach">3</property>
-                                                                        <property name="right_attach">4</property>
-                                                                        <property name="top_attach">1</property>
+                                                                        <property name="x_options"></property>
                                                                     </packing>
                                                                 </child>
                                                                 <child>
@@ -667,21 +470,35 @@
                                                                         <property name="xalign">1.0</property>
                                                                     </widget>
                                                                     <packing>
-                                                                        <property name="left_attach">4</property>
-                                                                        <property name="right_attach">5</property>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="top_attach">1</property>
+                                                                        <property name="x_options">expand</property>
                                                                     </packing>
                                                                 </child>
                                                                 <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel21">
-                                                                        <property name="model_attribute">kiwilabel21</property>
+                                                                    <widget class="ProxyLabel" id="kiwilabel18">
+                                                                        <property name="label" context="yes" translatable="yes">Cargo: </property>
+                                                                        <property name="model_attribute">kiwilabel18</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="top_attach">2</property>
+                                                                        <property name="x_options">expand</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="mass">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">mass</property>
                                                                         <property name="visible">True</property>
                                                                         <property name="xalign">0.0</property>
                                                                     </widget>
                                                                     <packing>
-                                                                        <property name="bottom_attach">2</property>
-                                                                        <property name="left_attach">4</property>
-                                                                        <property name="right_attach">5</property>
-                                                                        <property name="top_attach">1</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
                                                                     </packing>
                                                                 </child>
                                                                 <child>
@@ -690,6 +507,650 @@
                                                                         <property name="label" context="yes" translatable="yes">n/a</property>
                                                                         <property name="model_attribute">crew</property>
                                                                         <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="cargo">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">cargo</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel19">
+                                                                        <property name="label" context="yes" translatable="yes">Fuel: </property>
+                                                                        <property name="model_attribute">kiwilabel19</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel25">
+                                                                        <property name="label" context="yes" translatable="yes">Specials:</property>
+                                                                        <property name="model_attribute">kiwilabel25</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                        <property name="yalign">0.47999999</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="GtkLabel" id="label15">
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="fuel">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">fuel</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel26">
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">kiwilabel26</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="GtkLabel" id="label16">
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                            </widget>
+                                                            <packing>
+                                                                <property name="fill">False</property>
+                                                                <property name="position">1</property>
+                                                            </packing>
+                                                        </child>
+                                                    </widget>
+                                                    <packing>
+                                                        <property name="expand">False</property>
+                                                    </packing>
+                                                </child>
+                                                <child>
+                                                    <widget class="GtkVBox" id="vbox9">
+                                                        <property name="visible">True</property>
+                                                        <child>
+                                                            <widget class="GtkTable" id="table1">
+                                                                <property name="n_columns">6</property>
+                                                                <property name="n_rows">7</property>
+                                                                <property name="visible">True</property>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel10">
+                                                                        <property name="label" context="yes" translatable="yes">#</property>
+                                                                        <property name="model_attribute">kiwilabel10</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel11">
+                                                                        <property name="model_attribute">kiwilabel11</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="top_attach">1</property>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="engine_quantity">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">engine_quantity</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                        <property name="xpad">20</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="top_attach">2</property>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxySpinButton" id="spin_beam_quantity">
+                                                                        <property name="adjustment">0 0 20 1 10 0</property>
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="is_focus">True</property>
+                                                                        <property name="model_attribute">beam_quantity</property>
+                                                                        <property name="numeric">True</property>
+                                                                        <property name="text" context="yes" translatable="yes">0</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="width_chars">2</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">4</property>
+                                                                        <property name="top_attach">3</property>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxySpinButton" id="spin_tube_quantity">
+                                                                        <property name="adjustment">0 0 100 1 10 0</property>
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="is_focus">True</property>
+                                                                        <property name="model_attribute">tube_quantity</property>
+                                                                        <property name="text" context="yes" translatable="yes">0</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="width_chars">2</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">5</property>
+                                                                        <property name="top_attach">4</property>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxySpinButton" id="torp_quantity">
+                                                                        <property name="adjustment">0 0 1000 1 10 0</property>
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="model_attribute">torp_quantity</property>
+                                                                        <property name="text" context="yes" translatable="yes">0</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="width_chars">2</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">6</property>
+                                                                        <property name="top_attach">5</property>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel12">
+                                                                        <property name="model_attribute">kiwilabel12</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">7</property>
+                                                                        <property name="top_attach">6</property>
+                                                                        <property name="x_options">fill</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel8">
+                                                                        <property name="model_attribute">kiwilabel8</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">0.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyComboBox" id="combo_hulls">
+                                                                        <property name="model_attribute">combo_hulls</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyComboBox" id="combo_engines">
+                                                                        <property name="model_attribute">combo_engines</property>
+                                                                        <property name="sensitive">False</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyComboBox" id="combo_beams">
+                                                                        <property name="model_attribute">combo_beams</property>
+                                                                        <property name="sensitive">False</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">4</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyComboBox" id="combo_tubes">
+                                                                        <property name="model_attribute">combo_tubes</property>
+                                                                        <property name="sensitive">False</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">5</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="GtkHBox" id="hbox8">
+                                                                        <property name="visible">True</property>
+                                                                        <child>
+                                                                            <widget class="ProxyLabel" id="torp_mc">
+                                                                                <property name="data_type">int</property>
+                                                                                <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                                <property name="model_attribute">torp_mc</property>
+                                                                                <property name="visible">True</property>
+                                                                                <property name="xalign">1.0</property>
+                                                                            </widget>
+                                                                        </child>
+                                                                        <child>
+                                                                            <widget class="ProxyLabel" id="kiwilabel35">
+                                                                                <property name="label" context="yes" translatable="yes">(Each)</property>
+                                                                                <property name="model_attribute">kiwilabel35</property>
+                                                                                <property name="visible">True</property>
+                                                                                <property name="xalign">0.0</property>
+                                                                            </widget>
+                                                                            <packing>
+                                                                                <property name="position">1</property>
+                                                                            </packing>
+                                                                        </child>
+                                                                        <child>
+                                                                            <widget class="ProxyLabel" id="kiwilabel1">
+                                                                                <property name="label" context="yes" translatable="yes">Torps / Fighters : </property>
+                                                                                <property name="model_attribute">kiwilabel1</property>
+                                                                                <property name="visible">True</property>
+                                                                                <property name="xalign">1.0</property>
+                                                                                <property name="yalign">1.0</property>
+                                                                            </widget>
+                                                                            <packing>
+                                                                                <property name="position">2</property>
+                                                                            </packing>
+                                                                        </child>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">6</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">5</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel6">
+                                                                        <property name="label" context="yes" translatable="yes">Totals : </property>
+                                                                        <property name="model_attribute">kiwilabel6</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">7</property>
+                                                                        <property name="left_attach">1</property>
+                                                                        <property name="right_attach">2</property>
+                                                                        <property name="top_attach">6</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel13">
+                                                                        <property name="label" context="yes" translatable="yes">MC</property>
+                                                                        <property name="model_attribute">kiwilabel13</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="hull_mc">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">hull_cost</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="engine_mc">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">engines_cost</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="beam_mc">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">beams_cost</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">4</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="tube_mc">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">tubes_cost</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">5</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="total_torp_mc">
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">torps_cost</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">6</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">5</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="total_mc">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">total_cost</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">7</property>
+                                                                        <property name="left_attach">2</property>
+                                                                        <property name="right_attach">3</property>
+                                                                        <property name="top_attach">6</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel14">
+                                                                        <property name="label" context="yes" translatable="yes">Tri</property>
+                                                                        <property name="model_attribute">kiwilabel14</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="hull_tri">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">hull_tri</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="engine_tri">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">engines_tri</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="beam_tri">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">beams_tri</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">4</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="tube_tri">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">tubes_tri</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">5</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="torp_tri">
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">torps_tri</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">6</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">5</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="total_tri">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">total_tri</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">7</property>
+                                                                        <property name="left_attach">3</property>
+                                                                        <property name="right_attach">4</property>
+                                                                        <property name="top_attach">6</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel15">
+                                                                        <property name="label" context="yes" translatable="yes">Dur</property>
+                                                                        <property name="model_attribute">kiwilabel15</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="hull_dur">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">hull_dur</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">2</property>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                        <property name="top_attach">1</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="engine_dur">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">engines_dur</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="beam_dur">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">beams_dur</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">4</property>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                        <property name="top_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="tube_dur">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">tubes_dur</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">5</property>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                        <property name="top_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="torp_dur">
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">torps_dur</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">6</property>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                        <property name="top_attach">5</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="total_dur">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">total_dur</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">7</property>
+                                                                        <property name="left_attach">4</property>
+                                                                        <property name="right_attach">5</property>
+                                                                        <property name="top_attach">6</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="kiwilabel16">
+                                                                        <property name="label" context="yes" translatable="yes">Mol</property>
+                                                                        <property name="model_attribute">kiwilabel16</property>
+                                                                        <property name="visible">True</property>
                                                                         <property name="xalign">1.0</property>
                                                                     </widget>
                                                                     <packing>
@@ -698,10 +1159,12 @@
                                                                     </packing>
                                                                 </child>
                                                                 <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel22">
-                                                                        <property name="model_attribute">kiwilabel22</property>
+                                                                    <widget class="ProxyLabel" id="hull_mol">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">hull_mol</property>
                                                                         <property name="visible">True</property>
-                                                                        <property name="xalign">0.0</property>
+                                                                        <property name="xalign">1.0</property>
                                                                     </widget>
                                                                     <packing>
                                                                         <property name="bottom_attach">2</property>
@@ -710,210 +1173,119 @@
                                                                         <property name="top_attach">1</property>
                                                                     </packing>
                                                                 </child>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="position">1</property>
-                                                            </packing>
-                                                        </child>
-                                                    </widget>
-                                                    <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                    </packing>
-                                                </child>
-                                                <child>
-                                                    <widget class="GtkTable" id="table1">
-                                                        <property name="n_columns">6</property>
-                                                        <property name="n_rows">7</property>
-                                                        <property name="visible">True</property>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel10">
-                                                                <property name="label" context="yes" translatable="yes">#</property>
-                                                                <property name="model_attribute">kiwilabel10</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel11">
-                                                                <property name="model_attribute">kiwilabel11</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">2</property>
-                                                                <property name="top_attach">1</property>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="engine_quantity">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">engine_quantity</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                                <property name="xpad">20</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">3</property>
-                                                                <property name="top_attach">2</property>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxySpinButton" id="spin_beam_quantity">
-                                                                <property name="adjustment">0 0 20 1 10 0</property>
-                                                                <property name="data_type">int</property>
-                                                                <property name="is_focus">True</property>
-                                                                <property name="model_attribute">beam_quantity</property>
-                                                                <property name="numeric">True</property>
-                                                                <property name="text" context="yes" translatable="yes">0</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="width_chars">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">4</property>
-                                                                <property name="top_attach">3</property>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxySpinButton" id="spin_tube_quantity">
-                                                                <property name="adjustment">0 0 100 1 10 0</property>
-                                                                <property name="data_type">int</property>
-                                                                <property name="is_focus">True</property>
-                                                                <property name="model_attribute">tube_quantity</property>
-                                                                <property name="text" context="yes" translatable="yes">0</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="width_chars">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">5</property>
-                                                                <property name="top_attach">4</property>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxySpinButton" id="torp_quantity">
-                                                                <property name="adjustment">0 0 1000 1 10 0</property>
-                                                                <property name="data_type">int</property>
-                                                                <property name="model_attribute">torp_quantity</property>
-                                                                <property name="text" context="yes" translatable="yes">0</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="width_chars">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">6</property>
-                                                                <property name="top_attach">5</property>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel12">
-                                                                <property name="model_attribute">kiwilabel12</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">0.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">7</property>
-                                                                <property name="top_attach">6</property>
-                                                                <property name="x_options">fill</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel8">
-                                                                <property name="model_attribute">kiwilabel8</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">0.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyComboBox" id="combo_hulls">
-                                                                <property name="model_attribute">combo_hulls</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">2</property>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                                <property name="top_attach">1</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyComboBox" id="combo_engines">
-                                                                <property name="model_attribute">combo_engines</property>
-                                                                <property name="sensitive">False</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">3</property>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                                <property name="top_attach">2</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyComboBox" id="combo_beams">
-                                                                <property name="model_attribute">combo_beams</property>
-                                                                <property name="sensitive">False</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">4</property>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                                <property name="top_attach">3</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyComboBox" id="combo_tubes">
-                                                                <property name="model_attribute">combo_tubes</property>
-                                                                <property name="sensitive">False</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">5</property>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                                <property name="top_attach">4</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="GtkHBox" id="hbox8">
-                                                                <property name="visible">True</property>
                                                                 <child>
-                                                                    <widget class="ProxyLabel" id="torp_mc">
+                                                                    <widget class="ProxyLabel" id="engine_mol">
                                                                         <property name="data_type">int</property>
                                                                         <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                        <property name="model_attribute">torp_mc</property>
+                                                                        <property name="model_attribute">engines_mol</property>
                                                                         <property name="visible">True</property>
                                                                         <property name="xalign">1.0</property>
                                                                     </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">3</property>
+                                                                        <property name="left_attach">5</property>
+                                                                        <property name="right_attach">6</property>
+                                                                        <property name="top_attach">2</property>
+                                                                    </packing>
                                                                 </child>
                                                                 <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel35">
-                                                                        <property name="label" context="yes" translatable="yes">(Each)</property>
-                                                                        <property name="model_attribute">kiwilabel35</property>
+                                                                    <widget class="ProxyLabel" id="beam_mol">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">beams_mol</property>
                                                                         <property name="visible">True</property>
-                                                                        <property name="xalign">0.0</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">4</property>
+                                                                        <property name="left_attach">5</property>
+                                                                        <property name="right_attach">6</property>
+                                                                        <property name="top_attach">3</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="tube_mol">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">tubes_mol</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">5</property>
+                                                                        <property name="left_attach">5</property>
+                                                                        <property name="right_attach">6</property>
+                                                                        <property name="top_attach">4</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="torp_mol">
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">torps_mol</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">6</property>
+                                                                        <property name="left_attach">5</property>
+                                                                        <property name="right_attach">6</property>
+                                                                        <property name="top_attach">5</property>
+                                                                    </packing>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyLabel" id="total_mol">
+                                                                        <property name="data_type">int</property>
+                                                                        <property name="label" context="yes" translatable="yes">n/a</property>
+                                                                        <property name="model_attribute">total_mol</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="xalign">1.0</property>
+                                                                    </widget>
+                                                                    <packing>
+                                                                        <property name="bottom_attach">7</property>
+                                                                        <property name="left_attach">5</property>
+                                                                        <property name="right_attach">6</property>
+                                                                        <property name="top_attach">6</property>
+                                                                    </packing>
+                                                                </child>
+                                                            </widget>
+                                                            <packing>
+                                                                <property name="expand">False</property>
+                                                                <property name="fill">False</property>
+                                                            </packing>
+                                                        </child>
+                                                        <child>
+                                                            <widget class="GtkHBox" id="hbox9">
+                                                                <property name="visible">True</property>
+                                                                <child>
+                                                                    <widget class="ProxyButton" id="btn_add">
+                                                                        <property name="data_type">str</property>
+                                                                        <property name="is_focus">True</property>
+                                                                        <property name="label" context="yes" translatable="yes">&lt;- Add</property>
+                                                                        <property name="model_attribute">btn_add</property>
+                                                                        <property name="sensitive">False</property>
+                                                                        <property name="visible">True</property>
+                                                                    </widget>
+                                                                </child>
+                                                                <child>
+                                                                    <widget class="ProxyButton" id="btn_use_favorite">
+                                                                        <property name="data_type">str</property>
+                                                                        <property name="is_focus">True</property>
+                                                                        <property name="label" context="yes" translatable="yes">Favorites</property>
+                                                                        <property name="model_attribute">btn_use_favorite</property>
+                                                                        <property name="sensitive">False</property>
+                                                                        <property name="visible">True</property>
+                                                                        <property name="yalign">0.0</property>
                                                                     </widget>
                                                                     <packing>
                                                                         <property name="position">1</property>
                                                                     </packing>
                                                                 </child>
                                                                 <child>
-                                                                    <widget class="ProxyLabel" id="kiwilabel1">
-                                                                        <property name="label" context="yes" translatable="yes">Torps / Fighters : </property>
-                                                                        <property name="model_attribute">kiwilabel1</property>
+                                                                    <widget class="ProxyButton" id="btn_reset">
+                                                                        <property name="data_type">str</property>
+                                                                        <property name="label" context="yes" translatable="yes">Reset</property>
+                                                                        <property name="model_attribute">btn_reset</property>
                                                                         <property name="visible">True</property>
-                                                                        <property name="xalign">1.0</property>
-                                                                        <property name="yalign">1.0</property>
                                                                     </widget>
                                                                     <packing>
                                                                         <property name="position">2</property>
@@ -921,507 +1293,38 @@
                                                                 </child>
                                                             </widget>
                                                             <packing>
-                                                                <property name="bottom_attach">6</property>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                                <property name="top_attach">5</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel6">
-                                                                <property name="label" context="yes" translatable="yes">Totals : </property>
-                                                                <property name="model_attribute">kiwilabel6</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">7</property>
-                                                                <property name="left_attach">1</property>
-                                                                <property name="right_attach">2</property>
-                                                                <property name="top_attach">6</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel13">
-                                                                <property name="label" context="yes" translatable="yes">MC</property>
-                                                                <property name="model_attribute">kiwilabel13</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="hull_mc">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">hull_cost</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">2</property>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                                <property name="top_attach">1</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="engine_mc">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">engines_cost</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">3</property>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                                <property name="top_attach">2</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="beam_mc">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">beams_cost</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">4</property>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                                <property name="top_attach">3</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="tube_mc">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">tubes_cost</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">5</property>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                                <property name="top_attach">4</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="total_torp_mc">
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">torps_cost</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">6</property>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                                <property name="top_attach">5</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="total_mc">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">total_cost</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">7</property>
-                                                                <property name="left_attach">2</property>
-                                                                <property name="right_attach">3</property>
-                                                                <property name="top_attach">6</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel14">
-                                                                <property name="label" context="yes" translatable="yes">Tri</property>
-                                                                <property name="model_attribute">kiwilabel14</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="hull_tri">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">hull_tri</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">2</property>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                                <property name="top_attach">1</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="engine_tri">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">engines_tri</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">3</property>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                                <property name="top_attach">2</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="beam_tri">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">beams_tri</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">4</property>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                                <property name="top_attach">3</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="tube_tri">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">tubes_tri</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">5</property>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                                <property name="top_attach">4</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="torp_tri">
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">torps_tri</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">6</property>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                                <property name="top_attach">5</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="total_tri">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">total_tri</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">7</property>
-                                                                <property name="left_attach">3</property>
-                                                                <property name="right_attach">4</property>
-                                                                <property name="top_attach">6</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel15">
-                                                                <property name="label" context="yes" translatable="yes">Dur</property>
-                                                                <property name="model_attribute">kiwilabel15</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="hull_dur">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">hull_dur</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">2</property>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                                <property name="top_attach">1</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="engine_dur">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">engines_dur</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">3</property>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                                <property name="top_attach">2</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="beam_dur">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">beams_dur</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">4</property>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                                <property name="top_attach">3</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="tube_dur">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">tubes_dur</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">5</property>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                                <property name="top_attach">4</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="torp_dur">
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">torps_dur</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">6</property>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                                <property name="top_attach">5</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="total_dur">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">total_dur</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">7</property>
-                                                                <property name="left_attach">4</property>
-                                                                <property name="right_attach">5</property>
-                                                                <property name="top_attach">6</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="kiwilabel16">
-                                                                <property name="label" context="yes" translatable="yes">Mol</property>
-                                                                <property name="model_attribute">kiwilabel16</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="hull_mol">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">hull_mol</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">2</property>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                                <property name="top_attach">1</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="engine_mol">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">engines_mol</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">3</property>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                                <property name="top_attach">2</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="beam_mol">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">beams_mol</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">4</property>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                                <property name="top_attach">3</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="tube_mol">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">tubes_mol</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">5</property>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                                <property name="top_attach">4</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="torp_mol">
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">torps_mol</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">6</property>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                                <property name="top_attach">5</property>
-                                                            </packing>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyLabel" id="total_mol">
-                                                                <property name="data_type">int</property>
-                                                                <property name="label" context="yes" translatable="yes">n/a</property>
-                                                                <property name="model_attribute">total_mol</property>
-                                                                <property name="visible">True</property>
-                                                                <property name="xalign">1.0</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="bottom_attach">7</property>
-                                                                <property name="left_attach">5</property>
-                                                                <property name="right_attach">6</property>
-                                                                <property name="top_attach">6</property>
-                                                            </packing>
-                                                        </child>
-                                                    </widget>
-                                                    <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="position">1</property>
-                                                    </packing>
-                                                </child>
-                                                <child>
-                                                    <widget class="GtkHBox" id="hbox4">
-                                                        <property name="visible">True</property>
-                                                        <child>
-                                                            <widget class="ProxyButton" id="btn_add">
-                                                                <property name="data_type">str</property>
-                                                                <property name="is_focus">True</property>
-                                                                <property name="label" context="yes" translatable="yes">&lt;- Add</property>
-                                                                <property name="model_attribute">btn_add</property>
-                                                                <property name="sensitive">False</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                        </child>
-                                                        <child>
-                                                            <widget class="ProxyButton" id="btn_use_favorite">
-                                                                <property name="data_type">str</property>
-                                                                <property name="label" context="yes" translatable="yes">^ Plan</property>
-                                                                <property name="model_attribute">btn_use_favorite</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
+                                                                <property name="expand">False</property>
                                                                 <property name="position">1</property>
                                                             </packing>
                                                         </child>
-                                                        <child>
-                                                            <widget class="ProxyButton" id="btn_reset">
-                                                                <property name="data_type">str</property>
-                                                                <property name="label" context="yes" translatable="yes">Reset</property>
-                                                                <property name="model_attribute">btn_reset</property>
-                                                                <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                                <property name="position">2</property>
-                                                            </packing>
-                                                        </child>
                                                     </widget>
                                                     <packing>
-                                                        <property name="position">2</property>
+                                                        <property name="position">1</property>
                                                     </packing>
                                                 </child>
                                             </widget>
                                         </child>
                                     </widget>
-                                    <packing>
-                                        <property name="expand">False</property>
-                                    </packing>
-                                </child>
-                                <child>
-                                    <widget class="GtkFrame" id="frame3">
-                                        <property name="label" context="yes" translatable="yes">Favorites</property>
-                                        <property name="shadow">out</property>
-                                        <property name="shadow_type">out</property>
-                                        <property name="visible">True</property>
-                                        <child>
-                                            <widget class="ObjectList" id="objectlist2">
-                                                <property name="visible">True</property>
-                                            </widget>
-                                        </child>
-                                    </widget>
-                                    <packing>
-                                        <property name="position">1</property>
-                                    </packing>
                                 </child>
                             </widget>
-                            <packing>
-                                <property name="position">1</property>
-                            </packing>
                         </child>
                     </widget>
                     <packing>
                         <property name="position">1</property>
+                    </packing>
+                </child>
+                <child>
+                    <widget class="GtkFrame" id="frame_queue">
+                        <property name="label" context="yes" translatable="yes">Queue List</property>
+                        <property name="shadow">none</property>
+                        <property name="shadow_type">none</property>
+                        <property name="visible">True</property>
+                        <child>
+                            <placeholder/>
+                        </child>
+                    </widget>
+                    <packing>
+                        <property name="position">2</property>
                     </packing>
                 </child>
             </widget>

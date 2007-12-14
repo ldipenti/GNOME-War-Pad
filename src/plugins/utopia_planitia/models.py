@@ -2,7 +2,7 @@
 
 from kiwi.model import Model
 from kiwi.datatypes import ValidationError
-from gwp.models import Game
+from gwp.models import Game, Engine
 
 class ShipProyect(Model):
     '''
@@ -12,6 +12,9 @@ class ShipProyect(Model):
     engine = None
     beam = None
     tube = None
+
+    # Basic Data
+    hull_name = None
 
     # Spec
     engine_quantity = 0
@@ -57,6 +60,7 @@ class ShipProyect(Model):
     # Hull
     def set_hull(self, id):
         self.hull = self.game.hulls[id]
+        self.hull_name = self.hull.name
         # Spec
         self.engine_quantity = self.hull.engines
         self.beam_quantity = self.hull.beam_weapons
@@ -161,6 +165,15 @@ class ShipProyect(Model):
     pass # End of ShipProyect class
 
 
+class UP_Engines(Engine):
+    def __init__(self, engines):
+        # TODO : construct a table with more friendly data
+#        for engine in engines:
+#            print engine.fuel_use
+#        for engine in engines:
+#            print engine.fuel_trip(100,9,1000)
+        pass
+    pass
        
 
 class BeamSpec(Model):

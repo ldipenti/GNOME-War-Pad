@@ -11,7 +11,7 @@ from kiwi.ui.objectlist import Column, ObjectList
 
 import gwp
 from gwp.models import Game
-from models import ShipProyect, BeamSpec
+from models import ShipProyect, UP_Engines
 from gwp.collections import RaceList, TrueHullCollection, HullCollection, BeamCollection, TorpedoCollection, EngineCollection
 
 class UP(GladeDelegate):
@@ -41,6 +41,17 @@ class UP(GladeDelegate):
 
         self.ship_proyect = None;
         self.combo_hulls.do_grab_focus(self.combo_hulls)
+        self.queue_list = ObjectList([
+                Column('hull_name', title="Name", data_type=str),
+                Column('total_cost', title="Cost", data_type=int),
+                Column('total_tri', title="Tri", data_type=int),
+                Column('total_dur', title="Dur", data_type=int),
+                Column('total_mol', title="Mol", data_type=int),
+                ])
+        self.frame_queue.add(self.queue_list)
+        self.queue_list.show()
+        self.queue_list.grab_focus()
+#        self.engines_fuel_usage = UP_Engines(self.game.engines) # Test line
 
     def on_combo_hulls__content_changed(self, widget):
         id = widget.get_selected_data() - 1; # array begins in 0
@@ -98,6 +109,9 @@ class UP(GladeDelegate):
         self.combo_beams.set_sensitive(False)
         self.combo_tubes.set_sensitive(False)
         self.btn_add.set_sensitive(False)
+
+    def on_btn_add__clicked(self,widget):
+        self.queue_list.append( self.ship_proyect )
 
     def on_btn_use_favorite__clicked(self,widget):
         pass
@@ -178,3 +192,6 @@ class UP(GladeDelegate):
             self.spec_list.append( row )
         self.frame_components.add(self.spec_list)
         self.show_all()
+
+
+
