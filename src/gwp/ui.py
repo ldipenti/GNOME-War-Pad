@@ -186,25 +186,25 @@ class GameManager(GladeDelegate):
         self.config = ConfigParser.SafeConfigParser()
         self.config.read(self.conf_file)
 
+        model = self.iconview.get_model()
+
         # Load game configurations
         for game in self.config.sections():
             if 'game_' in game:
-                g = GameConfig(game)
-                g.path = self.config.get(game, 'path')
-                g.name = self.config.get(game, 'name')
-                g.player = self.config.get(game, 'player')
-                self.games.append(g)
-
-        # Populate iconview
-        model = self.iconview.get_model()
-        for game in self.games:
+                gc = GameConfig(game)
+                gc.path = self.config.get(game, 'path')
+                gc.name = self.config.get(game, 'name')
+                gc.player = self.config.get(game, 'player')
+                self.games.append(gc)
+                # Populate iconview
                 model.append((
-                    game.name,
+                    gc.name,
                     gtk.gdk.pixbuf_new_from_file('/usr/local/games/gwp/game_icon.png'), # FIXME: hardcoded path
+                    gc,
                     ))
 
     def __init_ui(self):
-        model = gtk.ListStore(str, gtk.gdk.Pixbuf)
+        model = gtk.ListStore(str, gtk.gdk.Pixbuf, object)
         self.iconview.set_model(model)
         self.iconview.set_text_column(0)
         self.iconview.set_pixbuf_column(1)
@@ -218,11 +218,16 @@ class GameManager(GladeDelegate):
         gtk.main_quit()
 
     def do_edit(self, *args):
-        item_nr =  self.iconview.get_selected_items()[0][0]
-        game_edit = GameEdit(self.games[item_nr])
+        try:
+            item_nr =  self.iconview.get_selected_items()[0][0]
+        except IndexError:
+            print "ERROR: Select a game to edit"
+            return # If user does not select any game, do nothing
+        g = self.iconview.get_model()[item_nr][2]
+        game_edit = GameEdit(g)
         game_edit.set_parent(self)
         game_edit.show_all()
-
+        
     def __save(self):
         for game in self.games:
             if game.id != 'game_' + game.name:
@@ -238,6 +243,41 @@ class GameManager(GladeDelegate):
         configfile = open(self.conf_file, 'w')
         self.config.write(configfile)
         configfile.close()
+
+    def do_delete(self, *args):
+        try:
+            item_nr =  self.iconview.get_selected_items()[0][0]
+        except IndexError:
+            print "ERROR: Select a game to delete"
+            return # If user does not select any game, do nothing
+        model = self.iconview.get_model()
+        gc = model[item_nr][2]
+        i = model.get_iter(item_nr)
+        # Remove game's data
+        model.remove(i)
+        self.games.remove(gc)
+        self.config.remove_section('game_' + gc.name)
+
+    def do_new(self, *args):
+        gc = GameConfig()
+        self.games.append(gc)
+        self.config.add_section(gc.id)
+        game_edit = GameEdit(gc)
+        game_edit.set_parent(self)
+        game_edit.show_all()
+
+    def do_play(self, *args):
+        try:
+            item_nr =  self.iconview.get_selected_items()[0][0]
+        except IndexError:
+            print "ERROR: Select a game to play"
+            return # If user does not select any game, do nothing
+        g = self.iconview.get_model()[item_nr][2]
+        self.__save()
+        game = Game(g.path, g.player)
+        shell = Shell()
+        self.hide()
+        shell.show_all()
         
 class GameEdit(GladeDelegate):
     def __init__(self, game_config):
@@ -257,12 +297,16 @@ class GameEdit(GladeDelegate):
                 pass
             else:
                 races.append(race)
-        racelist = RaceList(widget.get_current_folder())
+        try:
+            racelist = RaceList(widget.get_current_folder())
+        except gwp.filereaders.casefile.NotFoundError:
+            racelist = None
 
         self.game_player.clear()
         for race in races:
             self.game_player.append_item(racelist.get_short(race), str(race))
-        self.game_player.select_item_by_data(self.gc.player)
+        if self.gc.player:
+            self.game_player.select_item_by_data(self.gc.player)
 
     def __init_ui(self, gc):
         self.game_name.set_text(gc.name)
@@ -271,10 +315,7 @@ class GameEdit(GladeDelegate):
     def do_close(self, *args):
         self.hide()
     
-    def on_btn_cancel__clicked(self, *args):
-        self.do_close()
-        
-    def on_btn_ok__clicked(self, *args):
+    def on_btn_close__clicked(self, *args):
         self.gc.name = self.game_name.get_text()
         self.gc.path = self.game_dir.get_current_folder()
         self.gc.player = self.game_player.get_selected_data()

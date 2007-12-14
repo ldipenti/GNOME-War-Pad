@@ -75,8 +75,8 @@
         <property name="default_height">300</property>
         <property name="default_width">600</property>
         <property name="destroy_with_parent">True</property>
-        <property name="skip_taskbar_hint">True</property>
         <property name="title" context="yes" translatable="yes">Edit game...</property>
+        <property name="type_hint">dialog</property>
         <property name="window_position">center-on-parent</property>
         <child>
             <widget class="GtkVBox" id="vbox2">
@@ -287,21 +287,12 @@
                         <property name="spacing">5</property>
                         <property name="visible">True</property>
                         <child>
-                            <widget class="GtkButton" id="btn_cancel">
-                                <property name="label">gtk-cancel</property>
+                            <widget class="GtkButton" id="btn_close">
+                                <property name="is_focus">True</property>
+                                <property name="label">gtk-close</property>
                                 <property name="use_stock">True</property>
                                 <property name="visible">True</property>
                             </widget>
-                        </child>
-                        <child>
-                            <widget class="GtkButton" id="btn_ok">
-                                <property name="label">gtk-ok</property>
-                                <property name="use_stock">True</property>
-                                <property name="visible">True</property>
-                            </widget>
-                            <packing>
-                                <property name="position">1</property>
-                            </packing>
                         </child>
                     </widget>
                     <packing>

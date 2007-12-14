@@ -371,12 +371,16 @@ class Game(Singleton):
     pass
 
 class GameConfig(object):
-    def __init__(self, id):
+    def __init__(self, id=None):
         self.player = None
-        self.path = None
-        self.name = None
-        self.player_email = None
-        self.host_email = None
-        self.trn_dir = None
-        self.rst_dir = None
-        self.id = id
+        self.path = os.path.expanduser('~/')
+        self.name = 'New Game'
+        self.player_email = 'player@email.com'
+        self.host_email = 'host@email.com'
+        self.trn_dir = os.path.expanduser('~/')
+        self.rst_dir = os.path.expanduser('~/')
+        if id:
+            self.id = id
+        else:
+            self.id = 'game_' + self.name
+        
