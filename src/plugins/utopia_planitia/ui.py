@@ -4,6 +4,7 @@ import pygtk
 pygtk.require('2.0')
 
 import gtk
+import copy
 
 from kiwi.ui.delegates import GladeDelegate
 from kiwi.ui.gadgets import quit_if_last
@@ -104,14 +105,16 @@ class UP(GladeDelegate):
         self.ship_proyect.set_tube_quantity( widget.get_value_as_int() )
 
     def on_btn_reset__clicked(self,widget):
-        self.ship_proyect = None
-        self.combo_engines.set_sensitive(False)
-        self.combo_beams.set_sensitive(False)
-        self.combo_tubes.set_sensitive(False)
-        self.btn_add.set_sensitive(False)
+        self.queue_list.clear()
 
     def on_btn_add__clicked(self,widget):
-        self.queue_list.append( self.ship_proyect )
+        self.queue_list.append( copy.copy(self.ship_proyect) )
+
+
+    def on_btn_remove__clicked(self,widget):
+        selected = self.queue_list.get_selected()
+        if selected:
+            self.queue_list.remove(selected, select=True)
 
     def on_btn_use_favorite__clicked(self,widget):
         pass
