@@ -19,6 +19,7 @@ class Plugin(gobject.GObject):
     desc_short = 'A generic short description'
     desc_long = 'A generic long description'
     license = 'A license, hopefully GPL compatible'
+    registered = False
     
     __gsignals__ = {
         'unregistered' : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
@@ -26,7 +27,7 @@ class Plugin(gobject.GObject):
         }
 
     def __init__(self):
-        super(Plugin, self).__init__(self)
+        super(Plugin, self).__init__()
 
     # Executed at registration time
     def register (self, pm):
@@ -38,3 +39,18 @@ class Plugin(gobject.GObject):
 
     pass # End of Plugin class
 gobject.type_register(Plugin)
+
+
+# TEST PLUGIN
+class ExamplePlugin(Plugin):
+    '''
+    Dumb test plugin example
+    '''
+    name = 'My first example plugin'
+    
+    def register(self, pm):
+        print "Plugin '%s' activated" % (self.name,)
+
+    def unregister(self, pm):
+        print "This plugin is going bye bye!"
+

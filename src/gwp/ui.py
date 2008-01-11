@@ -48,8 +48,14 @@ class Shell(GladeDelegate):
         plugin_menu = gtk.MenuItem('_Plugins', True)
         plugin_menu.set_submenu(m)
 
-        for (status, plugin) in self.pm.available_plugins():
-            item = gtk.CheckMenuItem(status, plugin)
+        for (status, name, plugin) in self.pm.available_plugins():
+            item = gtk.CheckMenuItem(name, status)
+            # Store the plugin class reference
+            #item.set_data('plugin', plugin)
+            item.connect('toggled', self.__do_toggle_plugin, plugin)
+            m.add(item)
+
+        self.menubar.append(plugin_menu)
 
     def do_quit(self, *args):
         '''
@@ -80,6 +86,15 @@ class Shell(GladeDelegate):
         Callback to update layer status
         '''
         self.starchart.enable_layer(layer, 'shell', checkmenuitem.active)
+
+    def __do_toggle_plugin(self, checkmenuitem, plugin):
+        '''
+        Callback to activate/deactivate plugins
+        '''
+        if checkmenuitem.active:
+            self.pm.register(plugin)
+        else:
+            self.pm.unregister(plugin)
 
     def __init_starchart(self):
         game = Game()
