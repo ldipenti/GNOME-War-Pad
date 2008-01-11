@@ -105,11 +105,7 @@ class UP(GladeDelegate):
         self.ship_proyect.set_tube_quantity( widget.get_value_as_int() )
 
     def on_btn_reset__clicked(self,widget):
-        self.ship_proyect = None
-        self.combo_engines.set_sensitive(False)
-        self.combo_beams.set_sensitive(False)
-        self.combo_tubes.set_sensitive(False)
-        self.btn_add.set_sensitive(False)
+        self.queue_list.clear()
 
     def on_btn_add__clicked(self,widget):
         self.queue_list.append( copy.copy(self.ship_proyect) )
