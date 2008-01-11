@@ -7,10 +7,11 @@ import gtk
 
 from kiwi.ui.delegates import GladeDelegate
 from kiwi.ui.gadgets import quit_if_last
+from kiwi.ui.objectlist import Column, ObjectList
 
 import gwp
 from gwp.models import Game
-from models import ShipProyect
+from models import ShipProyect, UP_Engines
 from gwp.collections import RaceList, TrueHullCollection, HullCollection, BeamCollection, TorpedoCollection, EngineCollection
 
 class UP(GladeDelegate):
@@ -37,8 +38,20 @@ class UP(GladeDelegate):
         self.__populate_combo( self.combo_engines, self.game.engines)
         self.__populate_combo( self.combo_beams, self.game.beams)
         self.__populate_combo( self.combo_tubes, self.game.tubes)
-        
+
         self.ship_proyect = None;
+        self.combo_hulls.do_grab_focus(self.combo_hulls)
+        self.queue_list = ObjectList([
+                Column('hull_name', title="Name", data_type=str),
+                Column('total_cost', title="Cost", data_type=int),
+                Column('total_tri', title="Tri", data_type=int),
+                Column('total_dur', title="Dur", data_type=int),
+                Column('total_mol', title="Mol", data_type=int),
+                ])
+        self.frame_queue.add(self.queue_list)
+        self.queue_list.show()
+        self.queue_list.grab_focus()
+#        self.engines_fuel_usage = UP_Engines(self.game.engines) # Test line
 
     def on_combo_hulls__content_changed(self, widget):
         id = widget.get_selected_data() - 1; # array begins in 0
@@ -97,10 +110,23 @@ class UP(GladeDelegate):
         self.combo_tubes.set_sensitive(False)
         self.btn_add.set_sensitive(False)
 
-    def on_btn_use_favorite__clicked(self,widget):
-        print self.spin_beam_quantity.get_value_as_int()
+    def on_btn_add__clicked(self,widget):
+        self.queue_list.append( self.ship_proyect )
 
+    def on_btn_use_favorite__clicked(self,widget):
         pass
+
+    def on_combo_engines__changed(self, widget):
+        self.__populate_spec(self.game.engines)
+
+    def on_combo_beams__changed(self, widget):
+        self.__populate_spec(self.game.beams)
+
+    def on_combo_tubes__changed(self, widget):
+        self.__populate_spec(self.game.tubes)
+
+    def on_combo_engines__focus(self, widget, direction):
+        self.frame_components.remove(self.spec_list)
 
 # Validations ----------------------------------------------------------------------------------
     def on_spin_beam_quantity__validate(self, widget, data):
@@ -115,4 +141,57 @@ class UP(GladeDelegate):
         for object in list:
             widget.append_item(object.name, i)
             i = i + 1
+
+    def __populate_spec(self, components):
+        self.frame_components.remove(self.spec_list)
+        if isinstance(components[0], gwp.models.Engine):
+            # Engine
+            self.spec_list = ObjectList([
+                    Column('name', data_type=str),
+                    Column('cost', data_type=int),
+                    Column('tri', data_type=int),
+                    Column('dur', data_type=int),
+                    Column('mol', data_type=int),
+                    Column('tech', data_type=int),
+                    Column('fuel_use', data_type=int),
+                    # TODO add calculated data
+                    ])
+            # Beam
+        else: 
+            if isinstance(components[0], gwp.models.Beam):
+                self.spec_list = ObjectList([
+                        Column('name', data_type=str),
+                        Column('kill', data_type=int),
+                        Column('damage', data_type=int),
+                        Column('cost', data_type=int),
+                        Column('tri', data_type=int),
+                        Column('dur', data_type=int),
+                        Column('mol', data_type=int),
+                        Column('mass', data_type=int),
+                        Column('tech', data_type=int),
+                        # TODO add calculated data
+                        ])
+            # Tube
+            else: 
+                if isinstance(components[0], gwp.models.Torpedo):
+                    self.spec_list = ObjectList([
+                            Column('name', data_type=str),
+                            Column('kill', data_type=int),
+                            Column('damage', data_type=int),
+                            Column('launcher_cost', data_type=int),
+                            Column('torp_cost', data_type=int),
+                            Column('tri', data_type=int),
+                            Column('dur', data_type=int),
+                            Column('mol', data_type=int),
+                            Column('mass', data_type=int),
+                            Column('tech', data_type=int),
+                            # TODO add calculated data
+                            ])
+                    
+        for row in components:
+            self.spec_list.append( row )
+        self.frame_components.add(self.spec_list)
+        self.show_all()
+
+
 

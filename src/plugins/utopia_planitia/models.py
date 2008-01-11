@@ -2,7 +2,7 @@
 
 from kiwi.model import Model
 from kiwi.datatypes import ValidationError
-from gwp.models import Game
+from gwp.models import Game, Engine
 
 class ShipProyect(Model):
     '''
@@ -12,6 +12,9 @@ class ShipProyect(Model):
     engine = None
     beam = None
     tube = None
+
+    # Basic Data
+    hull_name = None
 
     # Spec
     engine_quantity = 0
@@ -57,6 +60,7 @@ class ShipProyect(Model):
     # Hull
     def set_hull(self, id):
         self.hull = self.game.hulls[id]
+        self.hull_name = self.hull.name
         # Spec
         self.engine_quantity = self.hull.engines
         self.beam_quantity = self.hull.beam_weapons
@@ -148,9 +152,6 @@ class ShipProyect(Model):
         self.total_mol = self.hull_mol + self.engines_mol + self.beams_mol + self.tubes_mol
         # TODO Count torps
 
-
-    pass # End of ShipProyect class
-
 # Validations ----------------------------------------------------------------------------------
 
     def beam_quantity_validate(self, data):
@@ -160,4 +161,31 @@ class ShipProyect(Model):
     def tube_quantity_validate(self, data):
         if data < 0 or data > self.hull.torp_launchers:
             return ValidationError("The data is out of range")
+
+    pass # End of ShipProyect class
+
+
+class UP_Engines(Engine):
+    def __init__(self, engines):
+        # TODO : construct a table with more friendly data
+#        for engine in engines:
+#            print engine.fuel_use
+#        for engine in engines:
+#            print engine.fuel_trip(100,9,1000)
+        pass
+    pass
+       
+
+class BeamSpec(Model):
+    name = "n/a"
+    kill = 0
+    damage = 0
+    cost = 0
+
+    def __init__(self, beam):
+        self.name = beam.name
+        self.kill = beam.kill
+        self.damage = beam.damage
+        self.cost = beam.cost
         
+    pass
