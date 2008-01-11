@@ -14,6 +14,7 @@ from gwp.widgets import Starchart, PlanetDrawable, ShipDrawable, Line, Rectangle
 from gwp.collections import PlanetCollection, ShipCollection, RaceList
 from gwp.filereaders import GenFile
 from gwp.widgets import pycons
+from gwp.utils import PluginManager
 
 class Shell(GladeDelegate):
     def __init__(self):
@@ -21,6 +22,7 @@ class Shell(GladeDelegate):
                                     delete_handler=self.do_quit)
         self.console = None
         self.starchart = None
+        self.pm = PluginManager()
         
         self.__init_starchart()
         self.__init_menu()
@@ -41,6 +43,13 @@ class Shell(GladeDelegate):
             m.add(item)
         
         self.menubar.append(layers_menu)
+
+        m = gtk.Menu()
+        plugin_menu = gtk.MenuItem('_Plugins', True)
+        plugin_menu.set_submenu(m)
+
+        for (status, plugin) in self.pm.available_plugins():
+            item = gtk.CheckMenuItem(status, plugin)
 
     def do_quit(self, *args):
         '''
@@ -274,7 +283,7 @@ class GameManager(GladeDelegate):
             return # If user does not select any game, do nothing
         g = self.iconview.get_model()[item_nr][2]
         self.__save()
-        game = Game(g.path, g.player)
+        game = Game(g.path, int(g.player))
         shell = Shell()
         self.hide()
         shell.show_all()
