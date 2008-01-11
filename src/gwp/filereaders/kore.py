@@ -51,18 +51,21 @@ class KoreFile(CaseInsensitiveFile):
             ret_storms[storm['id']] = storm
         ret['storms'] = ret_storms
         # Additional visual contacts (if there is any...)
+        ret['contacts'] = {}
         self.seek(12702)
         contact_signature = struct.unpack("<4s", super(KoreFile, self).read(4))[0]
         
         # This suck, thanks to Tim
         if contact_signature == '1120':
             ret['target_extra'] = True
+            return ret
         else:
             ret['target_extra'] = False
+            return ret
             
         self.seek(12722)
         contacts_nr = struct.unpack("<I", super(KoreFile, self).read(4))[0]
-            
+        
         for contact in range(contacts_nr):
             a = struct.unpack("<6H 1h 20s",
                               super(KoreFile, self).read(self.contact_reg_size))
